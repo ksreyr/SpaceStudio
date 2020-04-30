@@ -23,13 +23,14 @@ class SpaceShip {
 }
 
 class Core {
+  - int powerRequired
   - String id
 }
 
 class Reactor {
   - String id
   - String Type
-  - int powerRequired
+  - int generatedPower
   - int speed
 }
 
@@ -65,7 +66,6 @@ class Teleporter
 
 class Thrusters {
   - String id
-  - int powerRequired
   - int speed
   - float spaceEfficeny
   - float orbitEfficency
@@ -124,7 +124,8 @@ class Planet {
 
 
 Universe }o-- Galaxy: has
-Galaxy   }o-- Planet: has
+Galaxy }o-- System: has
+System }o-- Planet: has
 SpaceShip ||-right- Planet : home port
 
 Player ||-- SpaceShip: pilots
