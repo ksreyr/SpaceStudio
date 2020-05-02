@@ -6,5 +6,4 @@
 !docs/*.png
 !docs/*.svg
 !docs/*.org
-
-
+!docs/Architekturbeschreibung/*.tex
