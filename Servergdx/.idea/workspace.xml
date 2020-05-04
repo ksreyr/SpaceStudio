@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="991dc6b4-7e2c-42a5-b081-67660700d299" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Servergdx" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Servergdx" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Servergdx" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1bN6XTSyyZEv1H5P1ZL6o4XK6Gp" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="de.bremen" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/core/assets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.DesktopLauncher">
+    <configuration name="DesktopLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="de.bremen.desktop.DesktopLauncher" />
+      <module name="Servergdx.desktop.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="de.bremen.desktop.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Servergdx [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.DesktopLauncher" />
+        <item itemvalue="Gradle.Servergdx [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="991dc6b4-7e2c-42a5-b081-67660700d299" name="Default Changelist" comment="" />
+      <created>1588460243105</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1588460243105</updated>
+      <workItem from="1588460246601" duration="1407000" />
+      <workItem from="1588461678969" duration="648000" />
+      <workItem from="1588523020204" duration="202000" />
+      <workItem from="1588546557284" duration="6409000" />
+      <workItem from="1588553065498" duration="3000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1202" height="198" key="GridCell.Tab.0.bottom" timestamp="1588553024079">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1202" height="198" key="GridCell.Tab.0.bottom/0.23.1255.777@0.23.1255.777" timestamp="1588553024079" />
+    <state width="1202" height="198" key="GridCell.Tab.0.center" timestamp="1588553024079">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1202" height="198" key="GridCell.Tab.0.center/0.23.1255.777@0.23.1255.777" timestamp="1588553024079" />
+    <state width="1202" height="198" key="GridCell.Tab.0.left" timestamp="1588553024079">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1202" height="198" key="GridCell.Tab.0.left/0.23.1255.777@0.23.1255.777" timestamp="1588553024079" />
+    <state width="1202" height="198" key="GridCell.Tab.0.right" timestamp="1588553024079">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1202" height="198" key="GridCell.Tab.0.right/0.23.1255.777@0.23.1255.777" timestamp="1588553024079" />
+    <state width="1202" height="246" key="GridCell.Tab.1.bottom" timestamp="1588553024075">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1202" height="246" key="GridCell.Tab.1.bottom/0.23.1255.777@0.23.1255.777" timestamp="1588553024075" />
+    <state width="1202" height="246" key="GridCell.Tab.1.center" timestamp="1588553024075">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1202" height="246" key="GridCell.Tab.1.center/0.23.1255.777@0.23.1255.777" timestamp="1588553024075" />
+    <state width="1202" height="246" key="GridCell.Tab.1.left" timestamp="1588553024075">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1202" height="246" key="GridCell.Tab.1.left/0.23.1255.777@0.23.1255.777" timestamp="1588553024075" />
+    <state width="1202" height="246" key="GridCell.Tab.1.right" timestamp="1588553024075">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1202" height="246" key="GridCell.Tab.1.right/0.23.1255.777@0.23.1255.777" timestamp="1588553024075" />
+    <state x="360" y="155" key="extract.method.dialog" timestamp="1588546645479">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="360" y="155" key="extract.method.dialog/0.23.1255.777@0.23.1255.777" timestamp="1588546645479" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/core/src/de/bremen/LogginScreen.java</url>
+          <line>122</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/core/src/de/bremen/LogginScreen.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
