@@ -60,7 +60,43 @@ für Softwaresysteme. \\
 
 \subsection{Übersicht über das Dokument}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Anwendungsfälle} \label{sec:Anwendungsfälle}
+\subsection{Anmeldung}
+Ein User offen das spielt und dann kommt ein Fenster, wo der User sich  mit password und name einloggen  kann, wenn er die richtige Daten eintragt. dann das Spielt kann weiter geführt werden. Wenn die Daten nicht richtig sind, dann das User bekommt ein Hinweis, dass er wieder eintragen soll.
+\subsection{Multi-Spieler}
+Wenn das Users angemeldet ist, dann er sehen kann, welche der andere User auch verbindet sind und starten ein Spiel mit der anderen User oder gegen Computer.
+\subsection{Spielt-Starten}
+Im ersten Fenster des Spiels kann der Benutzer das Schiff, die Waffen, die er verwenden möchte, die Besatzung und den Schwierigkeitsgrad des Spiels auswählen. danach kann er anfangen.
+\subsection{Spielt-Verlauft}
+Wenn der Spieler das Spiel beginnt, kann er die Crew in den von ihm gewählten Positionen positionieren. Dann können Sie die Sprungtaste drücken, um die Zielplaneten auszuwählen. Der Benutzer kann dies immer in jeder Runde wiederholen.
 
+Wenn der Benutzer einen Zielplaneten auswählt, kann er auf Gegner treffen und nach einem Dialogfeld mit ihnen kämpfen.
+
+Sobald der Benutzer besiegt hat, kann der Gegner sein Schiff reparieren, seine Crew heilen oder einen Sprung machen.
+
+\subsection{Kampf-Regeln}
+Wenn der Benutzer in einen Kampf verwickelt ist, unterliegt dieser bestimmten Regeln.
+\begin{itemize}
+\item Wenn ein Kampf beginnt, kann der Benutzer das Ziel seiner Waffen auswählen, die die Abschnitte des gegnerischen Schiffes sind.
+ 
+\item Waffen brauchen Zeit zum Laden und Schießen.
+
+\item Damit eine Waffe das Ziel treffen kann, muss der Gegner Schilde deaktiviert haben.
+
+\item Um die Schilde zu deaktivieren, müssen die Waffen ihn treffen. Jedes Mal, wenn er einen Aufprall findet, verliert der Schild an Stärke. Sobald die Stärke des Schildes Null ist, wird der Schild deaktiviert.
+
+\item Waffen treffen nicht immer das Ziel.
+
+\item Damit eine Waffe verwendet werden kann, muss der Waffenbereich des Schiffes funktionsfähig sein.
+
+\item Jedes Mal, wenn eine Waffe ein Schiff trifft, verliert sie ihren Lebenspunkt.
+
+\item Sobald eines der beiden Schiffe keine Lebenspunkte mehr hat, verliert dieses Schiff.
+\end{itemize}
+\subsection{Pausenmodus}
+Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen. Dies bedeutet, dass beide Schiffe aufhören zu schießen und die Besatzung aufhört, sich zu bewegen. Wenn das Spiel fortgesetzt wird, werden die Waffen wieder aktiviert und auch die Crew.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Globale Analyse} \label{sec:globale_analyse}
 
