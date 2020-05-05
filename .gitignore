@@ -7,3 +7,8 @@
 !docs/*.svg
 !docs/*.org
 !docs/Architekturbeschreibung/*.tex
+!Clientgdx
+!Servergdx
+!Clientgdx/*/
+!Servergdx/*/
+!.gitlab-ci.yml

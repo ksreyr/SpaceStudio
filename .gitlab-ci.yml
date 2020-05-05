@@ -1,0 +1,32 @@
+image: gradle:alpine
+stages:
+  - buildClient
+  - buildServer
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+buildClient:
+  stage: buildClient
+  script:
+      - |
+          echo "Start the build of Client"
+          cd Clientgdx
+          gradle --build-cache assemble
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - build
+      - .gradle
+
+buildServer:
+    stage: buildServer
+    script:
+        - |
+            echo "Start the build of Server"
+            cd Servergdx
+            gradle --build-cache assemble
+
