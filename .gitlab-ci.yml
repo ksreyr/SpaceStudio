@@ -1,4 +1,5 @@
 image: gradle:alpine
+
 stages:
   - buildClient
   - buildServer
