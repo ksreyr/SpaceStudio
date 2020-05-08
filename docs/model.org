@@ -16,7 +16,7 @@ User <|-- SpecificUser
 [[file:example.svg]]
 
 ** Definition Raumschiff
-#+BEGIN_SRC plantuml :file raumschiff.png
+#+BEGIN_SRC plantuml :file ERDiagram.png
 title ER Diagram des Datenmdodels
 left to right direction
 skinparam shadowing false
@@ -167,7 +167,7 @@ Weapon <|.. Beam
 #+END_SRC
 
 #+RESULTS:
-[[file:raumschiff.png]]
+[[file:ERDiagram.png]]
 
 #+BEGIN_SRC plantuml :file raumschiff.png
 class SpaceShip {
