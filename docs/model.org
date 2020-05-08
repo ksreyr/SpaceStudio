@@ -58,6 +58,7 @@ class Section {
   - Shield shield
   - int hullIntegrity
   - float oxygeb
+  - coordinates(float x, float y, float z)
 }
 
 class medBay
@@ -94,11 +95,17 @@ class Crew {
 
 }
 
-class Player {
+
+
+interface Player {
    - String username
    - String id
+   - Coordinates (float x, float y, float z)
 }
 
+class AI
+
+class Human
 
 class Universe {
    - String id
@@ -128,12 +135,13 @@ Galaxy }o-- System: has
 System }o-- Planet: has
 SpaceShip ||-right- Planet : home port
 
-Player ||-- SpaceShip: pilots
-
+Player }|-- SpaceShip: pilots
+Player <|.up. AI
+Player <|.up. Human
 
 SpaceShip }|-- Subsystems: affected by
 SpaceShip }|-- Section: made of
-SpaceShip ||-- Core
+SpaceShip ||-- Core: requires
 
 Core }|-- Thrusters: move in systems
 Core }o-- FTLDrive: move between systems
@@ -157,4 +165,161 @@ Weapon <|.. Beam
 #+RESULTS:
 [[file:raumschiff.png]]
 
-**
+#+BEGIN_SRC plantuml :file raumschiff.png
+class SpaceShip {
+  - String id
+  - String name
+  - JSONString attack(Weapon w, Spaceship s, Section t)
+}
+
+class Core {
+  - int powerRequired
+  - String id
+  - increaseLoad()
+  - boolean reduceLoad()
+}
+
+class Reactor {
+  - String id
+  - String Type
+  - int generatedPower
+  - int speed
+  - boolean boost(float percent)
+}
+
+
+class FTLDrive {
+  - Int Speed
+  - void Engage(System s)
+}
+
+
+class Subsystems {
+  - String id
+  - String name
+  - String max
+  - String current
+}
+
+class Shield {
+   - String id
+   - int strength
+}
+
+class Section {
+  - String id
+  - String name
+  - List<Thruster> thrusters
+  - List<Weapon> weapons
+  - Shield shield
+  - int hullIntegrity
+  - float oxygeb
+}
+
+class medBay {
+  - void heal(int hp)
+}
+class Bridge
+class Teleporter
+
+class Thrusters {
+  - String id
+  - int speed
+  - float spaceEfficeny
+  - float orbitEfficency
+}
+
+class Weapon {
+  - String id
+  - String name
+  - int shieldDammage
+  - int fleshDammage
+  - int hullDammage
+}
+
+class Laser
+class Missile
+class Bomb
+class Ion
+class Beam
+
+
+class Crew {
+  - String name
+  - int health
+  - int stammina
+  - int money
+  - Coordinates move(float x, float, y, float z)
+  - String chat(String query)
+}
+
+
+
+interface Player {
+   - String username
+   - String id
+   - JSONString commandShip(PUT state)
+}
+
+class AI
+
+class Human
+
+class Universe {
+   - String id
+   - String name
+}
+
+class Galaxy {
+   - String id
+   - String name
+}
+
+class System {
+   - String id
+   - String name
+}
+
+class Planet {
+   - String name
+   - String id
+   - float temp
+   - float oxygen
+}
+
+
+Universe }o-- Galaxy: has
+Galaxy }o-- System: has
+System }o-- Planet: has
+SpaceShip ||-right- Planet : home port
+
+Player }|-- SpaceShip: pilots
+Player <|.up. AI
+Player <|.up. Human
+
+SpaceShip }|-- Subsystems: affected by
+SpaceShip }|-- Section: made of
+SpaceShip ||-- Core: requires
+
+Core }|-- Thrusters: move in systems
+Core }o-- FTLDrive: move between systems
+Core ||-- Reactor: powered by
+
+Section }o-- Weapon: attacks with
+Section }o-- Shield: deffend with
+Section }o-- medBay: provides healing
+Section }o-- Bridge
+Section }o-- Teleporter: manipulate Spacetime
+
+Crew }o-- Section: is in
+
+Weapon <|.. Laser
+Weapon <|.. Missile
+Weapon <|.. Bomb
+Weapon <|.. Ion
+Weapon <|.. Beam
+
+#+END_SRC
+
+#+RESULTS:
+[[file:raumschiff.png]]
