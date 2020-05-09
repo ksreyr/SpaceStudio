@@ -19,3 +19,19 @@ or make a JAR and run it
 
 ## Developer
 * Miguel Caceres
+
+### Player JSON
+```json
+[
+    {
+        "id": 1,
+        "name": "Nick",
+        "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+    },
+    {
+        "id": 2,
+        "name": "Judy",
+        "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"
+    }
+]
+```
