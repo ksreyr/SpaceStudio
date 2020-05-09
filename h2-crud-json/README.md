@@ -3,7 +3,7 @@
 CRUD in h2 with JPA and Hibernate. SQL will be executed on startup server
 REST API, create, read, update and delete.
 
-To start just call the Main class H2CrudJsonApplication.java
+To start just call the Main class **H2CrudJsonApplication.java**
 or make a JAR and run it
 
 ### Tested with REST Client POSTMAN
