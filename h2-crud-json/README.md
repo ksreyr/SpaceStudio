@@ -13,7 +13,7 @@ or make a JAR and run it
 * POST http://localhost:8080/player  -> Body JSON player object
 * PUT http://localhost:8080/player   -> Body JSON player object 
 * DELETE http://localhost:8080/players   -> deletes all
-* DELETE ttp://localhost:8080/player/{id} 
+* DELETE ttp://localhost:8080/player/{id} -> delete by Id
 
 #### Database H2 config see application.properties
 
