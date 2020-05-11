@@ -1,5 +1,5 @@
 \documentclass[fontsize=12pt,paper=a4,twoside]{scrartcl}
-
+\usepackage{longtable} 
 \input{swp-preamble.tex}
 
 %
@@ -40,10 +40,15 @@ Version & Datum & Änderungen \\
 \subsection{Status}
   
 \subsection{Definitionen, Akronyme und Abkürzungen}
-  \begin{tabular}{ |  l | p{12cm} |}
+  \begin{longtable}{ |  l | p{12cm} |}
     \hline
     Begriff & Definition \\ \hline
-    Anwendungsfälle & Spezifiziert eine beliebige Menge von Aktionen, die
+Software-Architektur &ist die grundlegende Organisation eines
+Systems verkörpert \\ \hline
+Architektursicht (View) &Repräsentation eines ganzen Systems
+aus der Perspektive einer kohärenten Menge von
+Anliegen (IEEE P1471, 2002). \\ \hline
+ Anwendungsfälle & Spezifiziert eine beliebige Menge von Aktionen, die
 ein System ausführen muss, damit ein Resultat stattfindet,
 welches für mindestens einen Akteur von Bedeutung
 ist. \\ \hline
@@ -54,9 +59,54 @@ Modellierungssprache zur Spezifikation, Visualisierung,
 Konstruktion und Dokumentation von Modellen
 für Softwaresysteme. \\
     \hline
-    \end{tabular}
+IDE & integrierte Entwicklungsumgebung - Hilft bei der Bearbeitung von Projekten
+in der Softwareentwicklung \\     \hline
+Versionskontrolle  &Hochgeladenen Versionen werden festgehalten und können
+wieder hergestellt werden \\     \hline
+ Maven  &Java Programme können standardisiert und verwaltet werden\\     \hline
+ Library &Sammlung von verschiedensten vorgefertigten Methoden oder Klassen\\     \hline
+Interface &Schnittstelle\\     \hline
+Multiplayer &Spielmodus, mit mehr als einem Spieler\\    \hline
+Singleplayer &Spielmodus, mit einem Spieler, der gegen einen computergesteuerten
+Gegner spielt. \\     \hline
+JUnit & Frameworke für Tests für die Programmiersprache Java\\     \hline
+Javadoc  &Software-Dokumentationswerkzeug für die Programmiersprache Java. \\     \hline
+JavaEE &(Java Platform Enterprise Edition) Eine Spezifikation für die transaktionsbasierte 
+Ausführung von in Java programmierten Anwendungen.\\    \hline
+GUI &Steht für Graphical User Interface und kennzeichnet
+eine grafische Schnittstelle, über die ein Mensch mit
+einer Software interagiert.\\ \hline
+Paketdiagramm &Strukturdiagramm der UML, stellt die Verbindung
+zwischen Paketen, Paketimports bzw. Verschmelzungen
+und deren Abhängigkeiten dar. \\ \hline
+Problemkarte &Beschreiben Probleme im Zusammengang der Einflussfaktoren
+und stellen Lösungen bzw. entsprechende
+Strategien dar. \\ \hline
+Sequenzdiagramm &Strukturdiagramm der UML, stellt den Austausch
+von Nachrichten zwischen Objekten mittels einer Lebenslinie
+dar. \\ \hline
+Klassendiagramm &Strukturdiagramm der UML, stellt die statischen
+Strukturen eines Systems dar.\\ \hline
+Komponentendiagramm &Strukturdiagramm der UML, stellt Komponenten
+und deren Schnittstellen dar. \\ \hline
+HTTP &Steht für Hypertext Transfer Protocol, einem zustandslosen
+Protokoll zum synchronen Versenden von
+Informationen über Rechnernetze.\\ \hline
+HTTPS &Durch Verschlüsselungstechniken gesichertes HTTP. \\ \hline
+TCP &Das Transmission Control Protocol ist ein Netzwerkprotokoll, das definiert, auf welche Art und Weise
+ Daten zwischen Netzwerkkomponenten ausgetauscht werden sollen. \\ \hline
+UDP &Das User Datagram Protocol, kurz UDP, ist ein minimales, verbindungsloses Netzwerkprotokoll, 
+das zur Transportschicht der Internetprotokollfamilie gehört.\\ \hline
+   
+
+
+
+
+ \end{longtable}
 
 \subsection{Referenzen}
+Vorlesungsfolien
+
 
 \subsection{Übersicht über das Dokument}
 
