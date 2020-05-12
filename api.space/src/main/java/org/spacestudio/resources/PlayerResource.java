@@ -1,7 +1,7 @@
 package org.spacestudio.resources;
 
 import org.spacestudio.model.Player;
-import org.spacestudio.openapi.space.model.Ship;
+import org.spacestudio.model.Ship;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

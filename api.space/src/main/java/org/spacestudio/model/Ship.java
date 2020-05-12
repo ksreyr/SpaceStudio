@@ -1,4 +1,4 @@
-package org.spacestudio.openapi.space.model;
+package org.spacestudio.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

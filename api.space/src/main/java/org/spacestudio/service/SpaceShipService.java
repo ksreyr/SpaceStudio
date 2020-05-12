@@ -13,7 +13,7 @@ public class SpaceShipService {
 
     @Transactional
     public void createShip(String ShipDescription) {
-        org.spacestudio.openapi.space.model.Ship ship = new org.spacestudio.openapi.space.model.Ship();
+        org.spacestudio.model.Ship ship = new org.spacestudio.model.Ship();
         em.persist(ship);
     }
 }
