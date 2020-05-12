@@ -27,6 +27,6 @@ buildServer:
     script:
         - |
             echo "Start the build of Server"
-            cd Servergdx
+            cd h2-crud-json
             gradle --build-cache assemble
 
