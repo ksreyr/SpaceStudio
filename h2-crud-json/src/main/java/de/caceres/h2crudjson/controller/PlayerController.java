@@ -10,87 +10,106 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
- * @author Miguel Caceres
- * 09.05.2020
+ * @author Miguel Caceres 09.05.2020
  */
 @RestController
 public class PlayerController {
 
-    @Autowired
-    private PlayerService playerService;
+	@Autowired
+	private PlayerService playerService;
 
-    /**
-     * Get all players from db
-     */
-    @RequestMapping(value = "/players", method = RequestMethod.GET)
-    private List<Player> getAllPlayers(){
-        return playerService.findAll();
-    }
+	/**
+	 * This function is temporal in use to test client -> Server connection
+	 * Login user if exists
+	 * 
+	 * @param player
+	 * @return true if exists else false
+	 */
+	@RequestMapping(value = "/player/login", method = RequestMethod.POST)
+	private String loginUser(@RequestBody Player player) {
+		Optional<Player> fetchPlayer = playerService.findByName(player.getName());
+		if (fetchPlayer.isPresent()) {
+			return Boolean.toString(((fetchPlayer.get().getName().equals(player.getName())
+					&& fetchPlayer.get().getPassword().equals(player.getPassword()))));
+		}
+		return "false";
 
-    /**
-     * Get one player by Id
-     * @param id
-     */
-    @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
-    private Player getPlayer(@PathVariable Integer id){
-        return  playerService.findById(id).get();
-    }
+	}
 
-    /**
-     * Creates a new player from JSON player object
-     */
-    @RequestMapping(value = "/player", method = RequestMethod.POST)
-    private String addPlayer(@RequestBody Player player){
-        player.setPassword(hashPassword(player.getPassword()));
-        Player savedPlayer = playerService.save(player);
-        return HttpStatus.CREATED.toString();
-    }
+	/**
+	 * Get all players from db
+	 */
+	@RequestMapping(value = "/players", method = RequestMethod.GET)
+	private List<Player> getAllPlayers() {
+		return playerService.findAll();
+	}
 
-    /**
-     * Update data
-     */
-    @RequestMapping(value = "/player", method = RequestMethod.PUT)
-    private Player updatePlayer(@RequestBody Player player){
-        Player updatedPlayer = playerService.save(player);
-        return updatedPlayer;
-    }
+	/**
+	 * Get one player by Id
+	 * 
+	 * @param id
+	 */
+	@RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
+	private Player getPlayer(@PathVariable Integer id) {
+		return playerService.findById(id).get();
+	}
 
-    /**
-     * Delete player by Id
-     */
-    @RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE)
-    private String deletePlayerById(@PathVariable Integer id){
-        playerService.deleteById(id);
-        return HttpStatus.ACCEPTED.toString();
-    }
+	/**
+	 * Creates a new player from JSON player object
+	 */
+	@RequestMapping(value = "/player", method = RequestMethod.POST)
+	private String addPlayer(@RequestBody Player player) {
+		// For the future hash password
+		// player.setPassword(hashPassword(player.getPassword()));
+		Player savedPlayer = playerService.save(player);
+		return HttpStatus.CREATED.toString();
+	}
 
-    /**
-     * Delete all players
-     */
-    @RequestMapping(value = "/players", method = RequestMethod.DELETE)
-    private String deleteAllPlayers(){
-        playerService.deleteAll();
-        return HttpStatus.OK.toString();
-    }
-    /**
-     * Salt the password
-     */
-    protected String hashPassword(String weakPassword) {
-        MessageDigest digest = null;
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        byte[] hash = digest.digest(weakPassword.getBytes(StandardCharsets.UTF_8));
-        return new String(Base64.getEncoder().encodeToString(hash));
-    }
+	/**
+	 * Update data
+	 */
+	@RequestMapping(value = "/player", method = RequestMethod.PUT)
+	private Player updatePlayer(@RequestBody Player player) {
+		Player updatedPlayer = playerService.save(player);
+		return updatedPlayer;
+	}
+
+	/**
+	 * Delete player by Id
+	 */
+	@RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE)
+	private String deletePlayerById(@PathVariable Integer id) {
+		playerService.deleteById(id);
+		return HttpStatus.ACCEPTED.toString();
+	}
+
+	/**
+	 * Delete all players
+	 */
+	@RequestMapping(value = "/players", method = RequestMethod.DELETE)
+	private String deleteAllPlayers() {
+		playerService.deleteAll();
+		return HttpStatus.OK.toString();
+	}
+
+	/**
+	 * Salt the password
+	 */
+	protected String hashPassword(String weakPassword) {
+		MessageDigest digest = null;
+		try {
+			digest = MessageDigest.getInstance("SHA-256");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		byte[] hash = digest.digest(weakPassword.getBytes(StandardCharsets.UTF_8));
+		return new String(Base64.getEncoder().encodeToString(hash));
+	}
 
 }
