@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/java,linux,macos,latex,maven,gradle,windows,eclipse,intellij,netbeans,visualstudio
 # Edit at https://www.gitignore.io/?templates=java,linux,macos,latex,maven,gradle,windows,eclipse,intellij,netbeans,visualstudio
 
@@ -910,3 +909,4 @@ healthchecksdb
 MigrationBackup/
 
 # End of https://www.gitignore.io/api/java,linux,macos,latex,maven,gradle,windows,eclipse,intellij,netbeans,visualstudio
+
