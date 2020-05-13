@@ -74,23 +74,25 @@ public class LogginScreen extends BaseScreen {
                     userNametoSend = userName.getText() + "\n";
                     userPasswordtoSend = userPassword.getText() + "\n";
                 }
-                if (ip.getText().length() == 0) {
-                    System.out.println("Where are you sending (ip)?");
-                    return;
-                }
-                //Sending
-                try {
-                    SocketHints sh = new SocketHints();
-                    sh.connectTimeout = 10000;
-                    socket = Gdx.net.newClientSocket
-                            (protocol, ip.getText(),
-                                    portServer, sh);
-                    socket.getOutputStream().write(userNametoSend.getBytes());
-                    socket.getOutputStream().write(userPasswordtoSend.getBytes());
-                } catch (Exception e) {
-                    e.getStackTrace();
-                }
-                //game.setScreen(game.logginScreen);
+                Player testPlayer = new Player(0, userNametoSend, userPasswordtoSend);
+//                if (ip.getText().length() == 0) {
+//                    System.out.println("Where are you sending (ip)?");
+//                    return;
+//                }
+//                //Sending
+//                try {
+//                    SocketHints sh = new SocketHints();
+//                    sh.connectTimeout = 10000;
+//                    socket = Gdx.net.newClientSocket
+//                            (protocol, ip.getText(),
+//                                    portServer, sh);
+//                    socket.getOutputStream().write(userNametoSend.getBytes());
+//                    socket.getOutputStream().write(userPasswordtoSend.getBytes());
+//                } catch (Exception e) {
+//                    e.getStackTrace();
+//                }
+//                //game.setScreen(game.logginScreen);
+                sendRequest(testPlayer, Net.HttpMethods.POST);
             }
 
         });
