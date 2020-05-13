@@ -3,8 +3,7 @@ package de.bremen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.net.ServerSocket;
-import com.badlogic.gdx.net.ServerSocketHints;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,11 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -98,7 +95,7 @@ public class LogginScreen extends BaseScreen {
 
         });
 
-        clientListen();
+//        clientListen();
 
         //DrawComponents
         confirmationMesagge.setSize(200, 50);
@@ -127,31 +124,59 @@ public class LogginScreen extends BaseScreen {
         stage.addActor(senden);
     }
 
-    private void clientListen() {
-        //Server connection
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ServerSocketHints ssh = new ServerSocketHints();
-                //0 damit ganzen Zeit wartet der Server
-                ssh.acceptTimeout = 2;
-                ServerSocket socket = Gdx.net.newServerSocket(protocol, portClient, ssh);
 
-                while (true) {
-                    Socket s = socket.accept(null);
-                    BufferedReader buffer = new BufferedReader(
-                            new InputStreamReader(s.getInputStream()));
-                    try {
-                        confirmation=buffer.readLine();
-                        confirmationMesagge.setText(buffer.readLine());
-                        System.out.println(confirmation);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+    public void sendRequest(Object requestObject, String method) {
+
+        final Json json = new Json();
+
+        final String requestJson = json.toJson(requestObject); // this is just an example
+
+        Net.HttpRequest request = new Net.HttpRequest(method);
+        final String url = "localhost:8080";
+        request.setUrl(url);
+
+        request.setContent(requestJson);
+
+        request.setHeader("Content-Type", "application/json");
+        request.setHeader("Accept", "application/json");
+
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed");
+                    return;
+                }
+
+                String responseJson = httpResponse.getResultAsString();
+                try {
+
+                    System.out.println("Respons" + requestJson);
+                    //DO some stuff with the response string
+
+                } catch (Exception exception) {
+
+                    exception.printStackTrace();
                 }
             }
-        }).start();
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+
+            }
+
+        });
+
     }
+
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
