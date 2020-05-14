@@ -8,6 +8,11 @@ To start server from gradle
 ```bash
 $ ./gradlew bootRun
 ```
+
+### Swagger API documentation
+```bash
+http://localhost:8080/swagger-ui.html
+```
 ### Tested with REST Client POSTMAN
 
 * GET: http://localhost:8080/players
