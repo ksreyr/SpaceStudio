@@ -43,8 +43,8 @@ Version & Datum & Änderungen \\
   \begin{longtable}{ |  l | p{12cm} |}
     \hline
     Begriff & Definition \\ \hline
-Software-Architektur &ist die grundlegende Organisation eines
-Systems verkörpert \\ \hline
+Software-Architektur &Beschreibt die grundlegende Komponenten eines
+Softwaresystems.\\ \hline
 Architektursicht (View) &Repräsentation eines ganzen Systems
 aus der Perspektive einer kohärenten Menge von
 Anliegen (IEEE P1471, 2002). \\ \hline
@@ -60,16 +60,16 @@ Konstruktion und Dokumentation von Modellen
 für Softwaresysteme. \\
     \hline
 IDE & integrierte Entwicklungsumgebung - Hilft bei der Bearbeitung von Projekten
-in der Softwareentwicklung \\     \hline
+in der Softwareentwicklung. \\     \hline
 Versionskontrolle  &Hochgeladenen Versionen werden festgehalten und können
-wieder hergestellt werden \\     \hline
- Maven  &Java Programme können standardisiert und verwaltet werden\\     \hline
- Library &Sammlung von verschiedensten vorgefertigten Methoden oder Klassen\\     \hline
-Interface &Schnittstelle\\     \hline
-Multiplayer &Spielmodus, mit mehr als einem Spieler\\    \hline
+wieder hergestellt werden. \\     \hline
+ Maven  &Java Programme können standardisiert und verwaltet werden.\\     \hline
+ Library &Sammlung von verschiedensten vorgefertigten Methoden oder Klassen.\\     \hline
+Interface &Schnittstelle.\\     \hline
+Multiplayer &Spielmodus, mit mehr als einem Spieler zur gleichen Zeit.\\    \hline
 Singleplayer &Spielmodus, mit einem Spieler, der gegen einen computergesteuerten
 Gegner spielt. \\     \hline
-JUnit & Frameworke für Tests für die Programmiersprache Java\\     \hline
+JUnit & Frameworke für Tests für die Programmiersprache Java.\\     \hline
 Javadoc  &Software-Dokumentationswerkzeug für die Programmiersprache Java. \\     \hline
 JavaEE &(Java Platform Enterprise Edition) Eine Spezifikation für die transaktionsbasierte 
 Ausführung von in Java programmierten Anwendungen.\\    \hline
@@ -111,39 +111,39 @@ Vorlesungsfolien
 \newpage
 \section{Anwendungsfälle} \label{sec:Anwendungsfälle}
 \subsection{Anmeldung}
-Ein User offen das spielt und dann kommt ein Fenster, wo der User sich  mit password und name einloggen  kann, wenn er die richtige Daten eintragt. dann das Spielt kann weiter geführt werden. Wenn die Daten nicht richtig sind, dann das User bekommt ein Hinweis, dass er wieder eintragen soll.
+Ein User startet das Spiel. Ein Fenster, in dem sich der  User mit Password und Namen einloggen  kann, öffnet sich. Wenn er die richtige Daten einträgt. kann das Spielt  weiter geführt werden. Falls die Daten nicht richtig sind, bekommt der User  einen Hinweis darauf und wird geben es erneut zu versuchen.
 \subsection{Multi-Spieler}
-Wenn das Users angemeldet ist, dann er sehen kann, welche der andere User auch verbindet sind und starten ein Spiel mit der anderen User oder gegen Computer.
+Wenn der User angemeldet ist, dann kann er sehen, welche der andere User ebenfalls verbunden sind und hat entweder die Möglichkeit gegen ander User zu spielen oder aber ein Spiel gegen den Computer zu starten.
 \subsection{Spielt-Starten}
-Im ersten Fenster des Spiels kann der Benutzer das Schiff, die Waffen, die er verwenden möchte, die Besatzung und den Schwierigkeitsgrad des Spiels auswählen. danach kann er anfangen.
+Im ersten Fenster des Spiels kann der Benutzer das Raumschiff, die Waffen, welche er verwenden möchte, die Besatzung und den Schwierigkeitsgrad des Spiels auswählen. Anschließend startet das Spiel.
 \subsection{Spielt-Verlauft}
-Wenn der Spieler das Spiel beginnt, kann er die Crew in den von ihm gewählten Positionen positionieren. Dann können Sie die Sprungtaste drücken, um die Zielplaneten auszuwählen. Der Benutzer kann dies immer in jeder Runde wiederholen.
+Zu beginn, kann der Spieler die Crew in den von ihm gewählten Positionen/Sektionen des Raumschiffes positionieren. Dann kann er die Sprungtaste drücken, um die Zielplaneten auszuwählen. Der Benutzer kann dies  in jeder Runde wiederholen.
 
-Wenn der Benutzer einen Zielplaneten auswählt, kann er auf Gegner treffen und nach einem Dialogfeld mit ihnen kämpfen.
+Wenn der Benutzer einen Zielplaneten auswählt, kann er auf Gegner treffen und nach einem Dialogfeld gegen diese antreten.
 
-Sobald der Benutzer besiegt hat, kann der Gegner sein Schiff reparieren, seine Crew heilen oder einen Sprung machen.
+Sobald der Benutzer gewonnen hat,  kann der Gegner sein Raumschiff reparieren, seine Crew heilen oder einen Sprung machen.
 
 \subsection{Kampf-Regeln}
-Wenn der Benutzer in einen Kampf verwickelt ist, unterliegt dieser bestimmten Regeln.
+In einem Kampf gelten folgende Regeln:
 \begin{itemize}
-\item Wenn ein Kampf beginnt, kann der Benutzer das Ziel seiner Waffen auswählen, die die Abschnitte des gegnerischen Schiffes sind.
+\item Wenn ein Kampf beginnt, kann der Benutzer dseine Waffen ausrichten, um auf  bestimmte Sektionen des gegnerischen Raumschiffes zu zielen.
  
 \item Waffen brauchen Zeit zum Laden und Schießen.
 
 \item Damit eine Waffe das Ziel treffen kann, muss der Gegner Schilde deaktiviert haben.
 
-\item Um die Schilde zu deaktivieren, müssen die Waffen ihn treffen. Jedes Mal, wenn er einen Aufprall findet, verliert der Schild an Stärke. Sobald die Stärke des Schildes Null ist, wird der Schild deaktiviert.
+\item Um die Schilde zu deaktivieren, müssen diese zuvor x mal getroffen worden sein. Je Treffer auf das Schild,  verliert es an Stärke. Sobald die Stärke des Schildes Null ist, ist es deaktiviert.
 
-\item Waffen treffen nicht immer das Ziel.
+\item Waffen treffen zu bestimmten Wahrscheinlichkeiten  das Ziel.
 
-\item Damit eine Waffe verwendet werden kann, muss der Waffenbereich des Schiffes funktionsfähig sein.
+\item Damit eine Waffe verwendet werden kann, muss die Sektion, in der die Waffe steht, funktionsfähig sein, sowie sich ein Besatzungsmitglied in selbiger Sektion aufghalten muss, damit diese auch bedient werden können.
 
-\item Jedes Mal, wenn eine Waffe ein Schiff trifft, verliert sie ihren Lebenspunkt.
+\item Jedes Mal, wenn eine Waffe ein Raumschiff trifft, verliert sie ihren Lebenspunkt.
 
-\item Sobald eines der beiden Schiffe keine Lebenspunkte mehr hat, verliert dieses Schiff.
+\item Sobald eines der beiden Raumschiffe keine Lebenspunkte mehr hat, hat es verloren.
 \end{itemize}
 \subsection{Pausenmodus}
-Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen. Dies bedeutet, dass beide Schiffe aufhören zu schießen und die Besatzung aufhört, sich zu bewegen. Wenn das Spiel fortgesetzt wird, werden die Waffen wieder aktiviert und auch die Crew.
+Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen. Somit sind für Beide Parteien alle Spielzüge eingefrohren,  wenn das Spiel fortgesetzt wird, wird an selber Stelle fort gefahren.
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Globale Analyse} \label{sec:globale_analyse}
