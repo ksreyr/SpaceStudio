@@ -367,33 +367,9 @@ Antrieb,\\ Waffen,\\ Schutzschild\\ \end{tabular}      & \begin{tabular}[c]{@{}l
 
 \end{tabular}
 \end{table}
+
+\newpage
 \subsection{Probleme und Strategien} \label{sec:strategien}
-
-{\itshape Aus einer Menge von Faktoren ergeben sich Probleme, die nun in Form 
-von Problemkarten beschrieben werden. Diese resultieren z.\,B.\ aus
-\begin{itemize}
-  \item Grenzen oder Einschränkungen durch Faktoren
-  \item der Notwendigkeit, die Auswirkung eines Faktors zu begrenzen
-  \item der Schwierigkeit, einen Produktfaktor zu erfüllen, oder
-  \item der Notwendigkeit einer allgemeinen Lösung zu globalen Anforderungen.
-\end{itemize}
-Dazu entwickelt Ihr Strategien, um mit den identifizierten Problemen umzugehen.
-
-Achtet auch hier darauf, dass die Probleme und Strategien wirklich die 
-Architektur betreffen und nicht etwa das Projektmanagement. Die Strategien 
-stellen im Prinzip die Designentscheidungen dar. Sie sollten also die Erklärung 
-für den konkreten Aufbau der verschiedenen Sichten liefern.
-
-Beschreibt möglichst mehrere Alternativen und gebt an, für welche Ihr Euch 
-letztlich aus welchem Grunde entschieden habt. Natürlich müssen die genannten 
-Strategien in den folgenden Sichten auch tatsächlich umgesetzt werden!
-
-Ein sehr häufiger Fehler ist es, dass SWP-Gruppen arbeitsteilig vorgehen: die 
-eine Gruppe schreibt das Kapitel zur Analyse von Faktoren und zu den Strategien, 
-die andere Gruppe beschreibt die diversen Sichten, ohne dass diese beiden 
-Gruppen sich abstimmen. Natürlich besteht aber ein Zusammenhang zwischen den
-Faktoren, Strategien und Sichten. Dieser muss erkennbar sein, indem sich die 
-verschiedenen Kapitel eindeutig aufeinander beziehen.}
 
 \begin{longtable}{|p{15cm}|}
 \hline
@@ -402,24 +378,162 @@ Problem 1: Gruppenmitglieder fallen weg
 \textbf{Beschreibung:} \\
 Während des Projekts kann es dazu kommen, dass Gruppenmitglieder die Gruppe verlassen müssen oder eigenständig verlassen oder
 das Gruppenmitglieder temporär ausfallen.
-Das würde dazu führen, dass der Umfang des Projekts/Mindestanforderungen angepasst werden würde.
+Das würde dazu führen, dass der Umfang des Projekts/Mindestanforderungen angepasst werden würden.
 \\ \hline
 \textbf{Einflussfaktoren:} \\
-O1.1: Time-To-Market
-O1.2: Architektur-Abgabe
+O1.1: Time-To-Market \\
+O1.2: Architektur-Abgabe \\
 O1.3: Entwickler
 \\ \hline
 \textbf{Strategien:} \\
-S-1: Aufstellung und Einhaltung von Kommunikations- und Gruppenregeln
-S-2: Integration von allen Gruppenmitgliedern in die Gruppe
-S-3: Bei Ausfall eines Gruppenmitglieds sofort mit dem Tutor sprechen
-S-4: Reorganisation der Gruppe
+S-1: Reorganisation der Gruppe \\
+S-2: Umverteilung der Aufgaben, die der entfallene Gruppenmitglied hatte \\
+S-3: Mit dem Tutor sprechen und ggf. die Mindestanforderungen anpassen lassen
  \\ \hline
- \textbf{Entscheidung:} \\
- \hline
- 
-													
-%%\end{tabular}
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 2: Zeitliche Unterschätzung des Aufwands                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Aufgrund von fehlender Erfahrung kann es dazu kommen, dass wir die Aufgaben und deren zeitlichen Aufwand unterschätzen.
+Das kann dazu führen, dass wir die Abgabetermine nicht einhalten können.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+O1.1: Time-To-Market \\
+O1.2: Architektur-Abgabe \\
+O1.4: Fähigkeiten Entwickler
+\\ \hline
+\textbf{Strategien:} \\
+S-1: So früh wie möglich anfangen, die Aufgaben zu bearbeiten \\
+S-2: Selbst gestellte Deadlines einhalten \\
+S-3: Fokus auf Mindestanforderungen und falls Zeit übrig bleibt, dann erst Features bearbeiten
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+\newpage
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 3: Covid-19                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+In Zeiten der Corona-Krise können keine persönlichen Treffen stattfinden, aufgrund des Kontaktverbots
+und somit entfallen Teambuildung-Events und persönliche Treffen mit dem Tutor/Kunden.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+O1.5: Teamarbeit in Corona-Zeiten \\
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Regelmäßige digitale Treffen mit Gruppenmitgliedern und dem Tutor\\
+S-2: Regelmäßig den Fortschritt unserer Arbeiten dem Tutor zeigen \\
+S-3: Videokonferenz zum Kennenlernen als Teambuildung Maßnahme
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 3: Missverständnisse von Mindestanforderungen                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Die Gruppe entwickelt eine falsche Anforderung, aufgrund von Missverständnissen.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+O1.1: Time-To-Market \\
+P1   : Produktfaktoren
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Evolutionäre Prototypen entwickeln \\
+S-2: Inkrementelle Auslieferungen des Produkts \\
+S-3: Verschiedene Akzeptanztests durchführen
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 4: Fehlende Erfahrung mit den Technologien                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Es kann sein, dass ein Teil oder die ganze Gruppe keine Erfahrungen in der Arbeit mit den vorgegebenen Technologien besitzen
+und somit in Verzug kommen mit den Abgabeterminen. Das kann zu mangelhaften Implementierungen führen. 
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+O1.1: Time-To-Market \\
+O1.4: Fähigkeiten Entwickler \\
+T1    : Technik
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Einzelne Gruppenmitglieder fokussieren sich auf einzelne Technologien und schaffen sich Expertise und geben das Wissen weiter an andere Gruppenmitglieder\\
+S-2: Vorzeitig anfangen und in die Technologien einarbeiten mithilfe von Kursen, Tutorials und Videos
+ \\ \hline
+ \textbf{Entscheidung:} S-2
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 5: Persistenz der Daten                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Es muss eine Persistenz der Daten gewährleistet werden, damit Daten nicht verloren gehen und Spieler können ihre Spiele fortsetzen.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.5: Persistenz \\
+P1.1.1 : Pause
+\\ \hline
+\textbf{Strategien:} \\
+S-1: H2 relationale Datenbank\\
+S-2: SQLite relationale Datenbank\\
+S-3: Derby relationale Datenbank
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 6: Überlastung des Servers                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Der Server muss ermöglichen, dass mindestens zwei verschiedene Spieler das Spiel gleichzeitig spielen können.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.3: Client-Server-Architektur \\
+T1.8 : Multiplayer
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Teilung der Anwendung in eine Client-Server-Architektur \\
+S-2: Client und Server sind enthalten im selben Programm \\
+S-3: Multithreaded Server implementieren
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 7:                                                                          
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Der Server muss ermöglichen, dass mindestens zwei verschiedene Spieler das Spiel gleichzeitig spielen können.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.3: Client-Server-Architektur \\
+T1.8 : Multiplayer
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Teilung der Anwendung in eine Client-Server-Architektur \\
+S-2: Client und Server sind enthalten im selben Programm
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
 \end{longtable}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
