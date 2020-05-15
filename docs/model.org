@@ -48,13 +48,6 @@ class Shop {
   - Map<Reactor, int> reactors
 }
 
-class Subsystems {
-  - String id
-  - String name
-  - String max
-  - String current
-}
-
 class Shield {
    - String id
    - int strength
@@ -108,7 +101,10 @@ interface Player {
 
 class AI
 
-class Human
+class Human {
+   - String username
+   - String password
+}
 
 class Universe {
    - String id
@@ -143,7 +139,7 @@ class Task {
 
 Universe }o-- Galaxy: has
 Galaxy }o-- System: has
-System }o-right- Stop: has
+System }o-left- Stop: has
 
 Stop <|.. Planet
 Stop <|.. Shop
@@ -156,7 +152,6 @@ Player }|-left- SpaceShip: pilots
 Player <|.. AI
 Player <|.. Human
 
-SpaceShip }|-- Subsystems: affected by
 SpaceShip }|-- Section: made of
 SpaceShip ||-- Reactor: requires
 SpaceShip }o-- Shield: deffend with
@@ -210,13 +205,6 @@ class FTLDrive {
   - void Engage(System s)
 }
 
-
-class Subsystems {
-  - String id
-  - String name
-  - String max
-  - String current
-}
 
 class Shield {
    - String id
