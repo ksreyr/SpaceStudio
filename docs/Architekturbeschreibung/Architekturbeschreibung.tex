@@ -201,7 +201,7 @@ Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen.
 													& \begin{tabular}[c]{@{}l@{}}Die Auslieferung \\erfolgt am\\ 31.05.2020.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da \\ Vorgaben bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Durch den\\ Zeitdruck könnte\\ die Architektur\\ mangelhaft\\ werden. Wenn wir\\ uns nicht genug\\ Zeit lassen,\\ könnten Aspekte,\\ die relevant für die\\ Architektur sind,\\ vergessen werden.\end{tabular} \\ \hline
 \multicolumn{5}{|l|}{O1.3 Entwickler}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
 													& \begin{tabular}[c]{@{}l@{}}Die\\ Projektgruppe \\besteht aus\\ 6 Entwicklern\\\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Falls ein Entwickler \\ (temporär) ausfällt kann\\ ein anderer Entwickler\\ einspringen. \\ Keine neuen Entwickler \\
-können eingestellt \\ werden. Gruppenmitglieder\\ können wegfallen oder \\ austreten\end{tabular} & \begin{tabular}[c]{@{}l@{}}+/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}} Die Architektur kann \\wegen Zeitmangel (es \\können nicht mehr \\als die ursprünglichen\\ sechs Entwickler mitarbeiten) \\und fehlenden Fähigkeiten\\ Mängel enthalten. \\ Unvollständige\\ Implementierung droht \end{tabular} \\ \hline
+können eingestellt \\ werden. Gruppenmitglieder\\ können wegfallen oder \\ austreten\end{tabular} & \begin{tabular}[c]{@{}l@{}}+/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}} Die Architektur kann \\wegen Zeitmangel (es \\können nicht mehr \\als die ursprünglichen\\ sechs Entwickler\\ mitarbeiten) und \\fehlenden Fähigkeiten\\ Mängel enthalten. \\ Unvollständige\\ Implementierung droht \end{tabular} \\ \hline
 
 \multicolumn{5}{|l|}{O1.4 Fähigkeiten Entwickler}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
 													& \begin{tabular}[c]{@{}l@{}}Nicht alle \\ Entwickler \\ haben die gleiche \\ Programmier-\\erfahrung \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Hohe Veränderlichkeit\\ und Flexibilität durch \\Ausführen des Projekts und \\Recherche.\\ TODO! \end{tabular} & \begin{tabular}[c]{@{}l@{}}++/\\   ++\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Implementierung \\ kann Mängel enthalten. \\\end{tabular} \\ \hline
@@ -254,22 +254,23 @@ Das persönliche\\ Treffen kann \\nicht stattfinden,\\ aufgrund von\\ Kontakt- \
 %%%%%%
 %%%%%%
 
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{1cm}|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
+\begin{longtable}{|p{1cm}|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
 \hline
 \begin{tabular}[c]{@{}l@{}}Abge-\\ leitet\\aus\end{tabular} & Einflussfaktor                                                                        & \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
 \multicolumn{5}{|l|}{T1.8: Multiplayer TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
                                                           & \begin{tabular}[c]{@{}l@{}}Der Server muss\\ einen Multiplayer\\ Modus\\ ermöglichen.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\Flexibilität oder\\ Veränderlichkeit, da\\ Mindestanforderungen\\ bestehen. Wir können\\es aber ermöglichen,\\dass mehr als zwei\\ Spieler gleichzeitig\\spielen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Anwendung\\ darf nicht von\\ gleichzeitiger \\Verwendung von\\ zwei Nutzern\\ überfordert sein.\\  Trotzdem müssen\\ mindestens 2 Spieler\\ gleichzeitig das Spiel\\ spielen können, \\um die Mindest-\\anforderungen zu erfüllen.\end{tabular} \\ \hline
+                                                          
+\multicolumn{5}{|l|}{T1.9: Wartbarkeit}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                          & \begin{tabular}[c]{@{}l@{}}Die Software\\ muss einfach \\zu warten sein.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Es sind keine\\ Anforderungen bezüglich\\ der Projektstruktur\\ gegeben, daher\\ können wir\\ flexibel selbst \\entscheiden wie wir \\diese implementieren .\end{tabular} & \begin{tabular}[c]{@{}l@{}}++/\\   ++\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur muss \\so aufgebaut sein,\\ sodass die Software\\ leicht gewartet und \\erweitert werden kann.\end{tabular} \\ \hline
 \multicolumn{5}{|l|}{P1: Produktfaktoren}
 \\ \hline
 \multicolumn{5}{|l|}{P1.1.1: Pause TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
                                                           & \begin{tabular}[c]{@{}l@{}}Die Anwendung\\ muss in der\\ Lage sein,\\ ein zuvor von\\ einem bestimmten\\ Benutzer\\ gestartetes\\ Spiel zu speichern\\ und dem Benutzer\\ die Möglichkeit\\ zu geben,\\ es zu einem\\ anderen Zeit-\\ punkt fortzu-\\setzen. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine Flexibilität\\ und keine\\ Veränderlichkeit, da\\ Mindestanforderungen\\bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}} - -/\\ ++  \end{tabular} & \begin{tabular}[c]{@{}l@{}}Der Server\\ muss es\\ ermöglichen, dass\\ das Spiel unterbrochen\\ werden kann\end{tabular} \\ \hline
+\newpage
+\hline
 \multicolumn{5}{|l|}{P1.8: Schwierigkeitsstufen TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
                                                           & \begin{tabular}[c]{@{}l@{}}Für Benutzer\\ müssen mindestens\\ zwei unter-\\schiedliche\\ Schwierig-\\keitsgrade\\ implementiert\\ werden.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit,da\\ Mindestanforderungen\\ bestehen.Es können\\aber mehr als\\ zwei Schwierigkeitsgrade\\ implementiert\\werden. Außer der\\ leichtesten\\ Stufe können wir den\\ Schwierigkeitsgrad der\\ anderen Stufe \\beliebig auswählen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Spiel soll\\ in mindestens zwei\\verschiedenen Schwierigkeits-\\stufen gespielt werden\\ können\end{tabular}      \\ \hline
-\end{tabular}
-
-\end{table}
+\end{longtable}
 %%%%%%
 %%%%%%
 \begin{table}[H]
@@ -425,7 +426,7 @@ In Zeiten der Corona-Krise können keine persönlichen Treffen stattfinden, aufg
 und somit entfallen Teambuildung-Events und persönliche Treffen mit dem Tutor/Kunden.
 \\ \hline
 \textbf{Einflussfaktoren:} \\
-O1.5: Teamarbeit in Corona-Zeiten \\
+O1.5: Teamarbeit in Corona-Zeiten
 \\ \hline
 \textbf{Strategien:} \\
 S-1: Regelmäßige digitale Treffen mit Gruppenmitgliedern und dem Tutor\\
@@ -438,7 +439,7 @@ S-3: Videokonferenz zum Kennenlernen als Teambuildung Maßnahme
 
 \begin{longtable}{|p{15cm}|}
 \hline
-Problem 3: Missverständnisse von Mindestanforderungen                                                                           
+Problem 3: Missverständnisse bei Mindestanforderungen                                                                           
 \\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 \textbf{Beschreibung:} \\
 Die Gruppe entwickelt eine falsche Anforderung, aufgrund von Missverständnissen.
@@ -482,7 +483,7 @@ S-2: Vorzeitig anfangen und in die Technologien einarbeiten mithilfe von Kursen,
 Problem 5: Persistenz der Daten                                                                           
 \\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 \textbf{Beschreibung:} \\
-Es muss eine Persistenz der Daten gewährleistet werden, damit Daten nicht verloren gehen und Spieler können ihre Spiele fortsetzen.
+Es muss eine Persistenz der Daten gewährleistet werden, damit Daten nicht verloren bei beispielsweise Serverneustart gehen und Spieler können ihre Spiele fortsetzen.
 \\ \hline
 \textbf{Einflussfaktoren:} \\
 T1.5: Persistenz \\
@@ -516,21 +517,106 @@ S-3: Multithreaded Server implementieren
  \textbf{Entscheidung:} S-1
 \\ \hline
 \end{longtable}
-
+\newpage
 \begin{longtable}{|p{15cm}|}
 \hline
-Problem 7:                                                                          
+Problem 7: Die Internet-Verbindung von einem oder beiden Spielern bricht ab im Multiplayer-Modus                                                                        
 \\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 \textbf{Beschreibung:} \\
-Der Server muss ermöglichen, dass mindestens zwei verschiedene Spieler das Spiel gleichzeitig spielen können.
+Wenn das Spiel im Multiplayer-Modus gespielt wird und ein oder beide Spieler zeitweise keine Internet-Verbindung haben, 
+dann soll es ermöglicht werden, dass die Spieler ihr Spiel fortsetzen können bei hergesteller Internet-Verbindung. 
 \\ \hline
 \textbf{Einflussfaktoren:} \\
 T1.3: Client-Server-Architektur \\
-T1.8 : Multiplayer
+T1.5: Persistenz \\
+T1.8 : Multiplayer \\
+P1.1.1: Pause
 \\ \hline
 \textbf{Strategien:} \\
-S-1: Teilung der Anwendung in eine Client-Server-Architektur \\
-S-2: Client und Server sind enthalten im selben Programm
+S-1: Spielstände werden, in vorher festgelegten Zeitabständen, gespeichert um dann, nachdem die Internet-Verbindung wieder hergestellt wurde, das Spiel fortzusetzen\\
+S-2: Währendessen wird das Spiel pausiert und die Spieler kriegen darüber einen Bescheid sobald die Internet-Verbindung einseitig abbricht \\
+S-3: Das Spiel wird abgebrochen und der Gegenspieler gewinnt die Partie
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 8: Die Internet-Verbindung bricht ab bei dem Spieler bei Einzelspieler-Modus                                                                       
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Wenn das Spiel im Einzelspieler-Modus gespielt wird und der Spieler zeitweise keine Internet-Verbindung hat, 
+dann soll es ermöglicht werden, dass das Spiel fortgesetzt werden kann, wenn die Internet-Verbindung wieder hergestellt wurde.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.3: Client-Server-Architektur \\
+T1.5: Persistenz \\
+P1.1.1: Pause
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Spielstände werden, in vorher festgelegten Zeitabständen, gespeichert um dann, nachdem die Internet-Verbindung wieder hergestellt wurde, das Spiel fortzusetzen\\
+S-2: Das Spiel wird pausiert bis die Internet-Verbindung wieder hergestellt wurde \\
+S-3: Das Spiel wird abgebrochen und der Gegenspieler gewinnt die Partie
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 9: Komplexität der Implementierung                                                                       
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Die Komplexität des Software und die Projektstruktur kann schnell unübersichtlich werden, wegen der Relationen zwischen den unterschiedlichen Objekten der Implementierung.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.9: Wartbarkeit
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Modulariserung der Software \\
+S-2: S.O.L.I.D, Prinzipien des OOP Designs
+ \\ \hline
+ \textbf{Entscheidung:} S-2
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 10: Spielstände                                                                     
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Die Spielstände müssen den jeweiligen Spielern zugeordnet werden. Spieler A kann das Spiel von Spieler B (weiter-)spielen.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.3: Client-Server-Architektur\\
+T1.5: Persistenz \\
+P1.1.1: Pause
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Jeder Spieler kann eigenen Account mit Passwort erstellen und die Spiele, die dieser Spieler gestartet hat, werden diesem Spiel zugeordnet \\
+S-2: Die Spielstände lokal speichern \\
+S-3: Den Spielstand als beispielsweise CSV-Datei abspeichern und exportieren und bei Fortsetzung des Spiels wieder importieren und weiter spielen
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 11: Der Spieler kennt den Spielverlauf und die Spielregeln nicht                                                                     
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Der Spieler spielt das Spiel zum ersten Mal und ist mit der Benutzeroberfläche überfordert und möchte möglicherweise erst die Spielregeln kennen bevor das Spiel gestartet wird.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+P1: Produktfaktoren
+\\ \hline
+\textbf{Strategien:} \\
+S-1: (Video-)Tutorial mit Stimme/Untertitel im Menü \\
+S-2: Live-Support \\
+S-3: Anleitung während des Spiels mit Quick-Instructions \\
+S-4: Online-Handbuch mit Spielregeln
  \\ \hline
  \textbf{Entscheidung:} S-1
 \\ \hline
