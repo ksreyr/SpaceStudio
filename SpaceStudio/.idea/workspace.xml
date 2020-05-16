@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="65cec717-8de4-4af2-ad79-79ae690a25c7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/arial-15.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/arial-15_00.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/assets.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/blur/background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/blur/caveman.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/blur/dinosaur.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/blur/foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/blur/mountains.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/blur/rock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/backDamper.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/balloon.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/balloon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/frame.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/frontDamper.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/glass.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/glass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/map/backgrounds.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/map/sprites.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/map/sprites.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/map/tiled.tmx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/map/tileset.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/materials.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/box2D/wheel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/caveman-sheet.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/caveman-sheet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/caveman.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/caveman.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/character.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/credits.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/default.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/default.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/default_00.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/explosion.particle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/facebook.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fire.particle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fire.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/font.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/font.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/font-effects.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/font-effects.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/font.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/font.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/lobster.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/lobster.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/oswald-32.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/oswald-32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/oswald-64.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/oswald-64.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/oswald-distance.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/oswald-distance.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/oswald.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/oswald.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/pacifico-distance.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/pacifico-distance.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/play.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/fonts/play.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/gallery/gallery1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/gallery/gallery2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/gallery/gallery3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/gallery/gallery4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/grass.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/ice.particle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/input/profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/jungle-level.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/libgdx.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/loading_screen/background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/loading_screen/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/loading_screen/map.tmx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/loading_screen/patrons.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/loading_screen/progress_bar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/loading_screen/progress_bar_base.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/maps/backgrounds.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/maps/sprites.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/maps/sprites.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/maps/tiled-objects.tmx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/maps/tiled.tmx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/maps/tileset.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/menu.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/music/song_1.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/music/song_2.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/music/song_3.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/music/song_4.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/music/song_5.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/packt.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/prehistoric.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/prehistoric.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/accept.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/checkBoxOff.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/checkBoxOn.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/cursor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/customUI.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/customUI.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/customUI.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/default.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/dialog_background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/divider.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/gameTitle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/hamsty.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/hamsty2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/knob.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/knob_scroll.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/minus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/myactor.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/myactorDown.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/myactorOver.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/plus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/scroll_horizontal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/slider_background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/slider_knob.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/tfSelection.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/tfbackground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/touchpad_background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/scene2d/touchpad_knob.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/car-engine.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/car-idle.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/emitter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/player.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/sfx_01.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/sfx_02.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/sfx_03.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/sfx_04.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/sfx_05.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/sfx_06.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/sfx_07.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/sfx/spatial-audio.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/blur.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/blur.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/grayscale.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/grayscale.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/inverted.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/inverted.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/sepia.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/sepia.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/vignette.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/shaders/vignette.vert" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/spine/hero-1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/spine/hero.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/spine/hero.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/stars.particle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/trex-sheet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/trex.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/uiskin.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/uiskin.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/uiskin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/verdana39.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/verdana39.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/verdana39distancefield.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/data/verdana39distancefield.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/i18n/strings.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/i18n/strings_en_GB.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/i18n/strings_es_ES.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/PlayFont.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/QuestrialFont.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/backgrounds/galaxyBackground.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/backgrounds/galaxyBackground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/preview.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/back.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-close-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-close-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-close.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-disabled.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-color-disabled.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-color-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-color-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-color-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-color-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-color-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-color.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-color.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-disabled.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-emphasis.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-icon-disabled.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-icon-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-icon-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-icon-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-icon-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-icon-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-icon.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-minus-disabled.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-minus-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-minus-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-minus-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-minus-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-minus-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-minus.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-minus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-number-disabled.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-number-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-number-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-number-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-number-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-number-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-number.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-number.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-plus-disabled.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-plus-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-plus-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-plus-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-plus-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-plus-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-plus.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-plus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-checked-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-checked-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-checked.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-checked.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-disabled.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button-small.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/checkbox-alt.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/checkbox-checked-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/checkbox-checked-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/checkbox-checked.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/checkbox-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/checkbox-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/checkbox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-dialog-table.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-dialog-table.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-bar.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-bar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-button-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-button-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-button-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-button-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-button.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-list-button-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-list-button-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-list-button-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-list-button-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-list-button.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-list-button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-list.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/file-menu-list.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/galaxyBackground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/list-selection.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/list-selection.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/list.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/list.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/radio-checked-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/radio-checked-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/radio-checked.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/radio-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/radio-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/radio.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/scroll-bar-back-horizontal.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/scroll-bar-back-horizontal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/scroll-bar-back-vertical.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/scroll-bar-back-vertical.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/scroll-bar-horizontal.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/scroll-bar-horizontal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/scroll-bar-vertical.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/scroll-bar-vertical.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box-disabled.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box-over.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box-pressed-alt.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box-pressed-alt.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box-pressed.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/select-box.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/selection.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-background-disabled-horizontal.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-background-disabled-horizontal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-background-disabled-vertical.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-background-disabled-vertical.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-background-horizontal.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-background-horizontal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-background-vertical.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-background-vertical.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-backgrround-disabled-horizontal.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-backgrround-horizontal.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-before-disabled-horizontal.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-before-disabled-horizontal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-before-disabled-vertical.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-before-disabled-vertical.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-before-horizontal.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-before-horizontal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-before-vertical.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-before-vertical.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob-pressed.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/slider-knob.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/switch-off-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/switch-off-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/switch-off.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/switch-on-disabled.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/switch-on-over.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/switch-on.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/tab-after.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/tab-before.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/tab-checked.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/tab-checked.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/tab-pane.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/tab-pane.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/tab.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/tab.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/text-field-spinner.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/text-field-spinner.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/text-field.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/text-field.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/window-tool.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/window-tool.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/window.9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/raw/window.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-export.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-export.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-medium-export.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-medium-export.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-medium.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-small-export.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-small-export.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-small.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-title-export.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-title-export.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-title-large-export.fnt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-title-large-export.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-title-large.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/fonts/font-title.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/sgx-ui.atlas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/sgx-ui.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/assets/ownAssets/sgx/skin/sgx-ui.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/MenuScreen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/UniverseMapBeforeGame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/assets/AssetDescriptors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/assets/AssetPaths.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/assets/RegionNames.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/assets/StyleNames.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/config/GameConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/screens/LoadingScreen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/util/GdxUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/fileContent/fileContent.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/build/classes/java/main/de/bremen/BaseScreen.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/build/classes/java/main/de/bremen/LogginScreen$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/build/classes/java/main/de/bremen/LogginScreen$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/build/classes/java/main/de/bremen/LogginScreen.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/build/classes/java/main/de/bremen/MainClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/core/build/classes/java/main/de/bremen/MainClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/build/libs/core-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/core/build/libs/core-1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/core/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/BaseScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/screens/BaseScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/LogginScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/screens/LogginScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/MainClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/core/src/de/bremen/MainClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/desktop/build/classes/java/main/de/bremen/desktop/DesktopLauncher.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/desktop/build/classes/java/main/de/bremen/desktop/DesktopLauncher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Clientgdx/desktop/src/de/bremen/desktop/DesktopLauncher.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Clientgdx/desktop/src/de/bremen/desktop/DesktopLauncher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_API_R" />
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1btTcURThH6NKYgeZk4Z8qoaKnf" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
+  </component>
+  <component name="RunManager" selected="Application.DesktopLauncher">
+    <configuration name="android" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="android" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <Java />
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DesktopLauncher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.spacestudio.game.desktop.DesktopLauncher" />
+      <module name="desktop" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.spacestudio.game.desktop.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.DesktopLauncher" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="65cec717-8de4-4af2-ad79-79ae690a25c7" name="Default Changelist" comment="" />
+      <created>1589450469516</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589450469516</updated>
+      <workItem from="1589450473461" duration="2290000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="172" y="113" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589450743545">
+      <screen x="0" y="23" width="1415" height="877" />
+    </state>
+    <state x="172" y="113" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1415.877@0.23.1415.877" timestamp="1589450743545" />
+    <state width="1373" height="224" key="GridCell.Tab.0.bottom" timestamp="1589452919518">
+      <screen x="0" y="23" width="1415" height="877" />
+    </state>
+    <state width="1373" height="224" key="GridCell.Tab.0.bottom/0.23.1415.877@0.23.1415.877" timestamp="1589452919518" />
+    <state width="1373" height="224" key="GridCell.Tab.0.center" timestamp="1589452919517">
+      <screen x="0" y="23" width="1415" height="877" />
+    </state>
+    <state width="1373" height="224" key="GridCell.Tab.0.center/0.23.1415.877@0.23.1415.877" timestamp="1589452919517" />
+    <state width="1373" height="224" key="GridCell.Tab.0.left" timestamp="1589452919516">
+      <screen x="0" y="23" width="1415" height="877" />
+    </state>
+    <state width="1373" height="224" key="GridCell.Tab.0.left/0.23.1415.877@0.23.1415.877" timestamp="1589452919516" />
+    <state width="1373" height="224" key="GridCell.Tab.0.right" timestamp="1589452919517">
+      <screen x="0" y="23" width="1415" height="877" />
+    </state>
+    <state width="1373" height="224" key="GridCell.Tab.0.right/0.23.1415.877@0.23.1415.877" timestamp="1589452919517" />
+    <state x="509" y="373" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1589452875619">
+      <screen x="0" y="23" width="1415" height="877" />
+    </state>
+    <state x="509" y="373" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1415.877@0.23.1415.877" timestamp="1589452875619" />
+  </component>
+</project>
