@@ -36,6 +36,19 @@ Version & Datum & Änderungen \\
 
 \subsection{Zweck}
 
+Diese Architekturbeschreibung beschreibt die grundlegenden Strukturen unseres 
+Spiels \glqq Even Geiler Than Geiler Than Faster Than Light\grqq{}. 
+Zu den Lesern gehören unser Püfer und Tutor Karsten Hölscher, die 
+Gruppenmitglieder und weitere Interessierte der Fachrichtung Informatik.
+Der Leser soll  hiermit zum einen den Kontext der Arbeit verstehen, 
+sowie Aufbau der Anwendung, vom Groben bis ins Detail, über viele 
+Abstraktionsebenen hinweg. Somit wird nicht nur die technische Realiesierung 
+des Spiels erklärt, sondern auch die allgemeinen Anforderungen an das Projekt  
+und in diesem Zusammenhang  getroffene Entscheidungen.
+Darüber hinaus, hilft uns eine Architekturbeschreibung dabei, 
+das Projekt zu planen und strukturiert durchzuführen.
+
+
 { \em Was ist der Zweck dieser Architekturbeschreibung? Wer sind die LeserInnen?}
 
 \subsection{Status}
@@ -55,28 +68,30 @@ welches für mindestens einen Akteur von Bedeutung
 ist. \\ \hline
     Framework &Programmiergerüst, welches den Rahmen der Anwendung
 bildet. Es umfasst Bibliotheken und Komponenten. \\ \hline
-    UML &Steht für Unified Modeling Language und ist eine grafische
-Modellierungssprache zur Spezifikation, Visualisierung,
-Konstruktion und Dokumentation von Modellen
-für Softwaresysteme. \\
+GUI &Steht für Graphical User Interface und kennzeichnet
+eine grafische Schnittstelle, über die ein Mensch mit
+einer Software interagiert.\\ \hline
+ 
+    Libgdx & ist ein Java-Framework für plattformunabhängige Spieleentwicklung. \\
     \hline
 IDE & integrierte Entwicklungsumgebung - Hilft bei der Bearbeitung von Projekten
 in der Softwareentwicklung. \\     \hline
 Versionskontrolle  &Hochgeladenen Versionen werden festgehalten und können
 wieder hergestellt werden. \\     \hline
- Maven  &Java Programme können standardisiert und verwaltet werden.\\     \hline
- Library &Sammlung von verschiedensten vorgefertigten Methoden oder Klassen.\\     \hline
+HTTP &Steht für Hypertext Transfer Protocol, einem zustandslosen
+Protokoll zum synchronen Versenden von
+Informationen über Rechnernetze.\\ \hline
 Interface &Schnittstelle.\\     \hline
-Multiplayer &Spielmodus, mit mehr als einem Spieler zur gleichen Zeit.\\    \hline
-Singleplayer &Spielmodus, mit einem Spieler, der gegen einen computergesteuerten
-Gegner spielt. \\     \hline
-JUnit & Frameworke für Tests für die Programmiersprache Java.\\     \hline
 Javadoc  &Software-Dokumentationswerkzeug für die Programmiersprache Java. \\     \hline
 JavaEE &(Java Platform Enterprise Edition) Eine Spezifikation für die transaktionsbasierte 
 Ausführung von in Java programmierten Anwendungen.\\    \hline
-GUI &Steht für Graphical User Interface und kennzeichnet
-eine grafische Schnittstelle, über die ein Mensch mit
-einer Software interagiert.\\ \hline
+JUnit & Frameworke für Tests für die Programmiersprache Java.\\     \hline
+HTTPS &Durch Verschlüsselungstechniken gesichertes HTTP. \\ \hline
+Maven  &Java Programme können standardisiert und verwaltet werden.\\     \hline
+ ibrary &Sammlung von verschiedensten vorgefertigten Methoden oder Klassen.\\     \hline
+Multiplayer &Spielmodus, mit mehr als einem Spieler zur gleichen Zeit.\\    \hline
+Singleplayer &Spielmodus, mit einem Spieler, der gegen einen computergesteuerten
+Gegner spielt. \\     \hline
 Paketdiagramm &Strukturdiagramm der UML, stellt die Verbindung
 zwischen Paketen, Paketimports bzw. Verschmelzungen
 und deren Abhängigkeiten dar. \\ \hline
@@ -90,14 +105,15 @@ Klassendiagramm &Strukturdiagramm der UML, stellt die statischen
 Strukturen eines Systems dar.\\ \hline
 Komponentendiagramm &Strukturdiagramm der UML, stellt Komponenten
 und deren Schnittstellen dar. \\ \hline
-HTTP &Steht für Hypertext Transfer Protocol, einem zustandslosen
-Protokoll zum synchronen Versenden von
-Informationen über Rechnernetze.\\ \hline
-HTTPS &Durch Verschlüsselungstechniken gesichertes HTTP. \\ \hline
 TCP &Das Transmission Control Protocol ist ein Netzwerkprotokoll, das definiert, auf welche Art und Weise
  Daten zwischen Netzwerkkomponenten ausgetauscht werden sollen. \\ \hline
 UDP &Das User Datagram Protocol, kurz UDP, ist ein minimales, verbindungsloses Netzwerkprotokoll, 
 das zur Transportschicht der Internetprotokollfamilie gehört.\\ \hline
+  UML &Steht für Unified Modeling Language und ist eine grafische
+Modellierungssprache zur Spezifikation, Visualisierung,
+Konstruktion und Dokumentation von Modellen
+für Softwaresysteme. \\
+    \hline
    
 
  \end{longtable}
@@ -118,16 +134,16 @@ Wenn der User angemeldet ist, dann kann er sehen, welche der andere User ebenfal
 \subsection{Spielt-Starten}
 Im ersten Fenster des Spiels kann der Benutzer das Raumschiff, die Waffen, welche er verwenden möchte, die Besatzung und den Schwierigkeitsgrad des Spiels auswählen. Anschließend startet das Spiel.
 \subsection{Spielt-Verlauft}
-Zu beginn, kann der Spieler die Crew in den von ihm gewählten Positionen/Sektionen des Raumschiffes positionieren. Dann kann er die Sprungtaste drücken, um die Zielplaneten auszuwählen. Der Benutzer kann dies  in jeder Runde wiederholen.
+Zu beginn, kann der Spieler die Besatzung in den von ihm gewählten Positionen/Sektionen des Raumschiffes positionieren. Dann kann er die Sprungtaste drücken, um die Zielplaneten auszuwählen. Der Benutzer kann dies in jeder Runde wiederholen.
 
 Wenn der Benutzer einen Zielplaneten auswählt, kann er auf Gegner treffen und nach einem Dialogfeld gegen diese antreten.
 
-Sobald der Benutzer gewonnen hat,  kann der Gegner sein Raumschiff reparieren, seine Crew heilen oder einen Sprung machen.
+Sobald der Benutzer gewonnen hat,  kann der Gegner sein Raumschiff reparieren, seine Besatzung heilen oder einen Sprung machen.
 
 \subsection{Kampf-Regeln}
 In einem Kampf gelten folgende Regeln:
 \begin{itemize}
-\item Wenn ein Kampf beginnt, kann der Benutzer dseine Waffen ausrichten, um auf  bestimmte Sektionen des gegnerischen Raumschiffes zu zielen.
+\item Wenn ein Kampf beginnt, kann der Benutzer seine Waffen ausrichten, um auf bestimmte Sektionen des gegnerischen Raumschiffes zu zielen.
  
 \item Waffen brauchen Zeit zum Laden und Schießen.
 
@@ -135,16 +151,16 @@ In einem Kampf gelten folgende Regeln:
 
 \item Um die Schilde zu deaktivieren, müssen diese zuvor x mal getroffen worden sein. Je Treffer auf das Schild,  verliert es an Stärke. Sobald die Stärke des Schildes Null ist, ist es deaktiviert.
 
-\item Waffen treffen zu bestimmten Wahrscheinlichkeiten  das Ziel.
+\item Waffen treffen zu bestimmten Wahrscheinlichkeiten das Ziel.
 
-\item Damit eine Waffe verwendet werden kann, muss die Sektion, in der die Waffe steht, funktionsfähig sein, sowie sich ein Besatzungsmitglied in selbiger Sektion aufghalten muss, damit diese auch bedient werden können.
+\item Damit eine Waffe verwendet werden kann, muss die Sektion, in der die Waffe steht, funktionsfähig sein, sowie sich ein Besatzungsmitglied in selbiger Sektion aufhalten muss, damit diese auch bedient werden können.
 
 \item Jedes Mal, wenn eine Waffe ein Raumschiff trifft, verliert sie ihren Lebenspunkt.
 
 \item Sobald eines der beiden Raumschiffe keine Lebenspunkte mehr hat, hat es verloren.
 \end{itemize}
 \subsection{Pausenmodus}
-Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen. Dies bedeutet, dass beide Schiffe aufhören zu schießen und die Besatzung aufhört, sich zu bewegen. Wenn das Spiel fortgesetzt wird, werden die Waffen wieder aktiviert und auch die Crew.
+Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen. Dies bedeutet, dass beide Schiffe aufhören zu schießen und die Besatzung aufhört, sich zu bewegen. Wenn das Spiel fortgesetzt wird, werden die Waffen wieder aktiviert und auch die Besatzung.
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Globale Analyse} \label{sec:globale_analyse}
@@ -600,6 +616,8 @@ S-4: Online-Handbuch mit Spielregeln
 	\caption{Konzeptionelle Sicht}
 	\label{fig1}
 \end{figure}
+
+Das Computerspiel $ " $Even Geiler Than Geiler Than Faster Than Light$ "$ wird durch eine Client-Server Architektur realisiert. 
 
 {\itshape Diese Sicht beschreibt das System auf einer hohen Abstraktionsebene,
 d.\,h. mit sehr starkem Bezug zur Anwendungsdomäne und den geforderten
