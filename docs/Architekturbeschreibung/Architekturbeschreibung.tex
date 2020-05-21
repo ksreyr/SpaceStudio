@@ -8,7 +8,7 @@
 %
 \begin{document}
 \newcommand\documentTitle{Architekturbeschreibung}
-\swpdocument{Euer/Eure TutorIn}{TT. Monat JJJJ}{1.1}%
+\swpdocument{Dr. Karsten Hölscher}{31. Mai 2020}{1.1}%
             {Clara Maria Odinius & odinius@uni-bremen.de}%
             {Habib Mergan & habib1@uni-bremen.de}%
             {Kevin Santiago Rey Rodriguez & kev\_rey@uni-bremen.de}%
@@ -25,7 +25,7 @@ identifizieren sein, hier und optimalerweise auf dem Titelblatt.}
 \begin{tabular}{ccl}
 Version & Datum & Änderungen \\
 \hline
-0.1 & TT.MM.JJJJ & Dokumentvorlage als initiale Fassung kopiert \\
+0.1 & 22.04.2020 & Dokumentvorlage als initiale Fassung kopiert \\
 0.2 & TT.MM.JJJJ & \ldots \\
 \ldots
 \end{tabular}
@@ -41,7 +41,7 @@ Spiels \glqq Even Geiler Than Geiler Than Faster Than Light\grqq{}.
 Zu den Lesern gehören unser Püfer und Tutor Karsten Hölscher, die 
 Gruppenmitglieder und weitere Interessierte der Fachrichtung Informatik.
 Der Leser soll  hiermit zum einen den Kontext der Arbeit verstehen, 
-sowie Aufbau der Anwendung, vom Groben bis ins Detail, über viele 
+sowie den Aufbau der Anwendung, vom Groben bis ins Detail, über viele 
 Abstraktionsebenen hinweg. Somit wird nicht nur die technische Realiesierung 
 des Spiels erklärt, sondern auch die allgemeinen Anforderungen an das Projekt  
 und in diesem Zusammenhang  getroffene Entscheidungen.
@@ -49,10 +49,8 @@ Darüber hinaus, hilft uns eine Architekturbeschreibung dabei,
 das Projekt zu planen und strukturiert durchzuführen.
 
 
-{ \em Was ist der Zweck dieser Architekturbeschreibung? Wer sind die LeserInnen?}
-
 \subsection{Status}
-  
+Das Dokument beschreibt unseren ersten Entwurf und wird in der Implementierung umgesetzt.
 \subsection{Definitionen, Akronyme und Abkürzungen}
   \begin{longtable}{ |  l | p{12cm} |}
     \hline
@@ -119,7 +117,15 @@ für Softwaresysteme. \\
  \end{longtable}
 
 \subsection{Referenzen}
-Vorlesungsfolien
+
+\begin{itemize}
+	\item Architekturbeschreibung DataColorado Software-Projekt 2 WiSe 2019/20
+	\item Architekturbeschreibung RainersRaiders Software–Projekt 2 WiSe 2016/17
+	\item Architekturbeschreibung SuperSaiyans Software-Projekt 2 SoSe 2019
+	\item Hinweise zur Abgabe der Architekturbeschreibung für Software–Projekt 2 (Stand
+	03.05.2019)
+	\item Kick-Off-Folien (Stand 20. April 2020)
+\end{itemize}
 
 
 \subsection{Übersicht über das Dokument}
@@ -376,7 +382,7 @@ O1.3: Entwickler
 \\ \hline
 \textbf{Strategien:} \\
 S-1: Modularisierung \\
-S-2: 
+S-2: Pair-Programming
  \\ \hline
  \textbf{Entscheidung:} S-1
 \\ \hline
@@ -431,7 +437,7 @@ Die Gruppe entwickelt eine falsche Anforderung, aufgrund von Missverständnissen
 \\ \hline
 \textbf{Einflussfaktoren:} \\
 O1.1: Time-To-Market \\
-P1   : Produktfaktoren
+P1: Produktfaktoren
 \\ \hline
 \textbf{Strategien:} \\
 S-1: Evolutionäre Prototypen entwickeln \\
@@ -453,7 +459,7 @@ und somit in Verzug kommen mit den Abgabeterminen. Das kann zu mangelhaften Impl
 \textbf{Einflussfaktoren:} \\
 O1.1: Time-To-Market \\
 O1.4: Fähigkeiten Entwickler \\
-T1    : Technik
+T1: Technik
 \\ \hline
 \textbf{Strategien:} \\
 S-1: Modularisierung. Einzelne Gruppenmitglieder fokussieren sich auf einzelne Technologien und schaffen sich Expertise und geben das Wissen weiter an andere Gruppenmitglieder\\
@@ -493,7 +499,7 @@ Der Server muss ermöglichen, dass mindestens zwei verschiedene Spieler das Spie
 \\ \hline
 \textbf{Einflussfaktoren:} \\
 T1.3: Client-Server-Architektur \\
-P1.3 : Multiplayer
+P1.3: Multiplayer
 \\ \hline
 \textbf{Strategien:} \\
 S-1: Teilung der Anwendung in eine Client-Server-Architektur \\
@@ -711,7 +717,9 @@ abzudecken.}%
 Module der  Architektur abdeckt. In SWP-2 werden wir mehrere Anwendungsfälle
 betrachten und eine umfangreichere Abdeckung der Architektur anstreben.} }
 
-
+\textbf{1. New Game}\\
+\textbf{2. Spiel unterbrechen und fortsetzen}\\
+\textbf{3. Waffensystem kaufen}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evolution} \label{sec:evolution}
 
