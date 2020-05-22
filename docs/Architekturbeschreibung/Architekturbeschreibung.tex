@@ -692,13 +692,20 @@ Hinweise.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ausführungssicht} \label{sec:ausfuehrung}
 
-{\itshape Die Ausführungssicht beschreibt das Laufzeitverhalten. Hier werden die
-Laufzeitelemente aufgeführt und beschrieben, welche Module sie zur Ausführung 
-bringen. Ein Modul kann von mehreren Laufzeitelementen zur Laufzeit verwendet 
-werden. Die Ausführungssicht beschreibt darüber hinaus, welche Laufzeitelemente 
-spezifisch miteinander kommunizieren. Zudem wird bei verteilten Systemen 
-(z.\,B.\ Client-Server-Systeme) dargestellt, welche Module von welchen Prozessen
-auf welchen Rechnern ausgeführt werden.}
+
+
+In diesem Absatz wird die Ausführungssicht des Systems beschrieben. Diese enthält die Kommunikation bzw. die Interaktion der Komponenten und auch deren Hostrechner, auf denen die Komponenten laufen. \\Die untenstehende Abbildung dient als Ausführungssicht für das Spiel $ " $Even Geiler Than Geiler Than Faster Than Light$ "$ . Das Spiel wird mit dem Client-Server Architektur Pattern realisiert.\\
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Ausfuehrungsicht_Diagram.png}
+	\caption{Ausführungssicht}
+	\label{fig2}
+	
+\end{figure}
+\newpage
+\\Die Abbildung besteht aus zwei geteilten Boxen. Der oberste Teil repräsentiert den Server und enthält mehrere Module sowie Service, Datenbank(H2), Business Logic, Communication und DAO(Data Access Object). Der Server kommuniziert durch TCP mit dem Client. Es können ein bis zwei Clients bzw. Spieler gleichzeitig mit dem Server kommunizieren. Der Server stellt die Verbindung mit der Datenbank sicher, indem er über das Service-Modul interagiert. Dadurch, dass wir Daten speichern müssen benötigen wir eine Datenbank. Mit Hilfe des DAO-Moduls werden die Daten persistiert und verwaltet. Die ausgewählte leichtgewichtige Datenbank(H2) wird mit dem Anwendungsserver auf dem selben Gerät laufen. 
+\\
+Der untere Teil repräsentiert den Client und besteht aus drei Modulen wie Model, Communication und GUI. Der Client wird durch TCP den Server ansprechen. Der Client interagiert mit der GUI, diese Eingaben werden dann über die Client Communication weiter an die Server Communication.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
