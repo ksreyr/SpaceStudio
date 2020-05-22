@@ -689,18 +689,17 @@ Hinweise.}
 
 
 
- In diesem Absatz wird Ausführungssicht des Systems beschrieben. Das enthält die Kommunikation bzw. die Interaktion der Komponente und auch deren Hostrechner, die die Komponenten darauf laufen. \\Die untenstehende Abbildung dient als Ausführungssicht für das Spiel $ " $Even Geiler Than Geiler Than Faster Than Light$ "$ . Der Spiel wird mit dem Client-Server Architektur Pattern realisiert.\\
- \begin{figure}[!ht]
+ In diesem Absatz wird die Ausführungssicht des Systems beschrieben. Diese enthält die Kommunikation bzw. die Interaktion der Komponenten und auch deren Hostrechner, auf denen die Komponenten laufen. \\Die untenstehende Abbildung dient als Ausführungssicht für das Spiel $ " $Even Geiler Than Geiler Than Faster Than Light$ "$ . Das Spiel wird mit dem Client-Server Architektur Pattern realisiert.\\
+ \begin{figure}[h]
  	\centering
- 	\includegraphics[width=0.85\textwidth]{Ausfuehrungsicht_Diagram.png}
+ 	\includegraphics[width=0.6\linewidth]{Ausfuehrungsicht_Diagram.png}
  	\caption{Ausführungssicht}
  	\label{fig2}
 
  \end{figure}
- 	Hier kommt die Abbildung
- \\Die Abbildung besteht aus zwei geteilte Box. Der oberste Teil spielgelt der Server und er enthält mehrere Module sowie Service, Datenbank(H2), Business Logic, Communication und DAO(Date Access Object). Der Server wird durch TCP mit dem Client kommuniziert und es ist möglich, dass der Server ein bis zwei Client bzw. Spieler gleichzeitig kommunizieren kann. Der Server stell die Verbindung mit Datenbank sicher. In dem er über Service interagieren kann. Dadurch, dass wir eine Datenbank benötigten, wird die Datenbank mit hilfe von DAO-Modul persistiert und verwaltet. Die ausgewählte leichgewichte Datenbank(H2) wird mit dem Anwendungsserver auf den selben Gerät laufen. 
+ \\Die Abbildung besteht aus zwei geteilten Boxen. Der oberste Teil repräsentiert den Server und enthält mehrere Module sowie Service, Datenbank(H2), Business Logic, Communication und DAO(Data Access Object). Der Server kommuniziert durch TCP mit dem Client. Es können ein bis zwei Clients bzw. Spieler gleichzeitig mit dem Server kommunizieren. Der Server stellt die Verbindung mit der Datenbank sicher, indem er über das Service-Modul interagiert. Dadurch, dass wir Daten speichern müssen benötigen wir eine Datenbank. Mit Hilfe des DAO-Moduls werden die Daten persistiert und verwaltet. Die ausgewählte leichtgewichtige Datenbank(H2) wird mit dem Anwendungsserver auf dem selben Gerät laufen. 
  \\
- Unterester Teil dient als Client und besteht aus drei Module sowie Model, Communication und GUI. Der Client wird duch TCP der Server ansprechen. 
+ Der untere Teil repräsentiert den Client und besteht aus drei Modulen wie Model, Communication und GUI. Der Client wird durch TCP den Server ansprechen. Der Client interagiert mit der GUI, diese Eingaben werden dann über die Client Communication weiter an die Server Communication.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
