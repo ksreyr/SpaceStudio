@@ -636,46 +636,22 @@ wird mit {UML}-Komponentendiagrammen visualisiert.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Modulsicht} \label{sec:modulsicht}
 
-{\itshape Diese Sicht beschreibt den statischen Aufbau des Systems mit Hilfe von
-Modulen, Subsystemen, Schichten und Schnittstellen. Diese Sicht ist 
-hierarchisch, d.\,h. Module werden in Teilmodule zerlegt. Die Zerlegung endet 
-bei Modulen, die ein klar umrissenes Arbeitspaket für eine Person darstellen und
-in einer Kalenderwoche implementiert werden können. Die Modulbeschreibung der 
-Blätter dieser Hierarchie muss genau genug und ausreichend sein, um das Modul 
-implementieren zu können.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1\linewidth]{../Modulsicht_Quellcode/Model.png}
+	\caption{Model}
+	\label{fig2}
 
-Die Modulsicht wird durch {UML}-Paket- und Klassendiagramme visualisiert.
+\end{figure}
 
-Die Module werden durch ihre Schnittstellen beschrieben.
-Die Schnittstelle eines Moduls $M$ ist die Menge aller Annahmen, die andere 
-Module über $M$ machen dürfen, bzw.\ jene Annahmen, die $M$ über seine 
-verwendeten Module macht (bzw. seine Umgebung, wozu auch Speicher, Laufzeit 
-etc.\ gehören).
-Konkrete Implementierungen dieser Schnittstellen sind das Geheimnis des Moduls
-und können vom Programmierer festgelegt werden. Sie sollen hier dementsprechend 
-nicht beschrieben werden. 
 
-Die Diagramme der Modulsicht sollten die zur Schnittstelle gehörenden Methoden
-enthalten. Die Beschreibung der einzelnen Methoden (im Sinne der 
-Schnittstellenbeschreibung) geschieht allerdings per Javadoc im zugehörigen 
-Quelltext. Das bedeutet, dass Ihr für alle Eure Module Klassen, Interfaces und 
-Pakete erstellt und sie mit den Methoden der Schnittstellen verseht. Natürlich 
-noch ohne Methodenrümpfe bzw.\ mit minimalen Rümpfen. Dieses Vorgehen 
-vereinfacht den Schnittstellenentwurf und stellt Konsistenz sicher.
-
-Jeder Schnittstelle liegt ein Protokoll zugrunde. Das Protokoll beschreibt die 
-Vor- und Nachbedingungen der Schnittstellenelemente. Dazu gehören die erlaubten
-Reihenfolgen, in denen Methoden der Schnittstelle aufgerufen werden dürfen, 
-sowie Annahmen über Eingabeparameter und Zusicherungen über Ausgabeparameter. 
-Das Protokoll von Modulen wird in der Modulsicht beschrieben.
-Dort, wo es sinnvoll ist, sollte es mit Hilfe von Zustands- oder 
-Sequenz-diagrammen spezifiziert werden. Diese sind dann einzusetzen, wenn der
-Text allein kein ausreichendes Verständnis vermittelt (insbesondere bei 
-komplexen oder nicht offensichtlichen Zusammenhängen).
-
-Der Bezug zur konzeptionellen Sicht muss klar ersichtlich sein. Im Zweifel 
-sollte er explizit erklärt werden. Auch für diese Sicht muss die Entstehung 
-anhand der Strategien erläutert werden.}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.1\linewidth]{../Modulsicht_Quellcode/ServicesModel.png}
+	\caption{Service}
+	\label{fig2}
+	
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
