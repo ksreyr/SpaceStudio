@@ -635,7 +635,9 @@ wird mit {UML}-Komponentendiagrammen visualisiert.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Modulsicht} \label{sec:modulsicht}
-\subsection{MODEL}
+\subsection{Model}
+Folgende Klassen stellen die Datensicht dar. Jeder Klasse repräsentiert eine Entity in der Datenbank und seine Beziehungen. Einträge für diese Daten werden zum DAO-Modul umgeleitet und schließlich zur Datenbank gespeichert.
+
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=0.75\linewidth]{../Modulsicht_Quellcode/Model.png}
@@ -643,6 +645,8 @@ wird mit {UML}-Komponentendiagrammen visualisiert.}
 	\label{fig2}
 
 \end{figure}
+
+\newpage
 
 \subsection{Services}
 \begin{figure}[htp]
@@ -664,7 +668,6 @@ Diese Klassen DAOs (Data Access Layers) ermöglichen eine direkte Verbindung zur
 \end{figure}
 
 \newpage
-
 
 
 \subsection{Zustandsdiagramm}
