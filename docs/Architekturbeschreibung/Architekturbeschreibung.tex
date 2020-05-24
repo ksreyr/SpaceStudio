@@ -647,14 +647,26 @@ S-2: Anleitung während des Spiels mit Quick-Instructions
 	\label{fig1}
 \end{figure}
 
-Das Computerspiel $ " $Even Geiler Than Geiler Than Faster Than Light$ "$ wird durch eine Client-Server Architektur realisiert. 
+In diesem Kapitel verwenden wir die konzeptionelle Sicht nach Hofmeister et al. um das System auf einer hohen Abstraktionsebene zu beschreiben.
+Das Computerspiel $ " $Even Geiler Than Geiler Than Faster Than Light$ "$ wird durch eine Client-Server-Architektur realisiert.
 
-{\itshape Diese Sicht beschreibt das System auf einer hohen Abstraktionsebene,
-d.\,h. mit sehr starkem Bezug zur Anwendungsdomäne und den geforderten
-Produktfunktionen und "~attributen. Sie legt die Grobstruktur fest, ohne gleich 
-in die Details von spezifischen Technologien abzugleiten. Sie wird in den 
-nachfolgenden Sichten konkretisiert und verfeinert. Die konzeptionelle Sicht 
-wird mit {UML}-Komponentendiagrammen visualisiert.}
+\textbf{H2:} Die leichtgewichtige relationale Datenbank wird genutzt für die Speicherung von Daten und zum Persistieren unseres Moduls. Die Datenbank kommuniziert über JPA/Hibernate.
+
+\textbf{DAO:TODO!}
+
+\textbf{Business Logic:} Die Business Logic Komponente beinhaltet die Funktionalität des Systems. In unserem Fall prüft sie die von den Clients übermittelten Aktionen auf Einhaltung der Regeln und Plausibilität.
+Sie nutzt die Schnittstellen Service, Model und Server Communication.
+Über die Schnittstelle zu Service kann diese Komponente schreibende und lesende Zugriffe ausführen. Hierbei haben wir die Strategie der Modularisierung umgesetzt (P1 Strategie 1).
+
+\textbf{Model:TODO!}
+
+\textbf{Service:} Über diese Komponente werden lesende und schreibende Zugriffe auf persistente Daten in der Datenbank durchgeführt. Sie kapselt die Funktionen, die benötigt werden um auf diese Daten zuzugreifen, sodass dann nur diese Komponente lesende und schreibende Aktionen durchführen kann. Auch hierbei haben wir die Strategie der Modularisierung umgesetzt (P1 Strategie 1).
+
+\textbf{Server Communication:} Der externe Server kommuniziert mit dem Client über eine bidirektionale TCP-Verbindung. Hierbei haben wir die Strategie der Client-Server-Architektur umgesetzt (P7 Strategie 1). Des Weiteren übermittelt diese Komponente Aktionen vom Client an die Business Logic Komponente um dort diese auf Regeln und Plausibilität zu untersuchen.
+
+\textbf{Client Communication:} Diese Komponente stellt die Kommunikation zwischen des Clients und dem Server sicher und übermittelt Aktionen die von der GUI kommen an den Server und umgekehrt (P7 Strategie 1).
+
+\textbf{GUI:}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
