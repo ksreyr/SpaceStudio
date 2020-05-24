@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity(name = "Ship")
-// @Table(name = "ship") // please fix error: cannot find data source and document how to set it up in intelij
+//@Table(name = "ship") // please fix error: cannot find data source and document how to set it up in intelij
 public class Ship {
 
 
@@ -21,8 +21,8 @@ public class Ship {
     // There is nothing intrinsically wrong with using @ManyToMany but in practice, you rarely have the opportunity to use it
     // Many to Many würde in Player stehen, ist aber falsch. Bitte so implementieren das wir uns an Hibernate best practices orientieren.
     @ManyToOne// Many Ships belongs to one Owner. Required for mapping mapping the foreign key column
-    @JoinColumn(name = "ship_id") // The @JoinColumn annotation allows you to specify the Foreign Key column name. Can be omitted.
-    private Ship owner;
+    // @JoinColumn(name = "ship_id") // The @JoinColumn annotation allows you to specify the Foreign Key column name. Can be omitted.
+    private Player owner;
 
     public void setName(String name) {
         this.name = name;
