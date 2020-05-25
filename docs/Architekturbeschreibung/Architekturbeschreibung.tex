@@ -8,13 +8,20 @@
 %
 \begin{document}
 \newcommand\documentTitle{Architekturbeschreibung}
-\swpdocument{Euer/Eure TutorIn}{TT. Monat JJJJ}{1.1}%
-            {Clara Maria Odinius & odinius@uni-bremen.de}%
-            {Habib Mergan & habib1@uni-bremen.de}%
-            {Kevin Santiago Rey Rodriguez & kev\_rey@uni-bremen.de}%
-            {Liam Hurwitz & hurwitz@uni-bremen.de}%
-            {Mehmet Ali Baykara & baykara@uni-bremen.de}%
-            {Miguel Alejandro Caceres Pedraza & mcaceres@uni-bremen.de}%
+
+ %\begin{minipage}[b]{\textwidth}
+ \vspace{1mm}
+ \begin{figure}[!b]
+  \centering
+  \includegraphics[width=0.5\textwidth]{../Logo/SpaceStudioLogo.png}\\
+\end{figure}
+%\end{minipage}
+\swpdocument{Dr. Karsten Hölscher}{31. Mai 2020}{1.1}
+{Clara Maria Odinius & odinius@uni-bremen.de}%
+{Habib Mergan & habib1@uni-bremen.de}
+{Kevin Santiago Rey Rodriguez & kev\_rey@uni-bremen.de}
+ {Liam Hurwitz & hurwitz@uni-bremen.de}
+  {Mehmet Ali Baykara & baykara@uni-bremen.de}{Miguel Alejandro Caceres Pedraza & mcaceres@uni-bremen.de}%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Version und Änderungsgeschichte}
@@ -25,7 +32,7 @@ identifizieren sein, hier und optimalerweise auf dem Titelblatt.}
 \begin{tabular}{ccl}
 Version & Datum & Änderungen \\
 \hline
-0.1 & TT.MM.JJJJ & Dokumentvorlage als initiale Fassung kopiert \\
+0.1 & 22.04.2020 & Dokumentvorlage als initiale Fassung kopiert \\
 0.2 & TT.MM.JJJJ & \ldots \\
 \ldots
 \end{tabular}
@@ -36,10 +43,21 @@ Version & Datum & Änderungen \\
 
 \subsection{Zweck}
 
-{ \em Was ist der Zweck dieser Architekturbeschreibung? Wer sind die LeserInnen?}
+Diese Architekturbeschreibung beschreibt die grundlegenden Strukturen unseres 
+Spiels \glqq Even Geiler Than Geiler Than Faster Than Light\grqq{}. 
+Zu den Lesern gehören unser Püfer und Tutor Karsten Hölscher, die 
+Gruppenmitglieder und weitere Interessierte der Fachrichtung Informatik.
+Der Leser soll  hiermit zum einen den Kontext der Arbeit verstehen, 
+sowie den Aufbau der Anwendung, vom Groben bis ins Detail, über viele 
+Abstraktionsebenen hinweg. Somit wird nicht nur die technische Realiesierung 
+des Spiels erklärt, sondern auch die allgemeinen Anforderungen an das Projekt  
+und in diesem Zusammenhang  getroffene Entscheidungen.
+Darüber hinaus, hilft uns eine Architekturbeschreibung dabei, 
+das Projekt zu planen und strukturiert durchzuführen.
+
 
 \subsection{Status}
-  
+Das Dokument beschreibt unseren ersten Entwurf und wird in der Implementierung umgesetzt.
 \subsection{Definitionen, Akronyme und Abkürzungen}
   \begin{longtable}{ |  l | p{12cm} |}
     \hline
@@ -55,28 +73,30 @@ welches für mindestens einen Akteur von Bedeutung
 ist. \\ \hline
     Framework &Programmiergerüst, welches den Rahmen der Anwendung
 bildet. Es umfasst Bibliotheken und Komponenten. \\ \hline
-    UML &Steht für Unified Modeling Language und ist eine grafische
-Modellierungssprache zur Spezifikation, Visualisierung,
-Konstruktion und Dokumentation von Modellen
-für Softwaresysteme. \\
+GUI &Steht für Graphical User Interface und kennzeichnet
+eine grafische Schnittstelle, über die ein Mensch mit
+einer Software interagiert.\\ \hline
+ 
+    Libgdx & ist ein Java-Framework für plattformunabhängige Spieleentwicklung. \\
     \hline
 IDE & integrierte Entwicklungsumgebung - Hilft bei der Bearbeitung von Projekten
 in der Softwareentwicklung. \\     \hline
 Versionskontrolle  &Hochgeladenen Versionen werden festgehalten und können
 wieder hergestellt werden. \\     \hline
- Maven  &Java Programme können standardisiert und verwaltet werden.\\     \hline
- Library &Sammlung von verschiedensten vorgefertigten Methoden oder Klassen.\\     \hline
+HTTP &Steht für Hypertext Transfer Protocol, einem zustandslosen
+Protokoll zum synchronen Versenden von
+Informationen über Rechnernetze.\\ \hline
 Interface &Schnittstelle.\\     \hline
-Multiplayer &Spielmodus, mit mehr als einem Spieler zur gleichen Zeit.\\    \hline
-Singleplayer &Spielmodus, mit einem Spieler, der gegen einen computergesteuerten
-Gegner spielt. \\     \hline
-JUnit & Frameworke für Tests für die Programmiersprache Java.\\     \hline
 Javadoc  &Software-Dokumentationswerkzeug für die Programmiersprache Java. \\     \hline
 JavaEE &(Java Platform Enterprise Edition) Eine Spezifikation für die transaktionsbasierte 
 Ausführung von in Java programmierten Anwendungen.\\    \hline
-GUI &Steht für Graphical User Interface und kennzeichnet
-eine grafische Schnittstelle, über die ein Mensch mit
-einer Software interagiert.\\ \hline
+JUnit & Frameworke für Tests für die Programmiersprache Java.\\     \hline
+HTTPS &Durch Verschlüsselungstechniken gesichertes HTTP. \\ \hline
+Maven  &Java Programme können standardisiert und verwaltet werden.\\     \hline
+ ibrary &Sammlung von verschiedensten vorgefertigten Methoden oder Klassen.\\     \hline
+Multiplayer &Spielmodus, mit mehr als einem Spieler zur gleichen Zeit.\\    \hline
+Singleplayer &Spielmodus, mit einem Spieler, der gegen einen computergesteuerten
+Gegner spielt. \\     \hline
 Paketdiagramm &Strukturdiagramm der UML, stellt die Verbindung
 zwischen Paketen, Paketimports bzw. Verschmelzungen
 und deren Abhängigkeiten dar. \\ \hline
@@ -90,20 +110,30 @@ Klassendiagramm &Strukturdiagramm der UML, stellt die statischen
 Strukturen eines Systems dar.\\ \hline
 Komponentendiagramm &Strukturdiagramm der UML, stellt Komponenten
 und deren Schnittstellen dar. \\ \hline
-HTTP &Steht für Hypertext Transfer Protocol, einem zustandslosen
-Protokoll zum synchronen Versenden von
-Informationen über Rechnernetze.\\ \hline
-HTTPS &Durch Verschlüsselungstechniken gesichertes HTTP. \\ \hline
 TCP &Das Transmission Control Protocol ist ein Netzwerkprotokoll, das definiert, auf welche Art und Weise
  Daten zwischen Netzwerkkomponenten ausgetauscht werden sollen. \\ \hline
 UDP &Das User Datagram Protocol, kurz UDP, ist ein minimales, verbindungsloses Netzwerkprotokoll, 
 das zur Transportschicht der Internetprotokollfamilie gehört.\\ \hline
+  UML &Steht für Unified Modeling Language und ist eine grafische
+Modellierungssprache zur Spezifikation, Visualisierung,
+Konstruktion und Dokumentation von Modellen
+für Softwaresysteme. \\
+    \hline
    
 
  \end{longtable}
 
 \subsection{Referenzen}
-Vorlesungsfolien
+
+\begin{itemize}
+	\item Architekturbeschreibung DataColorado Software-Projekt 2 WiSe 2019/20
+	\item Architekturbeschreibung RainersRaiders Software–Projekt 2 WiSe 2016/17
+	\item Architekturbeschreibung SuperSaiyans Software-Projekt 2 SoSe 2019
+	\item Hinweise zur Abgabe der Architekturbeschreibung für Software–Projekt 2 (Stand
+	03.05.2019)
+
+	\item Kick-Off-Folien (Stand 20. April 2020)
+\end{itemize}
 
 
 \subsection{Übersicht über das Dokument}
@@ -118,16 +148,16 @@ Wenn der User angemeldet ist, dann kann er sehen, welche der andere User ebenfal
 \subsection{Spielt-Starten}
 Im ersten Fenster des Spiels kann der Benutzer das Raumschiff, die Waffen, welche er verwenden möchte, die Besatzung und den Schwierigkeitsgrad des Spiels auswählen. Anschließend startet das Spiel.
 \subsection{Spielt-Verlauft}
-Zu beginn, kann der Spieler die Crew in den von ihm gewählten Positionen/Sektionen des Raumschiffes positionieren. Dann kann er die Sprungtaste drücken, um die Zielplaneten auszuwählen. Der Benutzer kann dies  in jeder Runde wiederholen.
+Zu beginn, kann der Spieler die Besatzung in den von ihm gewählten Positionen/Sektionen des Raumschiffes positionieren. Dann kann er die Sprungtaste drücken, um die Zielplaneten auszuwählen. Der Benutzer kann dies in jeder Runde wiederholen.
 
 Wenn der Benutzer einen Zielplaneten auswählt, kann er auf Gegner treffen und nach einem Dialogfeld gegen diese antreten.
 
-Sobald der Benutzer gewonnen hat,  kann der Gegner sein Raumschiff reparieren, seine Crew heilen oder einen Sprung machen.
+Sobald der Benutzer gewonnen hat,  kann der Gegner sein Raumschiff reparieren, seine Besatzung heilen oder einen Sprung machen.
 
 \subsection{Kampf-Regeln}
 In einem Kampf gelten folgende Regeln:
 \begin{itemize}
-\item Wenn ein Kampf beginnt, kann der Benutzer dseine Waffen ausrichten, um auf  bestimmte Sektionen des gegnerischen Raumschiffes zu zielen.
+\item Wenn ein Kampf beginnt, kann der Benutzer seine Waffen ausrichten, um auf bestimmte Sektionen des gegnerischen Raumschiffes zu zielen.
  
 \item Waffen brauchen Zeit zum Laden und Schießen.
 
@@ -135,16 +165,16 @@ In einem Kampf gelten folgende Regeln:
 
 \item Um die Schilde zu deaktivieren, müssen diese zuvor x mal getroffen worden sein. Je Treffer auf das Schild,  verliert es an Stärke. Sobald die Stärke des Schildes Null ist, ist es deaktiviert.
 
-\item Waffen treffen zu bestimmten Wahrscheinlichkeiten  das Ziel.
+\item Waffen treffen zu bestimmten Wahrscheinlichkeiten das Ziel.
 
-\item Damit eine Waffe verwendet werden kann, muss die Sektion, in der die Waffe steht, funktionsfähig sein, sowie sich ein Besatzungsmitglied in selbiger Sektion aufghalten muss, damit diese auch bedient werden können.
+\item Damit eine Waffe verwendet werden kann, muss die Sektion, in der die Waffe steht, funktionsfähig sein, sowie sich ein Besatzungsmitglied in selbiger Sektion aufhalten muss, damit diese auch bedient werden können.
 
 \item Jedes Mal, wenn eine Waffe ein Raumschiff trifft, verliert sie ihren Lebenspunkt.
 
 \item Sobald eines der beiden Raumschiffe keine Lebenspunkte mehr hat, hat es verloren.
 \end{itemize}
 \subsection{Pausenmodus}
-Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen. Somit sind für Beide Parteien alle Spielzüge eingefrohren,  wenn das Spiel fortgesetzt wird, wird an selber Stelle fort gefahren.
+Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen. Dies bedeutet, dass beide Schiffe aufhören zu schießen und die Besatzung aufhört, sich zu bewegen. Wenn das Spiel fortgesetzt wird, werden die Waffen wieder aktiviert und auch die Besatzung.
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Globale Analyse} \label{sec:globale_analyse}
@@ -152,6 +182,16 @@ Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen.
 
 
 \subsection{Einflussfaktoren} \label{sec:einflussfaktoren}
+\textbf{Legende:}
+\begin{itemize}
+    \item[++] Hohe Flexibilität und Veränderlichkeit
+    \item[ + ] Leichte Flexibilität und Veränderlichkeit
+    \item[- - ] Sehr geringe Flexibilität und Veränderlichkeit
+    \item[-   ] Wenig Flexibilität und Veränderlichkeit
+  \end{itemize}
+  \vspace*{20mm}
+  
+
 %{\itshape Hier sind Einflussfaktoren gefragt, die sich auf die Architektur
 %beziehen. Es sind ausschließlich architekturrelevante Einflussfaktoren, und 
 %nicht z.\,B.\ solche, die lediglich einen Einfluss auf das Projektmanagement 
@@ -192,27 +232,26 @@ Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen.
 
 %\begin{table}[H]
 %\centering
-\begin{longtable}{|p{1cm}|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
+\begin{longtable}{|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
 \hline
-\begin{tabular}[c]{@{}l@{}}Abge-\\ leitet\\aus\end{tabular} & Einflussfaktor                                                                        & \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
-\multicolumn{5}{|l|}{O1 : Organisation}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \\ \hline
-\multicolumn{5}{|l|}{O1.1 Time-To-Market}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        \\ \hline
-													& \begin{tabular}[c]{@{}l@{}}Die Auslieferung\\  erfolgt am\\  02.08.2020.\end{tabular} & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da \\ Vorgaben bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Nicht alle\\  Funktionen können\\  realisiert werden \\ bzw. implementiert werden.\end{tabular}                                                                                                                                             \\ \hline
-\multicolumn{5}{|l|}{O1.2 Architektur-Abgabe}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-													& \begin{tabular}[c]{@{}l@{}}Die Auslieferung \\erfolgt am\\ 31.05.2020.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da \\ Vorgaben bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Durch den\\ Zeitdruck könnte\\ die Architektur\\ mangelhaft\\ werden. Wenn wir\\ uns nicht genug\\ Zeit lassen,\\ könnten Aspekte,\\ die relevant für die\\ Architektur sind,\\ vergessen werden.\end{tabular} \\ \hline
-\multicolumn{5}{|l|}{O1.3 Entwickler}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-													& \begin{tabular}[c]{@{}l@{}}Die\\ Projektgruppe \\besteht aus\\ 6 Entwicklern\\\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Falls ein Entwickler \\ (temporär) ausfällt kann\\ ein anderer Entwickler\\ einspringen. \\ Keine neuen Entwickler \\
-können eingestellt \\ werden. Gruppenmitglieder\\ können wegfallen oder \\ austreten\end{tabular} & \begin{tabular}[c]{@{}l@{}}+/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}} Die Architektur kann \\wegen Zeitmangel (es \\können nicht mehr \\als die ursprünglichen\\ sechs Entwickler mitarbeiten) \\und fehlenden Fähigkeiten\\ Mängel enthalten. \\ Unvollständige\\ Implementierung droht \end{tabular} \\ \hline
+Einflussfaktor& \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
+\multicolumn{4}{|l|}{O1 : Organisation}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \\ \hline
+\multicolumn{4}{|l|}{O1.1 Time-To-Market}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        \\ \hline
+													 \begin{tabular}[c]{@{}l@{}}Die Auslieferung\\  erfolgt am\\  02.08.2020.\end{tabular} & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da \\ Vorgaben bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Nicht alle\\  Funktionen können\\  realisiert werden \\ bzw. implementiert werden.\end{tabular}                                                                                                                                             \\ \hline
+\multicolumn{4}{|l|}{O1.2 Architektur-Abgabe}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+													 \begin{tabular}[c]{@{}l@{}}Die Auslieferung \\erfolgt am\\ 31.05.2020.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da \\ Vorgaben bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Durch den\\ Zeitdruck könnte\\ die Architektur\\ mangelhaft\\ werden. Wenn wir\\ uns nicht genug\\ Zeit lassen,\\ könnten Aspekte,\\ die relevant für die\\ Architektur sind,\\ vergessen werden.\end{tabular} \\ \hline
+\multicolumn{4}{|l|}{O1.3 Entwickler}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+													 \begin{tabular}[c]{@{}l@{}}Die\\ Projektgruppe \\besteht aus\\ 6 Entwicklern\\\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Falls ein Entwickler \\ (temporär) ausfällt kann\\ ein anderer Entwickler\\ einspringen. \\ Keine neuen Entwickler \\
+können eingestellt \\ werden. Gruppenmitglieder\\ können wegfallen oder \\ austreten\end{tabular} & \begin{tabular}[c]{@{}l@{}}+/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}} Die Architektur kann \\wegen Zeitmangel (es \\können nicht mehr \\als die ursprünglichen\\ sechs Entwickler\\ mitarbeiten) und \\fehlenden Fähigkeiten\\ Mängel enthalten. \\ Unvollständige\\ Implementierung droht \end{tabular} \\ \hline
 
-\multicolumn{5}{|l|}{O1.4 Fähigkeiten Entwickler}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-													& \begin{tabular}[c]{@{}l@{}}Nicht alle \\ Entwickler \\ haben die gleiche \\ Programmier-\\erfahrung \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Hohe Veränderlichkeit\\ und Flexibilität durch \\Ausführen des Projekts und \\Recherche.\\ TODO! \end{tabular} & \begin{tabular}[c]{@{}l@{}}++/\\   ++\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Implementierung \\ kann Mängel enthalten. \\\end{tabular} \\ \hline
+\multicolumn{4}{|l|}{O1.4 Fähigkeiten Entwickler}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+													 \begin{tabular}[c]{@{}l@{}}Nicht alle \\ Entwickler \\ haben die gleiche \\ Programmier-\\erfahrung \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine Flexibilität,\\ aber Veränderlichkeit,\\ da man sich\\ einarbeiten/recherchieren \\kann. \end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   ++\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Implementierung \\ kann Mängel enthalten. \\\end{tabular} \\ \hline
 
 \newpage
 
 \hline									
-\multicolumn{5}{|l|}{O1.5 Teamarbeit in Corona-Zeiten}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-
-& \begin{tabular}[c]{@{}l@{}}
+\multicolumn{4}{|l|}{O1.5 Teamarbeit in Corona-Zeiten}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+ \begin{tabular}[c]{@{}l@{}}
 Das persönliche\\ Treffen kann \\nicht stattfinden,\\ aufgrund von\\ Kontakt- \\beschränkung \end{tabular}      & \begin{tabular}[c]{@{}l@{}} Digitale Treffen über z.B.\\ Discord. Keine \\Veränderlichkeit\\ aufgrund der \\ Gesetzeslage. \end{tabular} & \begin{tabular}[c]{@{}l@{}}++/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Missverständnisse \\können öfter\\auftreten.\\Teamarbeit könnte\\erschwert werden\\ und dadurch\\die Qualität der\\der Architektur\\beeinträchtigen
 \\\end{tabular} \\ \hline
 %%\end{tabular}
@@ -223,178 +262,117 @@ Das persönliche\\ Treffen kann \\nicht stattfinden,\\ aufgrund von\\ Kontakt- \
 
 %%\begin{table}[H]
 %%\centering
-\begin{longtable}{|p{1cm}|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
+\begin{longtable}{|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
 \hline
-\begin{tabular}[c]{@{}l@{}}Abge-\\ leitet\\aus\end{tabular} & Einflussfaktor                                                                        & \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
-\multicolumn{5}{|l|}{T1: Technik}
+Einflussfaktor& \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
+\multicolumn{4}{|l|}{T1: Technik}
 \\ \hline
-\multicolumn{5}{|l|}{T1.1: Programmiersprache}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Java 8 \\ oder höher ist \\ vorgegeben.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Die Programmier-\\sprache wird vorgegeben.\\ Wir können aber\\zwischen verschiedenen\\Versionen auswählen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   o\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Architektur muss\\ in Java umgesetzt \\werden.\end{tabular} \\ \hline
+\multicolumn{4}{|l|}{T1.1: Programmiersprache}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Java 8 \\ oder höher ist \\ vorgegeben.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Die Programmier-\\sprache wird vorgegeben.\\ Wir können aber\\zwischen verschiedenen\\Versionen auswählen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Architektur muss\\ in Java umgesetzt \\werden.\end{tabular} \\ \hline
 
-\multicolumn{5}{|l|}{T1.2 Betriebssystem}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Die Anwendung \\muss auf den\\gängigen\\ Betriebssystemen\\(MacOS,\\ Windows, Linux) \\ laufen. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da\\ Mindestanforderungen\\ bestehen. Aber wir können\\ noch weitere\\ Betriebssysteme\\ hinzufügen\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Bei der Implementierung \\ müssen die gängigen\\ Betriebssysteme\\ berücksichtigt werden.\\ Wenn die Anwendung\\auf mehr\\Betriebssystemen\\laufen soll, dann\\ muss mehr Zeit\\investiert werden. \end{tabular} \\ \hline
+\multicolumn{4}{|l|}{T1.2 Betriebssystem}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Die Anwendung \\muss auf den\\gängigen\\ Betriebssystemen\\(MacOS,\\ Windows, Linux) \\ laufen. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da\\ Mindestanforderungen\\ bestehen. Aber wir können\\ noch weitere\\ Betriebssysteme\\ hinzufügen\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Bei der Implementierung \\ müssen die gängigen\\ Betriebssysteme\\ berücksichtigt werden.\\ Wenn die Anwendung\\auf mehr\\Betriebssystemen\\laufen soll, dann\\ muss mehr Zeit\\investiert werden. \end{tabular} \\ \hline
 
-\multicolumn{5}{|l|}{T1.3 Client-Server-Architektur TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Zur\\ Implementierung\\ muss JavaEE 11\\ benutzt werden. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Projekt\\ muss komplett \\in Java \\umgesetzt werden.\end{tabular} \\ \hline
+\multicolumn{4}{|l|}{T1.3 Client-Server-Architektur}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Zur\\ Implementierung\\ muss Client-\\Server-\\Architektur\\ benutzt werden. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da\\ Mindestanforderungen\\bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Projekt\\ muss eine \\Client-Server-Architektur \\haben.\end{tabular} \\ \hline
 
 \newpage
 
 \hline	
-\multicolumn{5}{|l|}{T1.4: Framework libgdx TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Als Framework \\zur Erstellung \\der Oberfläche\\ muss JSF\\ verwendet\\ werden.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Projekt muss\\ in Java umgesetzt \\werden.\end{tabular} \\ \hline
+\multicolumn{4}{|l|}{T1.4: Framework libgdx}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Als Framework \\zur Erstellung \\der Oberfläche\\ muss libgdx\\ verwendet\\ werden.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Der Client muss\\ in libgdx umgesetzt \\werden. Der Aufwand\\ steigt, weil die\\ Gruppe ein neues\\ Framework lernen müssen\\ und daher können\\Mängel in der\\ Implementierung entstehen.\end{tabular} \\ \hline
 
-\multicolumn{5}{|l|}{T1.5: Persistenz TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Zur sicheren\\ Speicherung der \\Daten soll\\ die relationalen\\ Datenbank,\\ leichtgewichtige \\verwendet werden.\\ z.B (H2, SQLite,\\ Derby)\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Bei der Implementierung\\muss eine leichtgewichtige,\\ relationale Datenbank\\ (ohne Installation\\ verwendbar)\\verwendet werden.\end{tabular} \\ \hline
+\multicolumn{4}{|l|}{T1.5: Persistenz}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Zur \\ Speicherung der \\Daten soll\\ eine \\leichtgewichtige\\ relationale\\ Datenbank\\verwendet\\ werden.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine Flexibilität,\\da Mindestanforderungen\\bestehen. Veränderlich,\\ da durch überlastete\\Server auf ein\\ externes Datenbank-\\managementsystem \\umgesprungen werden \\muss.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\ +\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur muss \\angepasst werden, sodass\\ wir eine leichtgewichtige\\ relationale Datenbank\\ verwenden können.\\Wir entscheiden\\ uns für H2\end{tabular} \\ \hline
 
-\multicolumn{5}{|l|}{T1.6: Build System TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Maven oder \\Gradle müssen als\\ Build-System \\verwendet werden.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Auswahl zwischen\\ Maven und Gradle\\ möglich. Keine\\ Veränderlichkeit\\ möglich, da \\ Mindestanforderungen\\bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}+/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Projekt muss\\ Maven/Gradle-build\\ fähig sein.\\\end{tabular} \\ \hline
+\multicolumn{4}{|l|}{T1.6: Build System}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Um das\\ Projekt zu bauen\\ muss ein\\ Build-System \\benutzt werden.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Auswahl zwischen\\ Maven und Gradle\\ möglich. Keine\\ Veränderlichkeit\\ möglich, da \\ Mindestanforderungen\\bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}+/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Projekt muss\\ Maven oder Gradle-build\\ fähig sein.\\ Wir verwenden Gradle\end{tabular} \\ \hline
 
+
+\newpage
+\hline                                
+\multicolumn{4}{|l|}{T1.7: Wartbarkeit}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Die Software\\ muss einfach \\zu warten sein.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Es sind keine\\ Anforderungen bezüglich\\ der Projektstruktur\\ gegeben, daher\\ können wir\\ flexibel selbst \\entscheiden wie wir \\diese implementieren .\end{tabular} & \begin{tabular}[c]{@{}l@{}}++/\\   ++\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur muss \\so aufgebaut sein,\\ sodass die Software\\ leicht gewartet und \\erweitert werden kann.\end{tabular}
+\\\hline
 \end{longtable}
-%%\end{table}
-
-%%%%%%
-%%%%%%
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{1cm}|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
+\begin{longtable}{|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
 \hline
-\begin{tabular}[c]{@{}l@{}}Abge-\\ leitet\\aus\end{tabular} & Einflussfaktor                                                                        & \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
-\multicolumn{5}{|l|}{T1.8: Multiplayer TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Der Server muss\\ einen Multiplayer\\ Modus\\ ermöglichen.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\Flexibilität oder\\ Veränderlichkeit, da\\ Mindestanforderungen\\ bestehen. Wir können\\es aber ermöglichen,\\dass mehr als zwei\\ Spieler gleichzeitig\\spielen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Anwendung\\ darf nicht von\\ gleichzeitiger \\Verwendung von\\ zwei Nutzern\\ überfordert sein.\\  Trotzdem müssen\\ mindestens 2 Spieler\\ gleichzeitig das Spiel\\ spielen können, \\um die Mindest-\\anforderungen zu erfüllen.\end{tabular} \\ \hline
-\multicolumn{5}{|l|}{P1: Produktfaktoren}
+Einflussfaktor& \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline               
+\multicolumn{4}{|l|}{P1: Produktfaktoren}
 \\ \hline
-\multicolumn{5}{|l|}{P1.1.1: Pause TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Die Anwendung\\ muss in der\\ Lage sein,\\ ein zuvor von\\ einem bestimmten\\ Benutzer\\ gestartetes\\ Spiel zu speichern\\ und dem Benutzer\\ die Möglichkeit\\ zu geben,\\ es zu einem\\ anderen Zeit-\\ punkt fortzu-\\setzen. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine Flexibilität\\ und keine\\ Veränderlichkeit, da\\ Mindestanforderungen\\bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}} - -/\\ ++  \end{tabular} & \begin{tabular}[c]{@{}l@{}}Der Server\\ muss es\\ ermöglichen, dass\\ das Spiel unterbrochen\\ werden kann\end{tabular} \\ \hline
-\multicolumn{5}{|l|}{P1.8: Schwierigkeitsstufen TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Für Benutzer\\ müssen mindestens\\ zwei unter-\\schiedliche\\ Schwierig-\\keitsgrade\\ implementiert\\ werden.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit,da\\ Mindestanforderungen\\ bestehen.Es können\\aber mehr als\\ zwei Schwierigkeitsgrade\\ implementiert\\werden. Außer der\\ leichtesten\\ Stufe können wir den\\ Schwierigkeitsgrad der\\ anderen Stufe \\beliebig auswählen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Spiel soll\\ in mindestens zwei\\verschiedenen Schwierigkeits-\\stufen gespielt werden\\ können\end{tabular}      \\ \hline
-\end{tabular}
-
-\end{table}
-%%%%%%
-%%%%%%
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{1cm}|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
+\multicolumn{4}{|l|}{P1.1: Spiel unterbrechen und Spielstand speichern}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Die Anwendung\\ muss in der\\ Lage sein,\\ ein zuvor von\\ einem bestimmten\\ Benutzer\\ gestartetes\\ Spiel zu speichern\\ und dem Benutzer\\ die Möglichkeit\\ zu geben,\\ es zu einem\\ anderen Zeit-\\ punkt fortzu-\\setzen. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine Flexibilität\\ und keine\\ Veränderlichkeit, da\\ Mindestanforderungen\\bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}} - -/\\ - -  \end{tabular} & \begin{tabular}[c]{@{}l@{}}Wir müssen eine\\ Datenbank integrieren um\\zu speichern.\end{tabular} \\ \hline
+\newpage
 \hline
-\begin{tabular}[c]{@{}l@{}}Abge-\\ leitet\\aus\end{tabular} & Einflussfaktor                                                                        & \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
-
-\multicolumn{5}{|l|}{P1.2: Struktur und Eingeschäften des Raumschiff}
+\multicolumn{4}{|l|}{P1.2: Schwierigkeitsstufen}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Für Benutzer\\ müssen\\ mindestens zwei\\ unterschiedliche\\ Schwierig-\\keitsgrade\\ implementiert\\ werden.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit,da\\ Mindestanforderungen\\ bestehen.Es können\\aber mehr als\\ zwei Schwierigkeitsgrade\\ implementiert\\werden. Außer dem\\ Karsten-Modus\\ können wir den\\ Schwierigkeitsgrad der\\ anderen Stufe \\beliebig auswählen.\end{tabular} & \begin{tabular}[c]{@{}l@{}} + /\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Das Spiel soll\\ in mindestens zwei\\verschiedenen Schwierigkeits-\\stufen gespielt werden\\ können. Pro weiterer\\ Spielstufe ändert sich\\ die Architektur.\end{tabular}      \\ \hline
+                                                           \multicolumn{4}{|l|}{P1.3: Multiplayer}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Der Server muss\\ einen Multiplayer\\ Modus\\ ermöglichen.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\Flexibilität oder\\ Veränderlichkeit, da\\ Mindestanforderungen\\ bestehen. Wir können\\es aber ermöglichen,\\dass mehr als zwei\\ Spieler gleichzeitig\\spielen.\end{tabular} & \begin{tabular}[c]{@{}l@{}} +/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Anwendung\\ darf nicht von\\ gleichzeitiger \\Verwendung von\\ zwei Nutzern\\ überfordert sein.\\  Falls mehr als\\ zwei Spieler gleichzeitig\\ spielen sollen, dann\\ muss die Architektur\\angepasst werden.\end{tabular} \\ \hline
+                                                                           \multicolumn{4}{|l|}{P1.4: Singleplayer}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Der Server muss\\ einen Singleplayer\\ Modus\\ ermöglichen, falls\\ keine mensch-\\lichen Spieler\\ vorhanden sind.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\Flexibilität oder\\ Veränderlichkeit, da\\ Mindestanforderungen\\ bestehen. \end{tabular} & \begin{tabular}[c]{@{}l@{}} - -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Implementierung eines\\ computergesteuerten \\Gegners (NPC).\end{tabular} \\ \hline
+                                                           
+\multicolumn{4}{|l|}{P2.0: Struktur und Eingeschaften des Raumschiffs}
 \\ \hline
-\multicolumn{5}{|l|}{P1.2.1: Aufteilung in Sektionen}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Pro Sektion\\ gibt es\\ die relevanten \\Systeme:\\
-Antrieb,\\ Waffen,\\ Schutzschild\\ \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Flexibilität oder \\Veränderlichkeit, da,\\ Mindestanforderungen\\ bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\- \end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Sektionen in \\den Raumschiffen müssen\\ die relevanten Systeme,\\ Antrieb,Waffen,Schutzschild,\\beinhalten \end{tabular} 
+\multicolumn{4}{|l|}{P2.1: Aufteilung in Sektionen}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Pro Sektion\\ gibt es\\ die relevanten \\Systeme:\\
+Antrieb,\\ Waffen,\\ Schutzschild\\ \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Flexibilität oder \\Veränderlichkeit, da,\\ Mindestanforderungen\\ bestehen. Wir\\ können aber noch\\ weitere Systeme\\hinzufügen\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\- - \end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Sektionen in \\den Raumschiffen müssen\\ die relevanten Systeme,\\ Antrieb,Waffen,Schutzschild,\\beinhalten. Falls wir\\ weitere Systeme\\ hinzufügen, dann\\ändert sich die\\Architektur. \end{tabular} 
 \\ \hline
-\multicolumn{5}{|l|}{P1.2.2: Schäden der Sektionen}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Jede Sektion\\ kann beschädigt\\ werden, wodurch\\ das von ihm\\ gesteuerte System\\ beschädigt wird. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Flexibilität oder \\Veränderlichkeit, da\\Mindestanforderungen\\ bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Spieler können gegnerische\\Raumschiffe beschädigen und\\ das eigene Raumschiff\\ reparieren.\end{tabular} 
+\multicolumn{4}{|l|}{P2.2: Schäden der Sektionen}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Jede Sektion\\ kann beschädigt\\ werden, wodurch\\die darin\\enthaltenen\\ Systeme\\ beschädigt\\ werden. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Flexibilität oder \\Veränderlichkeit, da\\Mindestanforderungen\\ bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Beschädigung der\\ Sektionen hat weitläufige\\ Auswirkungen auf viele\\ andere Komponenten.\end{tabular} 
 \\ \hline
-\multicolumn{5}{|l|}{P1.3: Ressourcen des Spiels}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Ressourcen müss-\\en implementiert\\ werden, um\\ die Spiellogik\\ auszuführen,\\ zum Beispiel:\\
-* Geld\\ * Energie\\ * Hüllenintegrität \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit, da\\ Mindestanforderungen\\ bestehen. Wir können\\ aber verschiedene\\ Spielressourcen verwenden.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Spielressourcen werden \\ gebraucht um das\\ Spiel zu spielen\end{tabular} 
+\newpage
+\hline
+\multicolumn{4}{|l|}{P2.3: Ressourcen des Spiels}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Ressourcen müss-\\en implementiert\\ werden, um\\ die Spiellogik\\ auszuführen,\\ zum Beispiel:\\
+* Geld\\ * Energie\\ * Hüllenintegrität \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Flexibilität und\\ keine Veränderlichkeit, da\\ Mindestanforderungen\\ bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Entscheidender Einfluss\\ auf die Umsetzung\\ des Spiels\end{tabular} 
 \\ \hline
-\multicolumn{5}{|l|}{P1.3: Raumschiff  Eigenschaften}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Eigenschaften\\ können durch\\ Geld verbessert\\ werden. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}  Die Spiellogik sollte\\dem Spieler erlauben\\die Eigenschaften des\\ Raumschiffs zu verbessern.\end{tabular}
+\multicolumn{4}{|l|}{P2.4: Raumschiff  Eigenschaften}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Eigenschaften\\ können durch\\ Geld verbessert\\ werden. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}  Hat Auswirkungen auf \\die Veränderlichkeit der \\Systeme (Waffen usw.).\end{tabular}
  \\ \hline
 
-\end{tabular}
-\end{table}
-%%%%%%%
-%%%%%%%
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{1cm}|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
+\multicolumn{4}{|l|}{P3.0: Besatzung}
+\\ \hline
+\multicolumn{4}{|l|}{P3.1: Raumschiff hat Besatzung}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Besatzungs-\\mitglied kann\\ sich in\\ Sektionen\\ aufhalten und\\ Systeme\\ beinflussen.\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine Flexibilität\\ und keine\\ Veränderlichkeit,\\ da Mindestanforderungen\\ bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\- - \end{tabular} & \begin{tabular}[c]{@{}l@{}}Hat Auswirkungen auf\\ die Umsetzung der \\Sektionen, auf die\\ Funktionsfähigkeit der darin\\ enthaltenen Systeme und\\ auf die möglichen\\ Spielzüge eines Spielers\end{tabular} 
+\\ \hline
+\multicolumn{4}{|l|}{P3.2: Besatzung Eigenschaften}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Die Besatzung\\ des Schiffes\\kann Systeme/\\Sektionen \\reparieren,\\kann sterben\\kann eingestellt/\\angeheuert \\werden und hat \\Fähigkeiten\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Nur flexibel \\in der Art \\der Umsetzung.\\Keine\\ Veränderlichkeit,\\ da Teil der\\ Mindestanforderungen.\\ Aber wir können\\ noch weitere\\Fähigkeiten spezifizieren\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Hat Auswirkungen auf\\ die Aktionen die ein\\ Besatzungsmitglied\\ ausführen kann.\end{tabular} 
+\\ \hline
+\newpage
 \hline
-\begin{tabular}[c]{@{}l@{}}Abge-\\ leitet\\aus\end{tabular} & Einflussfaktor                                                                        & \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
-
-\multicolumn{5}{|l|}{P1.2: Besatzung}
+\multicolumn{4}{|l|}{P3.3: Besatzung Fähigkeiten}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Die Fähigkeiten\\ der Besatzung\\ können verbessert\\ werden und\\ beeinflussen\\ die Systeme des\\ Schiffes, auf\\ dem sie arbeiten. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}} Hat Auswirkungen auf\\ die Aktionen die ein\\ Besatzungsmitglied\\ ausführen kann.\end{tabular} 
 \\ \hline
-\multicolumn{5}{|l|}{P1.2.1: Raumschiff hat Besatzung TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Der Spieler kann\\ die Besatzung auf\\ die Sektionen\\verteilen \\ \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit, da\\ Mindestanforderungen\\ bestehen.Wir können aber\\ die Spiellogik so\\implemenetieren, sodass\\nur ein Besatzungs-\\mitglied sich zur selben\\Zeit in einer Sektion\\aufhalten kann.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\- \end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Interaktion der\\ Besatzung mit verschiedenen\\ Einheiten der Anwendung\\ kann die Durchführung\\ des Projekts erschweren\end{tabular} 
+\multicolumn{4}{|l|}{P4.0: Universum}
 \\ \hline
-\multicolumn{5}{|l|}{P1.2.2: Besatzung Eigenschaften TODO!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Die Besatzung\\ des Schiffes\\kann Systeme/\\Sektionen \\reparieren,\\kann sterben\\kann eingestellt/\\angeheuert \\werden,hat \\Fähigkeiten\end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit,\\ da Teil der\\ Mindestanforderungen.\\ Aber wir können\\ noch weitere\\Fähigkeiten implementieren\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Dieser Faktor kann\\  die Komplexität des\\  Spiels beeinflussen und\\  die Entwicklung der\\  Anwendung verlangsamen.\end{tabular} 
+\multicolumn{4}{|l|}{P4.1: Struktur des Universums}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Das Universum\\ muss Stationen\\ und Planeten\\ haben, die\\ vom Raumschiff\\ des Spielers\\ durchquert\\ werden. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\- -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur\\ muss ermöglichen,\\ dass sich Raumschiffe\\ im Universum \\ Stationen und Planeten\\ anfliegen können.\end{tabular} 
 \\ \hline
-\multicolumn{5}{|l|}{P1.3: Besatzung Fähigkeiten}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Die Fähigkeiten\\ der Besatzung\\ können verbessert\\ werden und\\ beeinflussen\\ die Systeme des\\ Schiffes, auf\\ dem sie arbeiten. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}} Die Implementierungslogik\\ dieser Ressourcen \\ und ihre Beziehung\\ zu anderen Entitäten\\ können\\ Implementierungsprobleme\\ und Probleme bei\\ der Bereitstellung \\verursachen.\end{tabular} 
+\multicolumn{4}{|l|}{P4.2: Station/Planet Eigenschaften}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Jede Station\\ oder jeder\\ Planet kann\\ Ereignisse haben,\\ die das Spiel\\ negativ oder\\ positiv beeinflu-\\ssen. Es gibt \\fünf verschieden-\\artige Ereignisse \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur muss\\ vorsehen, dass Ereignisse\\ auf Stationen und\\ Planeten Einfluss auf den\\ Spielverlauf haben\end{tabular} 
 \\ \hline
-
-\end{tabular}
-\end{table}
-
-%%%%%%%
-%%%%%%%
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{1cm}|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
+\multicolumn{4}{|l|}{P4.3: Feindliche Schiffe}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Es gibt \\mindestens\\ drei verschiedene\\gegnerische \\Raumschiffe. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen..\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}} Die Architektur muss\\ mindestens drei verschiedene\\ Raumschiffe vorsehen\end{tabular} 
+\\ \hline
+\newpage
 \hline
-\begin{tabular}[c]{@{}l@{}}Abge-\\ leitet\\aus\end{tabular} & Einflussfaktor                                                                        & \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
 
-\multicolumn{5}{|l|}{P1.2: Universum}
+\multicolumn{4}{|l|}{P5.0: Struktur des Kampfes}
 \\ \hline
-\multicolumn{5}{|l|}{P1.2.1: Struktur des Universums}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Das Universum\\ muss Stationen\\ und Planeten\\ haben, die\\ vom Raumschiff\\ des Spielers\\ durchquert\\ werden. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\- \end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur\\ muss ermöglichen,\\ dass sich Raumschiffe\\ im Universum auf\\ Stationen und Planeten\\ fliegen können.\end{tabular} 
+\multicolumn{4}{|l|}{P5.1: Taktische Entscheidungen}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Der Kampf\\ mit einem\\ gegnerischen\\Raumschiff \\erfolgt\\ rundenbasiert. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Flexibilität oder \\Veränderlichkeit, \\da Mindestanforderungen\\ bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\- - \end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur muss\\ ermöglichen, dass nur\\ rundenbasierte Kämpfe \\stattfinden.\end{tabular} 
 \\ \hline
-\multicolumn{5}{|l|}{P1.2.2: Station/Planet Eigenschaften}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Jede Station\\ oder jeder\\ Planet muss\\ Aktionen haben,\\ die das Spiel\\ negativ oder\\ positiv beeinflu-\\ssen müssen. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Veränderlichkeit oder \\Flexibilität, da Teil der\\ Mindestanforderungen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur muss\\ vorsehen, dass Aktionen\\ auf Stationen und\\ Planeten Einfluss auf den\\ Spielverlauf haben\end{tabular} 
+\multicolumn{4}{|l|}{P5.2: Waffenverhalten}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Es muss\\ entschieden \\werden auf \\welche Sektion\\ des Gegners \\die Waffe \\schießen soll. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Flexibilität oder \\Veränderlichkeit, \\da Mindestanforderungen\\ bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur muss\\ermöglichen, dass \\entschieden werden kann\\ auf welche Sektionen \\die Waffen schießen.\end{tabular} 
 \\ \hline
-\multicolumn{5}{|l|}{P1.3: Feindliche Schiffe TODO!!!!}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Im Universum\\ müssen\\ mindestens\\ drei verschiedene\\ Raumschiffe \\geben,\\die unterschied-\\liche Anzahl an\\Sektionen und\\Layout,unter-\\schiedliche\\ Eigenschaften\\ und unterschied-\\liche Anzahl an\\Besatzungs-\\mitgliedern\\ haben. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Wir können\\ mehr als drei\\ verschiedene Raumschiffe\\implementieren. \\ Keine Veränderlichkeit,\\ da Mindestanforderungen,\\bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}++/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}} Die Architektur muss\\ mindestens drei verschiedene\\ Raumschiffe vorsehen um\\die Mindestanforderungen \\zu erfüllen\end{tabular} 
-\\ \hline
-
-\end{tabular}
-\end{table}
-
-%%%%%%%%
-%%%%%%%%
-
-\begin{table}[H]
-\centering
-\begin{tabular}{|p{1cm}|p{3cm}|p{5cm}|p{1cm}|p{5cm}|}
-\hline
-\begin{tabular}[c]{@{}l@{}}Abge-\\ leitet\\aus\end{tabular} & Einflussfaktor                                                                        & \begin{tabular}[c]{@{}l@{}}Flexibilität und \\ Veränderlichkeit\end{tabular}                                                              & \begin{tabular}[c]{@{}l@{}}++/\\\\ - -\end{tabular} & Auswirkungen                                                                                                                                                                                                                              \\ \hline
-
-\multicolumn{5}{|l|}{P1.2: Struktur des Kampfes}
-\\ \hline
-\multicolumn{5}{|l|}{P1.2.1: taktische Entscheidungen}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Der Kampf\\ mit einem\\ gegnerischen\\Raumschiff \\erfolgt\\ rundenbasiert. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Flexibilität oder \\Veränderlichkeit, \\da Mindestanforderungen\\ bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\- - \end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur muss\\ ermöglichen, dass nur\\ rundenbasierte Kämpfe \\stattfinden.\end{tabular} 
-\\ \hline
-\multicolumn{5}{|l|}{P1.2.2: Waffenverhalten}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Abfeuern einer\\ bestimmten\\ Waffe\\ auf eine\\ bestimmte\\ Sektion des \\Gegners. \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Keine\\ Flexibilität oder \\Veränderlichkeit, \\da Mindestanforderungen\\ bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Die Architektur muss\\ermöglichen, dass Sektionen\\ gegnerischer Raumschiffe\\ angegriffen werden können.\end{tabular} 
-\\ \hline
-\multicolumn{5}{|l|}{P1.3: Verteilen von Besatzungsmitgliedern}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-                                                          & \begin{tabular}[c]{@{}l@{}}Während eines\\ Kampfes kann\\ die Position der\\ Besatzung auf\\ dem Schiff\\ verändert werden.\\ Der Sektions-\\wechsel wird\\ einige Zeit\\ in Anspruch\\ nehmen.\\ \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Die Besatzung kann\\ die Sektionen\\wechseln, aber muss\\nicht. Jedoch kann\\ die Zeit die,\\ in Anspruch genommen\\wird flexibel aus-\\gewählt werden von\\uns. Keine\\Veränderlichkeit,da\\Mindestanforderungen\\bestehen.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}} Die Architektur muss\\ermöglichen, dass\\ Besatzungsmitglieder die \\Sektionen wechseln können.\end{tabular} 
+\multicolumn{4}{|l|}{P5.3: Verteilen von Besatzungsmitgliedern}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+                                                           \begin{tabular}[c]{@{}l@{}}Während eines\\ Kampfes kann\\ die Position der\\ Besatzung auf\\ dem Schiff\\ verändert werden.\\ Der Sektions-\\wechsel wird\\ einige Zeit\\(Runden)\\ in Anspruch\\ nehmen.\\ \end{tabular}      & \begin{tabular}[c]{@{}l@{}}Nur flexibel \\in der Art \\der Umsetzung.\\Keine\\ Veränderlichkeit, da\\ Mindestanforderungen\\ bestehen.Wir können aber\\ weitere Regeln\\aufstellen für die\\Verteilung.\end{tabular} & \begin{tabular}[c]{@{}l@{}}- -/\\   - -\end{tabular} & \begin{tabular}[c]{@{}l@{}}Hat Auswirkungen auf\\ die Umsetzung der \\Sektionen, auf die\\ Funktionsfähigkeit der darin\\ enthaltenen Systeme und\\ auf die möglichen\\ Spielzüge eines Spielers\end{tabular} 
 \\ \hline
 
-\end{tabular}
-\end{table}
+\end{longtable}
+
+\newpage
 \subsection{Probleme und Strategien} \label{sec:strategien}
-
-{\itshape Aus einer Menge von Faktoren ergeben sich Probleme, die nun in Form 
-von Problemkarten beschrieben werden. Diese resultieren z.\,B.\ aus
-\begin{itemize}
-  \item Grenzen oder Einschränkungen durch Faktoren
-  \item der Notwendigkeit, die Auswirkung eines Faktors zu begrenzen
-  \item der Schwierigkeit, einen Produktfaktor zu erfüllen, oder
-  \item der Notwendigkeit einer allgemeinen Lösung zu globalen Anforderungen.
-\end{itemize}
-Dazu entwickelt Ihr Strategien, um mit den identifizierten Problemen umzugehen.
-
-Achtet auch hier darauf, dass die Probleme und Strategien wirklich die 
-Architektur betreffen und nicht etwa das Projektmanagement. Die Strategien 
-stellen im Prinzip die Designentscheidungen dar. Sie sollten also die Erklärung 
-für den konkreten Aufbau der verschiedenen Sichten liefern.
-
-Beschreibt möglichst mehrere Alternativen und gebt an, für welche Ihr Euch 
-letztlich aus welchem Grunde entschieden habt. Natürlich müssen die genannten 
-Strategien in den folgenden Sichten auch tatsächlich umgesetzt werden!
-
-Ein sehr häufiger Fehler ist es, dass SWP-Gruppen arbeitsteilig vorgehen: die 
-eine Gruppe schreibt das Kapitel zur Analyse von Faktoren und zu den Strategien, 
-die andere Gruppe beschreibt die diversen Sichten, ohne dass diese beiden 
-Gruppen sich abstimmen. Natürlich besteht aber ein Zusammenhang zwischen den
-Faktoren, Strategien und Sichten. Dieser muss erkennbar sein, indem sich die 
-verschiedenen Kapitel eindeutig aufeinander beziehen.}
 
 \begin{longtable}{|p{15cm}|}
 \hline
@@ -403,24 +381,243 @@ Problem 1: Gruppenmitglieder fallen weg
 \textbf{Beschreibung:} \\
 Während des Projekts kann es dazu kommen, dass Gruppenmitglieder die Gruppe verlassen müssen oder eigenständig verlassen oder
 das Gruppenmitglieder temporär ausfallen.
-Das würde dazu führen, dass der Umfang des Projekts/Mindestanforderungen angepasst werden würde.
+Das würde dazu führen, dass der Umfang des Projekts/Mindestanforderungen angepasst werden würden.
 \\ \hline
 \textbf{Einflussfaktoren:} \\
-O1.1: Time-To-Market
-O1.2: Architektur-Abgabe
+O1.1: Time-To-Market \\
+O1.2: Architektur-Abgabe \\
 O1.3: Entwickler
 \\ \hline
 \textbf{Strategien:} \\
-S-1: Aufstellung und Einhaltung von Kommunikations- und Gruppenregeln
-S-2: Integration von allen Gruppenmitgliedern in die Gruppe
-S-3: Bei Ausfall eines Gruppenmitglieds sofort mit dem Tutor sprechen
-S-4: Reorganisation der Gruppe
+S-1: Modularisierung \\
+S-2: Pair-Programming
  \\ \hline
- \textbf{Entscheidung:} \\
- \hline
- 
-													
-%%\end{tabular}
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 2: Zeitliche Unterschätzung des Aufwands                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Aufgrund von fehlender Erfahrung kann es dazu kommen, dass wir die Aufgaben und deren zeitlichen Aufwand unterschätzen.
+Das kann dazu führen, dass wir die Abgabetermine nicht einhalten können.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+O1.1: Time-To-Market \\
+O1.2: Architektur-Abgabe \\
+O1.4: Fähigkeiten Entwickler
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Kein Fokus auf Mindestanforderungen. Features und Mindestanforderungen zeitgleich implementieren  \\
+S-2: Fokus auf Mindestanforderungen und falls Zeit übrig bleibt, dann erst Features bearbeiten
+ \\ \hline
+ \textbf{Entscheidung:} S-2
+\\ \hline
+\end{longtable}
+\newpage
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 3: Covid-19                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+In Zeiten der Corona-Krise können keine persönlichen Treffen stattfinden, aufgrund des Kontaktverbots
+und somit entfallen Teambuildung-Events und persönliche Treffen mit dem Tutor/Kunden.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+O1.5: Teamarbeit in Corona-Zeiten
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Modularisierung \\
+S-2: Client-Server-Architektur
+ \\ \hline
+ \textbf{Entscheidung:} S-1 und S-2
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 4: Missverständnisse bei Mindestanforderungen                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Die Gruppe entwickelt eine falsche Anforderung, aufgrund von Missverständnissen.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+O1.1: Time-To-Market \\
+P1: Produktfaktoren
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Evolutionäre Prototypen entwickeln \\
+S-2: Inkrementelle Auslieferungen des Produkts \\
+S-3: Verschiedene Akzeptanztests durchführen
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 5: Fehlende Erfahrung mit den Technologien                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Es kann sein, dass ein Teil oder die ganze Gruppe keine Erfahrungen in der Arbeit mit den vorgegebenen Technologien besitzen
+und somit in Verzug kommen mit den Abgabeterminen. Das kann zu mangelhaften Implementierungen führen. 
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+O1.1: Time-To-Market \\
+O1.4: Fähigkeiten Entwickler \\
+T1: Technik
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Modularisierung. Einzelne Gruppenmitglieder fokussieren sich auf einzelne Technologien und schaffen sich Expertise und geben das Wissen weiter an andere Gruppenmitglieder\\
+S-2: Vorzeitiges finales Festlegen auf bestimmte Technologien um Änderungen der Architektur zu einem späteren Zeitpunkt zu vermeiden \\
+S-3: Entwicklung mit Technologien mit denen man schon Erfahrungen hat
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 6: Persistenz der Daten                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Es muss eine Persistenz der Daten gewährleistet werden, damit Daten nicht verloren gehen bei beispielsweise Serverneustart und Spieler können ihre Spiele fortsetzen.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.5: Persistenz \\
+P1.1: Spiel unterbrechen und Spielstand speichern
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Aufbau einer Datenbankverbindung für Schreib-/Lese-Aktionen und danach Schließung der Datenbankverbindung\\
+S-2: Datenbankzugriffe gekapselt in der Komponente Persistence\\
+S-3: Externes Datenbankmanagementsystem
+ \\ \hline
+ \textbf{Entscheidung:} S-2
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 7: Überlastung des Servers                                                                           
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Der Server muss ermöglichen, dass mindestens zwei verschiedene Spieler das Spiel gleichzeitig spielen können.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.3: Client-Server-Architektur \\
+P1.3: Multiplayer
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Teilung der Anwendung in eine Client-Server-Architektur \\
+S-2: Client und Server sind enthalten im selben Programm \\
+S-3: Multithreaded Server implementieren
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+\newpage
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 8: Die Internet-Verbindung von einem oder beiden Spielern bricht ab im Multiplayer-Modus                                                                        
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Wenn das Spiel im Multiplayer-Modus gespielt wird und ein oder beide Spieler zeitweise keine Internet-Verbindung haben, 
+dann soll es ermöglicht werden, dass die Spieler ihr Spiel fortsetzen können bei hergesteller Internet-Verbindung. 
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.3: Client-Server-Architektur \\
+T1.5: Persistenz \\
+P1.3: Multiplayer \\
+P1.1: Spiel unterbrechen und Spielstand speichern
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Spielstände werden, in vorher festgelegten Zeitabständen, gespeichert um dann, nachdem die Internet-Verbindung wieder hergestellt wurde, das Spiel fortzusetzen\\
+S-2: Währendessen wird das Spiel pausiert und die Spieler kriegen darüber einen Bescheid sobald die Internet-Verbindung einseitig abbricht \\
+S-3: Das Spiel wird abgebrochen und der Gegenspieler gewinnt die Partie
+ \\ \hline
+ \textbf{Entscheidung:} S-2
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 9: Die Internet-Verbindung bricht ab bei dem Spieler bei Einzelspieler-Modus                                                                       
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Wenn das Spiel im Einzelspieler-Modus gespielt wird und der Spieler zeitweise keine Internet-Verbindung hat, 
+dann soll es ermöglicht werden, dass das Spiel fortgesetzt werden kann, wenn die Internet-Verbindung wieder hergestellt wurde.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.3: Client-Server-Architektur \\
+T1.5: Persistenz \\
+P1.1: Spiel unterbrechen und Spielstand speichern
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Spielstände werden, in vorher festgelegten Zeitabständen, gespeichert um dann, nachdem die Internet-Verbindung wieder hergestellt wurde, das Spiel fortzusetzen\\
+S-2: Das Spiel wird pausiert bis die Internet-Verbindung wieder hergestellt wurde \\
+S-3: Das Spiel wird abgebrochen und der Gegenspieler gewinnt die Partie
+ \\ \hline
+ \textbf{Entscheidung:} S-2
+\\ \hline
+\end{longtable}
+\newpage
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 10: Komplexität der Implementierung                                                                       
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Die Komplexität des Software und die Projektstruktur kann schnell unübersichtlich werden, wegen der Relationen zwischen den unterschiedlichen Objekten der Implementierung.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.7: Wartbarkeit
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Modulariserung der Software \\
+S-2: S.O.L.I.D, Prinzipien des OOP Designs
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 11: Spielstände                                                                     
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Die Spielstände müssen den jeweiligen Spielern zugeordnet werden. Spieler A kann das Spiel von Spieler B (weiter-)spielen.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+T1.3: Client-Server-Architektur\\
+T1.5: Persistenz \\
+P1.1: Spiel unterbrechen und Spielstand speichern
+\\ \hline
+\textbf{Strategien:} \\
+S-1: Jeder Spieler kann eigenen Account mit Passwort erstellen und die Spiele, die dieser Spieler gestartet hat, werden diesem Spiel zugeordnet \\
+S-2: Die Spielstände lokal speichern \\
+S-3: Den Spielstand als beispielsweise CSV-Datei abspeichern und exportieren und bei Fortsetzung des Spiels wieder importieren und weiter spielen
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
+\end{longtable}
+
+\begin{longtable}{|p{15cm}|}
+\hline
+Problem 12: Der Spieler kennt den Spielverlauf und die Spielregeln nicht                                                                     
+\\ \hline                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+\textbf{Beschreibung:} \\
+Der Spieler spielt das Spiel zum ersten Mal und ist mit der Benutzeroberfläche überfordert und möchte möglicherweise erst die Spielregeln kennen bevor das Spiel gestartet wird.
+\\ \hline
+\textbf{Einflussfaktoren:} \\
+P1: Produktfaktoren
+\\ \hline
+\textbf{Strategien:} \\
+S-1: (Video-)Tutorial mit Stimme/Untertitel im Menü \\
+S-2: Anleitung während des Spiels mit Quick-Instructions
+ \\ \hline
+ \textbf{Entscheidung:} S-1
+\\ \hline
 \end{longtable}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -433,6 +630,8 @@ S-4: Reorganisation der Gruppe
 	\label{fig1}
 \end{figure}
 
+Das Computerspiel $ " $Even Geiler Than Geiler Than Faster Than Light$ "$ wird durch eine Client-Server Architektur realisiert. 
+
 {\itshape Diese Sicht beschreibt das System auf einer hohen Abstraktionsebene,
 d.\,h. mit sehr starkem Bezug zur Anwendungsdomäne und den geforderten
 Produktfunktionen und "~attributen. Sie legt die Grobstruktur fest, ohne gleich 
@@ -443,48 +642,49 @@ wird mit {UML}-Komponentendiagrammen visualisiert.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Modulsicht} \label{sec:modulsicht}
+\subsection{Model}
+Folgende Klassen stellen die Datensicht dar. Jeder Klasse repräsentiert eine Entity in der Datenbank und seine Beziehungen. Einträge für diese Daten werden zum DAO-Modul umgeleitet und schließlich zur Datenbank gespeichert.
 
-{\itshape Diese Sicht beschreibt den statischen Aufbau des Systems mit Hilfe von
-Modulen, Subsystemen, Schichten und Schnittstellen. Diese Sicht ist 
-hierarchisch, d.\,h. Module werden in Teilmodule zerlegt. Die Zerlegung endet 
-bei Modulen, die ein klar umrissenes Arbeitspaket für eine Person darstellen und
-in einer Kalenderwoche implementiert werden können. Die Modulbeschreibung der 
-Blätter dieser Hierarchie muss genau genug und ausreichend sein, um das Modul 
-implementieren zu können.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.75\linewidth]{../Modulsicht_Quellcode/Model.png}
+	\caption{Model}
+	\label{fig2}
 
-Die Modulsicht wird durch {UML}-Paket- und Klassendiagramme visualisiert.
+\end{figure}
 
-Die Module werden durch ihre Schnittstellen beschrieben.
-Die Schnittstelle eines Moduls $M$ ist die Menge aller Annahmen, die andere 
-Module über $M$ machen dürfen, bzw.\ jene Annahmen, die $M$ über seine 
-verwendeten Module macht (bzw. seine Umgebung, wozu auch Speicher, Laufzeit 
-etc.\ gehören).
-Konkrete Implementierungen dieser Schnittstellen sind das Geheimnis des Moduls
-und können vom Programmierer festgelegt werden. Sie sollen hier dementsprechend 
-nicht beschrieben werden. 
+\newpage
 
-Die Diagramme der Modulsicht sollten die zur Schnittstelle gehörenden Methoden
-enthalten. Die Beschreibung der einzelnen Methoden (im Sinne der 
-Schnittstellenbeschreibung) geschieht allerdings per Javadoc im zugehörigen 
-Quelltext. Das bedeutet, dass Ihr für alle Eure Module Klassen, Interfaces und 
-Pakete erstellt und sie mit den Methoden der Schnittstellen verseht. Natürlich 
-noch ohne Methodenrümpfe bzw.\ mit minimalen Rümpfen. Dieses Vorgehen 
-vereinfacht den Schnittstellenentwurf und stellt Konsistenz sicher.
+\subsection{Services}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.63\linewidth]{../Modulsicht_Quellcode/ServicesModel.png}
+	\caption{Service}
+	\label{fig2}
+	
+\end{figure}
+\newpage
+\subsection{DAO}
+Diese Klassen DAOs (Data Access Layers) ermöglichen eine direkte Verbindung zur Datenbank und die Ausführung von Querry-Anfragen. Die Klassen implementieren Hibernate als Java Persistence API (JPA). Der Aufruf der Klassen erfolgt hauptsächlich über das Modul Service. Der Treiber und der Datenbank-Dialekt wird im Server in der Datei \emph{applications.properties} konfiguriert.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.9\linewidth]{../Modulsicht_Quellcode/Dao_Komponente.png}
+	\caption{DAO}
+	\label{fig3}
+	
+\end{figure}
 
-Jeder Schnittstelle liegt ein Protokoll zugrunde. Das Protokoll beschreibt die 
-Vor- und Nachbedingungen der Schnittstellenelemente. Dazu gehören die erlaubten
-Reihenfolgen, in denen Methoden der Schnittstelle aufgerufen werden dürfen, 
-sowie Annahmen über Eingabeparameter und Zusicherungen über Ausgabeparameter. 
-Das Protokoll von Modulen wird in der Modulsicht beschrieben.
-Dort, wo es sinnvoll ist, sollte es mit Hilfe von Zustands- oder 
-Sequenz-diagrammen spezifiziert werden. Diese sind dann einzusetzen, wenn der
-Text allein kein ausreichendes Verständnis vermittelt (insbesondere bei 
-komplexen oder nicht offensichtlichen Zusammenhängen).
+\newpage
 
-Der Bezug zur konzeptionellen Sicht muss klar ersichtlich sein. Im Zweifel 
-sollte er explizit erklärt werden. Auch für diese Sicht muss die Entstehung 
-anhand der Strategien erläutert werden.}
 
+\subsection{Zustandsdiagramm}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.9\linewidth]{../Modulsicht_Quellcode/Zustandsdiagramm.png}
+	\caption{Zustandsdiagramm [1] http://www.eurolink.ch/jpa/ObjektZustandsDiagramm.pdf}
+	\label{fig4}
+	
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Datensicht} \label{sec:datensicht}
@@ -500,13 +700,20 @@ Hinweise.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ausführungssicht} \label{sec:ausfuehrung}
 
-{\itshape Die Ausführungssicht beschreibt das Laufzeitverhalten. Hier werden die
-Laufzeitelemente aufgeführt und beschrieben, welche Module sie zur Ausführung 
-bringen. Ein Modul kann von mehreren Laufzeitelementen zur Laufzeit verwendet 
-werden. Die Ausführungssicht beschreibt darüber hinaus, welche Laufzeitelemente 
-spezifisch miteinander kommunizieren. Zudem wird bei verteilten Systemen 
-(z.\,B.\ Client-Server-Systeme) dargestellt, welche Module von welchen Prozessen
-auf welchen Rechnern ausgeführt werden.}
+
+
+In diesem Absatz wird die Ausführungssicht des Systems beschrieben. Diese enthält die Kommunikation bzw. die Interaktion der Komponenten und auch deren Hostrechner, auf denen die Komponenten laufen. \\Die untenstehende Abbildung dient als Ausführungssicht für das Spiel $ " $Even Geiler Than Geiler Than Faster Than Light$ "$ . Das Spiel wird mit dem Client-Server Architektur Pattern realisiert.\\
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Ausfuehrungsicht_Diagram.png}
+	\caption{Ausführungssicht}
+	\label{fig2}
+	
+\end{figure}
+\newpage
+Die Abbildung besteht aus zwei geteilten Boxen. Der oberste Teil repräsentiert den Server und enthält mehrere Module sowie Service, Datenbank(H2), Business Logic, Communication und DAO(Data Access Object). Der Server kommuniziert durch TCP mit dem Client. Es können ein bis zwei Clients bzw. Spieler gleichzeitig mit dem Server kommunizieren. Der Server stellt die Verbindung mit der Datenbank sicher, indem er über das Service-Modul interagiert. Dadurch, dass wir Daten speichern müssen benötigen wir eine Datenbank. Mit Hilfe des DAO-Moduls werden die Daten persistiert und verwaltet. Die ausgewählte leichtgewichtige Datenbank(H2) wird mit dem Anwendungsserver auf dem selben Gerät laufen. 
+\\
+Der untere Teil repräsentiert den Client und besteht aus drei Modulen wie Model, Communication und GUI. Der Client wird durch TCP den Server ansprechen. Der Client interagiert mit der GUI, diese Eingaben werden dann über die Client Communication weiter an die Server Communication.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -526,7 +733,9 @@ abzudecken.}%
 Module der  Architektur abdeckt. In SWP-2 werden wir mehrere Anwendungsfälle
 betrachten und eine umfangreichere Abdeckung der Architektur anstreben.} }
 
-
+\textbf{1. New Game}\\
+\textbf{2. Spiel unterbrechen und fortsetzen}\\
+\textbf{3. Waffensystem kaufen}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evolution} \label{sec:evolution}
 
