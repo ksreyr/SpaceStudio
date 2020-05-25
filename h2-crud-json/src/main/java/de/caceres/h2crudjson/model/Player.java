@@ -8,11 +8,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "Player")
-public class Player {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+public class Player extends Actor{
 
 	private String name;
 
@@ -26,14 +22,6 @@ public class Player {
 		this.password = password;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -41,4 +29,5 @@ public class Player {
 	public String getPassword() {
 		return password;
 	}
+
 }

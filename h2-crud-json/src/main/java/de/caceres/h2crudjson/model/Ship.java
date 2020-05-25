@@ -24,7 +24,7 @@ public class Ship {
     // Many to Many würde in Player stehen, ist aber falsch. Bitte so implementieren das wir uns an Hibernate best practices orientieren.
     @ManyToOne// Many Ships belongs to one Owner. Required for mapping mapping the foreign key column
     // @JoinColumn(name = "ship_id") // The @JoinColumn annotation allows you to specify the Foreign Key column name. Can be omitted.
-    private Player owner;
+    private Actor owner;
 
     @NonNull
     private int geld;
@@ -41,7 +41,7 @@ public class Ship {
     @NonNull
     private int power;
 
-    public Player getOwner() {
+    public Actor getOwner() {
         return owner;
     }
 

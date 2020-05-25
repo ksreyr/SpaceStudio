@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Entity
-@Table(name = "station")
+@Table(name = "Station")
 public class Station extends StopAbstract{
 
     @Column
@@ -16,7 +16,5 @@ public class Station extends StopAbstract{
     @Column
     @MapKey
     private Map<String, Integer> resourcen = new HashMap<String, Integer>();
-
-
 
 }
