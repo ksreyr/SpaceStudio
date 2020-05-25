@@ -647,26 +647,32 @@ S-2: Anleitung während des Spiels mit Quick-Instructions
 	\label{fig1}
 \end{figure}
 
-In diesem Kapitel verwenden wir die konzeptionelle Sicht nach Hofmeister et al. um das System auf einer hohen Abstraktionsebene zu beschreiben.
+In diesem Kapitel verwenden wir die konzeptionelle Sicht nach Hofmeister et al., um das System auf einer hohen Abstraktionsebene zu beschreiben.
 Das Computerspiel $ " $Even Geiler Than Geiler Than Faster Than Light$ "$ wird durch eine Client-Server-Architektur realisiert.
 
-\textbf{H2:} Die leichtgewichtige relationale Datenbank wird genutzt für die Speicherung von Daten und zum Persistieren unseres Moduls. Die Datenbank kommuniziert über JPA/Hibernate.
+\textbf{H2:} Die leichtgewichtige relationale Datenbank wird  für die Speicherung von Daten und zum Persistieren unseres Moduls genutzt. Die Datenbank kommuniziert über JPA/Hibernate mit dem DAO.
 
-\textbf{DAO:TODO!}
+\textbf{DAO:}
+Das Data Acess Object  ist  ein Muster für die Gestaltung von  APIs. 
+Wir nutzen dieses Entwurfsmuster, um den Zugriff an die H2 Datenbank zu binden.
+Somit wird die Möglichkeit offen gehalten, die Datenbank auszutauschen, ohne den Code zu ändern. Außerdem wird die Programmlogik wird von den  technisches Details der Datenspeicherung getrennt. Es nutzt die Schnittstellen zur Datenbank, zum Model und zur Service Komponente.
 
 \textbf{Business Logic:} Die Business Logic Komponente beinhaltet die Funktionalität des Systems. In unserem Fall prüft sie die von den Clients übermittelten Aktionen auf Einhaltung der Regeln und Plausibilität.
 Sie nutzt die Schnittstellen Service, Model und Server Communication.
 Über die Schnittstelle zu Service kann diese Komponente schreibende und lesende Zugriffe ausführen. Hierbei haben wir die Strategie der Modularisierung umgesetzt (P1 Strategie 1).
 
-\textbf{Model:TODO!}
+\textbf{Model:}
+Das Model repräsentiert die Entities, mit all deren Eigenschaften und Funktionen, die wir definiert haben. Jeder Entity wird eine Tabelle in der Datenbank zugeordnet. Das Model hat jeweils eine Schnitstelle zur DAO, Service, Business Logic und Server Communication Komponente.
 
-\textbf{Service:} Über diese Komponente werden lesende und schreibende Zugriffe auf persistente Daten in der Datenbank durchgeführt. Sie kapselt die Funktionen, die benötigt werden um auf diese Daten zuzugreifen, sodass dann nur diese Komponente lesende und schreibende Aktionen durchführen kann. Auch hierbei haben wir die Strategie der Modularisierung umgesetzt (P1 Strategie 1).
+\textbf{Service:} Über diese Komponente werden lesende und schreibende Zugriffe auf persistente Daten in der Datenbank durchgeführt. Sie kapselt die Funktionen, die benötigt werden, um auf diese Daten zuzugreifen, sodass dann nur diese Komponente lesende und schreibende Aktionen durchführen kann. Auch hierbei haben wir die Strategie der Modularisierung umgesetzt (P1 Strategie 1).
 
-\textbf{Server Communication:} Der externe Server kommuniziert mit dem Client über eine bidirektionale TCP-Verbindung. Hierbei haben wir die Strategie der Client-Server-Architektur umgesetzt (P7 Strategie 1). Des Weiteren übermittelt diese Komponente Aktionen vom Client an die Business Logic Komponente um dort diese auf Regeln und Plausibilität zu untersuchen.
+\textbf{Server Communication:} Der externe Server kommuniziert mit dem Client über eine bidirektionale TCP-Verbindung. Hierbei haben wir die Strategie der Client-Server-Architektur umgesetzt (P7 Strategie 1). Des Weiteren übermittelt diese Komponente Aktionen vom Client an die Business Logic Komponente, um dort diese auf Regeln und Plausibilität zu untersuchen.
 
 \textbf{Client Communication:} Diese Komponente stellt die Kommunikation zwischen des Clients und dem Server sicher und übermittelt Aktionen die von der GUI kommen an den Server und umgekehrt (P7 Strategie 1).
 
 \textbf{GUI:}
+Die GUI registriert die Interaktionen, die zwischen dem Benutzer und der Anwendung aufkommen und repräsentiert die dafür notwendigen grafischen Symbole und
+Steuerelemente. Die Eingaben werden an die Client Communication weitergeleitet.Die Antwort des Servers wird über die Client Communication an die GUI geschickt und dort visualisiert . Diese Verbindung ist also bidirektional.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
