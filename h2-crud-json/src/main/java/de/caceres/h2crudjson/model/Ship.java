@@ -1,5 +1,7 @@
 package de.caceres.h2crudjson.model;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 
 
@@ -24,17 +26,66 @@ public class Ship {
     // @JoinColumn(name = "ship_id") // The @JoinColumn annotation allows you to specify the Foreign Key column name. Can be omitted.
     private Player owner;
 
-    public void setName(String name) {
-        this.name = name;
+    @NonNull
+    private int geld;
+
+    @NonNull
+    private int energy;
+
+    @NonNull
+    private int hp;
+
+    @NonNull
+    private int shield;
+
+    @NonNull
+    private int power;
+
+    public Player getOwner() {
+        return owner;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
-    public Integer getId() {
-        return id;
+    public int getGeld() {
+        return geld;
     }
 
+    public void setGeld(int geld) {
+        this.geld = geld;
+    }
 
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getShield() {
+        return shield;
+    }
+
+    public void setShield(int shield) {
+        this.shield = shield;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
 }
