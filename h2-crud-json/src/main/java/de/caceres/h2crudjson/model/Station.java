@@ -17,6 +17,4 @@ public class Station extends StopAbstract{
     @MapKey
     private Map<String, Integer> resourcen = new HashMap<String, Integer>();
 
-
-
 }

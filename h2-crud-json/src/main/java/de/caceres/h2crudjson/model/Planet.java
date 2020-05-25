@@ -4,12 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "planet")
+@Table(name = "Planet")
 public class Planet extends StopAbstract {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
 
     @NotNull
     @Column

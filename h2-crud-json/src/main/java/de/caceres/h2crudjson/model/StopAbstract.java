@@ -2,6 +2,7 @@ package de.caceres.h2crudjson.model;
 
 import javax.persistence.*;
 
+@Entity
 public abstract class StopAbstract {
 
     @Id
