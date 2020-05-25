@@ -16,6 +16,9 @@ public class Section {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
+    private String img;
+
     private float oxygen;
 
     private int powerRequired;
@@ -69,4 +72,13 @@ public class Section {
     public void setUsable(boolean usable) {
         this.usable = usable;
     }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
 }

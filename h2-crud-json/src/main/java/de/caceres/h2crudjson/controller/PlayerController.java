@@ -1,7 +1,7 @@
 package de.caceres.h2crudjson.controller;
 
 import de.caceres.h2crudjson.model.Player;
-import de.caceres.h2crudjson.service.PlayerService;
+import de.caceres.h2crudjson.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +22,7 @@ import java.util.*;
 public class PlayerController {
 
 	@Autowired
-	private PlayerService playerService;
+	private PlayerRepository playerRepository;
 
 	/**
 	 * This function is temporal in use to test client -> Server connection
@@ -33,7 +33,7 @@ public class PlayerController {
 	 */
 	@RequestMapping(value = "/player/login", method = RequestMethod.POST)
 	private String loginUser(@RequestBody Player player) {
-		Optional<Player> fetchPlayer = playerService.findByName(player.getName());
+		Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
 		if (fetchPlayer.isPresent()) {
 			return Boolean.toString(((fetchPlayer.get().getName().equals(player.getName())
 					&& fetchPlayer.get().getPassword().equals(player.getPassword()))));
@@ -47,7 +47,7 @@ public class PlayerController {
 	 */
 	@RequestMapping(value = "/players", method = RequestMethod.GET)
 	private List<Player> getAllPlayers() {
-		return playerService.findAll();
+		return playerRepository.findAll();
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class PlayerController {
 	 */
 	@RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
 	private Player getPlayer(@PathVariable Integer id) {
-		return playerService.findById(id).get();
+		return playerRepository.findById(id).get();
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class PlayerController {
 	private String addPlayer(@RequestBody Player player) {
 		// For the future hash password
 		// player.setPassword(hashPassword(player.getPassword()));
-		Player savedPlayer = playerService.save(player);
+		Player savedPlayer = playerRepository.save(player);
 		return HttpStatus.CREATED.toString();
 	}
 
@@ -76,7 +76,7 @@ public class PlayerController {
 	 */
 	@RequestMapping(value = "/player", method = RequestMethod.PUT)
 	private Player updatePlayer(@RequestBody Player player) {
-		Player updatedPlayer = playerService.save(player);
+		Player updatedPlayer = playerRepository.save(player);
 		return updatedPlayer;
 	}
 
@@ -85,7 +85,7 @@ public class PlayerController {
 	 */
 	@RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE)
 	private String deletePlayerById(@PathVariable Integer id) {
-		playerService.deleteById(id);
+		playerRepository.deleteById(id);
 		return HttpStatus.ACCEPTED.toString();
 	}
 
@@ -94,7 +94,7 @@ public class PlayerController {
 	 */
 	@RequestMapping(value = "/players", method = RequestMethod.DELETE)
 	private String deleteAllPlayers() {
-		playerService.deleteAll();
+		playerRepository.deleteAll();
 		return HttpStatus.OK.toString();
 	}
 
