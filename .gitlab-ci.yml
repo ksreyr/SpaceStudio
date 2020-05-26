@@ -14,7 +14,7 @@ buildClient:
   script:
       - |
           echo "Start the build of Client"
-          cd Clientgdx
+          cd Client
           gradle --build-cache assemble
   cache:
     key: "$CI_COMMIT_REF_NAME"
@@ -32,7 +32,7 @@ buildServer:
     script:
         - |
             echo "Start the build of Server"
-            cd h2-crud-json
+            cd Server
             gradle --build-cache assemble
     artifacts:
       paths:
@@ -43,7 +43,7 @@ testServer:
   script:
     - |
       echo "Start the test of Server"
-      cd h2-crud-json
+      cd Server
       gradle --build-cache check
 
 #testRunServer:
