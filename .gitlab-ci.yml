@@ -74,3 +74,6 @@ pages:
       - public  # instruct GitLab to keep the public folder
   only:
     - master  # deploy the pdf only for commits made to the master branch
+
+include:
+  - template: Dependency-Scanning.gitlab-ci.yml
