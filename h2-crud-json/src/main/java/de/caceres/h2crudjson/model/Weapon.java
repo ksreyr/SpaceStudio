@@ -3,10 +3,7 @@ package de.caceres.h2crudjson.model;
 import javax.persistence.*;
 
 @Entity
-public class Weapon {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class Weapon  extends  Section {
 
     private String name;
 
@@ -15,17 +12,6 @@ public class Weapon {
     private int hitRate;
 
     private String img;
-
-    @ManyToOne
-    private Ship ship;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -49,14 +35,6 @@ public class Weapon {
 
     public void setHitRate(int hitRate) {
         this.hitRate = hitRate;
-    }
-
-    public Ship getShip() {
-        return ship;
-    }
-
-    public void setShip(Ship ship) {
-        this.ship = ship;
     }
 
     public String getImg() {

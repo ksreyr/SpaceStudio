@@ -19,6 +19,12 @@ public class Section {
 
     private String img;
 
+    // If there are no connection. One cannot enter this section
+    // Eg: One cannot enter a weapon
+    // allows for pathfinding in the ship
+    @ManyToMany
+    private List<Section> connectingTo;
+
     private float oxygen;
 
     private int powerRequired;
