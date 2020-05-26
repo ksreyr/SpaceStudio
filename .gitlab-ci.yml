@@ -2,6 +2,7 @@ image: gradle:6.4.0-jdk11
 stages:
   - build
   - test  
+  - deploy
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
