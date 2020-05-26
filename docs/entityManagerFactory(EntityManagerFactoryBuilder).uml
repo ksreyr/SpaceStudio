@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Persistence</ID>
+  <OriginalElement>JavaeeElement:/cbccd57a/entityManagerFactory/h2-crud-json.main/jpa/JPA/PersistenceModel</OriginalElement>
+  <nodes>
+    <node x="421.0" y="625.5">Planet#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Planet.java</node>
+    <node x="564.0" y="105.0">AbstractAuditable#jar:///home/s0/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.2.7.RELEASE/75e7017bcd45f93a47fd34055534aed0e7298694/spring-data-jpa-2.2.7.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class</node>
+    <node x="201.94444444444446" y="405.5">Weapon#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Weapon.java</node>
+    <node x="617.0" y="0.0">AbstractPersistable#jar:///home/s0/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.2.7.RELEASE/75e7017bcd45f93a47fd34055534aed0e7298694/spring-data-jpa-2.2.7.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class</node>
+    <node x="185.0" y="614.0">Station#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Station.java</node>
+    <node x="329.94444444444446" y="440.0">StopAbstract#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/StopAbstract.java</node>
+    <node x="0.0" y="394.0">Section#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Section.java</node>
+    <node x="18.0" y="591.0">Crewmember#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Crewmember.java</node>
+    <node x="189.5" y="151.0">Ship#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Ship.java</node>
+    <node x="178.0" y="0.0">Player#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Player.java</node>
+    <node x="377.94444444444446" y="220.0">Universe#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Universe.java</node>
+    <node x="583.0" y="1.0">null#null</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Ship#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Ship.java" target="Player#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Player.java">
+      <point x="0.0" y="-96.5" />
+      <point x="0.0" y="50.5" />
+    </edge>
+    <edge source="StopAbstract#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/StopAbstract.java" target="Universe#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Universe.java">
+      <point x="32.0" y="-27.5" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="Planet#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Planet.java" target="StopAbstract#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/StopAbstract.java">
+      <point x="0.0" y="-27.5" />
+      <point x="470.0" y="566.0" />
+      <point x="425.94444444444446" y="566.0" />
+      <point x="32.0" y="27.5" />
+    </edge>
+    <edge source="AbstractAuditable#jar:///home/s0/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.2.7.RELEASE/75e7017bcd45f93a47fd34055534aed0e7298694/spring-data-jpa-2.2.7.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="AbstractPersistable#jar:///home/s0/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.2.7.RELEASE/75e7017bcd45f93a47fd34055534aed0e7298694/spring-data-jpa-2.2.7.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractPersistable.class">
+      <point x="42.75" y="-39.0" />
+      <point x="692.25" y="80.0" />
+      <point x="709.0" y="80.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="Crewmember#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Crewmember.java" target="Section#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Section.java">
+      <point x="0.0" y="-62.0" />
+      <point x="0.0" y="73.5" />
+    </edge>
+    <edge source="Section#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Section.java" target="Ship#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Ship.java">
+      <point x="0.0" y="-73.5" />
+      <point x="74.0" y="369.0" />
+      <point x="207.5" y="369.0" />
+      <point x="-36.0" y="96.5" />
+    </edge>
+    <edge source="StopAbstract#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/StopAbstract.java" target="Ship#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Ship.java">
+      <point x="-32.0" y="-27.5" />
+      <point x="361.94444444444446" y="369.0" />
+      <point x="279.5" y="369.0" />
+      <point x="36.0" y="96.5" />
+    </edge>
+    <edge source="Station#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Station.java" target="StopAbstract#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/StopAbstract.java">
+      <point x="0.0" y="-39.0" />
+      <point x="293.0" y="566.0" />
+      <point x="361.94444444444446" y="566.0" />
+      <point x="-32.0" y="27.5" />
+    </edge>
+    <edge source="Weapon#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Weapon.java" target="Ship#file:///home/s0/Code/Uni/ReSWP/h2-crud-json/src/main/java/de/caceres/h2crudjson/model/Ship.java">
+      <point x="0.0" y="-62.0" />
+      <point x="255.94444444444446" y="369.0" />
+      <point x="243.5" y="369.0" />
+      <point x="0.0" y="96.5" />
+    </edge>
+    <edge source="AbstractAuditable#jar:///home/s0/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-jpa/2.2.7.RELEASE/75e7017bcd45f93a47fd34055534aed0e7298694/spring-data-jpa-2.2.7.RELEASE.jar!/org/springframework/data/jpa/domain/AbstractAuditable.class" target="null#null">
+      <point x="-42.75" y="-39.0" />
+      <point x="606.75" y="80.0" />
+      <point x="590.0" y="80.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="245.5" y="377.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Properties</Category>
+    <Category>Embeddables</Category>
+    <Category>Superclasses</Category>
+  </Categories>
+</Diagram>
+
