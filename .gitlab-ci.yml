@@ -53,3 +53,23 @@ testServer:
 #      cd h2-crud-json
 #      gradle --build-cache bootRun
 
+compile_pdf:
+  stage: build
+  image: timnn/texlive  # use a Docker image for LaTeX from https://hub.docker.com/
+  script:
+    - cd docs/Architekturbeschreibung/
+    - pdflatex Architekturbeschreibung.tex   # build the pdf just as you would on your computer
+  artifacts:
+    paths:
+      - docs/Architekturbeschreibung/Architekturbeschreibung.pdf  # instruct GitLab to keep the main.pdf file
+
+pages:
+  stage: deploy
+  script:
+    - mkdir public  # create a folder called public
+    - cp docs/Architekturbeschreibung/Architekturbeschreibung.pdf public/Architekturbeschreibung.pdf # copy the pdf file into the public folder
+  artifacts:
+    paths:
+      - public  # instruct GitLab to keep the public folder
+  only:
+    - master  # deploy the pdf only for commits made to the master branch
