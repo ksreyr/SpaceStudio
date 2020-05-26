@@ -677,48 +677,49 @@ Steuerelemente. Die Eingaben werden an die Client Communication weitergeleitet.D
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Modulsicht} \label{sec:modulsicht}
+\subsection{Model}
+Folgende Klassen stellen die Datensicht dar. Jeder Klasse repräsentiert eine Entity in der Datenbank und seine Beziehungen. Einträge für diese Daten werden zum DAO-Modul umgeleitet und schließlich zur Datenbank gespeichert.
 
-{\itshape Diese Sicht beschreibt den statischen Aufbau des Systems mit Hilfe von
-Modulen, Subsystemen, Schichten und Schnittstellen. Diese Sicht ist 
-hierarchisch, d.\,h. Module werden in Teilmodule zerlegt. Die Zerlegung endet 
-bei Modulen, die ein klar umrissenes Arbeitspaket für eine Person darstellen und
-in einer Kalenderwoche implementiert werden können. Die Modulbeschreibung der 
-Blätter dieser Hierarchie muss genau genug und ausreichend sein, um das Modul 
-implementieren zu können.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.75\linewidth]{../Modulsicht_Quellcode/Model.png}
+	\caption{Model}
+	\label{fig2}
 
-Die Modulsicht wird durch {UML}-Paket- und Klassendiagramme visualisiert.
+\end{figure}
 
-Die Module werden durch ihre Schnittstellen beschrieben.
-Die Schnittstelle eines Moduls $M$ ist die Menge aller Annahmen, die andere 
-Module über $M$ machen dürfen, bzw.\ jene Annahmen, die $M$ über seine 
-verwendeten Module macht (bzw. seine Umgebung, wozu auch Speicher, Laufzeit 
-etc.\ gehören).
-Konkrete Implementierungen dieser Schnittstellen sind das Geheimnis des Moduls
-und können vom Programmierer festgelegt werden. Sie sollen hier dementsprechend 
-nicht beschrieben werden. 
+\newpage
 
-Die Diagramme der Modulsicht sollten die zur Schnittstelle gehörenden Methoden
-enthalten. Die Beschreibung der einzelnen Methoden (im Sinne der 
-Schnittstellenbeschreibung) geschieht allerdings per Javadoc im zugehörigen 
-Quelltext. Das bedeutet, dass Ihr für alle Eure Module Klassen, Interfaces und 
-Pakete erstellt und sie mit den Methoden der Schnittstellen verseht. Natürlich 
-noch ohne Methodenrümpfe bzw.\ mit minimalen Rümpfen. Dieses Vorgehen 
-vereinfacht den Schnittstellenentwurf und stellt Konsistenz sicher.
+\subsection{Services}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.6\linewidth]{../Modulsicht_Quellcode/ServicesModel.png}
+	\caption{Service}
+	\label{fig2}
+	
+\end{figure}
+\newpage
+\subsection{DAO}
+Diese Klassen DAOs (Data Access Layers) ermöglichen eine direkte Verbindung zur Datenbank und die Ausführung von Querry-Anfragen. Die Klassen implementieren Hibernate als Java Persistence API (JPA). Der Aufruf der Klassen erfolgt hauptsächlich über das Modul Service. Der Treiber und der Datenbank-Dialekt wird im Server in der Datei \emph{applications.properties} konfiguriert.
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.9\linewidth]{../Modulsicht_Quellcode/Dao_Komponente.png}
+	\caption{DAO}
+	\label{fig3}
+	
+\end{figure}
 
-Jeder Schnittstelle liegt ein Protokoll zugrunde. Das Protokoll beschreibt die 
-Vor- und Nachbedingungen der Schnittstellenelemente. Dazu gehören die erlaubten
-Reihenfolgen, in denen Methoden der Schnittstelle aufgerufen werden dürfen, 
-sowie Annahmen über Eingabeparameter und Zusicherungen über Ausgabeparameter. 
-Das Protokoll von Modulen wird in der Modulsicht beschrieben.
-Dort, wo es sinnvoll ist, sollte es mit Hilfe von Zustands- oder 
-Sequenz-diagrammen spezifiziert werden. Diese sind dann einzusetzen, wenn der
-Text allein kein ausreichendes Verständnis vermittelt (insbesondere bei 
-komplexen oder nicht offensichtlichen Zusammenhängen).
+\newpage
 
-Der Bezug zur konzeptionellen Sicht muss klar ersichtlich sein. Im Zweifel 
-sollte er explizit erklärt werden. Auch für diese Sicht muss die Entstehung 
-anhand der Strategien erläutert werden.}
 
+\subsection{Zustandsdiagramm}
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.9\linewidth]{../Modulsicht_Quellcode/Zustandsdiagramm.png}
+	\caption{Zustandsdiagramm [1] http://www.eurolink.ch/jpa/ObjektZustandsDiagramm.pdf}
+	\label{fig4}
+	
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Datensicht} \label{sec:datensicht}
