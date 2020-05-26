@@ -25,10 +25,10 @@ public class PlayerControllerImpl implements de.caceres.h2crudjson.controller.Pl
 	private PlayerRepository playerRepository;
 
 	/**
-	 * This function is temporal in use to test client -> Server connection
+	 * This function is temporal in use to test client to Server connection
 	 * Login user if exists
 	 * 
-	 * @param player
+	 * @param player which should be loged in
 	 * @return true if exists else false
 	 */
 	@Override
@@ -55,7 +55,7 @@ public class PlayerControllerImpl implements de.caceres.h2crudjson.controller.Pl
 	/**
 	 * Get one player by Id
 	 * 
-	 * @param id
+	 * @param id of the player
 	 */
 	@Override
 	@RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
