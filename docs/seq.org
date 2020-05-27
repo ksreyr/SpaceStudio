@@ -1,0 +1,108 @@
+#+TITLE: Seq
+
+* Kampfrunde
+
+#+BEGIN_SRC plantuml :file kampf.png
+actor Spieler as user
+participant client
+participant server
+
+box "GameEngine"
+  participant client
+end box
+
+box "GameServer"
+  participant server
+end box
+
+
+loop
+user -> client: Verteile Energie
+client -> client: s.getPowerRequired()
+client -> client: s.getPowerCurrent()
+client -> client: updateSection(s.setpowerCurrent(int Value)))
+client -> user: Inform user of Change
+
+end loop
+
+loop
+     user -> client: select Crew & Section by id
+     client -> client: crewMemberService.setCremMemberDestination(Ship s, Crewmember c, Section sec)
+     client -> client: shipservice.findPath(Section s.getSections, Section start, Section End): List<Section>
+     client -> client: updateCrewMember(Ship s, List<Section>, CrewMember c)
+     client -> client: applyCrewSkills(Ship s)
+     client -> user: updateCrewMember()
+end loop
+
+loop
+    user -> client: setTarget(Ship ship, Map<Weapon, Section> attackList )
+    client -> user: setTarget(Ship ship,Map<Weapon, Section> attackList )
+end loop
+
+user -> user: Confirm End of Round
+user -> client: Update Ship
+client -> server: shipService.updateShip(Ship sNew)
+server -> sclienterver: shipService.verifyUpdate(Ship sNew): Boolean
+    loop
+         server -> server: getShip(ship): Ship
+         server -> server: ship.getShield(): Shield
+         server -> server: weaponService.canAttack(Weapon W, Shield): Boolean
+         server -> server: weaponservice.calculateDammage(Weapon w , Section s)
+    end loop
+    server -> client: weaponService.applyAttack(Weapon w, Ship): Ship // HP, Shield
+    client -> user: updateShip(Ship s)
+client -> user: Inform user of Upadate Succes
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:kampf.png]]
+
+
+
+
+#+BEGIN_SRC plantuml :file example.png
+actor Utilisateur as user
+participant "formSign.js" as form <<Contrôleur formulaire>>
+participant "Sign.java" as controler <<(C,#ADD1B2) Contrôleur formulaire>>
+participant "Secure.java" as secure <<(C,#ADD1B2) authentification>>
+participant "Security.java" as security <<(C,#ADD1B2) sécurité>>
+
+box "Application Web" #LightBlue
+	participant form
+end box
+
+box "Serveur Play" #LightGreen
+	participant controler
+	participant secure
+	participant security
+end box
+
+user -> form : submitSignIn()
+form -> form : getParameters()
+form -> form : result = checkFields()
+
+alt result
+
+    form -> controler : formSignIn(email,pwd)
+    controler -> controler : result = checkFields()
+
+    alt result
+    	controler -> secure : Secure.authenticate(email, pwd, true);
+    	secure -> security : onAuthenticated()
+    	security --> form : renderJSON(0);
+    	form --> user : display main page
+    else !result
+    	controler --> form : renderJSON(1)
+    	form --> user : display error
+    end
+
+else !result
+	form --> user : display error
+end
+
+#+END_SRC
+
+#+RESULTS:
+[[file:example.png]]

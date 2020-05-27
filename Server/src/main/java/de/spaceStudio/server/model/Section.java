@@ -29,7 +29,25 @@ public class Section {
 
     private int powerRequired;
 
+    private  int powerCurrent;
+
     private boolean usable;
+
+    public List<Section> getConnectingTo() {
+        return connectingTo;
+    }
+
+    public void setConnectingTo(List<Section> connectingTo) {
+        this.connectingTo = connectingTo;
+    }
+
+    public int getPowerCurrent() {
+        return powerCurrent;
+    }
+
+    public void setPowerCurrent(int powerCurrent) {
+        this.powerCurrent = powerCurrent;
+    }
 
     public Integer getId() {
         return id;

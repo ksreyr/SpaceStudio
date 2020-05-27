@@ -768,9 +768,24 @@ abzudecken.}%
 Module der  Architektur abdeckt. In SWP-2 werden wir mehrere Anwendungsfälle
 betrachten und eine umfangreichere Abdeckung der Architektur anstreben.} }
 
-\textbf{1. New Game}\\
-\textbf{2. Spiel unterbrechen und fortsetzen}\\
-\textbf{3. Waffensystem kaufen}
+
+\subsection{Kampfrunde}
+
+In der Abbildung \ref{fig:Kampf} ist zu entnehmen, wie Kämpfe ablaufen werden.
+Als erstes kann der Spieler seine vorhandene Energie, falls er mag umverteilen.
+Dann kann er seine Crew umverteilen. Diese fangen dann an die Section zu reparieren
+in der Sie stehen.
+Als nächstes wird für jede Waffe angeben, welche Section sie von dem Gegnerischem Schiff angreifen soll.
+Sobald alles bestätigt ist, wird die Runde von dem Spieler beendet. Hat der Gegner, dies getan.
+So werden vom Server die Änderungen validiert und die Clients erhalten die akutaliserten Werte.
+
+\begin{figure}[!ht]
+	\centering
+  \includegraphics[width=0.85\textwidth]{../kampf}
+	\caption{Kampf Runde}
+	\label{fig:Kampf}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evolution} \label{sec:evolution}
 
@@ -780,6 +795,13 @@ hierbei die in der Anforderungsspezifikation unter \glqq{}Ausblick\grqq{}
 genannten Punkte behandelt werden.}
 
 \dots
+
+\subsection{Mehr als Zwei Spieler}
+Unser Spiel ist für 2 Menschliche Spieler ausgelegt. Unser Datenmodel ist nicht auf 2 Spieler begrentzt. Intern
+ist die KI eine Implementierung der Schnitstelle Actor. Falls später Bedarf besteht, ist es Möglich ohne weitgehende Veränderung im Model
+mehr als 2 Menschliche Spieler zu unterstützen. Die größten Anpaßungen würden u.A. in dem Runden ablauf passieren. Alle festen Variablen, welche für 2 Spieler gelten, wurden angepasst werden müssen, so dass diese Dynmaisch sind. Sprich sich der Anzahl an Spieler anpassen.
+Es wäre wichtig genau darauf zu achten, dass es zu keinen Deadlocks kommt, welche wegen der erhöhten Spieler Anzahl geschehen könnten.
+
 
 \end{document}
 
