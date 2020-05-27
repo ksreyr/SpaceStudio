@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 public interface ShipController {
-    @RequestMapping(value = "/ship/login", method = RequestMethod.POST)
-    String loginUser(@RequestBody Ship ship);
 
     @RequestMapping(value = "/ships", method = RequestMethod.GET)
     List<Ship> getAllShips();
@@ -29,6 +27,9 @@ public interface ShipController {
 
     @RequestMapping(value = "/ships", method = RequestMethod.DELETE)
     String deleteAllShips();
+
+    @RequestMapping(value = "/ship/{id}/validate", method = RequestMethod.GET)
+    boolean  validDateShip(@RequestBody Ship ship);
 
     String hashPassword(String weakPassword);
 }

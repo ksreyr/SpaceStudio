@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 public interface UniverseController {
-    @RequestMapping(value = "/universe/login", method = RequestMethod.POST)
-    String loginUser(@RequestBody Universe universe);
 
     @RequestMapping(value = "/universes", method = RequestMethod.GET)
     List<Universe> getAllUniverses();

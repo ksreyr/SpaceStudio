@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 public interface SectionController {
-    @RequestMapping(value = "/section/login", method = RequestMethod.POST)
-    String loginUser(@RequestBody Section section);
+
 
     @RequestMapping(value = "/sections", method = RequestMethod.GET)
     List<Section> getAllSections();

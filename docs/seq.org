@@ -1,0 +1,180 @@
+#+TITLE: Seq
+
+* Kampfrunde
+
+#+BEGIN_SRC bash
+ls -lahR
+#+END_SRC
+
+#+RESULTS:
+| .:                              |      |    |       |      |    |     |       |                                                       |
+| insgesamt                       | 804K |    |       |      |    |     |       |                                                       |
+| drwxr-xr-x                      |    6 | s0 | users |    4 | 27 | Mai | 19:17 | .                                                     |
+| drwxr-xr-x                      |    8 | s0 | users |    4 | 26 | Mai | 19:09 | ..                                                    |
+| drwxr-xr-x                      |    3 | s0 | users |    4 | 26 | Mai | 18:53 | Architekturbeschreibung                               |
+| -rw-r--r--                      |    1 | s0 | users |  34K | 25 | Mai | 17:31 | Ausfuehrungsicht_Diagram.png                          |
+| drwxr-xr-x                      |    2 | s0 | users |    4 | 25 | Mai | 17:31 | Ausfuhrungsicht_Quellecode                            |
+| -rw-r--r--                      |    1 | s0 | users | 107K | 25 | Mai | 17:29 | classDiagram.png                                      |
+| -rw-r--r--                      |    1 | s0 | users | 102K | 24 | Mai | 17:25 | Dao_Modul.png                                         |
+| -rw-r--r--                      |    1 | s0 | users |  63K | 26 | Mai | 18:23 | entityManagerFactory(EntityManagerFactoryBuilder).png |
+| -rw-r--r--                      |    1 | s0 | users |    6 | 25 | Mai | 18:50 | entityManagerFactory(EntityManagerFactoryBuilder).uml |
+| -rw-r--r--                      |    1 | s0 | users | 118K | 25 | Mai | 17:29 | ERDiagram.png                                         |
+| -rw-r--r--                      |    1 | s0 | users |  63K | 22 | Mai | 15:54 | ERDiagram.svg                                         |
+| -rw-r--r--                      |    1 | s0 | users |  53K | 27 | Mai | 17:00 | example.png                                           |
+| -rw-r--r--                      |    1 | s0 | users |    4 | 15 | Mai | 17:34 | example.svg                                           |
+| -rw-r--r--                      |    1 | s0 | users |  88K | 27 | Mai | 19:20 | kampf.png                                             |
+| drwxr-xr-x                      |    2 | s0 | users |    4 | 26 | Mai | 18:52 | Logo                                                  |
+| -rw-r--r--                      |    1 | s0 | users |    5 | 25 | Mai | 17:29 | model.org                                             |
+| drwxr-xr-x                      |    2 | s0 | users |    4 | 26 | Mai | 18:52 | Modulsicht_Quellcode                                  |
+| -rw-r--r--                      |    1 | s0 | users | 110K | 25 | Mai | 17:29 | raumschiff.png                                        |
+| -rw-r--r--                      |    1 | s0 | users |    2 | 27 | Mai | 19:17 | seq.org                                               |
+| ./Architekturbeschreibung:      |      |    |       |      |    |     |       |                                                       |
+| insgesamt                       |    1 |    |       |      |    |     |       |                                                       |
+| drwxr-xr-x                      |    3 | s0 | users |    4 | 26 | Mai | 18:53 | .                                                     |
+| drwxr-xr-x                      |    6 | s0 | users |    4 | 27 | Mai | 19:17 | ..                                                    |
+| -rw-r--r--                      |    1 | s0 | users |  11K | 27 | Mai | 18:07 | Architekturbeschreibung.aux                           |
+| -rw-r--r--                      |    1 | s0 | users |  37K | 27 | Mai | 18:07 | Architekturbeschreibung.log                           |
+| -rw-r--r--                      |    1 | s0 | users | 872K | 27 | Mai | 18:07 | Architekturbeschreibung.pdf                           |
+| -rw-r--r--                      |    1 | s0 | users |  74K | 27 | Mai | 18:13 | Architekturbeschreibung.tex                           |
+| -rw-r--r--                      |    1 | s0 | users |    2 | 27 | Mai | 18:07 | Architekturbeschreibung.toc                           |
+| -rw-r--r--                      |    1 | s0 | users |  35K | 25 | Mai | 17:31 | Ausfuehrungsicht_Diagram.png                          |
+| -rw-r--r--                      |    1 | s0 | users |  69K | 25 | Mai | 17:32 | Konzeptionelle_Sicht.png                              |
+| drwxr-xr-x                      |    2 | s0 | users |    4 | 26 | Mai | 18:52 | Logo                                                  |
+| -rw-r--r--                      |    1 | s0 | users |    5 | 15 | Mai | 17:34 | swp-preamble.tex                                      |
+| ./Architekturbeschreibung/Logo: |      |    |       |      |    |     |       |                                                       |
+| insgesamt                       | 812K |    |       |      |    |     |       |                                                       |
+| drwxr-xr-x                      |    2 | s0 | users |    4 | 26 | Mai | 18:52 | .                                                     |
+| drwxr-xr-x                      |    3 | s0 | users |    4 | 26 | Mai | 18:53 | ..                                                    |
+| -rw-r--r--                      |    1 | s0 | users | 803K | 26 | Mai | 18:52 | SpaceStudioLogo.png                                   |
+| ./Ausfuhrungsicht_Quellecode:   |      |    |       |      |    |     |       |                                                       |
+| insgesamt                       |  12K |    |       |      |    |     |       |                                                       |
+| drwxr-xr-x                      |    2 | s0 | users |    4 | 25 | Mai | 17:31 | .                                                     |
+| drwxr-xr-x                      |    6 | s0 | users |    4 | 27 | Mai | 19:17 | ..                                                    |
+| -rw-r--r--                      |    1 | s0 | users |    2 | 25 | Mai | 17:31 | Ausfuehrungsicht_Diagram-3.drawio                     |
+| ./Logo:                         |      |    |       |      |    |     |       |                                                       |
+| insgesamt                       | 812K |    |       |      |    |     |       |                                                       |
+| drwxr-xr-x                      |    2 | s0 | users |    4 | 26 | Mai | 18:52 | .                                                     |
+| drwxr-xr-x                      |    6 | s0 | users |    4 | 27 | Mai | 19:17 | ..                                                    |
+| -rw-r--r--                      |    1 | s0 | users | 803K | 26 | Mai | 18:52 | SpaceStudioLogo.png                                   |
+| ./Modulsicht_Quellcode:         |      |    |       |      |    |     |       |                                                       |
+| insgesamt                       | 716K |    |       |      |    |     |       |                                                       |
+| drwxr-xr-x                      |    2 | s0 | users |    4 | 26 | Mai | 18:52 | .                                                     |
+| drwxr-xr-x                      |    6 | s0 | users |    4 | 27 | Mai | 19:17 | ..                                                    |
+| -rw-r--r--                      |    1 | s0 | users |    3 | 26 | Mai | 18:52 | Dao_Komponente.drawio                                 |
+| -rw-r--r--                      |    1 | s0 | users | 104K | 26 | Mai | 18:52 | Dao_Komponente.png                                    |
+| -rw-r--r--                      |    1 | s0 | users |  26K | 24 | Mai | 17:25 | Dao_Komponente.svg                                    |
+| -rw-r--r--                      |    1 | s0 | users |    4 | 26 | Mai | 18:52 | Model.drawio                                          |
+| -rw-r--r--                      |    1 | s0 | users | 108K | 26 | Mai | 18:52 | Model.png                                             |
+| -rw-r--r--                      |    1 | s0 | users |    5 | 26 | Mai | 18:52 | ServicesModel.drawio                                  |
+| -rw-r--r--                      |    1 | s0 | users | 365K | 26 | Mai | 18:52 | ServicesModel.png                                     |
+| -rw-r--r--                      |    1 | s0 | users |  38K | 24 | Mai | 17:25 | ServicesModel.svg                                     |
+| -rw-r--r--                      |    1 | s0 | users |    2 | 26 | Mai | 18:52 | Zustandsdiagramm.drawio                               |
+| -rw-r--r--                      |    1 | s0 | users |  35K | 26 | Mai | 18:52 | Zustandsdiagramm.png                                  |
+
+#+BEGIN_SRC plantuml :file kampf.png
+actor Spieler as user
+participant client
+participant server
+
+box "GameEngine"
+  participant client
+end box
+
+box "GameServer"
+  participant server
+end box
+
+
+loop
+user -> client: Verteile Energie
+client -> client: s.getPowerRequired()
+client -> client: s.setPowerCurrent(int s)
+client -> server: updateSection(s.setpowerCurrent(int Value)))
+server -> client: energiekResponse(Ship s)
+client -> user: Inform user of Change
+
+end loop
+
+loop
+     user -> client: select Crew & Section by id
+     client -> client: crewMemberService.setCremMemberDestination(Ship s, Crewmember c, Section sec)
+     client -> client: shipservice.findPath(Section s.getSections, Section start, Section End): List<Section>
+     client -> client: updateCrewMember(Ship s, List<Section>, CrewMember c)
+     client -> server: applyCrewSkills(Ship s)
+     server -> client: crewMemberService.response(Ship s)
+     client -> user: updateCrewMember()
+end loop
+
+loop
+    user -> client: setTarget(Weapon w, Section sec, Ship s)
+    client -> user: setTarget(Weapon w, Section sec, Ship s)
+
+user -> client: Update Ship
+client -> server: shipService.updateShip(Ship sNew)
+    loop
+         server -> server: getShip(ship): Ship
+         server -> server: ship.getShield(): Shield
+         server -> server: weaponService.canAttack(Weapon W, Shield): Boolean
+         server -> server: weaponservice.calculateDammage(Weapon w , Section s)
+         server -> client: weaponService.applyAttack(Weapon w, Ship): Ship // HP, Shield
+         client -> server: shipService.verifyResponse(Ship sNew): Boolean
+    end loop
+    client -> user: updateShip(Ship s)
+client -> user: Inform user of Upadate Succes
+end loop
+
+user -> user: Confirm End of Round
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:kampf.png]]
+
+
+
+
+#+BEGIN_SRC plantuml :file example.png
+actor Utilisateur as user
+participant "formSign.js" as form <<Contrôleur formulaire>>
+participant "Sign.java" as controler <<(C,#ADD1B2) Contrôleur formulaire>>
+participant "Secure.java" as secure <<(C,#ADD1B2) authentification>>
+participant "Security.java" as security <<(C,#ADD1B2) sécurité>>
+
+box "Application Web" #LightBlue
+	participant form
+end box
+
+box "Serveur Play" #LightGreen
+	participant controler
+	participant secure
+	participant security
+end box
+
+user -> form : submitSignIn()
+form -> form : getParameters()
+form -> form : result = checkFields()
+
+alt result
+
+    form -> controler : formSignIn(email,pwd)
+    controler -> controler : result = checkFields()
+
+    alt result
+    	controler -> secure : Secure.authenticate(email, pwd, true);
+    	secure -> security : onAuthenticated()
+    	security --> form : renderJSON(0);
+    	form --> user : display main page
+    else !result
+    	controler --> form : renderJSON(1)
+    	form --> user : display error
+    end
+
+else !result
+	form --> user : display error
+end
+
+#+END_SRC
+
+#+RESULTS:
+[[file:example.png]]
