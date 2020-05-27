@@ -1,0 +1,284 @@
+Index: src/main/java/de/caceres/h2crudjson/controller/PlayerController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package de.caceres.h2crudjson.controller;\n\nimport de.caceres.h2crudjson.model.Player;\nimport de.caceres.h2crudjson.service.PlayerService;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.http.HttpStatus;\nimport org.springframework.web.bind.annotation.PathVariable;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.RequestMethod;\nimport org.springframework.web.bind.annotation.RestController;\nimport org.springframework.web.bind.annotation.RequestBody;\n\nimport java.nio.charset.StandardCharsets;\nimport java.security.MessageDigest;\nimport java.security.NoSuchAlgorithmException;\nimport java.util.*;\n\n/**\n * @author Miguel Caceres 09.05.2020\n */\n@RestController\npublic class PlayerController {\n\n\t@Autowired\n\tprivate PlayerService playerService;\n\n\t/**\n\t * This function is temporal in use to test client -> Server connection\n\t * Login user if exists\n\t * \n\t * @param player\n\t * @return true if exists else false\n\t */\n\t@RequestMapping(value = \"/player/login\", method = RequestMethod.POST)\n\tprivate String loginUser(@RequestBody Player player) {\n\t\tOptional<Player> fetchPlayer = playerService.findByName(player.getName());\n\t\tif (fetchPlayer.isPresent()) {\n\t\t\treturn Boolean.toString(((fetchPlayer.get().getName().equals(player.getName())\n\t\t\t\t\t&& fetchPlayer.get().getPassword().equals(player.getPassword()))));\n\t\t}\n\t\treturn \"false\";\n\n\t}\n\n\t/**\n\t * Get all players from db\n\t */\n\t@RequestMapping(value = \"/players\", method = RequestMethod.GET)\n\tprivate List<Player> getAllPlayers() {\n\t\treturn playerService.findAll();\n\t}\n\n\t/**\n\t * Get one player by Id\n\t * \n\t * @param id\n\t */\n\t@RequestMapping(value = \"/player/{id}\", method = RequestMethod.GET)\n\tprivate Player getPlayer(@PathVariable Integer id) {\n\t\treturn playerService.findById(id).get();\n\t}\n\n\t/**\n\t * Creates a new player from JSON player object\n\t */\n\t@RequestMapping(value = \"/player\", method = RequestMethod.POST)\n\tprivate String addPlayer(@RequestBody Player player) {\n\t\t// For the future hash password\n\t\t// player.setPassword(hashPassword(player.getPassword()));\n\t\tPlayer savedPlayer = playerService.save(player);\n\t\treturn HttpStatus.CREATED.toString();\n\t}\n\n\t/**\n\t * Update data\n\t */\n\t@RequestMapping(value = \"/player\", method = RequestMethod.PUT)\n\tprivate Player updatePlayer(@RequestBody Player player) {\n\t\tPlayer updatedPlayer = playerService.save(player);\n\t\treturn updatedPlayer;\n\t}\n\n\t/**\n\t * Delete player by Id\n\t */\n\t@RequestMapping(value = \"/player/{id}\", method = RequestMethod.DELETE)\n\tprivate String deletePlayerById(@PathVariable Integer id) {\n\t\tplayerService.deleteById(id);\n\t\treturn HttpStatus.ACCEPTED.toString();\n\t}\n\n\t/**\n\t * Delete all players\n\t */\n\t@RequestMapping(value = \"/players\", method = RequestMethod.DELETE)\n\tprivate String deleteAllPlayers() {\n\t\tplayerService.deleteAll();\n\t\treturn HttpStatus.OK.toString();\n\t}\n\n\t/**\n\t * Salt the password\n\t */\n\tprotected String hashPassword(String weakPassword) {\n\t\tMessageDigest digest = null;\n\t\ttry {\n\t\t\tdigest = MessageDigest.getInstance(\"SHA-256\");\n\t\t} catch (NoSuchAlgorithmException e) {\n\t\t\te.printStackTrace();\n\t\t}\n\t\tbyte[] hash = digest.digest(weakPassword.getBytes(StandardCharsets.UTF_8));\n\t\treturn new String(Base64.getEncoder().encodeToString(hash));\n\t}\n\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/de/caceres/h2crudjson/controller/PlayerController.java	(revision 509def3b3b3400a884e4694c7964e4fe8f1e632f)
++++ src/main/java/de/caceres/h2crudjson/controller/PlayerController.java	(date 1590426408481)
+@@ -1,7 +1,7 @@
+ package de.caceres.h2crudjson.controller;
+ 
+ import de.caceres.h2crudjson.model.Player;
+-import de.caceres.h2crudjson.service.PlayerService;
++import de.caceres.h2crudjson.repository.PlayerRepository;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.http.HttpStatus;
+ import org.springframework.web.bind.annotation.PathVariable;
+@@ -22,7 +22,7 @@
+ public class PlayerController {
+ 
+ 	@Autowired
+-	private PlayerService playerService;
++	private PlayerRepository playerRepository;
+ 
+ 	/**
+ 	 * This function is temporal in use to test client -> Server connection
+@@ -33,7 +33,7 @@
+ 	 */
+ 	@RequestMapping(value = "/player/login", method = RequestMethod.POST)
+ 	private String loginUser(@RequestBody Player player) {
+-		Optional<Player> fetchPlayer = playerService.findByName(player.getName());
++		Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
+ 		if (fetchPlayer.isPresent()) {
+ 			return Boolean.toString(((fetchPlayer.get().getName().equals(player.getName())
+ 					&& fetchPlayer.get().getPassword().equals(player.getPassword()))));
+@@ -47,7 +47,7 @@
+ 	 */
+ 	@RequestMapping(value = "/players", method = RequestMethod.GET)
+ 	private List<Player> getAllPlayers() {
+-		return playerService.findAll();
++		return playerRepository.findAll();
+ 	}
+ 
+ 	/**
+@@ -57,7 +57,7 @@
+ 	 */
+ 	@RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
+ 	private Player getPlayer(@PathVariable Integer id) {
+-		return playerService.findById(id).get();
++		return playerRepository.findById(id).get();
+ 	}
+ 
+ 	/**
+@@ -67,7 +67,7 @@
+ 	private String addPlayer(@RequestBody Player player) {
+ 		// For the future hash password
+ 		// player.setPassword(hashPassword(player.getPassword()));
+-		Player savedPlayer = playerService.save(player);
++		Player savedPlayer = playerRepository.save(player);
+ 		return HttpStatus.CREATED.toString();
+ 	}
+ 
+@@ -76,7 +76,7 @@
+ 	 */
+ 	@RequestMapping(value = "/player", method = RequestMethod.PUT)
+ 	private Player updatePlayer(@RequestBody Player player) {
+-		Player updatedPlayer = playerService.save(player);
++		Player updatedPlayer = playerRepository.save(player);
+ 		return updatedPlayer;
+ 	}
+ 
+@@ -85,7 +85,7 @@
+ 	 */
+ 	@RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE)
+ 	private String deletePlayerById(@PathVariable Integer id) {
+-		playerService.deleteById(id);
++		playerRepository.deleteById(id);
+ 		return HttpStatus.ACCEPTED.toString();
+ 	}
+ 
+@@ -94,7 +94,7 @@
+ 	 */
+ 	@RequestMapping(value = "/players", method = RequestMethod.DELETE)
+ 	private String deleteAllPlayers() {
+-		playerService.deleteAll();
++		playerRepository.deleteAll();
+ 		return HttpStatus.OK.toString();
+ 	}
+ 
+Index: src/main/java/de/caceres/h2crudjson/model/Section.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package de.caceres.h2crudjson.model;\n\n\nimport javax.persistence.*;\nimport java.util.List;\n\n@Entity(name = \"Section\")\npublic class Section {\n    @Id\n    @GeneratedValue(strategy = GenerationType.AUTO)\n    private Integer id;\n\n    @ManyToOne\n    private Ship ship;\n\n    @Enumerated(EnumType.STRING)\n    private Role role;\n\n    private float oxygen;\n\n    private int powerRequired;\n\n    private boolean usable;\n\n    public Integer getId() {\n        return id;\n    }\n\n    public void setId(Integer id) {\n        this.id = id;\n    }\n\n    public Ship getShip() {\n        return ship;\n    }\n\n    public void setShip(Ship ship) {\n        this.ship = ship;\n    }\n\n    public Role getRole() {\n        return role;\n    }\n\n    public void setRole(Role role) {\n        this.role = role;\n    }\n\n    public float getOxygen() {\n        return oxygen;\n    }\n\n    public void setOxygen(float oxygen) {\n        this.oxygen = oxygen;\n    }\n\n    public int getPowerRequired() {\n        return powerRequired;\n    }\n\n    public void setPowerRequired(int powerRequired) {\n        this.powerRequired = powerRequired;\n    }\n\n    public boolean isUsable() {\n        return usable;\n    }\n\n    public void setUsable(boolean usable) {\n        this.usable = usable;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/de/caceres/h2crudjson/model/Section.java	(revision 509def3b3b3400a884e4694c7964e4fe8f1e632f)
++++ src/main/java/de/caceres/h2crudjson/model/Section.java	(date 1590427538061)
+@@ -16,6 +16,9 @@
+     @Enumerated(EnumType.STRING)
+     private Role role;
+ 
++
++    private String img;
++
+     private float oxygen;
+ 
+     private int powerRequired;
+@@ -69,4 +72,13 @@
+     public void setUsable(boolean usable) {
+         this.usable = usable;
+     }
++
++    public String getImg() {
++        return img;
++    }
++
++    public void setImg(String img) {
++        this.img = img;
++    }
++
+ }
+Index: src/main/java/de/caceres/h2crudjson/model/Drive.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/de/caceres/h2crudjson/model/Drive.java	(date 1590427538046)
++++ src/main/java/de/caceres/h2crudjson/model/Drive.java	(date 1590427538046)
+@@ -0,0 +1,5 @@
++package de.caceres.h2crudjson.model;
++
++public class Drive extends Section {
++
++}
+Index: src/main/java/de/caceres/h2crudjson/model/Weapon.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/de/caceres/h2crudjson/model/Weapon.java	(date 1590427538083)
++++ src/main/java/de/caceres/h2crudjson/model/Weapon.java	(date 1590427538083)
+@@ -0,0 +1,69 @@
++package de.caceres.h2crudjson.model;
++
++import javax.persistence.*;
++
++@Entity
++public class Weapon {
++    @Id
++    @GeneratedValue(strategy = GenerationType.AUTO)
++    private Integer id;
++
++    private String name;
++
++    private int power;
++
++    private int hitRate;
++
++    private String img;
++
++    @ManyToOne
++    private Ship ship;
++
++    public Integer getId() {
++        return id;
++    }
++
++    public void setId(Integer id) {
++        this.id = id;
++    }
++
++    public String getName() {
++        return name;
++    }
++
++    public void setName(String name) {
++        this.name = name;
++    }
++
++    public int getPower() {
++        return power;
++    }
++
++    public void setPower(int power) {
++        this.power = power;
++    }
++
++    public int getHitRate() {
++        return hitRate;
++    }
++
++    public void setHitRate(int hitRate) {
++        this.hitRate = hitRate;
++    }
++
++    public Ship getShip() {
++        return ship;
++    }
++
++    public void setShip(Ship ship) {
++        this.ship = ship;
++    }
++
++    public String getImg() {
++        return img;
++    }
++
++    public void setImg(String img) {
++        this.img = img;
++    }
++}
+Index: src/main/java/de/caceres/h2crudjson/model/WeaponSystem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/de/caceres/h2crudjson/model/WeaponSystem.java	(date 1590427538071)
++++ src/main/java/de/caceres/h2crudjson/model/WeaponSystem.java	(date 1590427538071)
+@@ -0,0 +1,5 @@
++package de.caceres.h2crudjson.model;
++
++public class WeaponSystem extends Section {
++
++}
+Index: src/main/java/de/caceres/h2crudjson/model/Missile.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/de/caceres/h2crudjson/model/Missile.java	(date 1590427538086)
++++ src/main/java/de/caceres/h2crudjson/model/Missile.java	(date 1590427538086)
+@@ -0,0 +1,4 @@
++package de.caceres.h2crudjson.model;
++
++public class Missile extends Weapon {
++}
+Index: src/main/java/de/caceres/h2crudjson/service/PlayerService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package de.caceres.h2crudjson.service;\n\nimport de.caceres.h2crudjson.model.Player;\n\nimport java.util.Optional;\n\nimport org.springframework.data.jpa.repository.JpaRepository;\n\n/**\n * @author Miguel Caceres 09.05.2020\n */\npublic interface PlayerService extends JpaRepository<Player, Integer> {\n\n\tOptional<Player> findByName(String name);\n}\n
+===================================================================
+--- src/main/java/de/caceres/h2crudjson/service/PlayerService.java	(revision 509def3b3b3400a884e4694c7964e4fe8f1e632f)
++++ src/main/java/de/caceres/h2crudjson/repository/PlayerRepository.java	(date 1590426408474)
+@@ -1,4 +1,4 @@
+-package de.caceres.h2crudjson.service;
++package de.caceres.h2crudjson.repository;
+ 
+ import de.caceres.h2crudjson.model.Player;
+ 
+@@ -9,7 +9,7 @@
+ /**
+  * @author Miguel Caceres 09.05.2020
+  */
+-public interface PlayerService extends JpaRepository<Player, Integer> {
++public interface PlayerRepository extends JpaRepository<Player, Integer> {
+ 
+ 	Optional<Player> findByName(String name);
+ }
+Index: src/main/java/de/caceres/h2crudjson/model/Beam.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/de/caceres/h2crudjson/model/Beam.java	(date 1590427538051)
++++ src/main/java/de/caceres/h2crudjson/model/Beam.java	(date 1590427538051)
+@@ -0,0 +1,4 @@
++package de.caceres.h2crudjson.model;
++
++public class Beam extends Weapon {
++}
+Index: src/main/java/de/caceres/h2crudjson/model/Lasser.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/de/caceres/h2crudjson/model/Lasser.java	(date 1590427538077)
++++ src/main/java/de/caceres/h2crudjson/model/Lasser.java	(date 1590427538077)
+@@ -0,0 +1,4 @@
++package de.caceres.h2crudjson.model;
++
++public class Lasser extends Weapon {
++}

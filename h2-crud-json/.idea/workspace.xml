@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9ab80d75-a963-441a-9063-19b216b9c93d" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="h2-crud-json" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="h2-crud-json" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="h2-crud-json" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="documentation" type="c8890929:TasksNode$1" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1cPMIgBSgXmYkSp7BAeSZYpR9do" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
+  </component>
+  <component name="RunManager" selected="Gradle.h2-crud-json [javadoc]">
+    <configuration name="h2-crud-json [javadoc]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="javadoc" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="H2CrudJsonApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="h2-crud-json.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="de.caceres.h2crudjson.H2CrudJsonApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.h2-crud-json [javadoc]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9ab80d75-a963-441a-9063-19b216b9c93d" name="Default Changelist" comment="" />
+      <created>1590425696233</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590425696233</updated>
+      <workItem from="1590425706574" duration="11000" />
+      <workItem from="1590426147837" duration="5758000" />
+      <workItem from="1590509480778" duration="967000" />
+      <workItem from="1590510608529" duration="1253000" />
+    </task>
+    <task id="LOCAL-00001" summary="Merge branch '11-schnitstellenBescheibung' of gitlab.informatik.uni-bremen.de:reswp-2020/spacestudio into 11-schnitstellenBescheibung&#10;&#10;# Conflicts:&#10;#&#9;h2-crud-json/src/main/java/de/caceres/h2crudjson/model/StopAbstract.java">
+      <created>1590429866095</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1590429866095</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Abstrac Actor">
+      <created>1590429986791</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1590429986791</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Complet Repositories">
+      <created>1590431898628</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1590431898628</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge branch '11-schnitstellenBescheibung' of gitlab.informatik.uni-bremen.de:reswp-2020/spacestudio into 11-schnitstellenBescheibung&#10;&#10;# Conflicts:&#10;#&#9;h2-crud-json/src/main/java/de/caceres/h2crudjson/model/StopAbstract.java" />
+    <MESSAGE value="Abstrac Actor" />
+    <MESSAGE value="Complet Repositories" />
+    <option name="LAST_COMMIT_MESSAGE" value="Complet Repositories" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="738" y="102" key="#com.intellij.ide.util.MemberChooser" timestamp="1590431549527">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="738" y="102" key="#com.intellij.ide.util.MemberChooser/0.23.1255.777@0.23.1255.777" timestamp="1590431549527" />
+    <state x="233" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1590426291624">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="233" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1255.777@0.23.1255.777" timestamp="1590426291623" />
+    <state x="431" y="280" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1590430032200">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="431" y="280" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.23.1255.777@0.23.1255.777" timestamp="1590430032200" />
+    <state x="0" y="23" key="CommitChangelistDialog2" timestamp="1590431898437">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="0" y="23" key="CommitChangelistDialog2/0.23.1255.777@0.23.1255.777" timestamp="1590431898437" />
+    <state width="1213" height="198" key="GridCell.Tab.0.bottom" timestamp="1590511879199">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1213" height="198" key="GridCell.Tab.0.bottom/0.23.1255.777@0.23.1255.777" timestamp="1590511879199" />
+    <state width="1213" height="198" key="GridCell.Tab.0.center" timestamp="1590511879198">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1213" height="198" key="GridCell.Tab.0.center/0.23.1255.777@0.23.1255.777" timestamp="1590511879198" />
+    <state width="1213" height="198" key="GridCell.Tab.0.left" timestamp="1590511879197">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1213" height="198" key="GridCell.Tab.0.left/0.23.1255.777@0.23.1255.777" timestamp="1590511879197" />
+    <state width="1213" height="198" key="GridCell.Tab.0.right" timestamp="1590511879198">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state width="1213" height="198" key="GridCell.Tab.0.right/0.23.1255.777@0.23.1255.777" timestamp="1590511879198" />
+    <state x="146" y="90" key="MergeDialog" timestamp="1590427983143">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="146" y="90" key="MergeDialog/0.23.1255.777@0.23.1255.777" timestamp="1590427983143" />
+    <state x="289" y="181" key="MultipleFileMergeDialog" timestamp="1590427983192">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="289" y="181" key="MultipleFileMergeDialog/0.23.1255.777@0.23.1255.777" timestamp="1590427983192" />
+    <state x="269" y="139" key="Vcs.Push.Dialog.v2" timestamp="1590431904538">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="269" y="139" key="Vcs.Push.Dialog.v2/0.23.1255.777@0.23.1255.777" timestamp="1590431904538" />
+    <state x="487" y="333" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590510555176">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="487" y="333" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1255.777@0.23.1255.777" timestamp="1590510555176" />
+    <state x="313" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1590428351292">
+      <screen x="0" y="23" width="1255" height="777" />
+    </state>
+    <state x="313" y="124" width="670" height="676" key="search.everywhere.popup/0.23.1255.777@0.23.1255.777" timestamp="1590428351292" />
+  </component>
+</project>

@@ -27,11 +27,11 @@ end loop
 
 loop
      user -> client: select Crew & Section by id
-     client -> client: crewMemberService.setCremMemberDestination(Ship s, Crewmember c, Section sec)
-     client -> client: shipservice.findPath(Section s.getSections, Section start, Section End): List<Section>
+     client -> client: crewMemberController.setCremMemberDestination(Ship s, Crewmember c, Section sec)
+     client -> client: shipController.findPath(Section s.getSections, Section start, Section End): List<Section>
      client -> client: updateCrewMember(Ship s, List<Section>, CrewMember c)
      client -> server: applyCrewSkills(Ship s)
-     server -> client: crewMemberService.response(Ship s)
+     server -> client: crewMemberController.response(Ship s)
      client -> user: updateCrewMember()
 end loop
 
@@ -40,21 +40,72 @@ loop
     client -> user: setTarget(Weapon w, Section sec, Ship s)
 
 user -> client: Update Ship
-client -> server: shipService.updateShip(Ship sNew)
+client -> server: shipController.updateShip(Ship sNew)
     loop
          server -> server: getShip(ship): Ship
          server -> server: ship.getShield(): Shield
-         server -> server: weaponService.canAttack(Weapon W, Shield): Boolean
-         server -> server: weaponservice.calculateDammage(Weapon w , Section s)
-         server -> client: weaponService.applyAttack(Weapon w, Ship): Ship // HP, Shield
-         client -> server: shipService.verifyResponse(Ship sNew): Boolean
+         server -> server: weaponController.canAttack(Weapon W, Shield): Boolean
+         server -> server: weaponController.calculateDammage(Weapon w , Section s)
+         server -> client: weaponController.applyAttack(Weapon w, Ship): Ship // HP, Shield
+         client -> server: shipController.verifyResponse(Ship sNew): Boolean
     end loop
     client -> user: updateShip(Ship s)
 client -> user: Inform user of Upadate Succes
 end loop
 
 user -> user: Confirm End of Round
+actor Spieler as user
+participant client
+participant server
 
+box "GameEngine"
+  participant client
+end box
+
+box "GameServer"
+  participant server
+end box
+
+
+loop
+user -> client: Verteile Energie
+client -> client: s.getPowerRequired()
+client -> client: s.setPowerCurrent(int s)
+client -> server: s.updateSection(s.setpowerCurrent(int Value)))
+server -> client: shipController.energiekResponse(Ship s)
+client -> user: Inform user of Change
+
+end loop
+
+loop
+     user -> client: select Crew & Section by id
+     client -> client: crewMemberController.setCremMemberDestination(Ship s, Crewmember c, Section sec)
+     client -> client: shipController.findPath(Section s.getSections, Section start, Section End): List<Section>
+     client -> client: updateCrewMember(Ship s, List<Section>, CrewMember c)
+     client -> server: applyCrewSkills(Ship s)
+     server -> client: crewMemberController.response(Ship s)
+     client -> user: updateCrewMember()
+end loop
+
+loop
+    user -> client: setTarget(Weapon w, Section sec, Ship s)
+    client -> user: setTarget(Weapon w, Section sec, Ship s)
+
+user -> client: Update Ship
+client -> server: shipController.updateShip(Ship sNew)
+    loop
+         server -> server: getShip(ship): Ship
+         server -> server: ship.getShield(): Shield
+         server -> server: weaponController.canAttack(Weapon W, Shield): Boolean
+         server -> server: weaponController.calculateDammage(Weapon w , Section s)
+         server -> client: weaponController.applyAttack(Weapon w, Ship): Ship // HP, Shield
+         client -> server: shipController.verifyResponse(Ship sNew): Boolean
+    end loop
+    client -> user: updateShip(Ship s)
+client -> user: Inform user of Upadate Succes
+end loop
+
+user -> user: Confirm End of Round
 
 #+END_SRC
 
