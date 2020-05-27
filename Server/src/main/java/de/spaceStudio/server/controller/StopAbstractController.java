@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 public interface StopAbstractController {
-    @RequestMapping(value = "/stopAbstract/login", method = RequestMethod.POST)
-    String loginUser(@RequestBody StopAbstract stopAbstract);
 
     @RequestMapping(value = "/stopAbstracts", method = RequestMethod.GET)
     List<StopAbstract> getAllStopAbstracts();

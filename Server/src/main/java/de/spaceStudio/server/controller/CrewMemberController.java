@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 public interface CrewMemberController {
-    @RequestMapping(value = "/crewMember/login", method = RequestMethod.POST)
-    String loginUser(@RequestBody CrewMember crewMember);
 
     @RequestMapping(value = "/crewMembers", method = RequestMethod.GET)
     List<CrewMember> getAllCrewMembers();
