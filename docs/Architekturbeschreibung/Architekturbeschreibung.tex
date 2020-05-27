@@ -774,12 +774,15 @@ betrachten und eine umfangreichere Abdeckung der Architektur anstreben.} }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evolution} \label{sec:evolution}
 
-{\itshape Beschreibt in diesem Abschnitt, welche Änderungen Ihr vornehmen müsst,
-wenn sich Anforderungen oder Rahmenbedingungen ändern. Insbesondere würden 
-hierbei die in der Anforderungsspezifikation unter \glqq{}Ausblick\grqq{} 
-genannten Punkte behandelt werden.}
+Da das System als Projektarbeit der Veranstaltung Software-Projekt 2 entwickelt wird,
+ist nicht zu erwarten, dass das System nach Auslieferung des Systems erweitert oder abgeändert wird.
 
-\dots
+\begin{itemize}
+	\item Datenbank\\ Bei der Weiterentwicklung des Spiels kann es dazu kommen, dass wir die leichtgewichtige relationale Datenbank austauschen müssen, aufgrund einer höheren Anzahl von Spielern. Da wir das DAO Entwurfsmuster benutzen lässt sich die Datenbank problemlos austauschen, ohne den Code zu ändern.
+	\item Chat-Funktion\\ Für die Echtzeit-Kommunikation zwischen Spielern kann das System auch durch eine Chat-Funktion erweitert werden. Dafür wird das WebSocket-Protokoll verwendet um eine bidirektionale Verbindung zwischen Clients und Server aufzustellen. Aufgrund unseres modularen Architekturaufbaus kann man diese Funktion leicht einbinden.
+	\item Kompatibilität mit anderen Geräten\\ Wenn die Anwendung auch auf anderen Geräten/Systemen laufen soll, dann kann man die Anwendung kompatibel machen zu anderen Geräten. Es müssten nur einige oberflächliche Optimierungen durchgeführt werden. Dies würde jedoch nur eine geringfügige Änderung an der Architektur haben.
+	\item Highscore\\ Eine Highscore-Seite, die aufzeigt wie viele Punkte der Spieler oder alle Spieler erreicht haben ist keine Mindestanforderung, aber kann im Rahmen der Weiterentwicklung einfach umgesetzt werden. Diese Funktion hat eine direkte Auswirkung auf die Architektur. Eine neue Variable einsetzen in der Klasse User um durch den Spielverlauf die Variable zu verändern.
+\end{itemize}
 
 \end{document}
 
