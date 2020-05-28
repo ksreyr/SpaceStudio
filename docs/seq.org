@@ -159,3 +159,40 @@ end
 
 #+RESULTS:
 [[file:example.png]]
+
+* Client  / Server Kommunikaton
+#+BEGIN_SRC plantuml :file sync.png
+participant AgentInfoCache as cache
+participant AgentInfoQuery as query
+participant PollingRequestCallback as callback
+participant AgentResponse as response
+participant LibGDXAsyncRetriever as async
+
+activate cache
+
+
+    cache -> cache: Create Query for each host
+    activate query
+    cache -> query: run query
+    query -> query: generate HTTPPingRequest
+    query -> query: generate AgentResponse
+    activate callback
+    query -> callback: create a PollingRequestCallback
+    deactivate callback
+    callback -> query
+    query -> response: agentResponse.getStatus(callBack)
+    activate response
+    response -> async: make HTTP Request
+    activate async
+    async -> async: submit the request
+    deactivate response
+    deactivate async
+    async -> response: return future
+    response -> query: return method
+    deactivate query
+    query -> callback: updateServer
+
+#+END_SRC
+
+#+RESULTS:
+[[file:sync.png]]
