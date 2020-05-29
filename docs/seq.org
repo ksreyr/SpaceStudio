@@ -4,7 +4,7 @@
 #+BEGIN_SRC plantuml :file kampf.png
 actor Spieler as user
 participant client
-participant server
+participant ShipController as server
 
 box "GameEngine"
   participant client
@@ -114,6 +114,9 @@ user -> user: Confirm End of Round
 
 
 
+ keine endschloss Schleife
+benutzt eine bestehnde verbindung als Socket mit keep alive
+Dann status ändern. Auf dem Socket ein Object Stream Verwenden
 
 #+BEGIN_SRC plantuml :file example.png
 actor Utilisateur as user

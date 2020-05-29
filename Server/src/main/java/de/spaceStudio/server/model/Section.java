@@ -23,6 +23,7 @@ public class Section {
     // Eg: One cannot enter a weapon
     // allows for pathfinding in the ship
     @ManyToMany
+    // GGF OneToMany weniger probleme wegen bidirectionalität
     private List<Section> connectingTo;
 
     private float oxygen;

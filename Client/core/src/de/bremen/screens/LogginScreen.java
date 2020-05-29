@@ -130,7 +130,7 @@ public class LogginScreen extends BaseScreen {
                     System.out.println("Request Failed");
                     return;
                 }
-                System.out.println("statusCode: " +statusCode);
+                System.out.println("statusCode: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
                 try {
                     System.out.println("Respons: " + responseJson);

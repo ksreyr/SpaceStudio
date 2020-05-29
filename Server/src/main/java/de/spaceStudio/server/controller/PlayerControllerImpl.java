@@ -40,7 +40,6 @@ public class PlayerControllerImpl implements PlayerController {
 					&& fetchPlayer.get().getPassword().equals(player.getPassword()))));
 		}
 		return "false";
-
 	}
 
 	/**
