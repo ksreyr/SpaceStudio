@@ -48,7 +48,7 @@ client -> ship: startAttack(Weapon w, Section sec, Ship s): JSON
          weapon -> weapon: canAttack(Weapon W, Shield): Boolean
          weapon -> weapon: calculateDammage(Weapon w , Section s): Ship
          weapon -> client: applyAttack(Weapon w, Weapon): Weapon // HP, Shield
-         client -> ship: verifyResponse(Ship sNew): Boolean
+         client -> ship: validateShip(Ship sNew): Boolean
     end loop
     ship -> client: updateShip(Ship s): JSON
 client -> user: Inform user of Upadate Succes

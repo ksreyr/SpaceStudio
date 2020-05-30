@@ -21,102 +21,102 @@ import java.util.*;
 @RestController
 public class PlayerControllerImpl implements PlayerController {
 
-	@Autowired
-	private PlayerRepository playerRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
 
-	/**
-	 * This function is temporal in use to test client to Server connection
-	 * Login user if exists
-	 * 
-	 * @param player which should be loged in
-	 * @return true if exists else false
-	 */
-	@Override
-	@RequestMapping(value = "/player/login", method = RequestMethod.POST)
-	public String loginUser(@RequestBody Player player) {
-		Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
-		if (fetchPlayer.isPresent()) {
-			return Boolean.toString(((fetchPlayer.get().getName().equals(player.getName())
-					&& fetchPlayer.get().getPassword().equals(player.getPassword()))));
-		}
-		return "false";
-	}
+    /**
+     * This function is temporal in use to test client to Server connection
+     * Login user if exists
+     *
+     * @param player which should be loged in
+     * @return true if exists else false
+     */
+    @Override
+    @RequestMapping(value = "/player/login", method = RequestMethod.POST)
+    public String loginUser(@RequestBody Player player) {
+        Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
+        if (fetchPlayer.isPresent()) {
+            return Boolean.toString(((fetchPlayer.get().getName().equals(player.getName())
+                    && fetchPlayer.get().getPassword().equals(player.getPassword()))));
+        }
+        return "false";
+    }
 
-	/**
-	 * Get all players from db
-	 */
-	@Override
-	@RequestMapping(value = "/players", method = RequestMethod.GET)
-	public List<Player> getAllPlayers() {
-		return playerRepository.findAll();
-	}
+    /**
+     * Get all players from db
+     */
+    @Override
+    @RequestMapping(value = "/players", method = RequestMethod.GET)
+    public List<Player> getAllPlayers() {
+        return playerRepository.findAll();
+    }
 
-	/**
-	 * Get one player by Id
-	 * 
-	 * @param id of the player
-	 */
-	@Override
-	@RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
-	public Player getPlayer(@PathVariable Integer id) {
-		return playerRepository.findById(id).get();
-	}
+    /**
+     * Get one player by Id
+     *
+     * @param id of the player
+     */
+    @Override
+    @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
+    public Player getPlayer(@PathVariable Integer id) {
+        return playerRepository.findById(id).get();
+    }
 
-	/**
-	 * Creates a new player from JSON player object
-	 */
-	@Override
-	@RequestMapping(value = "/player", method = RequestMethod.POST)
-	public String addPlayer(@RequestBody Player player) {
-		// For the future hash password
-		// player.setPassword(hashPassword(player.getPassword()));
-		Player savedPlayer = playerRepository.save(player);
-		return HttpStatus.CREATED.toString();
-	}
+    /**
+     * Creates a new player from JSON player object
+     */
+    @Override
+    @RequestMapping(value = "/player", method = RequestMethod.POST)
+    public String addPlayer(@RequestBody Player player) {
+        // For the future hash password
+        // player.setPassword(hashPassword(player.getPassword()));
+        Player savedPlayer = playerRepository.save(player);
+        return HttpStatus.CREATED.toString();
+    }
 
-	/**
-	 * Update data
-	 */
-	@Override
-	@RequestMapping(value = "/player", method = RequestMethod.PUT)
-	public Player updatePlayer(@RequestBody Player player) {
-		Player updatedPlayer = playerRepository.save(player);
-		return updatedPlayer;
-	}
+    /**
+     * Update data
+     */
+    @Override
+    @RequestMapping(value = "/player", method = RequestMethod.PUT)
+    public Player updatePlayer(@RequestBody Player player) {
+        Player updatedPlayer = playerRepository.save(player);
+        return updatedPlayer;
+    }
 
-	/**
-	 * Delete player by Id
-	 */
-	@Override
-	@RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE)
-	public String deletePlayerById(@PathVariable Integer id) {
-		playerRepository.deleteById(id);
-		return HttpStatus.ACCEPTED.toString();
-	}
+    /**
+     * Delete player by Id
+     */
+    @Override
+    @RequestMapping(value = "/player/{id}", method = RequestMethod.DELETE)
+    public String deletePlayerById(@PathVariable Integer id) {
+        playerRepository.deleteById(id);
+        return HttpStatus.ACCEPTED.toString();
+    }
 
-	/**
-	 * Delete all players
-	 */
-	@Override
-	@RequestMapping(value = "/players", method = RequestMethod.DELETE)
-	public String deleteAllPlayers() {
-		playerRepository.deleteAll();
-		return HttpStatus.OK.toString();
-	}
+    /**
+     * Delete all players
+     */
+    @Override
+    @RequestMapping(value = "/players", method = RequestMethod.DELETE)
+    public String deleteAllPlayers() {
+        playerRepository.deleteAll();
+        return HttpStatus.OK.toString();
+    }
 
-	/**
-	 * Salt the password
-	 */
-	@Override
-	public String hashPassword(String weakPassword) {
-		MessageDigest digest = null;
-		try {
-			digest = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		byte[] hash = digest.digest(weakPassword.getBytes(StandardCharsets.UTF_8));
-		return Base64.getEncoder().encodeToString(hash);
-	}
+    /**
+     * Salt the password
+     */
+    @Override
+    public String hashPassword(String weakPassword) {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] hash = digest.digest(weakPassword.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(hash);
+    }
 
 }
