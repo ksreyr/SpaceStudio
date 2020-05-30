@@ -772,12 +772,18 @@ betrachten und eine umfangreichere Abdeckung der Architektur anstreben.} }
 \subsection{Kampfrunde}
 
 In der Abbildung \ref{fig:Kampf} ist zu entnehmen, wie Kämpfe ablaufen werden.
+
+
 Als erstes kann der Spieler seine vorhandene Energie, falls er mag umverteilen.
-Dann kann er seine Crew umverteilen. Diese fangen dann an die Section zu reparieren
-in der Sie stehen.
-Als nächstes wird für jede Waffe angeben, welche Section sie von dem Gegnerischem Schiff angreifen soll.
-Sobald alles bestätigt ist, wird die Runde von dem Spieler beendet. Hat der Gegner, dies getan.
-So werden vom Server die Änderungen validiert und die Clients erhalten die akutaliserten Werte.
+Falls er durch einen Angrif Energie verloren hat, so kann er jetzt den Sectionen
+die für in wichtig sind mit Strom versorgen.
+Der Spieler kann seinen Crew an neue Orte endsenden. Ihnen wird ein Pfad zur Ihrem Ziel
+berechnet. Als dann laufen diese dann los. Am Ziel angekommen führen sie Tätigkeiten aus, welche in der Section möglich sind.
+
+Die mit Loop gekenzeichneten Kästchen sind Schleifen. Diese werden nicht oder mehrmals durchlaufen. Die Reihenfolge der Ausführung wird vom Spieler festgelegt.
+
+Spätestens, wenn der Spieler keine Actionen durchführen kann, wird er die Kampfrunde beenden.
+
 
 \begin{figure}[!ht]
 	\centering

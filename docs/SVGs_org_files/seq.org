@@ -20,38 +20,37 @@ end box
 
 
 loop
-user -> client: Verteile Energie
-client -> client: getPowerRequired()
-client -> client: setPowerCurrent(int s)
-client -> ship: updateSection(s.setpowerCurrent(int Value)))
-ship -> client: energiekResponse(Ship s)
+user -> client: Set Power of Ship s
+client -> client: getPowerRequired(): int
+client -> client: setPowerCurrent(int s): void
+client -> ship: updateSection(s.setpowerCurrent(int Value))): JSON
+ship -> client: energiekResponse(Ship s): JSON
 client -> user: Update Energie
 
 end loop
 
 loop
      user -> client: select Crew & Section by id
-     client -> client: crewMemberController.setCremMemberDestination(Ship s, Crewmember c, Section sec)
-     client -> ship: findPath(Section s.getSections, Section start, Section End): List<Section>
-     ship -> crew: updateCrewMember(Ship s, List<Section>, CrewMember c)
-     crew -> ship: applyCrewSkills(Ship s)
-     ship -> client: crewMemberController.response(Ship s)
+     client -> crew: setCremMemberDestination(Ship s, Crewmember c, Section sec)
+     crew -> ship: findPath(Section s.getSections, Section start, Section End): List<Section>
+     ship -> crew: updateCrewMember(Ship s, List<Section>, CrewMember c): JSON
+     crew -> ship: applyCrewSkills(Ship s): void
+     ship -> client: crewMemberController.response(Ship s): JSON
      client -> user: Animate Change of Crew Position
 end loop
 
 loop
 
 user -> client: Attack Target Section with  Weapon
-client -> ship: startAttack(Weapon w, Section sec, Ship s)
+client -> ship: startAttack(Weapon w, Section sec, Ship s): JSON
     loop
-         ship -> ship: getShip(ship): Ship
-         ship -> weapon: ship.getShield(): Shield
+         ship -> weapon: getShield(Ship s): Shield
          weapon -> weapon: canAttack(Weapon W, Shield): Boolean
-         weapon -> weapon: calculateDammage(Weapon w , Section s)
+         weapon -> weapon: calculateDammage(Weapon w , Section s): Ship
          weapon -> client: applyAttack(Weapon w, Weapon): Weapon // HP, Shield
          client -> ship: verifyResponse(Ship sNew): Boolean
     end loop
-    ship -> client: updateShip(Ship s)
+    ship -> client: updateShip(Ship s): JSON
 client -> user: Inform user of Upadate Succes
 end loop
 
