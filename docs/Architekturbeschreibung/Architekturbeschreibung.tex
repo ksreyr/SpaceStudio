@@ -662,7 +662,7 @@ Sie nutzt die Schnittstellen Service, Model und Server Communication.
 Über die Schnittstelle zu Service kann diese Komponente schreibende und lesende Zugriffe ausführen. Hierbei haben wir die Strategie der Modularisierung umgesetzt (P1 Strategie 1).
 
 \textbf{Model:}
-Das Model repräsentiert die Entities, mit all deren Eigenschaften und Funktionen, die wir definiert haben. Jeder Entity wird eine Tabelle in der Datenbank zugeordnet. Das Model hat jeweils eine Schnitstelle zur DAO, Service, Business Logic und Server Communication Komponente.
+Das Model repräsentiert die Entities, mit all deren Eigenschaften und Funktionen, die wir definiert haben. Jeder Entity wird eine Tabelle in der Datenbank zugeordnet. Das Model hat jeweils eine Schnitstelle zu den Repositories, Service, Business Logic und Server Communication Komponente.
 
 \textbf{Service:} Über diese Komponente werden lesende und schreibende Zugriffe auf persistente Daten in der Datenbank durchgeführt. Sie kapselt die Funktionen, die benötigt werden, um auf diese Daten zuzugreifen, sodass dann nur diese Komponente lesende und schreibende Aktionen durchführen kann. Auch hierbei haben wir die Strategie der Modularisierung umgesetzt (P1 Strategie 1).
 
@@ -731,6 +731,13 @@ jenes der Anforderungsspezifikation enthalten, allerdings mit
 implementierungsspezifischen Änderungen und Erweiterungen. Siehe die gesonderten
 Hinweise.}
 
+
+Das Datenmodel ist so aufgebaut, dass Universe der Root-Knoten in unserem Daten Baum ist. Alles ist darin enthalten. Das Raumschiff
+Ship kann an Planeten oder an Stationen halten. An Stationen kann es einen Markt geben, sowie Collectable Item (Ressourcen), diese können benutzt werden, um das Raumschiff zu verbessern.
+Ein Schiff besteht aus Sectionen. Die Sectionen (Knoten) sind durch durchgängen  (Kanten) miteinander Verbunden. Das Schiff ist also ein bidirektionaler Graph. Spezielle Abeiteilungen haben zusatzfähigkeiten. Hierzu gehört: Drive (Antrieb) und Weapon (Waffen). Die Waffen haben zusatz Attribute wie hitRate und dammage.
+CrewMember haben Fähigkeiten, die in Ihrer Rolle definiert sind und können sich in verschiedenen Sektionen aufhalten.
+
+Das Schiff gehört einem Actor. Dein Actor ist endweder eine KI oder ein menschlicher Spieler.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ausführungssicht} \label{sec:ausfuehrung}

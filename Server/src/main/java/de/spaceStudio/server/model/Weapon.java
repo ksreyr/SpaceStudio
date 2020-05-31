@@ -3,13 +3,13 @@ package de.spaceStudio.server.model;
 import javax.persistence.*;
 
 @Entity
-public class Weapon  extends  Section {
+public class Weapon extends Section {
 
     private String name;
 
-    private int power;
-
     private int hitRate;
+
+    private int dammage;
 
     private String img;
 
@@ -19,14 +19,6 @@ public class Weapon  extends  Section {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getPower() {
-        return power;
-    }
-
-    public void setPower(int power) {
-        this.power = power;
     }
 
     public int getHitRate() {
@@ -43,5 +35,13 @@ public class Weapon  extends  Section {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public int getDammage() {
+        return dammage;
+    }
+
+    public void setDammage(int dammage) {
+        this.dammage = dammage;
     }
 }

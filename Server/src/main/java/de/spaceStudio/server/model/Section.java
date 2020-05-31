@@ -30,6 +30,7 @@ public class Section {
 
     private int powerRequired;
 
+    // Negativ for Consumption, Positive for Generating
     private  int powerCurrent;
 
     private boolean usable;
