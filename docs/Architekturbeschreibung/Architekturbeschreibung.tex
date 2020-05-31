@@ -216,7 +216,7 @@ Während eines Kampfes kann der Benutzer das Spiel in den Pausenmodus versetzen.
   \vspace*{20mm}
   
 
-%{\itshape Hier sind Einflussfaktoren gefragt, die sich auf die Architektur
+%{\ Hier sind Einflussfaktoren gefragt, die sich auf die Architektur
 %beziehen. Es sind ausschließlich architekturrelevante Einflussfaktoren, und 
 %nicht z.\,B.\ solche, die lediglich einen Einfluss auf das Projektmanagement 
 %haben. Fragt Euch also bei jedem Faktor: Beeinflusst er wirklich die 
@@ -731,14 +731,6 @@ Diese Klassen Repositories ermöglichen eine direkte Verbindung zur Datenbank un
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Datensicht} \label{sec:datensicht}
 
-{\itshape Hier wird das der Anwendung zugrundeliegende Datenmodell beschrieben. 
-Hierzu werden neben einem erläuternden Text auch ein oder mehrere 
-{UML}-Klassendiagramme verwendet. Das hier beschriebene Datenmodell wird u.\,a.\ 
-jenes der Anforderungsspezifikation enthalten, allerdings mit 
-implementierungsspezifischen Änderungen und Erweiterungen. Siehe die gesonderten
-Hinweise.}
-
-
 Das Datenmodel ist so aufgebaut, dass Universe der Root-Knoten in unserem Daten Baum ist. Alles ist darin enthalten. Das Raumschiff
 Ship kann an Planeten oder an Stationen halten. An Stationen kann es einen Markt geben, sowie Collectable Item (Ressourcen), diese können benutzt werden, um das Raumschiff zu verbessern.
 Ein Schiff besteht aus Sectionen. Die Sectionen (Knoten) sind durch durchgängen  (Kanten) miteinander Verbunden. Das Schiff ist also ein bidirektionaler Graph. Spezielle Abeiteilungen haben zusatzfähigkeiten. Hierzu gehört: Drive (Antrieb) und Weapon (Waffen). Die Waffen haben zusatz Attribute wie hitRate und dammage.
@@ -746,6 +738,13 @@ CrewMember haben Fähigkeiten, die in Ihrer Rolle definiert sind und können sic
 
 Das Schiff gehört einem Actor. Dein Actor ist endweder eine KI oder ein menschlicher Spieler.
 
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.75\linewidth]{pics/Model.png}
+	\caption{Datensicht}
+	\label{fig2}
+
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Ausführungssicht} \label{sec:ausfuehrung}
 
@@ -769,18 +768,6 @@ Der untere Teil repräsentiert den Client und besteht aus drei Modulen wie Model
 \section{Zusammenhänge zwischen Anwendungsfällen und Architektur}
 \sectionmark{Zusammenhänge AF u. Architektur} \label{sec:anwendungsfaelle}
 
-{\itshape In diesem Abschnitt sollen Sequenzdiagramme mit Beschreibung(!) für 
-\variante{zwei bis drei von Euch ausgewählte Anwendungsfälle}%
-{einen von Euch ausgewählten Anwendungsfall}
-erstellt werden. Ein Sequenzdiagramm beschreibt den Nachrichtenverkehr zwischen 
-allen Modulen, die an der Realisierung des Anwendungsfalles beteiligt sind. 
-\variante{Wählt die Anwendungsfälle so, dass nach Möglichkeit alle Module Eures
-entworfenen Systems in mindestens einem Sequenzdiagramm vorkommen. Falls Euch 
-das nicht gelingt, versucht möglichst viele und die wichtigsten Module 
-abzudecken.}%
-{Dazu könnt ihr Euch einen Anwendungsfall heraussuchen, der möglichst viele 
-Module der  Architektur abdeckt. In SWP-2 werden wir mehrere Anwendungsfälle
-betrachten und eine umfangreichere Abdeckung der Architektur anstreben.} }
 
 
 \subsection{Kampfrunde}
@@ -798,6 +785,8 @@ Die mit Loop gekenzeichneten Kästchen sind Schleifen. Diese werden nicht oder m
 
 Spätestens, wenn der Spieler keine Actionen durchführen kann, wird er die Kampfrunde beenden.
 
+Jeder der drei Loops sind Eigenständige Sequenzen die in hier in einem Diagramm zusammengefasst worden sind.
+
 
 \begin{figure}[!ht]
 	\centering
@@ -807,6 +796,7 @@ Spätestens, wenn der Spieler keine Actionen durchführen kann, wird er die Kamp
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Evolution} \label{sec:evolution}
 
 Da das System als Projektarbeit der Veranstaltung Software-Projekt 2 entwickelt wird,
@@ -817,14 +807,12 @@ ist nicht zu erwarten, dass das System nach Auslieferung des Systems erweitert o
 	\item Chat-Funktion\\ Für die Echtzeit-Kommunikation zwischen Spielern kann das System auch durch eine Chat-Funktion erweitert werden. Dafür wird das WebSocket-Protokoll verwendet um eine bidirektionale Verbindung zwischen Clients und Server aufzustellen. Aufgrund unseres modularen Architekturaufbaus kann man diese Funktion leicht einbinden.
 	\item Kompatibilität mit anderen Geräten\\ Wenn die Anwendung auch auf anderen Geräten/Systemen laufen soll, dann kann man die Anwendung kompatibel machen zu anderen Geräten. Es müssten nur einige oberflächliche Optimierungen durchgeführt werden. Dies würde jedoch nur eine geringfügige Änderung an der Architektur haben.
 	\item Highscore\\ Eine Highscore-Seite, die aufzeigt wie viele Punkte der Spieler oder alle Spieler erreicht haben ist keine Mindestanforderung, aber kann im Rahmen der Weiterentwicklung einfach umgesetzt werden. Diese Funktion hat eine direkte Auswirkung auf die Architektur. Eine neue Variable einsetzen in der Klasse User um durch den Spielverlauf die Variable zu verändern.
-\end{itemize}
-
-\subsection{Mehr als Zwei Spieler}
+	\item Mehr als Zwei Spieler\\
 Unser Spiel ist für 2 Menschliche Spieler ausgelegt. Unser Datenmodel ist nicht auf 2 Spieler begrentzt. Intern
 ist die KI eine Implementierung der Schnitstelle Actor. Falls später Bedarf besteht, ist es Möglich ohne weitgehende Veränderung im Model
 mehr als 2 Menschliche Spieler zu unterstützen. Die größten Anpaßungen würden u.A. in dem Runden ablauf passieren. Alle festen Variablen, welche für 2 Spieler gelten, wurden angepasst werden müssen, so dass diese Dynmaisch sind. Sprich sich der Anzahl an Spieler anpassen.
 Es wäre wichtig genau darauf zu achten, dass es zu keinen Deadlocks kommt, welche wegen der erhöhten Spieler Anzahl geschehen könnten.
-
+\end{itemize}
 %% Was ist Nötig, welche änderungen bei der globalen Anylse, welche stellen werden verändert. Welche Komponeten und was tun.
 
 \end{document}
