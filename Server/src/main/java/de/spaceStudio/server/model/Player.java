@@ -6,7 +6,6 @@ import javax.persistence.*;
  * @author Miguel Caceres 09.05.2020
  */
 @Entity
-@Table(name = "Player")
 public class Player extends Actor{
 
 	private String name;

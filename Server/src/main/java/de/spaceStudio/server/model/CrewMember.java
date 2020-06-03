@@ -3,13 +3,13 @@ package de.spaceStudio.server.model;
 
 import javax.persistence.*;
 
-@Entity(name = "Crewmember")
+@Entity
 public class CrewMember {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne
+    @OneToOne
     private Section currentSection;
 
     private int health;

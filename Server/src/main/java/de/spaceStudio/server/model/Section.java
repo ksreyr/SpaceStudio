@@ -3,8 +3,12 @@ package de.spaceStudio.server.model;
 
 import javax.persistence.*;
 import java.util.List;
+//TODO: @MAPPING_SUPER_CLASS
+//or it is not created a table in the DB
+//Link to reference Sprint Documentation:
+// https://www.baeldung.com/hibernate-inheritance
 
-@Entity(name = "Section")
+@Entity
 public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

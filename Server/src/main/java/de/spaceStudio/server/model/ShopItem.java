@@ -4,15 +4,18 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class ShopItem  implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class ShopItem  extends Ressource {
+//public class ShopItem  implements Serializable {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Integer id;
 
     private int price;
-    private int qty;
 
     @ManyToOne
-    private Ressource item;
+    private Station station;
+
+//    @ManyToOne
+//    private Ressource item;
 
 }
