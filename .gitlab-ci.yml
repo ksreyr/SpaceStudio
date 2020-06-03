@@ -14,8 +14,7 @@ buildClient:
   script:
       - |
           echo "Start the build of Client"
-          cd Client
-          gradle --build-cache assemble
+          gradle :Client:build
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
