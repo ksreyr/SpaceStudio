@@ -1,4 +1,4 @@
-# h2-crud-json
+# server
 
 CRUD in h2 with JPA and Hibernate. SQL will be executed on startup server
 REST API, create, read, update and delete.
