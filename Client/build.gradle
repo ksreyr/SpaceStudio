@@ -38,7 +38,7 @@ allprojects {
     }
 }
 
-project(":desktop") {
+project(":Client:desktop") {
     apply plugin: "eclipse"
     apply plugin: "java-library"
 
@@ -47,7 +47,7 @@ project(":desktop") {
         // https://mvnrepository.com/artifact/org.projectlombok/lombok
         compile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
 
-        implementation project(":core")
+        implementation project(":Client:core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -55,7 +55,7 @@ project(":desktop") {
     }
 }
 
-project(":core") {
+project(":Client:core") {
     apply plugin: "java-library"
 
 

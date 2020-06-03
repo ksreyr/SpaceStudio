@@ -62,6 +62,12 @@ local.properties
 # Eclipse Core
 .project
 
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
