@@ -2,3 +2,5 @@ rootProject.name = 'spacestudio'
 include ':Server',
         ':Client:desktop',
         ':Client:core'
+
+include ':Server'

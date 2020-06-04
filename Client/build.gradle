@@ -46,7 +46,7 @@ project(":Client:desktop") {
     dependencies {
         // https://mvnrepository.com/artifact/org.projectlombok/lombok
         compile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
-
+        implementation project(':Server')
         implementation project(":Client:core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
