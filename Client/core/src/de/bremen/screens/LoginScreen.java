@@ -22,7 +22,6 @@ public class LoginScreen extends BaseScreen {
     private Stage stage;
     private Skin skin;
 
-    // Game Variables
 
     private TextArea userName;
     private TextArea userPassword;
@@ -36,12 +35,6 @@ public class LoginScreen extends BaseScreen {
     private final int worldHeight = 600;
 
     private boolean isValid = false;
-
-    //Sockets
-    private String IPAdresse = "127.0.0.1";
-
-    Net.Protocol protocol = Net.Protocol.TCP;
-
 
 
     public LoginScreen(final MainClient game) {
