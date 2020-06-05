@@ -18,7 +18,20 @@ public class InitializingBeanExampleBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        playerRepository.save(new Player(1, "Nick", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"));
+
+        playerRepository.save(new Player(1, "Nick", "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"));
         playerRepository.save(new Player(2, "Judy", "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"));
+
+        // TODO Universe
+
+        // TODO Statio
+
+        // TODO Ship
+
+        // TODO Sections
+
+        // TODO WEAPONS
+
+        // TODO Crew
     }
 }
