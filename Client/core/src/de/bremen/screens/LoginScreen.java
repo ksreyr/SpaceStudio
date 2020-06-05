@@ -2,8 +2,10 @@ package de.bremen.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,6 +24,8 @@ import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.bremen.MainClient;
 import de.bremen.model.Player;
+
+import java.awt.*;
 
 public class LoginScreen extends BaseScreen {
     // Game Variables
@@ -56,9 +60,6 @@ public class LoginScreen extends BaseScreen {
 
         userValidity();
 
-        //DrawComponents
-        confirmationMesagge.setSize(200, 50);
-        confirmationMesagge.setPosition(550,70);
 
         //clean placeholder
         userName.addListener(new ClickListener() {
@@ -70,7 +71,7 @@ public class LoginScreen extends BaseScreen {
         });
 
         userName.setSize(200, 35);
-        userName.setPosition(buttonPositionX, 220);
+        userName.setPosition(buttonPositionX, 330);
 
         //clean placeholder
         this.userPassword.addListener(new ClickListener() {
@@ -83,10 +84,15 @@ public class LoginScreen extends BaseScreen {
 
 
         userPassword.setSize(200, 35);
-        userPassword.setPosition(buttonPositionX, 150);
+        userPassword.setPosition(buttonPositionX, 280);
 
         confirmUser.setSize(200, 70);
-        confirmUser.setPosition(buttonPositionX, 50);
+        confirmUser.setPosition(buttonPositionX, 150);
+
+        //DrawComponents
+        confirmationMesagge.setSize(200, 50);
+        confirmationMesagge.setPosition(300,230);
+
         stage.addActor(confirmationMesagge);
         stage.addActor(userName);
         stage.addActor(userPassword);
@@ -105,7 +111,11 @@ public class LoginScreen extends BaseScreen {
                 Player testPlayer = new Player(3, getUserName(userName), getUserPassword(userPassword));
                 sendRequest(testPlayer, Net.HttpMethods.POST);
 
-                if(!isValid ){ confirmationMesagge.setText("invalid username or password!"); }
+
+                if(!isValid ){
+                    confirmationMesagge.setText("invalid username or password!");
+                    confirmationMesagge.setColor(Color.RED);
+                }
             }
         });
 
@@ -118,7 +128,7 @@ public class LoginScreen extends BaseScreen {
      */
     private String  getUserName(final TextArea username){
         if(username == null || username.getText().length() < 1){
-            System.out.println("invalid name or password!");
+            System.out.println("Enter a valid username");
         }
 
         return userName.getText();
@@ -131,8 +141,8 @@ public class LoginScreen extends BaseScreen {
      */
     private String  getUserPassword(final TextArea userpassword){
        if(userpassword == null || userpassword.getText().length() < 1){
-            System.out.println("invalid name or password!");
-        }
+           System.out.println("Enter a valid password ");
+       }
         return userpassword.getText();
     }
 
