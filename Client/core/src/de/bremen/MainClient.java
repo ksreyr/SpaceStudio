@@ -3,7 +3,7 @@ package de.bremen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.bremen.screens.LogginScreen;
+import de.bremen.screens.LoginScreen;
 import lombok.Setter;
 import lombok.Getter;
 public class MainClient extends Game {
@@ -11,7 +11,7 @@ public class MainClient extends Game {
 	@Getter
 	private AssetManager assetManager;
 
-	public LogginScreen logginScreen;
+	public LoginScreen logginScreen;
 	private SpriteBatch batch;
 
 	@Override
@@ -19,7 +19,7 @@ public class MainClient extends Game {
 		assetManager = new AssetManager();
 
 		assetManager.finishLoading();
-		logginScreen = new LogginScreen(this);
+		logginScreen = new LoginScreen(this);
 		batch = new SpriteBatch();
 		setScreen(logginScreen);
 

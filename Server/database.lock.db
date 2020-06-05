@@ -1,0 +1,6 @@
+#FileLock
+#Fri Jun 05 17:48:53 CEST 2020
+server=192.168.1.158\:61535
+hostName=Dexter.localdomain
+method=file
+id=172852bb4c0b0418b433d463a2270380682b6329a95

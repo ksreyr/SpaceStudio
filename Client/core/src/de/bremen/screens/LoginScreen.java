@@ -3,6 +3,8 @@ package de.bremen.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,7 +19,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.bremen.MainClient;
 import de.bremen.model.Player;
 
-public class LogginScreen extends BaseScreen {
+public class LoginScreen extends BaseScreen {
     // Game Variables
     private Stage stage;
     private Skin skin;
@@ -30,77 +32,92 @@ public class LogginScreen extends BaseScreen {
     private TextButton senden;
     private Label confirmationMesagge;
 
-    private boolean gelogg=false,login=false;
+
+    private int buttonPositionX = 310;
+
+    private final int worldWidth = 800;
+    private final int worldHeight = 600;
+
+    private boolean login=false;
 
     //Sockets
     private String IPAdresse = "127.0.0.1";
 
     Net.Protocol protocol = Net.Protocol.TCP;
 
-    //Contructor
-    public LogginScreen(final MainClient game) {
+
+
+    public LoginScreen(final MainClient game) {
         super(game);
 
-        stage = new Stage(new FitViewport(800, 600));
+        stage = new Stage(new FitViewport(worldWidth,worldHeight));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        myIP = new Label(IPAdresse, skin);
-
-        ip = new TextArea("127.0.0.1", skin);
         userName = new TextArea("Name", skin);
         userPassword = new TextArea("Password", skin);
+        confirmationMesagge = new Label("", skin);
 
-        confirmationMesagge = new Label("Mesagge", skin);
-
-        //BUTTON Local server
-        senden = new TextButton("Senden", skin);
-        senden.addCaptureListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("Event triggered");
-                //Client Send
-                String userNametoSend = "";
-                String userPasswordtoSend = "";
-                if (userName.getText().length() == 0 &&
-                        userPassword.getText().length() == 0) {
-                    return;
-                } else {
-                    userNametoSend = userName.getText();
-                    userPasswordtoSend = userPassword.getText();
-                    Player testPlayer = new Player(3, userNametoSend, userPasswordtoSend);
-                    sendRequest(testPlayer, Net.HttpMethods.POST);
-                    confirmationMesagge.setText(String.valueOf(login));
-
-                }
-            }
-
-        });
+        userValidity();
 
         //DrawComponents
         confirmationMesagge.setSize(200, 50);
-        confirmationMesagge.setPosition(220, 410);
-
-        myIP.setSize(200, 50);
-        myIP.setPosition(220, 350);
-
-        ip.setSize(200, 50);
-        ip.setPosition(220, 290);
+        confirmationMesagge.setPosition(550,70);
 
         userName.setSize(200, 50);
-        userName.setPosition(220, 220);
+        userName.setPosition(buttonPositionX, 220);
 
         userPassword.setSize(200, 50);
-        userPassword.setPosition(220, 150);
+        userPassword.setPosition(buttonPositionX, 150);
 
         senden.setSize(200, 70);
-        senden.setPosition(220, 50);
+        senden.setPosition(buttonPositionX, 50);
 
         stage.addActor(confirmationMesagge);
-        stage.addActor(myIP);
-        stage.addActor(ip);
         stage.addActor(userName);
         stage.addActor(userPassword);
         stage.addActor(senden);
+    }
+
+    /**
+     * whether user is valid or not
+     */
+    private void userValidity(){
+
+        senden = new TextButton("Log in", skin);
+        senden.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Player testPlayer = new Player(3, getUserName(userName), getUserPassword(userPassword));
+                sendRequest(testPlayer, Net.HttpMethods.POST);
+
+                if(!login){ confirmationMesagge.setText("invalid username or password!"); }
+            }
+        });
+
+    }
+
+    /**
+     *
+     * @param username provided by player
+     * @return
+     */
+    private String  getUserName(final TextArea username){
+        if(username == null || username.getText().length() < 1){
+            System.out.println("invalid name or password!");
+        }
+        return userName.getText();
+    }
+
+    /**
+     *
+     * @param userPassword provided by player
+     * @return
+     */
+    private String  getUserPassword(final TextArea userPassword){
+        if(userPassword == null || userPassword.getText().length() < 1){
+            System.out.println("invalid name or password!");
+        }
+        return userPassword.getText();
     }
 
 
@@ -133,7 +150,7 @@ public class LogginScreen extends BaseScreen {
                 System.out.println("statusCode: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
                 try {
-                    System.out.println("Respons: " + responseJson);
+                    System.out.println("Response: " + responseJson);
                     login=Boolean.parseBoolean(responseJson);
 
                 } catch (Exception exception) {
@@ -174,13 +191,15 @@ public class LogginScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
+
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         if (login) {
             game.setScreen(new LoadingScreen(game));
         }
         stage.act();
         stage.draw();
-    }
+       }
 
 }
