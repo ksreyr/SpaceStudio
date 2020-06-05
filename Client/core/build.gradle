@@ -8,5 +8,5 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project.name = appName + "-core"
 
 dependencies {
-    compile project(':Server')
+    implementation project(':Server').sourceSets.main.output
 }
