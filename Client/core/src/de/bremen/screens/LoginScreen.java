@@ -3,8 +3,6 @@ package de.bremen.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,11 +23,10 @@ public class LoginScreen extends BaseScreen {
     private Skin skin;
 
     // Game Variables
-    private Label myIP;
-    private TextArea ip;
+
     private TextArea userName;
     private TextArea userPassword;
-    private TextButton senden;
+    private TextButton confirmUser;
     private Label confirmationMesagge;
 
 
@@ -38,7 +35,7 @@ public class LoginScreen extends BaseScreen {
     private final int worldWidth = 800;
     private final int worldHeight = 600;
 
-    private boolean login=false;
+    private boolean isValid = false;
 
     //Sockets
     private String IPAdresse = "127.0.0.1";
@@ -69,13 +66,13 @@ public class LoginScreen extends BaseScreen {
         userPassword.setSize(200, 50);
         userPassword.setPosition(buttonPositionX, 150);
 
-        senden.setSize(200, 70);
-        senden.setPosition(buttonPositionX, 50);
+        confirmUser.setSize(200, 70);
+        confirmUser.setPosition(buttonPositionX, 50);
 
         stage.addActor(confirmationMesagge);
         stage.addActor(userName);
         stage.addActor(userPassword);
-        stage.addActor(senden);
+        stage.addActor(confirmUser);
     }
 
     /**
@@ -83,14 +80,14 @@ public class LoginScreen extends BaseScreen {
      */
     private void userValidity(){
 
-        senden = new TextButton("Log in", skin);
-        senden.addCaptureListener(new ChangeListener() {
+        confirmUser = new TextButton("Log in", skin);
+        confirmUser.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Player testPlayer = new Player(3, getUserName(userName), getUserPassword(userPassword));
                 sendRequest(testPlayer, Net.HttpMethods.POST);
 
-                if(!login){ confirmationMesagge.setText("invalid username or password!"); }
+                if(!isValid ){ confirmationMesagge.setText("invalid username or password!"); }
             }
         });
 
@@ -151,7 +148,7 @@ public class LoginScreen extends BaseScreen {
                 String responseJson = httpResponse.getResultAsString();
                 try {
                     System.out.println("Response: " + responseJson);
-                    login=Boolean.parseBoolean(responseJson);
+                    isValid =Boolean.parseBoolean(responseJson);
 
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -166,7 +163,7 @@ public class LoginScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
-        if (login) {
+        if (isValid ) {
             game.setScreen(new LoadingScreen(game));
         }
 
@@ -195,7 +192,7 @@ public class LoginScreen extends BaseScreen {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (login) {
+        if (isValid ) {
             game.setScreen(new LoadingScreen(game));
         }
         stage.act();
