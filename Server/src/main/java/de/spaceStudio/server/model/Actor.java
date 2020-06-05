@@ -6,6 +6,13 @@ import javax.persistence.*;
 public abstract class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer Id;
+    private Integer id;
 
+    public Actor(int id) {
+        this.id = id;
+    }
+
+    public Actor() {
+
+    }
 }

@@ -6,11 +6,21 @@ import javax.persistence.*;
  * @author Miguel Caceres 09.05.2020
  */
 @Entity
-public class Player extends Actor{
+public class Player extends Actor {
 
 	private String name;
 
 	private String password;
+
+	public Player() {
+		super();
+	}
+
+	public Player(int id, String name, String password) {
+		super(id);
+		this.name = name;
+		this.password = password;
+	}
 
 	public void setName(String name) {
 		this.name = name;
