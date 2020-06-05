@@ -3,14 +3,20 @@ package de.bremen.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -21,7 +27,6 @@ public class LoginScreen extends BaseScreen {
     // Game Variables
     private Stage stage;
     private Skin skin;
-
 
     private TextArea userName;
     private TextArea userPassword;
@@ -37,6 +42,7 @@ public class LoginScreen extends BaseScreen {
     private boolean isValid = false;
 
 
+
     public LoginScreen(final MainClient game) {
         super(game);
 
@@ -47,21 +53,40 @@ public class LoginScreen extends BaseScreen {
         userPassword = new TextArea("Password", skin);
         confirmationMesagge = new Label("", skin);
 
+
         userValidity();
 
         //DrawComponents
         confirmationMesagge.setSize(200, 50);
         confirmationMesagge.setPosition(550,70);
 
-        userName.setSize(200, 50);
+        //clean placeholder
+        userName.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                userName.setText("");
+            }
+        });
+
+        userName.setSize(200, 35);
         userName.setPosition(buttonPositionX, 220);
 
-        userPassword.setSize(200, 50);
+        //clean placeholder
+        this.userPassword.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                userPassword.setText("");
+            }
+        });
+
+
+        userPassword.setSize(200, 35);
         userPassword.setPosition(buttonPositionX, 150);
 
         confirmUser.setSize(200, 70);
         confirmUser.setPosition(buttonPositionX, 50);
-
         stage.addActor(confirmationMesagge);
         stage.addActor(userName);
         stage.addActor(userPassword);
@@ -95,19 +120,20 @@ public class LoginScreen extends BaseScreen {
         if(username == null || username.getText().length() < 1){
             System.out.println("invalid name or password!");
         }
+
         return userName.getText();
     }
 
     /**
      *
-     * @param userPassword provided by player
+     * @param userpassword provided by player
      * @return
      */
-    private String  getUserPassword(final TextArea userPassword){
-        if(userPassword == null || userPassword.getText().length() < 1){
+    private String  getUserPassword(final TextArea userpassword){
+       if(userpassword == null || userpassword.getText().length() < 1){
             System.out.println("invalid name or password!");
         }
-        return userPassword.getText();
+        return userpassword.getText();
     }
 
 
@@ -180,16 +206,20 @@ public class LoginScreen extends BaseScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void resize(int width, int height) {
 
+    }
+
+    @Override
+    public void render(float delta) {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (isValid ) {
-            game.setScreen(new LoadingScreen(game));
-        }
-        stage.act();
-        stage.draw();
+       if (isValid ) {  game.setScreen(new LoadingScreen(game)); }
+       stage.act();
+       stage.draw();
+
+
        }
 
 }
