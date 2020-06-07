@@ -4,19 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
@@ -24,8 +16,6 @@ import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.bremen.MainClient;
 import de.bremen.model.Player;
-
-import java.awt.*;
 
 public class LoginScreen extends BaseScreen {
     // Game Variables
@@ -37,6 +27,7 @@ public class LoginScreen extends BaseScreen {
     private TextButton confirmUser;
     private Label confirmationMesagge;
 
+    private boolean isPasswordShown = false;
 
     private int buttonPositionX = 310;
 
@@ -47,6 +38,7 @@ public class LoginScreen extends BaseScreen {
 
 
 
+
     public LoginScreen(final MainClient game) {
         super(game);
 
@@ -54,12 +46,16 @@ public class LoginScreen extends BaseScreen {
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         userName = new TextArea("Name", skin);
+
+
         userPassword = new TextArea("Password", skin);
+        //userPassword.setPasswordMode(false);
+        userPassword.setPasswordCharacter('*');
+
+
+
+
         confirmationMesagge = new Label("", skin);
-
-
-        userValidity();
-
 
         //clean placeholder
         userName.addListener(new ClickListener() {
@@ -79,12 +75,15 @@ public class LoginScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 userPassword.setText("");
+
             }
         });
 
+        userValidity();
 
         userPassword.setSize(200, 35);
         userPassword.setPosition(buttonPositionX, 280);
+        userPassword.setPasswordMode(true);
 
         confirmUser.setSize(200, 70);
         confirmUser.setPosition(buttonPositionX, 150);
@@ -108,10 +107,8 @@ public class LoginScreen extends BaseScreen {
         confirmUser.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Player testPlayer = new Player(3, getUserName(userName), getUserPassword(userPassword));
+                Player testPlayer = new Player(3, getUserName(), getUserPassword());
                 sendRequest(testPlayer, Net.HttpMethods.POST);
-
-
                 if(!isValid ){
                     confirmationMesagge.setText("invalid username or password!");
                     confirmationMesagge.setColor(Color.RED);
@@ -121,33 +118,21 @@ public class LoginScreen extends BaseScreen {
 
     }
 
-    /**
-     *
-     * @param username provided by player
-     * @return
-     */
-    private String  getUserName(final TextArea username){
-        if(username == null || username.getText().length() < 1){
-            System.out.println("Enter a valid username");
-        }
+    public void setUserName(String username){  userName.setText(username); }
 
-        return userName.getText();
-    }
-
-    /**
-     *
-     * @param userpassword provided by player
-     * @return
-     */
-    private String  getUserPassword(final TextArea userpassword){
-       if(userpassword == null || userpassword.getText().length() < 1){
-           System.out.println("Enter a valid password ");
-       }
-        return userpassword.getText();
-    }
+    public void setPassword(String password){   userName.setText(password);  }
 
 
-    public void sendRequest(Object requestObject, String method) {
+    public String  getUserName(){
+
+        return userName.getText(); }
+
+    public String  getUserPassword(){
+        userPassword.setPasswordMode(true);
+        return userPassword.getText();  }
+
+
+   public void sendRequest(Object requestObject, String method) {
 
         final Json json = new Json();
 
@@ -163,7 +148,6 @@ public class LoginScreen extends BaseScreen {
 
         request.setHeader("Content-Type", "application/json");
         request.setHeader("Accept", "application/json");
-
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
 
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -195,9 +179,7 @@ public class LoginScreen extends BaseScreen {
         if (isValid ) {
             game.setScreen(new LoadingScreen(game));
         }
-
     }
-
 
     @Override
     public void show() {
