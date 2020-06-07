@@ -59,7 +59,7 @@ public class MenuScreen extends ScreenAdapter {
         Table table = new Table(sgxSkin);
         table.defaults().space(20);
 
-        TextureRegion backgroundRegion = gamePlayAtlas.findRegion(RegionNames.BACKGROUND);
+        TextureRegion backgroundRegion = gamePlayAtlas.findRegion(RegionNames.MENU_BACKGROUND);
         table.setBackground(new TextureRegionDrawable(backgroundRegion));
 
 

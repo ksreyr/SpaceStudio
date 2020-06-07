@@ -11,7 +11,7 @@ public class MainClient extends Game {
 	@Getter
 	private AssetManager assetManager;
 
-	public LoginScreen logginScreen;
+	public LoginScreen loginScreen;
 	private SpriteBatch batch;
 
 	@Override
@@ -19,9 +19,9 @@ public class MainClient extends Game {
 		assetManager = new AssetManager();
 
 		assetManager.finishLoading();
-		logginScreen = new LoginScreen(this);
+		loginScreen = new LoginScreen(this);
 		batch = new SpriteBatch();
-		setScreen(logginScreen);
+		setScreen(loginScreen);
 
 	}
 	@Override
