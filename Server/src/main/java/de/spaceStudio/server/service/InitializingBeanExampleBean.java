@@ -1,5 +1,6 @@
 package de.spaceStudio.server.service;
 
+import de.spaceStudio.server.model.Actor;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.repository.PlayerRepository;
 import org.hibernate.cfg.Environment;
@@ -19,8 +20,15 @@ public class InitializingBeanExampleBean implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
 
-        playerRepository.save(new Player(1, "Nick", "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"));
-        playerRepository.save(new Player(2, "Judy", "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5"));
+        playerRepository.save(Player.builder().id(1)
+                .name("Nick")
+                .password("ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f")
+                .build());
+
+        playerRepository.save(Player.builder().id(2)
+                .name("Judy")
+                .password("5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5")
+                .build());
 
         // TODO Universe
 

@@ -6,10 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.bremen.screens.LogginScreen;
 import lombok.Setter;
 import lombok.Getter;
+
+
 public class MainClient extends Game {
 	@Setter
 	@Getter
 	private AssetManager assetManager;
+
+
 
 	public LogginScreen logginScreen;
 	private SpriteBatch batch;

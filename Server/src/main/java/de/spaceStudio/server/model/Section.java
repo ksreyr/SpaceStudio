@@ -9,6 +9,9 @@ import java.util.List;
 // https://www.baeldung.com/hibernate-inheritance
 
 @Entity
+@Inheritance(
+        strategy = InheritanceType.JOINED
+)
 public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
