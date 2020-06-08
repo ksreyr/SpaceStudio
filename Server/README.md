@@ -42,3 +42,7 @@ http://localhost:8080/swagger-ui.html
     }
 ]
 ```
+### H2-Console
+for the use of this database console, you just need to get the following URL.
+the user is "sa" and the paswword is "".
+* http://localhost:8080/h2-console
