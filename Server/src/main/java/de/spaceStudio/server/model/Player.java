@@ -56,7 +56,6 @@ public class Player extends Actor {
             this.password = password;
         }
 
-
         public PlayerBuilder id(Integer id) {
             this.id = id;
             return PlayerBuilder.this;

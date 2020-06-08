@@ -1,21 +1,23 @@
 package de.spaceStudio.server.service;
 
-import de.spaceStudio.server.model.Actor;
+import de.spaceStudio.server.model.Lasser;
 import de.spaceStudio.server.model.Player;
-import de.spaceStudio.server.repository.PlayerRepository;
-import org.hibernate.cfg.Environment;
+
+import de.spaceStudio.server.repository.*;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.logging.Logger;
 
 @Component
 public class InitializingBeanExampleBean implements InitializingBean {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private LasserRepository lasserRepository;
+
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -37,6 +39,11 @@ public class InitializingBeanExampleBean implements InitializingBean {
         // TODO Ship
 
         // TODO Sections
+        lasserRepository.save(Lasser.builder()
+                .name("V1")
+                .hitRate(100)
+                .build());
+
 
         // TODO WEAPONS
 
