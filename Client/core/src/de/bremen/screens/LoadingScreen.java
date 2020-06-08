@@ -1,9 +1,15 @@
 package de.bremen.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.bremen.MainClient;
@@ -16,6 +22,9 @@ public class LoadingScreen extends ScreenAdapter {
     private static final float PROGRESS_BAR_WIDTH = 400f;
     private static final float PROGRESS_BAR_HEIGHT = 60f;
 
+    private Stage stage;
+    private Skin skin;
+
     private final MainClient game;
     private final AssetManager assetManager;
 
@@ -27,9 +36,19 @@ public class LoadingScreen extends ScreenAdapter {
     private float waitTime = 0.75f;
     private boolean changeScreen;
 
+    private Label loadingText;
+
     public LoadingScreen(MainClient game) {
         this.game = game;
+        stage = new Stage(new FitViewport(800,600));
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         assetManager = game.getAssetmanager();
+        loadingText = new Label("Loading ...", skin);
+        loadingText.setAlignment(Align.center);
+        loadingText.setFontScale(2,2);
+        loadingText.setPosition(stage.getWidth()/2f-50,400);
+        loadingText.setColor(Color.WHITE);
+        stage.addActor(loadingText);
     }
 
     @Override
@@ -37,6 +56,7 @@ public class LoadingScreen extends ScreenAdapter {
         camera = new OrthographicCamera();
         viewport = new FitViewport(800f, 480f, camera);
         renderer = new ShapeRenderer();
+        Gdx.input.setInputProcessor(stage);
 
         assetManager.load(AssetDescriptors.BACKGROUND_AREA);
         assetManager.load(AssetDescriptors.SGX_SKIN);
@@ -84,6 +104,8 @@ public class LoadingScreen extends ScreenAdapter {
 
     private void draw() {
         viewport.apply();
+        stage.act();
+        stage.draw();
         renderer.setProjectionMatrix(camera.combined);
         renderer.begin(ShapeRenderer.ShapeType.Filled);
 
