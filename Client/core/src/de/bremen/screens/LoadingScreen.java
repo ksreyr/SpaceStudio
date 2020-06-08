@@ -65,7 +65,6 @@ public class LoadingScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         GdxUtils.clearScreen();
-
         update(delta);
         draw();
 
@@ -86,6 +85,8 @@ public class LoadingScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
+        skin.dispose();
+        stage.dispose();
         renderer.dispose();
     }
 
