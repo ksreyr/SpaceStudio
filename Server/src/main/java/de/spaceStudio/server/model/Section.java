@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(
-        strategy = InheritanceType.JOINED
+        strategy = InheritanceType.TABLE_PER_CLASS
 )
 public class Section {
     @Id
@@ -26,11 +26,7 @@ public class Section {
 
     private String img;
 
-    // If there are no connection. One cannot enter this section
-    // Eg: One cannot enter a weapon
-    // allows for pathfinding in the ship
     @ManyToMany
-    // GGF OneToMany weniger probleme wegen bidirectionalität
     private List<Section> connectingTo;
 
     private float oxygen;

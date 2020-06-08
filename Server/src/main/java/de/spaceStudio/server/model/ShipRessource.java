@@ -6,7 +6,7 @@ import javax.persistence.OneToOne;
 
 
 @Entity
-public class ShipItems extends Ressource{
+public class ShipRessource extends Ressource{
     @ManyToOne
 private Ship ship;
 }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(
-        strategy = InheritanceType.JOINED
+        strategy = InheritanceType.TABLE_PER_CLASS
 )
 public  class Actor {
 
@@ -15,8 +15,6 @@ public  class Actor {
     @Column
     private String name;
 
-    @Column
-    private String password;
 
     public Actor() {
 
@@ -38,11 +36,5 @@ public  class Actor {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

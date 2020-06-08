@@ -11,7 +11,7 @@ public class Station extends StopAbstract{
     private int hpPrice;
 
     //@ManyToMany
-    //private List<ShopItem> market = new ArrayList<ShopItem>();
+    //private List<ShopRessource> market = new ArrayList<ShopRessource>();
 
 
     // FIXME Santiago, https://www.baeldung.com/hibernate-persisting-maps

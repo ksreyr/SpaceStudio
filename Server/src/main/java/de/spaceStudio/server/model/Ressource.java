@@ -2,7 +2,10 @@ package de.spaceStudio.server.model;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Inheritance(
+        strategy = InheritanceType.TABLE_PER_CLASS
+)
 public abstract class Ressource {
 
     @Id

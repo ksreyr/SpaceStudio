@@ -1,9 +1,7 @@
 package de.spaceStudio.server.repository;
 
-import de.spaceStudio.server.model.ShopItem;
+import de.spaceStudio.server.model.ShopRessource;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
-
-public interface ShopItemsRepository extends JpaRepository<ShopItem, Integer> {
+public interface ShopItemsRepository extends JpaRepository<ShopRessource, Integer> {
 }
