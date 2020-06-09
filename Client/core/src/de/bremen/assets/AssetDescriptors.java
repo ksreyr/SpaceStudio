@@ -14,10 +14,8 @@ public class AssetDescriptors {
     public static final AssetDescriptor<TextureAtlas> BACKGROUND_AREA =
             new AssetDescriptor<>(AssetPaths.BACKGROUND_AREA, TextureAtlas.class);
 
-
-
-    //public static final AssetDescriptor<BitmapFont> UI_FONT =
-    //        new AssetDescriptor<>(AssetPaths.UI_FONTS, BitmapFont.class);
+    public static final AssetDescriptor<TextureAtlas> BACKGROUND_LOGIN =
+            new AssetDescriptor<>(AssetPaths.BACKGROUND_LOGIN, TextureAtlas.class);
 
 
     private AssetDescriptors() {

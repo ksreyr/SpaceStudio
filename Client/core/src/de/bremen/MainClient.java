@@ -3,10 +3,9 @@ package de.bremen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.bremen.service.CommunicationService;
 import de.bremen.screens.LoginScreen;
-import lombok.Setter;
 import lombok.Getter;
+import lombok.Setter;
 public class MainClient extends Game {
 	@Setter
 	@Getter
@@ -15,7 +14,6 @@ public class MainClient extends Game {
 	public LoginScreen loginScreen;
 	private SpriteBatch batch;
 
-	public CommunicationService communicationService;
 
 	@Override
 	public void create () {
@@ -23,7 +21,7 @@ public class MainClient extends Game {
 
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
-		loginScreen = new LoginScreen(this);
+		loginScreen = new LoginScreen(this, assetManager);
 
 
 		batch = new SpriteBatch();
