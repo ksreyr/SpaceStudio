@@ -12,6 +12,13 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Miguel Caceres, Santiago Rey
+ *         modified 06.08.2020
+ */
 @Component
 public class InitializingBeanExampleBean implements InitializingBean {
 
@@ -38,8 +45,13 @@ public class InitializingBeanExampleBean implements InitializingBean {
 
     @Autowired
     private SectionRepository sectionRepository;
+
     @Autowired
     private UniverseRepository universeRepository;
+
+    @Autowired
+    private StationRepository stationRepository;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         /*
@@ -59,7 +71,8 @@ public class InitializingBeanExampleBean implements InitializingBean {
        /*
         Ship Creation
         */
-        Ship  ship1=Ship.shipBluider()
+
+        Ship ship1=Ship.shipBluider()
         .hp(3)
         .name("Ship1")
         .owner(p1)
@@ -67,6 +80,41 @@ public class InitializingBeanExampleBean implements InitializingBean {
         .shield(3)
         .buildShip();
         shipRepository.save(ship1);
+
+        Ship ship2=Ship.shipBluider()
+                .hp(3)
+                .name("Ship2")
+                .owner(p1)
+                .power(34)
+                .shield(3)
+                .buildShip();
+        shipRepository.save(ship2);
+
+        Ship ship3=Ship.shipBluider()
+                .hp(3)
+                .name("Ship3")
+                .owner(p1)
+                .power(34)
+                .shield(5)
+                .buildShip();
+        shipRepository.save(ship3);
+
+        Ship ship4=Ship.shipBluider()
+                .hp(5)
+                .name("Ship4")
+                .owner(p1)
+                .power(34)
+                .shield(2)
+                .buildShip();
+        shipRepository.save(ship3);
+
+        List<Ship> ships= new ArrayList<>();
+        ships.add(ship1);
+        ships.add(ship2);
+        List<Ship> ships2= new ArrayList<>();
+        ships2.add(ship3);
+        ships2.add(ship4);
+
         /*
         * */
         /*
@@ -78,18 +126,32 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .usable(true).ship(ship1)
                 .powerRequired(20)
                 .buildSection();
+        sectionRepository.save(s1);
+
         Section s2=Section.sectionBuilder().img("file://img2")
                 .oxygen(35).role(Role.FIGHTER)
                 .powerCurrent(35)
                 .usable(true).ship(ship1)
                 .powerRequired(20)
                 .buildSection();
-        sectionRepository.save(
-                s1
-        );
-        sectionRepository.save(
-                s2
-        );
+        sectionRepository.save(s2);
+
+        Section s3=Section.sectionBuilder().img("file://img3")
+                .oxygen(55).role(Role.FIGHTER)
+                .powerCurrent(35)
+                .usable(true).ship(ship2)
+                .powerRequired(20)
+                .buildSection();
+        sectionRepository.save(s3);
+
+        Section s4=Section.sectionBuilder().img("file://img4")
+                .oxygen(55).role(Role.FIGHTER)
+                .powerCurrent(35)
+                .usable(true).ship(ship2)
+                .powerRequired(20)
+                .buildSection();
+        sectionRepository.save(s4);
+
         /*
         * CrewMember Creation
         * */
@@ -98,11 +160,13 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .role(Role.FIGHTER)
                 .health(100).currentSection(s1).buildCrewMember()
         ) ;
+
         crewMemberRepository.save(CrewMember.crewMemberBuilder()
-                .img("file://img1")
+                .img("file://img2")
                 .role(Role.TECHNICIAN)
                 .health(260).currentSection(s1).buildCrewMember()
         ) ;
+
         /*
         Lasser Creation
         */
@@ -113,10 +177,6 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .img("file://img1")
                 .build());
 
-
-        // TODO WEAPONS
-
-
         /*
         ShipRessourcen Creation
         */
@@ -126,13 +186,15 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .name(RessourceName.ENERGIE)
                 .ship(ship1)
                 .build());
+
          /*
         ShipRessourcen Creation
         */
-        shopRessourceRepository.save(
-                ShopRessource.shopRessourceBuilder()
+        shopRessourceRepository.save(ShopRessource
+                        .shopRessourceBuilder()
                         .amount(150).name(RessourceName.GOLD)
                         .prive(50).build());
+
         /*
         Ressource Creation
         */
@@ -140,11 +202,25 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .name(RessourceName.ENERGIE)
                 .amount(32)
                 .buildRessource());
+
         /**
          *Universe Creation
          */
+        Universe u1=Universe.universeBuilder()
+                .name("univerise1").build();
+        universeRepository.save(u1);
+
         universeRepository.save(Universe.universeBuilder()
-                .name("univerise1").build());
+                .name("univerise2").build());
+
+        /**
+         * Station*
+         */
+        stationRepository.save(Station.stationBuilder()
+                .energyPrice(30).universe(u1).ship(ships).buildStation());
+
+        stationRepository.save(Station.stationBuilder()
+                .energyPrice(45).universe(u1).ship(ships2).buildStation());
 
     }
 }
