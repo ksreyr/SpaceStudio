@@ -124,19 +124,6 @@ public class LoginScreen extends BaseScreen {
 
     }
 
-    public void setUserName(String username){  userName.setText(username); }
-
-    public void setPassword(String password){   userName.setText(password);  }
-
-
-    public String  getUserName(){
-
-        return userName.getText(); }
-
-    public String  getUserPassword(){
-        userPassword.setPasswordMode(true);
-        return userPassword.getText();  }
-
 
    public void sendRequest(Object requestObject, String method) {
 
@@ -185,12 +172,22 @@ public class LoginScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
-
-         if(isValid)
-           confirmationMesagge.setText("invalid username or password!");
-           confirmationMesagge.setColor(Color.RED);
-
+        
     }
+
+
+    public void setUserName(String username){  userName.setText(username); }
+
+    public void setPassword(String password){   userName.setText(password);  }
+
+
+    public String  getUserName(){
+
+        return userName.getText(); }
+
+    public String  getUserPassword(){
+        userPassword.setPasswordMode(true);
+        return userPassword.getText();  }
 
     @Override
     public void show() {
