@@ -6,27 +6,15 @@ import javax.persistence.*;
 
 
 @Entity
-//@Table(name = "ship") // please fix error: cannot find data source and document how to set it up in intelij
 public class Ship {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String name;
 
-    // https://stackoverflow.com/questions/18594234/hibernate-best-practices-avoiding-many-to-many-and-exotic-relationships
-    // https://invidious.snopyta.org/watch?v=808pWqjuhMo&autoplay=0&continue=0&dark_mode=true&listen=0&local=1&loop=0&nojs=0&player_style=youtube&quality=dash&thin_mode=false
-    // https://vladmihalcea.com/manytoone-jpa-hibernate/
     @ManyToOne
     private Player owner;
-
-    //@NonNull
-    //private int geld;
-
-    //@NonNull
-    //private int energy;
 
     @NonNull
     private int hp;
@@ -37,6 +25,34 @@ public class Ship {
     @NonNull
     private int power;
 
+    public Ship() {
+    }
+
+    public Ship(ShipBluider builder) {
+        setId(builder.id);
+        setName(builder.name);
+        setOwner(builder.owner);
+        setHp(builder.hp);
+        setShield(builder.shield);
+        setPower(builder.power);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Player getOwner() {
         return owner;
     }
@@ -44,22 +60,6 @@ public class Ship {
     public void setOwner(Player owner) {
         this.owner = owner;
     }
-
-    //public int getGeld() {
-        //return geld;
-    //}
-
-    //public void setGeld(int geld) {
-      //  this.geld = geld;
-    //}
-
-    //public int getEnergy() {
-      //  return energy;
-    //}
-
-    //public void setEnergy(int energy) {
-      //  this.energy = energy;
-    //}
 
     public int getHp() {
         return hp;
@@ -83,5 +83,68 @@ public class Ship {
 
     public void setPower(int power) {
         this.power = power;
+    }
+
+    public static ShipBluider shipBluider(){
+        return new ShipBluider();
+    }
+
+    public static class ShipBluider {
+
+        private Integer id;
+        private String name;
+        private Player owner;
+        private int hp;
+        private int shield;
+        private int power;
+
+        public ShipBluider() {
+        }
+
+        public ShipBluider(Integer id, String name,
+                           Player owner, int hp,
+                           int shield, int power)
+        {
+            this.id = id;
+            this.name = name;
+            this.owner = owner;
+            this.hp = hp;
+            this.shield = shield;
+            this.power = power;
+        }
+
+        public ShipBluider id(int id) {
+            this.id = id;
+            return ShipBluider.this;
+        }
+
+        public ShipBluider name(String name) {
+            this.name = name;
+            return ShipBluider.this;
+        }
+
+        public ShipBluider owner(Player owner) {
+            this.owner = owner;
+            return ShipBluider.this;
+        }
+
+        public ShipBluider hp(int hp) {
+            this.hp = hp;
+            return ShipBluider.this;
+        }
+
+        public ShipBluider shield(int shield) {
+            this.shield = shield;
+            return ShipBluider.this;
+        }
+
+        public ShipBluider power(int power) {
+            this.power = power;
+            return ShipBluider.this;
+        }
+
+        public Ship buildShip() {
+            return new Ship(this);
+        }
     }
 }

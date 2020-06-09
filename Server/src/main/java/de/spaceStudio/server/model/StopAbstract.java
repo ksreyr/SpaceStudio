@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public abstract class StopAbstract {
+public class StopAbstract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,4 +15,34 @@ public abstract class StopAbstract {
 
     @ManyToOne
     private Universe universe;
+
+    public StopAbstract() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<Ship> getShip() {
+        return ship;
+    }
+
+    public void setShip(List<Ship> ship) {
+        this.ship = ship;
+    }
+
+    public Universe getUniverse() {
+        return universe;
+    }
+
+    public void setUniverse(Universe universe) {
+        this.universe = universe;
+    }
+     public static class StopAbstractBuilder{
+
+     }
 }
