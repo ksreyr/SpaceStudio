@@ -12,6 +12,8 @@ public class Lasser extends Weapon {
     public Lasser (LasserBuilder lasserBuilder){
         setName(lasserBuilder.name);
         setHitRate(lasserBuilder.hitRate);
+        setDamage(lasserBuilder.damage);
+        setImg(lasserBuilder.img);
     }
 
     public static LasserBuilder builder(){
@@ -22,12 +24,16 @@ public class Lasser extends Weapon {
 
         private String name;
         private  Integer hitRate;
+        private int damage;
+        private String img;
 
         public LasserBuilder(){
         }
-        public LasserBuilder(String name, Integer hitRate) {
+        public LasserBuilder(String name, Integer hitRate, int damage, String img) {
             this.name = name;
             this.hitRate = hitRate;
+            this.damage = damage;
+            this.img = img;
         }
 
         public LasserBuilder name(String name) {
@@ -37,6 +43,16 @@ public class Lasser extends Weapon {
 
         public LasserBuilder hitRate(Integer hitRate){
             this.hitRate = hitRate;
+            return LasserBuilder.this;
+        }
+
+        public LasserBuilder damage(int damage){
+            this.damage = damage;
+            return LasserBuilder.this;
+        }
+
+        public LasserBuilder img(String img){
+            this.img = img;
             return LasserBuilder.this;
         }
 

@@ -9,7 +9,7 @@ public class Weapon extends Section {
 
     private int hitRate;
 
-    private int dammage;
+    private int damage;
 
     private String img;
 
@@ -37,11 +37,11 @@ public class Weapon extends Section {
         this.img = img;
     }
 
-    public int getDammage() {
-        return dammage;
+    public int getDamage() {
+        return damage;
     }
 
-    public void setDammage(int dammage) {
-        this.dammage = dammage;
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 }

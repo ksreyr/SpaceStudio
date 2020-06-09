@@ -7,7 +7,6 @@ import de.spaceStudio.server.repository.*;
 
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.PlayerRepository;
-import de.spaceStudio.server.repository.RessourceRepository;
 import de.spaceStudio.server.repository.ShipRessourceRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +109,8 @@ public class InitializingBeanExampleBean implements InitializingBean {
         lasserRepository.save(Lasser.builder()
                 .name("V1")
                 .hitRate(100)
+                .damage(20)
+                .img("file://img1")
                 .build());
 
 
