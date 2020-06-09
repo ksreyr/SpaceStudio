@@ -2,29 +2,29 @@ package de.bremen.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.bremen.MainClient;
-import de.bremen.assets.RegionNames;
-import de.bremen.assets.StyleNames;
 import de.bremen.model.Player;
+import de.bremen.service.CommunicationService;
 
 public class LoginScreen extends BaseScreen {
     // Game Variables
     private Stage stage;
+
+    public Skin getSkin() {
+        return skin;
+    }
+
     private Skin skin;
 
     private TextArea userName;
@@ -40,13 +40,12 @@ public class LoginScreen extends BaseScreen {
     private final int worldHeight = 600;
 
     private boolean isValid = false;
-
-
+    CommunicationService communicationService = new CommunicationService();
 
     public LoginScreen(final MainClient game) {
         super(game);
 
-        stage = new Stage(new FitViewport(worldWidth,worldHeight));
+        stage = new Stage(new FitViewport(worldWidth, worldHeight));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
         userName = new TextArea("Name", skin);
@@ -57,12 +56,9 @@ public class LoginScreen extends BaseScreen {
         userPassword.setPasswordCharacter('*');
 
 
-        //==========================================================
 
-        //Button: Continue, New Game, Options, Exit
+        userValidity();
 
-
-        //==========================================================
 
         confirmationMesagge = new Label("", skin);
 
@@ -88,7 +84,6 @@ public class LoginScreen extends BaseScreen {
             }
         });
 
-        userValidity();
 
         userPassword.setSize(200, 35);
         userPassword.setPosition(buttonPositionX, 280);
@@ -99,7 +94,7 @@ public class LoginScreen extends BaseScreen {
 
         //DrawComponents
         confirmationMesagge.setSize(200, 50);
-        confirmationMesagge.setPosition(300,230);
+        confirmationMesagge.setPosition(300, 230);
 
         stage.addActor(confirmationMesagge);
         stage.addActor(userName);
@@ -110,84 +105,38 @@ public class LoginScreen extends BaseScreen {
     /**
      * whether user is valid or not
      */
-    private void userValidity(){
+    private void userValidity() {
 
-        confirmUser = new TextButton("Log in", skin);
+        confirmUser = new TextButton("Log in", getSkin());
         confirmUser.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Player testPlayer = new Player(3, getUserName(), getUserPassword());
-                sendRequest(testPlayer, Net.HttpMethods.POST);
+                isValid = communicationService.sendRequest(testPlayer, Net.HttpMethods.POST);
 
             }
         });
 
     }
 
+    public void setUserName(String username) {
+        userName.setText(username);
+    }
 
-   public void sendRequest(Object requestObject, String method) {
-
-        final Json json = new Json();
-
-        json.setOutputType(JsonWriter.OutputType.json);
-        System.out.println("JSON to send "+json.toJson(requestObject));
-        final String requestJson = json.toJson(requestObject); // this is just an example
-
-        Net.HttpRequest request = new Net.HttpRequest(method);
-        final String url = "http://127.0.0.1:8080/player/login";
-        request.setUrl(url);
-
-        request.setContent(requestJson);
-
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Accept", "application/json");
-        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-
-                int statusCode = httpResponse.getStatus().getStatusCode();
-                if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
-                    return;
-                }
-                System.out.println("statusCode: " + statusCode);
-                String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response: " + responseJson);
-                    isValid =Boolean.parseBoolean(responseJson);
-                    if(!isValid)
-                        confirmationMesagge.setText("invalid username or password!");
-                        confirmationMesagge.setColor(Color.RED);
-
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
-
-            public void failed(Throwable t) {
-                System.out.println("Request Failed Completely");
-            }
-            @Override
-            public void cancelled() {
-                System.out.println("request cancelled");
-            }
-        });
-        
+    public void setPassword(String password) {
+        userName.setText(password);
     }
 
 
-    public void setUserName(String username){  userName.setText(username); }
+    public String getUserName() {
 
-    public void setPassword(String password){   userName.setText(password);  }
+        return userName.getText();
+    }
 
-
-    public String  getUserName(){
-
-        return userName.getText(); }
-
-    public String  getUserPassword(){
+    public String getUserPassword() {
         userPassword.setPasswordMode(true);
-        return userPassword.getText();  }
+        return userPassword.getText();
+    }
 
     @Override
     public void show() {
@@ -214,14 +163,14 @@ public class LoginScreen extends BaseScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-       if (isValid) {
-           game.setScreen(new LoadingScreen(game));
-       }
+        if (isValid) {
+            game.setScreen(new LoadingScreen(game));
+        }
 
-       stage.act();
-       stage.draw();
+        stage.act();
+        stage.draw();
 
 
-       }
+    }
 
 }
