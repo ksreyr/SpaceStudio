@@ -44,6 +44,9 @@ public class InitializingBeanExampleBean implements InitializingBean {
     private RessourceRepository ressourceRepository;
 
     @Autowired
+    private PlanetRepository planetRepository;
+
+    @Autowired
     private ShipRessourceRepository shipRessourceRepository;
 
     @Autowired
@@ -257,8 +260,18 @@ public class InitializingBeanExampleBean implements InitializingBean {
         universeRepository.save(u1);
 
         universeRepository.save(Universe.universeBuilder()
-                .name("univerise2").build());
+                          .name("univerise2")
+                          .build());
 
+        /*
+         * Planet creation
+         */
+        planetRepository.save(Planet.builder()
+                                    .name("Terra")
+                                    .ship(ships)
+                                    .universe(u1)
+                                    .img("file://data")
+                                    .build());
         /**
          * Station*
          */
