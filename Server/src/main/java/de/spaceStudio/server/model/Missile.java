@@ -15,7 +15,7 @@ public class Missile extends Weapon {
         setHitRate(builder.hitRate);
         setDamage(builder.damage);
         setImg(builder.img);
-        setShip(builder.ship);
+        setSection(builder.section);
     }
 
     public static MissileBuilder builder() {
@@ -28,7 +28,7 @@ public class Missile extends Weapon {
         private Integer hitRate;
         private int damage;
         private String img;
-        private Ship ship;
+        private Section section;
 
         /**
          * Empty constructor
@@ -36,12 +36,12 @@ public class Missile extends Weapon {
         public MissileBuilder() {
         }
 
-        public MissileBuilder(String name, Integer hitRate, int damage, String img, Ship ship) {
+        public MissileBuilder(String name, Integer hitRate, int damage, String img, Section section) {
             this.name = name;
             this.hitRate = hitRate;
             this.damage = damage;
             this.img = img;
-            this.ship = ship;
+            this.section = section;
         }
 
         public MissileBuilder name(String name) {
@@ -64,8 +64,8 @@ public class Missile extends Weapon {
             return MissileBuilder.this;
         }
 
-        public MissileBuilder ship(Ship ship) {
-            this.ship = ship;
+        public MissileBuilder section(Section section) {
+            this.section = section;
             return MissileBuilder.this;
         }
 

@@ -14,7 +14,8 @@ public class Beam extends Weapon {
         setHitRate(builder.hitRate);
         setDamage(builder.damage);
         setImg(builder.img);
-        setShip(builder.ship);
+        setSection(builder.section);
+
     }
 
     public static BeamBuilder builder() {
@@ -27,7 +28,7 @@ public class Beam extends Weapon {
         private Integer hitRate;
         private int damage;
         private String img;
-        private Ship ship;
+        private Section section;
 
         /**
          * Empty constructor
@@ -35,12 +36,12 @@ public class Beam extends Weapon {
         public BeamBuilder() {
         }
 
-        public BeamBuilder(String name, Integer hitRate, int damage, String img, Ship ship) {
+        public BeamBuilder(String name, Integer hitRate, int damage, String img, Section section) {
             this.name = name;
             this.hitRate = hitRate;
             this.damage = damage;
             this.img = img;
-            this.ship = ship;
+            this.section = section;
         }
 
         public BeamBuilder name(String name) {
@@ -63,8 +64,8 @@ public class Beam extends Weapon {
             return BeamBuilder.this;
         }
 
-        public BeamBuilder ship(Ship ship) {
-            this.ship = ship;
+        public BeamBuilder section(Section section) {
+            this.section = section;
             return BeamBuilder.this;
         }
 

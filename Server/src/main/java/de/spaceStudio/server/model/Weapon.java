@@ -4,9 +4,13 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(
-        strategy = InheritanceType.SINGLE_TABLE
+        strategy = InheritanceType.TABLE_PER_CLASS
 )
-public class Weapon extends Section {
+public class Weapon {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     private String name;
 
@@ -15,6 +19,25 @@ public class Weapon extends Section {
     private int damage;
 
     private String img;
+
+    @ManyToOne
+    private Section section;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
+    }
 
     public String getName() {
         return name;

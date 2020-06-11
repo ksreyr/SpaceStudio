@@ -199,7 +199,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .hitRate(100)
                 .damage(20)
                 .img("file://img1")
-                .ship(ship1)
+                .section(s1)
                 .build());
 
         /*
@@ -210,7 +210,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .hitRate(300)
                 .damage(50)
                 .img("file://img1")
-                .ship(ship1)
+                .section(s2)
                 .build());
 
         /**
@@ -221,7 +221,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .hitRate(50)
                 .damage(15)
                 .img("file://img")
-                .ship(ship2)
+                .section(s3)
                 .build());
         /*
         ShipRessourcen Creation
