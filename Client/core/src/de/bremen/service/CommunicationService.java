@@ -11,7 +11,6 @@ import de.bremen.screens.LoginScreen;
 public class CommunicationService {
 
     private boolean isValid;
-    LoginScreen loginScreen;
 
 
 
