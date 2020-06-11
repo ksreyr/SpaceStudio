@@ -61,6 +61,9 @@ public class InitializingBeanExampleBean implements InitializingBean {
     @Autowired
     private StationRepository stationRepository;
 
+    @Autowired
+    private DriveRepository driveRepository;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         /*
@@ -92,7 +95,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
 
         aiRepository.save(ai2);
 
-       /*
+        /*
         Ship Creation
         */
 
@@ -140,8 +143,6 @@ public class InitializingBeanExampleBean implements InitializingBean {
         ships2.add(ship4);
 
         /*
-         * */
-        /*
          * Section
          */
         Section s1 = Section.sectionBuilder().img("file://img2")
@@ -178,7 +179,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
 
         /*
          * CrewMember Creation
-         * */
+         */
         crewMemberRepository.save(CrewMember.crewMemberBuilder()
                 .img("file://img1")
                 .role(Role.FIGHTER)
@@ -268,5 +269,16 @@ public class InitializingBeanExampleBean implements InitializingBean {
         stationRepository.save(Station.stationBuilder()
                 .energyPrice(45).universe(u1).ship(ships2).buildStation());
 
+        /**
+         * Drive
+         * todo: Warum hier gibt es ein Roll?????
+         */
+
+        driveRepository.save(Drive.driveBuilder().img("file//:")
+                .oxygen(35)
+                .powerCurrent(46)
+                .usable(true)
+                .ship(ship1)
+                .role(Role.FIGHTER).build());
     }
 }
