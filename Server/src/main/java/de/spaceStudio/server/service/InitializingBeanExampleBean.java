@@ -282,16 +282,19 @@ public class InitializingBeanExampleBean implements InitializingBean {
         stationRepository.save(Station.stationBuilder()
                 .energyPrice(45).universe(u1).ship(ships2).buildStation());
 
+        driveRepository.save(Drive.driveBuilder()
+                       .speed(60)
+                       .section(s1)
+                       .build());
         /**
          * Drive
          * todo: Warum hier gibt es ein Roll?????
-         */
-
         driveRepository.save(Drive.driveBuilder().img("file//:")
                 .oxygen(35)
                 .powerCurrent(46)
                 .usable(true)
                 .ship(ship1)
                 .role(Role.FIGHTER).build());
+         */
     }
 }
