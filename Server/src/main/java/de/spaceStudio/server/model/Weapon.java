@@ -3,6 +3,9 @@ package de.spaceStudio.server.model;
 import javax.persistence.*;
 
 @Entity
+@Inheritance(
+        strategy = InheritanceType.SINGLE_TABLE
+)
 public class Weapon extends Section {
 
     private String name;

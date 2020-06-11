@@ -32,6 +32,12 @@ public class InitializingBeanExampleBean implements InitializingBean {
     private LasserRepository lasserRepository;
 
     @Autowired
+    private MissileRepository missileRepository;
+
+    @Autowired
+    public BeamRepository beamRepository;
+
+    @Autowired
     private ShipRepository shipRepository;
 
     @Autowired
@@ -186,15 +192,37 @@ public class InitializingBeanExampleBean implements InitializingBean {
         );
 
         /*
-        Lasser Creation
+        Lasser weapon Creation
         */
         lasserRepository.save(Lasser.builder()
                 .name("V1")
                 .hitRate(100)
                 .damage(20)
                 .img("file://img1")
+                .ship(ship1)
                 .build());
 
+        /*
+        Missile weapon Creation
+        */
+        missileRepository.save(Missile.builder()
+                .name("Nuke rocket")
+                .hitRate(300)
+                .damage(50)
+                .img("file://img1")
+                .ship(ship1)
+                .build());
+
+        /**
+         * Beam weapon Creation
+         */
+        beamRepository.save(Beam.builder()
+                .name("light")
+                .hitRate(50)
+                .damage(15)
+                .img("file://img")
+                .ship(ship2)
+                .build());
         /*
         ShipRessourcen Creation
         */

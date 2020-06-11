@@ -26,14 +26,16 @@ public class Lasser extends Weapon {
         private  Integer hitRate;
         private int damage;
         private String img;
+        private Ship ship;
 
         public LasserBuilder(){
         }
-        public LasserBuilder(String name, Integer hitRate, int damage, String img) {
+        public LasserBuilder(String name, Integer hitRate, int damage, String img, Ship ship) {
             this.name = name;
             this.hitRate = hitRate;
             this.damage = damage;
             this.img = img;
+            this.ship = ship;
         }
 
         public LasserBuilder name(String name) {
@@ -56,6 +58,10 @@ public class Lasser extends Weapon {
             return LasserBuilder.this;
         }
 
+        public LasserBuilder ship(Ship ship){
+            this.ship = ship;
+            return LasserBuilder.this;
+        }
         public Lasser build(){
             return new Lasser(this);
         }
