@@ -17,13 +17,16 @@ import java.util.List;
 
 /**
  * @author Miguel Caceres, Santiago Rey
- *         modified 06.08.2020
+ * modified 06.08.2020
  */
 @Component
 public class InitializingBeanExampleBean implements InitializingBean {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private AIRepository aiRepository;
 
     @Autowired
     private LasserRepository lasserRepository;
@@ -57,7 +60,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
         /*
         Player Creation
         */
-        Player p1=Player.builderPlayer()
+        Player p1 = Player.builderPlayer()
                 .name("Nick")
                 .password("asd")
                 .buildPlayer();
@@ -68,20 +71,35 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .password("5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5")
                 .buildPlayer());
 
+        /*
+         * AI
+         */
+        AI ai1 = AI.builderAI()
+                .name("Jarvis")
+                .buildAI();
+
+        aiRepository.save(ai1);
+
+        AI ai2 = AI.builderAI()
+                .name("Cortana")
+                .buildAI();
+
+        aiRepository.save(ai2);
+
        /*
         Ship Creation
         */
 
-        Ship ship1=Ship.shipBluider()
-        .hp(3)
-        .name("Ship1")
-        .owner(p1)
-        .power(34)
-        .shield(3)
-        .buildShip();
+        Ship ship1 = Ship.shipBluider()
+                .hp(3)
+                .name("Ship1")
+                .owner(p1)
+                .power(34)
+                .shield(3)
+                .buildShip();
         shipRepository.save(ship1);
 
-        Ship ship2=Ship.shipBluider()
+        Ship ship2 = Ship.shipBluider()
                 .hp(3)
                 .name("Ship2")
                 .owner(p1)
@@ -90,7 +108,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .buildShip();
         shipRepository.save(ship2);
 
-        Ship ship3=Ship.shipBluider()
+        Ship ship3 = Ship.shipBluider()
                 .hp(3)
                 .name("Ship3")
                 .owner(p1)
@@ -99,7 +117,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .buildShip();
         shipRepository.save(ship3);
 
-        Ship ship4=Ship.shipBluider()
+        Ship ship4 = Ship.shipBluider()
                 .hp(5)
                 .name("Ship4")
                 .owner(p1)
@@ -108,19 +126,19 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .buildShip();
         shipRepository.save(ship3);
 
-        List<Ship> ships= new ArrayList<>();
+        List<Ship> ships = new ArrayList<>();
         ships.add(ship1);
         ships.add(ship2);
-        List<Ship> ships2= new ArrayList<>();
+        List<Ship> ships2 = new ArrayList<>();
         ships2.add(ship3);
         ships2.add(ship4);
 
         /*
-        * */
+         * */
         /*
          * Section
          */
-        Section s1=Section.sectionBuilder().img("file://img2")
+        Section s1 = Section.sectionBuilder().img("file://img2")
                 .oxygen(35).role(Role.FIGHTER)
                 .powerCurrent(35)
                 .usable(true).ship(ship1)
@@ -128,7 +146,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .buildSection();
         sectionRepository.save(s1);
 
-        Section s2=Section.sectionBuilder().img("file://img2")
+        Section s2 = Section.sectionBuilder().img("file://img2")
                 .oxygen(35).role(Role.FIGHTER)
                 .powerCurrent(35)
                 .usable(true).ship(ship1)
@@ -136,7 +154,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .buildSection();
         sectionRepository.save(s2);
 
-        Section s3=Section.sectionBuilder().img("file://img3")
+        Section s3 = Section.sectionBuilder().img("file://img3")
                 .oxygen(55).role(Role.FIGHTER)
                 .powerCurrent(35)
                 .usable(true).ship(ship2)
@@ -144,7 +162,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .buildSection();
         sectionRepository.save(s3);
 
-        Section s4=Section.sectionBuilder().img("file://img4")
+        Section s4 = Section.sectionBuilder().img("file://img4")
                 .oxygen(55).role(Role.FIGHTER)
                 .powerCurrent(35)
                 .usable(true).ship(ship2)
@@ -153,19 +171,19 @@ public class InitializingBeanExampleBean implements InitializingBean {
         sectionRepository.save(s4);
 
         /*
-        * CrewMember Creation
-        * */
+         * CrewMember Creation
+         * */
         crewMemberRepository.save(CrewMember.crewMemberBuilder()
                 .img("file://img1")
                 .role(Role.FIGHTER)
                 .health(100).currentSection(s1).buildCrewMember()
-        ) ;
+        );
 
         crewMemberRepository.save(CrewMember.crewMemberBuilder()
                 .img("file://img2")
                 .role(Role.TECHNICIAN)
                 .health(260).currentSection(s1).buildCrewMember()
-        ) ;
+        );
 
         /*
         Lasser Creation
@@ -191,9 +209,9 @@ public class InitializingBeanExampleBean implements InitializingBean {
         ShipRessourcen Creation
         */
         shopRessourceRepository.save(ShopRessource
-                        .shopRessourceBuilder()
-                        .amount(150).name(RessourceName.GOLD)
-                        .prive(50).build());
+                .shopRessourceBuilder()
+                .amount(150).name(RessourceName.GOLD)
+                .prive(50).build());
 
         /*
         Ressource Creation
@@ -206,7 +224,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
         /**
          *Universe Creation
          */
-        Universe u1=Universe.universeBuilder()
+        Universe u1 = Universe.universeBuilder()
                 .name("univerise1").build();
         universeRepository.save(u1);
 
