@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.6">
+      <module name="spacestudio.Client" target="11" />
+      <module name="spacestudio.Client.main" target="11" />
+      <module name="spacestudio.Client.test" target="11" />
+      <module name="spacestudio.main" target="11" />
+      <module name="spacestudio.Server" target="11" />
+      <module name="spacestudio.Server.main" target="11" />
+      <module name="spacestudio.Server.test" target="11" />
+      <module name="spacestudio.test" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
