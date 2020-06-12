@@ -72,7 +72,7 @@ public class LoginScreen extends BaseScreen {
         loginBackground = new Texture("ownAssets\\sgx\\backgrounds\\loginBackground.jpg");
 
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("core\\assets\\data\\music\\mouseclick.wav"));
-        keyboard = Gdx.audio.newSound(Gdx.files.internal("core\\assets\\data\\music\\keyboard.mp3"));
+        keyboard = Gdx.audio.newSound(Gdx.files.internal("core\\assets\\data\\music\\keyboard0.mp3"));
         music = Gdx.audio.newMusic(Gdx.files.internal("core\\assets\\data\\music\\through_space.mp3"));
         music.setLooping(true);
         music.setVolume(0.2f);
@@ -107,6 +107,12 @@ public class LoginScreen extends BaseScreen {
 
         userPassword = new TextArea("password", skin);
         userPassword.setPasswordMode(true);
+        userPassword.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                keyboard.play();
+            }
+        });
 
         userPassword.setMaxLength(TEXTBOX_LENGTH);
         userPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
@@ -128,18 +134,15 @@ public class LoginScreen extends BaseScreen {
 
 //==============================================================================
         newUserName = new TextArea("new user", skin);
-        newUserName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
-        newUserName.setPosition(500, 360);
-        newUserName.setMaxLength(TEXTBOX_LENGTH); //max chars for username
         newUserName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-                    // textField.appendText(userName.getText());
-                }
-
+                keyboard.play();
             }
         });
+        newUserName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
+        newUserName.setPosition(500, 360);
+        newUserName.setMaxLength(TEXTBOX_LENGTH); //max chars for username
         newUserName.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -151,6 +154,12 @@ public class LoginScreen extends BaseScreen {
 
 
         newUserPassword = new TextArea("password", skin);
+        newUserPassword.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                keyboard.play();
+            }
+        });
         newUserPassword.setPasswordMode(true);
         newUserPassword.setMaxLength(TEXTBOX_LENGTH);
         newUserPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
@@ -168,6 +177,12 @@ public class LoginScreen extends BaseScreen {
         });
 
         confirmPassword = new TextArea("retype password", skin);
+        confirmPassword.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                keyboard.play();
+            }
+        });
         confirmPassword.setPasswordMode(true);
         confirmPassword.setMaxLength(TEXTBOX_LENGTH);
         confirmPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
@@ -266,6 +281,7 @@ public class LoginScreen extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 if(getNewUserName() == null || getNewUserName().contentEquals("")){
                     registerConfirmation.setText("Enter an username!");
+
                     registerConfirmation.setColor(Color.RED);
                     mouseClick.play();
                 }else {
