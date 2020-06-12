@@ -2,12 +2,9 @@ package de.bremen.service;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import de.bremen.MainClient;
-import de.bremen.screens.LoginScreen;
 
 public class RegistrationService  {
 
@@ -18,7 +15,7 @@ public class RegistrationService  {
 
     public boolean createUser(Object requestObject, String method) {
 
-
+           final String createUserURL = "http://localhost:8080/player";
             final Json json = new Json();
 
             json.setOutputType(JsonWriter.OutputType.json);
@@ -26,8 +23,7 @@ public class RegistrationService  {
             final String requestJson = json.toJson(requestObject);
 
             Net.HttpRequest request = new Net.HttpRequest(method);
-            final String url = "http://127.0.0.1:8080/player/login";
-            request.setUrl(url);
+            request.setUrl(createUserURL);
 
             request.setContent(requestJson);
 
