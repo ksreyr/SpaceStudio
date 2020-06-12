@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,6 +22,8 @@ import de.bremen.model.Player;
 import de.bremen.service.CommunicationService;
 import de.bremen.service.RegistrationService;
 
+import java.io.File;
+
 public class LoginScreen extends BaseScreen {
 
     private Stage stage;
@@ -33,8 +38,8 @@ public class LoginScreen extends BaseScreen {
     private TextArea userPassword, newUserPassword;
     private TextButton login;
     private TextButton register;
-    private Label confirmationMesagge;
-    private Label newUserPasswordCheck;
+    private Label loginConfirmation;
+    private Label registerConfirmation;
 
     private TextArea confirmPassword;
 
@@ -51,9 +56,11 @@ public class LoginScreen extends BaseScreen {
     CommunicationService communicationService = new CommunicationService();
     RegistrationService registrationService = new RegistrationService();
 
+    private Music music;
 
-    private boolean checkListener;
 
+    private Sound mouseClick;
+    private Sound keyboard;
     private final Texture loginBackground;
 
 
@@ -64,12 +71,25 @@ public class LoginScreen extends BaseScreen {
 
         loginBackground = new Texture("ownAssets\\sgx\\backgrounds\\loginBackground.jpg");
 
+        mouseClick = Gdx.audio.newSound(Gdx.files.internal("core\\assets\\data\\music\\mouseclick.wav"));
+        keyboard = Gdx.audio.newSound(Gdx.files.internal("core\\assets\\data\\music\\keyboard.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("core\\assets\\data\\music\\through_space.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.2f);
+        music.play();
+
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 
 
         userName = new TextArea("username", skin);
+        userName.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                keyboard.play();
+            }
+        });
         userName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
         userName.setPosition(BUTTON_POSITION_X, 360);
         userName.setMaxLength(TEXTBOX_LENGTH); //max chars for username
@@ -80,7 +100,9 @@ public class LoginScreen extends BaseScreen {
                 super.clicked(event, x, y);
                 userName.setText("");
                 //checkListener = true;
+                loginConfirmation.setText("");
             }
+
         });
 
         userPassword = new TextArea("password", skin);
@@ -97,6 +119,7 @@ public class LoginScreen extends BaseScreen {
                 super.clicked(event, x, y);
                 userPassword.setText("");
                 userPassword.setPasswordCharacter('*');
+                loginConfirmation.setText("");
                // checkListener = true;
 
             }
@@ -114,7 +137,7 @@ public class LoginScreen extends BaseScreen {
                 if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
                     // textField.appendText(userName.getText());
                 }
-                checkListener = true;
+
             }
         });
         newUserName.addListener(new ClickListener() {
@@ -122,7 +145,7 @@ public class LoginScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 newUserName.setText("");
-                //checkListener = true;
+                registerConfirmation.setText("");
             }
         });
 
@@ -140,8 +163,7 @@ public class LoginScreen extends BaseScreen {
                 super.clicked(event, x, y);
                 newUserPassword.setText("");
                 newUserPassword.setPasswordCharacter('*');
-               // checkListener = true;
-
+                registerConfirmation.setText("");
             }
         });
 
@@ -157,21 +179,20 @@ public class LoginScreen extends BaseScreen {
                 super.clicked(event, x, y);
                 confirmPassword.setText("");
                 confirmPassword.setPasswordCharacter('*');
-                //checkListener = true;
-
+                registerConfirmation.setText("");
             }
         });
 //=====================================================================
         userValidity();
         createNewUser();
-        confirmationMesagge = new Label("", skin);
-        confirmationMesagge.setSize(110, 50);
-        confirmationMesagge.setPosition(110, 230);
+        loginConfirmation = new Label("", skin);
+        loginConfirmation.setSize(110, 50);
+        loginConfirmation.setPosition(110, 230);
 
 
-        newUserPasswordCheck = new Label("", skin);
-        newUserPasswordCheck.setSize(110, 50);
-        newUserPasswordCheck.setPosition(500, 210);
+        registerConfirmation = new Label("", skin);
+        registerConfirmation.setSize(110, 50);
+        registerConfirmation.setPosition(500, 210);
 
 
 
@@ -185,13 +206,13 @@ public class LoginScreen extends BaseScreen {
         register.setPosition(500, 150);
         register.getLabel().setColor(Color.BLACK);
 
-        stage.addActor(confirmationMesagge);
+        stage.addActor(loginConfirmation);
         stage.addActor(userName);
         stage.addActor(newUserName);
         stage.addActor(userPassword);
         stage.addActor(newUserPassword);
         stage.addActor(confirmPassword);
-        stage.addActor(newUserPasswordCheck);
+        stage.addActor(registerConfirmation);
         stage.addActor(login);
         stage.addActor(register);
     }
@@ -205,14 +226,15 @@ public class LoginScreen extends BaseScreen {
         login.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Player testPlayer = new Player(3, getUserName(), getUserPassword());
+                Player testPlayer = new Player( getUserName(), getUserPassword());
 
                 isValid = communicationService.sendRequest(testPlayer, Net.HttpMethods.POST);
 
                 if (!isValid) {
 
-                    confirmationMesagge.setText("invalid username or password!");
-                    confirmationMesagge.setColor(Color.RED);
+                    loginConfirmation.setText("invalid username or password!");
+                    loginConfirmation.setColor(Color.RED);
+                    mouseClick.play();
 
                 }
 
@@ -221,13 +243,11 @@ public class LoginScreen extends BaseScreen {
 
     }
     public String getNewUserName() {
-        if(checkListener){
+        if(!newUserName.getText().contentEquals("new user")){
+
         return newUserName.getText();
-        }else{
-            newUserPasswordCheck.setText("Enter an username!");
-            newUserPasswordCheck.setColor(Color.RED);
         }
-        return newUserName.getText();
+        return null;
     }
 
     public String getNewUserPassword() {
@@ -239,17 +259,26 @@ public class LoginScreen extends BaseScreen {
 
     public void createNewUser(){
         register = new TextButton("Register", skin);
+
         register.addCaptureListener(new ChangeListener() {
+
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Player testPlayer = new Player(3, getNewUserName(),getNewUserPassword());
+                if(getNewUserName() == null || getNewUserName().contentEquals("")){
+                    registerConfirmation.setText("Enter an username!");
+                    registerConfirmation.setColor(Color.RED);
+                    mouseClick.play();
+                }else {
+                    mouseClick.play();
+                    Player testPlayer = new Player(getNewUserName(), getNewUserPassword());
+                    if (getNewUserPassword().contentEquals(getConfirmPassword())) {
+                        isValid = registrationService.createUser(testPlayer, Net.HttpMethods.POST);
+                    } else {
 
-                if(getNewUserPassword().contentEquals(getConfirmPassword())){
-                    isValid = registrationService.createUser(testPlayer, Net.HttpMethods.POST);
-                }else{
-
-                    newUserPasswordCheck.setText("Password does not match!");
-                    newUserPasswordCheck.setColor(Color.RED);
+                        registerConfirmation.setText("Password does not match!");
+                        registerConfirmation.setColor(Color.RED);
+                        registerConfirmation.clear();
+                    }
                 }
 
 
@@ -286,7 +315,9 @@ public class LoginScreen extends BaseScreen {
     @Override
     public void dispose() {
         skin.dispose();
+        music.dispose();
         stage.dispose();
+        mouseClick.dispose();
     }
 
 

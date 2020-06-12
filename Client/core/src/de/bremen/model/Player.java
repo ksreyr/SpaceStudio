@@ -11,8 +11,8 @@ public class Player {
 
     String password;
 
-    public Player(Integer id, String name, String password) {
-        this.id = id;
+    public Player(String name, String password) {
+
         this.name = name;
         this.password = password;
     }

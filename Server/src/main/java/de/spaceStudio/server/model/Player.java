@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Table(name = "Player")
 public class Player extends Actor{
 
+
+
 	private String name;
 
 	private String password;
