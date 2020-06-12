@@ -3,8 +3,15 @@ package de.spaceStudio.server.model;
 
 import javax.persistence.*;
 import java.util.List;
+//TODO: @MAPPING_SUPER_CLASS
+//or it is not created a table in the DB
+//Link to reference Sprint Documentation:
+// https://www.baeldung.com/hibernate-inheritance
 
-@Entity(name = "Section")
+@Entity
+@Inheritance(
+        strategy = InheritanceType.TABLE_PER_CLASS
+)
 public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,11 +26,7 @@ public class Section {
 
     private String img;
 
-    // If there are no connection. One cannot enter this section
-    // Eg: One cannot enter a weapon
-    // allows for pathfinding in the ship
     @ManyToMany
-    // GGF OneToMany weniger probleme wegen bidirectionalität
     private List<Section> connectingTo;
 
     private float oxygen;
@@ -35,6 +38,20 @@ public class Section {
 
     private boolean usable;
 
+    public Section() {
+    }
+    public Section(SectionBuilder builder) {
+        setId(builder.id);
+        setImg(builder.img);
+        setOxygen(builder.oxygen);
+        setPowerCurrent(builder.powerCurrent);
+        setRole(builder.role);
+        setPowerCurrent(builder.powerCurrent);
+        setPowerRequired(builder.powerRequired);
+        setShip(builder.ship);
+        setUsable(builder.usable);
+        setConnectingTo(builder.connectingTo);
+    }
     public List<Section> getConnectingTo() {
         return connectingTo;
     }
@@ -105,6 +122,62 @@ public class Section {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public static SectionBuilder sectionBuilder(){
+        return new SectionBuilder();
+    }
+
+    public static class SectionBuilder{
+        private Integer id;
+        private Ship ship;
+        private Role role;
+        private String img;
+        private List<Section> connectingTo;
+        private float oxygen;
+        private int powerRequired;
+        private  int powerCurrent;
+        private boolean usable;
+
+        public SectionBuilder id(Integer id){
+            this.id=id;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder ship(Ship ship){
+            this.ship=ship;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder role(Role role){
+            this.role=role;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder img(String img){
+            this.img=img;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder connectingTo(List<Section> connectingTo){
+            this.connectingTo=connectingTo;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder oxygen(float oxygen){
+            this.oxygen=oxygen;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder powerRequired(int powerRequired){
+            this.powerCurrent=powerRequired;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder powerCurrent(int powerCurrent){
+            this.powerCurrent=powerCurrent;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder usable(boolean usable){
+            this.usable=usable;
+            return SectionBuilder.this;
+        }
+        public Section buildSection(){
+            return new Section(this);
+        }
     }
 
 }

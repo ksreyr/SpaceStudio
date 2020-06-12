@@ -1,0 +1,12 @@
+//leave me here
+allprojects { // 'allprojects' is here to replicate the 'apply plugin:java' to projectB and projectC
+    apply plugin: 'java'
+}
+
+repositories {
+    mavenLocal()
+}
+
+dependencies {
+    implementation project(':Server')
+}

@@ -3,15 +3,41 @@ package de.spaceStudio.server.model;
 import javax.persistence.*;
 
 @Entity
-public class Weapon extends Section {
+@Inheritance(
+        strategy = InheritanceType.TABLE_PER_CLASS
+)
+public class Weapon {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     private String name;
 
     private int hitRate;
 
-    private int dammage;
+    private int damage;
 
     private String img;
+
+    @ManyToOne
+    private Section section;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Section getSection() {
+        return section;
+    }
+
+    public void setSection(Section section) {
+        this.section = section;
+    }
 
     public String getName() {
         return name;
@@ -37,11 +63,11 @@ public class Weapon extends Section {
         this.img = img;
     }
 
-    public int getDammage() {
-        return dammage;
+    public int getDamage() {
+        return damage;
     }
 
-    public void setDammage(int dammage) {
-        this.dammage = dammage;
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 }

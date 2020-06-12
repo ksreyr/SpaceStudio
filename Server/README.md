@@ -1,4 +1,4 @@
-# h2-crud-json
+# server
 
 CRUD in h2 with JPA and Hibernate. SQL will be executed on startup server
 REST API, create, read, update and delete.
@@ -42,3 +42,7 @@ http://localhost:8080/swagger-ui.html
     }
 ]
 ```
+### H2-Console
+for the use of this database console, you just need to get the following URL.
+the user is "sa" and the paswword is "".
+* http://localhost:8080/h2-console
