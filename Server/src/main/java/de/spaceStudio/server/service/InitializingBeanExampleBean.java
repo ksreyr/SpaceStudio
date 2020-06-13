@@ -80,7 +80,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
 
         playerRepository.save(Player.builderPlayer()
                 .name("Judy")
-                .password("5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5")
+                .password("123")
                 .buildPlayer());
 
         /*

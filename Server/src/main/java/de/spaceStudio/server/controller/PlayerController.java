@@ -78,5 +78,19 @@ public interface PlayerController {
     @RequestMapping(value = "/players", method = RequestMethod.DELETE)
     String deleteAllPlayers();
 
+    /**
+     * Get all logged players name
+     * @return
+     */
+    @RequestMapping(value = "/player/logged-players", method = RequestMethod.GET)
+    List<String> getLoggedPlayers();
+
+    /**
+     * This function is temporal in use to logout user from game
+     * @return
+     */
+    @RequestMapping(value = "/player/logout", method = RequestMethod.POST)
+    void logoutUser(@RequestBody Player player);
+
     String hashPassword(String weakPassword);
 }

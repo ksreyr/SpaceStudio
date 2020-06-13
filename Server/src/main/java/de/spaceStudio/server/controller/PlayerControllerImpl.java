@@ -2,6 +2,7 @@ package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.repository.PlayerRepository;
+import de.spaceStudio.server.utils.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,9 +36,9 @@ public class PlayerControllerImpl implements PlayerController {
     @RequestMapping(value = "/player/login", method = RequestMethod.POST)
     public String loginUser(@RequestBody Player player) {
         Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
-        if (fetchPlayer.isPresent()) {
-            return Boolean.toString(((fetchPlayer.get().getName().equals(player.getName())
-                    && fetchPlayer.get().getPassword().equals(player.getPassword()))));
+        if (fetchPlayer.isPresent() && authUser(fetchPlayer, player)) {
+            Global.userLogged.add(player.getName());
+            return "true";
         }
         return "false";
     }
@@ -105,6 +106,28 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     /**
+     * Get all logged players name
+     *
+     * @return
+     */
+    @Override
+    @RequestMapping(value = "/player/logged-players", method = RequestMethod.GET)
+    public List<String> getLoggedPlayers() {
+        return Global.userLogged;
+    }
+
+    /**
+     * This function is temporal in use to logout user from game
+     *
+     * @return
+     */
+    @Override
+    @RequestMapping(value = "/player/logout", method = RequestMethod.POST)
+    public void logoutUser(@RequestBody Player player) {
+            Global.userLogged.remove(player.getName());
+    }
+
+    /**
      * Salt the password
      */
     @Override
@@ -117,6 +140,19 @@ public class PlayerControllerImpl implements PlayerController {
         }
         byte[] hash = digest.digest(weakPassword.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(hash);
+    }
+
+    /**
+     * validate player
+     *
+     * @param fetchPlayer
+     * @param player
+     * @return auth user
+     */
+    public boolean authUser(Optional<Player> fetchPlayer, Player player) {
+        return ((fetchPlayer.get().getName().equals(player.getName())
+                && fetchPlayer.get().getPassword().equals(player.getPassword())));
+
     }
 
 }
