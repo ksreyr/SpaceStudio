@@ -26,7 +26,6 @@ public class Player extends Actor {
      * @param builder
      */
     public Player(PlayerBuilder builder) {
-        setId(builder.id);
         setName(builder.name);
         setPassword(builder.password);
     }
@@ -47,25 +46,19 @@ public class Player extends Actor {
 
     public static class PlayerBuilder {
 
-        private Integer id;
         private String name;
         private String password;
 
         public PlayerBuilder() {
         }
 
-        public PlayerBuilder(Integer id, String name,
+        public PlayerBuilder(String name,
                              String password)
         {
-            this.id = id;
             this.name = name;
             this.password = password;
         }
 
-        public PlayerBuilder id(Integer id) {
-            this.id = id;
-            return PlayerBuilder.this;
-        }
 
         public PlayerBuilder name(String name) {
             this.name = name;
