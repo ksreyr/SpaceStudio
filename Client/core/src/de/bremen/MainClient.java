@@ -5,24 +5,18 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.bremen.screens.LoginScreen;
 import lombok.Getter;
-<<<<<<< HEAD
 import lombok.Setter;
-=======
 
 
->>>>>>> master
+
+
 public class MainClient extends Game {
 	@Setter
 	@Getter
 	private AssetManager assetManager;
 
-<<<<<<< HEAD
 	public LoginScreen loginScreen;
-=======
 
-
-	public LoginScreen logginScreen;
->>>>>>> master
 	private SpriteBatch batch;
 
 
