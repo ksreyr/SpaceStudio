@@ -1,6 +1,6 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.model.ShopItem;
+import de.spaceStudio.server.model.ShopRessource;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,41 +16,41 @@ public interface ShopItemController {
      * @return List of all shopItems
      */
     @RequestMapping(value = "/shopItems", method = RequestMethod.GET)
-    List<ShopItem> getAllShopItems();
+    List<ShopRessource> getAllShopItems();
 
     /**
      * Get one shopItem by Id
      *
      * @param id of the shopItem
-     * @return the ShopItem
+     * @return the ShopRessource
      */
     @RequestMapping(value = "/shopItem/{id}", method = RequestMethod.GET)
-    ShopItem getShopItem(@PathVariable Integer id);
+    ShopRessource getShopItem(@PathVariable Integer id);
 
 
     /**
-     * Creates a new shopItem from JSON shopItem object
+     * Creates a new shopRessource from JSON shopRessource object
      *
-     * @param shopItem the shopItem to be created, which is serialised from the POST JSON
-     * @return the serialised ShopItem
+     * @param shopRessource the shopRessource to be created, which is serialised from the POST JSON
+     * @return the serialised ShopRessource
      */
     @RequestMapping(value = "/shopItem", method = RequestMethod.POST)
-    String addShopItem(@RequestBody ShopItem shopItem);
+    String addShopItem(@RequestBody ShopRessource shopRessource);
 
     /**
-     * Update data of the shopItem
+     * Update data of the shopRessource
      *
-     * @param shopItem the shopItem to be updated, which is serialised from the POST JSON
-     * @return the updated ShopItem
+     * @param shopRessource the shopRessource to be updated, which is serialised from the POST JSON
+     * @return the updated ShopRessource
      */
     @RequestMapping(value = "/shopItem", method = RequestMethod.PUT)
-    ShopItem updateShopItem(@RequestBody ShopItem shopItem);
+    ShopRessource updateShopItem(@RequestBody ShopRessource shopRessource);
 
     /**
      * Delete shopItem by Id
      *
      * @param id of the shopItem
-     * @return JSON of the delted ShopItem
+     * @return JSON of the delted ShopRessource
      */
     @RequestMapping(value = "/shopItem/{id}", method = RequestMethod.DELETE)
     String deleteShopItemById(@PathVariable Integer id);

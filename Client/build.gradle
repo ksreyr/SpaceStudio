@@ -6,7 +6,8 @@ buildscript {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        jcenter()
+        maven { url 'https://repo.spring.io/milestone' }
+        jcenter { url "http://jcenter.bintray.com/" }
         google()
     }
     dependencies {
@@ -35,10 +36,11 @@ allprojects {
         google()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url 'https://repo.spring.io/milestone' }
     }
 }
 
-project(":desktop") {
+project(":Client:desktop") {
     apply plugin: "eclipse"
     apply plugin: "java-library"
 
@@ -46,8 +48,7 @@ project(":desktop") {
     dependencies {
         // https://mvnrepository.com/artifact/org.projectlombok/lombok
         compile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
-
-        implementation project(":core")
+        implementation project(":Client:core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -55,7 +56,7 @@ project(":desktop") {
     }
 }
 
-project(":core") {
+project(":Client:core") {
     apply plugin: "java-library"
 
 

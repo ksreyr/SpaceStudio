@@ -2,6 +2,7 @@ pluginManagement {
 	repositories {
 		maven { url 'https://repo.spring.io/milestone' }
 		gradlePluginPortal()
+		mavenLocal()
 	}
 	resolutionStrategy {
 		eachPlugin {
@@ -11,4 +12,4 @@ pluginManagement {
 		}
 	}
 }
-rootProject.name = 'h2-crud-json'
+rootProject.name = 'server'

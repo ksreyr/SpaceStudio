@@ -63,7 +63,5 @@ public interface SectionController {
      */
     @RequestMapping(value = "/sections", method = RequestMethod.DELETE)
     String deleteAllSections();
-
-    String hashPassword(String weakPassword);
 }
 

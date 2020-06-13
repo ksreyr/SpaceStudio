@@ -20,6 +20,11 @@ build/
 *.ipr
 out/
 
+### database h2 auto generate
+database.lock.db
+database.mv.db
+database.trace.db
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
