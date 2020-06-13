@@ -10,12 +10,17 @@ import lombok.Setter;
 
 
 
+
 public class MainClient extends Game {
 	@Setter
 	@Getter
 	private AssetManager assetManager;
 
 	public LoginScreen loginScreen;
+
+
+
+
 
 	private SpriteBatch batch;
 

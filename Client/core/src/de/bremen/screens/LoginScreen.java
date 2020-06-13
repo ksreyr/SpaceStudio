@@ -1,12 +1,10 @@
 package de.bremen.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,11 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.bremen.MainClient;
-import de.bremen.model.Player;
 import de.bremen.service.CommunicationService;
 import de.bremen.service.RegistrationService;
-
-import java.io.File;
+import de.spaceStudio.server.model.Player;
 
 public class LoginScreen extends BaseScreen {
 
@@ -71,12 +67,12 @@ public class LoginScreen extends BaseScreen {
 
         loginBackground = new Texture("ownAssets\\sgx\\backgrounds\\loginBackground.jpg");
 
-        mouseClick = Gdx.audio.newSound(Gdx.files.internal("core\\assets\\data\\music\\mouseclick.wav"));
-        keyboard = Gdx.audio.newSound(Gdx.files.internal("core\\assets\\data\\music\\keyboard0.mp3"));
-        music = Gdx.audio.newMusic(Gdx.files.internal("core\\assets\\data\\music\\through_space.mp3"));
-        music.setLooping(true);
-        music.setVolume(0.2f);
-        music.play();
+       // mouseClick = Gdx.audio.newSound(Gdx.files.internal("core\\assets\\data\\music\\mouseclick.wav"));
+        //keyboard = Gdx.audio.newSound(Gdx.files.internal("core\\assets\\data\\music\\keyboard0.mp3"));
+        //music = Gdx.audio.newMusic(Gdx.files.internal("core\\assets\\data\\music\\through_space.mp3"));
+        //music.setLooping(true);
+        //music.setVolume(0.2f);
+        //music.play();
 
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -84,12 +80,12 @@ public class LoginScreen extends BaseScreen {
 
 
         userName = new TextArea("username", skin);
-        userName.setTextFieldListener(new TextField.TextFieldListener() {
+        /*userName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
                 keyboard.play();
             }
-        });
+        });*/
         userName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
         userName.setPosition(BUTTON_POSITION_X, 360);
         userName.setMaxLength(TEXTBOX_LENGTH); //max chars for username
@@ -107,12 +103,12 @@ public class LoginScreen extends BaseScreen {
 
         userPassword = new TextArea("password", skin);
         userPassword.setPasswordMode(true);
-        userPassword.setTextFieldListener(new TextField.TextFieldListener() {
+        /*userPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
                 keyboard.play();
             }
-        });
+        });*/
 
         userPassword.setMaxLength(TEXTBOX_LENGTH);
         userPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
@@ -134,12 +130,12 @@ public class LoginScreen extends BaseScreen {
 
 //==============================================================================
         newUserName = new TextArea("new user", skin);
-        newUserName.setTextFieldListener(new TextField.TextFieldListener() {
+        /*newUserName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
                 keyboard.play();
             }
-        });
+        });*/
         newUserName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
         newUserName.setPosition(500, 360);
         newUserName.setMaxLength(TEXTBOX_LENGTH); //max chars for username
@@ -154,12 +150,12 @@ public class LoginScreen extends BaseScreen {
 
 
         newUserPassword = new TextArea("password", skin);
-        newUserPassword.setTextFieldListener(new TextField.TextFieldListener() {
+        /*newUserPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
                 keyboard.play();
             }
-        });
+        });*/
         newUserPassword.setPasswordMode(true);
         newUserPassword.setMaxLength(TEXTBOX_LENGTH);
         newUserPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
@@ -177,12 +173,12 @@ public class LoginScreen extends BaseScreen {
         });
 
         confirmPassword = new TextArea("retype password", skin);
-        confirmPassword.setTextFieldListener(new TextField.TextFieldListener() {
+       /* confirmPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
                 keyboard.play();
             }
-        });
+        });*/
         confirmPassword.setPasswordMode(true);
         confirmPassword.setMaxLength(TEXTBOX_LENGTH);
         confirmPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
@@ -241,15 +237,20 @@ public class LoginScreen extends BaseScreen {
         login.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Player testPlayer = new Player( getUserName(), getUserPassword());
-
-                isValid = communicationService.sendRequest(testPlayer, Net.HttpMethods.POST);
+               // Player testPlayer = new Player( getUserName(), getUserPassword());
+                Player p1 = Player.builderPlayer()
+                        .name(getUserName())
+                        .password(getUserPassword())
+                        .buildPlayer();
+                System.out.println(p1.getName());
+                System.out.println(p1.getPassword());
+                isValid = communicationService.sendRequest(p1, Net.HttpMethods.POST);
 
                 if (!isValid) {
 
                     loginConfirmation.setText("invalid username or password!");
                     loginConfirmation.setColor(Color.RED);
-                    mouseClick.play();
+                    //mouseClick.play();
 
                 }
 
@@ -283,12 +284,15 @@ public class LoginScreen extends BaseScreen {
                     registerConfirmation.setText("Enter an username!");
 
                     registerConfirmation.setColor(Color.RED);
-                    mouseClick.play();
+                    //mouseClick.play();
                 }else {
-                    mouseClick.play();
-                    Player testPlayer = new Player(getNewUserName(), getNewUserPassword());
+                    //mouseClick.play();
+                    Player p2 = Player.builderPlayer()
+                            .name(getNewUserName())
+                            .password(getNewUserPassword())
+                            .buildPlayer();
                     if (getNewUserPassword().contentEquals(getConfirmPassword())) {
-                        isValid = registrationService.createUser(testPlayer, Net.HttpMethods.POST);
+                        isValid = registrationService.createUser(p2, Net.HttpMethods.POST);
                     } else {
 
                         registerConfirmation.setText("Password does not match!");
