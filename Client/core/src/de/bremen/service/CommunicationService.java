@@ -39,9 +39,6 @@ public class CommunicationService {
                 }
                 System.out.println("statusCode: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-                System.out.println("Response ssdsd: " + httpResponse.getResultAsString());
-               // isValid = Boolean.parseBoolean(responseJson);
-                //System.out.println(isValid+ " first isValid ");
                 try {
                     System.out.println("Response: " + responseJson);
 

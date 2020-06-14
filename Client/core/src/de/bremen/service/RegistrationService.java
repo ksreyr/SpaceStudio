@@ -2,6 +2,7 @@ package de.bremen.service;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
+import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -38,8 +39,9 @@ public class RegistrationService  {
                     }
                     System.out.println("statusCode: " + statusCode);
                     String responseJson = httpResponse.getResultAsString();
+                    System.out.println(responseJson);
                     try {
-                        System.out.println("Response: " + responseJson);
+
                         isValid = Boolean.parseBoolean(responseJson);
 
                     } catch (Exception exception) {
