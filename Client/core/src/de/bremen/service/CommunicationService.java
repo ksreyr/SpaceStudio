@@ -10,9 +10,10 @@ import de.bremen.screens.LoginScreen;
 
 public class CommunicationService {
 
-    private boolean isValid;
 
+    int count=0;
 
+    boolean isValid;
 
     public boolean sendRequest(Object requestObject, String method) {
         final Json json = new Json();
@@ -38,9 +39,14 @@ public class CommunicationService {
                 }
                 System.out.println("statusCode: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
+                System.out.println("Response ssdsd: " + httpResponse.getResultAsString());
+               // isValid = Boolean.parseBoolean(responseJson);
+                //System.out.println(isValid+ " first isValid ");
                 try {
                     System.out.println("Response: " + responseJson);
+
                     isValid = Boolean.parseBoolean(responseJson);
+
 
                 } catch (Exception exception) {
                     exception.printStackTrace();
@@ -58,5 +64,8 @@ public class CommunicationService {
 
         return isValid;
     }
+
+
+
 
 }

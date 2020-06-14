@@ -29,7 +29,6 @@ public class LoginScreen extends BaseScreen {
     private TextArea userName;
 
 
-
     private TextArea newUserName;
     private TextArea userPassword, newUserPassword;
     private TextButton login;
@@ -46,9 +45,9 @@ public class LoginScreen extends BaseScreen {
     private static final int TEXTBOX_HEIGHT = 35;
     private static final int TEXTBOX_LENGTH = 20;
 
-    public static int PLAYER_ID = 1; //How to be handled?
 
     private boolean isValid;
+
     CommunicationService communicationService = new CommunicationService();
     RegistrationService registrationService = new RegistrationService();
 
@@ -60,8 +59,7 @@ public class LoginScreen extends BaseScreen {
     private final Texture loginBackground;
 
 
-
-
+    private int counter = 0;
     public LoginScreen(final MainClient game, AssetManager assetManager) {
         super(game);
 
@@ -71,14 +69,54 @@ public class LoginScreen extends BaseScreen {
         keyboard = Gdx.audio.newSound(Gdx.files.internal("Client\\core\\assets\\data\\music\\keyboard0.mp3"));
         music = Gdx.audio.newMusic(Gdx.files.internal("Client\\core\\assets\\data\\music\\through_space.mp3"));
         music.setLooping(true);
-        music.setVolume(0.2f);
+        music.setVolume(0.1f);
         music.play();
 
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 
+        existedUserName();
+        existedUserPassword();
 
+        newUserName();
+        newUserPassword();
+        confirmPassword();
+
+        userValidity();
+        createNewUser();
+        loginConfirmation = new Label("", skin);
+        loginConfirmation.setSize(110, 50);
+        loginConfirmation.setPosition(110, 230);
+
+
+        registerConfirmation = new Label("", skin);
+        registerConfirmation.setSize(110, 50);
+        registerConfirmation.setPosition(500, 210);
+
+
+        login.setSize(TEXTBOX_WIDTH, 70);
+        login.setPosition(BUTTON_POSITION_X, 150);
+        login.getLabel().setColor(Color.FOREST);
+
+
+
+        register.setSize(TEXTBOX_WIDTH, 70);
+        register.setPosition(500, 150);
+        register.getLabel().setColor(Color.BLACK);
+
+        stage.addActor(loginConfirmation);
+        stage.addActor(userName);
+        stage.addActor(newUserName);
+        stage.addActor(userPassword);
+        stage.addActor(newUserPassword);
+        stage.addActor(confirmPassword);
+        stage.addActor(registerConfirmation);
+        stage.addActor(login);
+        stage.addActor(register);
+    }
+
+    private void existedUserName() {
         userName = new TextArea("username", skin);
         userName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
@@ -99,7 +137,9 @@ public class LoginScreen extends BaseScreen {
             }
 
         });
+    }
 
+    private void existedUserPassword() {
         userPassword = new TextArea("password", skin);
         userPassword.setPasswordMode(true);
         userPassword.setTextFieldListener(new TextField.TextFieldListener() {
@@ -124,9 +164,33 @@ public class LoginScreen extends BaseScreen {
 
             }
         });
+    }
 
+    private void confirmPassword() {
+        confirmPassword = new TextArea("retype password", skin);
+        confirmPassword.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                keyboard.play();
+                confirmPassword.setPasswordCharacter('*');
+            }
+        });
+        confirmPassword.setPasswordMode(true);
+        confirmPassword.setMaxLength(TEXTBOX_LENGTH);
+        confirmPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
+        confirmPassword.setPosition(500, 260);
+        //clean placeholder
+        this.confirmPassword.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                confirmPassword.setText("");
+                registerConfirmation.setText("");
+            }
+        });
+    }
 
-//==============================================================================
+    private void newUserName() {
         newUserName = new TextArea("new user", skin);
         newUserName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
@@ -145,13 +209,15 @@ public class LoginScreen extends BaseScreen {
                 registerConfirmation.setText("");
             }
         });
+    }
 
-
+    private void newUserPassword() {
         newUserPassword = new TextArea("password", skin);
         newUserPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
                 keyboard.play();
+                newUserPassword.setPasswordCharacter('*');
             }
         });
         newUserPassword.setPasswordMode(true);
@@ -164,132 +230,73 @@ public class LoginScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                //newUserPassword.setPasswordCharacter('*');
                 newUserPassword.setText("");
-                newUserPassword.setPasswordCharacter('*');
                 registerConfirmation.setText("");
             }
         });
-
-        confirmPassword = new TextArea("retype password", skin);
-        confirmPassword.setTextFieldListener(new TextField.TextFieldListener() {
-            @Override
-            public void keyTyped(TextField textField, char c) {
-                keyboard.play();
-            }
-        });
-        confirmPassword.setPasswordMode(true);
-        confirmPassword.setMaxLength(TEXTBOX_LENGTH);
-        confirmPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
-        confirmPassword.setPosition(500, 260);
-        //clean placeholder
-        this.confirmPassword.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                confirmPassword.setText("");
-                confirmPassword.setPasswordCharacter('*');
-                registerConfirmation.setText("");
-            }
-        });
-//=====================================================================
-        userValidity();
-        createNewUser();
-        loginConfirmation = new Label("", skin);
-        loginConfirmation.setSize(110, 50);
-        loginConfirmation.setPosition(110, 230);
-
-
-        registerConfirmation = new Label("", skin);
-        registerConfirmation.setSize(110, 50);
-        registerConfirmation.setPosition(500, 210);
-
-
-
-
-        login.setSize(TEXTBOX_WIDTH, 70);
-        login.setPosition(BUTTON_POSITION_X, 150);
-        login.getLabel().setColor(Color.FOREST);
-
-
-        register.setSize(TEXTBOX_WIDTH, 70);
-        register.setPosition(500, 150);
-        register.getLabel().setColor(Color.BLACK);
-
-        stage.addActor(loginConfirmation);
-        stage.addActor(userName);
-        stage.addActor(newUserName);
-        stage.addActor(userPassword);
-        stage.addActor(newUserPassword);
-        stage.addActor(confirmPassword);
-        stage.addActor(registerConfirmation);
-        stage.addActor(login);
-        stage.addActor(register);
     }
 
-    /**
-     * whether user is valid or not
-     */
-    private void userValidity() {
 
+    private void userValidity() {
         login = new TextButton("Log in", skin);
         login.addCaptureListener(new ChangeListener() {
+
+
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-               // Player testPlayer = new Player( getUserName(), getUserPassword());
-                Player p1 = Player.builderPlayer()
+
+                Player player = Player.builderPlayer()
                         .name(getUserName())
                         .password(getUserPassword())
                         .buildPlayer();
-                System.out.println(p1.getName());
-                System.out.println(p1.getPassword());
-                isValid = communicationService.sendRequest(p1, Net.HttpMethods.POST);
-
-                if (!isValid) {
-
+                isValid = communicationService.sendRequest(player, Net.HttpMethods.POST);
+                if (!isValid && counter != 0) {
                     loginConfirmation.setText("invalid username or password!");
                     loginConfirmation.setColor(Color.RED);
-                    mouseClick.play();
 
                 }
-
+                mouseClick.play();
             }
         });
 
+        counter++;
     }
-    public String getNewUserName() {
-        if(!newUserName.getText().contentEquals("new user")){
 
-        return newUserName.getText();
+    public String getNewUserName() {
+        if (!newUserName.getText().contentEquals("new user")) {
+
+            return newUserName.getText();
         }
         return null;
     }
 
-    public String getNewUserPassword() {
-        return newUserPassword.getText();
-    }
-    public String getConfirmPassword(){
-        return confirmPassword.getText();
-    }
+    public String getNewUserPassword() { return newUserPassword.getText(); }
 
-    public void createNewUser(){
+    public String getConfirmPassword() { return confirmPassword.getText();}
+
+    public void createNewUser() {
         register = new TextButton("Register", skin);
 
         register.addCaptureListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(getNewUserName() == null || getNewUserName().contentEquals("")){
+
+                Player p2 = Player.builderPlayer()
+                        .name(getNewUserName())
+                        .password(getNewUserPassword())
+                        .buildPlayer();
+
+                if (p2.getName() == null || p2.getName().contentEquals("")) {
                     registerConfirmation.setText("Enter an username!");
 
                     registerConfirmation.setColor(Color.RED);
                     mouseClick.play();
-                }else {
+                } else {
                     mouseClick.play();
-                    Player p2 = Player.builderPlayer()
-                            .name(getNewUserName())
-                            .password(getNewUserPassword())
-                            .buildPlayer();
-                    if (getNewUserPassword().contentEquals(getConfirmPassword())) {
+
+                    if (p2.getPassword().contentEquals(getConfirmPassword())) {
                         isValid = registrationService.createUser(p2, Net.HttpMethods.POST);
                     } else {
 
@@ -299,31 +306,18 @@ public class LoginScreen extends BaseScreen {
                     }
                 }
 
-
-
-
-
             }
         });
     }
 
-
-    public String getUserName() {
-
-        return userName.getText();
-    }
+    public String getUserName() { return userName.getText(); }
 
     public String getUserPassword() {
         userPassword.setPasswordMode(true);
         return userPassword.getText();
     }
-
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
-
-
-    }
+    public void show() { Gdx.input.setInputProcessor(stage); }
 
     @Override
     public void hide() {
@@ -338,7 +332,6 @@ public class LoginScreen extends BaseScreen {
         mouseClick.dispose();
     }
 
-
     @Override
     public void render(float delta) {
 
@@ -346,14 +339,13 @@ public class LoginScreen extends BaseScreen {
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.getBatch().draw(loginBackground,0,0,WORLD_WIDTH,WORLD_HEIGHT);
+        stage.getBatch().draw(loginBackground, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
         if (isValid) {
             game.setScreen(new LoadingScreen(game));
         }
         stage.getBatch().end();
         stage.act();
         stage.draw();
-
 
 
     }
