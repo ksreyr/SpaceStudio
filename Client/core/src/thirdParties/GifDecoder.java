@@ -4,7 +4,7 @@
         /* Released under Apache 2.0 */
         /* https://code.google.com/p/animated-gifs-in-android/ */
 
-        package com.holidaystudios.tools;
+        package thirdParties;
 
         import java.io.InputStream;
         import java.util.Vector;
