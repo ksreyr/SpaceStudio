@@ -9,4 +9,5 @@ repositories {
 
 dependencies {
     implementation project(':Server')
+    implementation 'junit:junit:4.12'
 }
