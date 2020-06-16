@@ -58,7 +58,6 @@ public class CommunicationService {
                 System.out.println("request cancelled");
             }
         });
-        LoginScreen.test = true;
 
         return isValid;
     }

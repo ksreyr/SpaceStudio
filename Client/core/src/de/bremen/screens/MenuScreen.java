@@ -91,7 +91,7 @@ public class MenuScreen extends ScreenAdapter {
         });
 
         //Title: Space Menu
-        Label label = new Label("Space Studio Menu", sgxSkin, StyleNames.TITLELABEL);
+        Label label = new Label("Menu", sgxSkin, StyleNames.TITLELABEL);
 
 
         table.add(label).row();

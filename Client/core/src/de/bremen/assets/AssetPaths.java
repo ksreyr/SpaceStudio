@@ -10,6 +10,7 @@ public class AssetPaths {
     //weist auf galaxyBackground.png
     public static final String BACKGROUND_AREA = "Client\\core\\assets\\ownAssets\\sgx\\backgrounds\\galaxyBackground.atlas";
 
+
     public static final String BACKGROUND_LOGIN = "core/assets/ownAssets/sgx/backgrounds/galaxyBackground.atlas";
 
 

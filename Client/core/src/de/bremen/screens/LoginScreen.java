@@ -24,21 +24,27 @@ import de.spaceStudio.server.model.Player;
 
 public class LoginScreen extends BaseScreen {
 
+
+
     private Stage stage;
     private Skin skin;
-
-
     private TextArea userName,newUserName;
     private TextArea userPassword, newUserPassword,confirmPassword;
     private TextButton login;
     private TextButton register;
     private Label loginConfirmation;
     private Label registerConfirmation;
-
     private TextButton mute, exit;
 
+    CommunicationService communicationService = new CommunicationService();
+    RegistrationService registrationService = new RegistrationService();
+    Animation<TextureRegion> animation;
+    private Music music;
+    private Sound mouseClick;
+    private Sound keyboard;
 
-    private static final float BUTTON_LOGIN_X = BaseScreen.WIDTH/3;
+
+    private static final int BUTTON_LOGIN_X = (int) (BaseScreen.WIDTH/3);
     private static final float BUTTON_REGISTER_X = (float) (BaseScreen.WIDTH/2)+100;
 
 
@@ -46,30 +52,18 @@ public class LoginScreen extends BaseScreen {
     private static final int TEXTBOX_HEIGHT = 35;
     private static final int TEXTBOX_LENGTH = 20;
 
-    private boolean isValid, isCreated;
 
-    CommunicationService communicationService = new CommunicationService();
-    RegistrationService registrationService = new RegistrationService();
 
-    private Music music;
-    private Sound mouseClick;
-    private Sound keyboard;
 
-    public static boolean test;
-
-    Animation<TextureRegion> animation;
+    private boolean isValid;
+    int n =0;
     private float state=0.0f;
-
-
     private int counter = 0;
 
     public LoginScreen(final MainClient game, AssetManager assetManager) {
         super(game);
 
-
         animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("data/gifs/space_name.gif").read());
-
-
 
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
         keyboard = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/keyboard0.mp3"));
@@ -85,8 +79,6 @@ public class LoginScreen extends BaseScreen {
         existedUserName();
         existedUserPassword();
 
-
-
         newUserName();
         newUserPassword();
         confirmPassword();
@@ -97,12 +89,9 @@ public class LoginScreen extends BaseScreen {
         loginConfirmation.setSize(110, 50);
         loginConfirmation.setPosition(BUTTON_LOGIN_X, 230);
 
-
         registerConfirmation = new Label("", skin);
         registerConfirmation.setSize(110, 50);
         registerConfirmation.setPosition(BUTTON_REGISTER_X, 210);
-
-
 
 
         mute = new TextButton("mute", skin);
@@ -133,12 +122,6 @@ public class LoginScreen extends BaseScreen {
         exit.setPosition(100,20);
 
 
-
-
-
-
-
-
         stage.addActor(loginConfirmation);
         stage.addActor(userName);
         stage.addActor(newUserName);
@@ -150,7 +133,9 @@ public class LoginScreen extends BaseScreen {
         stage.addActor(register);
         stage.addActor(mute);
         stage.addActor(exit);
+
     }
+
 
 
     private void existedUserName() {
@@ -190,7 +175,6 @@ public class LoginScreen extends BaseScreen {
         userPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
         userPassword.setPosition(BUTTON_LOGIN_X, 450);
 
-        //clean placeholder
         this.userPassword.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -206,12 +190,7 @@ public class LoginScreen extends BaseScreen {
 
     private void newUserName() {
         newUserName = new TextArea("new user", skin);
-        newUserName.setTextFieldListener(new TextField.TextFieldListener() {
-            @Override
-            public void keyTyped(TextField textField, char c) {
-                keyboard.play();
-            }
-        });
+        nameTextListener(newUserName);
         newUserName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
         newUserName.setPosition(BUTTON_REGISTER_X, 500);
         newUserName.setMaxLength(TEXTBOX_LENGTH); //max chars for username
@@ -221,6 +200,15 @@ public class LoginScreen extends BaseScreen {
                 super.clicked(event, x, y);
                 newUserName.setText("");
                 registerConfirmation.setText("");
+            }
+        });
+    }
+
+    private void nameTextListener(TextArea newUserName) {
+        newUserName.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                keyboard.play();
             }
         });
     }
@@ -270,10 +258,14 @@ public class LoginScreen extends BaseScreen {
     }
 
 
+    private void setTextButton(TextButton textButton, int width, int height, int but_log_x, int but_log_y){
+        textButton.setSize(width,height);
+        textButton.setPosition(but_log_x,but_log_y);
+
+    }
     private void userValidity() {
         login = new TextButton("Log in", skin);
-        login.setSize(TEXTBOX_WIDTH, 70);
-        login.setPosition(BUTTON_LOGIN_X, 300);
+        setTextButton(login,TEXTBOX_WIDTH,70,BUTTON_LOGIN_X,300);
         login.getLabel().setColor(Color.FOREST);
         login.addCaptureListener(new ChangeListener() {
 
@@ -286,38 +278,21 @@ public class LoginScreen extends BaseScreen {
                         .password(getUserPassword())
                         .buildPlayer();
                 isValid = communicationService.sendRequest(player, Net.HttpMethods.POST);
-                System.out.println(isValid + " before if");
-
-
-                if (!isValid) {
+                if (!isValid)
+                {
                     loginConfirmation.setText("invalid username or password!");
                     loginConfirmation.setColor(Color.RED);
-
                 }
-
                 mouseClick.play();
             }
         });
 
-
     }
 
-    public String getNewUserName() {
-        if (!newUserName.getText().contentEquals("new user")) {
-
-            return newUserName.getText();
-        }
-        return null;
-    }
-
-    public String getNewUserPassword() { return newUserPassword.getText(); }
-
-    public String getConfirmPassword() { return confirmPassword.getText();}
 
     public void createNewUser() {
         register = new TextButton("Register", skin);
-        register.setSize(TEXTBOX_WIDTH, 70);
-        register.setPosition(BUTTON_REGISTER_X, 300);
+        setTextButton(register,TEXTBOX_WIDTH,70, (int) BUTTON_REGISTER_X,300);
         register.getLabel().setColor(Color.BLACK);
 
 
@@ -350,8 +325,21 @@ public class LoginScreen extends BaseScreen {
 
             }
         });
-        isCreated = true;
+
     }
+
+
+    public String getNewUserName() {
+        if (!newUserName.getText().contentEquals("new user")) {
+            return newUserName.getText();
+        }
+        return null;
+    }
+
+    public String getNewUserPassword() { return newUserPassword.getText(); }
+
+    public String getConfirmPassword() { return confirmPassword.getText();}
+
 
     public String getUserName() { return userName.getText(); }
 
@@ -373,12 +361,11 @@ public class LoginScreen extends BaseScreen {
         music.dispose();
         stage.dispose();
         mouseClick.dispose();
+
     }
 
     @Override
     public void resize(int width, int height) {
-
-       //state.getViewport().update(WORLD_WIDTH,WORLD_HEIGHT,true);
 
     }
 
@@ -390,12 +377,7 @@ public class LoginScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.getBatch().draw(animation.getKeyFrame(state),0.0f,0.0f,BaseScreen.WIDTH,BaseScreen.HEIGHT);
-
-
-
-        if (isValid) {
-            game.setScreen(new LoadingScreen(game));
-        }
+        if (isValid) { game.setScreen(new LoadingScreen(game)); }
         stage.getBatch().end();
         stage.act();
 
