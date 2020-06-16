@@ -63,7 +63,7 @@ public class LoginScreen extends BaseScreen {
     public LoginScreen(final MainClient game, AssetManager assetManager) {
         super(game);
 
-        animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("data/gifs/space_name.gif").read());
+        animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/space_name.gif").read());
 
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
         keyboard = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/keyboard0.mp3"));
