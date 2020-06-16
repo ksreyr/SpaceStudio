@@ -1,10 +1,12 @@
-package de.bremen.screens;
+package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -12,15 +14,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import de.bremen.MainClient;
-import de.bremen.assets.AssetDescriptors;
-import de.bremen.util.GdxUtils;
+import de.spaceStudio.MainClient;
+import de.spaceStudio.assets.AssetDescriptors;
+import de.spaceStudio.util.GdxUtils;
+import thirdParties.GifDecoder;
 
 
 public class LoadingScreen extends ScreenAdapter {
 
     private static final float PROGRESS_BAR_WIDTH = 400f;
-    private static final float PROGRESS_BAR_HEIGHT = 60f;
+    private static final float PROGRESS_BAR_HEIGHT = 30f;
 
     private Stage stage;
     private Skin skin;
@@ -33,10 +36,13 @@ public class LoadingScreen extends ScreenAdapter {
     private ShapeRenderer renderer;
 
     private float progress;
-    private float waitTime = 0.75f;
+    private float waitTime = 1.00f;
     private boolean changeScreen;
 
     private Label loadingText;
+
+    Animation<TextureRegion> animation;
+
 
     public LoadingScreen(MainClient game) {
         this.game = game;
@@ -44,11 +50,14 @@ public class LoadingScreen extends ScreenAdapter {
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         assetManager = game.getAssetmanager();
         loadingText = new Label("Loading ...", skin);
+        animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/loading.gif").read());
         loadingText.setAlignment(Align.center);
         loadingText.setFontScale(2,2);
         loadingText.setPosition(stage.getWidth()/2f-50,400);
+
         loadingText.setColor(Color.WHITE);
         stage.addActor(loadingText);
+
     }
 
     @Override

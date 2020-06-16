@@ -1,13 +1,14 @@
-package de.bremen.screens;
+package de.spaceStudio.screens;
 
 
 import com.badlogic.gdx.Screen;
-import de.bremen.MainClient;
+import de.spaceStudio.MainClient;
+
 
 public abstract class BaseScreen implements Screen {
     protected MainClient game;
-    public static final float WIDTH = 1920;
-    public static final float HEIGHT = 1080;
+    public static final int WIDTH = 1920;
+    public static final int HEIGHT = 1080;
 
 
     public BaseScreen(MainClient game) {
