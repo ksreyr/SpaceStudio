@@ -7,13 +7,11 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -37,8 +35,12 @@ public class LoginScreen extends BaseScreen {
     private Label loginConfirmation;
     private Label registerConfirmation;
 
+    private TextButton mute, exit;
 
-    private static final int BUTTON_POSITION_X = 110;
+
+    private static final float BUTTON_LOGIN_X = BaseScreen.WIDTH/3;
+    private static final float BUTTON_REGISTER_X = (float) (BaseScreen.WIDTH/2)+100;
+
 
     private static final int TEXTBOX_WIDTH = 200;
     private static final int TEXTBOX_HEIGHT = 35;
@@ -69,7 +71,6 @@ public class LoginScreen extends BaseScreen {
 
 
 
-
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
         keyboard = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/keyboard0.mp3"));
         music = Gdx.audio.newMusic(Gdx.files.internal("Client/core/assets/data/music/through_space.mp3"));
@@ -94,23 +95,48 @@ public class LoginScreen extends BaseScreen {
         createNewUser();
         loginConfirmation = new Label("", skin);
         loginConfirmation.setSize(110, 50);
-        loginConfirmation.setPosition(110, 230);
+        loginConfirmation.setPosition(BUTTON_LOGIN_X, 230);
 
 
         registerConfirmation = new Label("", skin);
         registerConfirmation.setSize(110, 50);
-        registerConfirmation.setPosition(500, 210);
-
-
-        login.setSize(TEXTBOX_WIDTH, 70);
-        login.setPosition(BUTTON_POSITION_X, 150);
-        login.getLabel().setColor(Color.FOREST);
+        registerConfirmation.setPosition(BUTTON_REGISTER_X, 210);
 
 
 
-        register.setSize(TEXTBOX_WIDTH, 70);
-        register.setPosition(500, 150);
-        register.getLabel().setColor(Color.BLACK);
+
+        mute = new TextButton("mute", skin);
+        mute.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+
+                if (music.isPlaying()){
+                    music.pause();
+                    mute.setText("unmute");
+                }else {
+                    music.play();
+                    mute.setText("mute");
+                }
+            }
+        });
+        mute.setSize(75, 30);
+        mute.setPosition(20,20);
+
+        exit = new TextButton("exit", skin);
+        exit.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
+        exit.setSize(75, 30);
+        exit.setPosition(100,20);
+
+
+
+
+
+
 
 
         stage.addActor(loginConfirmation);
@@ -122,6 +148,8 @@ public class LoginScreen extends BaseScreen {
         stage.addActor(registerConfirmation);
         stage.addActor(login);
         stage.addActor(register);
+        stage.addActor(mute);
+        stage.addActor(exit);
     }
 
 
@@ -134,7 +162,7 @@ public class LoginScreen extends BaseScreen {
             }
         });
         userName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
-        userName.setPosition(BUTTON_POSITION_X, 360);
+        userName.setPosition(BUTTON_LOGIN_X, 500);
         userName.setMaxLength(TEXTBOX_LENGTH); //max chars for username
 
         userName.addListener(new ClickListener() {
@@ -160,7 +188,7 @@ public class LoginScreen extends BaseScreen {
 
         userPassword.setMaxLength(TEXTBOX_LENGTH);
         userPassword.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
-        userPassword.setPosition(BUTTON_POSITION_X, 310);
+        userPassword.setPosition(BUTTON_LOGIN_X, 450);
 
         //clean placeholder
         this.userPassword.addListener(new ClickListener() {
@@ -175,20 +203,6 @@ public class LoginScreen extends BaseScreen {
         });
     }
 
-    private void confirmPassword() {
-        confirmPassword = new TextArea("retype password", skin);
-        textFieldListener(confirmPassword);
-        confirmPassword.setPosition(500, 260);
-        //clean placeholder
-        this.confirmPassword.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                confirmPassword.setText("");
-                registerConfirmation.setText("");
-            }
-        });
-    }
 
     private void newUserName() {
         newUserName = new TextArea("new user", skin);
@@ -199,7 +213,7 @@ public class LoginScreen extends BaseScreen {
             }
         });
         newUserName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
-        newUserName.setPosition(500, 360);
+        newUserName.setPosition(BUTTON_REGISTER_X, 500);
         newUserName.setMaxLength(TEXTBOX_LENGTH); //max chars for username
         newUserName.addListener(new ClickListener() {
             @Override
@@ -214,7 +228,7 @@ public class LoginScreen extends BaseScreen {
     private void newUserPassword() {
         newUserPassword = new TextArea("password", skin);
         textFieldListener(newUserPassword);
-        newUserPassword.setPosition(500, 310);
+        newUserPassword.setPosition(BUTTON_REGISTER_X, 450);
 
         //clean placeholder
         this.newUserPassword.addListener(new ClickListener() {
@@ -222,6 +236,21 @@ public class LoginScreen extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 newUserPassword.setText("");
+                registerConfirmation.setText("");
+            }
+        });
+    }
+
+    private void confirmPassword() {
+        confirmPassword = new TextArea("retype password", skin);
+        textFieldListener(confirmPassword);
+        confirmPassword.setPosition(BUTTON_REGISTER_X, 400);
+        //clean placeholder
+        this.confirmPassword.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                confirmPassword.setText("");
                 registerConfirmation.setText("");
             }
         });
@@ -243,6 +272,9 @@ public class LoginScreen extends BaseScreen {
 
     private void userValidity() {
         login = new TextButton("Log in", skin);
+        login.setSize(TEXTBOX_WIDTH, 70);
+        login.setPosition(BUTTON_LOGIN_X, 300);
+        login.getLabel().setColor(Color.FOREST);
         login.addCaptureListener(new ChangeListener() {
 
 
@@ -284,6 +316,9 @@ public class LoginScreen extends BaseScreen {
 
     public void createNewUser() {
         register = new TextButton("Register", skin);
+        register.setSize(TEXTBOX_WIDTH, 70);
+        register.setPosition(BUTTON_REGISTER_X, 300);
+        register.getLabel().setColor(Color.BLACK);
 
 
         register.addCaptureListener(new ChangeListener() {
