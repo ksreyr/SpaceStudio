@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -35,14 +36,10 @@ public class LoginScreen extends BaseScreen {
     private TextButton register;
     private Label loginConfirmation;
     private Label registerConfirmation;
-    //private final Texture loginBackground;
 
-    private Label okay;
-    private Texture registerConfirmBG;
 
     private static final int BUTTON_POSITION_X = 110;
-    private static final int WORLD_WIDTH = 800;
-    private static final int WORLD_HEIGHT = 600;
+
     private static final int TEXTBOX_WIDTH = 200;
     private static final int TEXTBOX_HEIGHT = 35;
     private static final int TEXTBOX_LENGTH = 20;
@@ -56,28 +53,31 @@ public class LoginScreen extends BaseScreen {
     private Sound mouseClick;
     private Sound keyboard;
 
+    public static boolean test;
 
     Animation<TextureRegion> animation;
     private float state=0.0f;
 
 
-
     private int counter = 0;
+
     public LoginScreen(final MainClient game, AssetManager assetManager) {
         super(game);
 
 
-        animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("data/spaceship.gif").read());
+        animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("data/gifs/space_name.gif").read());
 
 
-        mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client\\core\\assets\\data\\music\\mouseclick.wav"));
-        keyboard = Gdx.audio.newSound(Gdx.files.internal("Client\\core\\assets\\data\\music\\keyboard0.mp3"));
-        music = Gdx.audio.newMusic(Gdx.files.internal("Client\\core\\assets\\data\\music\\through_space.mp3"));
+
+
+        mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
+        keyboard = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/keyboard0.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("Client/core/assets/data/music/through_space.mp3"));
         music.setLooping(true);
-        music.setVolume(0.1f);
+        music.setVolume(0.5f);
         music.play();
 
-        stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
+        stage = new Stage(new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 
@@ -254,17 +254,20 @@ public class LoginScreen extends BaseScreen {
                         .password(getUserPassword())
                         .buildPlayer();
                 isValid = communicationService.sendRequest(player, Net.HttpMethods.POST);
+                System.out.println(isValid + " before if");
 
-                if (!isValid && counter != 0) {
+
+                if (!isValid) {
                     loginConfirmation.setText("invalid username or password!");
                     loginConfirmation.setColor(Color.RED);
 
                 }
+
                 mouseClick.play();
             }
         });
 
-        counter++;
+
     }
 
     public String getNewUserName() {
@@ -338,14 +341,21 @@ public class LoginScreen extends BaseScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void resize(int width, int height) {
 
+       //state.getViewport().update(WORLD_WIDTH,WORLD_HEIGHT,true);
+
+    }
+
+    @Override
+    public void render(float delta) {
         state += Gdx.graphics.getDeltaTime();
         stage.getBatch().begin();
         Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.getBatch().draw(animation.getKeyFrame(state),0.0f,0.0f);
+        stage.getBatch().draw(animation.getKeyFrame(state),0.0f,0.0f,BaseScreen.WIDTH,BaseScreen.HEIGHT);
+
 
 
         if (isValid) {
@@ -353,8 +363,8 @@ public class LoginScreen extends BaseScreen {
         }
         stage.getBatch().end();
         stage.act();
-        stage.draw();
 
+        stage.draw();
 
     }
 
