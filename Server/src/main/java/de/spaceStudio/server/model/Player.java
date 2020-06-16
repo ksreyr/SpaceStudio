@@ -9,6 +9,9 @@ import javax.persistence.*;
 @Entity
 public class Player extends Actor {
 
+	//private String name;
+
+
     /**
      * Empty constructor
      */

@@ -6,10 +6,14 @@ import de.bremen.MainClient;
 
 public abstract class BaseScreen implements Screen {
     protected MainClient game;
+    public static final float WIDTH = 1920;
+    public static final float HEIGHT = 1080;
+
 
     public BaseScreen(MainClient game) {
         this.game = game;
     }
+
 
     @Override
     public void show() {

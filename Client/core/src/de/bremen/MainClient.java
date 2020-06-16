@@ -4,8 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.bremen.screens.LoginScreen;
-import lombok.Setter;
 import lombok.Getter;
+import lombok.Setter;
+
+
+
 
 
 public class MainClient extends Game {
@@ -13,19 +16,26 @@ public class MainClient extends Game {
 	@Getter
 	private AssetManager assetManager;
 
+	public LoginScreen loginScreen;
 
 
-	public LoginScreen logginScreen;
+
+
+
 	private SpriteBatch batch;
+
 
 	@Override
 	public void create () {
-		assetManager = new AssetManager();
 
+
+		assetManager = new AssetManager();
 		assetManager.finishLoading();
-		logginScreen = new LoginScreen(this);
+		loginScreen = new LoginScreen(this, assetManager);
+
+
 		batch = new SpriteBatch();
-		setScreen(logginScreen);
+		setScreen(loginScreen);
 
 	}
 	@Override
