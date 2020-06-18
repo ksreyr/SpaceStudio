@@ -1,6 +1,7 @@
 package de.bremen.server.controller;
 
 
+import de.bremen.server.model.CrewMember;
 import de.bremen.server.model.Section;
 import de.bremen.server.model.Ship;
 import de.bremen.server.model.Weapon;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ShipControllerImpl implements ShipController{
@@ -44,36 +46,24 @@ public class ShipControllerImpl implements ShipController{
 
     @Override
     public String deleteShipById(Integer id) {
-        return null;
+        shipRepository.delete(shipRepository.findById(id).get());
+        return HttpStatus.ACCEPTED.toString();
     }
 
     @Override
     public String deleteAllShips() {
+        shipRepository.deleteAll();
+        return HttpStatus.ACCEPTED.toString();
+    }
+
+    @Override
+    public Ship updateEnergy(Ship ship) {
         return null;
     }
 
     @Override
-    public boolean validdateShip(Ship ship) {
-        return false;
-    }
-
-    @Override
-    public List<Section> findPath(Ship s, Section start, Section end) {
+    public Ship startAttack(Weapon w, Section s, Ship attacker, Ship defender) {
         return null;
     }
 
-    @Override
-    public void applyCrewSkills(Ship s) {
-
-    }
-
-    @Override
-    public void applyAttack(Ship s) {
-
-    }
-
-    @Override
-    public void startAttack(Weapon w, Section s, Ship attacker, Ship defender) {
-
-    }
 }
