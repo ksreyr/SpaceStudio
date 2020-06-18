@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.Set;
 
 public interface PlayerController {
 
@@ -83,7 +84,7 @@ public interface PlayerController {
      * @return
      */
     @RequestMapping(value = "/player/logged-players", method = RequestMethod.GET)
-    List<String> getLoggedPlayers();
+    Set<String> getLoggedPlayers();
 
     /**
      * This function is temporal in use to logout user from game

@@ -7,23 +7,18 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import de.spaceStudio.client.util.Global;
 
-public class CommunicationService {
+public class LoginService {
 
+    public static void logout(Object requestObject) {
 
-    int count=0;
-
-    boolean isValid;
-
-    public boolean sendRequest(Object requestObject, String method) {
-        final Json json = new Json();
+        Json json = new Json();
 
         json.setOutputType(JsonWriter.OutputType.json);
-        System.out.println("JSON to send " + json.toJson(requestObject));
+
         final String requestJson = json.toJson(requestObject);
 
-        Net.HttpRequest request = new Net.HttpRequest(method);
-        final String url = Global.SERVER_URL + Global.PLAYER_LOGIN_ENDPOINT;
-        request.setUrl(url);
+        Net.HttpRequest request = new Net.HttpRequest("POST");
+        request.setUrl(Global.SERVER_URL + Global.PLAYER_LOGOUT_ENDPOINT);
 
         request.setContent(requestJson);
 
@@ -38,15 +33,7 @@ public class CommunicationService {
                 }
                 System.out.println("statusCode: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response: " + responseJson);
-
-                    isValid = Boolean.parseBoolean(responseJson);
-
-
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
+                System.out.println(responseJson);
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -58,10 +45,6 @@ public class CommunicationService {
             }
         });
 
-        return isValid;
     }
-
-
-
 
 }

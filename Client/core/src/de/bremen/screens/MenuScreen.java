@@ -21,7 +21,10 @@ import de.bremen.assets.AssetDescriptors;
 import de.bremen.assets.RegionNames;
 import de.bremen.assets.StyleNames;
 import de.bremen.config.GameConfig;
+import de.bremen.service.LoginService;
 import de.bremen.util.GdxUtils;
+
+import static de.spaceStudio.client.util.Global.currentPlayer;
 
 
 //Continue, New Game, Multiplayer Game, Options(Level Niveau), Exit
@@ -143,6 +146,7 @@ public class MenuScreen extends ScreenAdapter {
     // Called when the Application is destroyed.
     @Override
     public void dispose() {
+        LoginService.logout(currentPlayer);
         stage.dispose();
     }
 

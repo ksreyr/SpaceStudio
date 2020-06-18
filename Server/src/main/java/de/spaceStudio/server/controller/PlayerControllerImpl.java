@@ -112,7 +112,7 @@ public class PlayerControllerImpl implements PlayerController {
      */
     @Override
     @RequestMapping(value = "/player/logged-players", method = RequestMethod.GET)
-    public List<String> getLoggedPlayers() {
+    public Set<String> getLoggedPlayers() {
         return Global.userLogged;
     }
 

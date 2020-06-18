@@ -21,6 +21,7 @@ import de.bremen.MainClient;
 import de.bremen.service.CommunicationService;
 import de.bremen.service.RegistrationService;
 import de.spaceStudio.server.model.Player;
+import static de.spaceStudio.client.util.Global.currentPlayer;
 
 public class LoginScreen extends BaseScreen {
 
@@ -273,11 +274,12 @@ public class LoginScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                Player player = Player.builderPlayer()
+                currentPlayer  = Player.builderPlayer()
                         .name(getUserName())
                         .password(getUserPassword())
                         .buildPlayer();
-                isValid = communicationService.sendRequest(player, Net.HttpMethods.POST);
+
+                isValid = communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
                 if (!isValid)
                 {
                     loginConfirmation.setText("invalid username or password!");
