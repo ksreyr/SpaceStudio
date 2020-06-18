@@ -81,7 +81,6 @@ public interface ShipController {
      * @param end   is the ending section
      * @return A List of Sections which need to be passed
      */
-    @RequestMapping(value = "/ship/{id}/validate", method = RequestMethod.GET)
     List<Section> findPath(Ship s, Section start, Section end);
 
     /**

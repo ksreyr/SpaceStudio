@@ -3,12 +3,14 @@ package de.bremen.server.controller;
 import de.bremen.server.model.CrewMember;
 import de.bremen.server.model.Section;
 import de.bremen.server.model.Ship;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+
 
 public interface CrewMemberController {
     /**

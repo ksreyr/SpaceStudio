@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 /**
  * @author Miguel Caceres 09.05.2020
  */
+import org.springframework.stereotype.Repository;
+
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
