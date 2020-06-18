@@ -1,5 +1,6 @@
 package de.bremen.server.controller;
 
+import de.bremen.server.model.CrewMember;
 import de.bremen.server.model.Section;
 import de.bremen.server.model.Ship;
 import de.bremen.server.model.Weapon;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 public interface ShipController {
+
     /**
      * Get all ships from db
      *
@@ -64,40 +66,17 @@ public interface ShipController {
     @RequestMapping(value = "/ships", method = RequestMethod.DELETE)
     String deleteAllShips();
 
-    /**
-     * Check the validity of the Changes before updating the Server
-     *
-     * @param ship which will be checked
-     * @return if the changes will be made
-     */
-    @RequestMapping(value = "/ship/{id}/validate", method = RequestMethod.GET)
-    boolean validdateShip(@RequestBody Ship ship);
 
     /**
-     * Find the shortest Path between two Sections on one Ship
+     * Recieve a Ship with the new Power Distribution
+     * Return the Ship from the client if changes are accepted
+     * Other wise it return the ship as it is stored on the Server
      *
-     * @param s     is the Ship
-     * @param start is the starting section
-     * @param end   is the ending section
-     * @return A List of Sections which need to be passed
+     * @param ship the ship to be updated, which is serialised from the POST JSON
+     * @return the updated Ship
      */
-    List<Section> findPath(Ship s, Section start, Section end);
-
-    /**
-     * Decide what the Crew will be doing
-     *
-     * @param s on this Ship
-     */
-    void applyCrewSkills(Ship s);
-
-
-    /**
-     * Recived the Value of the new Ship and persists it to the
-     * Database if valid
-     *
-     * @param s is the attacked Ship
-     */
-    void applyAttack(Ship s);
+    @RequestMapping(value = "/ship/energy", method = RequestMethod.PUT)
+    Ship updateEnergy(@RequestBody Ship ship);
 
     /**
      * Start an Attack
@@ -107,6 +86,7 @@ public interface ShipController {
      * @param attacker the attacking Ship
      * @param defender the defending Ship
      */
-    void startAttack(Weapon w, Section s, Ship attacker, Ship defender);
+    @RequestMapping(value = "/ship/attack", method = RequestMethod.GET)
+    Ship startAttack(@RequestBody Weapon w, @RequestBody Section s, @RequestBody Ship attacker, @RequestBody Ship defender);
 
 }
