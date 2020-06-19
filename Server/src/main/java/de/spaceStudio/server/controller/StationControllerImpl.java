@@ -16,7 +16,7 @@ public class StationControllerImpl implements StationController{
     StationRepository stationRepository;
 
     @Override
-    @RequestMapping(value = "/station", method = RequestMethod.GET)
+    @RequestMapping(value = "/stations", method = RequestMethod.GET)
     public List<Station> getAllStations() {
         return stationRepository.findAll();
     }
@@ -52,7 +52,7 @@ public class StationControllerImpl implements StationController{
     }
 
     @Override
-    @RequestMapping(value = "/section", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/sections", method = RequestMethod.DELETE)
     public String deleteAllStations() {
         stationRepository.deleteAll();
         return HttpStatus.OK.toString();

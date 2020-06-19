@@ -16,7 +16,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     StopAbstractRepository stopAbstractRepository;
 
     @Override
-    @RequestMapping(value = "/stopAbstract", method = RequestMethod.GET)
+    @RequestMapping(value = "/stopAbstracts", method = RequestMethod.GET)
     public List<StopAbstract> getAllStopAbstracts() {
         return stopAbstractRepository.findAll();
     }
@@ -49,7 +49,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     }
 
     @Override
-    @RequestMapping(value = "/stopAbstract", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/stopAbstracts", method = RequestMethod.DELETE)
     public String deleteAllStopAbstracts() {
         stopAbstractRepository.deleteAll();
         return HttpStatus.ACCEPTED.toString();

@@ -29,7 +29,7 @@ public class PlanetControllerImpl implements PlanetController {
 
     @Override
     @RequestMapping(value = "/planet", method = RequestMethod.POST)
-    public String addPlanet(Planet planet) {
+    public String addPlanet(@RequestBody Planet planet) {
         Planet planetToSave= planetRepository.save(planet);
         return HttpStatus.OK.toString();
     }

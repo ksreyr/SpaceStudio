@@ -61,7 +61,7 @@ public interface ResourcenController {
      *
      * @return JSON of deleted ressource
      */
-    @RequestMapping(value = "/resourcen", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/resources", method = RequestMethod.DELETE)
     String deleteAllRessources();
 
     String hashPassword(String weakPassword);
