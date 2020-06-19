@@ -1,7 +1,7 @@
-package de.bremen.server.controller;
+package de.spaceStudio.server.controller;
 
-import de.bremen.server.model.Station;
-import de.bremen.server.repository.StationRepository;
+import de.spaceStudio.server.model.Station;
+import de.spaceStudio.server.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;

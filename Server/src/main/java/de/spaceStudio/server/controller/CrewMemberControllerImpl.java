@@ -1,8 +1,8 @@
-package de.bremen.server.controller;
+package de.spaceStudio.server.controller;
 
-import de.bremen.server.model.CrewMember;
-import de.bremen.server.model.Section;
-import de.bremen.server.repository.CrewMemberRepository;
+import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.repository.CrewMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;

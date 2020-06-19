@@ -1,7 +1,7 @@
-package de.bremen.server.controller;
+package de.spaceStudio.server.controller;
 
-import de.bremen.server.model.Planet;
-import de.bremen.server.repository.PlanetRepository;
+import de.spaceStudio.server.model.Planet;
+import de.spaceStudio.server.repository.PlanetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
