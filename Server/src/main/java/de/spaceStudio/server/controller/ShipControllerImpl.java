@@ -4,6 +4,7 @@ package de.spaceStudio.server.controller;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,6 +77,9 @@ public class ShipControllerImpl implements ShipController{
     public Ship startAttack(Weapon w, Section s, Ship attacker, Ship defender) {
         return null;
     }
+
+    @Autowired
+    SectionRepository sectionRepository;
 
     @Override
     public boolean checkEnergy(Ship oldShip, Ship newShip) {
