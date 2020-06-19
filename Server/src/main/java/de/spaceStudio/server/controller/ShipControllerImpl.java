@@ -4,6 +4,7 @@ package de.spaceStudio.server.controller;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@RestController
+@RestController
 public class ShipControllerImpl implements ShipController{
     @Autowired
     ShipRepository shipRepository;
@@ -44,36 +45,46 @@ public class ShipControllerImpl implements ShipController{
 
     @Override
     public String deleteShipById(Integer id) {
-        return null;
+        shipRepository.delete(shipRepository.findById(id).get());
+        return HttpStatus.ACCEPTED.toString();
     }
 
     @Override
     public String deleteAllShips() {
+        shipRepository.deleteAll();
+        return HttpStatus.ACCEPTED.toString();
+    }
+
+    @Override
+    public String updateEnergy(Ship ship) {
+        shipRepository.save(ship);
+        if (checkEnergy(shipRepository.findById(ship.getId()).get(), ship) == true) {
+            return HttpStatus.ACCEPTED.toString();
+        } else {
+            return HttpStatus.FORBIDDEN.toString();
+        }
+    }
+
+    /**
+     * Start an Attack
+     *
+     * @param w        is the Weapon
+     * @param s        is the section which should be attacked
+     * @param attacker the attacking Ship
+     * @param defender the defending Ship
+     */
+    @Override
+    public Ship startAttack(Weapon w, Section s, Ship attacker, Ship defender) {
         return null;
     }
 
-    @Override
-    public boolean validdateShip(Ship ship) {
-        return false;
-    }
+    @Autowired
+    SectionRepository sectionRepository;
 
     @Override
-    public List<Section> findPath(Ship s, Section start, Section end) {
-        return null;
-    }
-
-    @Override
-    public void applyCrewSkills(Ship s) {
-
-    }
-
-    @Override
-    public void applyAttack(Ship s) {
-
-    }
-
-    @Override
-    public void startAttack(Weapon w, Section s, Ship attacker, Ship defender) {
-
+    public boolean checkEnergy(Ship oldShip, Ship newShip) {
+        int powerTotal = oldShip.getPower();
+        // Add Check
+        return true;
     }
 }

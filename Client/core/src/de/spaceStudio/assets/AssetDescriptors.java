@@ -1,4 +1,4 @@
-package de.bremen.assets;
+package de.spaceStudio.assets;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;

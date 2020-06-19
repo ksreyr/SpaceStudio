@@ -1,15 +1,12 @@
-package de.bremen;
+package de.spaceStudio;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.bremen.screens.LoginScreen;
 import lombok.Getter;
 import lombok.Setter;
 
-
-
-
+import de.spaceStudio.screens.LoginScreen;
 
 public class MainClient extends Game {
 	@Setter

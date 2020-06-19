@@ -1,4 +1,4 @@
-package de.bremen.config;
+package de.spaceStudio.config;
 
 //for constants
 public class GameConfig {

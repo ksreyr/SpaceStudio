@@ -1,4 +1,4 @@
-package de.bremen.assets;
+package de.spaceStudio.assets;
 
 public class AssetPaths {
 

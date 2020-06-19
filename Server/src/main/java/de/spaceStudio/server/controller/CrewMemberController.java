@@ -3,12 +3,14 @@ package de.spaceStudio.server.controller;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+
 
 public interface CrewMemberController {
     /**
@@ -63,14 +65,17 @@ public interface CrewMemberController {
     @RequestMapping(value = "/crewMembers", method = RequestMethod.DELETE)
     String deleteAllCrewMembers();
 
+
     /**
-     * Set the Destination of a Crew Member
+     * Reassign Crew in the Ship
      *
-     * @param s   is the Ship
-     * @param c   is the Crew Member
-     * @param sec is the Section wehre he is going
+     * @param crewMember which has been moved
+     * @param sectionNew to where he will be moved
+     * @param sectionOld from where he will be moved
+     * @return the Ship with updated Crew Postions if validated
      */
-    void setCrewMemberDestination(Ship s, CrewMember c, Section sec);
+    @RequestMapping(value = "/crew", method = RequestMethod.PUT)
+    CrewMember updatePostion(int shipID, @RequestBody CrewMember crewMember, @RequestBody Section sectionNew, @RequestBody Section sectionOld);
 
 
 }

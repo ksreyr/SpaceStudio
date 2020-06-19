@@ -4,31 +4,33 @@ package de.bremen.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import de.bremen.MainClient;
-import de.bremen.assets.AssetDescriptors;
-import de.bremen.assets.RegionNames;
-import de.bremen.assets.StyleNames;
-import de.bremen.config.GameConfig;
-import de.bremen.service.LoginService;
-import de.bremen.util.GdxUtils;
+import de.spaceStudio.MainClient;
+import de.spaceStudio.assets.AssetDescriptors;
+import de.spaceStudio.assets.RegionNames;
+import de.spaceStudio.assets.StyleNames;
+import de.spaceStudio.config.GameConfig;
+import de.spaceStudio.util.GdxUtils;
 
 import static de.spaceStudio.client.util.Global.currentPlayer;
 
 
 //Continue, New Game, Multiplayer Game, Options(Level Niveau), Exit
-public class MenuScreen extends ScreenAdapter {
+public class MenuScreen extends ScreenAdapter  {
 
 
     private MainClient universeMap;
@@ -40,6 +42,10 @@ public class MenuScreen extends ScreenAdapter {
     private Skin sgxSkin;
     private TextureAtlas gamePlayAtlas;
 
+
+    private Sound click;
+    private Sound sound;
+    boolean isHover;
 
 
     public MenuScreen(MainClient mainClient){
@@ -55,6 +61,9 @@ public class MenuScreen extends ScreenAdapter {
     public void show() {
         viewport = new FitViewport(GameConfig.WIDTH, GameConfig.HEIGHT);
         stage = new Stage(viewport, universeMap.getBatch());
+        click =  Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
+
+
 
         sgxSkin = assetManager.get(AssetDescriptors.SGX_SKIN);
         gamePlayAtlas = assetManager.get(AssetDescriptors.BACKGROUND_AREA);
@@ -68,10 +77,10 @@ public class MenuScreen extends ScreenAdapter {
 
         //Button: Continue, New Game, Options, Exit
         TextButton textButtonContinue = new TextButton(" Continue  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonContinue.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) { }
-        });
+
+
+
+
 
         TextButton textButtonNewGame = new TextButton("New Game", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
         textButtonNewGame.addListener(new ChangeListener() {
