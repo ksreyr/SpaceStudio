@@ -1,4 +1,4 @@
-package de.bremen.server.exception;
+package de.spaceStudio.server.exception;
 
 public class IllegalClientRequestException extends Throwable {
 }
