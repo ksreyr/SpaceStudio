@@ -1,4 +1,4 @@
-package de.bremen.screens;
+package de.spaceStudio.screens;
 
 
 import com.badlogic.gdx.Gdx;
@@ -27,6 +27,7 @@ import de.spaceStudio.config.GameConfig;
 import de.spaceStudio.util.GdxUtils;
 
 import static de.spaceStudio.client.util.Global.currentPlayer;
+import static de.spaceStudio.service.LoginService.logout;
 
 
 //Continue, New Game, Multiplayer Game, Options(Level Niveau), Exit
@@ -155,7 +156,7 @@ public class MenuScreen extends ScreenAdapter  {
     // Called when the Application is destroyed.
     @Override
     public void dispose() {
-        LoginService.logout(currentPlayer);
+        logout(currentPlayer);
         stage.dispose();
     }
 

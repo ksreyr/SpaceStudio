@@ -1,8 +1,8 @@
-package de.bremen.screens;
+package de.spaceStudio.screens;
 
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import de.bremen.MainClient;
+import de.spaceStudio.MainClient;
 
 /**
  * Lobby screen to show online players

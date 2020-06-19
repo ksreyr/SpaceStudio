@@ -1,4 +1,4 @@
-package de.bremen.service;
+package de.spaceStudio.service;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
