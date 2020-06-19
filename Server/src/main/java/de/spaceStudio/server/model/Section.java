@@ -12,6 +12,7 @@ import java.util.List;
 @Inheritance(
         strategy = InheritanceType.TABLE_PER_CLASS
 )
+@NamedQuery(name = "Section.findByShip", query = "SELECT p FROM Section p WHERE  p.ship = ?1")
 public class Section {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
