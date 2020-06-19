@@ -1,0 +1,14 @@
+package de.spaceStudio.server.repository;
+
+import de.spaceStudio.server.model.CollectableItem;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+<<<<<<< HEAD:Server/src/main/java/de/spaceStudio/server/repository/CollectableItemsRepository.java
+import java.util.Optional;
+
+=======
+@Repository
+>>>>>>> 0e99f4f480db5a1550f530d8f4fe07c107e881ac:Server/src/main/java/de/bremen/server/repository/CollectableItemsRepository.java
+public interface CollectableItemsRepository extends JpaRepository<CollectableItem, Integer> {
+}

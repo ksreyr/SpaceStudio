@@ -1,0 +1,16 @@
+package de.spaceStudio.server.repository;
+
+<<<<<<< HEAD:Server/src/main/java/de/spaceStudio/server/repository/RessourceRepository.java
+import de.spaceStudio.server.model.Ressource;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+=======
+import de.bremen.server.model.Ressource;
+import org.springframework.data.jpa.repository.JpaRepository;import org.springframework.stereotype.Repository;
+
+@Repository
+>>>>>>> 0e99f4f480db5a1550f530d8f4fe07c107e881ac:Server/src/main/java/de/bremen/server/repository/RessourceRepository.java
+public interface RessourceRepository  extends JpaRepository<Ressource, Integer> {
+}
