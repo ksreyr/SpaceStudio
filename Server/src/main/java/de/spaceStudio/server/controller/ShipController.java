@@ -3,7 +3,6 @@ package de.spaceStudio.server.controller;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,7 +75,7 @@ public interface ShipController {
      * @return the updated Ship
      */
     @RequestMapping(value = "/ship/energy", method = RequestMethod.PUT)
-    Ship updateEnergy(@RequestBody Ship ship);
+    String updateEnergy(@RequestBody Ship ship);
 
     /**
      * Start an Attack
@@ -88,5 +87,7 @@ public interface ShipController {
      */
     @RequestMapping(value = "/ship/attack", method = RequestMethod.GET)
     Ship startAttack(@RequestBody Weapon w, @RequestBody Section s, @RequestBody Ship attacker, @RequestBody Ship defender);
+
+    boolean checkEnergy(Ship oldShip, Ship newShip);
 
 }
