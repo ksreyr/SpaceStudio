@@ -2,6 +2,9 @@ package de.spaceStudio.client.util;
 
 import de.spaceStudio.server.model.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class contains global variables, they can be access in the whole project
  *
@@ -39,4 +42,9 @@ public class Global {
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
+
+    /**
+     * Gets all Users
+     */
+    public static List<String> playersOnline = new ArrayList<>();
 }
