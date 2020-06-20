@@ -15,10 +15,6 @@ public class MainClient extends Game {
 
 	public LoginScreen loginScreen;
 
-
-
-
-
 	private SpriteBatch batch;
 
 

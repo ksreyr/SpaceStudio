@@ -2,9 +2,11 @@ package de.spaceStudio.service;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import de.spaceStudio.client.util.Global;
 
 public class CommunicationService {
 
@@ -21,7 +23,7 @@ public class CommunicationService {
         final String requestJson = json.toJson(requestObject);
 
         Net.HttpRequest request = new Net.HttpRequest(method);
-        final String url = "http://127.0.0.1:8080/player/login";
+        final String url = Global.SERVER_URL + Global.PLAYER_LOGIN_ENDPOINT;
         request.setUrl(url);
 
         request.setContent(requestJson);
@@ -59,8 +61,4 @@ public class CommunicationService {
 
         return isValid;
     }
-
-
-
-
 }

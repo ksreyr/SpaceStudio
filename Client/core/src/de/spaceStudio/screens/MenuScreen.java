@@ -26,6 +26,9 @@ import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.config.GameConfig;
 import de.spaceStudio.util.GdxUtils;
 
+import static de.spaceStudio.client.util.Global.currentPlayer;
+import static de.spaceStudio.service.LoginService.logout;
+
 
 //Continue, New Game, Multiplayer Game, Options(Level Niveau), Exit
 public class MenuScreen extends ScreenAdapter  {
@@ -61,8 +64,6 @@ public class MenuScreen extends ScreenAdapter  {
         stage = new Stage(viewport, universeMap.getBatch());
         click =  Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
-
-
         sgxSkin = assetManager.get(AssetDescriptors.SGX_SKIN);
         gamePlayAtlas = assetManager.get(AssetDescriptors.BACKGROUND_AREA);
 
@@ -83,7 +84,9 @@ public class MenuScreen extends ScreenAdapter  {
         TextButton textButtonNewGame = new TextButton("New Game", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
         textButtonNewGame.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) { }
+            public void changed(ChangeEvent event, Actor actor) {
+                mainClient.setScreen(new LobbyScreen(mainClient));
+            }
         });
 
         TextButton textButtonOptions = new TextButton("  Options  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
@@ -153,6 +156,7 @@ public class MenuScreen extends ScreenAdapter  {
     // Called when the Application is destroyed.
     @Override
     public void dispose() {
+        logout(currentPlayer);
         stage.dispose();
     }
 

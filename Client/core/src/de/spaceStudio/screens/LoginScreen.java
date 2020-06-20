@@ -16,11 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import de.spaceStudio.service.CommunicationService;
 import thirdParties.GifDecoder;
 import de.spaceStudio.MainClient;
-import de.spaceStudio.service.CommunicationService;
 import de.spaceStudio.service.RegistrationService;
 import de.spaceStudio.server.model.Player;
+import static de.spaceStudio.client.util.Global.currentPlayer;
 
 public class LoginScreen extends BaseScreen {
 
@@ -218,6 +219,7 @@ public class LoginScreen extends BaseScreen {
         textFieldListener(newUserPassword);
         newUserPassword.setPosition(BUTTON_REGISTER_X, 450);
 
+        //clean placeholder
         this.newUserPassword.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -269,14 +271,16 @@ public class LoginScreen extends BaseScreen {
         login.getLabel().setColor(Color.FOREST);
         login.addCaptureListener(new ChangeListener() {
 
+
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                Player player = Player.builderPlayer()
+                currentPlayer  = Player.builderPlayer()
                         .name(getUserName())
                         .password(getUserPassword())
                         .buildPlayer();
-                isValid = communicationService.sendRequest(player, Net.HttpMethods.POST);
+
+                isValid = communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
                 if (!isValid) {
                     loginConfirmation.setText("invalid username or password!");
                     loginConfirmation.setColor(Color.RED);
