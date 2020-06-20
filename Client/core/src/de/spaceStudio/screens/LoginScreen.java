@@ -60,7 +60,7 @@ public class LoginScreen extends BaseScreen {
 
 
 
-    public LoginScreen(final MainClient game, AssetManager assetManager) {
+    public LoginScreen(final MainClient game) {
         super(game);
 
         animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/space_name.gif").read());
