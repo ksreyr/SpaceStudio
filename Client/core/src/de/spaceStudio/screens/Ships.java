@@ -1,7 +1,7 @@
 package de.spaceStudio.screens;
 
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,13 +10,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.spaceStudio.MainClient;
 
+//“Sound effects obtained from https://www.zapsplat.com“
 
 public class Ships extends BaseScreen {
 
@@ -30,13 +31,14 @@ public class Ships extends BaseScreen {
 
     private Stage stage;
     private Skin skin;
+    private Skin skinButton;
     private TextButton next;
     private TextButton previous;
     int shipNumber = 0;
     private boolean isChanged;
 
-    Sound mouseClick;
-    Sound whiclePassing;
+
+    private Sound spaceShipChange;
 
     public Ships(MainClient game) {
         super(game);
@@ -44,7 +46,8 @@ public class Ships extends BaseScreen {
 
         stage = new Stage(new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT));
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+
 
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -53,27 +56,31 @@ public class Ships extends BaseScreen {
         redShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/redship.png"));
         greenship = new Texture(Gdx.files.internal("Client/core/assets/data/ships/greenship.png"));
         topdownfighter = new Texture(Gdx.files.internal("Client/core/assets/data/ships/topdownfighter.png"));
-        whiclePassing = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/export.wav"));
+
+
+
+        spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
 
         previousButton();
 
         stage.addActor(next);
         stage.addActor(previous);
-        //stage.addActor(mouseClick);
 
 
     }
 
     private void previousButton() {
-        previous = new TextButton("Previous", skin);
-        previous.setSize(150, 60);
+        previous = new TextButton("Previous", skinButton, "small");
+      //  previous.setSize(150, 60);
         previous.setPosition(200,620);
-        previous.getLabel().setColor(Color.FOREST);
+        previous.getLabel().setColor(Color.BLACK);
+
+
         previous.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                whiclePassing.play();
+                spaceShipChange.play();
                        if(shipNumber < 0){
                            shipNumber = 3;
                        }else shipNumber --;
@@ -82,14 +89,15 @@ public class Ships extends BaseScreen {
     }
 
     private void nextButton() {
-        next = new TextButton("Next", skin);
-        next.setSize(150, 60);
+        next = new TextButton("Next", skinButton, "small");
+       // next.setSize(150, 60);
         next.setPosition(1600,620);
-        next.getLabel().setColor(Color.FOREST);
+
+        next.getLabel().setColor(Color.BLACK);
         next.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                whiclePassing.play();
+                spaceShipChange.play();
                 if(shipNumber > 2)
                 shipNumber=0;
                 else {
@@ -157,5 +165,7 @@ public class Ships extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
+        skinButton.dispose();
+        spaceShipChange.dispose();
     }
 }
