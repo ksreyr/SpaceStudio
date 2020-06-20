@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
@@ -88,7 +89,7 @@ public class PlayerControllerImplTest {
 
 
     public void testGetLoggedPlayers() throws Exception {
-        List<String> result = playerControllerImpl.getLoggedPlayers();
+        Set<String> result = playerControllerImpl.getLoggedPlayers();
         Assert.assertEquals(Arrays.<String>asList("String"), result);
     }
 
