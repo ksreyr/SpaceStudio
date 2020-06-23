@@ -16,11 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import de.spaceStudio.service.CommunicationService;
-import thirdParties.GifDecoder;
 import de.spaceStudio.MainClient;
-import de.spaceStudio.service.RegistrationService;
 import de.spaceStudio.server.model.Player;
+import de.spaceStudio.service.CommunicationService;
+import de.spaceStudio.service.RegistrationService;
+import thirdParties.GifDecoder;
+
 import static de.spaceStudio.client.util.Global.currentPlayer;
 
 public class LoginScreen extends BaseScreen {
@@ -43,6 +44,7 @@ public class LoginScreen extends BaseScreen {
     private Sound mouseClick;
     private Sound keyboard;
 
+    private boolean gedruck = false;
 
     private static final int BUTTON_LOGIN_X = (int) (BaseScreen.WIDTH / 3);
     private static final float BUTTON_REGISTER_X = (float) (BaseScreen.WIDTH / 2) + 100;
@@ -53,7 +55,7 @@ public class LoginScreen extends BaseScreen {
     private static final int TEXTBOX_LENGTH = 20;
 
 
-    private boolean isValid;
+    private boolean isValid = false;
     int n = 0;
     private float state = 0.0f;
     private int counter = 0;
@@ -70,7 +72,7 @@ public class LoginScreen extends BaseScreen {
         music = Gdx.audio.newMusic(Gdx.files.internal("Client/core/assets/data/music/through_space.mp3"));
         music.setLooping(true);
         music.setVolume(0.5f);
-        music.play();
+        //music.play();
 
         stage = new Stage(new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -275,15 +277,16 @@ public class LoginScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                currentPlayer  = Player.builderPlayer()
+                currentPlayer = Player.builderPlayer()
                         .name(getUserName())
                         .password(getUserPassword())
                         .buildPlayer();
-
-                isValid = communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
-                if (!isValid) {
-                    loginConfirmation.setText("invalid username or password!");
-                    loginConfirmation.setColor(Color.RED);
+                communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
+                gedruck = true;
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 mouseClick.play();
             }
@@ -391,8 +394,15 @@ public class LoginScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.getBatch().draw(animation.getKeyFrame(state), 0.0f, 0.0f, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        if (isValid) {
-            game.setScreen(new LoadingScreen(game));
+        if (gedruck) {
+            isValid = communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
+            if (isValid) {
+                game.setScreen(new LoadingScreen(game));
+            }else {
+                loginConfirmation.setText("invalid username or password!");
+                loginConfirmation.setColor(Color.RED);
+            }
+            gedruck=false;
         }
         stage.getBatch().end();
         stage.act();
