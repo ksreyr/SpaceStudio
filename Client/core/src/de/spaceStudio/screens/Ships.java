@@ -6,17 +6,22 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.spaceStudio.MainClient;
+import thirdParties.GifDecoder;
 
 
 //“Sound effects obtained from https://www.zapsplat.com“
@@ -39,8 +44,15 @@ public class Ships extends BaseScreen {
     private Texture shield;
     private Texture weapon;
     private Texture drive;
-    private Texture crew;
-    private TextArea crewName;
+    private TextField crew_1_name, crew_2_name, crew_3_name;
+   // private TextField textField;
+
+    Animation<TextureRegion> crew1;
+    Animation<TextureRegion>  crew2;
+    Animation<TextureRegion>  crew3;
+    private Texture background;
+    float state = 0f;
+
 
     private Stage stage;
     private Skin skinButton;
@@ -67,6 +79,11 @@ public class Ships extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
+        crew1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew1.gif").read());
+       crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
+      crew3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew3.gif").read());
+
+      background = new Texture(Gdx.files.internal("Client/core/assets/data/ast.jpg"));
         shapeRenderer = new ShapeRenderer();
 
         inputHandler = new InputHandler();
@@ -74,14 +91,20 @@ public class Ships extends BaseScreen {
         batch = new SpriteBatch();
         font = new BitmapFont();
         font.setColor(Color.WHITE);
+        font.getData().setScale(3);
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        crewName = new TextArea("Crew 1",skinButton);
-        crewName.setText("Crew 1");
-        crewName.setPosition(20,60);
-       // crewName.setSize(60,30);
-        //crewName.sizeBy(10,10);
+        crew_1_name = new TextArea("John",skinButton);
+        crew_1_name.setPosition(70,250);
+        crew_2_name = new TextArea("Max",skinButton);
+        crew_2_name.setPosition(70,180);
+        crew_3_name = new TextArea("Jack",skinButton);
+        crew_3_name.setPosition(70,110);
 
-        blueShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/blueships1.png"));
+
+
+
+      blueShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/blueships1.png"));
         redShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/redship.png"));
         greenship = new Texture(Gdx.files.internal("Client/core/assets/data/ships/greenship.png"));
         topdownfighter = new Texture(Gdx.files.internal("Client/core/assets/data/ships/topdownfighter.png"));
@@ -92,7 +115,7 @@ public class Ships extends BaseScreen {
         greenshipRoom = new Texture(Gdx.files.internal("Client/core/assets/data/ships/green_section.png"));
         topdownfighterRoom = new Texture(Gdx.files.internal("Client/core/assets/data/ships/topdownfighter_section.png"));
 
-        crew = new Texture(Gdx.files.internal("Client/core/assets/data/ships/trog_face.png"));
+
         shield = new Texture(Gdx.files.internal("Client/core/assets/data/ships/security.png"));
         weapon = new Texture(Gdx.files.internal("Client/core/assets/data/ships/attack.png"));
         drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/rocket.png"));
@@ -110,7 +133,10 @@ public class Ships extends BaseScreen {
         stage.addActor(startButton);
         stage.addActor(easyButton);
         stage.addActor(normalButton);
-        stage.addActor(crewName);
+        stage.addActor(crew_1_name);
+        stage.addActor(crew_2_name);
+        stage.addActor(crew_3_name);
+
 
 
 
@@ -119,7 +145,7 @@ public class Ships extends BaseScreen {
 
     private void showHideRoom() {
         showHideRoom = new TextButton("show rooms", skinButton, "small");
-        showHideRoom.setPosition(BaseScreen.WIDTH/2,500);
+        showHideRoom.setPosition((BaseScreen.WIDTH/2)-50,500);
         showHideRoom.getLabel().setColor(Color.BLACK);
 
         showHideRoom.addListener(new ChangeListener() {
@@ -181,28 +207,32 @@ public class Ships extends BaseScreen {
     private void selectLevelView(){
       easyButton = new TextButton("EASY", skinButton, "small");
       easyButton.setTransform(true);
-      easyButton.setScale(1.25f);
+      easyButton.setScale(0.85f);
       easyButton.setColor(Color.GOLDENROD);
-      easyButton.setPosition(BaseScreen.WIDTH-415,BaseScreen.HEIGHT-100);
+      easyButton.setPosition(BaseScreen.WIDTH-330,BaseScreen.HEIGHT-100);
       easyButton.getLabel().setColor(Color.WHITE);
       easyButton.getLabel().setFontScale(1.25f, 1.25f);
+      easyButton.setSize(100,70);
 
       normalButton = new TextButton("NORMAL", skinButton, "small");
       normalButton.setTransform(true);
-      normalButton.setScale(1.25f);
+      normalButton.setScale(0.85f);
       normalButton.setColor(Color.GOLDENROD);
-      normalButton.setPosition(BaseScreen.WIDTH-415,BaseScreen.HEIGHT-200);
+      normalButton.setPosition(BaseScreen.WIDTH-330,BaseScreen.HEIGHT-200);
       normalButton.getLabel().setColor(Color.WHITE);
       normalButton.getLabel().setFontScale(1.25f, 1.25f);
+      normalButton.setSize(100,70);
+
 
       startButton = new TextButton("START", skinButton, "small");
       startButton.setTransform(true);
       startButton.setScaleX(1.8f);
       startButton.setScaleY(1.5f);
       startButton.setColor(Color.GOLDENROD);
-      startButton.setPosition(BaseScreen.WIDTH-250,BaseScreen.HEIGHT-140);
+      startButton.setPosition(BaseScreen.WIDTH-250,BaseScreen.HEIGHT-155);
       startButton.getLabel().setColor(Color.WHITE);
       startButton.getLabel().setFontScale(1.25f, 1.25f);
+      startButton.setSize(90,50);
     }
 
     @Override
@@ -213,9 +243,18 @@ public class Ships extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        state += Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+            font.draw(batch,"Crew",200,200);
+        batch.end();
         stage.getBatch().begin();
+        stage.getBatch().draw(background,0,0, BaseScreen.WIDTH,BaseScreen.HEIGHT);
+        stage.getBatch().draw((TextureRegion) crew1.getKeyFrame(state), 10, 250, 70,70);
+        stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 10, 180, 70,70);
+        stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 10, 110, 70,70);
+        //
       switch (shipNumber){
             case 0:
                 stage.getBatch().draw(blueShip, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
@@ -244,7 +283,6 @@ public class Ships extends BaseScreen {
 
         }
 
-        stage.getBatch().draw(crew,25,120,25,25);
         stage.getBatch().draw(shield,850.0f,150.0f,60.0f,70.0f);
         stage.getBatch().draw(weapon,930.0f,150.0f,60.0f,70.0f);
         stage.getBatch().draw(drive, 1015.0f,150.0f,60.0f,60.0f);
@@ -262,6 +300,20 @@ public class Ships extends BaseScreen {
         shapeRenderer.box(660.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
         shapeRenderer.box(720.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
         shapeRenderer.box(780.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
+
+
+        shapeRenderer.end();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.MAGENTA);
+        shapeRenderer.line(0,320, BaseScreen.WIDTH,320);
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.line(0,316, BaseScreen.WIDTH,316);
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.line(0,313, BaseScreen.WIDTH,313);
+        shapeRenderer.setColor(Color.CORAL);
+        shapeRenderer.line(0,310, BaseScreen.WIDTH,310);
+
+       // shapeRenderer.
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
@@ -294,5 +346,6 @@ public class Ships extends BaseScreen {
         spaceShipChange.dispose();
         stage.dispose();
         shapeRenderer.dispose();
+
     }
 }

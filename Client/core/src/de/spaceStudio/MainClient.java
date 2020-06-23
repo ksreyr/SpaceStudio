@@ -27,11 +27,11 @@ public class MainClient extends Game {
 
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
-	//	loginScreen = new LoginScreen(this);
+		//loginScreen = new LoginScreen(this);
 		ships = new Ships(this);
 
 		batch = new SpriteBatch();
-	//	setScreen(loginScreen);
+	    //setScreen(loginScreen);
 		setScreen(ships);
 
 	}
