@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.service.CommunicationService;
@@ -36,6 +37,7 @@ public class LoginScreen extends BaseScreen {
     private Label loginConfirmation;
     private Label registerConfirmation;
     private TextButton mute, exit;
+    private Viewport viewport;
 
     CommunicationService communicationService = new CommunicationService();
     RegistrationService registrationService = new RegistrationService();
@@ -44,10 +46,10 @@ public class LoginScreen extends BaseScreen {
     private Sound mouseClick;
     private Sound keyboard;
 
-    private boolean gedruck = false;
+    private boolean isPressed = false;
 
-    private static final int BUTTON_LOGIN_X = (int) (BaseScreen.WIDTH / 3);
-    private static final float BUTTON_REGISTER_X = (float) (BaseScreen.WIDTH / 2) + 100;
+    private static final int BUTTON_LOGIN_X =  (BaseScreen.WIDTH / 3);
+    private static final float BUTTON_REGISTER_X =  (BaseScreen.WIDTH / 2) + 100;
 
 
     private static final int TEXTBOX_WIDTH = 200;
@@ -56,9 +58,7 @@ public class LoginScreen extends BaseScreen {
 
 
     private boolean isValid = false;
-    int n = 0;
     private float state = 0.0f;
-    private int counter = 0;
 
 
 
@@ -71,10 +71,11 @@ public class LoginScreen extends BaseScreen {
         keyboard = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/keyboard0.mp3"));
         music = Gdx.audio.newMusic(Gdx.files.internal("Client/core/assets/data/music/through_space.mp3"));
         music.setLooping(true);
-        music.setVolume(0.5f);
-        //music.play();
+        music.setVolume(0.09f);
+        music.play();
 
-        stage = new Stage(new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT));
+        viewport = new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT);
+        stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
 
@@ -111,7 +112,8 @@ public class LoginScreen extends BaseScreen {
             }
         });
         mute.setSize(75, 30);
-        mute.setPosition(20, 60);
+        mute.setPosition(80,100,100 );
+
 
         exit = new TextButton("exit", skin);
         exit.addListener(new ChangeListener() {
@@ -121,7 +123,7 @@ public class LoginScreen extends BaseScreen {
             }
         });
         exit.setSize(75, 30);
-        exit.setPosition(100, 60);
+        exit.setPosition(120, 100);
 
 
         stage.addActor(loginConfirmation);
@@ -137,8 +139,11 @@ public class LoginScreen extends BaseScreen {
         stage.addActor(exit);
 
     }
-    public long getMouseClick() {
-        return mouseClick.play();
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width,height);
+
     }
 
     private void existedUserName() {
@@ -282,7 +287,7 @@ public class LoginScreen extends BaseScreen {
                         .password(getUserPassword())
                         .buildPlayer();
                 communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
-                gedruck = true;
+                isPressed = true;
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -317,12 +322,13 @@ public class LoginScreen extends BaseScreen {
                     mouseClick.play();
                 } else {
                     mouseClick.play();
-                    registerConfirmation.setText("Successful!");
-                    registerConfirmation.setColor(Color.GREEN);
+
 
 
                     if (p2.getPassword().contentEquals(getConfirmPassword())) {
                         isValid = registrationService.createUser(p2, Net.HttpMethods.POST);
+                        registerConfirmation.setText("Successful!");
+                        registerConfirmation.setColor(Color.GREEN);
                     } else {
 
                         registerConfirmation.setText("Password does not match!");
@@ -381,20 +387,17 @@ public class LoginScreen extends BaseScreen {
 
     }
 
-    @Override
-    public void resize(int width, int height) {
 
-    }
 
     @Override
     public void render(float delta) {
         state += Gdx.graphics.getDeltaTime();
         stage.getBatch().begin();
-        Gdx.gl.glClearColor(0.4f, 0.5f, 0.8f, 1f);
+        Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.getBatch().draw(animation.getKeyFrame(state), 0.0f, 0.0f, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        if (gedruck) {
+        if (isPressed) {
             isValid = communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
             if (isValid) {
                 game.setScreen(new LoadingScreen(game));
@@ -402,7 +405,7 @@ public class LoginScreen extends BaseScreen {
                 loginConfirmation.setText("invalid username or password!");
                 loginConfirmation.setColor(Color.RED);
             }
-            gedruck=false;
+            isPressed =false;
         }
         stage.getBatch().end();
         stage.act();
