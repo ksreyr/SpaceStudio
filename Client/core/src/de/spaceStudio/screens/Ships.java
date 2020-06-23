@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -35,6 +36,9 @@ public class Ships extends BaseScreen {
     private Texture blueShip, redShip, greenship, topdownfighter;
     private Texture blueShipRoom, redShipRoom, greenshipRoom, topdownfighterRoom;
 
+    private Texture shield;
+    private Texture weapon;
+    private Texture drive;
     private Texture crew;
     private TextArea crewName;
 
@@ -43,6 +47,11 @@ public class Ships extends BaseScreen {
     private TextButton next;
     private TextButton previous;
     private TextButton showHideRoom;
+    private TextButton startButton;
+    private TextButton easyButton;
+    private TextButton normalButton;
+
+    private ShapeRenderer shapeRenderer;
     int shipNumber = 0;
     int openNumber = 0;
     private Sound spaceShipChange;
@@ -57,6 +66,8 @@ public class Ships extends BaseScreen {
 
         Gdx.input.setInputProcessor(stage);
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+
+        shapeRenderer = new ShapeRenderer();
 
         inputHandler = new InputHandler();
 
@@ -82,16 +93,23 @@ public class Ships extends BaseScreen {
         topdownfighterRoom = new Texture(Gdx.files.internal("Client/core/assets/data/ships/topdownfighter_section.png"));
 
         crew = new Texture(Gdx.files.internal("Client/core/assets/data/ships/trog_face.png"));
+        shield = new Texture(Gdx.files.internal("Client/core/assets/data/ships/security.png"));
+        weapon = new Texture(Gdx.files.internal("Client/core/assets/data/ships/attack.png"));
+        drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/rocket.png"));
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
         previousButton();
         showHideRoom();
+        selectLevelView();
 
 
 
         stage.addActor(next);
         stage.addActor(previous);
         stage.addActor(showHideRoom);
+        stage.addActor(startButton);
+        stage.addActor(easyButton);
+        stage.addActor(normalButton);
         stage.addActor(crewName);
 
 
@@ -160,6 +178,33 @@ public class Ships extends BaseScreen {
 
     }
 
+    private void selectLevelView(){
+      easyButton = new TextButton("EASY", skinButton, "small");
+      easyButton.setTransform(true);
+      easyButton.setScale(1.25f);
+      easyButton.setColor(Color.GOLDENROD);
+      easyButton.setPosition(BaseScreen.WIDTH-415,BaseScreen.HEIGHT-100);
+      easyButton.getLabel().setColor(Color.WHITE);
+      easyButton.getLabel().setFontScale(1.25f, 1.25f);
+
+      normalButton = new TextButton("NORMAL", skinButton, "small");
+      normalButton.setTransform(true);
+      normalButton.setScale(1.25f);
+      normalButton.setColor(Color.GOLDENROD);
+      normalButton.setPosition(BaseScreen.WIDTH-415,BaseScreen.HEIGHT-200);
+      normalButton.getLabel().setColor(Color.WHITE);
+      normalButton.getLabel().setFontScale(1.25f, 1.25f);
+
+      startButton = new TextButton("START", skinButton, "small");
+      startButton.setTransform(true);
+      startButton.setScaleX(1.8f);
+      startButton.setScaleY(1.5f);
+      startButton.setColor(Color.GOLDENROD);
+      startButton.setPosition(BaseScreen.WIDTH-250,BaseScreen.HEIGHT-140);
+      startButton.getLabel().setColor(Color.WHITE);
+      startButton.getLabel().setFontScale(1.25f, 1.25f);
+    }
+
     @Override
     public void show() {
         super.show();
@@ -200,9 +245,25 @@ public class Ships extends BaseScreen {
         }
 
         stage.getBatch().draw(crew,25,120,25,25);
+        stage.getBatch().draw(shield,850.0f,150.0f,60.0f,70.0f);
+        stage.getBatch().draw(weapon,930.0f,150.0f,60.0f,70.0f);
+        stage.getBatch().draw(drive, 1015.0f,150.0f,60.0f,60.0f);
         stage.act();
         stage.getBatch().end();
         stage.draw();
+
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(193, 205, 193, 0.1f));
+        shapeRenderer.box(600.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
+        shapeRenderer.box(660.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
+        shapeRenderer.box(720.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
+        shapeRenderer.box(780.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
     }
 
@@ -232,5 +293,6 @@ public class Ships extends BaseScreen {
         skinButton.dispose();
         spaceShipChange.dispose();
         stage.dispose();
+        shapeRenderer.dispose();
     }
 }
