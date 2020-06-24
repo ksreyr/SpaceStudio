@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.spaceStudio.MainClient;
 import thirdParties.GifDecoder;
@@ -26,7 +25,7 @@ import thirdParties.GifDecoder;
 
 //“Sound effects obtained from https://www.zapsplat.com“
 
-public class Ships extends BaseScreen {
+public class ShipSelectScreen extends BaseScreen {
 
 
     private static final int X_POSITION = 750;
@@ -70,7 +69,8 @@ public class Ships extends BaseScreen {
 
     boolean isOpen ;
     private InputHandler inputHandler;
-  public Ships(MainClient game) {
+
+    public ShipSelectScreen(MainClient game) {
         super(game);
         this.ships = game;
 
@@ -80,7 +80,7 @@ public class Ships extends BaseScreen {
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         crew1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew1.gif").read());
-       crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
+        crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
       crew3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew3.gif").read());
 
       background = new Texture(Gdx.files.internal("Client/core/assets/data/ast.jpg"));

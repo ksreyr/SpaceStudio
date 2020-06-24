@@ -3,7 +3,7 @@ package de.spaceStudio;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.spaceStudio.screens.Ships;
+import de.spaceStudio.screens.ShipSelectScreen;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ public class MainClient extends Game {
 	private AssetManager assetManager;
 
 	public LoginScreen loginScreen;
-	public Ships ships;
+	public ShipSelectScreen shipSelectScreen;
 
 	private SpriteBatch batch;
 
@@ -28,11 +28,11 @@ public class MainClient extends Game {
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
 		//loginScreen = new LoginScreen(this);
-		ships = new Ships(this);
+		shipSelectScreen = new ShipSelectScreen(this);
 
 		batch = new SpriteBatch();
 	    //setScreen(loginScreen);
-		setScreen(ships);
+		setScreen(shipSelectScreen);
 
 	}
 	@Override
