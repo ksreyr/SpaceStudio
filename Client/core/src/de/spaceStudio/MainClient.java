@@ -3,6 +3,7 @@ package de.spaceStudio;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.spaceStudio.screens.StationsMap;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,7 @@ public class MainClient extends Game {
 
 	public LoginScreen loginScreen;
 
+	public StationsMap stationsMap;
 	private SpriteBatch batch;
 
 
@@ -24,11 +26,13 @@ public class MainClient extends Game {
 
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
-		loginScreen = new LoginScreen(this, assetManager);
+		//loginScreen = new LoginScreen(this, assetManager);
+		stationsMap = new StationsMap(this,assetManager);
 
 
 		batch = new SpriteBatch();
-		setScreen(loginScreen);
+		//setScreen(loginScreen);
+		setScreen(stationsMap);
 
 	}
 	@Override
