@@ -37,7 +37,10 @@ public class Global {
      * Server logout endpoint
      */
     public static final String PLAYER_LOGOUT_ENDPOINT = "/player/logout";
-
+    /**
+     * Ship Cration
+     */
+    public static final String SHIP_CREATION_ENDPOINT = "/ship";
     /**
      * Global player, this data will be downloaded from server at login
      */

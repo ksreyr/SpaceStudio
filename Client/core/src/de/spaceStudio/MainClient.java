@@ -24,15 +24,12 @@ public class MainClient extends Game {
 	@Override
 	public void create () {
 
-
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
-		//loginScreen = new LoginScreen(this);
-		shipSelectScreen = new ShipSelectScreen(this);
-
+		loginScreen = new LoginScreen(this);
+		shipSelectScreen= new ShipSelectScreen(this);
 		batch = new SpriteBatch();
-	    //setScreen(loginScreen);
-		setScreen(shipSelectScreen);
+	    setScreen(shipSelectScreen);
 
 	}
 	@Override
