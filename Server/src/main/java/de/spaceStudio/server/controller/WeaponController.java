@@ -3,7 +3,6 @@ package de.spaceStudio.server.controller;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
-import de.spaceStudio.server.model.Weapon;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

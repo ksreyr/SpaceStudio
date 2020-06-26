@@ -1,8 +1,5 @@
 package de.spaceStudio.server;
 
-
-import de.spaceStudio.server.repository.WeaponRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -14,6 +11,7 @@ public class ServerCore {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
 
 	public static void main(String[] args) {
+		LOGGER.info("Starting server...");
 		SpringApplication.run(ServerCore.class, args);
 	}
 

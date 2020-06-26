@@ -2,7 +2,6 @@ package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Universe;
 import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.server.repository.WeaponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
