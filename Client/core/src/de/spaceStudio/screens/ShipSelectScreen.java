@@ -22,6 +22,11 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.service.InitialDataGameService;
 import thirdParties.GifDecoder;
+
+import static de.spaceStudio.client.util.Global.currentPlayer;
+import static de.spaceStudio.client.util.Global.playersOnline;
+import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
+import static de.spaceStudio.service.LoginService.logout;
 //“Sound effects obtained from https://www.zapsplat.com“
 
 public class ShipSelectScreen extends BaseScreen {
@@ -74,6 +79,7 @@ public class ShipSelectScreen extends BaseScreen {
     public ShipSelectScreen(MainClient game) {
         super(game);
         this.ships = game;
+        fetchLoggedUsers();
 
         stage = new Stage(new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT));
 
@@ -334,8 +340,27 @@ public class ShipSelectScreen extends BaseScreen {
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
+        // top left position
+        drawLobby();
     }
 
+    /**
+     * fill the online players list
+     */
+    public void drawLobby(){
+        batch.begin();
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+
+        font.draw(batch, "Players online: " + String.valueOf(playersOnline.size()), 20, 1050);
+        int count = 0;
+        for (String playerName : playersOnline) {
+            count = count+15;
+            font.draw(batch, playerName , 20, (1018 + (count)));
+        }
+        batch.end();
+    }
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
@@ -358,11 +383,11 @@ public class ShipSelectScreen extends BaseScreen {
 
     @Override
     public void dispose() {
+        logout(currentPlayer);
         super.dispose();
         skinButton.dispose();
         spaceShipChange.dispose();
         stage.dispose();
         shapeRenderer.dispose();
-
     }
 }
