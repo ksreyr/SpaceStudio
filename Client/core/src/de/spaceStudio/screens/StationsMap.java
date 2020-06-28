@@ -27,6 +27,8 @@ public class StationsMap extends BaseScreen {
     private Viewport viewport;
     final TextArea textArea;
     private ImageButton imageButton1, imageButton2, imageButton3, imageButton4, imageButton5;
+    private ImageButton startPoint;
+    Animation<TextureRegion> start_ship;
 
     private static int POSX = 100;
     private static int POSY = 200;
@@ -34,6 +36,8 @@ public class StationsMap extends BaseScreen {
     private static String visit = "unvisited planet";
     private static int PLANET_SIZEX = 100;
     private static int PLANET_SIZEY = 100;
+    private int counter = 0;
+    private float state = 0.0f;
 
 
 
@@ -45,7 +49,7 @@ public class StationsMap extends BaseScreen {
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         background = new Texture(Gdx.files.internal("Client/core/assets/data/maps/sky-map.jpg"));
 
-
+        start_ship = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/ZDci.gif").read());
         final Drawable drawable_station_unvisited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png")));
         final Drawable drawable_station_visited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/visited-removebg-preview.png")));
 
@@ -55,15 +59,42 @@ public class StationsMap extends BaseScreen {
         planet3(drawable_station_unvisited);
         planet4(drawable_station_unvisited);
         planet5(drawable_station_unvisited);
+        setStartPoint(drawable_station_unvisited);
         stage.addActor(imageButton1);
         stage.addActor(imageButton2);
         stage.addActor(imageButton3);
         stage.addActor(imageButton4);
         stage.addActor(imageButton5);
+        stage.addActor(startPoint);
 
     }
 
-    private void planet5(Drawable drawable_station_unvisited) {
+    private void setStartPoint(Drawable drawable_station_unvisited) {
+        startPoint = new ImageButton( (drawable_station_unvisited) );
+        startPoint.setPosition(160, 200);  //hikeButton is an ImageButton
+        startPoint.setSize(PLANET_SIZEX,PLANET_SIZEY);
+        startPoint.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                final Dialog dialog = new Dialog("Start Point", skin, "dialog") {
+                    public void result(Object obj) {
+                        if(obj.toString()=="true") counter++;
+
+                    }
+                };
+                 dialog.text("Here is the start point");
+
+                dialog.key(Input.Keys.ENTER, true);
+                dialog.key(Input.Keys.ESCAPE, false);
+                dialog.show(stage);
+
+            }
+        });
+        //hoverListener(startPoint);
+
+    }
+
+    private void planet3(Drawable drawable_station_unvisited) {
         imageButton5 = new ImageButton( (drawable_station_unvisited) );
         imageButton5.setPosition(200, 800);  //hikeButton is an ImageButton
         imageButton5.setSize(PLANET_SIZEX,PLANET_SIZEY);
@@ -72,10 +103,11 @@ public class StationsMap extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        System.out.println("result "+obj);
+                        if(obj.toString()=="true") counter++;
+
                     }
                 };
-                actionDialog(dialog, "orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                actionDialog( dialog,"Planet 3 --> Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                         " Lorem Ipsum has been the industry's standard dummy\n" +
                         " text ever since the 1500s, when an unknown printer \n" +
                         "took a galley of type and scrambled it to make a type specimen book." +
@@ -85,6 +117,7 @@ public class StationsMap extends BaseScreen {
             }
         });
         hoverListener(imageButton5);
+
     }
 
     private void planet4(Drawable drawable_station_unvisited) {
@@ -96,10 +129,10 @@ public class StationsMap extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        System.out.println("result "+obj);
+                        if(obj.toString()=="true") counter++;
                     }
                 };
-                actionDialog(dialog, "orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                actionDialog(dialog,"Planet 4 --> Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                         " Lorem Ipsum has been the industry's standard dummy\n" +
                         " text ever since the 1500s, when an unknown printer took a galley of type\n" +
                         "and scrambled it to make a type specimen book.\n" +
@@ -109,30 +142,45 @@ public class StationsMap extends BaseScreen {
             }
         });
         hoverListener(imageButton4);
+
     }
 
-    private void planet3(Drawable drawable_station_unvisited) {
+    private void planet5(Drawable drawable_station_unvisited) {
         imageButton3 = new ImageButton( (drawable_station_unvisited) );
-        imageButton3.setPosition(400, 500);
+        imageButton3.setPosition(400, 600);
         imageButton3.setSize(PLANET_SIZEX,PLANET_SIZEX);
+        hoverListener(imageButton3);
         imageButton3.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        System.out.println("result "+obj);
                     }
                 };
-                actionDialog(dialog, "orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                actionDialog(dialog, "Planet 5 --> Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                         " Lorem Ipsum has been the industry's standard dummy\n" +
                         " text ever since the 1500s, when an unknown printer took a galley of\n " +
                         "type and scrambled it to make a type specimen book." +
                         "moves in to attact\n" +
                         "Are you sure you want to jump there?");
+                if(counter == 4){
+                    dialog.button("Yes", true);
+                    dialog.key(Input.Keys.ENTER, true);
+                }else {
+                    dialog.button("No", false);
+                    dialog.key(Input.Keys.ESCAPE, false);
+                    dialog.text("This is the last Planet, before you jump here, you have to finish the others");
+                }
+
+
+
+
+
+                dialog.show(stage);
 
             }
         });
-        hoverListener(imageButton3);
+
     }
 
     private void planet2(Drawable drawable_station_unvisited) {
@@ -144,20 +192,20 @@ public class StationsMap extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        System.out.println("result "+obj);
+                        if(obj.toString()=="true") counter++;
                     }
                 };
-                String action = "orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
-                        " Lorem Ipsum has been the industry's standard dummy\n" +
-                        " text ever since the 1500s, when an unknown printer took a galley of\n" +
-                        " type and scrambled it to make a type specimen book.\n" +
-                        "moves in to attact\n" +
-                        "Are you sure you want to jump there?";
-                actionDialog(dialog, action);
+
+                actionDialog(dialog,"Planet 2 -->Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n"
+                                               +" Lorem Ipsum has been the industry's standard dummy\n" +
+                                               " text ever since the 1500s, when an unknown printer took a galley of\n" +
+                                               " type and scrambled it to make a type specimen book.\n" +
+                                               "moves in to attact\n" + "Are you sure you want to jump there");
 
             }
         });
         hoverListener(imageButton2);
+
     }
 
 
@@ -170,10 +218,10 @@ public class StationsMap extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        System.out.println("result "+obj);
+                        if(obj.toString()=="true") counter++;
                     }
                 };
-                actionDialog(dialog, "You Jump to into sector of the nebula beset by a plasma storm. An automated Rebel scout stationed at he beacon" +
+                actionDialog( dialog," Planet 1 --> You Jump to into sector of the nebula beset by a plasma storm. An automated Rebel scout stationed at he beacon" +
                         "moves in to attact\n" +
                         "Are you sure you want to jump there?");
             }
@@ -189,6 +237,8 @@ public class StationsMap extends BaseScreen {
         dialog.key(Input.Keys.ESCAPE, false);
         dialog.show(stage);
     }
+
+
 
     private void hoverListener(final ImageButton img) {
         img.addListener(new HoverListener(){
@@ -216,11 +266,13 @@ public class StationsMap extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        state += Gdx.graphics.getDeltaTime();
+
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,BaseScreen.WIDTH,BaseScreen.HEIGHT);
-
+        stage.getBatch().draw(start_ship.getKeyFrame(state), 160, 250, 100,100);
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().end();
         stage.act();
@@ -231,6 +283,7 @@ public class StationsMap extends BaseScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        viewport.update(width,height);
     }
 
     @Override
