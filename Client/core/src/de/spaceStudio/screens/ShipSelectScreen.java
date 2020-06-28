@@ -18,13 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.spaceStudio.MainClient;
+import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.service.InitialDataGameService;
 import thirdParties.GifDecoder;
 
-import static de.spaceStudio.client.util.Global.currentPlayer;
-import static de.spaceStudio.client.util.Global.playersOnline;
+import static de.spaceStudio.client.util.Global.*;
 import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
 import static de.spaceStudio.service.LoginService.logout;
 //“Sound effects obtained from https://www.zapsplat.com“
@@ -75,6 +75,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     boolean isOpen;
     private InputHandler inputHandler;
+    private int levelDifficult;
 
     public ShipSelectScreen(MainClient game) {
         super(game);
@@ -147,7 +148,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
 
-
+        this.levelDifficult = 0;
 
 
 
@@ -228,20 +229,39 @@ public class ShipSelectScreen extends BaseScreen {
       easyButton = new TextButton("EASY", skinButton, "small");
       easyButton.setTransform(true);
       easyButton.setScale(0.85f);
-      easyButton.setColor(Color.GOLDENROD);
+      easyButton.setColor(Color.CYAN);
       easyButton.setPosition(BaseScreen.WIDTH-330,BaseScreen.HEIGHT-100);
       easyButton.getLabel().setColor(Color.WHITE);
       easyButton.getLabel().setFontScale(1.25f, 1.25f);
       easyButton.setSize(100,70);
 
+      easyButton.addCaptureListener(new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent event, Actor actor) {
+              levelDifficult = Difficult.EASY.getLevelCode();
+              normalButton.setColor(Color.BLACK);
+              easyButton.setColor(Color.CYAN);
+          }
+      });
+
       normalButton = new TextButton("NORMAL", skinButton, "small");
       normalButton.setTransform(true);
       normalButton.setScale(0.85f);
-      normalButton.setColor(Color.GOLDENROD);
+      normalButton.setColor(Color.BLACK);
       normalButton.setPosition(BaseScreen.WIDTH-330,BaseScreen.HEIGHT-200);
       normalButton.getLabel().setColor(Color.WHITE);
       normalButton.getLabel().setFontScale(1.25f, 1.25f);
       normalButton.setSize(100,70);
+
+      normalButton.addCaptureListener(new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent event, Actor actor) {
+             levelDifficult = Difficult.NORMAL.getLevelCode();
+              normalButton.setColor(Color.CYAN);
+              easyButton.setColor(Color.BLACK);
+          }
+      });
+
 
 
         startButton = new TextButton("START", skinButton, "small");
