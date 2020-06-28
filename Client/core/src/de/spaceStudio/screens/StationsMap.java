@@ -26,23 +26,15 @@ public class StationsMap extends BaseScreen {
     private Texture background;
     private Viewport viewport;
     final TextArea textArea;
+    private ImageButton imageButton1, imageButton2, imageButton3, imageButton4, imageButton5;
 
     private static int POSX = 100;
     private static int POSY = 200;
-    int i=0;
-
 
     private static String visit = "unvisited planet";
     private static int PLANET_SIZEX = 100;
     private static int PLANET_SIZEY = 100;
 
-
-
-
-    private ImageButton imageButton1, imageButton2, imageButton3, imageButton4, imageButton5;
-
-    ArrayList<Animation<TextureRegion>> animations = new ArrayList<>();
-    private float state =0.0f;
 
 
     public StationsMap(MainClient game, AssetManager assetManager) {
@@ -52,9 +44,6 @@ public class StationsMap extends BaseScreen {
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         background = new Texture(Gdx.files.internal("Client/core/assets/data/maps/sky-map.jpg"));
-
-        for ( i = 0; i < 20; i++){
-            animations.add(GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/start.gif").read())); }
 
 
         final Drawable drawable_station_unvisited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png")));
@@ -86,32 +75,16 @@ public class StationsMap extends BaseScreen {
                         System.out.println("result "+obj);
                     }
                 };
-                dialog.text("orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                actionDialog(dialog, "orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                         " Lorem Ipsum has been the industry's standard dummy\n" +
                         " text ever since the 1500s, when an unknown printer \n" +
                         "took a galley of type and scrambled it to make a type specimen book." +
                         "moves in to attact\n" +
                         "Are you sure you want to jump there?");
-                dialog.button("Yes", true); //sends "true" as the result
-                dialog.button("No", false);  //sends "false" as the result
-                dialog.key(Input.Keys.ENTER, true); //sends "true" when the ENTER key is pressed
-                dialog.show(stage);
 
             }
         });
-        imageButton5.addListener(new HoverListener(){
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imageButton5.addActor(textArea);
-
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                textArea.remove();
-
-            }
-        });
+        hoverListener(imageButton5);
     }
 
     private void planet4(Drawable drawable_station_unvisited) {
@@ -126,32 +99,16 @@ public class StationsMap extends BaseScreen {
                         System.out.println("result "+obj);
                     }
                 };
-                dialog.text("orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                actionDialog(dialog, "orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                         " Lorem Ipsum has been the industry's standard dummy\n" +
                         " text ever since the 1500s, when an unknown printer took a galley of type\n" +
                         "and scrambled it to make a type specimen book.\n" +
                         "moves in to attact\n" +
                         "Are you sure you want to jump there?");
-                dialog.button("Yes", true); //sends "true" as the result
-                dialog.button("No", false);  //sends "false" as the result
-                dialog.key(Input.Keys.ENTER, true); //sends "true" when the ENTER key is pressed
-                dialog.show(stage);
 
             }
         });
-        imageButton4.addListener(new HoverListener(){
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imageButton4.addActor(textArea);
-
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                textArea.remove();
-
-            }
-        });
+        hoverListener(imageButton4);
     }
 
     private void planet3(Drawable drawable_station_unvisited) {
@@ -166,32 +123,16 @@ public class StationsMap extends BaseScreen {
                         System.out.println("result "+obj);
                     }
                 };
-                dialog.text("orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                actionDialog(dialog, "orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                         " Lorem Ipsum has been the industry's standard dummy\n" +
                         " text ever since the 1500s, when an unknown printer took a galley of\n " +
                         "type and scrambled it to make a type specimen book." +
                         "moves in to attact\n" +
                         "Are you sure you want to jump there?");
-                dialog.button("Yes", true); //sends "true" as the result
-                dialog.button("No", false);  //sends "false" as the result
-                dialog.key(Input.Keys.ENTER, true); //sends "true" when the ENTER key is pressed
-                dialog.show(stage);
 
             }
         });
-        imageButton3.addListener(new HoverListener(){
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imageButton3.addActor(textArea);
-
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                textArea.remove();
-
-            }
-        });
+        hoverListener(imageButton3);
     }
 
     private void planet2(Drawable drawable_station_unvisited) {
@@ -206,33 +147,19 @@ public class StationsMap extends BaseScreen {
                         System.out.println("result "+obj);
                     }
                 };
-                dialog.text("orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                String action = "orem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                         " Lorem Ipsum has been the industry's standard dummy\n" +
                         " text ever since the 1500s, when an unknown printer took a galley of\n" +
                         " type and scrambled it to make a type specimen book.\n" +
                         "moves in to attact\n" +
-                        "Are you sure you want to jump there?");
-                dialog.button("Yes", true); //sends "true" as the result
-                dialog.button("No", false);  //sends "false" as the result
-                dialog.key(Input.Keys.ENTER, true); //sends "true" when the ENTER key is pressed
-                dialog.show(stage);
+                        "Are you sure you want to jump there?";
+                actionDialog(dialog, action);
 
             }
         });
-        imageButton2.addListener(new HoverListener(){
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imageButton2.addActor(textArea);
-
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                textArea.remove();
-
-            }
-        });
+        hoverListener(imageButton2);
     }
+
 
     private void planet(Drawable drawable_station_unvisited) {
         imageButton1 = new ImageButton( (drawable_station_unvisited) );
@@ -246,22 +173,28 @@ public class StationsMap extends BaseScreen {
                         System.out.println("result "+obj);
                     }
                 };
-                dialog.text("You Jump to into sector of the nebula beset by a plasma storm. An automated Rebel scout stationed at he beacon" +
+                actionDialog(dialog, "You Jump to into sector of the nebula beset by a plasma storm. An automated Rebel scout stationed at he beacon" +
                         "moves in to attact\n" +
                         "Are you sure you want to jump there?");
-
-                dialog.button("Yes", true); //sends "true" as the result
-                dialog.button("No", false);  //sends "false" as the result
-                dialog.key(Input.Keys.ENTER, true); //sends "true" when the ENTER key is pressed
-                dialog.show(stage);
-
             }
         });
-        imageButton1.addListener(new HoverListener(){
+        hoverListener(imageButton1);
+    }
+
+    private void actionDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("Yes", true);
+        dialog.button("No", false);
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        dialog.show(stage);
+    }
+
+    private void hoverListener(final ImageButton img) {
+        img.addListener(new HoverListener(){
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imageButton1.addActor(textArea);
-
+                img.addActor(textArea);
 
             }
             @Override
@@ -274,6 +207,7 @@ public class StationsMap extends BaseScreen {
     }
 
 
+
     @Override
     public void show() {
         super.show();
@@ -282,7 +216,6 @@ public class StationsMap extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        state += Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
@@ -291,7 +224,6 @@ public class StationsMap extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().end();
         stage.act();
-
         stage.draw();
 
     }
