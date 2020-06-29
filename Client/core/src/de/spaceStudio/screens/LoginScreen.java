@@ -61,7 +61,6 @@ public class LoginScreen extends BaseScreen {
     private float state = 0.0f;
 
 
-
     public LoginScreen(final MainClient game, AssetManager assetManager) {
         super(game);
 
