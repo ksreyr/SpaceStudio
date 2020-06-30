@@ -938,4 +938,7 @@ gradle-app.setting
 # End of https://www.gitignore.io/api/gradle
 
 ../database.mv.db
+../database.trace.db
+../database.lock.db
 database.mv.db
+database.trace.db
