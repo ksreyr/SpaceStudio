@@ -15,6 +15,8 @@ public class CrewMember {
 
     private int health;
 
+    private String name;
+
     private String img;
 
     private Role role;
@@ -26,10 +28,18 @@ public class CrewMember {
         setId(builder.id);
         setImg(builder.img);
         setHealth(builder.health);
+        setName(builder.name);
         setCurrentSection(builder.currentSection);
         setRole(builder.role);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;
@@ -82,16 +92,19 @@ public class CrewMember {
         private int health;
         private String img;
         private Role role;
+        private String name;
 
         public CrewMemberBuilder() {
         }
 
-        public CrewMemberBuilder(Integer id, Section currentSection, int health, String img, Role role) {
+        public CrewMemberBuilder(Integer id, Section currentSection,
+                                 String name, int health, String img, Role role) {
             this.id = id;
             this.currentSection = currentSection;
             this.health = health;
             this.img = img;
             this.role = role;
+            this.name=name;
         }
 
 
@@ -102,6 +115,10 @@ public class CrewMember {
 
         public CrewMemberBuilder currentSection(Section currentSection){
             this.currentSection=currentSection;
+            return CrewMemberBuilder.this;
+        }
+        public CrewMemberBuilder name(String name){
+            this.name=name;
             return CrewMemberBuilder.this;
         }
         public CrewMemberBuilder health(int health){

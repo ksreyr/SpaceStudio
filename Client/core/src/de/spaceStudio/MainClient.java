@@ -29,7 +29,7 @@ public class MainClient extends Game {
 		loginScreen = new LoginScreen(this);
 		shipSelectScreen= new ShipSelectScreen(this);
 		batch = new SpriteBatch();
-	    setScreen(shipSelectScreen);
+	    setScreen(loginScreen);
 
 	}
 	@Override

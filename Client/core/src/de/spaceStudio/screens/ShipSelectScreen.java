@@ -19,9 +19,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.service.InitialDataGameService;
 import thirdParties.GifDecoder;
+
+
 //“Sound effects obtained from https://www.zapsplat.com“
 
 public class ShipSelectScreen extends BaseScreen {
@@ -58,6 +62,8 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton previous;
     private TextButton showHideRoom;
     private TextButton startButton;
+    private TextButton saveShip;
+    private TextButton saveStation;
     private TextButton easyButton;
     private TextButton normalButton;
 
@@ -71,6 +77,20 @@ public class ShipSelectScreen extends BaseScreen {
     boolean isOpen;
     private InputHandler inputHandler;
 
+    //
+    Ship ship;
+    CrewMember crewMember0 = Global.crewMember0;
+    CrewMember crewMember1 = Global.crewMember1;
+    CrewMember crewMember2 = Global.crewMember2;
+
+    Section section1 = Global.section1;
+    Section section2 = Global.section2;
+    Section section3 = Global.section3;
+    Section section4 = Global.section4;
+    Section section5 = Global.section5;
+    Section section6 = Global.section6;
+
+    //
     public ShipSelectScreen(MainClient game) {
         super(game);
         this.ships = game;
@@ -106,9 +126,7 @@ public class ShipSelectScreen extends BaseScreen {
         crew_3_name.setPosition(70,110);
 
 
-
-
-      blueShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/blueships1.png"));
+        blueShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/blueships1.png"));
         redShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/redship.png"));
         greenship = new Texture(Gdx.files.internal("Client/core/assets/data/ships/greenship.png"));
         topdownfighter = new Texture(Gdx.files.internal("Client/core/assets/data/ships/topdownfighter.png"));
@@ -128,8 +146,8 @@ public class ShipSelectScreen extends BaseScreen {
         previousButton();
         showHideRoom();
         selectLevelView();
-
         StartButton();
+
 
         stage.addActor(next);
         stage.addActor(previous);
@@ -141,18 +159,58 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
 
-
-
-
-
     }
+
 
     private void StartButton() {
         startButton.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Ship ship = Ship.shipBluider().hp(0).power(0).shield(0).name("shiptest").owner(Global.currentPlayer).buildShip();
-                idgs.sendRequest(ship, Net.HttpMethods.POST);
+                switch (shipNumber) {
+                    case 0:
+                        ship = Global.ship0;
+                        break;
+                    case 1:
+                        ship = Global.ship1;
+                        break;
+                    case 2:
+                        ship = Global.ship2;
+                        break;
+                    default:
+                        ship = Global.ship3;
+                        break;
+                }
+                ship.setOwner(Global.currentPlayer);
+                section1.setShip(ship);
+                section2.setShip(ship);
+                section3.setShip(ship);
+                section4.setShip(ship);
+                section5.setShip(ship);
+                section6.setShip(ship);
+
+                idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
+
+                idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
+                try{
+                    Thread.sleep(100);
+                }catch (Exception e){
+
+                }
+                crewMember0.setCurrentSection(section1);
+                crewMember1.setCurrentSection(section2);
+                crewMember2.setCurrentSection(section3);
+                crewMember0.setName(crew_1_name.getText());
+                crewMember1.setName(crew_2_name.getText());
+                crewMember2.setName(crew_3_name.getText());
+                idgs.sendRequestAddCrew(crewMember0,Net.HttpMethods.POST);
+                idgs.sendRequestAddCrew(crewMember1,Net.HttpMethods.POST);
+                idgs.sendRequestAddCrew(crewMember2,Net.HttpMethods.POST);
+
             }
         });
     }
@@ -191,7 +249,11 @@ public class ShipSelectScreen extends BaseScreen {
                        if(shipNumber < 0){
                            shipNumber = 3;
                        }else {
-                           shipNumber--;
+                           if (shipNumber == 0) {
+                               shipNumber = 3;
+                           } else {
+                               shipNumber--;
+                           }
                        }
             }
         });
@@ -238,7 +300,7 @@ public class ShipSelectScreen extends BaseScreen {
       normalButton.setSize(100,70);
 
 
-        startButton = new TextButton("START", skinButton, "small");
+      startButton = new TextButton("START", skinButton, "small");
       startButton.setTransform(true);
       startButton.setScaleX(1.8f);
       startButton.setScaleY(1.5f);

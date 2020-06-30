@@ -184,13 +184,13 @@ public class InitializingBeanExampleBean implements InitializingBean {
          * CrewMember Creation
          */
         crewMemberRepository.save(CrewMember.crewMemberBuilder()
-                .img("file://img1")
+                .img("file://img1").name("Number0")
                 .role(Role.FIGHTER)
                 .health(100).currentSection(s1).buildCrewMember()
         );
 
         crewMemberRepository.save(CrewMember.crewMemberBuilder()
-                .img("file://img2")
+                .img("file://img2").name("Number1")
                 .role(Role.TECHNICIAN)
                 .health(260).currentSection(s1).buildCrewMember()
         );

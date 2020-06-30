@@ -1,16 +1,18 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.controller.CrewMemberController;
 import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.repository.CrewMemberRepository;
+import de.spaceStudio.server.repository.PlayerRepository;
+import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +23,11 @@ public class CrewMemberControllerImpl implements CrewMemberController {
     @Autowired
     CrewMemberRepository crewMemberRepository;
     @Autowired
+    SectionRepository sectionRepository;
+    @Autowired
     ShipRepository shipRepository;
+    @Autowired
+    PlayerRepository playerRepository;
 
     /**
      * Get all crewmembers from db
@@ -52,6 +58,18 @@ public class CrewMemberControllerImpl implements CrewMemberController {
      */
     @Override
     public String addCrewMember(CrewMember crewMember) {
+        String s1 = crewMember.getCurrentSection().getShip().getName();
+        Player p1 = playerRepository.findByName(crewMember.
+                getCurrentSection().getShip().getOwner().getName()).get();
+        Ship ship = shipRepository.findShipByNameAndAndOwner(s1, p1).get();
+        List<Section> sections = sectionRepository.findAllByShip(ship).get();
+        for (Section s :
+                sections) {
+            if (s.getImg().equals(crewMember.getCurrentSection().getImg())) {
+                crewMember.setCurrentSection(s);
+                break;
+            }
+        }
         crewMemberRepository.save(crewMember);
         return HttpStatus.ACCEPTED.toString();
     }
