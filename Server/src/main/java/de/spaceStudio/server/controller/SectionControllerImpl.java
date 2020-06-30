@@ -1,8 +1,15 @@
 package de.spaceStudio.server.controller;
 
+import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.SectionRepository;
+import de.spaceStudio.server.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -11,8 +18,10 @@ import java.util.List;
 public class SectionControllerImpl implements SectionController {
     @Autowired
     private SectionRepository repository;
-
-
+    @Autowired
+    private PlayerRepository playerRepository;
+    @Autowired
+    private ShipRepository shipRepository;
     /**
      * Get all sections from db
      *
@@ -41,7 +50,12 @@ public class SectionControllerImpl implements SectionController {
      * @return the serialised Section
      */
     @Override
-    public String addSection(Section section) {
+    @RequestMapping(value = "/section", method = RequestMethod.POST)
+    public String addSection(@RequestBody Section section) {
+        Player playerToUpdate=playerRepository.findByName(section.getShip().getOwner().getName()).get();
+        Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(),playerToUpdate).get();
+        ship.setOwner(playerToUpdate);
+        section.setShip(ship);
         repository.save(section);
         return section.toString();
     }
