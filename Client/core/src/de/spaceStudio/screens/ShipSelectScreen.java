@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import de.spaceStudio.MainClient;
+import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Section;
@@ -25,7 +26,9 @@ import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.service.InitialDataGameService;
 import thirdParties.GifDecoder;
 
-
+import static de.spaceStudio.client.util.Global.*;
+import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
+import static de.spaceStudio.service.LoginService.logout;
 //“Sound effects obtained from https://www.zapsplat.com“
 
 public class ShipSelectScreen extends BaseScreen {
@@ -76,6 +79,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     boolean isOpen;
     private InputHandler inputHandler;
+    private int levelDifficult;
 
     //
     Ship ship;
@@ -94,6 +98,7 @@ public class ShipSelectScreen extends BaseScreen {
     public ShipSelectScreen(MainClient game) {
         super(game);
         this.ships = game;
+        fetchLoggedUsers();
 
         stage = new Stage(new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT));
 
@@ -118,12 +123,12 @@ public class ShipSelectScreen extends BaseScreen {
         font.getData().setScale(3);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        crew_1_name = new TextArea("John",skinButton);
-        crew_1_name.setPosition(70,250);
-        crew_2_name = new TextArea("Max",skinButton);
-        crew_2_name.setPosition(70,180);
-        crew_3_name = new TextArea("Jack",skinButton);
-        crew_3_name.setPosition(70,110);
+        crew_1_name = new TextArea("John", skinButton);
+        crew_1_name.setPosition(70, 250);
+        crew_2_name = new TextArea("Max", skinButton);
+        crew_2_name.setPosition(70, 180);
+        crew_3_name = new TextArea("Jack", skinButton);
+        crew_3_name.setPosition(70, 110);
 
 
         blueShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/blueships1.png"));
@@ -159,8 +164,8 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
 
+        this.levelDifficult = 0;
     }
-
 
     private void StartButton() {
         startButton.addCaptureListener(new ChangeListener() {
@@ -284,20 +289,39 @@ public class ShipSelectScreen extends BaseScreen {
       easyButton = new TextButton("EASY", skinButton, "small");
       easyButton.setTransform(true);
       easyButton.setScale(0.85f);
-      easyButton.setColor(Color.GOLDENROD);
+      easyButton.setColor(Color.CYAN);
       easyButton.setPosition(BaseScreen.WIDTH-330,BaseScreen.HEIGHT-100);
       easyButton.getLabel().setColor(Color.WHITE);
       easyButton.getLabel().setFontScale(1.25f, 1.25f);
       easyButton.setSize(100,70);
 
+      easyButton.addCaptureListener(new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent event, Actor actor) {
+              levelDifficult = Difficult.EASY.getLevelCode();
+              normalButton.setColor(Color.BLACK);
+              easyButton.setColor(Color.CYAN);
+          }
+      });
+
       normalButton = new TextButton("NORMAL", skinButton, "small");
       normalButton.setTransform(true);
       normalButton.setScale(0.85f);
-      normalButton.setColor(Color.GOLDENROD);
+      normalButton.setColor(Color.BLACK);
       normalButton.setPosition(BaseScreen.WIDTH-330,BaseScreen.HEIGHT-200);
       normalButton.getLabel().setColor(Color.WHITE);
       normalButton.getLabel().setFontScale(1.25f, 1.25f);
       normalButton.setSize(100,70);
+
+      normalButton.addCaptureListener(new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent event, Actor actor) {
+             levelDifficult = Difficult.NORMAL.getLevelCode();
+              normalButton.setColor(Color.CYAN);
+              easyButton.setColor(Color.BLACK);
+          }
+      });
+
 
 
       startButton = new TextButton("START", skinButton, "small");
@@ -396,8 +420,27 @@ public class ShipSelectScreen extends BaseScreen {
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
+        // top left position
+        drawLobby();
     }
 
+    /**
+     * fill the online players list
+     */
+    public void drawLobby(){
+        batch.begin();
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+
+        font.draw(batch, "Players online: " + String.valueOf(playersOnline.size()), 20, 1050);
+        int count = 0;
+        for (String playerName : playersOnline) {
+            count = count+15;
+            font.draw(batch, playerName , 20, (1018 + (count)));
+        }
+        batch.end();
+    }
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
@@ -420,11 +463,11 @@ public class ShipSelectScreen extends BaseScreen {
 
     @Override
     public void dispose() {
+        logout(currentPlayer);
         super.dispose();
         skinButton.dispose();
         spaceShipChange.dispose();
         stage.dispose();
         shapeRenderer.dispose();
-
     }
 }

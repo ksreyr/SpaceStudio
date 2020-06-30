@@ -156,7 +156,7 @@ public class MenuScreen extends ScreenAdapter  {
     // Called when the Application is destroyed.
     @Override
     public void dispose() {
-        //TODO: warum hier in Loggout??????
+        //When application closes, session muss be closed
         logout(currentPlayer);
         stage.dispose();
     }
