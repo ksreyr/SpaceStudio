@@ -32,7 +32,7 @@ public class MainClient extends Game {
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
 		loginScreen = new LoginScreen(this, assetManager);
-		stationsMap = new StationsMap(this,assetManager);
+		stationsMap = new StationsMap(this);
 		batch = new SpriteBatch();
 		//setScreen(stationsMap);
 		shipSelectScreen= new ShipSelectScreen(this);

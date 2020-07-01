@@ -51,7 +51,6 @@ public class ShipSelectScreen extends BaseScreen {
     private Texture weapon;
     private Texture drive;
     private TextField crew_1_name, crew_2_name, crew_3_name;
-   // private TextField textField;
 
     Animation<TextureRegion> crew1;
     Animation<TextureRegion>  crew2;
@@ -61,6 +60,9 @@ public class ShipSelectScreen extends BaseScreen {
 
 
     private Stage stage;
+
+
+
     private Skin skinButton;
     private TextButton next;
     private TextButton previous;
@@ -72,11 +74,12 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton normalButton;
     private Viewport viewport;
 
+    private MainClient game;
 
     private ShapeRenderer shapeRenderer;
     int shipNumber = 0;
     int openNumber = 0;
-    private Sound spaceShipChange;
+    private Sound spaceShipChange, mouseClick;
 
     private InitialDataGameService idgs = new InitialDataGameService();
 
@@ -118,6 +121,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(usernameLabel);
         background = new Texture(Gdx.files.internal("Client/core/assets/data/ast.jpg"));
         shapeRenderer = new ShapeRenderer();
+        mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
         inputHandler = new InputHandler();
 
@@ -170,7 +174,7 @@ public class ShipSelectScreen extends BaseScreen {
 
         this.levelDifficult = 0;
     }
-
+    public Skin getSkinButton() {  return skinButton; }
     private void StartButton() {
         startButton.addCaptureListener(new ChangeListener() {
             @Override
@@ -342,6 +346,14 @@ public class ShipSelectScreen extends BaseScreen {
       startButton.getLabel().setColor(Color.WHITE);
       startButton.getLabel().setFontScale(1.25f, 1.25f);
       startButton.setSize(90,50);
+      startButton.addListener(new ChangeListener() {
+          @Override
+          public void changed(ChangeEvent event, Actor actor) {
+              ships.setScreen(new StationsMap(game));
+              mouseClick.play();
+
+          }
+      });
     }
 
     @Override
@@ -363,9 +375,9 @@ public class ShipSelectScreen extends BaseScreen {
         batch.end();
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw((TextureRegion) crew1.getKeyFrame(state), 10, 250, 70, 70);
-        stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 10, 180, 70, 70);
-        stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 10, 110, 70, 70);
+        stage.getBatch().draw(crew1.getKeyFrame(state), 10, 250, 70, 70);
+        stage.getBatch().draw(crew2.getKeyFrame(state), 10, 180, 70, 70);
+        stage.getBatch().draw(crew3.getKeyFrame(state), 10, 110, 70, 70);
         //
         switch (shipNumber) {
             case 0:
@@ -475,5 +487,6 @@ public class ShipSelectScreen extends BaseScreen {
         spaceShipChange.dispose();
         stage.dispose();
         shapeRenderer.dispose();
+        mouseClick.dispose();
     }
 }

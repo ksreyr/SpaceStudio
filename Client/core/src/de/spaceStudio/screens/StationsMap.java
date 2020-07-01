@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -11,10 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -36,6 +34,7 @@ public class StationsMap extends BaseScreen {
 
     private static int POSX = 100;
     private static int POSY = 200;
+    private MainClient game;
 
     private  String unvisited = "unvisited planet";
     private  String visited = "visited planet";
@@ -47,11 +46,12 @@ public class StationsMap extends BaseScreen {
     private Sound jumpToPlanet, mouseClick;
 
     boolean isLast;
+    private ShipSelectScreen shipSelectScreen;
 
 
-    public StationsMap(MainClient game, AssetManager assetManager) {
+    public StationsMap(final MainClient game) {
         super(game);
-
+        this.game = game;
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
@@ -61,7 +61,6 @@ public class StationsMap extends BaseScreen {
         start_ship = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/ZDci.gif").read());
         final Drawable drawable_station_unvisited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png")));
         final Drawable drawable_station_visited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/visited-removebg-preview.png")));
-
 
 
         textAreaUN = new TextArea(unvisited,skin);
@@ -80,6 +79,7 @@ public class StationsMap extends BaseScreen {
         stage.addActor(startPoint);
 
     }
+
 
     private void setStartPoint(Drawable drawable_station_unvisited) {
         startPoint = new ImageButton( (drawable_station_unvisited) );
