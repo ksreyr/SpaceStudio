@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
@@ -69,6 +70,8 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton saveStation;
     private TextButton easyButton;
     private TextButton normalButton;
+    private Viewport viewport;
+
 
     private ShapeRenderer shapeRenderer;
     int shipNumber = 0;
@@ -100,7 +103,8 @@ public class ShipSelectScreen extends BaseScreen {
         this.ships = game;
         fetchLoggedUsers();
 
-        stage = new Stage(new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT));
+        viewport = new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT);
+        stage = new Stage(viewport);
 
         Gdx.input.setInputProcessor(stage);
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
@@ -285,6 +289,11 @@ public class ShipSelectScreen extends BaseScreen {
 
     }
 
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width,height);
+
+    }
     private void selectLevelView(){
       easyButton = new TextButton("EASY", skinButton, "small");
       easyButton.setTransform(true);
@@ -441,10 +450,7 @@ public class ShipSelectScreen extends BaseScreen {
         }
         batch.end();
     }
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-    }
+
 
     @Override
     public void pause() {
