@@ -2,7 +2,6 @@ package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

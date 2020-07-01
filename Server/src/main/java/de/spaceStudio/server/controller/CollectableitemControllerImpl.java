@@ -2,7 +2,6 @@ package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.CollectableItem;
 import de.spaceStudio.server.repository.CollectableItemsRepository;
-import de.spaceStudio.server.repository.CollectableItemsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;

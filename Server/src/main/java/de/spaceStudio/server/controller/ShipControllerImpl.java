@@ -1,9 +1,11 @@
 package de.spaceStudio.server.controller;
 
 
+import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ShipControllerImpl implements ShipController{
     @Autowired
     ShipRepository shipRepository;
-
+    @Autowired
+    PlayerRepository playerRepository;
     @Override
     @RequestMapping(value = "/ships",method = RequestMethod.GET)
     public List<Ship> getAllShips() {
@@ -32,6 +36,8 @@ public class ShipControllerImpl implements ShipController{
     @Override
     @RequestMapping(value = "/ship",method = RequestMethod.POST)
     public String addShip(@RequestBody Ship ship) {
+        Optional<Player> player= playerRepository.findByName( ship.getOwner().getName());
+        ship.setOwner(player.get());
         shipRepository.save(ship);
         return HttpStatus.CREATED.toString();
     }

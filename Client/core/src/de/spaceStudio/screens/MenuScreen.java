@@ -85,7 +85,7 @@ public class MenuScreen extends ScreenAdapter  {
         textButtonNewGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                mainClient.setScreen(new LobbyScreen(mainClient));
+                mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });
 
@@ -156,6 +156,7 @@ public class MenuScreen extends ScreenAdapter  {
     // Called when the Application is destroyed.
     @Override
     public void dispose() {
+        //When application closes, session muss be closed
         logout(currentPlayer);
         stage.dispose();
     }

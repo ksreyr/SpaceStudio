@@ -30,8 +30,8 @@ public class LoginScreen extends BaseScreen {
 
     private Stage stage;
     private Skin skin;
-    private TextArea userName, newUserName;
-    private TextArea userPassword, newUserPassword, confirmPassword;
+    private TextField userName, newUserName;
+    private TextField userPassword, newUserPassword, confirmPassword;
     private TextButton login;
     private TextButton register;
     private Label loginConfirmation;
@@ -60,8 +60,8 @@ public class LoginScreen extends BaseScreen {
     private boolean isValid = false;
     private float state = 0.0f;
 
-
     public LoginScreen(final MainClient game, AssetManager assetManager) {
+
         super(game);
 
         animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/space_name.gif").read());
@@ -146,7 +146,7 @@ public class LoginScreen extends BaseScreen {
     }
 
     private void existedUserName() {
-        userName = new TextArea("username", skin);
+        userName = new TextField("username", skin);
         userName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
@@ -169,7 +169,7 @@ public class LoginScreen extends BaseScreen {
     }
 
     private void existedUserPassword() {
-        userPassword = new TextArea("password", skin);
+        userPassword = new TextField("password", skin);
         userPassword.setPasswordMode(true);
         userPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
@@ -196,7 +196,7 @@ public class LoginScreen extends BaseScreen {
 
 
     private void newUserName() {
-        newUserName = new TextArea("new user", skin);
+        newUserName = new TextField("new user", skin);
         nameTextListener(newUserName);
         newUserName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
         newUserName.setPosition(BUTTON_REGISTER_X, 500);
@@ -211,7 +211,7 @@ public class LoginScreen extends BaseScreen {
         });
     }
 
-    private void nameTextListener(TextArea newUserName) {
+    private void nameTextListener(TextField newUserName) {
         newUserName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
@@ -221,7 +221,7 @@ public class LoginScreen extends BaseScreen {
     }
 
     private void newUserPassword() {
-        newUserPassword = new TextArea("password", skin);
+        newUserPassword = new TextField("password", skin);
         textFieldListener(newUserPassword);
         newUserPassword.setPosition(BUTTON_REGISTER_X, 450);
 
@@ -237,7 +237,7 @@ public class LoginScreen extends BaseScreen {
     }
 
     private void confirmPassword() {
-        confirmPassword = new TextArea("retype password", skin);
+        confirmPassword = new TextField("retype password", skin);
         textFieldListener(confirmPassword);
         confirmPassword.setPosition(BUTTON_REGISTER_X, 400);
 
@@ -251,7 +251,7 @@ public class LoginScreen extends BaseScreen {
         });
     }
 
-    private void textFieldListener(final TextArea newUserPassword) {
+    private void textFieldListener(final TextField newUserPassword) {
         newUserPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
