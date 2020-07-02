@@ -288,7 +288,7 @@ public class LoginScreen extends BaseScreen {
                 communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
                 isPressed = true;
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
