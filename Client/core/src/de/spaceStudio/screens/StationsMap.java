@@ -49,6 +49,7 @@ public class StationsMap extends BaseScreen {
     private ShipSelectScreen shipSelectScreen;
 
 
+
     public StationsMap(final MainClient game) {
         super(game);
         this.game = game;
@@ -110,6 +111,7 @@ public class StationsMap extends BaseScreen {
         imageButton5.setPosition(600, 800);  //hikeButton is an ImageButton
         imageButton5.setSize(PLANET_SIZEX,PLANET_SIZEY);
         hoverListener(imageButton5,textAreaUN);
+
         imageButton5.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -118,6 +120,8 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(imageButton5,textAreaVIS);
+                            game.setScreen(new CombatScreen(game));
+
                         }
 
                     }

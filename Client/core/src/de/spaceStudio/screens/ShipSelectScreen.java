@@ -74,7 +74,6 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton normalButton;
     private Viewport viewport;
 
-    private MainClient game;
 
     private ShapeRenderer shapeRenderer;
     int shipNumber = 0;
@@ -89,6 +88,9 @@ public class ShipSelectScreen extends BaseScreen {
 
     //
     Ship ship;
+
+
+    Ship selectedShip;
     CrewMember crewMember0 = Global.crewMember0;
     CrewMember crewMember1 = Global.crewMember1;
     CrewMember crewMember2 = Global.crewMember2;
@@ -175,6 +177,11 @@ public class ShipSelectScreen extends BaseScreen {
         this.levelDifficult = 0;
     }
     public Skin getSkinButton() {  return skinButton; }
+
+    public Ship getSelectedShip() {
+        return ship1;
+    }
+
     private void StartButton() {
         startButton.addCaptureListener(new ChangeListener() {
             @Override

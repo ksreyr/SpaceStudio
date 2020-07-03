@@ -1,14 +1,19 @@
 package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
+import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Ship;
 
 public class CombatScreen extends BaseScreen{
@@ -17,10 +22,14 @@ public class CombatScreen extends BaseScreen{
     private Stage stage;
     private Skin skin;
     private Viewport viewport;
+    private SpriteBatch batch;
 
-    private Ship playerShip;
+    private Texture playerShip;
     private Texture enemyShip;
     private Texture background;
+
+    private ShapeRenderer shapeRenderer;
+
 
     ShipSelectScreen shipSelectScreen;
 
@@ -30,14 +39,16 @@ public class CombatScreen extends BaseScreen{
         viewport = new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT);
         stage = new Stage(viewport);
         background = new Texture(Gdx.files.internal("Client/core/assets/data/CombatBG.jpg"));
-        setShip();
+        playerShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/blueships1.png"));
+        enemyShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/enemy1.png"));
         //stage.addActor(playerShip);
+        shapeRenderer = new ShapeRenderer();
+
+
 
     }
 
-    void setShip(){
-        playerShip = shipSelectScreen.getSelectedShip();
-    }
+
 
     @Override
     public void show() {
@@ -51,7 +62,23 @@ public class CombatScreen extends BaseScreen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        stage.getBatch().draw(playerShip, 300,300,700,700);
+        stage.getBatch().draw(enemyShip, 1300,370,550,550);
         stage.getBatch().end();
+       // shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.MAGENTA);
+        shapeRenderer.line(0,298, BaseScreen.WIDTH,298);
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.line(0,296, BaseScreen.WIDTH,296);
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.line(0,294, BaseScreen.WIDTH,294);
+        shapeRenderer.setColor(Color.CORAL);
+        shapeRenderer.line(0,292, BaseScreen.WIDTH,292);
+
+        // shapeRenderer.
+        shapeRenderer.end();
+
     }
 
     @Override

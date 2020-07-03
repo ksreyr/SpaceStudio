@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import de.spaceStudio.screens.CombatScreen;
 import de.spaceStudio.screens.StationsMap;
 
 import de.spaceStudio.screens.ShipSelectScreen;
@@ -20,6 +21,7 @@ public class MainClient extends Game {
 
 	public LoginScreen loginScreen;
 	public ShipSelectScreen shipSelectScreen;
+	public CombatScreen combatScreen;
 
 	public StationsMap stationsMap;
 	private SpriteBatch batch;
@@ -31,13 +33,18 @@ public class MainClient extends Game {
 
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
-		loginScreen = new LoginScreen(this, assetManager);
-		stationsMap = new StationsMap(this);
+		//loginScreen = new LoginScreen(this, assetManager);
+		//stationsMap = new StationsMap(this);
 		batch = new SpriteBatch();
 		//setScreen(stationsMap);
 		shipSelectScreen= new ShipSelectScreen(this);
 		batch = new SpriteBatch();
-	    setScreen(loginScreen);
+	    //setScreen(loginScreen);
+
+	    combatScreen = new CombatScreen(this);
+	    setScreen(combatScreen);
+
+
 
 
 	}
