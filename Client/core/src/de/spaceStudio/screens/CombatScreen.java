@@ -23,7 +23,7 @@ public class CombatScreen extends BaseScreen{
     private Texture playerShip;
     private Texture enemyShip;
     private Texture engine1,engine2,oxygen, piloting;
-    private Texture engineer, pilot;
+    private Texture engineer, pilot,hull;
     private Texture background;
 
     private ShapeRenderer shapeRenderer;
@@ -39,6 +39,7 @@ public class CombatScreen extends BaseScreen{
         background = new Texture(Gdx.files.internal("Client/core/assets/data/CombatBG.jpg"));
         playerShip = new Texture(Gdx.files.internal("Client/core/assets/blueships_fulled.png"));
         enemyShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/enemy1.png"));
+        hull = new Texture(Gdx.files.internal("Client/core/assets/hull1.png"));
         shapeRenderer = new ShapeRenderer();
 
     }
@@ -57,6 +58,7 @@ public class CombatScreen extends BaseScreen{
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
+        stage.getBatch().draw(hull, 0,1020,500,50);
 
 
         stage.getBatch().end();
