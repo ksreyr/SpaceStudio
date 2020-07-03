@@ -5,16 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
-import de.spaceStudio.client.util.Global;
-import de.spaceStudio.server.model.Ship;
 
 public class CombatScreen extends BaseScreen{
 
@@ -26,6 +22,8 @@ public class CombatScreen extends BaseScreen{
 
     private Texture playerShip;
     private Texture enemyShip;
+    private Texture engine1,engine2,oxygen, piloting;
+    private Texture engineer, pilot;
     private Texture background;
 
     private ShapeRenderer shapeRenderer;
@@ -39,16 +37,11 @@ public class CombatScreen extends BaseScreen{
         viewport = new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT);
         stage = new Stage(viewport);
         background = new Texture(Gdx.files.internal("Client/core/assets/data/CombatBG.jpg"));
-        playerShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/blueships1.png"));
+        playerShip = new Texture(Gdx.files.internal("Client/core/assets/blueships_fulled.png"));
         enemyShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/enemy1.png"));
-        //stage.addActor(playerShip);
         shapeRenderer = new ShapeRenderer();
 
-
-
     }
-
-
 
     @Override
     public void show() {
@@ -64,6 +57,8 @@ public class CombatScreen extends BaseScreen{
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
+
+
         stage.getBatch().end();
        // shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

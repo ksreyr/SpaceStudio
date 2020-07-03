@@ -120,8 +120,6 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(imageButton5,textAreaVIS);
-                            game.setScreen(new CombatScreen(game));
-
                         }
 
                     }
