@@ -184,8 +184,6 @@ public class StationsMap extends BaseScreen {
 
             }
         });
-
-
     }
 
     private void planet5(Drawable drawable_station_unvisited) {
@@ -291,6 +289,8 @@ public class StationsMap extends BaseScreen {
         toChange.add(currentStop);
         toChange.add(planet);
         jumpservices.makeJumpRequest(toChange, Net.HttpMethods.POST);
+        game.setScreen(new CombatScreen(game));
+
     }
 
 
