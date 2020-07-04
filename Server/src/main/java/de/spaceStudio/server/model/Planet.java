@@ -11,7 +11,7 @@ public class Planet extends StopAbstract {
     @Column
     private String img;
 
-    private String name;
+
 
     /**
      * Empty constructor
@@ -21,18 +21,13 @@ public class Planet extends StopAbstract {
     }
 
     public Planet(PlanetBuilder builder) {
-        setShip(builder.ship);
+        setShips(builder.ship);
+        setName(builder.name);
         setUniverse(builder.universe);
         setImg(builder.img);
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getImg() {
         return img;

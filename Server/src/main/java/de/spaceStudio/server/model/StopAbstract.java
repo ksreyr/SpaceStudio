@@ -14,10 +14,20 @@ public class StopAbstract {
     private Integer id;
 
     @OneToMany
-    private List<Ship> ship;
+    private List<Ship> ships;
 
     @ManyToOne
     private Universe universe;
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public StopAbstract() {
     }
@@ -30,12 +40,12 @@ public class StopAbstract {
         this.id = id;
     }
 
-    public List<Ship> getShip() {
-        return ship;
+    public List<Ship> getShips() {
+        return ships;
     }
 
-    public void setShip(List<Ship> ship) {
-        this.ship = ship;
+    public void setShips(List<Ship> ship) {
+        this.ships = ship;
     }
 
     public Universe getUniverse() {

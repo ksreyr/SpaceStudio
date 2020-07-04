@@ -4,13 +4,10 @@ import de.spaceStudio.server.model.Universe;
 import de.spaceStudio.server.repository.UniverseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RestController
 public class UniverseControllerImpl implements UniverseController{
     @Autowired
     UniverseRepository universeRepository;
@@ -28,7 +25,7 @@ public class UniverseControllerImpl implements UniverseController{
     }
 
     @Override
-    @RequestMapping(value = "/universe", method = RequestMethod.POST)
+    //@RequestMapping(value = "/universe", method = RequestMethod.POST)
     public String addUniverse(@RequestBody Universe universe) {
         universeRepository.save(universe);
         return HttpStatus.CREATED.toString();
@@ -55,8 +52,4 @@ public class UniverseControllerImpl implements UniverseController{
         return HttpStatus.OK.toString();
     }
 
-    @Override
-    public String hashPassword(String weakPassword) {
-        return null;
-    }
 }

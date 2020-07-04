@@ -30,6 +30,10 @@ public class Global {
     public static final String PLAYER_LOGGED_ENDPOINT = "/player/logged-players";
 
     /**
+     * Server logged player endpoint
+     */
+    public static final String NAME_VALIDATION = "/shipname";
+    /**
      * Server login endpoint
      */
     public static final String PLAYER_LOGIN_ENDPOINT = "/player/login";
@@ -48,7 +52,14 @@ public class Global {
      * Crew Cretion
      */
     public static final String CREWMEMBER_CREATION_ENDPOINT = "/crewMember";
-
+    /**
+     * Planet Cretion
+     */
+    public static final String PLANET_CREATION_ENDPOINT = "/planet";
+    /**
+     * Universe Cretion
+     */
+    public static final String UNIVERSE_CREATION_ENDPOINT = "/universe";
     /**
      * Section Cretion
      */
@@ -58,6 +69,15 @@ public class Global {
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
+    /**
+     * Server logged player endpoint
+     */
+    public static final String MAKEJUMP_CREATION_ENDPOINT = "/makejump";
+
+    /**
+     * Global player, this data will be downloaded from server at login
+     */
+    public static Ship currentShip;
 
     /**
      * Gets all Users
@@ -71,6 +91,113 @@ public class Global {
     public static Ship ship1= Ship.shipBluider().hp(100).name("ship1").power(100).shield(1).buildShip();
     public static Ship ship2= Ship.shipBluider().hp(200).name("ship2").power(50).shield(2).buildShip();
     public static Ship ship3= Ship.shipBluider().hp(300).name("ship3").power(200).shield(1).buildShip();
+    /**
+     * ship0
+     * */
+    public static  List<Section> listShip0ForSection1=new ArrayList<Section>(){{
+        add(section2);
+    }};
+    public static  List<Section> listShip0ForSection2=new ArrayList<Section>(){{
+        add(section1);
+        add(section3);
+        add(section4);
+    }};
+    public static  List<Section> listShip0ForSection3=new ArrayList<Section>(){{
+        add(section2);
+    }};
+    public static  List<Section> listShip0ForSection4=new ArrayList<Section>(){{
+        add(section2);
+        add(section5);
+        add(section6);
+    }};
+    public static  List<Section> listShip0ForSection5=new ArrayList<Section>(){{
+        add(section4);
+    }};
+    public static  List<Section> listShip0ForSection6=new ArrayList<Section>(){{
+        add(section4);
+    }};
+    /*
+    *SHIP1
+    * */
+    public static  List<Section> listShip1ForSection1=new ArrayList<Section>(){{
+        add(section2);
+    }};
+    public static  List<Section> listShip1ForSection2=new ArrayList<Section>(){{
+        add(section1);
+        add(section4);
+        add(section6);
+    }};
+    public static  List<Section> listShip1ForSection3=new ArrayList<Section>(){{
+        add(section3);
+        add(section5);
+    }};
+    public static  List<Section> listShip1ForSection4=new ArrayList<Section>(){{
+        add(section2);
+        add(section3);
+        add(section5);
+    }};
+    public static  List<Section> listShip1ForSection5=new ArrayList<Section>(){{
+        add(section4);
+        add(section3);
+    }};
+    public static  List<Section> listShip1ForSection6=new ArrayList<Section>(){{
+        add(section2);
+    }};
+    /*
+    *SHIP2
+    * */
+    public static  List<Section> listShip2ForSection1=new ArrayList<Section>(){{
+        add(section2);
+        add(section3);
+    }};
+    public static  List<Section> listShip2ForSection2=new ArrayList<Section>(){{
+        add(section1);
+        add(section3);
+        add(section4);
+    }};
+    public static  List<Section> listShip2ForSection3=new ArrayList<Section>(){{
+        add(section1);
+        add(section6);
+    }};
+    public static  List<Section> listShip2ForSection4=new ArrayList<Section>(){{
+        add(section2);
+        add(section5);
+    }};
+    public static  List<Section> listShip2ForSection5=new ArrayList<Section>(){{
+        add(section4);
+        add(section6);
+    }};
+    public static  List<Section> listShip2ForSection6=new ArrayList<Section>(){{
+        add(section5);
+        add(section3);
+    }};
+    /*
+     *SHIP3
+     * */
+    public static  List<Section> listShip3ForSection1=new ArrayList<Section>(){{
+        add(section4);
+    }};
+    public static  List<Section> listShip3ForSection2=new ArrayList<Section>(){{
+        add(section3);
+        add(section4);
+        add(section5);
+    }};
+    public static  List<Section> listShip3ForSection3=new ArrayList<Section>(){{
+        add(section2);
+        add(section6);
+    }};
+    public static  List<Section> listShip3ForSection4=new ArrayList<Section>(){{
+        add(section1);
+        add(section2);
+        add(section6);
+    }};
+    public static  List<Section> listShip3ForSection5=new ArrayList<Section>(){{
+        add(section2);
+    }};
+    public static  List<Section> listShip3ForSection6=new ArrayList<Section>(){{
+        add(section4);
+    }};
+
 
     /**
      * CrewMember Variables
@@ -97,4 +224,21 @@ public class Global {
             powerCurrent(100).usable(true).connectingTo(null).powerRequired(10).buildSection();
     public static Section section6= Section.sectionBuilder().img("Section6").oxygen(100).
             powerCurrent(100).usable(true).connectingTo(null).powerRequired(10).buildSection();
+
+    /**
+     * planete Univerise 1
+     * */
+    public static Planet planet1= Planet.builder().name("p1").img("null").ship(null).build();
+    public static Planet planet2= Planet.builder().name("p2").img("null").ship(null).build();
+    public static Planet planet3= Planet.builder().name("p3").img("null").ship(null).build();
+    public static Planet planet4= Planet.builder().name("p4").img("null").ship(null).build();
+    public static Planet planet5= Planet.builder().name("p5").img("null").ship(null).build();
+
+    /**
+     * Universe Univerise 1
+     * */
+    public static Universe universe1= Universe.universeBuilder().name("Easy").build();
+    public static Universe universe2= Universe.universeBuilder().name("Normal").build();
+
+
 }

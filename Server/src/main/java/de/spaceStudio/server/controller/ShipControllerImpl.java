@@ -93,4 +93,13 @@ public class ShipControllerImpl implements ShipController{
         // Add Check
         return true;
     }
+
+    @Override
+    public String shipNameValidation(Ship ship) {
+        Player player=playerRepository.findByName(ship.getOwner().getName()).get();
+        if(shipRepository.findShipByNameAndAndOwner(ship.getName(),player).isEmpty()){
+            return "Avaible";
+        }
+        return HttpStatus.BAD_REQUEST.toString();
+    }
 }

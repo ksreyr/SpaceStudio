@@ -1,13 +1,11 @@
 package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.StopAbstract;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
 public interface StopAbstractController {
 
 
@@ -66,5 +64,6 @@ public interface StopAbstractController {
     @RequestMapping(value = "/stopAbstracts", method = RequestMethod.DELETE)
     String deleteAllStopAbstracts();
 
-    String hashPassword(String weakPassword);
+    @RequestMapping(value = "/makejump", method = RequestMethod.POST)
+    String makeJump(@RequestBody List<StopAbstract> stops);
 }

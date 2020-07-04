@@ -1,19 +1,26 @@
 package de.spaceStudio.server.controller;
 
+import de.spaceStudio.server.model.Player;
+import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
+import de.spaceStudio.server.repository.PlayerRepository;
+import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@RestController
 public class StopAbstractControllerImpl implements StopAbstractController {
     @Autowired
     StopAbstractRepository stopAbstractRepository;
+    @Autowired
+    ShipRepository shipRepository;
+    @Autowired
+    PlayerRepository playerRepository;
 
     @Override
     @RequestMapping(value = "/stopAbstracts", method = RequestMethod.GET)
@@ -56,7 +63,49 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     }
 
     @Override
-    public String hashPassword(String weakPassword) {
-        return null;
+    public String makeJump(@RequestBody List<StopAbstract> stops) {
+
+        StopAbstract stopStart = stops.get(0);
+        stops.remove(stopStart);
+        StopAbstract stopEnd = stops.get(0);
+        Player player=new Player();
+        Ship ship= new Ship();
+        ArrayList<Ship> ships= (ArrayList<Ship>) stopStart.getShips();
+        for (Ship s :
+                ships) {
+            if(s.getOwner()!=null){
+                player= playerRepository.findByName(s.getOwner().getName()).get();
+                ship=s;
+            }
+        }
+        
+        ship= shipRepository.findShipByNameAndAndOwner(ship.getName(),player).get();
+        stopStart= stopAbstractRepository.findByShips(ship).get();
+        List<StopAbstract> stopAbstracts = new ArrayList<>();
+        stopAbstracts= stopAbstractRepository.findByUniverse(stopStart.getUniverse()).get();
+        for (StopAbstract s:
+                stopAbstracts) {
+            if(s.getName().equals(stopEnd.getName())){
+                stopEnd=s;
+            }
+
+        }
+        //Delete proces
+        for (Ship s :
+                ships) {
+            if(ship.getName().equals(s.getName())){
+                ships.remove(s);
+                break;
+            }
+        }
+        stopStart.setShips(ships);
+        stopAbstractRepository.save(stopStart);
+        List<Ship> shipJump= new ArrayList<>();
+        shipJump= stopEnd.getShips();
+        shipJump.add(ship);
+        stopEnd.setShips(shipJump);
+        stopAbstractRepository.save(stopEnd);
+
+        return HttpStatus.OK.toString();
     }
 }

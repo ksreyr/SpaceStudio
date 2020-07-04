@@ -67,6 +67,5 @@ public interface UniverseController {
     @RequestMapping(value = "/universes", method = RequestMethod.DELETE)
     String deleteAllUniverses();
 
-    String hashPassword(String weakPassword);
 }
 

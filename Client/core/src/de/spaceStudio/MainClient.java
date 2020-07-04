@@ -33,7 +33,7 @@ public class MainClient extends Game {
 
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
-		//loginScreen = new LoginScreen(this, assetManager);
+		loginScreen = new LoginScreen(this, assetManager);
 		//stationsMap = new StationsMap(this);
 		batch = new SpriteBatch();
 		//setScreen(stationsMap);
@@ -42,7 +42,7 @@ public class MainClient extends Game {
 	    //setScreen(loginScreen);
 
 	    combatScreen = new CombatScreen(this);
-	    setScreen(combatScreen);
+	    setScreen(loginScreen);
 
 
 

@@ -62,5 +62,4 @@ public interface PlanetController {
     @RequestMapping(value = "/planets", method = RequestMethod.DELETE)
     String deleteAllPlanets();
 
-    String hashPassword(String weakPassword);
 }

@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
@@ -89,5 +90,9 @@ public interface ShipController {
     Ship startAttack(@RequestBody Weapon w, @RequestBody Section s, @RequestBody Ship attacker, @RequestBody Ship defender);
 
     boolean checkEnergy(Ship oldShip, Ship newShip);
+
+    @RequestMapping(value = "/shipname", method = RequestMethod.POST)
+    String shipNameValidation(@RequestBody Ship ship);
+
 
 }

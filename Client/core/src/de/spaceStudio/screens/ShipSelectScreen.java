@@ -21,13 +21,14 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.server.model.CrewMember;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.InitialDataGameService;
 import thirdParties.GifDecoder;
 
-import static de.spaceStudio.client.util.Global.*;
+import java.util.ArrayList;
+
+import static de.spaceStudio.client.util.Global.currentPlayer;
+import static de.spaceStudio.client.util.Global.playersOnline;
 import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
 import static de.spaceStudio.service.LoginService.logout;
 //“Sound effects obtained from https://www.zapsplat.com“
@@ -52,6 +53,7 @@ public class ShipSelectScreen extends BaseScreen {
     private Texture drive;
     private TextField crew_1_name, crew_2_name, crew_3_name;
 
+
     Animation<TextureRegion> crew1;
     Animation<TextureRegion>  crew2;
     Animation<TextureRegion>  crew3;
@@ -68,12 +70,18 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton previous;
     private TextButton showHideRoom;
     private TextButton startButton;
-    private TextButton saveShip;
-    private TextButton saveStation;
+    private TextButton nameShipValidationButton;
+    private TextField nameShipTextArea;
+    private Label nameValitationLabel;
     private TextButton easyButton;
     private TextButton normalButton;
     private Viewport viewport;
 
+
+
+
+    private boolean pressed = false;
+    private String response="No Avaible";
 
     private ShapeRenderer shapeRenderer;
     int shipNumber = 0;
@@ -84,13 +92,10 @@ public class ShipSelectScreen extends BaseScreen {
 
     boolean isOpen;
     private InputHandler inputHandler;
-    private int levelDifficult;
+    private int levelDifficult =0;
 
     //
-    Ship ship;
-
-
-    Ship selectedShip;
+    Ship ship = new Ship();
     CrewMember crewMember0 = Global.crewMember0;
     CrewMember crewMember1 = Global.crewMember1;
     CrewMember crewMember2 = Global.crewMember2;
@@ -102,6 +107,16 @@ public class ShipSelectScreen extends BaseScreen {
     Section section5 = Global.section5;
     Section section6 = Global.section6;
 
+    Universe universe1= Global.universe1;
+    Universe universe2= Global.universe2;
+
+    Planet p1=Global.planet1;
+    Planet p2=Global.planet2;
+    Planet p3=Global.planet3;
+    Planet p4=Global.planet4;
+    Planet p5=Global.planet5;
+
+    ArrayList<Ship> shipsToPlanet= new ArrayList<Ship>();
     //
     public ShipSelectScreen(MainClient game) {
         super(game);
@@ -118,9 +133,6 @@ public class ShipSelectScreen extends BaseScreen {
         crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
         crew3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew3.gif").read());
 
-        usernameLabel = new Label("Pruebe", skinButton);
-        usernameLabel.setPosition(100, 350);
-        stage.addActor(usernameLabel);
         background = new Texture(Gdx.files.internal("Client/core/assets/data/ast.jpg"));
         shapeRenderer = new ShapeRenderer();
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
@@ -129,9 +141,13 @@ public class ShipSelectScreen extends BaseScreen {
 
         batch = new SpriteBatch();
         font = new BitmapFont();
+
         font.setColor(Color.WHITE);
         font.getData().setScale(3);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        usernameLabel = new Label("UserName", skinButton);
+        usernameLabel.setPosition(100, 350);
 
         crew_1_name = new TextArea("John", skinButton);
         crew_1_name.setPosition(70, 250);
@@ -157,13 +173,39 @@ public class ShipSelectScreen extends BaseScreen {
         weapon = new Texture(Gdx.files.internal("Client/core/assets/data/ships/attack.png"));
         drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/rocket.png"));
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
+
+        nameShipTextArea = new TextField("Name", skinButton);
+        nameShipTextArea.setPosition(100, 600);
+        nameShipValidationButton = new TextButton("valitation name", skinButton);
+        nameShipValidationButton.setPosition(100, 450);
+        nameValitationLabel = new Label("NOT VALIDATED YET", skinButton);
+        nameValitationLabel.setPosition(100, 550);
+
         nextButton();
         previousButton();
         showHideRoom();
         selectLevelView();
         StartButton();
 
+        nameShipValidationButton.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                ship.setName(nameShipTextArea.getText());
+                ship.setOwner(currentPlayer);
+                pressed = true;
+                idgs.validatedName(ship, Net.HttpMethods.POST);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
 
+                }
+                System.out.println("PROBE:");
+            }
+        });
+        stage.addActor(nameValitationLabel);
+        stage.addActor(nameShipTextArea);
+        stage.addActor(nameShipValidationButton);
+        stage.addActor(usernameLabel);
         stage.addActor(next);
         stage.addActor(previous);
         stage.addActor(showHideRoom);
@@ -174,62 +216,95 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
 
-        this.levelDifficult = 0;
-    }
-    public Skin getSkinButton() {  return skinButton; }
-
-    public Ship getSelectedShip() {
-        return ship1;
+        //this.levelDifficult = 0;
     }
 
     private void StartButton() {
         startButton.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                switch (shipNumber) {
-                    case 0:
-                        ship = Global.ship0;
-                        break;
-                    case 1:
-                        ship = Global.ship1;
-                        break;
-                    case 2:
-                        ship = Global.ship2;
-                        break;
-                    default:
-                        ship = Global.ship3;
-                        break;
+
+                if (response.equals("Avaible")) {
+                    switch (shipNumber) {
+                        case 0:
+                            ship = Global.ship0;
+                            break;
+                        case 1:
+                            ship = Global.ship1;
+                            break;
+                        case 2:
+                            ship = Global.ship2;
+                            break;
+                        default:
+                            ship = Global.ship3;
+                            break;
+                    }
+                    ship.setOwner(Global.currentPlayer);
+                    ship.setName(nameShipTextArea.getText());
+                    section1.setShip(ship);
+                    section2.setShip(ship);
+                    section3.setShip(ship);
+                    section4.setShip(ship);
+                    section5.setShip(ship);
+                    section6.setShip(ship);
+
+                    System.out.println("persit SHIP");
+                    idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
+                    Global.currentShip=ship;
+                    System.out.println("persit section1");
+                    idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
+                    System.out.println("persit section2");
+                    idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
+                    System.out.println("persit section3");
+                    idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
+                    System.out.println("persit section4");
+                    idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
+                    System.out.println("persit section5");
+                    idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
+                    System.out.println("persit section6");
+                    idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
+                    try {
+                        Thread.sleep(100);
+                    } catch (Exception e) {
+
+                    }
+                    crewMember0.setCurrentSection(section1);
+                    crewMember1.setCurrentSection(section2);
+                    crewMember2.setCurrentSection(section3);
+                    crewMember0.setName(crew_1_name.getText());
+                    crewMember1.setName(crew_2_name.getText());
+                    crewMember2.setName(crew_3_name.getText());
+                    idgs.sendRequestAddCrew(crewMember0, Net.HttpMethods.POST);
+                    idgs.sendRequestAddCrew(crewMember1, Net.HttpMethods.POST);
+                    idgs.sendRequestAddCrew(crewMember2, Net.HttpMethods.POST);
+
+
+
+                    ////
+
+                    idgs.sendRequestAddUniverse(universe1,Net.HttpMethods.POST);
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+
+                    }
+                    p1.setUniverse(universe1);
+                    p2.setUniverse(universe1);
+                    p3.setUniverse(universe1);
+                    p4.setUniverse(universe1);
+                    p5.setUniverse(universe1);
+                    shipsToPlanet.add(ship);
+                    p1.setShips(shipsToPlanet);
+                    idgs.sendRequestAddPlanet(p1,Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p2,Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p3,Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p4,Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p5,Net.HttpMethods.POST);
+
+
+                } else {
+                    nameValitationLabel.setText("PLEASE VALIDATE NAME");
                 }
-                ship.setOwner(Global.currentPlayer);
-                section1.setShip(ship);
-                section2.setShip(ship);
-                section3.setShip(ship);
-                section4.setShip(ship);
-                section5.setShip(ship);
-                section6.setShip(ship);
-
-                idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
-
-                idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
-                try{
-                    Thread.sleep(100);
-                }catch (Exception e){
-
-                }
-                crewMember0.setCurrentSection(section1);
-                crewMember1.setCurrentSection(section2);
-                crewMember2.setCurrentSection(section3);
-                crewMember0.setName(crew_1_name.getText());
-                crewMember1.setName(crew_2_name.getText());
-                crewMember2.setName(crew_3_name.getText());
-                idgs.sendRequestAddCrew(crewMember0,Net.HttpMethods.POST);
-                idgs.sendRequestAddCrew(crewMember1,Net.HttpMethods.POST);
-                idgs.sendRequestAddCrew(crewMember2,Net.HttpMethods.POST);
 
             }
         });
@@ -382,19 +457,27 @@ public class ShipSelectScreen extends BaseScreen {
         batch.end();
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(crew1.getKeyFrame(state), 10, 250, 70, 70);
-        stage.getBatch().draw(crew2.getKeyFrame(state), 10, 180, 70, 70);
-        stage.getBatch().draw(crew3.getKeyFrame(state), 10, 110, 70, 70);
+        stage.getBatch().draw((TextureRegion) crew1.getKeyFrame(state), 10, 250, 70, 70);
+        stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 10, 180, 70, 70);
+        stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 10, 110, 70, 70);
+        if (pressed) {
+            response = idgs.validatedName(ship, Net.HttpMethods.POST);
+            System.out.println("Avaible: " + response);
+            if (response.equals("Avaible")) {
+                nameValitationLabel.setText("Avaible");
+            }
+            pressed = false;
+        }
         //
         switch (shipNumber) {
             case 0:
-                stage.getBatch().draw(blueShip, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
-                if(isOpen){
-                    stage.getBatch().draw(blueShipRoom, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
+                stage.getBatch().draw(blueShip, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
+                if (isOpen) {
+                    stage.getBatch().draw(blueShipRoom, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 }
                 break;
             case 1:
-                stage.getBatch().draw(redShip,X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
+                stage.getBatch().draw(redShip, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 if(isOpen){
                     stage.getBatch().draw(redShipRoom, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
                 }

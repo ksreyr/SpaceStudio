@@ -2,6 +2,7 @@ package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -19,7 +20,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
+import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.StopAbstract;
+import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
+
+import java.util.ArrayList;
+
 public class StationsMap extends BaseScreen {
 
 
@@ -48,7 +56,12 @@ public class StationsMap extends BaseScreen {
     boolean isLast;
     private ShipSelectScreen shipSelectScreen;
 
+    //
+    private Jumpservices js= new Jumpservices();
+    private Ship ship= Global.currentShip;
+    private StopAbstract currentStop= Global.planet1;
 
+    //
 
     public StationsMap(final MainClient game) {
         super(game);
@@ -120,6 +133,10 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(imageButton5,textAreaVIS);
+                            ArrayList<StopAbstract> toChange= new ArrayList<StopAbstract>();
+                            toChange.add(currentStop);
+                            toChange.add(Global.planet3);
+                            js.makeJumpRequest(toChange,Net.HttpMethods.POST);
                         }
 
                     }
@@ -179,6 +196,10 @@ public class StationsMap extends BaseScreen {
 
                      if(obj.toString() == "true"){
                          isLast = true;
+                         ArrayList<StopAbstract> toChange= new ArrayList<StopAbstract>();
+                         toChange.add(currentStop);
+                         toChange.add(Global.planet3);
+                         js.makeJumpRequest(toChange,Net.HttpMethods.POST);
                      }
 
                     }
