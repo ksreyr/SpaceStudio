@@ -1,7 +1,9 @@
 package de.spaceStudio.server.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.UUID;
 
@@ -29,5 +31,24 @@ public class JSONFile {
             ex.printStackTrace();
         }
         return FILE_NAME;
+    }
+
+    /**
+     * Imports the json file
+     *
+     * @param path to sored file
+     * @return
+     */
+    public static Game importJSON(String path) {
+        Gson gson = new Gson();
+        Game loadedGame = new Game();
+        try {
+            JsonReader jsonFile = new JsonReader(new FileReader(path));
+            loadedGame = gson.fromJson(jsonFile, Game.class);
+            jsonFile.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loadedGame;
     }
 }
