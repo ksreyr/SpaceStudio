@@ -1,12 +1,9 @@
 package de.spaceStudio.screens;
 
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -15,8 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -25,16 +20,12 @@ import de.spaceStudio.assets.AssetDescriptors;
 import de.spaceStudio.assets.RegionNames;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.config.GameConfig;
-import de.spaceStudio.server.model.Player;
-import de.spaceStudio.service.PlayerDataService;
 import de.spaceStudio.util.GdxUtils;
 
-import static de.spaceStudio.client.util.Global.currentPlayer;
-import static de.spaceStudio.service.LoginService.logout;
-
-
-//Continue, New Game, Multiplayer Game, Options(Level Niveau), Exit
-public class MenuScreen extends ScreenAdapter  {
+/**
+ * NewGameScreen class
+ */
+public class NewGameScreen extends ScreenAdapter {
 
 
     private MainClient universeMap;
@@ -48,26 +39,19 @@ public class MenuScreen extends ScreenAdapter  {
 
 
     private Sound click;
-    private Sound sound;
-    boolean isHover;
-    //
-    PlayerDataService pds=new PlayerDataService();
-    //
 
-    public MenuScreen(MainClient mainClient){
+
+    public NewGameScreen(MainClient mainClient) {
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetmanager();
     }
 
-
-
-    //Called when this screen becomes the current screen for a Game.
     @Override
     public void show() {
         viewport = new FitViewport(GameConfig.WIDTH, GameConfig.HEIGHT);
         stage = new Stage(viewport, universeMap.getBatch());
-        click =  Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
+        click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
         sgxSkin = assetManager.get(AssetDescriptors.SGX_SKIN);
         gamePlayAtlas = assetManager.get(AssetDescriptors.BACKGROUND_AREA);
@@ -78,36 +62,27 @@ public class MenuScreen extends ScreenAdapter  {
         TextureRegion backgroundRegion = gamePlayAtlas.findRegion(RegionNames.MENU_BACKGROUND);
         table.setBackground(new TextureRegionDrawable(backgroundRegion));
 
-
-        //Button: Continue, New Game, Options, Exit
-        TextButton textButtonContinue = new TextButton(" Continue  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
+        TextButton textButtonContinue = new TextButton(" Single player ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
 
 
-        TextButton textButtonNewGame = new TextButton("New Game", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
+        TextButton textButtonNewGame = new TextButton(" Multiplayer ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
         textButtonNewGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                pds.cleaningData(currentPlayer, Net.HttpMethods.POST);
-                mainClient.setScreen(new NewGameScreen(mainClient));
+                mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });
 
-        TextButton textButtonOptions = new TextButton("  Options  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
+        TextButton textButtonOptions = new TextButton("  Back to menu  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
         textButtonOptions.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) { }
-        });
-
-        TextButton textButtonExit = new TextButton("    Exit    ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonExit.addListener(new ChangeListener() {
-            @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
+                mainClient.setScreen(new MenuScreen(mainClient));
             }
         });
 
-        //Title: Space Menu
-        Label label = new Label("Menu", sgxSkin, StyleNames.TITLELABEL);
+        //Title:  Menu
+        Label label = new Label("New game", sgxSkin, StyleNames.TITLELABEL);
 
 
         table.add(label).row();
@@ -115,7 +90,6 @@ public class MenuScreen extends ScreenAdapter  {
         table.add(textButtonContinue).row();
         table.add(textButtonNewGame).row();
         table.add(textButtonOptions).row();
-        table.add(textButtonExit).row();
 
         table.center();
         table.setFillParent(true);
@@ -123,11 +97,7 @@ public class MenuScreen extends ScreenAdapter  {
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
-
     }
-
-
-
     // Called when the screen should render itself.
     @Override
     public void render(float delta) {
@@ -144,11 +114,13 @@ public class MenuScreen extends ScreenAdapter  {
 
     // Called when the Application is paused, usually when it's not active or visible on-screen.
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     // Called when the Application is resumed from a paused state, usually when it regains focus.
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     // Called when this screen is no longer the current screen for a Game.
     @Override
@@ -159,11 +131,6 @@ public class MenuScreen extends ScreenAdapter  {
     // Called when the Application is destroyed.
     @Override
     public void dispose() {
-        //When application closes, session muss be closed
-        logout(currentPlayer);
         stage.dispose();
     }
-
-
-
 }
