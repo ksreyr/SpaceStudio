@@ -73,6 +73,10 @@ public class Global {
      * Server logged player endpoint
      */
     public static final String MAKEJUMP_CREATION_ENDPOINT = "/makejump";
+    /**
+     * Server logged player endpoint
+     */
+    public static final String PLAYER_CLEAN_ENDPOINT = "/cleanuser";
 
     /**
      * Global player, this data will be downloaded from server at login
@@ -87,10 +91,10 @@ public class Global {
     /**
      * Ship Variables
      */
-    public static Ship ship0= Ship.shipBluider().hp(10).name("ship0").power(10).shield(1).buildShip();
-    public static Ship ship1= Ship.shipBluider().hp(100).name("ship1").power(100).shield(1).buildShip();
-    public static Ship ship2= Ship.shipBluider().hp(200).name("ship2").power(50).shield(2).buildShip();
-    public static Ship ship3= Ship.shipBluider().hp(300).name("ship3").power(200).shield(1).buildShip();
+    public static Ship ship0= Ship.shipBluider().hp(10).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(1).buildShip();
+    public static Ship ship1= Ship.shipBluider().hp(100).shipForm(ShipForm.SHIP2).name("ship1").power(100).shield(1).buildShip();
+    public static Ship ship2= Ship.shipBluider().hp(200).shipForm(ShipForm.SHIP3).name("ship2").power(50).shield(2).buildShip();
+    public static Ship ship3= Ship.shipBluider().hp(300).shipForm(ShipForm.SHIP4).name("ship3").power(200).shield(1).buildShip();
     /**
      * ship0
      * */
@@ -212,18 +216,65 @@ public class Global {
     /**
      * Sections Variables
      */
-    public static Section section1= Section.sectionBuilder().img("Section1").oxygen(100).
-            powerCurrent(100).usable(true).connectingTo(null).powerRequired(10).buildSection();
-    public static Section section2= Section.sectionBuilder().img("Section2").oxygen(100).
-            powerCurrent(100).usable(true).connectingTo(null).powerRequired(10).buildSection();
-    public static Section section3= Section.sectionBuilder().img("Section3").oxygen(100).
-            powerCurrent(100).usable(true).connectingTo(null).powerRequired(10).buildSection();
-    public static Section section4= Section.sectionBuilder().img("Section4").oxygen(100).
-            powerCurrent(100).usable(true).connectingTo(null).powerRequired(10).buildSection();
-    public static Section section5= Section.sectionBuilder().img("Section5").oxygen(100).
-            powerCurrent(100).usable(true).connectingTo(null).powerRequired(10).buildSection();
-    public static Section section6= Section.sectionBuilder().img("Section6").oxygen(100).
-            powerCurrent(100).usable(true).connectingTo(null).powerRequired(10).buildSection();
+    public static Section section1= Section
+            .sectionBuilder()
+            .img("Section1")
+            .oxygen(100)
+            .powerCurrent(100)
+            .sectionTyp(SectionTyp.DRIVE)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section2= Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.WEAPONS)
+            .img("Section2")
+            .oxygen(100).
+            powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section3= Section
+            .sectionBuilder()
+            .img("Section3")
+            .sectionTyp(SectionTyp.NORMAL)
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section4= Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.NORMAL)
+            .img("Section4").oxygen(100).
+            powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section5= Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.NORMAL)
+            .img("Section5")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section6= Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.NORMAL)
+            .img("Section6")
+            .oxygen(100).
+            powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
 
     /**
      * planete Univerise 1
@@ -239,6 +290,18 @@ public class Global {
      * */
     public static Universe universe1= Universe.universeBuilder().name("Easy").build();
     public static Universe universe2= Universe.universeBuilder().name("Normal").build();
+    /*
+    * Gegner
+    * */
+    public static AI ai1= AI.builderAI().name("gegner1").buildAI();
+    public static AI ai2= AI.builderAI().name("gegner2").buildAI();
+    /*
+    Gegner Ship
+     */
+    public static Ship shipGegner = Ship.shipBluider().hp(100).
+            power(100).shield(1).
+            name("gegner1").owner(ai1).
+            buildShip();
 
 
 }

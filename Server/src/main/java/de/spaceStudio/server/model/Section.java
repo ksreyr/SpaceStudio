@@ -1,6 +1,8 @@
 package de.spaceStudio.server.model;
 
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 import java.util.List;
 //TODO: @MAPPING_SUPER_CLASS
@@ -24,6 +26,8 @@ public class Section {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @NonNull
+    private SectionTyp sectionTyp;
 
     private String img;
 
@@ -52,7 +56,18 @@ public class Section {
         setShip(builder.ship);
         setUsable(builder.usable);
         setConnectingTo(builder.connectingTo);
+        setSectionTyp(builder.sectionTyp);
     }
+
+    @NonNull
+    public SectionTyp getSectionTyp() {
+        return sectionTyp;
+    }
+
+    public void setSectionTyp(@NonNull SectionTyp sectionTyp) {
+        this.sectionTyp = sectionTyp;
+    }
+
     public List<Section> getConnectingTo() {
         return connectingTo;
     }
@@ -139,9 +154,14 @@ public class Section {
         private int powerRequired;
         private  int powerCurrent;
         private boolean usable;
+        private SectionTyp sectionTyp;
 
         public SectionBuilder id(Integer id){
             this.id=id;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder sectionTyp(SectionTyp sectionTyp){
+            this.sectionTyp=sectionTyp;
             return SectionBuilder.this;
         }
         public SectionBuilder ship(Ship ship){

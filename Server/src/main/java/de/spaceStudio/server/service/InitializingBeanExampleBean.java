@@ -108,6 +108,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .owner(p1)
                 .power(34)
                 .shield(3)
+                .shipForm(ShipForm.SHIP1)
                 .buildShip();
         shipRepository.save(ship1);
 
@@ -117,6 +118,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .owner(p1)
                 .power(34)
                 .shield(3)
+                .shipForm(ShipForm.SHIP2)
                 .buildShip();
         shipRepository.save(ship2);
 
@@ -126,6 +128,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .owner(p1)
                 .power(34)
                 .shield(5)
+                .shipForm(ShipForm.SHIP3)
                 .buildShip();
         shipRepository.save(ship3);
 
@@ -135,8 +138,9 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .owner(p1)
                 .power(34)
                 .shield(2)
+                .shipForm(ShipForm.SHIP4)
                 .buildShip();
-        shipRepository.save(ship3);
+        shipRepository.save(ship4);
 
         List<Ship> ships = new ArrayList<>();
         ships.add(ship1);
@@ -151,7 +155,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
         Section s1 = Section.sectionBuilder().img("file://img2")
                 .oxygen(35).role(Role.FIGHTER)
                 .powerCurrent(35)
-                .usable(true).ship(ship1)
+                .usable(true).ship(ship1).sectionTyp(SectionTyp.DRIVE)
                 .powerRequired(20)
                 .buildSection();
         sectionRepository.save(s1);
@@ -159,7 +163,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
         Section s2 = Section.sectionBuilder().img("file://img2")
                 .oxygen(35).role(Role.FIGHTER)
                 .powerCurrent(35)
-                .usable(true).ship(ship1)
+                .usable(true).ship(ship1).sectionTyp(SectionTyp.WEAPONS)
                 .powerRequired(20)
                 .buildSection();
         sectionRepository.save(s2);
@@ -167,7 +171,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
         Section s3 = Section.sectionBuilder().img("file://img3")
                 .oxygen(55).role(Role.FIGHTER)
                 .powerCurrent(35)
-                .usable(true).ship(ship2)
+                .usable(true).ship(ship2).sectionTyp(SectionTyp.DRIVE)
                 .powerRequired(20)
                 .buildSection();
         sectionRepository.save(s3);
@@ -175,7 +179,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
         Section s4 = Section.sectionBuilder().img("file://img4")
                 .oxygen(55).role(Role.FIGHTER)
                 .powerCurrent(35)
-                .usable(true).ship(ship2)
+                .usable(true).ship(ship2).sectionTyp(SectionTyp.WEAPONS)
                 .powerRequired(20)
                 .buildSection();
         sectionRepository.save(s4);

@@ -94,4 +94,12 @@ public interface PlayerController {
     void logoutUser(@RequestBody Player player);
 
     String hashPassword(String weakPassword);
+
+    /**
+     * This function is temporal in use to logout user from game
+     * @return
+     */
+    @RequestMapping(value = "/cleanuser", method = RequestMethod.POST)
+    String clean(@RequestBody Player player);
+
 }

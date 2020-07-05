@@ -17,5 +17,6 @@ public interface SectionRepository extends JpaRepository<Section, Integer> {
      * @return
      */
       Optional<List<Section>> findAllByShip(Ship ship);
+      void deleteByShip(Ship ship);
 
 }

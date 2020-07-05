@@ -1,15 +1,11 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.model.Player;
-import de.spaceStudio.server.repository.PlayerRepository;
+import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -24,6 +20,27 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private ShipRepository shipRepository;
+
+    @Autowired
+    private SectionRepository sectionRepository;
+
+    @Autowired
+    private UniverseRepository universeRepository;
+
+    @Autowired
+    private StopAbstractRepository stopAbstractRepository;
+
+    @Autowired
+    private AIRepository aiRepository;
+
+    @Autowired
+    ActorRepository actorRepository;
+
+    @Autowired
+    CrewMemberRepository crewMemberRepository;
 
     /**
      * This function is temporal in use to test client to Server connection
@@ -155,4 +172,64 @@ public class PlayerControllerImpl implements PlayerController {
 
     }
 
+
+    @Override
+    public String clean(Player player) {
+        Player player1 = playerRepository.findByName(player.getName()).get();
+
+        if (shipRepository.findByOwner(player1).isPresent()) {
+            Ship ship = shipRepository.findByOwner(player1).get();
+            StopAbstract stopAbstract = stopAbstractRepository.findByShips(ship).get();
+            Universe universe = universeRepository.findByName(stopAbstract.getUniverse().getName()).get();
+            List<StopAbstract> stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
+            //sucht all the stations
+            for (StopAbstract sa :
+                    stopAbstracts) {
+                List<Ship> shipList = sa.getShips();
+                //sucht all the ship in the station
+                for (Ship s :
+                        shipList) {
+                    if (sectionRepository.findAllByShip(s).isPresent()) {
+                        List<Section> sections = sectionRepository.findAllByShip(s).get();
+                        for (Section section :
+                                sections) {
+                            if (crewMemberRepository.findAllByCurrentSection(section).isPresent()) {
+                                ArrayList<CrewMember> crewMemberList = crewMemberRepository
+                                        .findAllByCurrentSection(section).get();
+                                for (CrewMember c :
+                                        crewMemberList) {
+                                    crewMemberRepository.delete(c);
+                                }
+                            } else {
+                                System.out.println("not CrewMember to erase");
+                            }
+                        }
+                    } else {
+                        System.out.println("not Ship to erase");
+                    }
+
+                    if (!s.equals(ship)) {
+                        aiRepository.delete((AI) s.getOwner());
+                        sectionRepository.deleteByShip(s);
+                        shipRepository.delete(s);
+                    }
+                }
+            }
+            List<Section> sections = sectionRepository.findAllByShip(ship).get();
+            for (Section section :
+                    sections) {
+                sectionRepository.delete(section);
+            }
+            System.out.println("ich bin hier");
+            for (StopAbstract s :
+                    stopAbstracts) {
+                stopAbstractRepository.delete(s);
+            }
+            universeRepository.delete(universe);
+
+            shipRepository.delete(ship);
+
+        }
+        return "DONE";
+    }
 }

@@ -7,16 +7,16 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import de.spaceStudio.client.util.Global;
 
-public class Jumpservices {
+public class PlayerDataService {
     String response;
-    public String makeJumpRequest(Object requestObject, String method) {
+    public String cleaningData(Object requestObject, String method) {
         final Json json = new Json();
 
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
 
         final Net.HttpRequest request = new Net.HttpRequest(method);
-        final String url = Global.SERVER_URL + Global.MAKEJUMP_CREATION_ENDPOINT;
+        final String url = Global.SERVER_URL + Global.PLAYER_CLEAN_ENDPOINT;
         request.setUrl(url);
         request.setContent(requestJson);
         request.setHeader("Content-Type", "application/json");
@@ -27,7 +27,7 @@ public class Jumpservices {
                 if (statusCode != HttpStatus.SC_OK) {
                     System.out.println("Request Failed");
                 }
-                System.out.println("statusCode of the Jump: " + statusCode);
+                System.out.println("statusCode of data clean: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
                 try {
                     System.out.println("Response: " + responseJson);

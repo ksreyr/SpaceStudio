@@ -107,23 +107,27 @@ public class ShipSelectScreen extends BaseScreen {
     Section section5 = Global.section5;
     Section section6 = Global.section6;
 
-    Universe universe1= Global.universe1;
-    Universe universe2= Global.universe2;
+    Universe universe1 = Global.universe1;
+    Universe universe2 = Global.universe2;
 
-    Planet p1=Global.planet1;
-    Planet p2=Global.planet2;
-    Planet p3=Global.planet3;
-    Planet p4=Global.planet4;
-    Planet p5=Global.planet5;
+    Planet p1 = Global.planet1;
+    Planet p2 = Global.planet2;
+    Planet p3 = Global.planet3;
+    Planet p4 = Global.planet4;
+    Planet p5 = Global.planet5;
 
-    ArrayList<Ship> shipsToPlanet= new ArrayList<Ship>();
+    ArrayList<Ship> shipsToPlanet = new ArrayList<Ship>();
+
+    AI gegner1 = Global.ai1;
+    Ship shipOfGegner = Global.shipGegner;
+
     //
     public ShipSelectScreen(MainClient game) {
         super(game);
         this.ships = game;
         fetchLoggedUsers();
 
-        viewport = new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT);
+        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
 
         Gdx.input.setInputProcessor(stage);
@@ -279,28 +283,46 @@ public class ShipSelectScreen extends BaseScreen {
                     idgs.sendRequestAddCrew(crewMember2, Net.HttpMethods.POST);
 
 
-
                     ////
+                    if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+                        idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
+                        try {
+                            Thread.sleep(200);
+                        } catch (Exception e) {
 
-                    idgs.sendRequestAddUniverse(universe1,Net.HttpMethods.POST);
-                    try {
-                        Thread.sleep(200);
-                    } catch (Exception e) {
+                        }
+                        p1.setUniverse(universe2);
+                        p2.setUniverse(universe2);
+                        p3.setUniverse(universe2);
+                        p4.setUniverse(universe2);
+                        p5.setUniverse(universe2);
+                        shipsToPlanet.add(ship);
+                        p1.setShips(shipsToPlanet);
+                        idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
+                    } else {
+                        idgs.sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
+                        try {
+                            Thread.sleep(200);
+                        } catch (Exception e) {
 
+                        }
+                        p1.setUniverse(universe1);
+                        p2.setUniverse(universe1);
+                        p3.setUniverse(universe1);
+                        p4.setUniverse(universe1);
+                        p5.setUniverse(universe1);
+                        shipsToPlanet.add(ship);
+                        p1.setShips(shipsToPlanet);
+                        idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
                     }
-                    p1.setUniverse(universe1);
-                    p2.setUniverse(universe1);
-                    p3.setUniverse(universe1);
-                    p4.setUniverse(universe1);
-                    p5.setUniverse(universe1);
-                    shipsToPlanet.add(ship);
-                    p1.setShips(shipsToPlanet);
-                    idgs.sendRequestAddPlanet(p1,Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p2,Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p3,Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p4,Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p5,Net.HttpMethods.POST);
-
 
                 } else {
                     nameValitationLabel.setText("PLEASE VALIDATE NAME");

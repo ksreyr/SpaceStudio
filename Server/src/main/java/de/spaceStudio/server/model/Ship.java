@@ -13,8 +13,11 @@ public class Ship {
 
     private String name;
 
+    @NonNull
+    private ShipForm shipForm;
+
     @ManyToOne
-    private Player owner;
+    private Actor owner;
 
     @NonNull
     private int hp;
@@ -30,11 +33,21 @@ public class Ship {
 
     public Ship(ShipBluider builder) {
         setId(builder.id);
+        setShipForm(builder.shipForm);
         setName(builder.name);
         setOwner(builder.owner);
         setHp(builder.hp);
         setShield(builder.shield);
         setPower(builder.power);
+    }
+
+    @NonNull
+    public ShipForm getShipForm() {
+        return shipForm;
+    }
+
+    public void setShipForm(@NonNull ShipForm shipForm) {
+        this.shipForm = shipForm;
     }
 
     public Integer getId() {
@@ -53,11 +66,11 @@ public class Ship {
         this.name = name;
     }
 
-    public Player getOwner() {
+    public Actor getOwner() {
         return owner;
     }
 
-    public void setOwner(Player owner) {
+    public void setOwner(Actor owner) {
         this.owner = owner;
     }
 
@@ -93,26 +106,31 @@ public class Ship {
 
         private Integer id;
         private String name;
-        private Player owner;
+        private Actor owner;
         private int hp;
         private int shield;
         private int power;
+        private ShipForm shipForm;
 
         public ShipBluider() {
         }
 
         public ShipBluider(Integer id, String name,
-                           Player owner, int hp,
-                           int shield, int power)
+                           Actor owner, int hp,
+                           int shield, int power, ShipForm shipForm)
         {
             this.id = id;
             this.name = name;
             this.owner = owner;
             this.hp = hp;
+            this.shipForm=shipForm;
             this.shield = shield;
             this.power = power;
         }
-
+        public ShipBluider shipForm(ShipForm shipForm){
+            this.shipForm=shipForm;
+            return ShipBluider.this;
+        }
         public ShipBluider id(int id) {
             this.id = id;
             return ShipBluider.this;
@@ -123,7 +141,7 @@ public class Ship {
             return ShipBluider.this;
         }
 
-        public ShipBluider owner(Player owner) {
+        public ShipBluider owner(Actor owner) {
             this.owner = owner;
             return ShipBluider.this;
         }

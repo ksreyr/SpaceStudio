@@ -2,6 +2,7 @@ package de.spaceStudio.screens;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
@@ -24,6 +25,8 @@ import de.spaceStudio.assets.AssetDescriptors;
 import de.spaceStudio.assets.RegionNames;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.config.GameConfig;
+import de.spaceStudio.server.model.Player;
+import de.spaceStudio.service.PlayerDataService;
 import de.spaceStudio.util.GdxUtils;
 
 import static de.spaceStudio.client.util.Global.currentPlayer;
@@ -47,7 +50,9 @@ public class MenuScreen extends ScreenAdapter  {
     private Sound click;
     private Sound sound;
     boolean isHover;
-
+    //
+    PlayerDataService pds=new PlayerDataService();
+    //
 
     public MenuScreen(MainClient mainClient){
         this.universeMap = mainClient;
@@ -78,13 +83,11 @@ public class MenuScreen extends ScreenAdapter  {
         TextButton textButtonContinue = new TextButton(" Continue  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
 
 
-
-
-
         TextButton textButtonNewGame = new TextButton("New Game", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
         textButtonNewGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                pds.cleaningData(currentPlayer, Net.HttpMethods.POST);
                 mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });
