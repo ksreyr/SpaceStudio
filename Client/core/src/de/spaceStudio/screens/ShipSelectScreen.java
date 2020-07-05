@@ -21,6 +21,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.InitialDataGameService;
 import thirdParties.GifDecoder;
@@ -34,7 +37,7 @@ import static de.spaceStudio.service.LoginService.logout;
 //“Sound effects obtained from https://www.zapsplat.com“
 
 public class ShipSelectScreen extends BaseScreen {
-    private Label usernameLabel;
+    private Label usernameLabel, playersOnlineLabel, displayOnlinePlayerName;
 
     private static final int X_POSITION = 750;
     private static final int Y_POSITION = 550;
@@ -52,7 +55,7 @@ public class ShipSelectScreen extends BaseScreen {
     private Texture weapon;
     private Texture drive;
     private TextField crew_1_name, crew_2_name, crew_3_name;
-
+   // private TextField textField;
 
     Animation<TextureRegion> crew1;
     Animation<TextureRegion>  crew2;
@@ -62,14 +65,14 @@ public class ShipSelectScreen extends BaseScreen {
 
 
     private Stage stage;
-
-
-
     private Skin skinButton;
     private TextButton next;
     private TextButton previous;
     private TextButton showHideRoom;
     private TextButton startButton;
+    private TextButton backMenuButton;
+    private TextButton saveShip;
+    private TextButton saveStation;
     private TextButton easyButton;
     private TextButton normalButton;
     private Viewport viewport;
@@ -84,7 +87,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     boolean isOpen;
     private InputHandler inputHandler;
-    private int levelDifficult =0;
+    private int levelDifficult = 0;
 
     //
     Ship ship = new Ship();
@@ -117,6 +120,9 @@ public class ShipSelectScreen extends BaseScreen {
     public ShipSelectScreen(MainClient game) {
         super(game);
         this.ships = game;
+        // Clear cache before reload data again to avoid fake numbers
+        playersOnline.clear();
+        // download data
         fetchLoggedUsers();
 
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
@@ -125,10 +131,24 @@ public class ShipSelectScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
+        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        playersOnlineLabel = new Label(null, skin);
+        playersOnlineLabel.setPosition(20,950);
+        playersOnlineLabel.setFontScale(2);
+
+        displayOnlinePlayerName = new Label(null, skin);
+        displayOnlinePlayerName.setPosition(20,920);
+        displayOnlinePlayerName.setFontScale(1.5F);
+
+        stage.addActor(playersOnlineLabel);
+        stage.addActor(displayOnlinePlayerName);
         crew1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew1.gif").read());
         crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
         crew3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew3.gif").read());
 
+        usernameLabel = new Label("Pruebe", skinButton);
+        usernameLabel.setPosition(100, 350);
+        stage.addActor(usernameLabel);
         background = new Texture(Gdx.files.internal("Client/core/assets/data/ast.jpg"));
         shapeRenderer = new ShapeRenderer();
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
@@ -137,7 +157,6 @@ public class ShipSelectScreen extends BaseScreen {
 
         batch = new SpriteBatch();
         font = new BitmapFont();
-
         font.setColor(Color.WHITE);
         font.getData().setScale(3);
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -169,17 +188,13 @@ public class ShipSelectScreen extends BaseScreen {
         weapon = new Texture(Gdx.files.internal("Client/core/assets/data/ships/attack.png"));
         drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/rocket.png"));
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
-
-
-
-
-
-
         nextButton();
         previousButton();
         showHideRoom();
         selectLevelView();
         StartButton();
+        // top left position
+        drawLobby();
 
 
 
@@ -189,6 +204,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(previous);
         stage.addActor(showHideRoom);
         stage.addActor(startButton);
+        stage.addActor(backMenuButton);
         stage.addActor(easyButton);
         stage.addActor(normalButton);
         stage.addActor(crew_1_name);
@@ -201,8 +217,6 @@ public class ShipSelectScreen extends BaseScreen {
         startButton.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
-
                 switch (shipNumber) {
                         case 0:
                             ship = Global.ship0;
@@ -427,6 +441,24 @@ public class ShipSelectScreen extends BaseScreen {
 
           }
       });
+
+        backMenuButton = new TextButton("BACK", skinButton, "small");
+        backMenuButton.setTransform(true);
+        backMenuButton.setScaleX(1.8f);
+        backMenuButton.setScaleY(1.5f);
+        backMenuButton.setColor(Color.GOLDENROD);
+        backMenuButton.setPosition(20, 1000);
+        backMenuButton.getLabel().setColor(Color.WHITE);
+        backMenuButton.getLabel().setFontScale(1.25f, 1.25f);
+        backMenuButton.setSize(90,50);
+
+        backMenuButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new MenuScreen(game));
+            }
+        });
+
     }
 
     @Override
@@ -522,18 +554,11 @@ public class ShipSelectScreen extends BaseScreen {
      * fill the online players list
      */
     public void drawLobby(){
-        batch.begin();
-        font = new BitmapFont();
-        font.setColor(Color.WHITE);
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-
-        font.draw(batch, "Players online: " + String.valueOf(playersOnline.size()), 20, 1050);
-        int count = 0;
-        for (String playerName : playersOnline) {
-            count = count+15;
-            font.draw(batch, playerName , 20, (1018 + (count)));
+        playersOnlineLabel.setText("Players online: " + String.valueOf(playersOnline.size()));
+        // Get first position, we support max 2 players in the whole game
+        if(playersOnline.size() > 0) {
+            displayOnlinePlayerName.setText(playersOnline.get(0));
         }
-        batch.end();
     }
 
 

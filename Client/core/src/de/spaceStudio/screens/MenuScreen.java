@@ -99,6 +99,8 @@ public class MenuScreen extends ScreenAdapter  {
         textButtonExit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                //When application closes, session muss be closed
+                logout(currentPlayer);
                 Gdx.app.exit();
             }
         });
@@ -156,8 +158,6 @@ public class MenuScreen extends ScreenAdapter  {
     // Called when the Application is destroyed.
     @Override
     public void dispose() {
-        //When application closes, session muss be closed
-        logout(currentPlayer);
         stage.dispose();
     }
 

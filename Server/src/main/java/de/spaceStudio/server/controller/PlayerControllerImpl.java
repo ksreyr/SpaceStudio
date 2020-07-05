@@ -141,7 +141,22 @@ public class PlayerControllerImpl implements PlayerController {
     @Override
     @RequestMapping(value = "/player/logout", method = RequestMethod.POST)
     public void logoutUser(@RequestBody Player player) {
-            Global.userLogged.remove(player.getName());
+        Global.userLogged.remove(player.getName());
+    }
+
+    /**
+     * Save the game
+     *
+     * @param player
+     */
+    @Override
+    @RequestMapping(value = "player/save-game", method = RequestMethod.POST)
+    public void saveGame(Player player) {
+        Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
+        if (fetchPlayer.isPresent()) {
+            // TODO
+            // craete new Issue
+        }
     }
 
     /**
