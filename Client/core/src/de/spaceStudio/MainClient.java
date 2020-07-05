@@ -37,11 +37,11 @@ public class MainClient extends Game {
 		//stationsMap = new StationsMap(this);
 		batch = new SpriteBatch();
 		//setScreen(stationsMap);
-		shipSelectScreen= new ShipSelectScreen(this);
+	//	shipSelectScreen= new ShipSelectScreen(this);
 		batch = new SpriteBatch();
 	    //setScreen(loginScreen);
 
-	    combatScreen = new CombatScreen(this);
+	    //combatScreen = new CombatScreen(this);
 	    setScreen(loginScreen);
 
 
