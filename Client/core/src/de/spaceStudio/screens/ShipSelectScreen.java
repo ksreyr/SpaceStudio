@@ -228,7 +228,7 @@ public class ShipSelectScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                if (response.equals("Avaible")) {
+                if (true) {
                     switch (shipNumber) {
                         case 0:
                             ship = Global.ship0;
