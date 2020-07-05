@@ -70,18 +70,10 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton previous;
     private TextButton showHideRoom;
     private TextButton startButton;
-    private TextButton nameShipValidationButton;
-    private TextField nameShipTextArea;
-    private Label nameValitationLabel;
     private TextButton easyButton;
     private TextButton normalButton;
     private Viewport viewport;
 
-
-
-
-    private boolean pressed = false;
-    private String response="No Avaible";
 
     private ShapeRenderer shapeRenderer;
     int shipNumber = 0;
@@ -178,12 +170,10 @@ public class ShipSelectScreen extends BaseScreen {
         drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/rocket.png"));
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
 
-        nameShipTextArea = new TextField("Name", skinButton);
-        nameShipTextArea.setPosition(100, 600);
-        nameShipValidationButton = new TextButton("valitation name", skinButton);
-        nameShipValidationButton.setPosition(100, 450);
-        nameValitationLabel = new Label("NOT VALIDATED YET", skinButton);
-        nameValitationLabel.setPosition(100, 550);
+
+
+
+
 
         nextButton();
         previousButton();
@@ -191,24 +181,9 @@ public class ShipSelectScreen extends BaseScreen {
         selectLevelView();
         StartButton();
 
-        nameShipValidationButton.addCaptureListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                ship.setName(nameShipTextArea.getText());
-                ship.setOwner(currentPlayer);
-                pressed = true;
-                idgs.validatedName(ship, Net.HttpMethods.POST);
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
 
-                }
-                System.out.println("PROBE:");
-            }
-        });
-        stage.addActor(nameValitationLabel);
-        stage.addActor(nameShipTextArea);
-        stage.addActor(nameShipValidationButton);
+
+
         stage.addActor(usernameLabel);
         stage.addActor(next);
         stage.addActor(previous);
@@ -220,7 +195,6 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
 
-        //this.levelDifficult = 0;
     }
 
     private void StartButton() {
@@ -228,8 +202,8 @@ public class ShipSelectScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                if (true) {
-                    switch (shipNumber) {
+
+                switch (shipNumber) {
                         case 0:
                             ship = Global.ship0;
                             break;
@@ -244,7 +218,6 @@ public class ShipSelectScreen extends BaseScreen {
                             break;
                     }
                     ship.setOwner(Global.currentPlayer);
-                    ship.setName(nameShipTextArea.getText());
                     section1.setShip(ship);
                     section2.setShip(ship);
                     section3.setShip(ship);
@@ -323,10 +296,6 @@ public class ShipSelectScreen extends BaseScreen {
                         idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
                     }
-
-                } else {
-                    nameValitationLabel.setText("PLEASE VALIDATE NAME");
-                }
 
             }
         });
@@ -482,15 +451,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.getBatch().draw((TextureRegion) crew1.getKeyFrame(state), 10, 250, 70, 70);
         stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 10, 180, 70, 70);
         stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 10, 110, 70, 70);
-        if (pressed) {
-            response = idgs.validatedName(ship, Net.HttpMethods.POST);
-            System.out.println("Avaible: " + response);
-            if (response.equals("Avaible")) {
-                nameValitationLabel.setText("Avaible");
-            }
-            pressed = false;
-        }
-        //
+
         switch (shipNumber) {
             case 0:
                 stage.getBatch().draw(blueShip, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);

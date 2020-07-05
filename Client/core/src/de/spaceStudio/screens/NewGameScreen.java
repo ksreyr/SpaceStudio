@@ -62,19 +62,24 @@ public class NewGameScreen extends ScreenAdapter {
         TextureRegion backgroundRegion = gamePlayAtlas.findRegion(RegionNames.MENU_BACKGROUND);
         table.setBackground(new TextureRegionDrawable(backgroundRegion));
 
-        TextButton textButtonContinue = new TextButton(" Single player ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-
-
-        TextButton textButtonNewGame = new TextButton(" Multiplayer ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonNewGame.addListener(new ChangeListener() {
+        TextButton textButtonSinglePlayer = new TextButton(" Single player ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
+        textButtonSinglePlayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });
 
-        TextButton textButtonOptions = new TextButton("  Back to menu  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonOptions.addListener(new ChangeListener() {
+        TextButton textButtonMultiplayer = new TextButton(" Multiplayer ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
+        textButtonMultiplayer.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                mainClient.setScreen(new ShipSelectScreen(mainClient));
+            }
+        });
+
+        TextButton textButtonBackToMenu = new TextButton("  Back to menu  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
+        textButtonBackToMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 mainClient.setScreen(new MenuScreen(mainClient));
@@ -87,9 +92,9 @@ public class NewGameScreen extends ScreenAdapter {
 
         table.add(label).row();
         table.row();
-        table.add(textButtonContinue).row();
-        table.add(textButtonNewGame).row();
-        table.add(textButtonOptions).row();
+        table.add(textButtonSinglePlayer).row();
+        table.add(textButtonMultiplayer).row();
+        table.add(textButtonBackToMenu).row();
 
         table.center();
         table.setFillParent(true);

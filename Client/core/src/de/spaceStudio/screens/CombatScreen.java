@@ -59,10 +59,7 @@ public class CombatScreen extends BaseScreen{
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
         stage.getBatch().draw(hull, 0,1020,500,50);
-
-
         stage.getBatch().end();
-       // shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.MAGENTA);
         shapeRenderer.line(0,298, BaseScreen.WIDTH,298);
@@ -102,5 +99,9 @@ public class CombatScreen extends BaseScreen{
     @Override
     public void dispose() {
         super.dispose();
+        
+        skin.dispose();
+        shapeRenderer.dispose();
+        stage.dispose();
     }
 }
