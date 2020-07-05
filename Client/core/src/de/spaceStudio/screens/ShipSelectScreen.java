@@ -455,7 +455,7 @@ public class ShipSelectScreen extends BaseScreen {
         backMenuButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MenuScreen(game));
+                game.setScreen(new NewGameScreen(game));
             }
         });
 
