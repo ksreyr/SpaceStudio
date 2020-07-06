@@ -123,7 +123,6 @@ public class ShipSelectScreen extends BaseScreen {
         // Clear cache before reload data again to avoid fake numbers
         playersOnline.clear();
         // download data
-        fetchLoggedUsers();
 
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
@@ -131,17 +130,22 @@ public class ShipSelectScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        playersOnlineLabel = new Label(null, skin);
-        playersOnlineLabel.setPosition(20,950);
-        playersOnlineLabel.setFontScale(2);
+        if (Global.isOnlineGame) {
+            fetchLoggedUsers();
+            Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+            playersOnlineLabel = new Label(null, skin);
+            playersOnlineLabel.setPosition(20, 950);
+            playersOnlineLabel.setFontScale(2);
+            displayOnlinePlayerName = new Label(null, skin);
+            displayOnlinePlayerName.setPosition(20, 920);
+            displayOnlinePlayerName.setFontScale(1.5F);
+            stage.addActor(playersOnlineLabel);
+            stage.addActor(displayOnlinePlayerName);
 
-        displayOnlinePlayerName = new Label(null, skin);
-        displayOnlinePlayerName.setPosition(20,920);
-        displayOnlinePlayerName.setFontScale(1.5F);
+            // top left position
+            drawLobby();
+        }
 
-        stage.addActor(playersOnlineLabel);
-        stage.addActor(displayOnlinePlayerName);
         crew1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew1.gif").read());
         crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
         crew3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew3.gif").read());
@@ -193,11 +197,6 @@ public class ShipSelectScreen extends BaseScreen {
         showHideRoom();
         selectLevelView();
         StartButton();
-        // top left position
-        drawLobby();
-
-
-
 
         stage.addActor(usernameLabel);
         stage.addActor(next);
@@ -547,7 +546,9 @@ public class ShipSelectScreen extends BaseScreen {
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
         // top left position
-        drawLobby();
+        if (Global.isOnlineGame) {
+            drawLobby();
+        }
     }
 
     /**

@@ -19,6 +19,7 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.AssetDescriptors;
 import de.spaceStudio.assets.RegionNames;
 import de.spaceStudio.assets.StyleNames;
+import de.spaceStudio.client.util.Global;
 import de.spaceStudio.config.GameConfig;
 import de.spaceStudio.util.GdxUtils;
 
@@ -66,6 +67,7 @@ public class NewGameScreen extends ScreenAdapter {
         textButtonSinglePlayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.isOnlineGame = false;
                 mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });
@@ -74,6 +76,7 @@ public class NewGameScreen extends ScreenAdapter {
         textButtonMultiplayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.isOnlineGame = true;
                 mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });

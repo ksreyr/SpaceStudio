@@ -4,7 +4,6 @@ import de.spaceStudio.server.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * This class contains global variables, they can be access in the whole project
@@ -17,7 +16,7 @@ public class Global {
     /**
      * Hardcoded server URL
      */
-    public static final String SERVER_URL = "http://localhost:8080";
+    public static final String SERVER_URL = "https://spacestudio.herokuapp.com";
 
     /**
      * Server player endpoint
@@ -87,6 +86,11 @@ public class Global {
      * Gets all Users
      */
     public static List<String> playersOnline = new ArrayList<>();
+
+    /**
+     * Default is onlineGame false
+     */
+    public static boolean isOnlineGame = false;
 
     /**
      * Ship Variables
