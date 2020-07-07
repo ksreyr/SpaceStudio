@@ -2,6 +2,8 @@ package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.utils.Global;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class GameController {
 
+    Logger logger = LoggerFactory.getLogger(GameController.class);
+
     /**
      * Init single game session in Server
      *
@@ -25,6 +29,7 @@ public class GameController {
     @ResponseBody
     public String initSinglePlayerGame(@PathVariable("playerName") String playerName, @RequestBody SinglePlayerGame singlePlayerGame) {
         if (Global.userLogged.contains(playerName)) {
+            logger.info("Accepting request for player: " + playerName);
             Global.SinglePlayerGameSessions.put(playerName, singlePlayerGame);
             return HttpStatus.ACCEPTED.toString();
         } else {
@@ -42,6 +47,7 @@ public class GameController {
     @RequestMapping(value = "/game/get/single-player/{playerName}", method = RequestMethod.GET)
     @ResponseBody
     public SinglePlayerGame getSinglePlayerGame(@PathVariable("playerName") String playerName) {
+        logger.info("getting single player data for player " + playerName);
         return Global.SinglePlayerGameSessions.get(playerName);
     }
 }

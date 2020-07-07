@@ -21,11 +21,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.InitialDataGameService;
+import de.spaceStudio.service.SinglePlayerGameService;
 import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
@@ -55,11 +57,11 @@ public class ShipSelectScreen extends BaseScreen {
     private Texture weapon;
     private Texture drive;
     private TextField crew_1_name, crew_2_name, crew_3_name;
-   // private TextField textField;
+    // private TextField textField;
 
     Animation<TextureRegion> crew1;
-    Animation<TextureRegion>  crew2;
-    Animation<TextureRegion>  crew3;
+    Animation<TextureRegion> crew2;
+    Animation<TextureRegion> crew3;
     private Texture background;
     float state = 0f;
 
@@ -217,98 +219,98 @@ public class ShipSelectScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 switch (shipNumber) {
-                        case 0:
-                            ship = Global.ship0;
-                            break;
-                        case 1:
-                            ship = Global.ship1;
-                            break;
-                        case 2:
-                            ship = Global.ship2;
-                            break;
-                        default:
-                            ship = Global.ship3;
-                            break;
-                    }
-                    ship.setOwner(Global.currentPlayer);
-                    section1.setShip(ship);
-                    section2.setShip(ship);
-                    section3.setShip(ship);
-                    section4.setShip(ship);
-                    section5.setShip(ship);
-                    section6.setShip(ship);
+                    case 0:
+                        ship = Global.ship0;
+                        break;
+                    case 1:
+                        ship = Global.ship1;
+                        break;
+                    case 2:
+                        ship = Global.ship2;
+                        break;
+                    default:
+                        ship = Global.ship3;
+                        break;
+                }
+                ship.setOwner(Global.currentPlayer);
+                section1.setShip(ship);
+                section2.setShip(ship);
+                section3.setShip(ship);
+                section4.setShip(ship);
+                section5.setShip(ship);
+                section6.setShip(ship);
 
-                    System.out.println("persit SHIP");
-                    idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
-                    Global.currentShip=ship;
-                    System.out.println("persit section1");
-                    idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
-                    System.out.println("persit section2");
-                    idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
-                    System.out.println("persit section3");
-                    idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
-                    System.out.println("persit section4");
-                    idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
-                    System.out.println("persit section5");
-                    idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
-                    System.out.println("persit section6");
-                    idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
+                System.out.println("persit SHIP");
+                idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
+                Global.currentShip = ship;
+                System.out.println("persit section1");
+                idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
+                System.out.println("persit section2");
+                idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
+                System.out.println("persit section3");
+                idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
+                System.out.println("persit section4");
+                idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
+                System.out.println("persit section5");
+                idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
+                System.out.println("persit section6");
+                idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+
+                }
+                crewMember0.setCurrentSection(section1);
+                crewMember1.setCurrentSection(section2);
+                crewMember2.setCurrentSection(section3);
+                crewMember0.setName(crew_1_name.getText());
+                crewMember1.setName(crew_2_name.getText());
+                crewMember2.setName(crew_3_name.getText());
+                idgs.sendRequestAddCrew(crewMember0, Net.HttpMethods.POST);
+                idgs.sendRequestAddCrew(crewMember1, Net.HttpMethods.POST);
+                idgs.sendRequestAddCrew(crewMember2, Net.HttpMethods.POST);
+
+
+                ////
+                if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+                    idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(200);
                     } catch (Exception e) {
 
                     }
-                    crewMember0.setCurrentSection(section1);
-                    crewMember1.setCurrentSection(section2);
-                    crewMember2.setCurrentSection(section3);
-                    crewMember0.setName(crew_1_name.getText());
-                    crewMember1.setName(crew_2_name.getText());
-                    crewMember2.setName(crew_3_name.getText());
-                    idgs.sendRequestAddCrew(crewMember0, Net.HttpMethods.POST);
-                    idgs.sendRequestAddCrew(crewMember1, Net.HttpMethods.POST);
-                    idgs.sendRequestAddCrew(crewMember2, Net.HttpMethods.POST);
+                    p1.setUniverse(universe2);
+                    p2.setUniverse(universe2);
+                    p3.setUniverse(universe2);
+                    p4.setUniverse(universe2);
+                    p5.setUniverse(universe2);
+                    shipsToPlanet.add(ship);
+                    p1.setShips(shipsToPlanet);
+                    idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
+                } else {
+                    idgs.sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
 
-
-                    ////
-                    if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
-                        idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
-                        try {
-                            Thread.sleep(200);
-                        } catch (Exception e) {
-
-                        }
-                        p1.setUniverse(universe2);
-                        p2.setUniverse(universe2);
-                        p3.setUniverse(universe2);
-                        p4.setUniverse(universe2);
-                        p5.setUniverse(universe2);
-                        shipsToPlanet.add(ship);
-                        p1.setShips(shipsToPlanet);
-                        idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
-                    } else {
-                        idgs.sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
-                        try {
-                            Thread.sleep(200);
-                        } catch (Exception e) {
-
-                        }
-                        p1.setUniverse(universe1);
-                        p2.setUniverse(universe1);
-                        p3.setUniverse(universe1);
-                        p4.setUniverse(universe1);
-                        p5.setUniverse(universe1);
-                        shipsToPlanet.add(ship);
-                        p1.setShips(shipsToPlanet);
-                        idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
                     }
+                    p1.setUniverse(universe1);
+                    p2.setUniverse(universe1);
+                    p3.setUniverse(universe1);
+                    p4.setUniverse(universe1);
+                    p5.setUniverse(universe1);
+                    shipsToPlanet.add(ship);
+                    p1.setShips(shipsToPlanet);
+                    idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
+                }
 
             }
         });
@@ -316,7 +318,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     private void showHideRoom() {
         showHideRoom = new TextButton("show rooms", skinButton, "small");
-        showHideRoom.setPosition((BaseScreen.WIDTH/2)-50,500);
+        showHideRoom.setPosition((BaseScreen.WIDTH / 2) - 50, 500);
         showHideRoom.getLabel().setColor(Color.BLACK);
 
         showHideRoom.addListener(new ChangeListener() {
@@ -324,10 +326,10 @@ public class ShipSelectScreen extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 spaceShipChange.play();
                 openNumber++;
-                if(isOpen){
+                if (isOpen) {
                     showHideRoom.setText("show rooms");
-                    isOpen =false;
-                }else {
+                    isOpen = false;
+                } else {
                     showHideRoom.setText("hide rooms");
                     isOpen = true;
                 }
@@ -338,22 +340,22 @@ public class ShipSelectScreen extends BaseScreen {
 
     private void previousButton() {
         previous = new TextButton("previous", skinButton, "small");
-        previous.setPosition(500,750);
+        previous.setPosition(500, 750);
         previous.getLabel().setColor(Color.BLACK);
 
         previous.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 spaceShipChange.play();
-                       if(shipNumber < 0){
-                           shipNumber = 3;
-                       }else {
-                           if (shipNumber == 0) {
-                               shipNumber = 3;
-                           } else {
-                               shipNumber--;
-                           }
-                       }
+                if (shipNumber < 0) {
+                    shipNumber = 3;
+                } else {
+                    if (shipNumber == 0) {
+                        shipNumber = 3;
+                    } else {
+                        shipNumber--;
+                    }
+                }
             }
         });
     }
@@ -361,15 +363,15 @@ public class ShipSelectScreen extends BaseScreen {
 
     private void nextButton() {
         next = new TextButton("next", skinButton, "small");
-        next.setPosition(1400,750);
+        next.setPosition(1400, 750);
         next.getLabel().setColor(Color.BLACK);
 
         next.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 spaceShipChange.play();
-                if(shipNumber > 2)
-                shipNumber=0;
+                if (shipNumber > 2)
+                    shipNumber = 0;
                 else {
                     shipNumber++;
                 }
@@ -381,65 +383,70 @@ public class ShipSelectScreen extends BaseScreen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width,height);
+        viewport.update(width, height);
 
     }
-    private void selectLevelView(){
-      easyButton = new TextButton("EASY", skinButton, "small");
-      easyButton.setTransform(true);
-      easyButton.setScale(0.85f);
-      easyButton.setColor(Color.CYAN);
-      easyButton.setPosition(BaseScreen.WIDTH-330,BaseScreen.HEIGHT-100);
-      easyButton.getLabel().setColor(Color.WHITE);
-      easyButton.getLabel().setFontScale(1.25f, 1.25f);
-      easyButton.setSize(100,70);
 
-      easyButton.addCaptureListener(new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent event, Actor actor) {
-              levelDifficult = Difficult.EASY.getLevelCode();
-              normalButton.setColor(Color.BLACK);
-              easyButton.setColor(Color.CYAN);
-          }
-      });
+    private void selectLevelView() {
+        easyButton = new TextButton("EASY", skinButton, "small");
+        easyButton.setTransform(true);
+        easyButton.setScale(0.85f);
+        easyButton.setColor(Color.CYAN);
+        easyButton.setPosition(BaseScreen.WIDTH - 330, BaseScreen.HEIGHT - 100);
+        easyButton.getLabel().setColor(Color.WHITE);
+        easyButton.getLabel().setFontScale(1.25f, 1.25f);
+        easyButton.setSize(100, 70);
 
-      normalButton = new TextButton("NORMAL", skinButton, "small");
-      normalButton.setTransform(true);
-      normalButton.setScale(0.85f);
-      normalButton.setColor(Color.BLACK);
-      normalButton.setPosition(BaseScreen.WIDTH-330,BaseScreen.HEIGHT-200);
-      normalButton.getLabel().setColor(Color.WHITE);
-      normalButton.getLabel().setFontScale(1.25f, 1.25f);
-      normalButton.setSize(100,70);
+        easyButton.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                levelDifficult = Difficult.EASY.getLevelCode();
+                normalButton.setColor(Color.BLACK);
+                easyButton.setColor(Color.CYAN);
+            }
+        });
 
-      normalButton.addCaptureListener(new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent event, Actor actor) {
-             levelDifficult = Difficult.NORMAL.getLevelCode();
-              normalButton.setColor(Color.CYAN);
-              easyButton.setColor(Color.BLACK);
-          }
-      });
+        normalButton = new TextButton("NORMAL", skinButton, "small");
+        normalButton.setTransform(true);
+        normalButton.setScale(0.85f);
+        normalButton.setColor(Color.BLACK);
+        normalButton.setPosition(BaseScreen.WIDTH - 330, BaseScreen.HEIGHT - 200);
+        normalButton.getLabel().setColor(Color.WHITE);
+        normalButton.getLabel().setFontScale(1.25f, 1.25f);
+        normalButton.setSize(100, 70);
+
+        normalButton.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                levelDifficult = Difficult.NORMAL.getLevelCode();
+                normalButton.setColor(Color.CYAN);
+                easyButton.setColor(Color.BLACK);
+            }
+        });
 
 
+        startButton = new TextButton("START", skinButton, "small");
+        startButton.setTransform(true);
+        startButton.setScaleX(1.8f);
+        startButton.setScaleY(1.5f);
+        startButton.setColor(Color.GOLDENROD);
+        startButton.setPosition(BaseScreen.WIDTH - 250, BaseScreen.HEIGHT - 155);
+        startButton.getLabel().setColor(Color.WHITE);
+        startButton.getLabel().setFontScale(1.25f, 1.25f);
+        startButton.setSize(90, 50);
+        startButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
 
-      startButton = new TextButton("START", skinButton, "small");
-      startButton.setTransform(true);
-      startButton.setScaleX(1.8f);
-      startButton.setScaleY(1.5f);
-      startButton.setColor(Color.GOLDENROD);
-      startButton.setPosition(BaseScreen.WIDTH-250,BaseScreen.HEIGHT-155);
-      startButton.getLabel().setColor(Color.WHITE);
-      startButton.getLabel().setFontScale(1.25f, 1.25f);
-      startButton.setSize(90,50);
-      startButton.addListener(new ChangeListener() {
-          @Override
-          public void changed(ChangeEvent event, Actor actor) {
-              ships.setScreen(new StationsMap(game));
-              mouseClick.play();
+                if (!Global.isOnlineGame) {
+                    createSinglePlayerGame();
+                }
 
-          }
-      });
+                ships.setScreen(new StationsMap(game));
+                mouseClick.play();
+
+            }
+        });
 
         backMenuButton = new TextButton("BACK", skinButton, "small");
         backMenuButton.setTransform(true);
@@ -449,7 +456,7 @@ public class ShipSelectScreen extends BaseScreen {
         backMenuButton.setPosition(20, 1000);
         backMenuButton.getLabel().setColor(Color.WHITE);
         backMenuButton.getLabel().setFontScale(1.25f, 1.25f);
-        backMenuButton.setSize(90,50);
+        backMenuButton.setSize(90, 50);
 
         backMenuButton.addListener(new ChangeListener() {
             @Override
@@ -458,6 +465,16 @@ public class ShipSelectScreen extends BaseScreen {
             }
         });
 
+    }
+
+    public void createSinglePlayerGame() {
+        Global.singlePlayerGame = new SinglePlayerGame();
+        if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+            Global.singlePlayerGame.setDifficult("normal");
+        } else {
+            Global.singlePlayerGame.setDifficult("easy");
+        }
+        SinglePlayerGameService.initSinglePlayerGame(Global.singlePlayerGame);
     }
 
     @Override
@@ -492,28 +509,28 @@ public class ShipSelectScreen extends BaseScreen {
                 break;
             case 1:
                 stage.getBatch().draw(redShip, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
-                if(isOpen){
-                    stage.getBatch().draw(redShipRoom, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
+                if (isOpen) {
+                    stage.getBatch().draw(redShipRoom, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 }
                 break;
             case 2:
-                stage.getBatch().draw(greenship,X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
-                if(isOpen){
-                    stage.getBatch().draw(greenshipRoom, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
+                stage.getBatch().draw(greenship, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
+                if (isOpen) {
+                    stage.getBatch().draw(greenshipRoom, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 }
                 break;
             case 3:
-                stage.getBatch().draw(topdownfighter,X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
-                if(isOpen){
-                    stage.getBatch().draw(topdownfighterRoom, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
+                stage.getBatch().draw(topdownfighter, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
+                if (isOpen) {
+                    stage.getBatch().draw(topdownfighterRoom, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 }
                 break;
 
         }
 
-        stage.getBatch().draw(shield,850.0f,150.0f,60.0f,70.0f);
-        stage.getBatch().draw(weapon,930.0f,150.0f,60.0f,70.0f);
-        stage.getBatch().draw(drive, 1015.0f,150.0f,60.0f,60.0f);
+        stage.getBatch().draw(shield, 850.0f, 150.0f, 60.0f, 70.0f);
+        stage.getBatch().draw(weapon, 930.0f, 150.0f, 60.0f, 70.0f);
+        stage.getBatch().draw(drive, 1015.0f, 150.0f, 60.0f, 60.0f);
         stage.act();
         stage.getBatch().end();
         stage.draw();
@@ -524,24 +541,24 @@ public class ShipSelectScreen extends BaseScreen {
         shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(193, 205, 193, 0.1f));
-        shapeRenderer.box(600.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
-        shapeRenderer.box(660.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
-        shapeRenderer.box(720.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
-        shapeRenderer.box(780.0f,100.0f,100.0f,50.0f,120.0f,100.0f);
+        shapeRenderer.box(600.0f, 100.0f, 100.0f, 50.0f, 120.0f, 100.0f);
+        shapeRenderer.box(660.0f, 100.0f, 100.0f, 50.0f, 120.0f, 100.0f);
+        shapeRenderer.box(720.0f, 100.0f, 100.0f, 50.0f, 120.0f, 100.0f);
+        shapeRenderer.box(780.0f, 100.0f, 100.0f, 50.0f, 120.0f, 100.0f);
 
 
         shapeRenderer.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.MAGENTA);
-        shapeRenderer.line(0,320, BaseScreen.WIDTH,320);
+        shapeRenderer.line(0, 320, BaseScreen.WIDTH, 320);
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.line(0,316, BaseScreen.WIDTH,316);
+        shapeRenderer.line(0, 316, BaseScreen.WIDTH, 316);
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.line(0,313, BaseScreen.WIDTH,313);
+        shapeRenderer.line(0, 313, BaseScreen.WIDTH, 313);
         shapeRenderer.setColor(Color.CORAL);
-        shapeRenderer.line(0,310, BaseScreen.WIDTH,310);
+        shapeRenderer.line(0, 310, BaseScreen.WIDTH, 310);
 
-       // shapeRenderer.
+        // shapeRenderer.
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
@@ -554,10 +571,10 @@ public class ShipSelectScreen extends BaseScreen {
     /**
      * fill the online players list
      */
-    public void drawLobby(){
+    public void drawLobby() {
         playersOnlineLabel.setText("Players online: " + String.valueOf(playersOnline.size()));
         // Get first position, we support max 2 players in the whole game
-        if(playersOnline.size() > 0) {
+        if (playersOnline.size() > 0) {
             displayOnlinePlayerName.setText(playersOnline.get(0));
         }
     }

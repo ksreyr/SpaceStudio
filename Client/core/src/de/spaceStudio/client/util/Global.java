@@ -1,5 +1,6 @@
 package de.spaceStudio.client.util;
 
+import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
 import java.util.ArrayList;
@@ -91,6 +92,8 @@ public class Global {
      * Default is onlineGame false
      */
     public static boolean isOnlineGame = false;
+
+    public static SinglePlayerGame singlePlayerGame;
 
     /**
      * Ship Variables
