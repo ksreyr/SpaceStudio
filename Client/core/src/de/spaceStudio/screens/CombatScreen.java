@@ -2,24 +2,22 @@ package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
-import de.spaceStudio.assets.AssetDescriptors;
-import de.spaceStudio.assets.RegionNames;
-import de.spaceStudio.assets.StyleNames;
+
 
 public class CombatScreen extends BaseScreen{
 
@@ -34,13 +32,15 @@ public class CombatScreen extends BaseScreen{
     private Texture engine1,engine2,oxygen, piloting;
     private Texture engineer, pilot,hull;
     private Texture background;
-    private TextButton button;
+    private TextButton startButton;
 
     private ShapeRenderer shapeRenderer;
-    private Skin sgxSkin;
+    private Skin sgxSkin, skinButton;
     private TextureAtlas gamePlayAtlas;
     private AssetManager assetManager = null;
+    boolean isWin;
 
+    Sound rocketLaunch;
 
     ShipSelectScreen shipSelectScreen;
 
@@ -50,6 +50,7 @@ public class CombatScreen extends BaseScreen{
         viewport = new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT);
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         background = new Texture(Gdx.files.internal("Client/core/assets/data/CombatBG.jpg"));
         playerShip = new Texture(Gdx.files.internal("Client/core/assets/blueships_fulled.png"));
@@ -57,17 +58,34 @@ public class CombatScreen extends BaseScreen{
         hull = new Texture(Gdx.files.internal("Client/core/assets/hull1.png"));
         shapeRenderer = new ShapeRenderer();
 
-        //sgxSkin = this.assetManager.get(AssetDescriptors.SGX_SKIN);
-        //gamePlayAtlas = this.assetManager.get(AssetDescriptors.BACKGROUND_AREA);
+        rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
 
 
-        button = new TextButton("test", skin);
 
-        button.getLabel().setColor(Color.FOREST);
-                button.setPosition(100,100);
-        button.setVisible(true);
+        Gdx.input.setInputProcessor(stage);
 
-        stage.addActor(button);
+        startButton = new TextButton("Fire",skinButton,"small");
+        startButton.setPosition(800,200);
+
+        startButton.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(!isWin) {
+                   // startButton.setColor(Color.RED);
+                    rocketLaunch.play();
+                    isWin = true;
+                }else isWin=false;
+
+
+
+
+
+
+
+            }
+        });
+        stage.addActor(startButton);
 
     }
 
@@ -100,6 +118,8 @@ public class CombatScreen extends BaseScreen{
         // shapeRenderer.
         shapeRenderer.end();
 
+        stage.act();
+        stage.draw();
     }
 
     @Override
@@ -129,6 +149,7 @@ public class CombatScreen extends BaseScreen{
         
         skin.dispose();
         shapeRenderer.dispose();
+        rocketLaunch.dispose();
         stage.dispose();
     }
 }

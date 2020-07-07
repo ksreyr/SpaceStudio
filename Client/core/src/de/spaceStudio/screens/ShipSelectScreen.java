@@ -66,6 +66,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     private Stage stage;
     private Skin skinButton;
+    private Viewport viewport;
     private TextButton next;
     private TextButton previous;
     private TextButton showHideRoom;
@@ -75,7 +76,7 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton saveStation;
     private TextButton easyButton;
     private TextButton normalButton;
-    private Viewport viewport;
+
 
 
     private ShapeRenderer shapeRenderer;
