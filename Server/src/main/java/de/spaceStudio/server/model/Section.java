@@ -1,6 +1,8 @@
 package de.spaceStudio.server.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -17,6 +19,7 @@ import java.util.List;
 @NamedQuery(name = "Section.findByShip", query = "SELECT p FROM Section p WHERE  p.ship = ?1")
 public class Section {
     @Id
+    //@JsonValue
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
@@ -32,6 +35,7 @@ public class Section {
     private String img;
 
     @ManyToMany
+    @JsonBackReference
     private List<Section> connectingTo;
 
     private float oxygen;
