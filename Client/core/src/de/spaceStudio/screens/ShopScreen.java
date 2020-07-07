@@ -75,6 +75,7 @@ public class ShopScreen extends Base {
         font.draw(batch,"Money: " + ship.getMoney() , 20, 1000);
 
         securityOptions();
+        weaponOptions();
         batch.end();
 
 
@@ -131,6 +132,60 @@ public class ShopScreen extends Base {
             ship.setSecurityFth(false);
             ship.setMoney(+10);
         }
+    }
+
+    public void weaponOptions(){
+        // keys
+        boolean tPressed = Gdx.input.isKeyPressed(Input.Keys.T);
+        boolean zPressed = Gdx.input.isKeyPressed(Input.Keys.Y);
+        boolean uPressed = Gdx.input.isKeyPressed(Input.Keys.U);
+        boolean iPressed = Gdx.input.isKeyPressed(Input.Keys.I);
+        font.draw(batch,"press 't' to activate weapon in first Section ", 800, 960);
+        font.draw(batch,"press 'z' to activate weapon in second Section ", 800, 940);
+        font.draw(batch,"press 'u' to activate weapon in third Section ", 800, 920);
+        font.draw(batch,"press 'i' to activate weapon in fourth Section ", 800, 900);
+        if (tPressed) {
+            ship.setWeaponFst(true);
+            ship.setMoney(-10);
+        }
+        if (zPressed) {
+            ship.setWeaponSnd(true);
+            ship.setMoney(-10);
+        }
+        if (uPressed) {
+            ship.setWeaponTrd(true);
+            ship.setMoney(-10);
+        }
+        if (iPressed) {
+            ship.setWeaponFth(true);
+            ship.setMoney(-10);
+        }
+
+        boolean gPressed = Gdx.input.isKeyPressed(Input.Keys.G);
+        boolean hPressed = Gdx.input.isKeyPressed(Input.Keys.H);
+        boolean jPressed = Gdx.input.isKeyPressed(Input.Keys.J);
+        boolean kPressed = Gdx.input.isKeyPressed(Input.Keys.K);
+        font.draw(batch,"press 'g' to delete weapon in first Section ", 800, 880);
+        font.draw(batch,"press 'h' to delete weapon in second Section ", 800, 860);
+        font.draw(batch,"press 'j' to delete weapon in third Section ", 800, 840);
+        font.draw(batch,"press 'k' to delete weapon in fourth Section ", 800, 820);
+        if (gPressed) {
+            ship.setWeaponFst(false);
+            ship.setMoney(+10);
+        }
+        if (hPressed) {
+            ship.setWeaponSnd(false);
+            ship.setMoney(+10);
+        }
+        if (jPressed) {
+            ship.setWeaponTrd(false);
+            ship.setMoney(+10);
+        }
+        if (kPressed) {
+            ship.setWeaponFth(false);
+            ship.setMoney(+10);
+        }
+
     }
 
 
