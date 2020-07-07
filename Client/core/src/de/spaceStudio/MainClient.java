@@ -57,10 +57,5 @@ public class MainClient extends Game {
 
 	public SpriteBatch getBatch() {
 		return batch;
-
 	}
-	public AssetManager getAssetmanager() {
-		return assetManager;
-	}
-
 }

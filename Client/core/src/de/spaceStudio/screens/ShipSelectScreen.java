@@ -93,7 +93,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     private InitialDataGameService idgs = new InitialDataGameService();
 
-    boolean isOpen;
+    private boolean isOpen;
     private InputHandler inputHandler;
     private int levelDifficult = 0;
 
