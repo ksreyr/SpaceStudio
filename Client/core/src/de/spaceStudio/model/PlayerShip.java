@@ -9,21 +9,17 @@ public class PlayerShip extends Rectangle {
     public float x;
     public float y;
 
-    public float money = 1000.00f;
-
-
     private Texture texture;
     private Texture securityTexture;
 
+    //Security
     private boolean securityFst;
     private boolean securitySnd;
     private boolean securityTrd;
     private boolean securityFth;
 
-    public PlayerShip(){
-        this.x = 0;
-        this.y = 0;
-    }
+    //Money
+    private float money;
 
     public PlayerShip(float x, float y) {
         this.x = x;
@@ -33,6 +29,8 @@ public class PlayerShip extends Rectangle {
         this.securitySnd = false;
         this.securityTrd = false;
         this.securityFth = false;
+
+        this.money = 100f;
 
         texture =  new Texture("data/ships/redship2small.png");
         securityTexture = new Texture("data/ships/securitySmall.png");
@@ -57,10 +55,6 @@ public class PlayerShip extends Rectangle {
         }
     }
 
-    public float getMoney(){
-        return money;
-    }
-
     public void dispose() {
         texture.dispose();
         securityTexture.dispose();
@@ -77,5 +71,12 @@ public class PlayerShip extends Rectangle {
     }
     public void setSecurityFth(boolean b){
         this.securityFth = b;
+    }
+
+    public void setMoney(float amount){
+        this.money = money + amount;
+    }
+    public float getMoney(){
+        return this.money;
     }
 }

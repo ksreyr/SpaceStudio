@@ -66,42 +66,70 @@ public class ShopScreen extends Base {
         GdxUtils.clearScreen();
         renderer.setProjectionMatrix(camera.combined);
 
-        drawGrid();
+        //drawGrid();
 
         batch.begin();
         // Draw Universe and Background
         //batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         ship.render(batch);
-        //if(drawSecurityFirstSection){ security.render(batch, 10,10); }
-        font.draw(batch,"Money: " + "100.000$", 20, 1000);
+        font.draw(batch,"Money: " + ship.getMoney() , 20, 1000);
 
-        drawOptions();
+        securityOptions();
         batch.end();
 
 
     }
 
-    public void drawOptions(){
+    public void securityOptions(){
         // keys
         boolean qPressed = Gdx.input.isKeyPressed(Input.Keys.Q);
         boolean wPressed = Gdx.input.isKeyPressed(Input.Keys.W);
         boolean ePressed = Gdx.input.isKeyPressed(Input.Keys.E);
         boolean rPressed = Gdx.input.isKeyPressed(Input.Keys.R);
-        font.draw(batch,"press 'q' to activate/deactivate security in first Section ", 400, 960);
-        font.draw(batch,"press 'w' to activate/deactivate security in second Section ", 400, 940);
-        font.draw(batch,"press 'e' to activate/deactivate security in third Section ", 400, 920);
-        font.draw(batch,"press 'r' to activate/deactivate security in fourth Section ", 400, 900);
+        font.draw(batch,"press 'q' to activate security in first Section ", 400, 960);
+        font.draw(batch,"press 'w' to activate security in second Section ", 400, 940);
+        font.draw(batch,"press 'e' to activate security in third Section ", 400, 920);
+        font.draw(batch,"press 'r' to activate security in fourth Section ", 400, 900);
         if (qPressed) {
             ship.setSecurityFst(true);
+            ship.setMoney(-10);
         }
         if (wPressed) {
             ship.setSecuritySnd(true);
+            ship.setMoney(-10);
         }
         if (ePressed) {
             ship.setSecurityTrd(true);
+            ship.setMoney(-10);
         }
         if (rPressed) {
             ship.setSecurityFth(true);
+            ship.setMoney(-10);
+        }
+
+        boolean aPressed = Gdx.input.isKeyPressed(Input.Keys.A);
+        boolean sPressed = Gdx.input.isKeyPressed(Input.Keys.S);
+        boolean dPressed = Gdx.input.isKeyPressed(Input.Keys.D);
+        boolean fPressed = Gdx.input.isKeyPressed(Input.Keys.F);
+        font.draw(batch,"press 'a' to delete security in first Section ", 400, 880);
+        font.draw(batch,"press 's' to delete security in second Section ", 400, 860);
+        font.draw(batch,"press 'd' to delete security in third Section ", 400, 840);
+        font.draw(batch,"press 'f' to delete security in fourth Section ", 400, 820);
+        if (aPressed) {
+            ship.setSecurityFst(false);
+            ship.setMoney(+10);
+        }
+        if (sPressed) {
+            ship.setSecuritySnd(false);
+            ship.setMoney(+10);
+        }
+        if (dPressed) {
+            ship.setSecurityTrd(false);
+            ship.setMoney(+10);
+        }
+        if (fPressed) {
+            ship.setSecurityFth(false);
+            ship.setMoney(+10);
         }
     }
 
