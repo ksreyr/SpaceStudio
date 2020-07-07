@@ -301,6 +301,8 @@ public class ShipSelectScreen extends BaseScreen {
 
                     ////
                     if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+                        universe2.setName(universe2.getName()+currentPlayer.getName());
+                        Global.universe2.setName(universe2.getName());
                         idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
                         try {
                             Thread.sleep(200);
@@ -320,6 +322,8 @@ public class ShipSelectScreen extends BaseScreen {
                         idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
                     } else {
+                        universe1.setName(universe1.getName()+currentPlayer.getName());
+                        Global.universe1.setName(universe1.getName());
                         idgs.sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
                         try {
                             Thread.sleep(200);

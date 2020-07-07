@@ -44,7 +44,7 @@ public class NewGameScreen extends ScreenAdapter {
     public NewGameScreen(MainClient mainClient) {
         this.universeMap = mainClient;
         this.mainClient = mainClient;
-        assetManager = universeMap.getAssetmanager();
+        assetManager = universeMap.getAssetManager();
     }
 
     @Override

@@ -15,8 +15,8 @@ import lombok.Setter;
 import de.spaceStudio.screens.LoginScreen;
 
 public class MainClient extends Game {
-	@Setter
-	@Getter
+
+
 	private AssetManager assetManager;
 
 	public LoginScreen loginScreen;
@@ -39,7 +39,7 @@ public class MainClient extends Game {
 		//setScreen(stationsMap);
 		shipSelectScreen= new ShipSelectScreen(this);
 		batch = new SpriteBatch();
-	    setScreen(shipSelectScreen);
+	    setScreen(loginScreen);
 
 	    //combatScreen = new CombatScreen(this);
 	    //setScreen(loginScreen);
@@ -57,5 +57,12 @@ public class MainClient extends Game {
 
 	public SpriteBatch getBatch() {
 		return batch;
+	}
+	public AssetManager getAssetManager() {
+		return assetManager;
+	}
+
+	public void setAssetManager(AssetManager assetManager) {
+		this.assetManager = assetManager;
 	}
 }
