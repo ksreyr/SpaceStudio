@@ -15,8 +15,7 @@ import lombok.Setter;
 import de.spaceStudio.screens.LoginScreen;
 
 public class MainClient extends Game {
-	@Setter
-	@Getter
+
 	private AssetManager assetManager;
 
 	public LoginScreen loginScreen;
@@ -48,6 +47,15 @@ public class MainClient extends Game {
 
 
 	}
+
+	public AssetManager getAssetManager() {
+		return assetManager;
+	}
+
+	public void setAssetManager(AssetManager assetManager) {
+		this.assetManager = assetManager;
+	}
+
 	@Override
 	public void dispose() {
 		super.dispose();
