@@ -51,12 +51,12 @@ public class CombatScreen extends BaseScreen{
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-      /*  background = new Texture(Gdx.files.internal("Client/core/assets/data/CombatBG.jpg"));
+        background = new Texture(Gdx.files.internal("Client/core/assets/data/CombatBG.jpg"));
         playerShip = new Texture(Gdx.files.internal("Client/core/assets/blueships_fulled.png"));
         enemyShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/enemy1.png"));
         hull = new Texture(Gdx.files.internal("Client/core/assets/hull1.png"));
         shapeRenderer = new ShapeRenderer();
-*/
+
         //sgxSkin = this.assetManager.get(AssetDescriptors.SGX_SKIN);
         //gamePlayAtlas = this.assetManager.get(AssetDescriptors.BACKGROUND_AREA);
 
@@ -81,7 +81,7 @@ public class CombatScreen extends BaseScreen{
         super.render(delta);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        /*stage.getBatch().begin();
+        stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
@@ -99,7 +99,7 @@ public class CombatScreen extends BaseScreen{
 
         // shapeRenderer.
         shapeRenderer.end();
-*/
+
     }
 
     @Override
