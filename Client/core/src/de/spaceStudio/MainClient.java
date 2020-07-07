@@ -16,7 +16,6 @@ import de.spaceStudio.screens.LoginScreen;
 
 public class MainClient extends Game {
 
-
 	private AssetManager assetManager;
 
 	public LoginScreen loginScreen;
@@ -48,6 +47,15 @@ public class MainClient extends Game {
 
 
 	}
+
+	public AssetManager getAssetManager() {
+		return assetManager;
+	}
+
+	public void setAssetManager(AssetManager assetManager) {
+		this.assetManager = assetManager;
+	}
+
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -58,11 +66,6 @@ public class MainClient extends Game {
 	public SpriteBatch getBatch() {
 		return batch;
 	}
-	public AssetManager getAssetManager() {
-		return assetManager;
-	}
 
-	public void setAssetManager(AssetManager assetManager) {
-		this.assetManager = assetManager;
-	}
+
 }

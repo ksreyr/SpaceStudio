@@ -131,7 +131,6 @@ public class ShipSelectScreen extends BaseScreen {
         // Clear cache before reload data again to avoid fake numbers
         playersOnline.clear();
         // download data
-        fetchLoggedUsers();
 
         OrthographicCamera camera = new OrthographicCamera(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         viewport = new ExtendViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT, camera);
@@ -141,17 +140,22 @@ public class ShipSelectScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        playersOnlineLabel = new Label(null, skin);
-        playersOnlineLabel.setPosition(20,950);
-        playersOnlineLabel.setFontScale(2);
+        if (Global.isOnlineGame) {
+            fetchLoggedUsers();
+            Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+            playersOnlineLabel = new Label(null, skin);
+            playersOnlineLabel.setPosition(20, 950);
+            playersOnlineLabel.setFontScale(2);
+            displayOnlinePlayerName = new Label(null, skin);
+            displayOnlinePlayerName.setPosition(20, 920);
+            displayOnlinePlayerName.setFontScale(1.5F);
+            stage.addActor(playersOnlineLabel);
+            stage.addActor(displayOnlinePlayerName);
 
-        displayOnlinePlayerName = new Label(null, skin);
-        displayOnlinePlayerName.setPosition(20,920);
-        displayOnlinePlayerName.setFontScale(1.5F);
+            // top left position
+            drawLobby();
+        }
 
-        stage.addActor(playersOnlineLabel);
-        stage.addActor(displayOnlinePlayerName);
         crew1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew1.gif").read());
         crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
         crew3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew3.gif").read());
@@ -219,11 +223,6 @@ public class ShipSelectScreen extends BaseScreen {
         showHideRoom();
         selectLevelView();
         StartButton();
-        // top left position
-        drawLobby();
-
-
-
 
         stage.addActor(usernameLabel);
         stage.addActor(next);
@@ -288,6 +287,9 @@ public class ShipSelectScreen extends BaseScreen {
                     } catch (Exception e) {
 
                     }
+                    //
+                    //Todo: Liam Conecting Teil
+                    //
                     crewMember0.setCurrentSection(section1);
                     crewMember1.setCurrentSection(section2);
                     crewMember2.setCurrentSection(section3);
@@ -302,7 +304,7 @@ public class ShipSelectScreen extends BaseScreen {
                     ////
                     if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
                         universe2.setName(universe2.getName()+currentPlayer.getName());
-                        Global.universe2.setName(universe2.getName());
+                        Global.universe1.setName(universe2.getName());
                         idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
                         try {
                             Thread.sleep(200);
@@ -545,9 +547,9 @@ public class ShipSelectScreen extends BaseScreen {
 
         }
 
-        stage.getBatch().draw(shield,870.0f,150.0f,60.0f,70.0f);
-        stage.getBatch().draw(weapon,960.0f,150.0f,60.0f,70.0f);
-        stage.getBatch().draw(drive, 1045.0f,150.0f,60.0f,60.0f);
+        stage.getBatch().draw(shield,850.0f,150.0f,60.0f,70.0f);
+        stage.getBatch().draw(weapon,930.0f,150.0f,60.0f,70.0f);
+        stage.getBatch().draw(drive, 1015.0f,150.0f,60.0f,60.0f);
         stage.act();
         stage.getBatch().end();
         stage.draw();
@@ -580,7 +582,9 @@ public class ShipSelectScreen extends BaseScreen {
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
         // top left position
-        drawLobby();
+        if (Global.isOnlineGame) {
+            drawLobby();
+        }
     }
 
     /**
