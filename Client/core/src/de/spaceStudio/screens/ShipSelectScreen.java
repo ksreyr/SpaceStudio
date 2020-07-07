@@ -6,6 +6,7 @@ import com.badlogic.gdx.Net;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,11 +17,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.config.GameConfig;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
@@ -55,7 +59,10 @@ public class ShipSelectScreen extends BaseScreen {
     private Texture weapon;
     private Texture drive;
     private TextField crew_1_name, crew_2_name, crew_3_name;
-   // private TextField textField;
+
+    private Label shieldPowerAnzeige;
+    private Label antriebAnzeige;
+    private Label weaponPowerAnzeige;
 
     Animation<TextureRegion> crew1;
     Animation<TextureRegion>  crew2;
@@ -76,6 +83,7 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton easyButton;
     private TextButton normalButton;
     private Viewport viewport;
+    //ExtendViewport viewport;
 
 
     private ShapeRenderer shapeRenderer;
@@ -125,7 +133,9 @@ public class ShipSelectScreen extends BaseScreen {
         // download data
         fetchLoggedUsers();
 
-        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        OrthographicCamera camera = new OrthographicCamera(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new ExtendViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT, camera);
+        //viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
 
         Gdx.input.setInputProcessor(stage);
@@ -152,6 +162,22 @@ public class ShipSelectScreen extends BaseScreen {
         background = new Texture(Gdx.files.internal("Client/core/assets/data/ast.jpg"));
         shapeRenderer = new ShapeRenderer();
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
+
+        shieldPowerAnzeige = new Label("100%", skin);
+        weaponPowerAnzeige = new Label("100%", skin);
+        antriebAnzeige = new Label("100%", skin);
+
+        shieldPowerAnzeige.setFontScale(2,2);
+        weaponPowerAnzeige.setFontScale(2,2);
+        antriebAnzeige.setFontScale(2,2);
+        shieldPowerAnzeige.setColor(Color.GOLD);
+        shieldPowerAnzeige.setPosition(stage.getWidth()-1120,270);
+
+        weaponPowerAnzeige.setColor(Color.GOLD);
+        weaponPowerAnzeige.setPosition(stage.getWidth()-1035,270);
+
+        antriebAnzeige.setColor(Color.GOLD);
+        antriebAnzeige.setPosition(stage.getWidth()-950,270);
 
         inputHandler = new InputHandler();
 
@@ -210,6 +236,9 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(crew_1_name);
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
+        stage.addActor(weaponPowerAnzeige);
+        stage.addActor(shieldPowerAnzeige);
+        stage.addActor(antriebAnzeige);
 
     }
 
@@ -512,9 +541,9 @@ public class ShipSelectScreen extends BaseScreen {
 
         }
 
-        stage.getBatch().draw(shield,850.0f,150.0f,60.0f,70.0f);
-        stage.getBatch().draw(weapon,930.0f,150.0f,60.0f,70.0f);
-        stage.getBatch().draw(drive, 1015.0f,150.0f,60.0f,60.0f);
+        stage.getBatch().draw(shield,870.0f,150.0f,60.0f,70.0f);
+        stage.getBatch().draw(weapon,960.0f,150.0f,60.0f,70.0f);
+        stage.getBatch().draw(drive, 1045.0f,150.0f,60.0f,60.0f);
         stage.act();
         stage.getBatch().end();
         stage.draw();
