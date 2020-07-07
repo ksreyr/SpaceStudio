@@ -1,10 +1,8 @@
 package de.spaceStudio.server.controller;
 
 
-import de.spaceStudio.server.model.Player;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.ActorRepository;
 import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
@@ -21,6 +19,8 @@ public class ShipControllerImpl implements ShipController{
     ShipRepository shipRepository;
     @Autowired
     PlayerRepository playerRepository;
+    @Autowired
+    ActorRepository actorRepository;
     @Override
     @RequestMapping(value = "/ships",method = RequestMethod.GET)
     public List<Ship> getAllShips() {
@@ -36,8 +36,17 @@ public class ShipControllerImpl implements ShipController{
     @Override
     @RequestMapping(value = "/ship",method = RequestMethod.POST)
     public String addShip(@RequestBody Ship ship) {
-        Optional<Player> player= playerRepository.findByName( ship.getOwner().getName());
-        ship.setOwner(player.get());
+        //Optional<Player> player= playerRepository.findByName( ship.getOwner().getName());
+        Optional<Actor> actor= actorRepository.findByName( ship.getOwner().getName());
+        Player player= new Player();
+        AI ai= new AI();
+        try{
+            player= (Player) actor.get();
+            ship.setOwner(player);
+        }catch (Exception e){
+             ai= (AI) actor.get();
+             ship.setOwner(ai);
+        }
         shipRepository.save(ship);
         return HttpStatus.CREATED.toString();
     }

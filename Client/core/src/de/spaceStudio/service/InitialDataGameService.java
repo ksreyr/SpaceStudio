@@ -26,16 +26,11 @@ public class InitialDataGameService {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    System.out.println("Request Failed sendRequestAddShip");
                 }
-                System.out.println("statusCode: " + statusCode);
+                System.out.println("statusCode sendRequestAddShip: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response sendRequestAddShip: " + responseJson);
-                    response = responseJson.toString();
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
+
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -68,15 +63,10 @@ public class InitialDataGameService {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    System.out.println("Request Failed sendRequestAddSection");
                 }
                 System.out.println("statusCode sendRequestAddSection: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response: " + responseJson);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -101,16 +91,10 @@ public class InitialDataGameService {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    System.out.println("Request Failed AddPLanet");
                 }
                 System.out.println("statusCode AddPLanet: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response: " + responseJson);
-                    //isValid = Boolean.parseBoolean(responseJson);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -136,16 +120,10 @@ public class InitialDataGameService {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    System.out.println("Request Failed AddUniverise");
                 }
                 System.out.println("statusCode AddUniverise: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response sendRequestAddUniverse: " + responseJson);
-                    //isValid = Boolean.parseBoolean(responseJson);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -171,16 +149,10 @@ public class InitialDataGameService {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    System.out.println("Request Failed sendRequestAddCrew");
                 }
                 System.out.println("statusCode sendRequestAddCrew: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response: " + responseJson);
-                    //isValid = Boolean.parseBoolean(responseJson);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -206,17 +178,11 @@ public class InitialDataGameService {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    System.out.println("Request Failed validatedName");
                 }
                 System.out.println("statusCode validatedName: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response: " + responseJson);
-                    valid = responseJson;
 
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -243,17 +209,11 @@ public class InitialDataGameService {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    System.out.println("Request Failed aiCreation");
                 }
                 System.out.println("statusCode of aiCreation: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response: " + responseJson);
-                    valid = responseJson;
 
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");

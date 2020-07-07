@@ -17,17 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.config.GameConfig;
-import de.spaceStudio.server.model.CrewMember;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.InitialDataGameService;
 import thirdParties.GifDecoder;
@@ -120,7 +114,7 @@ public class ShipSelectScreen extends BaseScreen {
     Planet p5 = Global.planet5;
 
     ArrayList<Ship> shipsToPlanet = new ArrayList<Ship>();
-
+    ArrayList<Ship> shipsToPlanetGegner = new ArrayList<Ship>();
     AI gegner1 = Global.ai1;
     Ship shipOfGegner = Global.shipGegner;
 
@@ -259,32 +253,33 @@ public class ShipSelectScreen extends BaseScreen {
                             ship = Global.ship3;
                             break;
                     }
-                    ship.setOwner(Global.currentPlayer);
-                    section1.setShip(ship);
-                    section2.setShip(ship);
-                    section3.setShip(ship);
-                    section4.setShip(ship);
-                    section5.setShip(ship);
-                    section6.setShip(ship);
+                ship.setOwner(Global.currentPlayer);
+                section1.setShip(ship);
+                section2.setShip(ship);
+                section3.setShip(ship);
+                section4.setShip(ship);
+                section5.setShip(ship);
+                section6.setShip(ship);
 
-                    System.out.println("persit SHIP");
-                    idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
-                    Global.currentShip=ship;
-                    System.out.println("persit section1");
-                    idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
-                    System.out.println("persit section2");
-                    idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
-                    System.out.println("persit section3");
-                    idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
-                    System.out.println("persit section4");
-                    idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
-                    System.out.println("persit section5");
-                    idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
-                    System.out.println("persit section6");
-                    idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
-                    try {
-                        Thread.sleep(100);
-                    } catch (Exception e) {
+                idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
+                Global.currentShip = ship;
+                idgs.aiCreation(gegner1, Net.HttpMethods.POST);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+
+                }
+                shipOfGegner.setOwner(gegner1);
+                idgs.sendRequestAddShip(shipOfGegner, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
 
                     }
                     //
@@ -317,7 +312,9 @@ public class ShipSelectScreen extends BaseScreen {
                         p4.setUniverse(universe2);
                         p5.setUniverse(universe2);
                         shipsToPlanet.add(ship);
+                        shipsToPlanetGegner.add(shipOfGegner);
                         p1.setShips(shipsToPlanet);
+                        p3.setShips(shipsToPlanetGegner);
                         idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
@@ -338,7 +335,9 @@ public class ShipSelectScreen extends BaseScreen {
                         p4.setUniverse(universe1);
                         p5.setUniverse(universe1);
                         shipsToPlanet.add(ship);
+                        shipsToPlanetGegner.add(shipOfGegner);
                         p1.setShips(shipsToPlanet);
+                        p3.setShips(shipsToPlanetGegner);
                         idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
