@@ -158,7 +158,6 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .usable(true).ship(ship1).sectionTyp(SectionTyp.DRIVE)
                 .powerRequired(20)
                 .buildSection();
-        sectionRepository.save(s1);
 
         Section s2 = Section.sectionBuilder().img("file://img2")
                 .oxygen(35).role(Role.FIGHTER)
@@ -166,7 +165,6 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .usable(true).ship(ship1).sectionTyp(SectionTyp.WEAPONS)
                 .powerRequired(20)
                 .buildSection();
-        sectionRepository.save(s2);
 
         Section s3 = Section.sectionBuilder().img("file://img3")
                 .oxygen(55).role(Role.FIGHTER)
@@ -174,7 +172,6 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .usable(true).ship(ship2).sectionTyp(SectionTyp.DRIVE)
                 .powerRequired(20)
                 .buildSection();
-        sectionRepository.save(s3);
 
         Section s4 = Section.sectionBuilder().img("file://img4")
                 .oxygen(55).role(Role.FIGHTER)
@@ -182,8 +179,21 @@ public class InitializingBeanExampleBean implements InitializingBean {
                 .usable(true).ship(ship2).sectionTyp(SectionTyp.WEAPONS)
                 .powerRequired(20)
                 .buildSection();
+
+
+        sectionRepository.save(s1);
+        sectionRepository.save(s2);
+        sectionRepository.save(s3);
         sectionRepository.save(s4);
 
+        s1.setConnectingTo(List.of(s2,s3,s4));
+        sectionRepository.save(s1);
+        s2.setConnectingTo(List.of(s1,s3,s4));
+        sectionRepository.save(s2);
+        s3.setConnectingTo(List.of(s2,s1,s4));
+        sectionRepository.save(s3);
+        s4.setConnectingTo(List.of(s2,s3,s1));
+        sectionRepository.save(s4);
         /*
          * CrewMember Creation
          */
