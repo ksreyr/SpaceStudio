@@ -48,7 +48,7 @@ public class LoadingScreen extends ScreenAdapter {
         this.game = game;
         stage = new Stage(new FitViewport(800,600));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        assetManager = game.getAssetManager();
+        assetManager = game.getAssetmanager();
         loadingText = new Label("Loading ...", skin);
         animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/loading.gif").read());
         loadingText.setAlignment(Align.center);
