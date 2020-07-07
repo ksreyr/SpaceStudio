@@ -10,13 +10,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
+import de.spaceStudio.server.utils.Game;
 
 
 public class CombatScreen extends BaseScreen{
@@ -32,13 +39,20 @@ public class CombatScreen extends BaseScreen{
     private Texture engine1,engine2,oxygen, piloting;
     private Texture engineer, pilot,hull;
     private Texture background;
-    private TextButton startButton;
+    private TextButton fire;
 
+    private Texture fuze, explosion;
+    int fuzeOffset;
+    boolean isFired;
     private ShapeRenderer shapeRenderer;
     private Skin sgxSkin, skinButton;
     private TextureAtlas gamePlayAtlas;
     private AssetManager assetManager = null;
     boolean isWin;
+    //private TextButton engine, weapon, o2;
+
+    private ImageButton engine;
+
 
     Sound rocketLaunch;
 
@@ -57,37 +71,75 @@ public class CombatScreen extends BaseScreen{
         enemyShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/enemy1.png"));
         hull = new Texture(Gdx.files.internal("Client/core/assets/hull1.png"));
         shapeRenderer = new ShapeRenderer();
+        final Drawable engine_sym = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/EnginesSymbol.png")));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
+        fuze =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
+        explosion = new Texture(Gdx.files.internal("Client/core/assets/data/explosion1_0024.png"));
+        fuzeOffset = 570;
 
+        engine = new ImageButton( (engine_sym) );
+        engine.setPosition(1080,410);
+        engine.setSize(1000,100);
+        engine.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                isFired = true;
+                engine.remove();
 
+            }
+        });
 
         Gdx.input.setInputProcessor(stage);
 
-        startButton = new TextButton("Fire",skinButton,"small");
-        startButton.setPosition(800,200);
-
-        startButton.addListener(new ChangeListener() {
+        fire = new TextButton("Fire",skinButton,"small");
+        fire.setPosition(800,200);
+        fire.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(!isWin) {
                    // startButton.setColor(Color.RED);
+                     hoverListener(fire);
                     rocketLaunch.play();
                     isWin = true;
+
                 }else isWin=false;
+            }
+        });
 
 
+      /*  engine = new TextButton("engine", skin);
+         engine.setPosition(1545,460);
+         engine.addListener(new ChangeListener() {
+             @Override
+             public void changed(ChangeEvent event, Actor actor) {
+                isFired = true;
+             }
+         });
+        engine.setVisible(false);*/
+
+         stage.addActor(fire);
+         stage.addActor(engine);
+
+    }
 
 
+    private void hoverListener(final TextButton textButton) {
+        textButton.addListener(new HoverListener(){
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
 
             }
         });
-        stage.addActor(startButton);
-
     }
+
+
 
     @Override
     public void show() {
@@ -100,10 +152,23 @@ public class CombatScreen extends BaseScreen{
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
+
+
+
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
         stage.getBatch().draw(hull, 0,1020,500,50);
+        stage.getBatch().draw(fuze,+fuzeOffset,422,400,50);
+        if(isFired) {fuzeOffset++;
+        }
+        if(isFired){
+            fuzeOffset = BaseScreen.WIDTH;
+            stage.getBatch().draw(explosion,1515,422,100,100);}
+
+
+
+
         stage.getBatch().end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.MAGENTA);
@@ -150,6 +215,7 @@ public class CombatScreen extends BaseScreen{
         skin.dispose();
         shapeRenderer.dispose();
         rocketLaunch.dispose();
+        fuze.dispose();
         stage.dispose();
     }
 }
