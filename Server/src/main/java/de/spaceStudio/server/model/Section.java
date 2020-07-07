@@ -35,7 +35,7 @@ public class Section {
     private String img;
 
     @ManyToMany
-    @JsonBackReference
+    //@JsonBackReference
     private List<Section> connectingTo;
 
     private float oxygen;

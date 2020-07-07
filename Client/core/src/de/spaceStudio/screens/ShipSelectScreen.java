@@ -167,9 +167,9 @@ public class ShipSelectScreen extends BaseScreen {
         shapeRenderer = new ShapeRenderer();
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
-        shieldPowerAnzeige = new Label("100%", skin);
-        weaponPowerAnzeige = new Label("100%", skin);
-        antriebAnzeige = new Label("100%", skin);
+        shieldPowerAnzeige = new Label("100%", skinButton);
+        weaponPowerAnzeige = new Label("100%", skinButton);
+        antriebAnzeige = new Label("100%", skinButton);
 
         shieldPowerAnzeige.setFontScale(2,2);
         weaponPowerAnzeige.setFontScale(2,2);

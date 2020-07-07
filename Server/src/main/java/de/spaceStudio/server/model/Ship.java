@@ -19,7 +19,7 @@ public class Ship {
     private ShipForm shipForm;
 
     @ManyToOne
-    @JsonManagedReference
+    //@JsonManagedReference
     private Actor owner;
 
     @NonNull
