@@ -49,7 +49,6 @@ public class InitialDataGameService {
 
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
-        System.out.println(requestJson);
         Net.HttpRequest request = new Net.HttpRequest(method);
         final String url = Global.SERVER_URL + Global.SECTION_CREATION_ENDPOINT;
         request.setUrl(url);
