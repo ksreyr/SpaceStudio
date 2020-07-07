@@ -45,8 +45,6 @@ public class MainClient extends Game {
 	    setScreen(loginScreen);
 
 
-
-
 	}
 	@Override
 	public void dispose() {
