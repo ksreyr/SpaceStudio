@@ -66,6 +66,4 @@ public class MainClient extends Game {
 	public SpriteBatch getBatch() {
 		return batch;
 	}
-
-
 }
