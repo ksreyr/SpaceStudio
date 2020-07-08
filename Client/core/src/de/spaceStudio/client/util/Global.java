@@ -298,12 +298,16 @@ public class Global {
             name("gegner1").owner(ai1).
             buildShip();
 
+    public static Ship shipGegner2 = Ship.shipBluider().hp(100).
+            power(100).shield(1).
+            name("gegner2").owner(ai2).
+            buildShip();
 
 
     public static Section section1Gegner=Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
-            .img("SectionGegner1")
+            .img("Section1Gegner1")
             .oxygen(100)
             .powerCurrent(100)
             .usable(true)
@@ -313,7 +317,7 @@ public class Global {
     public static Section section2Gegner=Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.DRIVE)
-            .img("SectionGegner2")
+            .img("Section2Gegner1")
             .oxygen(100)
             .powerCurrent(100)
             .usable(true)
@@ -323,7 +327,38 @@ public class Global {
     public static Section section3Gegner=Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
-            .img("SectionGegner3")
+            .img("Section3Gegner1")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+
+    public static Section section1Gegner2=Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.NORMAL)
+            .img("Section1Gegner2")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section2Gegner2=Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.DRIVE)
+            .img("Section2Gegner2")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section3Gegner2=Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.WEAPONS)
+            .img("Section3Gegner2")
             .oxygen(100)
             .powerCurrent(100)
             .usable(true)
