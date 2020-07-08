@@ -300,7 +300,36 @@ public class Global {
 
 
 
-
+    public static Section section1Gegner=Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.NORMAL)
+            .img("SectionGegner1")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section2Gegner=Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.DRIVE)
+            .img("SectionGegner2")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section3Gegner=Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.WEAPONS)
+            .img("SectionGegner3")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
     /**
      * planete Univerise 1
      * */

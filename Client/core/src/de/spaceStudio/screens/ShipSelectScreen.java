@@ -115,9 +115,13 @@ public class ShipSelectScreen extends BaseScreen {
 
     ArrayList<Ship> shipsToPlanet = new ArrayList<Ship>();
     ArrayList<Ship> shipsToPlanetGegner = new ArrayList<Ship>();
+
     AI gegner1 = Global.ai1;
     Ship shipOfGegner = Global.shipGegner;
 
+    Section section1Gegner = Global.section1Gegner;
+    Section section2Gegner = Global.section2Gegner;
+    Section section3Gegner = Global.section3Gegner;
     //
     public ShipSelectScreen(MainClient game) {
         super(game);
@@ -254,12 +258,17 @@ public class ShipSelectScreen extends BaseScreen {
                             break;
                     }
                 ship.setOwner(Global.currentPlayer);
+
                 section1.setShip(ship);
                 section2.setShip(ship);
                 section3.setShip(ship);
                 section4.setShip(ship);
                 section5.setShip(ship);
                 section6.setShip(ship);
+
+                section1Gegner.setShip(shipOfGegner);
+                section2Gegner.setShip(shipOfGegner);
+                section3Gegner.setShip(shipOfGegner);
 
                 idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
                 Global.currentShip = ship;
@@ -271,6 +280,15 @@ public class ShipSelectScreen extends BaseScreen {
                 }
                 shipOfGegner.setOwner(gegner1);
                 idgs.sendRequestAddShip(shipOfGegner, Net.HttpMethods.POST);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+
+                }
+                idgs.sendRequestAddSection(section1Gegner, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section2Gegner, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section3Gegner, Net.HttpMethods.POST);
+
                 idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
                 idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
                 idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
