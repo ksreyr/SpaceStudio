@@ -117,23 +117,15 @@ public class ShipSelectScreen extends BaseScreen {
     Planet p4 = Global.planet4;
     Planet p5 = Global.planet5;
 
-    ArrayList<Ship> shipsToPlanet1 = new ArrayList<Ship>();
-    ArrayList<Ship> shipsToPlanet2 = new ArrayList<Ship>();
-    ArrayList<Ship> shipsToPlanet3 = new ArrayList<Ship>();
-    ArrayList<Ship> shipsToPlanet4 = new ArrayList<Ship>();
+    ArrayList<Ship> shipsToPlanet = new ArrayList<Ship>();
+    ArrayList<Ship> shipsToPlanetGegner = new ArrayList<Ship>();
+
     AI gegner1 = Global.ai1;
     Ship shipOfGegner = Global.shipGegner;
 
     Section section1Gegner = Global.section1Gegner;
     Section section2Gegner = Global.section2Gegner;
     Section section3Gegner = Global.section3Gegner;
-
-    AI gegner2 = Global.ai2;
-    Ship shipOfGegner2 = Global.shipGegner2;
-
-    Section section1Gegner2 = Global.section1Gegner2;
-    Section section2Gegner2 = Global.section2Gegner2;
-    Section section3Gegner2 = Global.section3Gegner2;
     //
     public ShipSelectScreen(MainClient game) {
         super(game);
@@ -302,35 +294,24 @@ public class ShipSelectScreen extends BaseScreen {
                 section2Gegner.setShip(shipOfGegner);
                 section3Gegner.setShip(shipOfGegner);
 
-                section1Gegner2.setShip(shipOfGegner2);
-                section2Gegner2.setShip(shipOfGegner2);
-                section3Gegner2.setShip(shipOfGegner2);
-
                 idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
                 Global.currentShip = ship;
-
                 idgs.aiCreation(gegner1, Net.HttpMethods.POST);
-                idgs.aiCreation(gegner2, Net.HttpMethods.POST);
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
+
                 }
                 shipOfGegner.setOwner(gegner1);
                 idgs.sendRequestAddShip(shipOfGegner, Net.HttpMethods.POST);
-
-                shipOfGegner2.setOwner(gegner2);
-                idgs.sendRequestAddShip(shipOfGegner2, Net.HttpMethods.POST);
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
+
                 }
                 idgs.sendRequestAddSection(section1Gegner, Net.HttpMethods.POST);
                 idgs.sendRequestAddSection(section2Gegner, Net.HttpMethods.POST);
                 idgs.sendRequestAddSection(section3Gegner, Net.HttpMethods.POST);
-
-                idgs.sendRequestAddSection(section1Gegner2, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section2Gegner2, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section3Gegner2, Net.HttpMethods.POST);
 
                 idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
                 idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
@@ -372,12 +353,10 @@ public class ShipSelectScreen extends BaseScreen {
                         p3.setUniverse(universe2);
                         p4.setUniverse(universe2);
                         p5.setUniverse(universe2);
-                        shipsToPlanet1.add(ship);
-                        shipsToPlanet2.add(shipOfGegner);
-                        shipsToPlanet3.add(shipOfGegner2);
-                        p1.setShips(shipsToPlanet1);
-                        p2.setShips(shipsToPlanet2);
-                        p3.setShips(shipsToPlanet3);
+                        shipsToPlanet.add(ship);
+                        shipsToPlanetGegner.add(shipOfGegner);
+                        p1.setShips(shipsToPlanet);
+                        p3.setShips(shipsToPlanetGegner);
                         idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
@@ -397,12 +376,10 @@ public class ShipSelectScreen extends BaseScreen {
                         p3.setUniverse(universe1);
                         p4.setUniverse(universe1);
                         p5.setUniverse(universe1);
-                        shipsToPlanet1.add(ship);
-                        shipsToPlanet2.add(shipOfGegner);
-                        shipsToPlanet3.add(shipOfGegner2);
-                        p1.setShips(shipsToPlanet1);
-                        p2.setShips(shipsToPlanet2);
-                        p3.setShips(shipsToPlanet3);
+                        shipsToPlanet.add(ship);
+                        shipsToPlanetGegner.add(shipOfGegner);
+                        p1.setShips(shipsToPlanet);
+                        p3.setShips(shipsToPlanetGegner);
                         idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
                         idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
