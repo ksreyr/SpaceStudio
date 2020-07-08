@@ -21,7 +21,6 @@ public class MainClient extends Game {
 	public StationsMap stationsMap;
 	private SpriteBatch batch;
 
-	public TP tp;
 
 
 	@Override

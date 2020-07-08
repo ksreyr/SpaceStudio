@@ -54,7 +54,7 @@ public class CombatScreen extends BaseScreen{
     boolean isWin;
     //private TextButton engine, weapon, o2;
 
-    private ImageButton engine;
+    private ImageButton engine, weapon,cockpit;
     int disappear = 570;
 
 
@@ -78,6 +78,9 @@ public class CombatScreen extends BaseScreen{
         final Drawable engine_sym = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/EnginesSymbol.png")));
         final Drawable engine_red = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/EngineRed.png")));
 
+        final Drawable cockpit_nat = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/PilotingSymbol.png")));
+        final Drawable cockpit_red = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/PilotingRed.png")));
+
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
         fuze =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
         fuz2 =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
@@ -95,6 +98,20 @@ public class CombatScreen extends BaseScreen{
 
             }
         });
+
+
+        cockpit = new ImageButton(cockpit_nat);
+        cockpit.setPosition(1075,660);
+        cockpit.setSize(1000,100);
+        cockpit.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                isTargetSelected = true;
+                cockpit.getStyle().imageUp = cockpit_red;
+
+            }
+        });
+
 
         Gdx.input.setInputProcessor(stage);
 
@@ -119,6 +136,7 @@ public class CombatScreen extends BaseScreen{
 
          stage.addActor(fire);
          stage.addActor(engine);
+         stage.addActor(cockpit);
 
     }
 
@@ -138,7 +156,7 @@ public class CombatScreen extends BaseScreen{
         });
     }
 
-
+int counter=0;
 
     @Override
     public void show() {
@@ -152,8 +170,6 @@ public class CombatScreen extends BaseScreen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
 
-
-
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
@@ -163,17 +179,19 @@ public class CombatScreen extends BaseScreen{
             fuzeOffset++;
             disappear=BaseScreen.WIDTH;
             stage.getBatch().draw(fuz2,+fuzeOffset,422,400,50);
+
+            if(fuzeOffset == 700){
+                fuzeOffset = BaseScreen.WIDTH;
+                isExploied = true;
+            }
         }
-        if(fuzeOffset == 700){
-            fuzeOffset = BaseScreen.WIDTH;
-            isExploied = true;
+
+        if(isExploied)
+        {
 
 
+            stage.getBatch().draw(explosion,1515,422,100,100);
         }
-        if(isExploied)stage.getBatch().draw(explosion,1515,422,100,100);
-
-
-
 
         stage.getBatch().end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -222,6 +240,7 @@ public class CombatScreen extends BaseScreen{
         shapeRenderer.dispose();
         rocketLaunch.dispose();
         fuze.dispose();
+        fuz2.dispose();
         stage.dispose();
     }
 }
