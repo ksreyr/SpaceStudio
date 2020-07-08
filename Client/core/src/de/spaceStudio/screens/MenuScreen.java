@@ -54,7 +54,7 @@ public class MenuScreen extends ScreenAdapter  {
     public MenuScreen(MainClient mainClient){
         this.universeMap = mainClient;
         this.mainClient = mainClient;
-        assetManager = universeMap.getAssetmanager();
+        assetManager = universeMap.getAssetManager();
     }
 
 

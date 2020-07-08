@@ -1,8 +1,10 @@
 package de.spaceStudio.server.controller;
 
+import de.spaceStudio.server.model.AI;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.repository.AIRepository;
 import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
@@ -22,6 +24,8 @@ public class SectionControllerImpl implements SectionController {
     private PlayerRepository playerRepository;
     @Autowired
     private ShipRepository shipRepository;
+    @Autowired
+    private AIRepository aiRepository;
     /**
      * Get all sections from db
      *
@@ -52,10 +56,21 @@ public class SectionControllerImpl implements SectionController {
     @Override
     @RequestMapping(value = "/section", method = RequestMethod.POST)
     public String addSection(@RequestBody Section section) {
-        Player playerToUpdate=playerRepository.findByName(section.getShip().getOwner().getName()).get();
-        Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(),playerToUpdate).get();
-        ship.setOwner(playerToUpdate);
-        section.setShip(ship);
+        Player playerToUpdate;
+        AI ai;
+
+        if(playerRepository.findByName(section.getShip().getOwner().getName()).isPresent()){
+            playerToUpdate=playerRepository.findByName(section.getShip().getOwner().getName()).get();
+            Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(),playerToUpdate).get();
+            ship.setOwner(playerToUpdate);
+            section.setShip(ship);
+        }else{
+            ai=aiRepository.findByName(section.getShip().getOwner().getName()).get();
+            Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(),ai).get();
+            ship.setOwner(ai);
+            section.setShip(ship);
+        }
+
         repository.save(section);
         return section.toString();
     }

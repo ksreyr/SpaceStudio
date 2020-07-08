@@ -218,31 +218,29 @@ public class PlayerControllerImpl implements PlayerController {
                             } else {
                                 System.out.println("not CrewMember to erase");
                             }
+                            sectionRepository.delete(section);
                         }
                     } else {
-                        System.out.println("not Ship to erase");
+                        System.out.println("not Sections to erase");
                     }
 
-                    if (!s.equals(ship)) {
-                        aiRepository.delete((AI) s.getOwner());
-                        sectionRepository.deleteByShip(s);
-                        shipRepository.delete(s);
+                    if (aiRepository.findByName(s.getOwner().getName()).isPresent()) {
+                        AI ai = aiRepository.findByName(s.getOwner().getName()).get();
+                        aiRepository.delete(ai);
                     }
+                    if(stopAbstractRepository.findById(sa.getId()).isPresent()){
+                    stopAbstractRepository.delete(sa);
+                    }
+                    shipRepository.delete(s);
                 }
             }
-            List<Section> sections = sectionRepository.findAllByShip(ship).get();
-            for (Section section :
-                    sections) {
-                sectionRepository.delete(section);
-            }
-            System.out.println("ich bin hier");
             for (StopAbstract s :
                     stopAbstracts) {
-                stopAbstractRepository.delete(s);
+                    stopAbstractRepository.delete(s);
             }
             universeRepository.delete(universe);
 
-            shipRepository.delete(ship);
+            //shipRepository.delete(ship);
 
         }
         return "DONE";

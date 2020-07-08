@@ -4,7 +4,6 @@ import de.spaceStudio.server.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * This class contains global variables, they can be access in the whole project
@@ -39,6 +38,12 @@ public class Global {
      * Server logged player endpoint
      */
     public static final String NAME_VALIDATION = "/shipname";
+
+    /**
+     * Server logged player endpoint
+     */
+    public static final String AI_CREATION_ENDPOINT = "/AI";
+
     /**
      * Server login endpoint
      */
@@ -93,6 +98,11 @@ public class Global {
      * Gets all Users
      */
     public static List<String> playersOnline = new ArrayList<>();
+
+    /**
+     * Default is onlineGame false
+     */
+    public static boolean isOnlineGame = false;
 
     /**
      * Ship Variables
@@ -281,7 +291,51 @@ public class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
+    /*
+     * Gegner
+     * */
+    public static AI ai1= AI.builderAI().name("gegner1").buildAI();
+    public static AI ai2= AI.builderAI().name("gegner2").buildAI();
+    /*
+    Gegner Ship
+     */
+    public static Ship shipGegner = Ship.shipBluider().hp(100).
+            power(100).shield(1).
+            name("gegner1").owner(ai1).
+            buildShip();
 
+
+
+    public static Section section1Gegner=Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.NORMAL)
+            .img("SectionGegner1")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section2Gegner=Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.DRIVE)
+            .img("SectionGegner2")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section3Gegner=Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.WEAPONS)
+            .img("SectionGegner3")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
     /**
      * planete Univerise 1
      * */
@@ -296,18 +350,6 @@ public class Global {
      * */
     public static Universe universe1= Universe.universeBuilder().name("Easy").build();
     public static Universe universe2= Universe.universeBuilder().name("Normal").build();
-    /*
-    * Gegner
-    * */
-    public static AI ai1= AI.builderAI().name("gegner1").buildAI();
-    public static AI ai2= AI.builderAI().name("gegner2").buildAI();
-    /*
-    Gegner Ship
-     */
-    public static Ship shipGegner = Ship.shipBluider().hp(100).
-            power(100).shield(1).
-            name("gegner1").owner(ai1).
-            buildShip();
 
 
 }

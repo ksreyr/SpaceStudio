@@ -10,8 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class MainClient extends Game {
-	@Setter
-	@Getter
+
 	private AssetManager assetManager;
 
 	public LoginScreen loginScreen;
@@ -28,23 +27,28 @@ public class MainClient extends Game {
 
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
-		//loginScreen = new LoginScreen(this, assetManager);
+		loginScreen = new LoginScreen(this, assetManager);
 		//stationsMap = new StationsMap(this);
 		batch = new SpriteBatch();
 		//setScreen(stationsMap);
-	//	shipSelectScreen= new ShipSelectScreen(this);
+		shipSelectScreen= new ShipSelectScreen(this);
 		batch = new SpriteBatch();
-	    //setScreen(loginScreen);
-		//tp = new TP(this);
-		//setScreen(tp);
 
 	    combatScreen = new CombatScreen(this);
-	    setScreen(combatScreen);
-
+	    setScreen(loginScreen);
 
 
 
 	}
+
+	public AssetManager getAssetManager() {
+		return assetManager;
+	}
+
+	public void setAssetManager(AssetManager assetManager) {
+		this.assetManager = assetManager;
+	}
+
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -54,10 +58,5 @@ public class MainClient extends Game {
 
 	public SpriteBatch getBatch() {
 		return batch;
-
 	}
-	public AssetManager getAssetmanager() {
-		return assetManager;
-	}
-
 }
