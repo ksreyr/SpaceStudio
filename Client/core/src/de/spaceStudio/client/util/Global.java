@@ -13,6 +13,12 @@ import java.util.List;
  */
 public class Global {
 
+
+    /**
+     * boolean value for single player disable lobby
+     */
+    public static boolean IS_SINGLE_PLAYER = false;
+
     /**
      * Hardcoded server URL
      */

@@ -17,11 +17,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.InitialDataGameService;
 import thirdParties.GifDecoder;
@@ -67,6 +70,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     private Stage stage;
     private Skin skinButton;
+    private Viewport viewport;
     private TextButton next;
     private TextButton previous;
     private TextButton showHideRoom;
@@ -137,6 +141,7 @@ public class ShipSelectScreen extends BaseScreen {
         // Clear cache before reload data again to avoid fake numbers
         playersOnline.clear();
         // download data
+        fetchLoggedUsers();
 
         OrthographicCamera camera = new OrthographicCamera(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         viewport = new ExtendViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT, camera);
@@ -229,6 +234,25 @@ public class ShipSelectScreen extends BaseScreen {
         showHideRoom();
         selectLevelView();
         StartButton();
+        // top left position
+        if(!Global.IS_SINGLE_PLAYER){
+
+            playersOnlineLabel = new Label(null, skin);
+            playersOnlineLabel.setPosition(20,950);
+            playersOnlineLabel.setFontScale(2);
+
+            displayOnlinePlayerName = new Label(null, skin);
+            displayOnlinePlayerName.setPosition(20,920);
+            displayOnlinePlayerName.setFontScale(1.5F);
+
+            drawLobby();
+
+            stage.addActor(playersOnlineLabel);
+            stage.addActor(displayOnlinePlayerName);
+        }
+
+
+
 
         stage.addActor(usernameLabel);
         stage.addActor(next);
@@ -625,6 +649,9 @@ public class ShipSelectScreen extends BaseScreen {
         if (Global.isOnlineGame) {
             drawLobby();
         }
+        if(!Global.IS_SINGLE_PLAYER)  drawLobby();
+
+
     }
 
     /**
@@ -633,6 +660,7 @@ public class ShipSelectScreen extends BaseScreen {
     public void drawLobby(){
         playersOnlineLabel.setText("Players online: " + String.valueOf(playersOnline.size()));
         // Get first position, we support max 2 players in the whole game
+
         if(playersOnline.size() > 0) {
             displayOnlinePlayerName.setText(playersOnline.get(0));
         }

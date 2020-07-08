@@ -67,8 +67,9 @@ public class NewGameScreen extends ScreenAdapter {
         textButtonSinglePlayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Global.isOnlineGame = false;
+                Global.IS_SINGLE_PLAYER = true;
                 mainClient.setScreen(new ShipSelectScreen(mainClient));
+
             }
         });
 
@@ -76,7 +77,7 @@ public class NewGameScreen extends ScreenAdapter {
         textButtonMultiplayer.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Global.isOnlineGame = true;
+                Global.IS_SINGLE_PLAYER = false;
                 mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });

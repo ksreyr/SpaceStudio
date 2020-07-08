@@ -4,15 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.spaceStudio.screens.CombatScreen;
-import de.spaceStudio.screens.StationsMap;
-
-import de.spaceStudio.screens.ShipSelectScreen;
+import de.spaceStudio.screens.*;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import de.spaceStudio.screens.LoginScreen;
 
 public class MainClient extends Game {
 
@@ -38,11 +33,9 @@ public class MainClient extends Game {
 		//setScreen(stationsMap);
 		shipSelectScreen= new ShipSelectScreen(this);
 		batch = new SpriteBatch();
+
+	    combatScreen = new CombatScreen(this);
 	    setScreen(loginScreen);
-
-	    //combatScreen = new CombatScreen(this);
-	    //setScreen(loginScreen);
-
 
 
 
