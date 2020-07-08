@@ -96,13 +96,7 @@ public class MenuScreen extends ScreenAdapter  {
         });
 
         TextButton textButtonOptions = new TextButton("  Options  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonOptions.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                pds.cleaningData(currentPlayer, Net.HttpMethods.POST);
-                mainClient.setScreen(new Options(mainClient));
-            }
-        });
+
 
         TextButton textButtonExit = new TextButton("    Exit    ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
         textButtonExit.addListener(new ChangeListener() {

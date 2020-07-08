@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
@@ -80,8 +81,6 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton saveStation;
     private TextButton easyButton;
     private TextButton normalButton;
-    private Viewport viewport;
-    //ExtendViewport viewport;
 
 
     private ShapeRenderer shapeRenderer;
@@ -229,11 +228,11 @@ public class ShipSelectScreen extends BaseScreen {
         // top left position
         if(!Global.IS_SINGLE_PLAYER){
 
-            playersOnlineLabel = new Label(null, skin);
+            playersOnlineLabel = new Label(null, skinButton);
             playersOnlineLabel.setPosition(20,950);
             playersOnlineLabel.setFontScale(2);
 
-            displayOnlinePlayerName = new Label(null, skin);
+            displayOnlinePlayerName = new Label(null, skinButton);
             displayOnlinePlayerName.setPosition(20,920);
             displayOnlinePlayerName.setFontScale(1.5F);
 

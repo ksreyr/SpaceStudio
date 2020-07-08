@@ -52,8 +52,8 @@ public class CombatScreen extends BaseScreen{
     private TextureAtlas gamePlayAtlas;
     private AssetManager assetManager = null;
     boolean isWin;
-    //private TextButton engine, weapon, o2;
 
+    //private TextButton engine, weapon, o2;
     private ImageButton engine, weapon,cockpit;
     int disappear = 570;
 
