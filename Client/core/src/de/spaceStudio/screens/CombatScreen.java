@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -41,9 +42,11 @@ public class CombatScreen extends BaseScreen{
     private Texture background;
     private TextButton fire;
 
-    private Texture fuze, explosion;
+    private Texture fuze, fuz2, explosion;
     int fuzeOffset;
     boolean isFired;
+    private boolean isExploied;
+    private boolean isTargetSelected;
     private ShapeRenderer shapeRenderer;
     private Skin sgxSkin, skinButton;
     private TextureAtlas gamePlayAtlas;
@@ -52,6 +55,7 @@ public class CombatScreen extends BaseScreen{
     //private TextButton engine, weapon, o2;
 
     private ImageButton engine;
+    int disappear = 570;
 
 
     Sound rocketLaunch;
@@ -72,20 +76,22 @@ public class CombatScreen extends BaseScreen{
         hull = new Texture(Gdx.files.internal("Client/core/assets/hull1.png"));
         shapeRenderer = new ShapeRenderer();
         final Drawable engine_sym = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/EnginesSymbol.png")));
+        final Drawable engine_red = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/EngineRed.png")));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
         fuze =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
+        fuz2 =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
         explosion = new Texture(Gdx.files.internal("Client/core/assets/data/explosion1_0024.png"));
         fuzeOffset = 570;
 
-        engine = new ImageButton( (engine_sym) );
-        engine.setPosition(1080,410);
+        engine = new ImageButton(engine_sym);
+        engine.setPosition(1075,440);
         engine.setSize(1000,100);
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                isFired = true;
-                engine.remove();
+                isTargetSelected = true;
+                engine.getStyle().imageUp = engine_red;
 
             }
         });
@@ -98,26 +104,18 @@ public class CombatScreen extends BaseScreen{
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(!isWin) {
-                   // startButton.setColor(Color.RED);
-                     hoverListener(fire);
-                    rocketLaunch.play();
-                    isWin = true;
 
-                }else isWin=false;
+
+                 //   hoverListener(fire);
+                    rocketLaunch.play();
+                    isFired = true;
+
+
+
+
             }
         });
 
-
-      /*  engine = new TextButton("engine", skin);
-         engine.setPosition(1545,460);
-         engine.addListener(new ChangeListener() {
-             @Override
-             public void changed(ChangeEvent event, Actor actor) {
-                isFired = true;
-             }
-         });
-        engine.setVisible(false);*/
 
          stage.addActor(fire);
          stage.addActor(engine);
@@ -125,10 +123,11 @@ public class CombatScreen extends BaseScreen{
     }
 
 
-    private void hoverListener(final TextButton textButton) {
-        textButton.addListener(new HoverListener(){
+    private void hoverListener(final ImageButton imageButton) {
+        imageButton.addListener(new HoverListener(){
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                imageButton.setName("selected");
 
             }
             @Override
@@ -159,12 +158,19 @@ public class CombatScreen extends BaseScreen{
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
         stage.getBatch().draw(hull, 0,1020,500,50);
-        stage.getBatch().draw(fuze,+fuzeOffset,422,400,50);
-        if(isFired) {fuzeOffset++;
+        stage.getBatch().draw(fuze,disappear,422,400,50);
+        if(isFired && isTargetSelected) {
+            fuzeOffset++;
+            disappear=BaseScreen.WIDTH;
+            stage.getBatch().draw(fuz2,+fuzeOffset,422,400,50);
         }
-        if(isFired){
+        if(fuzeOffset == 700){
             fuzeOffset = BaseScreen.WIDTH;
-            stage.getBatch().draw(explosion,1515,422,100,100);}
+            isExploied = true;
+
+
+        }
+        if(isExploied)stage.getBatch().draw(explosion,1515,422,100,100);
 
 
 
