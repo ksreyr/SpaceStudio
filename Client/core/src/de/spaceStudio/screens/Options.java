@@ -54,7 +54,7 @@ import de.spaceStudio.util.GdxUtils;
         public Options(MainClient mainClient) {
             this.universeMap = mainClient;
             this.mainClient = mainClient;
-            assetManager = universeMap.getAssetManager();
+            assetManager = universeMap.getAssetmanager();
         }
 
         @Override
