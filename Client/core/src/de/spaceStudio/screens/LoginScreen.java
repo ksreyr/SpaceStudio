@@ -9,24 +9,31 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import de.spaceStudio.MainClient;
+import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Player;
-import de.spaceStudio.service.CommunicationService;
-import de.spaceStudio.service.RegistrationService;
 import thirdParties.GifDecoder;
+
+
+import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.Global.currentPlayer;
 
 public class LoginScreen extends BaseScreen {
 
+    private final static Logger LOG = Logger.getLogger(LoginScreen.class.getName());
 
     private Stage stage;
     private Skin skin;
@@ -39,8 +46,6 @@ public class LoginScreen extends BaseScreen {
     private TextButton mute, exit;
     private Viewport viewport;
 
-    CommunicationService communicationService = new CommunicationService();
-    RegistrationService registrationService = new RegistrationService();
     Animation<TextureRegion> animation;
     private Music music;
     private Sound mouseClick;
@@ -48,8 +53,8 @@ public class LoginScreen extends BaseScreen {
 
     private boolean isPressed = false;
 
-    private static final int BUTTON_LOGIN_X =  (BaseScreen.WIDTH / 3);
-    private static final float BUTTON_REGISTER_X =  (BaseScreen.WIDTH / 2) + 100;
+    private static final int BUTTON_LOGIN_X = (BaseScreen.WIDTH / 3);
+    private static final float BUTTON_REGISTER_X = (BaseScreen.WIDTH / 2) + 100;
 
 
     private static final int TEXTBOX_WIDTH = 200;
@@ -73,7 +78,7 @@ public class LoginScreen extends BaseScreen {
         music.setVolume(0.09f);
         music.play();
 
-        viewport = new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT);
+        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
@@ -85,8 +90,11 @@ public class LoginScreen extends BaseScreen {
         newUserPassword();
         confirmPassword();
 
-        userValidity();
-        createNewUser();
+        login = new TextButton("Log in", skin);
+        setTextButton(login, TEXTBOX_WIDTH, 70, BUTTON_LOGIN_X, 300);
+        login.getLabel().setColor(Color.FOREST);
+
+
         loginConfirmation = new Label("", skin);
         loginConfirmation.setSize(110, 50);
         loginConfirmation.setPosition(BUTTON_LOGIN_X, 230);
@@ -95,6 +103,9 @@ public class LoginScreen extends BaseScreen {
         registerConfirmation.setSize(110, 50);
         registerConfirmation.setPosition(BUTTON_REGISTER_X, 350);
 
+        register = new TextButton("Register", skin);
+        setTextButton(register, TEXTBOX_WIDTH, 70, (int) BUTTON_REGISTER_X, 300);
+        register.getLabel().setColor(Color.BLACK);
 
         mute = new TextButton("mute", skin);
         mute.addCaptureListener(new ChangeListener() {
@@ -111,7 +122,7 @@ public class LoginScreen extends BaseScreen {
             }
         });
         mute.setSize(75, 30);
-        mute.setPosition(80,100,100 );
+        mute.setPosition(80, 100, 100);
 
 
         exit = new TextButton("exit", skin);
@@ -141,7 +152,7 @@ public class LoginScreen extends BaseScreen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width,height);
+        viewport.update(width, height);
 
     }
 
@@ -271,41 +282,60 @@ public class LoginScreen extends BaseScreen {
 
     }
 
-    private void userValidity() {
-        login = new TextButton("Log in", skin);
-        setTextButton(login, TEXTBOX_WIDTH, 70, BUTTON_LOGIN_X, 300);
-        login.getLabel().setColor(Color.FOREST);
-        login.addCaptureListener(new ChangeListener() {
-
-
+    private void loginUser() {
+        login.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
+                loginConfirmation.setText("login...");
+                loginConfirmation.setColor(Color.CYAN);
+
+                mouseClick.play();
                 currentPlayer = Player.builderPlayer()
                         .name(getUserName())
                         .password(getUserPassword())
                         .buildPlayer();
-                communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
-                isPressed = true;
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                mouseClick.play();
+
+                final Json json = new Json();
+
+                json.setOutputType(JsonWriter.OutputType.json);
+                LOG.info("JSON to send " + json.toJson(currentPlayer));
+                final String requestJson = json.toJson(currentPlayer);
+
+                final String url = Global.SERVER_URL + Global.PLAYER_LOGIN_ENDPOINT;
+                Net.HttpRequest request = setupRequest(url, requestJson);
+                Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        int statusCode = httpResponse.getStatus().getStatusCode();
+                        LOG.info("statusCode: " + statusCode);
+                        String responseJson = httpResponse.getResultAsString();
+                        boolean isValid = Boolean.parseBoolean(responseJson);
+                        if (statusCode != HttpStatus.SC_OK || !isValid) {
+                            loginConfirmation.setText("invalid username or password!");
+                            loginConfirmation.setColor(Color.RED);
+                            LOG.info("Credentials invalid or server down");
+                        } else {
+                            LOG.info("Login success");
+                            isPressed = true;
+                        }
+                    }
+
+                    @Override
+                    public void failed(Throwable t) {
+                    }
+
+                    @Override
+                    public void cancelled() {
+                        LOG.severe("Request Canceled");
+                    }
+                });
             }
         });
-
     }
 
-
     public void createNewUser() {
-        register = new TextButton("Register", skin);
-        setTextButton(register, TEXTBOX_WIDTH, 70, (int) BUTTON_REGISTER_X, 300);
-        register.getLabel().setColor(Color.BLACK);
-
-
-        register.addCaptureListener(new ChangeListener() {
+        register.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -322,12 +352,47 @@ public class LoginScreen extends BaseScreen {
                 } else {
                     mouseClick.play();
 
-
-
                     if (p2.getPassword().contentEquals(getConfirmPassword())) {
-                        isValid = registrationService.createUser(p2, Net.HttpMethods.POST);
-                        registerConfirmation.setText("Successful!");
-                        registerConfirmation.setColor(Color.GREEN);
+                        final String createUserURL = Global.SERVER_URL + Global.PLAYER_ENDPOINT;
+                        final Json json = new Json();
+
+                        json.setOutputType(JsonWriter.OutputType.json);
+                        LOG.info("JSON to send " + json.toJson(p2));
+                        final String requestJson = json.toJson(p2);
+
+                        Net.HttpRequest request = setupRequest(createUserURL, requestJson);
+
+                        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+                            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                                int statusCode = httpResponse.getStatus().getStatusCode();
+                                String responseJson = httpResponse.getResultAsString();
+                                LOG.info(responseJson);
+                                if (statusCode == HttpStatus.SC_OK && responseJson.equals("201 CREATED")) {
+                                    registerConfirmation.setText("Successful!");
+                                    registerConfirmation.setColor(Color.GREEN);
+                                    LOG.info("Request Success");
+                                } else {
+                                    LOG.info("statusCode: " + statusCode);
+                                    registerConfirmation.setText("Server not available or bad request");
+                                    registerConfirmation.setColor(Color.YELLOW);
+
+                                }
+                            }
+
+                            public void failed(Throwable t) {
+                                registerConfirmation.setText("Server not available or bad request");
+                                registerConfirmation.setColor(Color.YELLOW);
+                                LOG.severe("Request failed");
+                            }
+
+                            @Override
+                            public void cancelled() {
+                                System.out.println("request cancelled");
+                            }
+                        });
+
+
                     } else {
 
                         registerConfirmation.setText("Password does not match!");
@@ -370,6 +435,8 @@ public class LoginScreen extends BaseScreen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        loginUser();
+        createNewUser();
     }
 
     @Override
@@ -387,7 +454,6 @@ public class LoginScreen extends BaseScreen {
     }
 
 
-
     @Override
     public void render(float delta) {
         state += Gdx.graphics.getDeltaTime();
@@ -395,17 +461,10 @@ public class LoginScreen extends BaseScreen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.getBatch().draw(animation.getKeyFrame(state), 0.0f, 0.0f, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         if (isPressed) {
-            isValid = communicationService.sendRequest(currentPlayer, Net.HttpMethods.POST);
-            if (isValid) {
-                game.setScreen(new LoadingScreen(game));
-            }else {
-                loginConfirmation.setText("invalid username or password!");
-                loginConfirmation.setColor(Color.RED);
-            }
-            isPressed =false;
+            game.setScreen(new LoadingScreen(game));
         }
+        stage.getBatch().draw(animation.getKeyFrame(state), 0.0f, 0.0f, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().end();
         stage.act();
 
@@ -413,4 +472,20 @@ public class LoginScreen extends BaseScreen {
 
     }
 
+    /**
+     * Prepares the headers and other configurations
+     *
+     * @param url
+     * @param payload
+     * @return
+     */
+    public Net.HttpRequest setupRequest(String url, String payload) {
+        Net.HttpRequest request = new Net.HttpRequest(Net.HttpMethods.POST);
+        request.setTimeOut(6000);
+        request.setUrl(url);
+        request.setHeader("Content-Type", "application/json");
+        request.setHeader("Accept", "application/json");
+        request.setContent(payload);
+        return request;
+    }
 }
