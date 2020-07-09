@@ -213,7 +213,7 @@ public class GifDecoder {
                             break;
                         case 4:
                             iline = 1;
-                            inc = 2;
+                                inc = 2;
                             break;
                         default:
                             break;

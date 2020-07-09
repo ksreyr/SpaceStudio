@@ -1,5 +1,7 @@
 package de.spaceStudio.server.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -17,6 +19,7 @@ public class Ship {
     private ShipForm shipForm;
 
     @ManyToOne
+    //@JsonManagedReference
     private Actor owner;
 
     @NonNull

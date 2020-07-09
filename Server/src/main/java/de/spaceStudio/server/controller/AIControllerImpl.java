@@ -1,10 +1,16 @@
 package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.AI;
+import de.spaceStudio.server.repository.AIRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@RestController
 public class AIControllerImpl implements AIController {
+    @Autowired
+    AIRepository aiRepository;
     /**
      * Get all AIs from db
      *
@@ -34,7 +40,8 @@ public class AIControllerImpl implements AIController {
      */
     @Override
     public String addAI(AI ai) {
-        return null;
+        aiRepository.save(ai);
+        return HttpStatus.CREATED.toString();
     }
 
     /**

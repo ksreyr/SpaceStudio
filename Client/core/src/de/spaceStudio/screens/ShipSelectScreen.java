@@ -6,6 +6,7 @@ import com.badlogic.gdx.Net;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
@@ -57,7 +58,10 @@ public class ShipSelectScreen extends BaseScreen {
     private Texture weapon;
     private Texture drive;
     private TextField crew_1_name, crew_2_name, crew_3_name;
-    // private TextField textField;
+
+    private Label shieldPowerAnzeige;
+    private Label antriebAnzeige;
+    private Label weaponPowerAnzeige;
 
     Animation<TextureRegion> crew1;
     Animation<TextureRegion> crew2;
@@ -68,6 +72,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     private Stage stage;
     private Skin skinButton;
+    private Viewport viewport;
     private TextButton next;
     private TextButton previous;
     private TextButton showHideRoom;
@@ -77,7 +82,6 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton saveStation;
     private TextButton easyButton;
     private TextButton normalButton;
-    private Viewport viewport;
 
 
     private ShapeRenderer shapeRenderer;
@@ -87,7 +91,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     private InitialDataGameService idgs = new InitialDataGameService();
 
-    boolean isOpen;
+    private boolean isOpen;
     private InputHandler inputHandler;
     private int levelDifficult = 0;
 
@@ -113,11 +117,25 @@ public class ShipSelectScreen extends BaseScreen {
     Planet p4 = Global.planet4;
     Planet p5 = Global.planet5;
 
-    ArrayList<Ship> shipsToPlanet = new ArrayList<Ship>();
+    ArrayList<Ship> shipsToP1 = new ArrayList<Ship>();
+    ArrayList<Ship> shipsToP2 = new ArrayList<Ship>();
+    ArrayList<Ship> shipsToP3 = new ArrayList<Ship>();
+    ArrayList<Ship> shipsToP4 = new ArrayList<Ship>();
+    ArrayList<Ship> shipsToP5 = new ArrayList<Ship>();
 
     AI gegner1 = Global.ai1;
-    Ship shipOfGegner = Global.shipGegner;
+    Ship shipOfGegner = Global.shipGegner1;
 
+    Section section1Gegner = Global.section1Gegner;
+    Section section2Gegner = Global.section2Gegner;
+    Section section3Gegner = Global.section3Gegner;
+
+    AI gegner2 = Global.ai2;
+    Ship shipOfGegner2 = Global.shipGegner2;
+
+    Section section1Gegner2 = Global.section1Gegner2;
+    Section section2Gegner2 = Global.section2Gegner2;
+    Section section3Gegner2 = Global.section3Gegner2;
     //
     public ShipSelectScreen(MainClient game) {
         super(game);
@@ -125,8 +143,11 @@ public class ShipSelectScreen extends BaseScreen {
         // Clear cache before reload data again to avoid fake numbers
         playersOnline.clear();
         // download data
+        fetchLoggedUsers();
 
-        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        OrthographicCamera camera = new OrthographicCamera(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new ExtendViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT, camera);
+        //viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
 
         Gdx.input.setInputProcessor(stage);
@@ -158,6 +179,22 @@ public class ShipSelectScreen extends BaseScreen {
         background = new Texture(Gdx.files.internal("Client/core/assets/data/ast.jpg"));
         shapeRenderer = new ShapeRenderer();
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
+
+        shieldPowerAnzeige = new Label("100%", skinButton);
+        weaponPowerAnzeige = new Label("100%", skinButton);
+        antriebAnzeige = new Label("100%", skinButton);
+
+        shieldPowerAnzeige.setFontScale(2,2);
+        weaponPowerAnzeige.setFontScale(2,2);
+        antriebAnzeige.setFontScale(2,2);
+        shieldPowerAnzeige.setColor(Color.GOLD);
+        shieldPowerAnzeige.setPosition(stage.getWidth()-1120,270);
+
+        weaponPowerAnzeige.setColor(Color.GOLD);
+        weaponPowerAnzeige.setPosition(stage.getWidth()-1035,270);
+
+        antriebAnzeige.setColor(Color.GOLD);
+        antriebAnzeige.setPosition(stage.getWidth()-950,270);
 
         inputHandler = new InputHandler();
 
@@ -199,6 +236,25 @@ public class ShipSelectScreen extends BaseScreen {
         showHideRoom();
         selectLevelView();
         StartButton();
+        // top left position
+        if(!Global.IS_SINGLE_PLAYER){
+
+            playersOnlineLabel = new Label(null, skinButton);
+            playersOnlineLabel.setPosition(20,950);
+            playersOnlineLabel.setFontScale(2);
+
+            displayOnlinePlayerName = new Label(null, skinButton);
+            displayOnlinePlayerName.setPosition(20,920);
+            displayOnlinePlayerName.setFontScale(1.5F);
+
+            drawLobby();
+
+            stage.addActor(playersOnlineLabel);
+            stage.addActor(displayOnlinePlayerName);
+        }
+
+
+
 
         stage.addActor(usernameLabel);
         stage.addActor(next);
@@ -211,6 +267,9 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(crew_1_name);
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
+        stage.addActor(weaponPowerAnzeige);
+        stage.addActor(shieldPowerAnzeige);
+        stage.addActor(antriebAnzeige);
 
     }
 
@@ -219,20 +278,21 @@ public class ShipSelectScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 switch (shipNumber) {
-                    case 0:
-                        ship = Global.ship0;
-                        break;
-                    case 1:
-                        ship = Global.ship1;
-                        break;
-                    case 2:
-                        ship = Global.ship2;
-                        break;
-                    default:
-                        ship = Global.ship3;
-                        break;
-                }
+                        case 0:
+                            ship = Global.ship0;
+                            break;
+                        case 1:
+                            ship = Global.ship1;
+                            break;
+                        case 2:
+                            ship = Global.ship2;
+                            break;
+                        default:
+                            ship = Global.ship3;
+                            break;
+                    }
                 ship.setOwner(Global.currentPlayer);
+
                 section1.setShip(ship);
                 section2.setShip(ship);
                 section3.setShip(ship);
@@ -240,77 +300,118 @@ public class ShipSelectScreen extends BaseScreen {
                 section5.setShip(ship);
                 section6.setShip(ship);
 
-                System.out.println("persit SHIP");
+                section1Gegner.setShip(shipOfGegner);
+                section2Gegner.setShip(shipOfGegner);
+                section3Gegner.setShip(shipOfGegner);
+
+                section1Gegner2.setShip(shipOfGegner2);
+                section2Gegner2.setShip(shipOfGegner2);
+                section3Gegner2.setShip(shipOfGegner2);
+
                 idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
                 Global.currentShip = ship;
-                System.out.println("persit section1");
-                idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
-                System.out.println("persit section2");
-                idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
-                System.out.println("persit section3");
-                idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
-                System.out.println("persit section4");
-                idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
-                System.out.println("persit section5");
-                idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
-                System.out.println("persit section6");
-                idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
+                idgs.aiCreation(gegner1, Net.HttpMethods.POST);
+                idgs.aiCreation(gegner2, Net.HttpMethods.POST);
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
 
                 }
-                crewMember0.setCurrentSection(section1);
-                crewMember1.setCurrentSection(section2);
-                crewMember2.setCurrentSection(section3);
-                crewMember0.setName(crew_1_name.getText());
-                crewMember1.setName(crew_2_name.getText());
-                crewMember2.setName(crew_3_name.getText());
-                idgs.sendRequestAddCrew(crewMember0, Net.HttpMethods.POST);
-                idgs.sendRequestAddCrew(crewMember1, Net.HttpMethods.POST);
-                idgs.sendRequestAddCrew(crewMember2, Net.HttpMethods.POST);
 
+                shipOfGegner.setOwner(gegner1);
+                shipOfGegner2.setOwner(gegner2);
+                idgs.sendRequestAddShip(shipOfGegner, Net.HttpMethods.POST);
+                idgs.sendRequestAddShip(shipOfGegner2, Net.HttpMethods.POST);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
 
-                ////
-                if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
-                    idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
-                    try {
-                        Thread.sleep(200);
-                    } catch (Exception e) {
-
-                    }
-                    p1.setUniverse(universe2);
-                    p2.setUniverse(universe2);
-                    p3.setUniverse(universe2);
-                    p4.setUniverse(universe2);
-                    p5.setUniverse(universe2);
-                    shipsToPlanet.add(ship);
-                    p1.setShips(shipsToPlanet);
-                    idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
-                } else {
-                    idgs.sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
-                    try {
-                        Thread.sleep(200);
-                    } catch (Exception e) {
-
-                    }
-                    p1.setUniverse(universe1);
-                    p2.setUniverse(universe1);
-                    p3.setUniverse(universe1);
-                    p4.setUniverse(universe1);
-                    p5.setUniverse(universe1);
-                    shipsToPlanet.add(ship);
-                    p1.setShips(shipsToPlanet);
-                    idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
                 }
+                idgs.sendRequestAddSection(section1Gegner, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section2Gegner, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section3Gegner, Net.HttpMethods.POST);
+
+                idgs.sendRequestAddSection(section1Gegner2, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section2Gegner2, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section3Gegner2, Net.HttpMethods.POST);
+
+                idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
+                idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+
+                    }
+                    //
+                    //Todo: Liam Conecting Teil
+                    //
+                    crewMember0.setCurrentSection(section1);
+                    crewMember1.setCurrentSection(section2);
+                    crewMember2.setCurrentSection(section3);
+                    crewMember0.setName(crew_1_name.getText());
+                    crewMember1.setName(crew_2_name.getText());
+                    crewMember2.setName(crew_3_name.getText());
+                    idgs.sendRequestAddCrew(crewMember0, Net.HttpMethods.POST);
+                    idgs.sendRequestAddCrew(crewMember1, Net.HttpMethods.POST);
+                    idgs.sendRequestAddCrew(crewMember2, Net.HttpMethods.POST);
+
+
+                    ////
+                    if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+                        universe2.setName(universe2.getName()+currentPlayer.getName());
+                        Global.universe1.setName(universe2.getName());
+                        idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
+                        try {
+                            Thread.sleep(200);
+                        } catch (Exception e) {
+
+                        }
+                        p1.setUniverse(universe2);
+                        p2.setUniverse(universe2);
+                        p3.setUniverse(universe2);
+                        p4.setUniverse(universe2);
+                        p5.setUniverse(universe2);
+                        shipsToP1.add(ship);
+                        shipsToP2.add(shipOfGegner);
+                        shipsToP3.add(shipOfGegner2);
+                        p1.setShips(shipsToP1);
+                        p2.setShips(shipsToP2);
+                        p3.setShips(shipsToP3);
+                        idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
+                    } else {
+                        universe1.setName(universe1.getName()+currentPlayer.getName());
+                        Global.universe1.setName(universe1.getName());
+                        idgs.sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
+                        try {
+                            Thread.sleep(200);
+                        } catch (Exception e) {
+
+                        }
+                        p1.setUniverse(universe1);
+                        p2.setUniverse(universe1);
+                        p3.setUniverse(universe1);
+                        p4.setUniverse(universe1);
+                        p5.setUniverse(universe1);
+                        shipsToP1.add(ship);
+                        shipsToP2.add(shipOfGegner);
+                        shipsToP3.add(shipOfGegner2);
+                        p1.setShips(shipsToP1);
+                        p2.setShips(shipsToP2);
+                        p3.setShips(shipsToP3);
+                        idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
+                        idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
+                    }
 
             }
         });
@@ -383,7 +484,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        viewport.update(width,height);
 
     }
 
@@ -566,6 +667,9 @@ public class ShipSelectScreen extends BaseScreen {
         if (Global.isOnlineGame) {
             drawLobby();
         }
+        if(!Global.IS_SINGLE_PLAYER)  drawLobby();
+
+
     }
 
     /**

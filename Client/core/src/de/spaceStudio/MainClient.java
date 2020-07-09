@@ -4,19 +4,13 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import de.spaceStudio.screens.CombatScreen;
-import de.spaceStudio.screens.StationsMap;
-
-import de.spaceStudio.screens.ShipSelectScreen;
+import de.spaceStudio.screens.*;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import de.spaceStudio.screens.LoginScreen;
-
 public class MainClient extends Game {
-	@Setter
-	@Getter
+
 	private AssetManager assetManager;
 
 	public LoginScreen loginScreen;
@@ -37,17 +31,24 @@ public class MainClient extends Game {
 		//stationsMap = new StationsMap(this);
 		batch = new SpriteBatch();
 		//setScreen(stationsMap);
-	//	shipSelectScreen= new ShipSelectScreen(this);
+		//shipSelectScreen= new ShipSelectScreen(this);
 		batch = new SpriteBatch();
-	    //setScreen(loginScreen);
 
 	    //combatScreen = new CombatScreen(this);
 	    setScreen(loginScreen);
 
 
 
-
 	}
+
+	public AssetManager getAssetManager() {
+		return assetManager;
+	}
+
+	public void setAssetManager(AssetManager assetManager) {
+		this.assetManager = assetManager;
+	}
+
 	@Override
 	public void dispose() {
 		super.dispose();
@@ -57,10 +58,5 @@ public class MainClient extends Game {
 
 	public SpriteBatch getBatch() {
 		return batch;
-
 	}
-	public AssetManager getAssetmanager() {
-		return assetManager;
-	}
-
 }

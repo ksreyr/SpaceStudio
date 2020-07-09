@@ -1,0 +1,15 @@
+#+TITLE: Ai
+
+KI kann folgende Aufgaben erledigen:
+  - Movement AI
+    - Steering Behaviors: AI decides where to move to after each round
+  - Pathfinding
+    - A*: Find the fastest Path to the room where the Crew is going
+  - Decision Making
+    - State Machine:
+      - Decide when to attack other Ships
+        What are the defences, how strong is my attack
+      - Decide when to use Ressources or Uprades
+        Upgrade Path defines Paths which the AI takes
+
+Nichts von oben, So einfach wie möglich

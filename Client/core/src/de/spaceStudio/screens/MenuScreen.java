@@ -54,7 +54,7 @@ public class MenuScreen extends ScreenAdapter  {
     public MenuScreen(MainClient mainClient){
         this.universeMap = mainClient;
         this.mainClient = mainClient;
-        assetManager = universeMap.getAssetmanager();
+        assetManager = universeMap.getAssetManager();
     }
 
 
@@ -78,6 +78,12 @@ public class MenuScreen extends ScreenAdapter  {
 
         //Button: Continue, New Game, Options, Exit
         TextButton textButtonContinue = new TextButton(" Continue  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
+        textButtonContinue.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+
+            }
+        });
 
 
         TextButton textButtonNewGame = new TextButton("New Game", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
@@ -90,10 +96,7 @@ public class MenuScreen extends ScreenAdapter  {
         });
 
         TextButton textButtonOptions = new TextButton("  Options  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonOptions.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) { }
-        });
+
 
         TextButton textButtonExit = new TextButton("    Exit    ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
         textButtonExit.addListener(new ChangeListener() {
