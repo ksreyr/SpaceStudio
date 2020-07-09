@@ -942,3 +942,4 @@ gradle-app.setting
 ../database.lock.db
 database.mv.db
 database.trace.db
+database.lock.db
