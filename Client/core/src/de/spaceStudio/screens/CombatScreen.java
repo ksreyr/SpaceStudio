@@ -3,11 +3,8 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -35,11 +32,11 @@ public class CombatScreen extends BaseScreen{
     private Texture background;
     private TextButton fire;
 
-    private Texture missille1, missille2, explosion;
-    int fuzeOffset;
+    private Texture missilleRight, missilleRightFired, explosion, missilleLeft, missilleLeftFired;
+    int fuzeOffsetright,fuzeOffsetLeft;
     boolean isFired;
     private boolean isExploied;
-    private boolean isTargetSelected;
+    private boolean isTargetSelected, isTargedEngine, isTargetCockpit, isTargetWeapon;
     private ShapeRenderer shapeRenderer;
     private Skin  skinButton;
     private AssetManager assetManager = null;
@@ -47,7 +44,8 @@ public class CombatScreen extends BaseScreen{
 
     //private TextButton engine, weapon, o2;
     private ImageButton engine, weapon,cockpit;
-    int disappear = 570;
+    int disappearRight = 570;
+    int disappearLeft = 570;
 
     Sound rocketLaunch;
 
@@ -72,10 +70,15 @@ public class CombatScreen extends BaseScreen{
         final Drawable cockpit_red = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/PilotingRed.png")));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
-        missille1 =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
-        missille2 =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
+        missilleRight =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
+        missilleRightFired =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
+
+        missilleLeft =  missilleRight =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
+        missilleLeftFired =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
+
         explosion = new Texture(Gdx.files.internal("Client/core/assets/data/explosion1_0024.png"));
-        fuzeOffset = 570;
+        fuzeOffsetright = 570;
+        fuzeOffsetLeft = 570;
 
         engine = new ImageButton(engine_sym);
         engine.setPosition(1075,440);
@@ -83,7 +86,8 @@ public class CombatScreen extends BaseScreen{
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                isTargetSelected = true;
+                isTargedEngine = true;
+                isTargetSelected=true;
                 engine.getStyle().imageUp = engine_red;
 
             }
@@ -97,6 +101,7 @@ public class CombatScreen extends BaseScreen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
+                isTargetCockpit = true;
                 cockpit.getStyle().imageUp = cockpit_red;
 
             }
@@ -104,21 +109,15 @@ public class CombatScreen extends BaseScreen{
 
 
         Gdx.input.setInputProcessor(stage);
-
         fire = new TextButton("Fire",skinButton,"small");
         fire.setPosition(800,200);
         fire.addListener(new ChangeListener() {
-
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
 
                  //   hoverListener(fire);
                     rocketLaunch.play();
                     isFired = true;
-
-
-
 
             }
         });
@@ -161,27 +160,42 @@ public class CombatScreen extends BaseScreen{
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
         stage.getBatch().draw(hull, 0,1020,500,50);
-        stage.getBatch().draw(missille1,disappear,422,400,50);
-        if(isFired && isTargetSelected) {
-            fuzeOffset++;
-            disappear=BaseScreen.WIDTH;
-            stage.getBatch().draw(missille2,+fuzeOffset,422,400,50);
-
-            if(fuzeOffset == 700){
-                fuzeOffset = BaseScreen.WIDTH;
+        stage.getBatch().draw(missilleRight,disappearRight,422,400,50);
+        stage.getBatch().draw(missilleLeft,disappearLeft,825,400,50);
+        if(isFired &&  isTargedEngine) {
+            fuzeOffsetright++;
+            disappearRight=BaseScreen.WIDTH;
+            stage.getBatch().draw(missilleRightFired,+fuzeOffsetright,422,400,50);
+        }
+        if(isFired &&  isTargetCockpit) {
+            fuzeOffsetLeft++;
+            disappearLeft=BaseScreen.WIDTH;
+            stage.getBatch().draw(missilleLeftFired,+fuzeOffsetLeft,825,400,50);
+        }
+        
+        if(fuzeOffsetright == 700){
+                fuzeOffsetright = BaseScreen.WIDTH;
                 isExploied = true;
-            }
+
+         }
+        if(fuzeOffsetLeft == 700){
+            fuzeOffsetLeft = BaseScreen.WIDTH;
+            isExploied = true;
+
         }
-
-        if(isExploied)
-        {
-
-
+        if(isTargedEngine&& isExploied){
             stage.getBatch().draw(explosion,1515,422,100,100);
+
+
         }
+        if(isTargetCockpit&&isExploied){
+            stage.getBatch().draw(explosion,1515, 690,100,100);
+
+        }
+
 
         stage.getBatch().end();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+/*        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.MAGENTA);
         shapeRenderer.line(0,298, BaseScreen.WIDTH,298);
         shapeRenderer.setColor(Color.GREEN);
@@ -192,7 +206,7 @@ public class CombatScreen extends BaseScreen{
         shapeRenderer.line(0,292, BaseScreen.WIDTH,292);
 
         // shapeRenderer.
-        shapeRenderer.end();
+        shapeRenderer.end();*/
 
         stage.act();
         stage.draw();
@@ -226,8 +240,8 @@ public class CombatScreen extends BaseScreen{
         skin.dispose();
         shapeRenderer.dispose();
         rocketLaunch.dispose();
-        missille1.dispose();
-        missille2.dispose();
+        missilleRight.dispose();
+        missilleRightFired.dispose();
         stage.dispose();
     }
 }
