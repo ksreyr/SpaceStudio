@@ -1,22 +1,26 @@
 package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.SectionTyp;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.repository.SectionRepository;
+import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.WeaponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
 public class WeaponControllerImpl implements WeaponController {
     @Autowired
     WeaponRepository weaponRepository;
-
+    @Autowired
+    SectionRepository sectionRepository;
+    @Autowired
+    ShipRepository shipRepository;
     @Override
     public boolean canAttack(Weapon w, Ship s) {
         return false;
@@ -43,6 +47,15 @@ public class WeaponControllerImpl implements WeaponController {
     @RequestMapping(value = "/weapon", method = RequestMethod.POST)
 
     public String addWeapon(@RequestBody Weapon weapon) {
+        Ship ship=weapon.getSection().getShip();
+        ship=shipRepository.findShipByName(ship.getName()).get();
+        List<Section> sections=sectionRepository.findAllByShip(ship).get();
+        for(Section s:sections){
+            if(s.getSectionTyp().equals(SectionTyp.WEAPONS)){
+                weapon.setSection(s);
+                break;
+            }
+        }
         weaponRepository.save(weapon);
         return HttpStatus.CREATED.toString();    }
 

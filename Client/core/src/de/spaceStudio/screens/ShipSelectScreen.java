@@ -22,9 +22,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.server.model.CrewMember;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.InitialDataGameService;
 import thirdParties.GifDecoder;
@@ -95,6 +92,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     //
     Ship ship = new Ship();
+    Weapon weaponShip = Global.weapon;
     CrewMember crewMember0 = Global.crewMember0;
     CrewMember crewMember1 = Global.crewMember1;
     CrewMember crewMember2 = Global.crewMember2;
@@ -252,8 +250,6 @@ public class ShipSelectScreen extends BaseScreen {
         }
 
 
-
-
         stage.addActor(usernameLabel);
         stage.addActor(next);
         stage.addActor(previous);
@@ -343,73 +339,75 @@ public class ShipSelectScreen extends BaseScreen {
                     Thread.sleep(100);
                 } catch (Exception e) {
 
+                }
+                weaponShip.setSection(section1);
+                idgs.sendRequestAddWeapon(weaponShip,Net.HttpMethods.POST);
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+
+                }
+                crewMember0.setCurrentSection(section1);
+                crewMember1.setCurrentSection(section2);
+                crewMember2.setCurrentSection(section3);
+                crewMember0.setName(crew_1_name.getText());
+                crewMember1.setName(crew_2_name.getText());
+                crewMember2.setName(crew_3_name.getText());
+                idgs.sendRequestAddCrew(crewMember0, Net.HttpMethods.POST);
+                idgs.sendRequestAddCrew(crewMember1, Net.HttpMethods.POST);
+                idgs.sendRequestAddCrew(crewMember2, Net.HttpMethods.POST);
+
+                if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+                    universe2.setName(universe2.getName() + currentPlayer.getName());
+                    Global.universe1.setName(universe2.getName());
+                    idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+
                     }
-                    //
-                    //Todo: Liam Conecting Teil
-                    //
-                    crewMember0.setCurrentSection(section1);
-                    crewMember1.setCurrentSection(section2);
-                    crewMember2.setCurrentSection(section3);
-                    crewMember0.setName(crew_1_name.getText());
-                    crewMember1.setName(crew_2_name.getText());
-                    crewMember2.setName(crew_3_name.getText());
-                    idgs.sendRequestAddCrew(crewMember0, Net.HttpMethods.POST);
-                    idgs.sendRequestAddCrew(crewMember1, Net.HttpMethods.POST);
-                    idgs.sendRequestAddCrew(crewMember2, Net.HttpMethods.POST);
+                    p1.setUniverse(universe2);
+                    p2.setUniverse(universe2);
+                    p3.setUniverse(universe2);
+                    p4.setUniverse(universe2);
+                    p5.setUniverse(universe2);
+                    shipsToP1.add(ship);
+                    shipsToP2.add(shipOfGegner);
+                    shipsToP3.add(shipOfGegner2);
+                    p1.setShips(shipsToP1);
+                    p2.setShips(shipsToP2);
+                    p3.setShips(shipsToP3);
+                    idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
+                } else {
+                    universe1.setName(universe1.getName() + currentPlayer.getName());
+                    Global.universe1.setName(universe1.getName());
+                    idgs.sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
 
-
-                    ////
-                    if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
-                        universe2.setName(universe2.getName()+currentPlayer.getName());
-                        Global.universe1.setName(universe2.getName());
-                        idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
-                        try {
-                            Thread.sleep(200);
-                        } catch (Exception e) {
-
-                        }
-                        p1.setUniverse(universe2);
-                        p2.setUniverse(universe2);
-                        p3.setUniverse(universe2);
-                        p4.setUniverse(universe2);
-                        p5.setUniverse(universe2);
-                        shipsToP1.add(ship);
-                        shipsToP2.add(shipOfGegner);
-                        shipsToP3.add(shipOfGegner2);
-                        p1.setShips(shipsToP1);
-                        p2.setShips(shipsToP2);
-                        p3.setShips(shipsToP3);
-                        idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
-                    } else {
-                        universe1.setName(universe1.getName()+currentPlayer.getName());
-                        Global.universe1.setName(universe1.getName());
-                        idgs.sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
-                        try {
-                            Thread.sleep(200);
-                        } catch (Exception e) {
-
-                        }
-                        p1.setUniverse(universe1);
-                        p2.setUniverse(universe1);
-                        p3.setUniverse(universe1);
-                        p4.setUniverse(universe1);
-                        p5.setUniverse(universe1);
-                        shipsToP1.add(ship);
-                        shipsToP2.add(shipOfGegner);
-                        shipsToP3.add(shipOfGegner2);
-                        p1.setShips(shipsToP1);
-                        p2.setShips(shipsToP2);
-                        p3.setShips(shipsToP3);
-                        idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
-                        idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
                     }
+                    p1.setUniverse(universe1);
+                    p2.setUniverse(universe1);
+                    p3.setUniverse(universe1);
+                    p4.setUniverse(universe1);
+                    p5.setUniverse(universe1);
+                    shipsToP1.add(ship);
+                    shipsToP2.add(shipOfGegner);
+                    shipsToP3.add(shipOfGegner2);
+                    p1.setShips(shipsToP1);
+                    p2.setShips(shipsToP2);
+                    p3.setShips(shipsToP3);
+                    idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
+                    idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
+                }
 
             }
         });

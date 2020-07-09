@@ -24,6 +24,8 @@ import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
+import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.utils.Game;
 
 
@@ -57,6 +59,7 @@ public class CombatScreen extends BaseScreen{
     private ImageButton engine, weapon,cockpit;
     int disappear = 570;
 
+    Ship shipPlayer = Global.currentShip;
 
     Sound rocketLaunch;
 

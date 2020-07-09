@@ -64,6 +64,11 @@ public class Global {
      */
     public static final String CREWMEMBER_CREATION_ENDPOINT = "/crewMember";
     /**
+     * Crew Cretion
+     */
+    public static final String WEAPON_CREATION_ENDPOINT = "/weapon";
+
+    /**
      * Planet Cretion
      */
     public static final String PLANET_CREATION_ENDPOINT = "/planet";
@@ -81,6 +86,18 @@ public class Global {
      */
     public static Player currentPlayer;
     /**
+     * Global player, this data will be downloaded from server at login
+     */
+    public static Ship currentShip;
+    /**
+     * Global player, this data will be downloaded from server at login
+     */
+    public static Planet currentPlanet;
+    /**
+     * Global player, this data will be downloaded from server at login
+     */
+    public static Universe currentUniverse;
+    /**
      * Server logged player endpoint
      */
     public static final String MAKEJUMP_CREATION_ENDPOINT = "/makejump";
@@ -88,11 +105,6 @@ public class Global {
      * Server logged player endpoint
      */
     public static final String PLAYER_CLEAN_ENDPOINT = "/cleanuser";
-
-    /**
-     * Global player, this data will be downloaded from server at login
-     */
-    public static Ship currentShip;
 
     /**
      * Gets all Users
@@ -296,6 +308,11 @@ public class Global {
      * */
     public static AI ai1= AI.builderAI().name("gegner1").buildAI();
     public static AI ai2= AI.builderAI().name("gegner2").buildAI();
+
+    /*
+    * Weapon
+    * */
+    public static  Weapon weapon= Weapon.WeaponBuilder().damage(100).hitRate(100).img("Image1").name("Rocket").build();
     /*
     Gegner Ship
      */

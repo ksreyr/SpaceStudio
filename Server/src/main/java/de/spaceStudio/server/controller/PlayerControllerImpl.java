@@ -41,6 +41,8 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Autowired
     CrewMemberRepository crewMemberRepository;
+    @Autowired
+    WeaponRepository weaponRepository;
 
     /**
      * This function is temporal in use to test client to Server connection
@@ -217,6 +219,12 @@ public class PlayerControllerImpl implements PlayerController {
                                 }
                             } else {
                                 System.out.println("not CrewMember to erase");
+                            }
+                            if(weaponRepository.findBySection(section).isPresent()){
+                                Weapon weapon=weaponRepository.findBySection(section).get();
+                                weaponRepository.delete(weapon);
+                            }else {
+                                System.out.println("not Section to erase");
                             }
                             sectionRepository.delete(section);
                         }
