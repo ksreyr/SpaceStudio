@@ -24,8 +24,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Player;
-import de.spaceStudio.service.CommunicationService;
-import de.spaceStudio.service.RegistrationService;
 import thirdParties.GifDecoder;
 
 
@@ -48,8 +46,6 @@ public class LoginScreen extends BaseScreen {
     private TextButton mute, exit;
     private Viewport viewport;
 
-    CommunicationService communicationService = new CommunicationService();
-    RegistrationService registrationService = new RegistrationService();
     Animation<TextureRegion> animation;
     private Music music;
     private Sound mouseClick;
@@ -98,7 +94,7 @@ public class LoginScreen extends BaseScreen {
         setTextButton(login, TEXTBOX_WIDTH, 70, BUTTON_LOGIN_X, 300);
         login.getLabel().setColor(Color.FOREST);
 
-        createNewUser();
+
         loginConfirmation = new Label("", skin);
         loginConfirmation.setSize(110, 50);
         loginConfirmation.setPosition(BUTTON_LOGIN_X, 230);
@@ -107,6 +103,9 @@ public class LoginScreen extends BaseScreen {
         registerConfirmation.setSize(110, 50);
         registerConfirmation.setPosition(BUTTON_REGISTER_X, 350);
 
+        register = new TextButton("Register", skin);
+        setTextButton(register, TEXTBOX_WIDTH, 70, (int) BUTTON_REGISTER_X, 300);
+        register.getLabel().setColor(Color.BLACK);
 
         mute = new TextButton("mute", skin);
         mute.addCaptureListener(new ChangeListener() {
@@ -336,12 +335,7 @@ public class LoginScreen extends BaseScreen {
     }
 
     public void createNewUser() {
-        register = new TextButton("Register", skin);
-        setTextButton(register, TEXTBOX_WIDTH, 70, (int) BUTTON_REGISTER_X, 300);
-        register.getLabel().setColor(Color.BLACK);
-
-
-        register.addCaptureListener(new ChangeListener() {
+        register.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -358,11 +352,47 @@ public class LoginScreen extends BaseScreen {
                 } else {
                     mouseClick.play();
 
-
                     if (p2.getPassword().contentEquals(getConfirmPassword())) {
-                        isValid = registrationService.createUser(p2, Net.HttpMethods.POST);
-                        registerConfirmation.setText("Successful!");
-                        registerConfirmation.setColor(Color.GREEN);
+                        final String createUserURL = Global.SERVER_URL + Global.PLAYER_ENDPOINT;
+                        final Json json = new Json();
+
+                        json.setOutputType(JsonWriter.OutputType.json);
+                        LOG.info("JSON to send " + json.toJson(p2));
+                        final String requestJson = json.toJson(p2);
+
+                        Net.HttpRequest request = setupRequest(createUserURL, requestJson);
+
+                        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+                            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                                int statusCode = httpResponse.getStatus().getStatusCode();
+                                String responseJson = httpResponse.getResultAsString();
+                                LOG.info(responseJson);
+                                if (statusCode == HttpStatus.SC_OK && responseJson.equals("201 CREATED")) {
+                                    registerConfirmation.setText("Successful!");
+                                    registerConfirmation.setColor(Color.GREEN);
+                                    LOG.info("Request Success");
+                                } else {
+                                    LOG.info("statusCode: " + statusCode);
+                                    registerConfirmation.setText("Server not available or bad request");
+                                    registerConfirmation.setColor(Color.YELLOW);
+
+                                }
+                            }
+
+                            public void failed(Throwable t) {
+                                registerConfirmation.setText("Server not available or bad request");
+                                registerConfirmation.setColor(Color.YELLOW);
+                                LOG.severe("Request failed");
+                            }
+
+                            @Override
+                            public void cancelled() {
+                                System.out.println("request cancelled");
+                            }
+                        });
+
+
                     } else {
 
                         registerConfirmation.setText("Password does not match!");
@@ -406,6 +436,7 @@ public class LoginScreen extends BaseScreen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         loginUser();
+        createNewUser();
     }
 
     @Override
@@ -442,7 +473,8 @@ public class LoginScreen extends BaseScreen {
     }
 
     /**
-     *  Prepares the headers and other configurations
+     * Prepares the headers and other configurations
+     *
      * @param url
      * @param payload
      * @return
@@ -456,6 +488,4 @@ public class LoginScreen extends BaseScreen {
         request.setContent(payload);
         return request;
     }
-
-
 }
