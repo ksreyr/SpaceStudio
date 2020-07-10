@@ -1,6 +1,7 @@
 package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 
+import java.util.ArrayList;
+
 
 public class CombatScreen extends BaseScreen{
 
@@ -30,18 +33,19 @@ public class CombatScreen extends BaseScreen{
     private Texture enemyShip;
     private Texture hull;
     private Texture background;
-    private TextButton fire;
+    private TextButton fireRight, fireLeft;
 
     private Texture missilleRight, missilleRightFired, explosion, missilleLeft, missilleLeftFired;
     int fuzeOffsetright,fuzeOffsetLeft;
-    boolean isFired;
-    private boolean isExploied;
+    boolean isRightPressed, isLeftPressed;
+    private boolean isShootEngine, isShootCockpit;
     private boolean isTargetSelected, isTargedEngine, isTargetCockpit, isTargetWeapon;
     private ShapeRenderer shapeRenderer;
     private Skin  skinButton;
     private AssetManager assetManager = null;
     boolean isWin;
 
+    Texture bullet;
     //private TextButton engine, weapon, o2;
     private ImageButton engine, weapon,cockpit;
     int disappearRight = 570;
@@ -49,6 +53,7 @@ public class CombatScreen extends BaseScreen{
 
     Sound rocketLaunch;
 
+    ArrayList<Texture> bullets;
 
     public CombatScreen(MainClient game) {
         super(game);
@@ -80,6 +85,8 @@ public class CombatScreen extends BaseScreen{
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
 
+        bullets = new ArrayList<>();
+
         engine = new ImageButton(engine_sym);
         engine.setPosition(1075,440);
         engine.setSize(1000,100);
@@ -92,7 +99,7 @@ public class CombatScreen extends BaseScreen{
 
             }
         });
-
+        bullet = new Texture("bullet.png");
 
         cockpit = new ImageButton(cockpit_nat);
         cockpit.setPosition(1075,660);
@@ -109,21 +116,37 @@ public class CombatScreen extends BaseScreen{
 
 
         Gdx.input.setInputProcessor(stage);
-        fire = new TextButton("Fire",skinButton,"small");
-        fire.setPosition(800,200);
-        fire.addListener(new ChangeListener() {
+        fireRight = new TextButton("Fire Right",skinButton,"small");
+        fireRight.setPosition(950,200);
+        fireRight.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
                  //   hoverListener(fire);
                     rocketLaunch.play();
-                    isFired = true;
+                    isRightPressed = true;
+
 
             }
         });
 
 
-         stage.addActor(fire);
+        fireLeft = new TextButton("Fire Left",skinButton,"small");
+        fireLeft.setPosition(800,200);
+        fireLeft.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+
+                //   hoverListener(fire);
+                rocketLaunch.play();
+                isLeftPressed = true;
+
+            }
+        });
+
+
+         stage.addActor(fireRight);
+         stage.addActor(fireLeft);
          stage.addActor(engine);
          stage.addActor(cockpit);
 
@@ -147,11 +170,13 @@ public class CombatScreen extends BaseScreen{
     @Override
     public void show() {
         super.show();
+    //  bullet = new Texture("bullet.png");
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
@@ -162,51 +187,34 @@ public class CombatScreen extends BaseScreen{
         stage.getBatch().draw(hull, 0,1020,500,50);
         stage.getBatch().draw(missilleRight,disappearRight,422,400,50);
         stage.getBatch().draw(missilleLeft,disappearLeft,825,400,50);
-        if(isFired &&  isTargedEngine) {
-            fuzeOffsetright++;
-            disappearRight=BaseScreen.WIDTH;
-            stage.getBatch().draw(missilleRightFired,+fuzeOffsetright,422,400,50);
-        }
-        if(isFired &&  isTargetCockpit) {
-            fuzeOffsetLeft++;
-            disappearLeft=BaseScreen.WIDTH;
-            stage.getBatch().draw(missilleLeftFired,+fuzeOffsetLeft,825,400,50);
-        }
-        
-        if(fuzeOffsetright == 700){
-                fuzeOffsetright = BaseScreen.WIDTH;
-                isExploied = true;
+        if(isRightPressed   &&   isTargedEngine) {
+            fuzeOffsetright+= fuzeOffsetright*delta;
+            stage.getBatch().draw(bullet,+fuzeOffsetright,444,40,10);
 
+        }
+        if(isLeftPressed &&  isTargetCockpit) {
+            fuzeOffsetLeft+= fuzeOffsetLeft*delta;
+            stage.getBatch().draw(bullet,+fuzeOffsetLeft,843,40,10);
+
+        }
+        if(fuzeOffsetright > 1000){
+            fuzeOffsetright = BaseScreen.WIDTH;
+            isShootEngine = true;
          }
-        if(fuzeOffsetLeft == 700){
+        if(fuzeOffsetLeft > 1000){
             fuzeOffsetLeft = BaseScreen.WIDTH;
-            isExploied = true;
-
+            isShootCockpit = true;
         }
-        if(isTargedEngine&& isExploied){
+        if(isTargedEngine && isShootEngine){
             stage.getBatch().draw(explosion,1515,422,100,100);
-
-
         }
-        if(isTargetCockpit&&isExploied){
+        if(isTargetCockpit&& isShootCockpit){
             stage.getBatch().draw(explosion,1515, 690,100,100);
-
         }
 
 
         stage.getBatch().end();
-/*        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.MAGENTA);
-        shapeRenderer.line(0,298, BaseScreen.WIDTH,298);
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.line(0,296, BaseScreen.WIDTH,296);
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.line(0,294, BaseScreen.WIDTH,294);
-        shapeRenderer.setColor(Color.CORAL);
-        shapeRenderer.line(0,292, BaseScreen.WIDTH,292);
 
-        // shapeRenderer.
-        shapeRenderer.end();*/
 
         stage.act();
         stage.draw();
