@@ -129,6 +129,7 @@ public class StationsMap extends BaseScreen {
         planet3ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentPlanet=Global.planet3;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if(obj.toString()=="true") {

@@ -14,10 +14,7 @@ public class MainClient extends Game {
 	private AssetManager assetManager;
 
 	public LoginScreen loginScreen;
-	public ShipSelectScreen shipSelectScreen;
-	public CombatScreen combatScreen;
 
-	public StationsMap stationsMap;
 	private SpriteBatch batch;
 
 
@@ -27,17 +24,9 @@ public class MainClient extends Game {
 
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
-		//loginScreen = new LoginScreen(this, assetManager);
-		//stationsMap = new StationsMap(this);
+		loginScreen = new LoginScreen(this, assetManager);
 		batch = new SpriteBatch();
-		//setScreen(stationsMap);
-		shipSelectScreen= new ShipSelectScreen(this);
-		//batch = new SpriteBatch();
-
-	    combatScreen = new CombatScreen(this);
-	    setScreen(combatScreen);
-
-
+	    setScreen(loginScreen);
 
 	}
 

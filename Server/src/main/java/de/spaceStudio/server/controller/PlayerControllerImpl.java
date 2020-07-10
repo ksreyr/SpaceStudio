@@ -42,6 +42,14 @@ public class PlayerControllerImpl implements PlayerController {
     @Autowired
     CrewMemberRepository crewMemberRepository;
 
+    @Autowired
+    WeaponRepository weaponRepository;
+
+    @Autowired
+    ShipRessourceRepository shipRessourceRepository;
+
+    @Autowired
+    ShopRessourceRepository shopRessourceRepository;
     /**
      * This function is temporal in use to test client to Server connection
      * Login user if exists
@@ -218,6 +226,12 @@ public class PlayerControllerImpl implements PlayerController {
                             } else {
                                 System.out.println("not CrewMember to erase");
                             }
+                            if(weaponRepository.findBySection(section).isPresent()){
+                                Weapon weapon=weaponRepository.findBySection(section).get();
+                                weaponRepository.delete(weapon);
+                            }else {
+                                System.out.println("not Section to erase");
+                            }
                             sectionRepository.delete(section);
                         }
                     } else {
@@ -231,16 +245,23 @@ public class PlayerControllerImpl implements PlayerController {
                     if(stopAbstractRepository.findById(sa.getId()).isPresent()){
                     stopAbstractRepository.delete(sa);
                     }
+                    if(shipRessourceRepository.findByShip(s).isPresent()){
+                        shipRessourceRepository.delete(shipRessourceRepository.findByShip(s).get());
+                    }
                     shipRepository.delete(s);
                 }
             }
             for (StopAbstract s :
                     stopAbstracts) {
+                    try {
+                        ShopRessource shopRessource=shopRessourceRepository.findByStation((Station) s).get();
+                        shopRessourceRepository.delete(shopRessource);
+                    }catch (Exception e){
+
+                    }
                     stopAbstractRepository.delete(s);
             }
             universeRepository.delete(universe);
-
-            //shipRepository.delete(ship);
 
         }
         return "DONE";

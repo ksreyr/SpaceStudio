@@ -86,4 +86,7 @@ public interface WeaponController  {
      */
     @RequestMapping(value = "/weapons", method = RequestMethod.DELETE)
     String deleteAllWeapons();
+
+    @RequestMapping(value = "/fire", method = RequestMethod.POST)
+    String fire(@RequestBody Weapon weapon);
 }
