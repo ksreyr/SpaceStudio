@@ -88,8 +88,9 @@ public class PlayerControllerImpl implements PlayerController {
     public String addPlayer(@RequestBody Player player) {
         // For the future hash password
         // player.setPassword(hashPassword(player.getPassword()));
-        Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
-        if (fetchPlayer.isPresent()) {
+
+        Optional<Player> fetchPlayer = (playerRepository.findByName(player.getName()));
+        if (fetchPlayer != null && fetchPlayer.isPresent()) {
             return "Name already registered, try another one :)";
         } else {
             Player savedPlayer = playerRepository.save(player);
