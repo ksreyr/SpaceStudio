@@ -8,7 +8,13 @@ public class Station extends StopAbstract{
 
     private int energyPrice;
 
+
     public Station(StationBuilder stationBuilder) {
+        setName(stationBuilder.name);
+        setUniverse(stationBuilder.universe);
+        setId(stationBuilder.id);
+        setShips(stationBuilder.ships);
+        setEnergyPrice(stationBuilder.energyPrice);
     }
 
     public int getEnergyPrice() {
@@ -28,19 +34,24 @@ public class Station extends StopAbstract{
     public static class StationBuilder{
         private int energyPrice;
         private Integer id;
-        private List<Ship> ship;
+        private List<Ship> ships;
         private Universe universe;
+        private  String name;
 
         public StationBuilder energyPrice(int energyPrice){
             this.energyPrice=energyPrice;
+            return StationBuilder.this;
+        }
+        public StationBuilder name(String name){
+            this.name=name;
             return StationBuilder.this;
         }
         public StationBuilder id(Integer id){
             this.id=id;
             return StationBuilder.this;
         }
-        public StationBuilder ship(List<Ship> ship){
-            this.ship=ship;
+        public StationBuilder ships(List<Ship> ships){
+            this.ships =ships;
             return StationBuilder.this;
         }
         public StationBuilder universe(Universe universe){

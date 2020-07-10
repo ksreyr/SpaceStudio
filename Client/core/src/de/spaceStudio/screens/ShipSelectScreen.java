@@ -132,6 +132,13 @@ public class ShipSelectScreen extends BaseScreen {
     Section section1Gegner2 = Global.section1Gegner2;
     Section section2Gegner2 = Global.section2Gegner2;
     Section section3Gegner2 = Global.section3Gegner2;
+
+    Station station1= Global.station1;
+    Station station2= Global.station2;
+
+    ShopRessource shopRessource1=Global.shopRessource1;
+    ShopRessource shopRessource2=Global.shopRessource2;
+    ShipRessource shipRessource=Global.shipRessource1;
     //
     public ShipSelectScreen(MainClient game) {
         super(game);
@@ -379,6 +386,8 @@ public class ShipSelectScreen extends BaseScreen {
                     p3.setUniverse(universe2);
                     p4.setUniverse(universe2);
                     p5.setUniverse(universe2);
+                    station1.setUniverse(universe2);
+                    station2.setUniverse(universe2);
                     shipsToP1.add(ship);
                     Global.currentPlanet=p1;
                     shipsToP2.add(shipOfGegner);
@@ -391,6 +400,22 @@ public class ShipSelectScreen extends BaseScreen {
                     idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
                     idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
                     idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
+                    idgs.sendRequestAddStation(station1, Net.HttpMethods.POST);
+                    idgs.sendRequestAddStation(station2, Net.HttpMethods.POST);
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                    }
+                    shopRessource1.setStation(station1);
+                    shopRessource2.setStation(station2);
+                    shipRessource.setShip(ship);
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                    }
+                    idgs.sendRequestAddShipRessource(shopRessource1,Net.HttpMethods.POST);
+                    idgs.sendRequestAddShipRessource(shopRessource2,Net.HttpMethods.POST);
+                    idgs.sendRequestAddShipRessource(shipRessource,Net.HttpMethods.POST);
                 } else {
                     universe1.setName(universe1.getName() + currentPlayer.getName());
                     Global.universe1.setName(universe1.getName());
@@ -398,13 +423,14 @@ public class ShipSelectScreen extends BaseScreen {
                     try {
                         Thread.sleep(200);
                     } catch (Exception e) {
-
                     }
                     p1.setUniverse(universe1);
                     p2.setUniverse(universe1);
                     p3.setUniverse(universe1);
                     p4.setUniverse(universe1);
                     p5.setUniverse(universe1);
+                    station1.setUniverse(universe1);
+                    station2.setUniverse(universe1);
                     shipsToP1.add(ship);
                     Global.currentPlanet=p1;
                     shipsToP2.add(shipOfGegner);
@@ -417,6 +443,23 @@ public class ShipSelectScreen extends BaseScreen {
                     idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
                     idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
                     idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
+                    idgs.sendRequestAddStation(station1, Net.HttpMethods.POST);
+                    idgs.sendRequestAddStation(station2, Net.HttpMethods.POST);
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                    }
+                    shopRessource1.setStation(station1);
+                    shopRessource2.setStation(station2);
+                    shipRessource.setShip(ship);
+                    try {
+                        Thread.sleep(200);
+                    } catch (Exception e) {
+                    }
+                    idgs.sendRequestAddShopRessource(shopRessource1,Net.HttpMethods.POST);
+                    idgs.sendRequestAddShopRessource(shopRessource2,Net.HttpMethods.POST);
+                    idgs.sendRequestAddShipRessource(shipRessource,Net.HttpMethods.POST);
+
                 }
 
             }

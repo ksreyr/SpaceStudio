@@ -292,10 +292,10 @@ public class InitializingBeanExampleBean implements InitializingBean {
          * Station*
          */
         stationRepository.save(Station.stationBuilder()
-                .energyPrice(30).universe(u1).ship(ships).buildStation());
+                .energyPrice(30).universe(u1).buildStation());
 
         stationRepository.save(Station.stationBuilder()
-                .energyPrice(45).universe(u1).ship(ships2).buildStation());
+                .energyPrice(45).universe(u1).buildStation());
 
         driveRepository.save(Drive.driveBuilder()
                        .speed(60)

@@ -76,6 +76,12 @@ public class Global {
      * Planet Cretion
      */
     public static final String PLANET_CREATION_ENDPOINT = "/planet";
+
+    /**
+     * Planet Cretion
+     */
+    public static final String STATION_CREATION_ENDPOINT = "/station";
+
     /**
      * Universe Cretion
      */
@@ -84,6 +90,14 @@ public class Global {
      * Section Cretion
      */
     public static final String SECTION_CREATION_ENDPOINT = "/section";
+    /**
+     * Planet Cretion
+     */
+    public static final String RESSOURCE_SHIP_CREATION_ENDPOINT = "/shipressource";
+    /**
+     * Planet Cretion
+     */
+    public static final String RESSOURCE_SHOP_CREATION_ENDPOINT = "/shopressource";
 
     /**
      * Global player, this data will be downloaded from server at login
@@ -123,6 +137,8 @@ public class Global {
      * Default is onlineGame false
      */
     public static boolean isOnlineGame = false;
+
+
 
     /**
      * Ship Variables
@@ -443,7 +459,18 @@ public class Global {
     public static Planet planet3 = Planet.builder().name("p3").img("null").ship(null).build();
     public static Planet planet4 = Planet.builder().name("p4").img("null").ship(null).build();
     public static Planet planet5 = Planet.builder().name("p5").img("null").ship(null).build();
+    /**
+     *  Station
+     */
+    public static Station station1 = Station.stationBuilder().name("station1").energyPrice(0).buildStation();
+    /**
+     *  Station
+     */
+    public static Station station2 = Station.stationBuilder().name("station2").energyPrice(1).buildStation();
 
+    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).amount(100).build();
+    public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).amount(100).build();
+    public static ShipRessource shipRessource1 = ShipRessource.builderShipRessource().amount(100).name(RessourceName.GOLD).build();
     /**
      * Universe Univerise 1
      */
