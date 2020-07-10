@@ -84,54 +84,21 @@ public class ShopScreen extends Base {
     public void securityOptions(){
         // keys
         boolean qPressed = Gdx.input.isKeyPressed(Input.Keys.Q);
-        boolean wPressed = Gdx.input.isKeyPressed(Input.Keys.W);
-        boolean ePressed = Gdx.input.isKeyPressed(Input.Keys.E);
-        boolean rPressed = Gdx.input.isKeyPressed(Input.Keys.R);
-        font.draw(batch,"press 'q' to activate security in first Section ", 400, 960);
-        font.draw(batch,"press 'w' to activate security in second Section ", 400, 940);
-        font.draw(batch,"press 'e' to activate security in third Section ", 400, 920);
-        font.draw(batch,"press 'r' to activate security in fourth Section ", 400, 900);
-        if (qPressed) {
-            ship.setSecurityFst(true);
+        font.draw(batch,"press 'q' to buy security ", 400, 960);
+
+        if(qPressed){
+            ship.setSecure(ship.getSecure() +10);
             ship.setMoney(-10);
         }
-        if (wPressed) {
-            ship.setSecuritySnd(true);
-            ship.setMoney(-10);
-        }
-        if (ePressed) {
-            ship.setSecurityTrd(true);
-            ship.setMoney(-10);
-        }
-        if (rPressed) {
-            ship.setSecurityFth(true);
-            ship.setMoney(-10);
+        boolean aPressed = Gdx.input.isKeyPressed(Input.Keys.A);
+        font.draw(batch,"press 'a' to sell security ", 400, 880);
+        font.draw(batch, ship.getSecure() + "%", 850,280);
+
+        if(aPressed){
+            ship.setSecure(ship.getSecure()-10);
+            ship.setMoney(+10);
         }
 
-        boolean aPressed = Gdx.input.isKeyPressed(Input.Keys.A);
-        boolean sPressed = Gdx.input.isKeyPressed(Input.Keys.S);
-        boolean dPressed = Gdx.input.isKeyPressed(Input.Keys.D);
-        boolean fPressed = Gdx.input.isKeyPressed(Input.Keys.F);
-        font.draw(batch,"press 'a' to delete security in first Section ", 400, 880);
-        font.draw(batch,"press 's' to delete security in second Section ", 400, 860);
-        font.draw(batch,"press 'd' to delete security in third Section ", 400, 840);
-        font.draw(batch,"press 'f' to delete security in fourth Section ", 400, 820);
-        if (aPressed) {
-            ship.setSecurityFst(false);
-            ship.setMoney(+10);
-        }
-        if (sPressed) {
-            ship.setSecuritySnd(false);
-            ship.setMoney(+10);
-        }
-        if (dPressed) {
-            ship.setSecurityTrd(false);
-            ship.setMoney(+10);
-        }
-        if (fPressed) {
-            ship.setSecurityFth(false);
-            ship.setMoney(+10);
-        }
     }
 
     public void weaponOptions(){
