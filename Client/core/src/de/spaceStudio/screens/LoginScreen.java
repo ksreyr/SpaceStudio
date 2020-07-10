@@ -102,7 +102,7 @@ public class LoginScreen extends BaseScreen {
 
         registerConfirmation = new Label("", skin);
         registerConfirmation.setSize(110, 50);
-        registerConfirmation.setPosition(BUTTON_REGISTER_X, 350);
+        registerConfirmation.setPosition(BUTTON_REGISTER_X, 360);
 
         register = new TextButton("Register", skin);
         setTextButton(register, TEXTBOX_WIDTH, 70, (int) BUTTON_REGISTER_X, 300);
@@ -370,12 +370,12 @@ public class LoginScreen extends BaseScreen {
                                 String responseJson = httpResponse.getResultAsString();
                                 LOG.info(responseJson);
                                 if (statusCode == HttpStatus.SC_OK && responseJson.equals("201 CREATED")) {
-                                    registerConfirmation.setText("Successful!");
+                                    registerConfirmation.setText("successfully created!");
                                     registerConfirmation.setColor(Color.GREEN);
                                     LOG.info("Request Success");
                                 } else {
                                     LOG.info("statusCode: " + statusCode);
-                                    registerConfirmation.setText("Server not available or bad request");
+                                    registerConfirmation.setText(responseJson);
                                     registerConfirmation.setColor(Color.YELLOW);
 
                                 }

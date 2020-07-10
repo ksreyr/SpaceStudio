@@ -88,8 +88,13 @@ public class PlayerControllerImpl implements PlayerController {
     public String addPlayer(@RequestBody Player player) {
         // For the future hash password
         // player.setPassword(hashPassword(player.getPassword()));
-        Player savedPlayer = playerRepository.save(player);
-        return HttpStatus.CREATED.toString();
+        Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
+        if (fetchPlayer.isPresent()) {
+            return "Name already registered, try another one :)";
+        } else {
+            Player savedPlayer = playerRepository.save(player);
+            return HttpStatus.CREATED.toString();
+        }
     }
 
     /**
@@ -228,15 +233,15 @@ public class PlayerControllerImpl implements PlayerController {
                         AI ai = aiRepository.findByName(s.getOwner().getName()).get();
                         aiRepository.delete(ai);
                     }
-                    if(stopAbstractRepository.findById(sa.getId()).isPresent()){
-                    stopAbstractRepository.delete(sa);
+                    if (stopAbstractRepository.findById(sa.getId()).isPresent()) {
+                        stopAbstractRepository.delete(sa);
                     }
                     shipRepository.delete(s);
                 }
             }
             for (StopAbstract s :
                     stopAbstracts) {
-                    stopAbstractRepository.delete(s);
+                stopAbstractRepository.delete(s);
             }
             universeRepository.delete(universe);
 
