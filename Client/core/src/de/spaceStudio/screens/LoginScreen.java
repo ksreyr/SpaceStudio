@@ -30,6 +30,7 @@ import thirdParties.GifDecoder;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.Global.currentPlayer;
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 public class LoginScreen extends BaseScreen {
 
@@ -303,7 +304,7 @@ public class LoginScreen extends BaseScreen {
                 final String requestJson = json.toJson(currentPlayer);
 
                 final String url = Global.SERVER_URL + Global.PLAYER_LOGIN_ENDPOINT;
-                Net.HttpRequest request = setupRequest(url, requestJson);
+                Net.HttpRequest request = setupRequest(url, requestJson, Net.HttpMethods.POST);
                 Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
 
                     public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -360,7 +361,7 @@ public class LoginScreen extends BaseScreen {
                         LOG.info("JSON to send " + json.toJson(p2));
                         final String requestJson = json.toJson(p2);
 
-                        Net.HttpRequest request = setupRequest(createUserURL, requestJson);
+                        Net.HttpRequest request = setupRequest(createUserURL, requestJson, Net.HttpMethods.POST);
 
                         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
 
@@ -469,23 +470,5 @@ public class LoginScreen extends BaseScreen {
         stage.act();
 
         stage.draw();
-
-    }
-
-    /**
-     * Prepares the headers and other configurations
-     *
-     * @param url
-     * @param payload
-     * @return
-     */
-    public Net.HttpRequest setupRequest(String url, String payload) {
-        Net.HttpRequest request = new Net.HttpRequest(Net.HttpMethods.POST);
-        request.setTimeOut(6000);
-        request.setUrl(url);
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Accept", "application/json");
-        request.setContent(payload);
-        return request;
     }
 }
