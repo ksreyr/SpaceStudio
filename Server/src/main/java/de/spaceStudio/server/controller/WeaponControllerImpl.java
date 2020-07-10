@@ -1,12 +1,7 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.SectionTyp;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
-import de.spaceStudio.server.repository.SectionRepository;
-import de.spaceStudio.server.repository.ShipRepository;
-import de.spaceStudio.server.repository.WeaponRepository;
+import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +16,9 @@ public class WeaponControllerImpl implements WeaponController {
     SectionRepository sectionRepository;
     @Autowired
     ShipRepository shipRepository;
+    @Autowired
+    StopAbstractRepository stopAbstractRepository;
+
     @Override
     public boolean canAttack(Weapon w, Ship s) {
         return false;
@@ -83,4 +81,31 @@ public class WeaponControllerImpl implements WeaponController {
         return HttpStatus.OK.toString();
     }
 
+    @Override
+    public String fire(@RequestBody  Weapon weapon) {
+        Ship ship=weapon.getSection().getShip();
+        ship=shipRepository.findShipByName(ship.getName()).get();
+        Ship gegnerShip=new Ship();
+        StopAbstract planet= stopAbstractRepository.findByShips(ship).get();
+        List<Ship> shipList= planet.getShips();
+
+        for (Ship s :
+                shipList) {
+            if(!s.equals(ship)){
+                gegnerShip=s;
+            }
+        }
+        List<Section> sectionList=sectionRepository.findAllByShip(gegnerShip).get();
+        for (Section s :
+                sectionList) {
+            if(weapon.getObjectiv().getSectionTyp().equals(s.getSectionTyp())){
+                s.setUsable(false);
+                sectionRepository.save(s);
+            }
+        }
+        gegnerShip.setHp(gegnerShip.getHp()-weapon.getDamage());
+
+        shipRepository.save(gegnerShip);
+        return HttpStatus.OK.toString();
+    }
 }

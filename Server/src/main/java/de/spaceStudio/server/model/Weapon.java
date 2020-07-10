@@ -14,6 +14,9 @@ public class Weapon {
 
     private String name;
 
+    @OneToOne
+    private Section objectiv;
+
     private int hitRate;
 
     private int damage;
@@ -22,6 +25,14 @@ public class Weapon {
 
     @ManyToOne
     private Section section;
+
+    public Section getObjectiv() {
+        return objectiv;
+    }
+
+    public void setObjectiv(Section objectiv) {
+        this.objectiv = objectiv;
+    }
 
     public Integer getId() {
         return id;
@@ -80,6 +91,7 @@ public class Weapon {
        setImg(weaponBuilder.img);
        setName(weaponBuilder.name);
        setSection(weaponBuilder.section);
+       setObjectiv(weaponBuilder.objectiv);
     }
     public static WeaponBuilder WeaponBuilder(){
         return new WeaponBuilder();
@@ -91,6 +103,7 @@ public class Weapon {
         private int damage;
         private String img;
         private Section section;
+        private  Section objectiv;
 
         public WeaponBuilder() {
         }
@@ -100,7 +113,8 @@ public class Weapon {
                              int hitRate,
                              int damage,
                              String img,
-                             Section section)
+                             Section section,
+                             Section objectiv)
         {
             this.id = id;
             this.name = name;
@@ -108,6 +122,7 @@ public class Weapon {
             this.damage = damage;
             this.img = img;
             this.section = section;
+            this.objectiv=objectiv;
 
         }
         public WeaponBuilder id(int id){
@@ -132,6 +147,10 @@ public class Weapon {
         }
         public WeaponBuilder section(Section section){
             this.section= section;
+            return WeaponBuilder.this;
+        }
+        public WeaponBuilder objectiv(Section objectiv){
+            this.objectiv= objectiv;
             return WeaponBuilder.this;
         }
         public Weapon build(){

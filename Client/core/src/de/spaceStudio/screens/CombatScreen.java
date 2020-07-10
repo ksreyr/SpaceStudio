@@ -1,6 +1,7 @@
 package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -8,28 +9,29 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.Planet;
+import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.utils.Game;
+import de.spaceStudio.service.CombatService;
+
+import java.util.ArrayList;
 
 
-public class CombatScreen extends BaseScreen{
+public class CombatScreen extends BaseScreen {
 
 
     private Stage stage;
@@ -39,8 +41,8 @@ public class CombatScreen extends BaseScreen{
 
     private Texture playerShip;
     private Texture enemyShip;
-    private Texture engine1,engine2,oxygen, piloting;
-    private Texture engineer, pilot,hull;
+    private Texture engine1, engine2, oxygen, piloting;
+    private Texture engineer, pilot, hull;
     private Texture background;
     private TextButton fire;
 
@@ -49,6 +51,7 @@ public class CombatScreen extends BaseScreen{
     boolean isFired;
     private boolean isExploied;
     private boolean isTargetSelected;
+    private boolean w, d, o;
     private ShapeRenderer shapeRenderer;
     private Skin sgxSkin, skinButton;
     private TextureAtlas gamePlayAtlas;
@@ -56,7 +59,7 @@ public class CombatScreen extends BaseScreen{
     boolean isWin;
 
     //private TextButton engine, weapon, o2;
-    private ImageButton engine, weapon,cockpit;
+    private ImageButton engine, weapon, cockpit;
     int disappear = 570;
 
     Ship shipPlayer = Global.currentShip;
@@ -65,10 +68,19 @@ public class CombatScreen extends BaseScreen{
 
     ShipSelectScreen shipSelectScreen;
 
+    //
+    CombatService cs = new CombatService();
+    Planet planet = Global.currentPlanet;
+    Ship gegnerShip;
+    Section section1Gegner;
+    Section section2Gegner;
+    Section section3Gegner;
+    //
+
     public CombatScreen(MainClient game) {
         super(game);
 
-        viewport = new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT);
+        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
@@ -85,18 +97,36 @@ public class CombatScreen extends BaseScreen{
         final Drawable cockpit_red = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/PilotingRed.png")));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
-        fuze =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
-        fuz2 =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
+        fuze = new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
+        fuz2 = new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
         explosion = new Texture(Gdx.files.internal("Client/core/assets/data/explosion1_0024.png"));
         fuzeOffset = 570;
 
+        if (planet.getName().equals("p1")) {
+
+        } else if (planet.getName().equals("p2")) {
+            gegnerShip = Global.shipGegner1;
+        } else if (planet.getName().equals("p3")) {
+            gegnerShip = Global.shipGegner2;
+        } else if (planet.getName().equals("p4")) {
+
+        } else if (planet.getName().equals("p5")) {
+
+        }
+        ArrayList<Section> sections = Global.sectionofShip(gegnerShip);
+        section1Gegner = sections.get(0);
+        section2Gegner = sections.get(1);
+        section3Gegner = sections.get(2);
         engine = new ImageButton(engine_sym);
-        engine.setPosition(1075,440);
-        engine.setSize(1000,100);
+        engine.setPosition(1075, 440);
+        engine.setSize(1000, 100);
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
+                w = true;
+                o = false;
+                d = false;
                 engine.getStyle().imageUp = engine_red;
 
             }
@@ -110,6 +140,9 @@ public class CombatScreen extends BaseScreen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
+                w = false;
+                o = true;
+                d = false;
                 cockpit.getStyle().imageUp = cockpit_red;
 
             }
@@ -124,15 +157,10 @@ public class CombatScreen extends BaseScreen{
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
-
-                 //   hoverListener(fire);
-                    rocketLaunch.play();
-                    isFired = true;
-
-
-
-
+                logicOfFire();
+                //hoverListener(fire);
+                rocketLaunch.play();
+                isFired = true;
             }
         });
 
@@ -141,6 +169,64 @@ public class CombatScreen extends BaseScreen{
          stage.addActor(engine);
          stage.addActor(cockpit);
 
+    }
+
+    private void logicOfFire() {
+        if (w) {
+            if (gegnerShip.getName().equals("Shipgegner1")) {
+                Global.shipGegner1.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
+                gegnerShip.setHp(Global.shipGegner1.getHp());
+                Global.section3Gegner.setUsable(false);
+            } else if (gegnerShip.getName().equals("Shipgegner2")) {
+                Global.shipGegner2.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
+                gegnerShip.setHp(Global.shipGegner2.getHp());
+                Global.section3Gegner2.setUsable(false);
+            } else if (gegnerShip.getName().equals("Shipgegner3")) {
+                Global.shipGegner3.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
+                gegnerShip.setHp(Global.shipGegner3.getHp());
+                Global.section3Gegner3.setUsable(false);
+            }
+            section3Gegner.setUsable(false);
+            Global.currentWeapon.setObjectiv(section3Gegner);
+        } else if (d) {
+            if (gegnerShip.getName().equals("Shipgegner1")) {
+                Global.shipGegner1.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
+                gegnerShip.setHp(Global.shipGegner1.getHp());
+                Global.section1Gegner.setUsable(false);
+            } else if (gegnerShip.getName().equals("Shipgegner2")) {
+                Global.shipGegner2.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
+                gegnerShip.setHp(Global.shipGegner2.getHp());
+                Global.section1Gegner2.setUsable(false);
+            } else if (gegnerShip.getName().equals("Shipgegner3")) {
+                Global.shipGegner3.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
+                gegnerShip.setHp(Global.shipGegner3.getHp());
+                Global.section1Gegner3.setUsable(false);
+            }
+            section1Gegner.setUsable(false);
+            Global.currentWeapon.setObjectiv(section2Gegner);
+        } else if (o) {
+            if (gegnerShip.getName().equals("Shipgegner1")) {
+                Global.shipGegner1.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
+                gegnerShip.setHp(Global.shipGegner1.getHp());
+                Global.section2Gegner.setUsable(false);
+            } else if (gegnerShip.getName().equals("Shipgegner2")) {
+                Global.shipGegner2.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
+                gegnerShip.setHp(Global.shipGegner2.getHp());
+                Global.section2Gegner2.setUsable(false);
+            } else if (gegnerShip.getName().equals("Shipgegner3")) {
+                Global.shipGegner3.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
+                gegnerShip.setHp(Global.shipGegner3.getHp());
+                Global.section2Gegner3.setUsable(false);
+            }
+            section2Gegner.setUsable(false);
+            Global.currentWeapon.setObjectiv(section1Gegner);
+        }
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        cs.makeAShot(Global.currentWeapon, Net.HttpMethods.POST);
     }
 
 

@@ -295,15 +295,22 @@ public class ShipSelectScreen extends BaseScreen {
                 section6.setShip(ship);
 
                 section1Gegner.setShip(shipOfGegner);
+                Global.section1Gegner=section1Gegner;
                 section2Gegner.setShip(shipOfGegner);
+                Global.section2Gegner=section2Gegner;
                 section3Gegner.setShip(shipOfGegner);
+                Global.section3Gegner=section3Gegner;
 
                 section1Gegner2.setShip(shipOfGegner2);
+                Global.section1Gegner2=section1Gegner2;
                 section2Gegner2.setShip(shipOfGegner2);
+                Global.section2Gegner2=section2Gegner2;
                 section3Gegner2.setShip(shipOfGegner2);
+                Global.section3Gegner2=section3Gegner2;
 
                 idgs.sendRequestAddShip(ship, Net.HttpMethods.POST);
                 Global.currentShip = ship;
+
                 idgs.aiCreation(gegner1, Net.HttpMethods.POST);
                 idgs.aiCreation(gegner2, Net.HttpMethods.POST);
                 try {
@@ -342,6 +349,7 @@ public class ShipSelectScreen extends BaseScreen {
                 }
                 weaponShip.setSection(section1);
                 idgs.sendRequestAddWeapon(weaponShip,Net.HttpMethods.POST);
+                Global.currentWeapon=weaponShip;
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
@@ -372,6 +380,7 @@ public class ShipSelectScreen extends BaseScreen {
                     p4.setUniverse(universe2);
                     p5.setUniverse(universe2);
                     shipsToP1.add(ship);
+                    Global.currentPlanet=p1;
                     shipsToP2.add(shipOfGegner);
                     shipsToP3.add(shipOfGegner2);
                     p1.setShips(shipsToP1);
@@ -397,6 +406,7 @@ public class ShipSelectScreen extends BaseScreen {
                     p4.setUniverse(universe1);
                     p5.setUniverse(universe1);
                     shipsToP1.add(ship);
+                    Global.currentPlanet=p1;
                     shipsToP2.add(shipOfGegner);
                     shipsToP3.add(shipOfGegner2);
                     p1.setShips(shipsToP1);
