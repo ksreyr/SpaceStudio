@@ -2,13 +2,10 @@ package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -22,16 +19,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
-
-import java.util.ArrayList;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.service.CombatService;
-
-import java.util.ArrayList;
 
 import java.util.ArrayList;
 
@@ -71,7 +63,6 @@ public class CombatScreen extends BaseScreen{
 
     ArrayList<Texture> bullets;
     ShipSelectScreen shipSelectScreen;
-    ArrayList<Texture> bullets;
 
     //
     CombatService cs = new CombatService();
