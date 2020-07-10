@@ -26,12 +26,15 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.service.CombatService;
 
 import java.util.ArrayList;
 
+import java.util.ArrayList;
 
-public class CombatScreen extends BaseScreen {
+
+public class CombatScreen extends BaseScreen{
 
 
     private Stage stage;
@@ -41,32 +44,35 @@ public class CombatScreen extends BaseScreen {
 
     private Texture playerShip;
     private Texture enemyShip;
-    private Texture engine1, engine2, oxygen, piloting;
-    private Texture engineer, pilot, hull;
+    private Texture engine1,engine2,oxygen, piloting;
+    private Texture engineer, pilot,hull;
     private Texture background;
-    private TextButton fire;
+    private TextButton fireRight, fireLeft;
 
-    private Texture fuze, fuz2, explosion;
-    int fuzeOffset;
-    boolean isFired;
-    private boolean isExploied;
-    private boolean isTargetSelected;
-    private boolean w, d, o;
+    private Texture missilleRight, missilleRightFired, explosion, missilleLeft, missilleLeftFired;
+    int fuzeOffsetright,fuzeOffsetLeft;
+    boolean isRightPressed, isLeftPressed;
+    private boolean isShootEngine, isShootCockpit;
+    private boolean isTargetSelected, isTargedEngine, isTargetCockpit, isTargetWeapon;
     private ShapeRenderer shapeRenderer;
-    private Skin sgxSkin, skinButton;
-    private TextureAtlas gamePlayAtlas;
+    private Skin  skinButton;
     private AssetManager assetManager = null;
     boolean isWin;
+    private boolean w, d, o;
 
+
+    Texture bullet;
     //private TextButton engine, weapon, o2;
-    private ImageButton engine, weapon, cockpit;
-    int disappear = 570;
-
-    Ship shipPlayer = Global.currentShip;
+    private ImageButton engine, weapon,cockpit;
+    int disappearRight = 570;
+    int disappearLeft = 570;
 
     Sound rocketLaunch;
+    Ship shipPlayer = Global.currentShip;
+
 
     ShipSelectScreen shipSelectScreen;
+    ArrayList<Texture> bullets;
 
     //
     CombatService cs = new CombatService();
@@ -80,7 +86,7 @@ public class CombatScreen extends BaseScreen {
     public CombatScreen(MainClient game) {
         super(game);
 
-        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new FitViewport(BaseScreen.WIDTH,BaseScreen.HEIGHT);
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
@@ -97,10 +103,17 @@ public class CombatScreen extends BaseScreen {
         final Drawable cockpit_red = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/PilotingRed.png")));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
-        fuze = new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
-        fuz2 = new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
+        missilleRight =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
+        missilleRightFired =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
+
+        missilleLeft =  missilleRight =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
+        missilleLeftFired =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
+
         explosion = new Texture(Gdx.files.internal("Client/core/assets/data/explosion1_0024.png"));
-        fuzeOffset = 570;
+        fuzeOffsetright = 570;
+        fuzeOffsetLeft = 570;
+
+        bullets = new ArrayList<>();
 
         if (planet.getName().equals("p1")) {
 
@@ -118,12 +131,13 @@ public class CombatScreen extends BaseScreen {
         section2Gegner = sections.get(1);
         section3Gegner = sections.get(2);
         engine = new ImageButton(engine_sym);
-        engine.setPosition(1075, 440);
-        engine.setSize(1000, 100);
+        engine.setPosition(1075,440);
+        engine.setSize(1000,100);
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
+                isTargetSelected=true;
                 w = true;
                 o = false;
                 d = false;
@@ -131,7 +145,7 @@ public class CombatScreen extends BaseScreen {
 
             }
         });
-
+        bullet = new Texture("bullet.png");
 
         cockpit = new ImageButton(cockpit_nat);
         cockpit.setPosition(1075,660);
@@ -143,6 +157,7 @@ public class CombatScreen extends BaseScreen {
                 w = false;
                 o = true;
                 d = false;
+                isTargetCockpit = true;
                 cockpit.getStyle().imageUp = cockpit_red;
 
             }
@@ -150,22 +165,40 @@ public class CombatScreen extends BaseScreen {
 
 
         Gdx.input.setInputProcessor(stage);
+        fireRight = new TextButton("Fire Right",skinButton,"small");
+        fireRight.setPosition(950,200);
+        fireRight.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
 
-        fire = new TextButton("Fire",skinButton,"small");
-        fire.setPosition(800,200);
-        fire.addListener(new ChangeListener() {
+                 //   hoverListener(fire);
+                    rocketLaunch.play();
+                    isRightPressed = true;
 
+
+            }
+        });
+
+
+        fireLeft = new TextButton("Fire Left",skinButton,"small");
+        fireLeft.setPosition(800,200);
+        fireLeft.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 logicOfFire();
                 //hoverListener(fire);
                 rocketLaunch.play();
-                isFired = true;
+
+                //   hoverListener(fire);
+                rocketLaunch.play();
+                isLeftPressed = true;
+
             }
         });
 
 
-         stage.addActor(fire);
+         stage.addActor(fireRight);
+         stage.addActor(fireLeft);
          stage.addActor(engine);
          stage.addActor(cockpit);
 
@@ -234,7 +267,6 @@ public class CombatScreen extends BaseScreen {
         imageButton.addListener(new HoverListener(){
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imageButton.setName("selected");
 
             }
             @Override
@@ -245,11 +277,11 @@ public class CombatScreen extends BaseScreen {
         });
     }
 
-int counter=0;
 
     @Override
     public void show() {
         super.show();
+    //  bullet = new Texture("bullet.png");
     }
 
     @Override
@@ -263,38 +295,35 @@ int counter=0;
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
         stage.getBatch().draw(hull, 0,1020,500,50);
-        stage.getBatch().draw(fuze,disappear,422,400,50);
-        if(isFired && isTargetSelected) {
-            fuzeOffset++;
-            disappear=BaseScreen.WIDTH;
-            stage.getBatch().draw(fuz2,+fuzeOffset,422,400,50);
+        stage.getBatch().draw(missilleRight,disappearRight,422,400,50);
+        stage.getBatch().draw(missilleLeft,disappearLeft,825,400,50);
+        if(isRightPressed   &&   isTargedEngine) {
+            fuzeOffsetright+= fuzeOffsetright*delta;
+            stage.getBatch().draw(bullet,+fuzeOffsetright,444,40,10);
 
-            if(fuzeOffset == 700){
-                fuzeOffset = BaseScreen.WIDTH;
-                isExploied = true;
-            }
         }
-
-        if(isExploied)
-        {
-
-
+        if(isLeftPressed &&  isTargetCockpit) {
+            fuzeOffsetLeft+= fuzeOffsetLeft*delta;
+            stage.getBatch().draw(bullet,+fuzeOffsetLeft,843,40,10);
+        }
+        if(fuzeOffsetright > 1000){
+            fuzeOffsetright = BaseScreen.WIDTH;
+            isShootEngine = true;
+         }
+        if(fuzeOffsetLeft > 1000){
+            fuzeOffsetLeft = BaseScreen.WIDTH;
+            isShootCockpit = true;
+        }
+        if(isTargedEngine && isShootEngine){
             stage.getBatch().draw(explosion,1515,422,100,100);
         }
+        if(isTargetCockpit&& isShootCockpit){
+            stage.getBatch().draw(explosion,1515, 690,100,100);
+        }
+
 
         stage.getBatch().end();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.MAGENTA);
-        shapeRenderer.line(0,298, BaseScreen.WIDTH,298);
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.line(0,296, BaseScreen.WIDTH,296);
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.line(0,294, BaseScreen.WIDTH,294);
-        shapeRenderer.setColor(Color.CORAL);
-        shapeRenderer.line(0,292, BaseScreen.WIDTH,292);
 
-        // shapeRenderer.
-        shapeRenderer.end();
 
         stage.act();
         stage.draw();
@@ -328,8 +357,8 @@ int counter=0;
         skin.dispose();
         shapeRenderer.dispose();
         rocketLaunch.dispose();
-        fuze.dispose();
-        fuz2.dispose();
+        missilleRight.dispose();
+        missilleRightFired.dispose();
         stage.dispose();
     }
 }
