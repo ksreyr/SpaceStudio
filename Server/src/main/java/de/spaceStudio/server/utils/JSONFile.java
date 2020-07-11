@@ -2,6 +2,7 @@ package de.spaceStudio.server.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import de.spaceStudio.server.handler.SinglePlayerGame;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -33,6 +34,21 @@ public class JSONFile {
         return FILE_NAME;
     }
 
+
+    /**
+     * exports game to json file singleplayer
+     *
+     * @param gameToExport
+     */
+    public static String exportJSON(SinglePlayerGame gameToExport) {
+        Gson gson = new Gson();
+        try (FileWriter writer = new FileWriter(FILE_NAME)) {
+            gson.toJson(gameToExport, writer);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return FILE_NAME;
+    }
     /**
      * Imports the json file
      *
