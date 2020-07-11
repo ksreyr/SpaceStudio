@@ -311,14 +311,15 @@ public class LoginScreen extends BaseScreen {
                         int statusCode = httpResponse.getStatus().getStatusCode();
                         LOG.info("statusCode: " + statusCode);
                         String responseJson = httpResponse.getResultAsString();
-                        boolean isValid = Boolean.parseBoolean(responseJson);
-                        if (statusCode != HttpStatus.SC_OK || !isValid) {
+                        String isValid = responseJson;
+                        if (statusCode != HttpStatus.SC_OK || isValid.equals("false")) {
                             loginConfirmation.setText("invalid username or password!");
                             loginConfirmation.setColor(Color.RED);
                             LOG.info("Credentials invalid or server down");
                         } else {
                             LOG.info("Login success");
                             isPressed = true;
+                            currentPlayer.setId(Integer.parseInt(responseJson));
                         }
                     }
 

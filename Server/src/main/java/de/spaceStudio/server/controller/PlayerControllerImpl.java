@@ -63,7 +63,7 @@ public class PlayerControllerImpl implements PlayerController {
         Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
         if (fetchPlayer.isPresent() && authUser(fetchPlayer, player)) {
             Global.userLogged.add(player.getName());
-            return "true";
+            return String.valueOf(fetchPlayer.get().getId());
         }
         return "false";
     }
