@@ -3,6 +3,8 @@ package de.spaceStudio.server.utils;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import de.spaceStudio.server.handler.SinglePlayerGame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -12,6 +14,9 @@ import java.util.UUID;
  * @author Miguel Caceres
  */
 public class JSONFile {
+
+
+    public static final Logger logger = LoggerFactory.getLogger(JSONFile.class);
 
     protected static UUID uuid = UUID.randomUUID();
     /**
@@ -49,6 +54,26 @@ public class JSONFile {
         }
         return FILE_NAME;
     }
+
+    /**
+     * Imports the json file
+     *
+     * @param path to sored file
+     * @return
+     */
+    public static SinglePlayerGame importJSONSinglePlayerGame(String path) {
+        Gson gson = new Gson();
+        SinglePlayerGame loadedGame = new SinglePlayerGame();
+        try {
+            JsonReader jsonFile = new JsonReader(new FileReader(path));
+            loadedGame = gson.fromJson(jsonFile, SinglePlayerGame.class);
+            jsonFile.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loadedGame;
+    }
+
     /**
      * Imports the json file
      *

@@ -26,7 +26,7 @@ public class GameController {
     @Autowired
     private PlayerRepository playerRepository;
 
-    Logger logger = LoggerFactory.getLogger(GameController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GameController.class);
 
     /**
      * Init single game session in Server
@@ -39,7 +39,7 @@ public class GameController {
     @ResponseBody
     public String initSinglePlayerGame(@PathVariable("playerName") String playerName, @RequestBody SinglePlayerGame singlePlayerGame) {
         if (Global.userLogged.contains(playerName)) {
-            logger.info("Accepting request for player: " + playerName);
+            LOG.info("Accepting request for player: " + playerName);
             Global.SinglePlayerGameSessions.put(playerName, singlePlayerGame);
             return HttpStatus.ACCEPTED.toString();
         } else {
@@ -59,7 +59,7 @@ public class GameController {
     @ResponseBody
     public String saveGame(@PathVariable("playerName") String playerName, @RequestBody SinglePlayerGame singlePlayerGame) {
         if (Global.userLogged.contains(playerName) && Global.SinglePlayerGameSessions.get(playerName) != null) {
-            logger.info("Accepting save request for player: " + playerName);
+            LOG.info("Accepting save request for player: " + playerName);
             SinglePlayerGame sg = Global.SinglePlayerGameSessions.get(playerName);
             Optional<Player> fetchPlayer = playerRepository.findByName(playerName);
             if (fetchPlayer != null && fetchPlayer.isPresent()) {
@@ -67,13 +67,35 @@ public class GameController {
                 String storeGamePath = JSONFile.exportJSON(sg);
                 playerToUpdate.setSavedGame(storeGamePath);
                 playerRepository.save(playerToUpdate);
-                logger.info("Success stored: " + storeGamePath);
+                LOG.info("Success stored: " + storeGamePath);
             }
             return HttpStatus.ACCEPTED.toString();
         } else {
             return HttpStatus.NOT_ACCEPTABLE.toString();
         }
 
+    }
+
+    /**
+     * Load the game
+     *
+     * @param playerName
+     * @return
+     */
+    @RequestMapping(value = "/game/load/{playerName}", method = RequestMethod.GET)
+    @ResponseBody
+    public SinglePlayerGame loadGame(@PathVariable("playerName") String playerName) {
+        if (Global.userLogged.contains(playerName)) {
+            Optional<Player> fetchPlayer = playerRepository.findByName(playerName);
+            if (fetchPlayer.isPresent()) {
+                Player loadPlayerData = fetchPlayer.get();
+                SinglePlayerGame sg = JSONFile.importJSONSinglePlayerGame(loadPlayerData.getSavedGame());
+                Global.SinglePlayerGameSessions.put(loadPlayerData.getName(), sg);
+                LOG.info("Game successful loaded: " + loadPlayerData.getName());
+                return sg;
+            }
+        }
+        return null;
     }
 
     /**
@@ -85,7 +107,7 @@ public class GameController {
     @RequestMapping(value = "/game/get/single-player/{playerName}", method = RequestMethod.GET)
     @ResponseBody
     public SinglePlayerGame getSinglePlayerGame(@PathVariable("playerName") String playerName) {
-        logger.info("getting single player data for player " + playerName);
+        LOG.info("getting single player data for player " + playerName);
         return Global.SinglePlayerGameSessions.get(playerName);
     }
 }
