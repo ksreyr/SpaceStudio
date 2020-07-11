@@ -3,6 +3,9 @@ package de.spaceStudio.server.controller;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
+import de.spaceStudio.server.utils.JSONFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,8 @@ import java.util.*;
  */
 @RestController
 public class PlayerControllerImpl implements PlayerController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PlayerControllerImpl.class);
 
     @Autowired
     private PlayerRepository playerRepository;
@@ -197,6 +202,13 @@ public class PlayerControllerImpl implements PlayerController {
     @Override
     public String clean(Player player) {
         Player player1 = playerRepository.findByName(player.getName()).get();
+
+        boolean fileClosed = JSONFile.cleanJSONSinglePlayerGame(player1.getSavedGame());
+        if (fileClosed) {
+            LOG.info("saved game success cleaned!");
+            player1.setSavedGame(null);
+            playerRepository.save(player1);
+        }
 
         if (shipRepository.findByOwner(player1).isPresent()) {
             Ship ship = shipRepository.findByOwner(player1).get();

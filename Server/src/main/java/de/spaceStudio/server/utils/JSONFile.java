@@ -6,6 +6,7 @@ import de.spaceStudio.server.handler.SinglePlayerGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.UUID;
@@ -62,19 +63,35 @@ public class JSONFile {
      * @return
      */
     public static SinglePlayerGame importJSONSinglePlayerGame(String path) {
-        if(path != null){
-        Gson gson = new Gson();
-        SinglePlayerGame loadedGame = new SinglePlayerGame();
-        try {
-            JsonReader jsonFile = new JsonReader(new FileReader(path));
-            loadedGame = gson.fromJson(jsonFile, SinglePlayerGame.class);
-            jsonFile.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return loadedGame;
+        if (path != null) {
+            Gson gson = new Gson();
+            SinglePlayerGame loadedGame = new SinglePlayerGame();
+            try {
+                JsonReader jsonFile = new JsonReader(new FileReader(path));
+                loadedGame = gson.fromJson(jsonFile, SinglePlayerGame.class);
+                jsonFile.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return loadedGame;
         }
         return null;
+    }
+
+    /**
+     * Deletes the physical json file
+     * <code>True</code> if the file success deleted
+     *
+     * @param path
+     */
+    public static boolean cleanJSONSinglePlayerGame(String path) {
+        if (path != null) {
+            File file = new File(path);
+            if (file.exists()) {
+                return file.delete();
+            }
+        }
+        return false;
     }
 
     /**
