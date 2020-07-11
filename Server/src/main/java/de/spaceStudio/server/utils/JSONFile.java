@@ -62,6 +62,7 @@ public class JSONFile {
      * @return
      */
     public static SinglePlayerGame importJSONSinglePlayerGame(String path) {
+        if(path != null){
         Gson gson = new Gson();
         SinglePlayerGame loadedGame = new SinglePlayerGame();
         try {
@@ -72,6 +73,8 @@ public class JSONFile {
             e.printStackTrace();
         }
         return loadedGame;
+        }
+        return null;
     }
 
     /**

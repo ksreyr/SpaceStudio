@@ -78,6 +78,11 @@ public class Global {
     public static final String SECTION_CREATION_ENDPOINT = "/section";
 
     /**
+     * Player load game endpoint
+     */
+    public static final String PLAYER_CONTINUE_ENDPOINT = "/game/load/";
+
+    /**
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
@@ -389,6 +394,5 @@ public class Global {
      * */
     public static Universe universe1= Universe.universeBuilder().name("Easy").build();
     public static Universe universe2= Universe.universeBuilder().name("Normal").build();
-
 
 }

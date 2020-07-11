@@ -18,13 +18,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.AssetDescriptors;
 import de.spaceStudio.assets.RegionNames;
 import de.spaceStudio.assets.StyleNames;
+import de.spaceStudio.client.util.Global;
 import de.spaceStudio.config.GameConfig;
+import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.service.PlayerDataService;
 import de.spaceStudio.util.GdxUtils;
+
+import java.util.logging.Logger;
+
+import static de.spaceStudio.client.util.Global.singlePlayerGame;
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 import static de.spaceStudio.client.util.Global.currentPlayer;
 import static de.spaceStudio.service.LoginService.logout;
@@ -33,6 +41,7 @@ import static de.spaceStudio.service.LoginService.logout;
 //Continue, New Game, Multiplayer Game, Options(Level Niveau), Exit
 public class MenuScreen extends ScreenAdapter  {
 
+    private final static Logger LOG = Logger.getLogger(MenuScreen.class.getName());
 
     private MainClient universeMap;
     private final AssetManager assetManager;
@@ -57,8 +66,6 @@ public class MenuScreen extends ScreenAdapter  {
         assetManager = universeMap.getAssetManager();
     }
 
-
-
     //Called when this screen becomes the current screen for a Game.
     @Override
     public void show() {
@@ -81,6 +88,33 @@ public class MenuScreen extends ScreenAdapter  {
         textButtonContinue.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                String url = Global.SERVER_URL + Global.PLAYER_CONTINUE_ENDPOINT + currentPlayer.getName();
+                final Net.HttpRequest request = setupRequest(url, "", Net.HttpMethods.GET);
+
+                Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        int statusCode = httpResponse.getStatus().getStatusCode();
+                        LOG.info("statusCode: " + statusCode);
+                        String responseJson = httpResponse.getResultAsString();
+
+                        if(statusCode == 200 && responseJson != null){
+                            Gson gson = new Gson();
+                            LOG.info("Game load success for player: " + currentPlayer.getName());
+                            singlePlayerGame = gson.fromJson(responseJson, SinglePlayerGame.class);
+                            LOG.info(singlePlayerGame.getDifficult());
+                        }
+                    }
+
+                    @Override
+                    public void failed(Throwable t) {
+                    }
+
+                    @Override
+                    public void cancelled() {
+                        LOG.severe("Request Canceled");
+                    }
+                });
+
 
             }
         });
