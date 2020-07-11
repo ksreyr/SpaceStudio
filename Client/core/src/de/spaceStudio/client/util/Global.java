@@ -1,5 +1,6 @@
 package de.spaceStudio.client.util;
 
+import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
 import java.util.ArrayList;
@@ -144,6 +145,8 @@ public class Global {
 
 
 
+    public static SinglePlayerGame singlePlayerGame;
+
     /**
      * Ship Variables
      */
@@ -287,7 +290,7 @@ public class Global {
             .sectionTyp(SectionTyp.WEAPONS)
             .img("Section2")
             .oxygen(100).
-                    powerCurrent(100)
+            powerCurrent(100)
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
@@ -306,7 +309,7 @@ public class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section4").oxygen(100).
-                    powerCurrent(100)
+            powerCurrent(100)
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
@@ -326,7 +329,7 @@ public class Global {
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section6")
             .oxygen(100).
-                    powerCurrent(100)
+            powerCurrent(100)
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
