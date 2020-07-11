@@ -44,6 +44,10 @@ public class Global {
     public static final String MAKE_SHOT_VALIDATION = "/fire";
 
     /**
+     * ENd point Combat
+     */
+    public static final String ASK_FOR_SHIP = "/ship";
+    /**
      * Server logged player endpoint
      */
     public static final String AI_CREATION_ENDPOINT = "/AI";

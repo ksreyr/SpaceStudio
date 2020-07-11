@@ -238,7 +238,7 @@ public class ShipSelectScreen extends BaseScreen {
         previousButton();
         showHideRoom();
         selectLevelView();
-        StartButton();
+
         // top left position
         if(!Global.IS_SINGLE_PLAYER){
 
@@ -615,6 +615,7 @@ public class ShipSelectScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
+        StartButton();
     }
 
     @Override

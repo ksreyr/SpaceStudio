@@ -10,6 +10,7 @@ import de.spaceStudio.client.util.Global;
 public class InitialDataGameService {
     String response;
     String valid;
+    String responseJson;
     public String sendRequestAddShip(Object requestObject, String method) {
         final Json json = new Json();
 
@@ -27,10 +28,9 @@ public class InitialDataGameService {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
                     System.out.println("Request Failed sendRequestAddShip");
+                    responseJson = httpResponse.getResultAsString();
                 }
                 System.out.println("statusCode sendRequestAddShip: " + statusCode);
-                String responseJson = httpResponse.getResultAsString();
-
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -41,7 +41,8 @@ public class InitialDataGameService {
                 System.out.println("request cancelled");
             }
         });
-        return response;
+
+        return responseJson;
     }
 
     public void sendRequestAddSection(Object requestObject, String method) {
@@ -237,7 +238,6 @@ public class InitialDataGameService {
                 }
                 System.out.println("statusCode validatedName: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
-
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");

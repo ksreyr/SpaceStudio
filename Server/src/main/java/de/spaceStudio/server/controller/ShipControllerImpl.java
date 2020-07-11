@@ -43,12 +43,16 @@ public class ShipControllerImpl implements ShipController{
         try{
             player= (Player) actor.get();
             ship.setOwner(player);
+            shipRepository.save(ship);
+            Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),player).get();
+            return shipid.getId().toString();
         }catch (Exception e){
              ai= (AI) actor.get();
              ship.setOwner(ai);
+            shipRepository.save(ship);
+            Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),ai).get();
+            return shipid.getId().toString();
         }
-        shipRepository.save(ship);
-        return HttpStatus.CREATED.toString();
     }
 
     @Override
