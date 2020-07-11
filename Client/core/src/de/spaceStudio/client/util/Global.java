@@ -52,7 +52,10 @@ public class Global {
      * Server logged player endpoint
      */
     public static final String AI_CREATION_ENDPOINT = "/AI";
-
+    /**
+     * Server logged player endpoint
+     */
+    public static final String AIS_CREATION_ENDPOINT = "/AIs";
     /**
      * Server login endpoint
      */
@@ -67,7 +70,10 @@ public class Global {
      * Ship Cretion
      */
     public static final String SHIP_CREATION_ENDPOINT = "/ship";
-
+    /**
+     * Ship Cretion
+     */
+    public static final String SHIPS_CREATION_ENDPOINT = "/shipstoadd";
     /**
      * Crew Cretion
      */
@@ -95,6 +101,14 @@ public class Global {
      * Section Cretion
      */
     public static final String SECTION_CREATION_ENDPOINT = "/section";
+    /**
+     * Section Cretion
+     */
+    public static final String SECTIONS_CREATION_ENDPOINT = "/sectiontoadd";
+    /**
+     * Section Cretion
+     */
+    public static final String CREWMEMBERS_CREATION_ENDPOINT = "/crewmemberstoadd";
     /**
      * Planet Cretion
      */
@@ -157,7 +171,7 @@ public class Global {
     /**
      * ship0
      * */
-    public static  List<Section> listShip0ForSection1=new ArrayList<Section>(){{
+    /*public static  List<Section> listShip0ForSection1=new ArrayList<Section>(){{
         add(section2);
     }};
     public static  List<Section> listShip0ForSection2=new ArrayList<Section>(){{
@@ -178,11 +192,11 @@ public class Global {
     }};
     public static  List<Section> listShip0ForSection6=new ArrayList<Section>(){{
         add(section4);
-    }};
+    }};*/
     /*
      *SHIP1
      * */
-    public static  List<Section> listShip1ForSection1=new ArrayList<Section>(){{
+    /*public static  List<Section> listShip1ForSection1=new ArrayList<Section>(){{
         add(section2);
     }};
     public static  List<Section> listShip1ForSection2=new ArrayList<Section>(){{
@@ -205,11 +219,11 @@ public class Global {
     }};
     public static  List<Section> listShip1ForSection6=new ArrayList<Section>(){{
         add(section2);
-    }};
+    }};*/
     /*
      *SHIP2
      * */
-    public static  List<Section> listShip2ForSection1=new ArrayList<Section>(){{
+    /*public static  List<Section> listShip2ForSection1=new ArrayList<Section>(){{
         add(section2);
         add(section3);
     }};
@@ -233,11 +247,11 @@ public class Global {
     public static  List<Section> listShip2ForSection6=new ArrayList<Section>(){{
         add(section5);
         add(section3);
-    }};
+    }};*/
     /*
      *SHIP3
      * */
-    public static  List<Section> listShip3ForSection1=new ArrayList<Section>(){{
+    /*public static  List<Section> listShip3ForSection1=new ArrayList<Section>(){{
         add(section4);
     }};
     public static  List<Section> listShip3ForSection2=new ArrayList<Section>(){{
@@ -259,7 +273,7 @@ public class Global {
     }};
     public static  List<Section> listShip3ForSection6=new ArrayList<Section>(){{
         add(section4);
-    }};
+    }};*/
 
 
     /**
@@ -272,10 +286,15 @@ public class Global {
     public static CrewMember crewMember2= CrewMember.crewMemberBuilder().health(300).
             img("Batman").role(Role.FIGHTER).buildCrewMember();
 
+    public static ArrayList<CrewMember> crewMemberList=new ArrayList<CrewMember>(){{
+        add(crewMember0);
+        add(crewMember1);
+        add(crewMember2);
+    }};
     /**
      * Sections Variables
      */
-    public static Section section1= Section
+    public static Section section1=Section
             .sectionBuilder()
             .img("Section1")
             .oxygen(100)
@@ -324,22 +343,35 @@ public class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
-    public static Section section6= Section
+    public static Section section6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section6")
             .oxygen(100).
-            powerCurrent(100)
+                    powerCurrent(100)
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
+
+    public  static ArrayList<Section> sectionPlayerList = new ArrayList<Section>() {{
+        add(section1);
+        add(section2);
+        add(section3);
+        add(section4);
+        add(section5);
+        add(section6);
+    }};
     /*
      * Gegner
      * */
-    public static AI ai1= AI.builderAI().name("gegner1").buildAI();
-    public static AI ai2= AI.builderAI().name("gegner2").buildAI();
+    public static AI ai1 = AI.builderAI().name("gegner1").buildAI();
+    public static AI ai2 = AI.builderAI().name("gegner2").buildAI();
 
+    public static ArrayList<AI> aisU1=new ArrayList<AI>(){{
+        add(ai1);
+        add(ai2);
+    }};
     /*
      * Weapon
      * */
@@ -361,7 +393,18 @@ public class Global {
             name("Shipgegner3").owner(ai2).
             buildShip();
 
+    public static ArrayList<Ship> shipsgegneru1 =new ArrayList<Ship>(){{
+        add(shipGegner1);
+        add(shipGegner2);
 
+    }};
+
+    public static ArrayList<Ship> updateShipsgegneru1(){
+        shipsgegneru1.clear();
+        shipsgegneru1.add(shipGegner1);
+        shipsgegneru1.add(shipGegner2);
+        return  shipsgegneru1;
+    }
     public static Section section1Gegner = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
@@ -393,6 +436,16 @@ public class Global {
             .powerRequired(10)
             .buildSection();
 
+    public static ArrayList<Section> sectionsgegner1 =new ArrayList<Section>(){{
+        add(section1Gegner);
+        add(section2Gegner);
+        add(section3Gegner);
+    }};
+    public static void updateVariblesGegner1(){
+        section1Gegner=sectionsgegner1.get(0);
+        section2Gegner=sectionsgegner1.get(1);
+        section3Gegner=sectionsgegner1.get(2);
+    }
 
     public static Section section1Gegner2 = Section
             .sectionBuilder()
@@ -424,7 +477,16 @@ public class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
-
+    public static ArrayList<Section> sectionsgegner2 =new ArrayList<Section>(){{
+        add(section1Gegner2);
+        add(section2Gegner2);
+        add(section3Gegner2);
+    }};
+    public static void updateVariblesGegner2(){
+        section1Gegner2=sectionsgegner2.get(0);
+        section2Gegner2=sectionsgegner2.get(1);
+        section3Gegner2=sectionsgegner2.get(2);
+    }
 
     public static Section section1Gegner3 = Section
             .sectionBuilder()
@@ -466,6 +528,9 @@ public class Global {
     public static Planet planet3 = Planet.builder().name("p3").img("null").ship(null).build();
     public static Planet planet4 = Planet.builder().name("p4").img("null").ship(null).build();
     public static Planet planet5 = Planet.builder().name("p5").img("null").ship(null).build();
+
+    public static ArrayList<Planet> planetArrayList;
+
     /**
      *  Station
      */

@@ -13,7 +13,7 @@ public final class RequestUtils {
      */
     public static Net.HttpRequest setupRequest(String url, String payload, String httpMethod) {
         Net.HttpRequest request = new Net.HttpRequest(httpMethod);
-        request.setTimeOut(6000);
+        request.setTimeOut(0);
         request.setUrl(url);
         request.setHeader("Content-Type", "application/json");
         request.setHeader("Accept", "application/json");

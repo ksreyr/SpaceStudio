@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
@@ -31,9 +32,10 @@ import de.spaceStudio.service.SinglePlayerGameService;
 import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static de.spaceStudio.client.util.Global.currentPlayer;
-import static de.spaceStudio.client.util.Global.playersOnline;
+import static de.spaceStudio.client.util.Global.*;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
 import static de.spaceStudio.service.LoginService.logout;
@@ -102,7 +104,6 @@ public class ShipSelectScreen extends BaseScreen {
     CrewMember crewMember1 = Global.crewMember1;
     CrewMember crewMember2 = Global.crewMember2;
 
-    Section section1 = Global.section1;
     Section section2 = Global.section2;
     Section section3 = Global.section3;
     Section section4 = Global.section4;
@@ -146,22 +147,20 @@ public class ShipSelectScreen extends BaseScreen {
     ShipRessource shipRessource = Global.shipRessource1;
 
     String responseJson;
-    Boolean addShip,addai1,
-            addai2,addShipG1,
-            addShipG2,addSection1,
-            addSection2,addSection3,
-            addSection4,addSection5,
-            addSection6, addSection1g1,
-            addSection2g1, addSection3g1,
-            addSection1g2,addSection2g2,
-            addSection3g2,addweapon,
-            universe,addp1,
-            addp2,addp3,
-            addp4,addp5,
-            adds1,adds2,
-            addShopR1,addShopR2,
-            AddShip1
-            =false;
+    List<Section> sectionWithId;
+    Boolean addShip = false;
+    Boolean airesquesSent = false;
+    Boolean sectionsadded = false;
+    Boolean crewmemberadded = false;
+    Boolean universeadded = false;
+    Boolean aiadded=false;
+    Boolean sectionsgegner1sent=false;
+    Boolean shipsgegneru1sent=false;
+    List<Section> sectionList = new ArrayList<>();
+    List<CrewMember> crewMemberList = new ArrayList<>();
+    List<AI> aiList = new ArrayList<>();
+    int universeID = 0;
+    List<Ship> shipsgerner= new ArrayList<>();
 
     //
     public ShipSelectScreen(MainClient game) {
@@ -303,23 +302,32 @@ public class ShipSelectScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                switch (shipNumber) {
-                        case 0:
-                            ship = Global.ship0;
-                            break;
-                        case 1:
-                            ship = Global.ship1;
-                            break;
-                        case 2:
-                            ship = Global.ship2;
-                            break;
-                        default:
-                            ship = Global.ship3;
-                            break;
-                    }
-                ship.setOwner(Global.currentPlayer);
-                responseJson = sendRequestAddShip(ship, Net.HttpMethods.POST);
 
+                switch (shipNumber) {
+                    case 0:
+                        ship = Global.ship0;
+                        break;
+                    case 1:
+                        ship = Global.ship1;
+                        break;
+                    case 2:
+                        ship = Global.ship2;
+                        break;
+                    default:
+                        ship = Global.ship3;
+                        break;
+                }
+
+                ship.setOwner(Global.currentPlayer);
+
+                sendRequestAddShip(ship, Net.HttpMethods.POST);
+                /*
+                section1.setShip(ship);
+                section2.setShip(ship);
+                section3.setShip(ship);
+                section4.setShip(ship);
+                section5.setShip(ship);
+                section6.setShip(ship);
 
 
                 section1Gegner.setShip(shipOfGegner);
@@ -480,14 +488,113 @@ public class ShipSelectScreen extends BaseScreen {
                     idgs.sendRequestAddShopRessource(shopRessource2, Net.HttpMethods.POST);
                     idgs.sendRequestAddShipRessource(shipRessource, Net.HttpMethods.POST);
 
-                }
+                }*/
 
             }
         });
     }
 
     //
-    public String sendRequestAddShip(Object requestObject, String method) {
+    public void sendRequestAddCrewMembers(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.CREWMEMBERS_CREATION_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed sendRequestAddCrewMembers");
+                }
+                String listofsections = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                CrewMember[] crewMembersArray = gson.fromJson(listofsections, CrewMember[].class);
+                crewMemberList = Arrays.asList(crewMembersArray);
+                System.out.println("statusCode sendRequestAddCrewMembers: " + statusCode);
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+
+
+    }
+
+    //
+    public void sendRequestAddSections(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.SECTIONS_CREATION_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed sendRequestAddSections");
+                }
+                String listofsections = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                Section[] sectionArray = gson.fromJson(listofsections, Section[].class);
+                sectionList = Arrays.asList(sectionArray);
+                System.out.println("statusCode sendRequestAddSections: " + statusCode);
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+
+    }
+    //
+    //
+    public void sendRequestAddShips(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.SHIPS_CREATION_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed sendRequestAddShip");
+                }
+                String ships = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                Ship[] aiArray = gson.fromJson(ships, Ship[].class);
+                shipsgerner = Arrays.asList(aiArray);
+                System.out.println("statusCode sendRequestAddShip: " + statusCode);
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+
+
+    }
+
+    //
+    //
+    public void sendRequestAddShip(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
@@ -513,25 +620,23 @@ public class ShipSelectScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
-
-        return responseJson;
     }
 
-    public String aiCreation(Object requestObject, String method) {
-
+    //
+    public void sendRequestAddUniverse(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
-        final String url = Global.SERVER_URL + Global.AI_CREATION_ENDPOINT;
+        final String url = Global.SERVER_URL + Global.UNIVERSE_CREATION_ENDPOINT;
         final Net.HttpRequest request = setupRequest(url, requestJson, method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed aiCreation");
+                    System.out.println("Request Failed AddUniverise");
                 }
-                System.out.println("statusCode of aiCreation: " + statusCode);
-                addai1 =true;
+                System.out.println("statusCode AddUniverise: " + statusCode);
+                universeID = Integer.parseInt(httpResponse.getResultAsString());
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -541,10 +646,38 @@ public class ShipSelectScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
-        return null;
     }
     //
+    public void sendRequestAisCreation(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + AIS_CREATION_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed aiCreation");
+                }
+                System.out.println("statusCode of aiCreation: " + statusCode);
+                String listAIS = httpResponse.getResultAsString();
+                airesquesSent =true;
+                Gson gson = new Gson();
+                AI[] aiArray = gson.fromJson(listAIS, AI[].class);
+                aiList = Arrays.asList(aiArray);
 
+            }
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+    //
     private void showHideRoom() {
         showHideRoom = new TextButton("show rooms", skinButton, "small");
         showHideRoom.setPosition((BaseScreen.WIDTH / 2) - 50, 500);
@@ -729,64 +862,194 @@ public class ShipSelectScreen extends BaseScreen {
         stage.getBatch().draw((TextureRegion) crew1.getKeyFrame(state), 10, 250, 70, 70);
         stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 10, 180, 70, 70);
         stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 10, 110, 70, 70);
+       /*Added Ship*/
+
         if (addShip) {
-            if (!responseJson.isEmpty() && responseJson != null) {
+            if (responseJson != null && !responseJson.isEmpty()) {
                 System.out.println("IDSHIP::::" + responseJson);
                 ship.setId(Integer.valueOf(responseJson));
-                switch (shipNumber) {
-                    case 0:
-                        Global.ship0.setId(Integer.valueOf(responseJson));
+                for (Section s :
+                        Global.sectionPlayerList) {
+                    s.setShip(ship);
+                }
+                sendRequestAddSections(Global.sectionPlayerList, Net.HttpMethods.POST);
+            }
+            addShip = false;
+        }
+        /*Added Ship*/
+        if (!sectionList.isEmpty() && sectionsadded == false) {
+            for (Section s :
+                    sectionList) {
+                switch (s.getImg()) {
+                    case "Section1":
+                        Global.section1 = s;
                         break;
-                    case 1:
-                        Global.ship1.setId(Integer.valueOf(responseJson));
+                    case "Section2":
+                        Global.section2 = s;
                         break;
-                    case 2:
-                        Global.ship2.setId(Integer.valueOf(responseJson));
+                    case "Section3":
+                        Global.section3 = s;
+                        break;
+                    case "Section4":
+                        Global.section4 = s;
+                        break;
+                    case "Section5":
+                        Global.section5 = s;
+                        break;
+                    case "Section6":
+                        Global.section6 = s;
                         break;
                     default:
-                        Global.ship3.setId(Integer.valueOf(responseJson));
                         break;
                 }
-                section1.setShip(ship);
-                section2.setShip(ship);
-                section3.setShip(ship);
-                section4.setShip(ship);
-                section5.setShip(ship);
-                section6.setShip(ship);
-
-                //ships.setScreen(new StationsMap(game));
             }
-            addShip =false;
-        }
-        if (addai1) {
-            if (!responseJson.isEmpty() && responseJson != null) {
-                System.out.println("IDA!::::" + responseJson);
-                ship.setId(Integer.valueOf(responseJson));
-                switch (shipNumber) {
-                    case 0:
-                        Global.ship0.setId(Integer.valueOf(responseJson));
-                        break;
+            int counter = 1;
+            for (CrewMember c :
+                    Global.crewMemberList) {
+                switch (counter) {
                     case 1:
-                        Global.ship1.setId(Integer.valueOf(responseJson));
+                        c.setCurrentSection(Global.section1);
+                        c.setName(crew_1_name.getText());
                         break;
                     case 2:
-                        Global.ship2.setId(Integer.valueOf(responseJson));
+                        c.setCurrentSection(Global.section2);
+                        c.setName(crew_2_name.getText());
+                        break;
+                    case 3:
+                        c.setCurrentSection(Global.section3);
+                        c.setName(crew_3_name.getText());
                         break;
                     default:
-                        Global.ship3.setId(Integer.valueOf(responseJson));
                         break;
                 }
-                section1.setShip(ship);
-                section2.setShip(ship);
-                section3.setShip(ship);
-                section4.setShip(ship);
-                section5.setShip(ship);
-                section6.setShip(ship);
-
-                ships.setScreen(new StationsMap(game));
+                counter++;
             }
-            addShip =false;
+            sendRequestAddCrewMembers(Global.crewMemberList, Net.HttpMethods.POST);
+            sectionsadded = true;
         }
+        if (!crewMemberList.isEmpty() && crewmemberadded == false) {
+            int counter = 1;
+            for (CrewMember c :
+                    crewMemberList) {
+                switch (counter) {
+                    case 1:
+                        Global.crewMember0 = c;
+                        break;
+                    case 2:
+                        Global.crewMember1 = c;
+                        break;
+                    case 3:
+                        Global.crewMember2 = c;
+                        break;
+                    default:
+                        break;
+                }
+                counter++;
+            }
+            crewmemberadded = true;
+        }
+        if (crewmemberadded == true && universeadded == false) {
+            if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+                universe2.setName(universe2.getName() + currentPlayer.getName());
+                Global.universe2.setName(universe2.getName());
+                sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
+
+            } else {
+                universe1.setName(universe1.getName() + currentPlayer.getName());
+                Global.universe1.setName(universe1.getName());
+                sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
+            }
+            universeadded = true;
+        }
+        if (universeadded&& airesquesSent ==false) {
+            if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+                Global.universe2.setId(universeID);
+                currentUniverse = Global.universe2;
+                //AISFORU2
+            } else {
+                Global.universe1.setId(universeID);
+                currentUniverse = Global.universe1;
+                sendRequestAisCreation(Global.aisU1,Net.HttpMethods.POST);
+            }
+            airesquesSent =true;
+        }
+        if(airesquesSent && !aiList.isEmpty()){
+            for (AI ai :
+                    aiList) {
+                switch (ai.getName()) {
+                    case "gegner1":
+                        ai1 = ai;
+                        break;
+                    case "gegner2":
+                        ai2 = ai;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            aiadded=true;
+        }
+        if(aiadded&&shipsgegneru1sent==false){
+            //UNIVERSE2????
+            for (Ship s :
+                    shipsgegneru1) {
+                switch (s.getName()) {
+                    case "Shipgegner1":
+                        s.setOwner(ai1);
+                        break;
+                    case "Shipgegner2":
+                        s.setOwner(ai2);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            Global.updateShipsgegneru1();
+            if(shipsgegneru1sent==false) {
+                sendRequestAddShips(shipsgegneru1, Net.HttpMethods.POST);
+                shipsgegneru1sent=true;
+            }
+        }
+        if(!shipsgerner.isEmpty()&&sectionsgegner1sent==false){
+            for (Ship s :
+                    shipsgerner) {
+                switch (s.getName()) {
+                    case "Shipgegner1":
+                        shipGegner1=s;
+                        //Gurdo las seccionesShip1
+                        for (Section section :
+                                sectionsgegner1) {
+                            section.setShip(s);
+                        }
+                        Global.updateVariblesGegner1();
+                        break;
+                    case "Shipgegner2":
+                        shipGegner2=s;
+                        //Gurdo las seccionesShip2
+                        for (Section section :
+                                sectionsgegner2) {
+                            section.setShip(s);
+                        }
+                        Global.updateVariblesGegner2();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if(sectionsgegner1sent==false) {
+                sendRequestAddSections(Global.sectionsgegner1, Net.HttpMethods.POST);
+                sendRequestAddSections(Global.sectionsgegner2, Net.HttpMethods.POST);
+                sectionsgegner1sent=true;
+            }
+            Global.updateShipsgegneru1();
+        }
+
+
+
+
+        /////
+        /////
+        /////
         switch (shipNumber) {
             case 0:
                 stage.getBatch().draw(blueShip, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
