@@ -39,6 +39,28 @@ public class GameController {
     }
 
     /**
+     * Saves single game in Server
+     *
+     * @param playerName
+     * @param singlePlayerGame
+     * @return HTTP Status
+     */
+    @RequestMapping(value = "/game/save/{playerName}", method = RequestMethod.POST)
+    @ResponseBody
+    public String saveGame(@PathVariable("playerName") String playerName, @RequestBody SinglePlayerGame singlePlayerGame) {
+        if (Global.userLogged.contains(playerName) && Global.SinglePlayerGameSessions.get(playerName) != null) {
+            logger.info("Accepting save request for player: " + playerName);
+            SinglePlayerGame sg = Global.SinglePlayerGameSessions.get(playerName);
+            // TODO Save JSON and Update Player database
+
+            return HttpStatus.ACCEPTED.toString();
+        } else {
+            return HttpStatus.NOT_ACCEPTABLE.toString();
+        }
+
+    }
+
+    /**
      * Gets the player's game current status
      *
      * @param playerName

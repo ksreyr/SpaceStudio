@@ -60,7 +60,7 @@ public class StationsMap extends BaseScreen {
     private Jumpservices jumpservices = new Jumpservices();
     private Ship ship= Global.currentShip;
     private StopAbstract currentStop= Global.planet1;
-
+    private TextButton saveGameButton;
     //
 
     public StationsMap(final MainClient game) {
