@@ -87,6 +87,10 @@ public class Global {
      * Planet Cretion
      */
     public static final String PLANET_CREATION_ENDPOINT = "/planet";
+    /**
+     * Planet Cretion
+     */
+    public static final String PLANETS_CREATION_ENDPOINT = "/listplanet";
 
     /**
      * Planet Cretion
@@ -286,11 +290,16 @@ public class Global {
     public static CrewMember crewMember2= CrewMember.crewMemberBuilder().health(300).
             img("Batman").role(Role.FIGHTER).buildCrewMember();
 
-    public static ArrayList<CrewMember> crewMemberList=new ArrayList<CrewMember>(){{
+    public static List<CrewMember> crewMemberList=new ArrayList<CrewMember>(){{
         add(crewMember0);
         add(crewMember1);
         add(crewMember2);
     }};
+    public static void updateVariableCrewMembersPlayer(){
+        crewMember0=crewMemberList.get(0);
+        crewMember1=crewMemberList.get(1);
+        crewMember2=crewMemberList.get(2);
+    }
     /**
      * Sections Variables
      */
@@ -354,7 +363,7 @@ public class Global {
             .powerRequired(10)
             .buildSection();
 
-    public  static ArrayList<Section> sectionPlayerList = new ArrayList<Section>() {{
+    public  static List<Section> sectionPlayerList = new ArrayList<Section>() {{
         add(section1);
         add(section2);
         add(section3);
@@ -362,16 +371,28 @@ public class Global {
         add(section5);
         add(section6);
     }};
+    public static void updateVariableSectionShipPlayer(){
+        section1=sectionPlayerList.get(0);
+        section2=sectionPlayerList.get(1);
+        section3=sectionPlayerList.get(2);
+        section4=sectionPlayerList.get(3);
+        section5=sectionPlayerList.get(4);
+        section6=sectionPlayerList.get(5);
+    }
     /*
      * Gegner
      * */
     public static AI ai1 = AI.builderAI().name("gegner1").buildAI();
     public static AI ai2 = AI.builderAI().name("gegner2").buildAI();
 
-    public static ArrayList<AI> aisU1=new ArrayList<AI>(){{
+    public static List<AI> aisU1=new ArrayList<AI>(){{
         add(ai1);
         add(ai2);
     }};
+    public static void updateVariableaiu1(){
+        ai1=aisU1.get(0);
+        ai2=aisU1.get(1);
+    }
     /*
      * Weapon
      * */
@@ -393,18 +414,17 @@ public class Global {
             name("Shipgegner3").owner(ai2).
             buildShip();
 
-    public static ArrayList<Ship> shipsgegneru1 =new ArrayList<Ship>(){{
+    public static List<Ship> shipsgegneru1 =new ArrayList<Ship>(){{
         add(shipGegner1);
         add(shipGegner2);
 
     }};
 
-    public static ArrayList<Ship> updateShipsgegneru1(){
-        shipsgegneru1.clear();
-        shipsgegneru1.add(shipGegner1);
-        shipsgegneru1.add(shipGegner2);
-        return  shipsgegneru1;
+    public static void updateShipsVariabelgegneru1(){
+        shipGegner1=shipsgegneru1.get(0);
+        shipGegner2=shipsgegneru1.get(1);
     }
+
     public static Section section1Gegner = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
@@ -436,7 +456,7 @@ public class Global {
             .powerRequired(10)
             .buildSection();
 
-    public static ArrayList<Section> sectionsgegner1 =new ArrayList<Section>(){{
+    public static List<Section> sectionsgegner1 =new ArrayList<Section>(){{
         add(section1Gegner);
         add(section2Gegner);
         add(section3Gegner);
@@ -477,7 +497,7 @@ public class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
-    public static ArrayList<Section> sectionsgegner2 =new ArrayList<Section>(){{
+    public static List<Section> sectionsgegner2 =new ArrayList<Section>(){{
         add(section1Gegner2);
         add(section2Gegner2);
         add(section3Gegner2);
@@ -528,8 +548,20 @@ public class Global {
     public static Planet planet3 = Planet.builder().name("p3").img("null").ship(null).build();
     public static Planet planet4 = Planet.builder().name("p4").img("null").ship(null).build();
     public static Planet planet5 = Planet.builder().name("p5").img("null").ship(null).build();
-
-    public static ArrayList<Planet> planetArrayList;
+    public static List<Planet> planetList =new ArrayList<Planet>(){{
+        add(planet1);
+        add(planet2);
+        add(planet3);
+        add(planet4);
+        add(planet5);
+    }};
+    public static void updateVariblesPlanets(){
+        planet1=planetList.get(0);
+        planet2=planetList.get(1);
+        planet3=planetList.get(2);
+        planet4=planetList.get(3);
+        planet5=planetList.get(4);
+    }
 
     /**
      *  Station

@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -149,19 +150,26 @@ public class ShipSelectScreen extends BaseScreen {
     String responseJson;
     List<Section> sectionWithId;
     Boolean addShip = false;
+    Boolean crewmembervariableupdated = false;
+    Boolean crewmembersendet = false;
     Boolean airesquesSent = false;
+    Boolean aivariableUpdated = false;
+    Boolean sectionsPlayersendet = false;
     Boolean sectionsadded = false;
-    Boolean crewmemberadded = false;
-    Boolean universeadded = false;
-    Boolean aiadded=false;
-    Boolean sectionsgegner1sent=false;
-    Boolean shipsgegneru1sent=false;
+
+    Boolean universeRequestSent = false;
+    Boolean variableaiupdated = false;
+    Boolean sectionsgegnersent = false;
+    Boolean sectionsgegnerVariableUpdate= false;
+    Boolean planetsRequestSended=false;
+    Boolean shipsgegneru1sent = false;
+    Boolean shipsgegneru1valuesupdated = false;
     List<Section> sectionList = new ArrayList<>();
     List<CrewMember> crewMemberList = new ArrayList<>();
     List<AI> aiList = new ArrayList<>();
     int universeID = 0;
-    List<Ship> shipsgerner= new ArrayList<>();
-
+    List<Ship> shipsgerner = new ArrayList<>();
+    List<Planet> planets = new ArrayList<>();
     //
     public ShipSelectScreen(MainClient game) {
         super(game);
@@ -301,8 +309,6 @@ public class ShipSelectScreen extends BaseScreen {
         startButton.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
-
                 switch (shipNumber) {
                     case 0:
                         ship = Global.ship0;
@@ -319,176 +325,7 @@ public class ShipSelectScreen extends BaseScreen {
                 }
 
                 ship.setOwner(Global.currentPlayer);
-
                 sendRequestAddShip(ship, Net.HttpMethods.POST);
-                /*
-                section1.setShip(ship);
-                section2.setShip(ship);
-                section3.setShip(ship);
-                section4.setShip(ship);
-                section5.setShip(ship);
-                section6.setShip(ship);
-
-
-                section1Gegner.setShip(shipOfGegner);
-                Global.section1Gegner=section1Gegner;
-                section2Gegner.setShip(shipOfGegner);
-                Global.section2Gegner = section2Gegner;
-                section3Gegner.setShip(shipOfGegner);
-                Global.section3Gegner = section3Gegner;
-
-                section1Gegner2.setShip(shipOfGegner2);
-                Global.section1Gegner2 = section1Gegner2;
-                section2Gegner2.setShip(shipOfGegner2);
-                Global.section2Gegner2 = section2Gegner2;
-                section3Gegner2.setShip(shipOfGegner2);
-                Global.section3Gegner2 = section3Gegner2;
-
-                Global.currentShip = ship;
-
-                aiCreation(gegner1, Net.HttpMethods.POST);
-                aiCreation(gegner2, Net.HttpMethods.POST);
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
-
-                }
-
-                shipOfGegner.setOwner(gegner1);
-                shipOfGegner2.setOwner(gegner2);
-                idgs.sendRequestAddShip(shipOfGegner, Net.HttpMethods.POST);
-                idgs.sendRequestAddShip(shipOfGegner2, Net.HttpMethods.POST);
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
-
-                }
-                idgs.sendRequestAddSection(section1Gegner, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section2Gegner, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section3Gegner, Net.HttpMethods.POST);
-
-                idgs.sendRequestAddSection(section1Gegner2, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section2Gegner2, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section3Gegner2, Net.HttpMethods.POST);
-
-                idgs.sendRequestAddSection(section1, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section2, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section3, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section4, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section5, Net.HttpMethods.POST);
-                idgs.sendRequestAddSection(section6, Net.HttpMethods.POST);
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
-
-                }
-                weaponShip.setSection(section1);
-                idgs.sendRequestAddWeapon(weaponShip,Net.HttpMethods.POST);
-                Global.currentWeapon=weaponShip;
-                try {
-                    Thread.sleep(100);
-                } catch (Exception e) {
-
-                }
-                crewMember0.setCurrentSection(section1);
-                crewMember1.setCurrentSection(section2);
-                crewMember2.setCurrentSection(section3);
-                crewMember0.setName(crew_1_name.getText());
-                crewMember1.setName(crew_2_name.getText());
-                crewMember2.setName(crew_3_name.getText());
-                idgs.sendRequestAddCrew(crewMember0, Net.HttpMethods.POST);
-                idgs.sendRequestAddCrew(crewMember1, Net.HttpMethods.POST);
-                idgs.sendRequestAddCrew(crewMember2, Net.HttpMethods.POST);
-
-                if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
-                    universe2.setName(universe2.getName() + currentPlayer.getName());
-                    Global.universe1.setName(universe2.getName());
-                    idgs.sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
-                    try {
-                        Thread.sleep(200);
-                    } catch (Exception e) {
-
-                    }
-                    p1.setUniverse(universe2);
-                    p2.setUniverse(universe2);
-                    p3.setUniverse(universe2);
-                    p4.setUniverse(universe2);
-                    p5.setUniverse(universe2);
-                    station1.setUniverse(universe2);
-                    station2.setUniverse(universe2);
-                    shipsToP1.add(ship);
-                    Global.currentPlanet=p1;
-                    shipsToP2.add(shipOfGegner);
-                    shipsToP3.add(shipOfGegner2);
-                    p1.setShips(shipsToP1);
-                    p2.setShips(shipsToP2);
-                    p3.setShips(shipsToP3);
-                    idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
-                    idgs.sendRequestAddStation(station1, Net.HttpMethods.POST);
-                    idgs.sendRequestAddStation(station2, Net.HttpMethods.POST);
-                    try {
-                        Thread.sleep(200);
-                    } catch (Exception e) {
-                    }
-                    shopRessource1.setStation(station1);
-                    shopRessource2.setStation(station2);
-                    shipRessource.setShip(ship);
-                    try {
-                        Thread.sleep(200);
-                    } catch (Exception e) {
-                    }
-                    idgs.sendRequestAddShipRessource(shopRessource1,Net.HttpMethods.POST);
-                    idgs.sendRequestAddShipRessource(shopRessource2,Net.HttpMethods.POST);
-                    idgs.sendRequestAddShipRessource(shipRessource,Net.HttpMethods.POST);
-                } else {
-                    universe1.setName(universe1.getName() + currentPlayer.getName());
-                    Global.universe1.setName(universe1.getName());
-                    idgs.sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
-                    try {
-                        Thread.sleep(200);
-                    } catch (Exception e) {
-                    }
-                    p1.setUniverse(universe1);
-                    p2.setUniverse(universe1);
-                    p3.setUniverse(universe1);
-                    p4.setUniverse(universe1);
-                    p5.setUniverse(universe1);
-                    station1.setUniverse(universe1);
-                    station2.setUniverse(universe1);
-                    shipsToP1.add(ship);
-                    Global.currentPlanet=p1;
-                    shipsToP2.add(shipOfGegner);
-                    shipsToP3.add(shipOfGegner2);
-                    p1.setShips(shipsToP1);
-                    p2.setShips(shipsToP2);
-                    p3.setShips(shipsToP3);
-                    idgs.sendRequestAddPlanet(p1, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p2, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p3, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p4, Net.HttpMethods.POST);
-                    idgs.sendRequestAddPlanet(p5, Net.HttpMethods.POST);
-                    idgs.sendRequestAddStation(station1, Net.HttpMethods.POST);
-                    idgs.sendRequestAddStation(station2, Net.HttpMethods.POST);
-                    try {
-                        Thread.sleep(200);
-                    } catch (Exception e) {
-                    }
-                    shopRessource1.setStation(station1);
-                    shopRessource2.setStation(station2);
-                    shipRessource.setShip(ship);
-                    try {
-                        Thread.sleep(200);
-                    } catch (Exception e) {
-                    }
-                    idgs.sendRequestAddShopRessource(shopRessource1, Net.HttpMethods.POST);
-                    idgs.sendRequestAddShopRessource(shopRessource2, Net.HttpMethods.POST);
-                    idgs.sendRequestAddShipRessource(shipRessource, Net.HttpMethods.POST);
-
-                }*/
 
             }
         });
@@ -662,10 +499,38 @@ public class ShipSelectScreen extends BaseScreen {
                 }
                 System.out.println("statusCode of aiCreation: " + statusCode);
                 String listAIS = httpResponse.getResultAsString();
-                airesquesSent =true;
                 Gson gson = new Gson();
                 AI[] aiArray = gson.fromJson(listAIS, AI[].class);
                 aiList = Arrays.asList(aiArray);
+                airesquesSent =true;
+            }
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+    //
+    public void sendRequestAddPlanets(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + PLANET_CREATION_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed aiCreation");
+                }
+                System.out.println("statusCode of aiCreation: " + statusCode);
+                String platenList = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                Planet[] aiArray = gson.fromJson(platenList, Planet[].class);
+                planetList = Arrays.asList(aiArray);
 
             }
             public void failed(Throwable t) {
@@ -862,47 +727,33 @@ public class ShipSelectScreen extends BaseScreen {
         stage.getBatch().draw((TextureRegion) crew1.getKeyFrame(state), 10, 250, 70, 70);
         stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 10, 180, 70, 70);
         stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 10, 110, 70, 70);
-       /*Added Ship*/
 
+        /*Added Ship*/
         if (addShip) {
             if (responseJson != null && !responseJson.isEmpty()) {
-                System.out.println("IDSHIP::::" + responseJson);
                 ship.setId(Integer.valueOf(responseJson));
+                Global.currentShip=ship;
+                //Ship to Sections
                 for (Section s :
                         Global.sectionPlayerList) {
                     s.setShip(ship);
                 }
+            }
+            //Sent Sections
+            if (sectionsPlayersendet == false) {
                 sendRequestAddSections(Global.sectionPlayerList, Net.HttpMethods.POST);
+                sectionsPlayersendet = true;
             }
             addShip = false;
         }
-        /*Added Ship*/
+
+        /*Added sectionList*/
         if (!sectionList.isEmpty() && sectionsadded == false) {
-            for (Section s :
-                    sectionList) {
-                switch (s.getImg()) {
-                    case "Section1":
-                        Global.section1 = s;
-                        break;
-                    case "Section2":
-                        Global.section2 = s;
-                        break;
-                    case "Section3":
-                        Global.section3 = s;
-                        break;
-                    case "Section4":
-                        Global.section4 = s;
-                        break;
-                    case "Section5":
-                        Global.section5 = s;
-                        break;
-                    case "Section6":
-                        Global.section6 = s;
-                        break;
-                    default:
-                        break;
-                }
-            }
+            //Section with ID
+            Global.sectionPlayerList = sectionList;
+            //Update Section variables
+            updateVariableSectionShipPlayer();
+            //Set crewMemebers
             int counter = 1;
             for (CrewMember c :
                     Global.crewMemberList) {
@@ -924,31 +775,19 @@ public class ShipSelectScreen extends BaseScreen {
                 }
                 counter++;
             }
+            //CrewMembers sendet
             sendRequestAddCrewMembers(Global.crewMemberList, Net.HttpMethods.POST);
             sectionsadded = true;
+            crewmembersendet = true;
         }
-        if (!crewMemberList.isEmpty() && crewmemberadded == false) {
-            int counter = 1;
-            for (CrewMember c :
-                    crewMemberList) {
-                switch (counter) {
-                    case 1:
-                        Global.crewMember0 = c;
-                        break;
-                    case 2:
-                        Global.crewMember1 = c;
-                        break;
-                    case 3:
-                        Global.crewMember2 = c;
-                        break;
-                    default:
-                        break;
-                }
-                counter++;
-            }
-            crewmemberadded = true;
+        if (!crewMemberList.isEmpty() && crewmembersendet) {
+            Global.crewMemberList = crewMemberList;
+            Global.updateVariableCrewMembersPlayer();
+            crewmembervariableupdated = true;
+            crewmembersendet = false;
         }
-        if (crewmemberadded == true && universeadded == false) {
+
+        if (crewmembervariableupdated && universeRequestSent == false) {
             if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
                 universe2.setName(universe2.getName() + currentPlayer.getName());
                 Global.universe2.setName(universe2.getName());
@@ -959,9 +798,9 @@ public class ShipSelectScreen extends BaseScreen {
                 Global.universe1.setName(universe1.getName());
                 sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
             }
-            universeadded = true;
+            universeRequestSent = true;
         }
-        if (universeadded&& airesquesSent ==false) {
+        if (universeRequestSent && universeID != 0 && airesquesSent == false) {
             if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
                 Global.universe2.setId(universeID);
                 currentUniverse = Global.universe2;
@@ -969,27 +808,16 @@ public class ShipSelectScreen extends BaseScreen {
             } else {
                 Global.universe1.setId(universeID);
                 currentUniverse = Global.universe1;
-                sendRequestAisCreation(Global.aisU1,Net.HttpMethods.POST);
+                sendRequestAisCreation(Global.aisU1, Net.HttpMethods.POST);
+
             }
-            airesquesSent =true;
         }
-        if(airesquesSent && !aiList.isEmpty()){
-            for (AI ai :
-                    aiList) {
-                switch (ai.getName()) {
-                    case "gegner1":
-                        ai1 = ai;
-                        break;
-                    case "gegner2":
-                        ai2 = ai;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            aiadded=true;
+        if (airesquesSent && !aiList.isEmpty() && variableaiupdated == false) {
+            Global.aisU1 = aiList;
+            Global.updateVariableaiu1();
+            variableaiupdated = true;
         }
-        if(aiadded&&shipsgegneru1sent==false){
+        if (variableaiupdated && shipsgegneru1sent == false) {
             //UNIVERSE2????
             for (Ship s :
                     shipsgegneru1) {
@@ -1004,44 +832,75 @@ public class ShipSelectScreen extends BaseScreen {
                         break;
                 }
             }
-            Global.updateShipsgegneru1();
-            if(shipsgegneru1sent==false) {
-                sendRequestAddShips(shipsgegneru1, Net.HttpMethods.POST);
-                shipsgegneru1sent=true;
-            }
+            sendRequestAddShips(shipsgegneru1, Net.HttpMethods.POST);
+            shipsgegneru1sent = true;
         }
-        if(!shipsgerner.isEmpty()&&sectionsgegner1sent==false){
-            for (Ship s :
-                    shipsgerner) {
-                switch (s.getName()) {
-                    case "Shipgegner1":
-                        shipGegner1=s;
-                        //Gurdo las seccionesShip1
-                        for (Section section :
-                                sectionsgegner1) {
-                            section.setShip(s);
-                        }
-                        Global.updateVariblesGegner1();
+
+        if (!shipsgerner.isEmpty() && shipsgegneru1valuesupdated == false) {
+            Global.shipsgegneru1=shipsgerner;
+            Global.updateShipsVariabelgegneru1();
+            shipsgegneru1valuesupdated=true;
+        }
+
+        if (sectionsgegnersent ==false&&shipsgegneru1valuesupdated) {
+            List<Section> sectionsforU1= new ArrayList<Section>();
+            for (Section s :
+                    Global.sectionsgegner1) {
+                s.setShip(shipGegner1);
+                sectionsforU1.add(s);
+            }
+            for (Section s :
+                    Global.sectionsgegner2) {
+                s.setShip(shipGegner2);
+                sectionsforU1.add(s);
+            }
+            sendRequestAddSections(sectionsforU1, Net.HttpMethods.POST);
+            //man kann nicht das method clear an der list nutzen. deswegen sizeO
+            List<Section> sizeO=new ArrayList<>();
+            sectionList=sizeO;
+            sectionsgegnersent=true;
+        }
+        if(sectionsgegnersent&&!sectionList.isEmpty()){
+            List<Section> sectionsgegner1= new ArrayList<>();
+            List<Section> sectionsgegner2= new ArrayList<>();
+            for (Section s :
+                    sectionList) {
+                if(s.getShip().getName().equals("Shipgegner1")){
+                    sectionsgegner1.add(s);
+                }else if(s.getShip().getName().equals("Shipgegner2")){
+                    sectionsgegner2.add(s);
+                }
+            }
+            Global.sectionsgegner1=sectionsgegner1;
+            Global.updateVariblesGegner1();
+            Global.sectionsgegner2=sectionsgegner2;
+            Global.updateVariblesGegner2();
+            sectionsgegnerVariableUpdate=true;
+        }
+        //Planeten request
+        if(sectionsgegnerVariableUpdate==true&&planetsRequestSended==false){
+            //Universe1
+            List<Ship> shipsP1=new ArrayList<Ship>(){{add(currentShip);}};
+            List<Ship> shipsP2=new ArrayList<Ship>(){{add(shipGegner1);}};
+            List<Ship> shipsP3=new ArrayList<Ship>(){{add(shipGegner2);}};
+            for (Planet p :
+                    planetList) {
+                switch (p.getName()){
+                    case "p1":
+                        p.setShips(shipsP1);
                         break;
-                    case "Shipgegner2":
-                        shipGegner2=s;
-                        //Gurdo las seccionesShip2
-                        for (Section section :
-                                sectionsgegner2) {
-                            section.setShip(s);
-                        }
-                        Global.updateVariblesGegner2();
+                    case "p2":
+                        p.setShips(shipsP2);
+                        break;
+                    case "p3":
+                        p.setShips(shipsP3);
                         break;
                     default:
                         break;
                 }
             }
-            if(sectionsgegner1sent==false) {
-                sendRequestAddSections(Global.sectionsgegner1, Net.HttpMethods.POST);
-                sendRequestAddSections(Global.sectionsgegner2, Net.HttpMethods.POST);
-                sectionsgegner1sent=true;
-            }
-            Global.updateShipsgegneru1();
+            sendRequestAddPlanets(planetList, Net.HttpMethods.POST);
+            planetsRequestSended=true;
         }
 
 

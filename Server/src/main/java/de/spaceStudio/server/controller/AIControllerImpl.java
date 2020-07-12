@@ -48,6 +48,7 @@ public class AIControllerImpl implements AIController {
         aiRepository.save(ai);
         return HttpStatus.CREATED.toString();
     }
+
     @RequestMapping(value = "/AIs", method = RequestMethod.POST)
     public String addAI(@RequestBody List<AI> ais) {
         List<AI> aisSaved= new ArrayList<AI>();

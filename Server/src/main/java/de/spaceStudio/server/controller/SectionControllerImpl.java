@@ -94,13 +94,15 @@ public class SectionControllerImpl implements SectionController {
             ship.setOwner(ai);
             section.setShip(ship);
         }*/
+        List<Section> sectionsadded= new ArrayList<>();
         for (Section s :
                 sections) {
-            repository.save(s);
+            Section section= repository.save(s);
+            sectionsadded.add(section);
         }
         Gson gson = new Gson();
-        gson.toJson(repository.findAllByShip(ship).get());
-        return gson.toJson(repository.findAllByShip(ship).get());
+        gson.toJson(sectionsadded);
+        return gson.toJson(sectionsadded);
     }
     /**
      * Update data of the section

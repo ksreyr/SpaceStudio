@@ -36,6 +36,7 @@ public interface PlanetController {
     @RequestMapping(value = "/planet", method = RequestMethod.POST)
     String addPlanet(@RequestBody Planet planet);
 
+
     /**
      * Update data of the planet
      *
