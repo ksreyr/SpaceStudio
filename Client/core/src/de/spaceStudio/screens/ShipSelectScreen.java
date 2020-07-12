@@ -116,6 +116,7 @@ public class ShipSelectScreen extends BaseScreen {
     List<Planet> planets = new ArrayList<>();
     List<Station> stations = new ArrayList<>();
     List<ShopRessource> shopRessources = new ArrayList<>();
+    List<Weapon> weapons = new ArrayList<>();
 
     //
     public ShipSelectScreen(MainClient game) {
@@ -685,8 +686,22 @@ public class ShipSelectScreen extends BaseScreen {
             requestcounter = 20;
         }
         if(requestcounter==20){
+            for (Weapon w :
+                    weaponListPlayer) {
+                w.setSection(section2);
+            }
+            sendRequestAddWeapon(weaponListPlayer,Net.HttpMethods.POST);
+            requestcounter=21;
+        }
+        if(!weapons.isEmpty()&&requestcounter==21){
+            weaponListPlayer=weapons;
+            Global.updateweaponVariabel();
+            requestcounter=22;
+        }
+        if(requestcounter==22){
             ships.setScreen(new StationsMap(game));
         }
+
 
         /////
         switch (shipNumber) {
@@ -1102,6 +1117,33 @@ public class ShipSelectScreen extends BaseScreen {
             }
         });
     }
-
+    //
+    public void sendRequestAddWeapon(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + WEAPONS_SHIP_CREATION_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed sendRequestAddWeapon");
+                }
+                System.out.println("statusCode sendRequestAddWeapon: " + statusCode);
+                String weaponsList = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                Weapon[] weaponsArray = gson.fromJson(weaponsList, Weapon[].class);
+                weapons = Arrays.asList(weaponsArray);
+            }
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
     //
 }

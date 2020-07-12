@@ -11,14 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.List;
 
 public interface WeaponController  {
-    /**
-     * Will the planned Attack Dammage the Ship
-     *
-     * @param w is the weapon
-     * @param s is the Ship which should be attacked
-     * @return if the attack is possible
-     */
-    boolean canAttack(Weapon w, Ship s);
+
 
     /**
      * Calculate the Dammage and update the Ship to reflect the Attack
@@ -89,4 +82,7 @@ public interface WeaponController  {
 
     @RequestMapping(value = "/fire", method = RequestMethod.POST)
     String fire(@RequestBody Weapon weapon);
+
+    @RequestMapping(value = "/shotvalidation", method = RequestMethod.POST)
+    String shotValidation(@RequestBody List<Weapon> weapons);
 }

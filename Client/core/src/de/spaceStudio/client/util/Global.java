@@ -43,6 +43,10 @@ public class Global {
      * ENd point Combat
      */
     public static final String MAKE_SHOT_VALIDATION = "/fire";
+    /**
+     * ENd point Combat
+     */
+    public static final String SHOT_VALIDATION_VALIDATION = "/shotvalidation";
 
     /**
      * ENd point Combat
@@ -128,7 +132,10 @@ public class Global {
      * Planet Cretion
      */
     public static final String RESSOURCE_SHIP_CREATION_ENDPOINT = "/shipressource";
-
+    /**
+     * Planet Cretion
+     */
+    public static final String WEAPONS_SHIP_CREATION_ENDPOINT = "/listweapons";
     /**
      * Global player, this data will be downloaded from server at login
      */
@@ -411,7 +418,18 @@ public class Global {
     /*
      * Weapon
      * */
-    public static Weapon weapon = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+
+    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static List<Weapon> weaponListPlayer = new ArrayList<Weapon>(){{
+        add(weapon1Player);
+        add(weapon2Player);
+    }};
+    public static void updateweaponVariabel(){
+        weapon1Player= weaponListPlayer.get(0);
+        weapon2Player= weaponListPlayer.get(1);
+    }
+
     /*
     Gegner Ship
      */
