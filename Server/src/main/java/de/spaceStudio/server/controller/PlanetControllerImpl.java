@@ -79,7 +79,7 @@ public class PlanetControllerImpl implements PlanetController {
     }
 
     @RequestMapping(value = "/listplanet", method = RequestMethod.POST)
-    public String addPlanet(@RequestBody List<Planet> planets) {
+    public String addPlanets(@RequestBody List<Planet> planets) {
         List<Planet> planetadded= new ArrayList<Planet>();
         for (Planet p :
                 planets) {

@@ -91,7 +91,18 @@ public class Global {
      * Planet Cretion
      */
     public static final String PLANETS_CREATION_ENDPOINT = "/listplanet";
-
+    /**
+     * Planet Cretion
+     */
+    public static final String STATIONS_CREATION_ENDPOINT = "/liststation";
+    /**
+     * Planet Cretion
+     */
+    public static final String RESSOURCES_SHOP_CREATION_ENDPOINT = "/listressourcen";
+    /**
+     * Planet Cretion
+     */
+    public static final String RESSOURCE_SHOP_CREATION_ENDPOINT = "/shopressource";
     /**
      * Planet Cretion
      */
@@ -117,15 +128,19 @@ public class Global {
      * Planet Cretion
      */
     public static final String RESSOURCE_SHIP_CREATION_ENDPOINT = "/shipressource";
-    /**
-     * Planet Cretion
-     */
-    public static final String RESSOURCE_SHOP_CREATION_ENDPOINT = "/shopressource";
 
     /**
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
+    /**
+     * Global player, this data will be downloaded from server at login
+     */
+    public static AI currentGegner;
+    /**
+     * Global player, this data will be downloaded from server at login
+     */
+    public static Ship currentShipGegner;
     /**
      * Global player, this data will be downloaded from server at login
      */
@@ -543,11 +558,11 @@ public class Global {
     /**
      * planete Univerise 1
      */
-    public static Planet planet1 = Planet.builder().name("p1").img("null").ship(null).build();
-    public static Planet planet2 = Planet.builder().name("p2").img("null").ship(null).build();
-    public static Planet planet3 = Planet.builder().name("p3").img("null").ship(null).build();
-    public static Planet planet4 = Planet.builder().name("p4").img("null").ship(null).build();
-    public static Planet planet5 = Planet.builder().name("p5").img("null").ship(null).build();
+    public static Planet planet1 = Planet.builder().name("p1").img("null").build();
+    public static Planet planet2 = Planet.builder().name("p2").img("null").build();
+    public static Planet planet3 = Planet.builder().name("p3").img("null").build();
+    public static Planet planet4 = Planet.builder().name("p4").img("null").build();
+    public static Planet planet5 = Planet.builder().name("p5").img("null").build();
     public static List<Planet> planetList =new ArrayList<Planet>(){{
         add(planet1);
         add(planet2);
@@ -567,45 +582,40 @@ public class Global {
      *  Station
      */
     public static Station station1 = Station.stationBuilder().name("station1").energyPrice(0).buildStation();
-    /**
-     *  Station
-     */
     public static Station station2 = Station.stationBuilder().name("station2").energyPrice(1).buildStation();
+    public static List<Station> stationList =new ArrayList<Station>(){{
+        add(station1);
+        add(station2);
+    }};
+    public static void updateVariblesStations(){
+        station1=stationList.get(0);
+        station2=stationList.get(1);
+    }
 
     public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).amount(100).build();
     public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).amount(100).build();
-    public static ShipRessource shipRessource1 = ShipRessource.builderShipRessource().amount(100).name(RessourceName.GOLD).build();
+    public static List<ShopRessource> shopRessourceList =new ArrayList<ShopRessource>(){{
+        add(shopRessource1);
+        add(shopRessource2);
+    }};
+    public static void updateVariblesshopRessource(){
+        shopRessource1= shopRessourceList.get(0);
+        shopRessource2= shopRessourceList.get(1);
+    }
+    public static ShipRessource shipRessource = ShipRessource.builderShipRessource().amount(100).name(RessourceName.GOLD).build();
     /**
      * Universe Univerise 1
      */
     public static Universe universe1 = Universe.universeBuilder().name("Easy").build();
     public static Universe universe2 = Universe.universeBuilder().name("Normal").build();
 
+    public static List<Ship> shipsP1=new ArrayList<Ship>();
+    public static List<Ship> shipsP2=new ArrayList<Ship>();
+    public static List<Ship> shipsP3=new ArrayList<Ship>();
+    public static List<Ship> shipsP4=new ArrayList<Ship>();
+    public static List<Ship> shipsP5=new ArrayList<Ship>();
 
-    public static ArrayList<Section> sectionofShip(Ship ship) {
-        if (ship.getName().equals("shipGegner1")) {
-            ArrayList<Section> sectionList = new ArrayList<Section>() {{
-                add(section1Gegner);
-                add(section2Gegner);
-                add(section3Gegner);
-            }};
-            return sectionList;
-        } else if (ship.getName().equals("shipGegner1")) {
-            ArrayList<Section> sectionList = new ArrayList<Section>() {{
-                add(section1Gegner2);
-                add(section2Gegner2);
-                add(section3Gegner2);
-            }};
-            return sectionList;
-        } else {
-            ArrayList<Section> sectionList = new ArrayList<Section>() {{
-                add(section1Gegner3);
-                add(section2Gegner3);
-                add(section3Gegner3);
-            }};
-            return sectionList;
-        }
-    }
+
 
 
 }

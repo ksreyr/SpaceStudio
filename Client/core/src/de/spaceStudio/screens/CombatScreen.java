@@ -29,6 +29,7 @@ import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.service.CombatService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class CombatScreen extends BaseScreen {
@@ -113,7 +114,7 @@ public class CombatScreen extends BaseScreen {
         } else if (planet.getName().equals("p5")) {
 
         }
-        ArrayList<Section> sections = Global.sectionofShip(gegnerShip);
+        List<Section> sections = Global.sectionsgegner1;
         section1Gegner = sections.get(0);
         section2Gegner = sections.get(1);
         section3Gegner = sections.get(2);

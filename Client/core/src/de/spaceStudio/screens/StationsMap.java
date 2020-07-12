@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
@@ -27,6 +30,8 @@ import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
+
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 public class StationsMap extends BaseScreen {
 
@@ -136,6 +141,8 @@ public class StationsMap extends BaseScreen {
                             counter++;
                             hoverListener(planet3ImgBTN,textAreaVIS);
                             jumpService(planet);
+
+                            game.setScreen(new CombatScreen(game));
                         }
 
                     }
@@ -170,7 +177,6 @@ public class StationsMap extends BaseScreen {
                             hoverListener(planet4ImgBTN,textAreaVIS);
                             jumpService(planet);
                             game.setScreen(new CombatScreen(game));
-
 
                         }
                     }
@@ -289,11 +295,43 @@ public class StationsMap extends BaseScreen {
         toChange.add(currentStop);
         toChange.add(planet);
         jumpservices.makeJumpRequest(toChange, Net.HttpMethods.POST);
+
         game.setScreen(new CombatScreen(game));
 
     }
 
+    public void makeJumpRequest(Object requestObject, String method) {
+        final Json json = new Json();
 
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.MAKEJUMP_CREATION_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed");
+                }
+                System.out.println("statusCode of the Jump: " + statusCode);
+                String responseJson = httpResponse.getResultAsString();
+                try {
+                    System.out.println("Response: " + responseJson);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
 
 
     private void actionDialog(Dialog dialog, String action) {

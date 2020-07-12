@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import com.google.gson.Gson;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.ShipRessource;
@@ -35,8 +36,9 @@ public class ShipRessourceControllerImpl implements ShipRessourceController {
         Player player= playerRepository.findByName(shipRessource.getShip().getOwner().getName()).get();
         Ship ship= shipRepository.findByOwner(player).get();
         shipRessource.setShip(ship);
-        shipRessourceRepository.save(shipRessource);
-        return HttpStatus.CREATED.toString();
+        ShipRessource shipRessource1=shipRessourceRepository.save(shipRessource);
+        Gson gson=new Gson();
+        return  gson.toJson(shipRessource1.getId());
     }
 
     @Override

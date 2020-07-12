@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import com.google.gson.Gson;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
@@ -105,7 +106,8 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         shipJump.add(ship);
         stopEnd.setShips(shipJump);
         stopAbstractRepository.save(stopEnd);
+        Gson gson= new Gson();
 
-        return HttpStatus.OK.toString();
+        return gson.toJson(shipJump);
     }
 }
