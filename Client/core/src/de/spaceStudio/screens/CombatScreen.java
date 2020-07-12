@@ -40,7 +40,7 @@ public class CombatScreen extends BaseScreen{
     private Texture enemyShip;
     private Texture hull;
     private Texture background;
-    private TextButton fireRight, fireLeft;
+    private TextButton enableShield, fireLeft;
 
     private Texture missilleRight, missilleRightFired, explosion, missilleLeft, missilleLeftFired;
     int fuzeOffsetright,fuzeOffsetLeft;
@@ -53,7 +53,9 @@ public class CombatScreen extends BaseScreen{
     boolean isWin;
     private boolean w, d, o;
 
-    Texture bullet;
+    Texture bullet, shield;
+    private boolean isShieldEnabled;
+
     private ImageButton engine, weaponSection,cockpit;
     private int disappearRight = 570;
     private int disappearLeft = 570;
@@ -116,7 +118,7 @@ public class CombatScreen extends BaseScreen{
         explosion = new Texture(Gdx.files.internal("Client/core/assets/data/explosion1_0024.png"));
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
-
+        shield = new Texture("shield_2.png");
 
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
@@ -180,21 +182,24 @@ public class CombatScreen extends BaseScreen{
 
 
         Gdx.input.setInputProcessor(stage);
-        fireRight = new TextButton("Fire Right",skinButton,"small");
-        fireRight.setPosition(950,200);
-        fireRight.addListener(new ChangeListener() {
+       enableShield = new TextButton("Activate Shield",skinButton,"small");
+        enableShield.setPosition(950,200);
+        enableShield.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
                  //   hoverListener(fire);
                     rocketLaunch.play();
                     isRightPressed = true;
+                    if(isShieldEnabled) isShieldEnabled=false;
+                    else isShieldEnabled = true;
+
 
 
             }
         });
 
-
+/*
         fireLeft = new TextButton("Fire Left",skinButton,"small");
         fireLeft.setPosition(800,200);
         fireLeft.addListener(new ChangeListener() {
@@ -206,11 +211,11 @@ public class CombatScreen extends BaseScreen{
 
             }
         });
-         stage.addActor(fireRight);
-         stage.addActor(fireLeft);
+
+         stage.addActor(fireLeft);*/
          stage.addActor(engine);
          stage.addActor(cockpit);
-
+        stage.addActor(enableShield);
     }
 
     private void logicOfFire() {
@@ -325,10 +330,14 @@ public class CombatScreen extends BaseScreen{
             }
 
         }
-        if( counterEngine >= 3){
+        if(isShieldEnabled) stage.getBatch().draw(shield,1150,150,850,1000);
+
+
+        if( counterEngine >= 3 && !isShieldEnabled){
             stage.getBatch().draw(explosion,1515,422,100,100);
+
         }
-        if( counterCockpit >= 2){
+        if( counterCockpit >= 2 && !isShieldEnabled){
             stage.getBatch().draw(explosion,1515,690,100,100);
         }
         //update bullets
