@@ -44,8 +44,6 @@ public class CombatScreen extends BaseScreen{
 
     private Texture missilleRight, missilleRightFired, explosion, missilleLeft, missilleLeftFired;
     int fuzeOffsetright,fuzeOffsetLeft;
-    boolean isRightPressed, isLeftPressed;
-    private boolean isShootEngine, isShootCockpit;
     private boolean isTargetSelected, isTargedEngine, isTargetCockpit, isTargetWeapon;
     private ShapeRenderer shapeRenderer;
     private Skin  skinButton;
@@ -66,18 +64,12 @@ public class CombatScreen extends BaseScreen{
     Weapon weapon = Global.weapon;
     float x=0;
 
-
-
-
-
-
     Sound rocketLaunch;
     Ship shipPlayer = Global.currentShip;
 
-
     ArrayList<Bullet> bullets;
+    ArrayList<Bullet> bulletsEnemy;
     ShipSelectScreen shipSelectScreen;
-
     //
     CombatService cs = new CombatService();
     Planet planet = Global.currentPlanet;
@@ -119,6 +111,7 @@ public class CombatScreen extends BaseScreen{
         fuzeOffsetLeft = 570;
 
         bullets = new ArrayList<>();
+        bulletsEnemy = new ArrayList<>();
 
  /*       if (planet.getName().equals("p1")) {
             gegnerShip = Global.shipGegner1;
@@ -272,6 +265,7 @@ public class CombatScreen extends BaseScreen{
         stage.getBatch().draw(missilleLeft,disappearLeft,825,400,50);
 
 
+        //Create and launch missiles
         if(Gdx.input.isKeyJustPressed(Input.Keys.A) && isTargetCockpit){
             counterCockpit++;
             if(counterCockpit < 3){
@@ -287,14 +281,20 @@ public class CombatScreen extends BaseScreen{
             }
 
         }
+        //shield for player
         if(isShieldEnabled) stage.getBatch().draw(shield,70,150,1100,1000);
+        //shield for enemy
         if(isEnemyShield) stage.getBatch().draw(shield,1120,150,900,1000);
 
+        //explosion on player
+        if(counterEngine >= 2)
+            stage.getBatch().draw(explosion,550,520,100,100);
 
+        //explosion on enemy's engine
         if( counterEngine >= 3 && !isEnemyShield){
             stage.getBatch().draw(explosion,1515,422,100,100);
-
         }
+        //explosion on enemy's cockpit
         if( counterCockpit >= 2 && !isEnemyShield){
             stage.getBatch().draw(explosion,1515,690,100,100);
         }

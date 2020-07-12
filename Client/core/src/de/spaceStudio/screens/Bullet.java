@@ -30,6 +30,14 @@ public class Bullet extends Weapon {
         }
     }
 
+    public void updateTo(float deltaTime){
+        x -= SPEED * deltaTime;
+        if(x > Gdx.graphics.getWidth()-500 ){
+            remove = true;
+        }
+    }
+
+
 
     public void render(SpriteBatch batch){
 
