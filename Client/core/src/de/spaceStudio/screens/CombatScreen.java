@@ -26,8 +26,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.SectionTyp;
 import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.service.CombatService;
+
+import java.util.List;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
@@ -49,7 +54,7 @@ public class CombatScreen extends BaseScreen {
 
     private Texture fuze, fuz2, explosion;
     int fuzeOffset;
-    boolean isFired;
+    boolean isFired=false;
     private boolean isExploied;
     private boolean isTargetSelected;
     private boolean sectionw, sectiond, sectionOthers;
@@ -76,7 +81,7 @@ public class CombatScreen extends BaseScreen {
 
     public CombatScreen(MainClient game) {
         super(game);
-        Gdx.input.setInputProcessor(stage);
+
 
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
@@ -120,44 +125,128 @@ public class CombatScreen extends BaseScreen {
         fire = new TextButton("Fire",skinButton,"small");
         fire.setPosition(800,200);
         fire.addListener(new ChangeListener() {
-
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
-
                 rocketLaunch.play();
                 isFired = true;
             }
         });
-
+        Gdx.input.setInputProcessor(stage);
          stage.addActor(fire);
          stage.addActor(engine);
          stage.addActor(cockpit);
 
     }
 
-    private void logicOfFire() {
-        if (sectionw) {
+    /*private void logicOfFire() {
 
-        } else if (sectionOthers) {
-           /* if (gegnerShip.getName().equals("Shipgegner1")) {
-                Global.shipGegner1.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
-                gegnerShip.setHp(Global.shipGegner1.getHp());
-                Global.section2Gegner.setUsable(false);
-            } else if (gegnerShip.getName().equals("Shipgegner2")) {
-                Global.shipGegner2.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
-                gegnerShip.setHp(Global.shipGegner2.getHp());
-                Global.section2Gegner2.setUsable(false);
-            } else if (gegnerShip.getName().equals("Shipgegner3")) {
-                Global.shipGegner3.setHp(gegnerShip.getHp() - Global.weapon.getDamage());
-                gegnerShip.setHp(Global.shipGegner3.getHp());
-                Global.section2Gegner3.setUsable(false);
-            }
-            section2Gegner.setUsable(false);
-            Global.currentWeapon.setObjectiv(section1Gegner);*/
+        //Sections
+        Global.currentShipGegner.getName();
+        switch (Global.currentShipGegner.getName()) {
+            //An the fall that the Gegner 1 ist
+            case "Shipgegner1":
+                List<Section> sectionListShipgegner1 = Global.sectionsgegner1;
+                //setSectionZiel
+                for (Section s :
+                        sectionListShipgegner1) {
+                    //if section Zeil is weapons
+                    if (sectionw) {
+                        if(s.getRole().equals(SectionTyp.WEAPONS)){
+                            //jedes Weapons der User muss dieses section haben
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setSection(s);
+                            }
+                        };
+                    }else if(sectiond){
+                        if(s.getRole().equals(SectionTyp.DRIVE)){
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setSection(s);
+                            }
+                        };
+                    }else{
+                        if(s.getRole().equals(SectionTyp.NORMAL)){
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setSection(s);
+                            }
+                        };
+                    }
+                }
+                break;
+            //An the fall that the Gegner 2 ist
+            case "Shipgegner2":
+                List<Section> sectionListShipgegner2 = Global.sectionsgegner1;
+                //setSectionZiel
+                for (Section s :
+                        sectionListShipgegner2) {
+                    //if section Zeil is weapons
+                    if (sectionw) {
+                        if(s.getRole().equals(SectionTyp.WEAPONS)){
+                            //jedes Weapons der User muss dieses section haben
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setSection(s);
+                            }
+                        };
+                    }else if(sectiond){
+                        if(s.getRole().equals(SectionTyp.DRIVE)){
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setSection(s);
+                            }
+                        };
+                    }else{
+                        if(s.getRole().equals(SectionTyp.NORMAL)){
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setSection(s);
+                            }
+                        };
+                    }
+                }
+                break;
+            //An the fall that the Gegner 3 ist
+            case "Shipgegner3":
+                List<Section> sectionListShipgegner3 = Global.sectionsgegner1;
+                //setSectionZiel
+                for (Section s :
+                        sectionListShipgegner3) {
+                    //if section Zeil is weapons
+                    if (sectionw) {
+                        if(s.getRole().equals(SectionTyp.WEAPONS)){
+                            //jedes Weapons der User muss dieses section haben
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setSection(s);
+                            }
+                        };
+                    }else if(sectiond){
+                        if(s.getRole().equals(SectionTyp.DRIVE)){
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setSection(s);
+                            }
+                        };
+                    }else{
+                        if(s.getRole().equals(SectionTyp.NORMAL)){
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setSection(s);
+                            }
+                        };
+                    }
+                }
+                break;
         }
-        //cs.makeAShot(Global.currentWeapon, Net.HttpMethods.POST);
-    }
+    }*/
+    //ShotValidation
+    ////Para ponerlas en la armas
+    //encontrar la section que fue seleccionada
+    ////Quien es el gegner
+    ////sectiones del gegner
+    ////set de
 
     public void makeAShot(Object requestObject, String method) {
         final Json json = new Json();
@@ -174,7 +263,6 @@ public class CombatScreen extends BaseScreen {
                 System.out.println("statusCode makeAShot: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
-
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
@@ -242,6 +330,9 @@ int counter=0;
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
+        if(isFired){
+            isFired=false;
+        }
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300,300,700,700);
@@ -261,8 +352,6 @@ int counter=0;
 
         if(isExploied)
         {
-
-
             stage.getBatch().draw(explosion,1515,422,100,100);
         }
 
