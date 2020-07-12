@@ -40,7 +40,7 @@ public class CombatScreen extends BaseScreen{
     private Texture enemyShip;
     private Texture hull;
     private Texture background;
-    private TextButton enableShield, fireLeft;
+    private TextButton enableShield, enableEnemyShield;
 
     private Texture missilleRight, missilleRightFired, explosion, missilleLeft, missilleLeftFired;
     int fuzeOffsetright,fuzeOffsetLeft;
@@ -54,7 +54,7 @@ public class CombatScreen extends BaseScreen{
     private boolean w, d, o;
 
     Texture bullet, shield;
-    private boolean isShieldEnabled;
+    private boolean isShieldEnabled,  isEnemyShield;
 
     private ImageButton engine, weaponSection,cockpit;
     private int disappearRight = 570;
@@ -95,35 +95,29 @@ public class CombatScreen extends BaseScreen{
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
-        background = new Texture(Gdx.files.internal("Client/core/assets/data/CombatBG.jpg"));
-        playerShip = new Texture(Gdx.files.internal("Client/core/assets/blueships_fulled.png"));
-        enemyShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/enemy1.png"));
-        hull = new Texture(Gdx.files.internal("Client/core/assets/hull1.png"));
+        background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
+        playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
+        enemyShip = new Texture("Client/core/assets/combatAssets/enemy1.png");
+        missilleRight =  new Texture("Client/core/assets/combatAssets/missille_out.png");
+        missilleLeft = new Texture("Client/core/assets/combatAssets/missille_out.png");
+        shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
+        explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
+        bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
+
         shapeRenderer = new ShapeRenderer();
-        final Drawable engine_sym = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/EnginesSymbol.png")));
-        final Drawable engine_red = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/EngineRed.png")));
-
-        final Drawable cockpit_nat = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/PilotingSymbol.png")));
-        final Drawable cockpit_red = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/PilotingRed.png")));
-
-
+        final Drawable engine_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/enginesSymbol.png"));
+        final Drawable engine_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/engineRed.png"));
+        final Drawable cockpit_nat = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/PilotingSymbol.png"));
+        final Drawable cockpit_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/PilotingRed.png"));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
-        missilleRight =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
-        missilleRightFired =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
-
-        missilleLeft =  missilleRight =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_out.png"));
-        missilleLeftFired =  new Texture(Gdx.files.internal("Client/core/assets/data/missille_in.png"));
-
-        explosion = new Texture(Gdx.files.internal("Client/core/assets/data/explosion1_0024.png"));
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
-        shield = new Texture("shield_2.png");
+
 
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
 
-        bullet = new Texture("bullet.png");
         bullets = new ArrayList<>();
 
  /*       if (planet.getName().equals("p1")) {
@@ -149,10 +143,7 @@ public class CombatScreen extends BaseScreen{
             public void changed(ChangeEvent event, Actor actor) {
                 isTargedEngine = true;
                 isTargetSelected=true;
-/*
-                if(Gdx.input.isKeyJustPressed(Input.Keys.D)){  counterEngine++;}
-*/
-                w = true;
+            w = true;
                 o = false;
                 d = false;
                 engine.getStyle().imageUp = engine_red;
@@ -169,8 +160,6 @@ public class CombatScreen extends BaseScreen{
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
                 isTargetCockpit = true;
-               /*if(Gdx.input.isKeyJustPressed(Input.Keys.A)){  counterCockpit++;
-                   System.out.println("counterCock "+counterCockpit);}*/
 
                 w = false;
                 o = true;
@@ -180,39 +169,30 @@ public class CombatScreen extends BaseScreen{
             }
         });
 
-
         Gdx.input.setInputProcessor(stage);
        enableShield = new TextButton("Activate Shield",skinButton,"small");
-        enableShield.setPosition(950,200);
+        enableShield.setPosition(BaseScreen.WIDTH-1500,200);
         enableShield.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
-                 //   hoverListener(fire);
-                    rocketLaunch.play();
-                    isRightPressed = true;
                     if(isShieldEnabled) isShieldEnabled=false;
                     else isShieldEnabled = true;
-
-
-
             }
         });
 
-/*
-        fireLeft = new TextButton("Fire Left",skinButton,"small");
-        fireLeft.setPosition(800,200);
-        fireLeft.addListener(new ChangeListener() {
+
+        enableEnemyShield = new TextButton("Enemy Shield",skinButton,"small");
+        enableEnemyShield.setPosition(BaseScreen.WIDTH-400,200);
+        enableEnemyShield.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                //   hoverListener(fire);
-                rocketLaunch.play();
-                isLeftPressed = true;
+                if(isEnemyShield) isEnemyShield=false;
+                else isEnemyShield = true;
 
             }
         });
 
-         stage.addActor(fireLeft);*/
+         stage.addActor(enableEnemyShield);
          stage.addActor(engine);
          stage.addActor(cockpit);
         stage.addActor(enableShield);
@@ -276,28 +256,6 @@ public class CombatScreen extends BaseScreen{
         cs.makeAShot(Global.currentWeapon, Net.HttpMethods.POST);
     }
 
-
-    private void hoverListener(final ImageButton imageButton) {
-        imageButton.addListener(new HoverListener(){
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-
-            }
-        });
-    }
-
-
-    @Override
-    public void show() {
-        super.show();
-    //  bullet = new Texture("bullet.png");
-    }
-
     @Override
     public void render(float delta) {
         super.render(delta);
@@ -310,7 +268,6 @@ public class CombatScreen extends BaseScreen{
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300,300,700,700);
         stage.getBatch().draw(enemyShip, 1300,370,550,550);
-        stage.getBatch().draw(hull, 0,1020,500,50);
         stage.getBatch().draw(missilleRight,disappearRight,422,400,50);
         stage.getBatch().draw(missilleLeft,disappearLeft,825,400,50);
 
@@ -330,14 +287,15 @@ public class CombatScreen extends BaseScreen{
             }
 
         }
-        if(isShieldEnabled) stage.getBatch().draw(shield,1150,150,850,1000);
+        if(isShieldEnabled) stage.getBatch().draw(shield,70,150,1100,1000);
+        if(isEnemyShield) stage.getBatch().draw(shield,1120,150,900,1000);
 
 
-        if( counterEngine >= 3 && !isShieldEnabled){
+        if( counterEngine >= 3 && !isEnemyShield){
             stage.getBatch().draw(explosion,1515,422,100,100);
 
         }
-        if( counterCockpit >= 2 && !isShieldEnabled){
+        if( counterCockpit >= 2 && !isEnemyShield){
             stage.getBatch().draw(explosion,1515,690,100,100);
         }
         //update bullets
@@ -393,6 +351,7 @@ public class CombatScreen extends BaseScreen{
         rocketLaunch.dispose();
         missilleRight.dispose();
         missilleRightFired.dispose();
+        bullet.dispose();
         stage.dispose();
     }
 }

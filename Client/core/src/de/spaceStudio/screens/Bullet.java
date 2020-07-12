@@ -19,7 +19,7 @@ public class Bullet extends Weapon {
         this.y = y;
         this.x = x;
         if(bullet == null){
-            bullet = new Texture("bullet.png");
+            bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
         }
     }
 
