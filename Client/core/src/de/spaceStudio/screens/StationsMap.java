@@ -3,7 +3,6 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -35,7 +34,6 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
-import java.util.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -395,8 +393,7 @@ public class StationsMap extends BaseScreen {
                     public void handleHttpResponse(Net.HttpResponse httpResponse) {
                         int statusCode = httpResponse.getStatus().getStatusCode();
                         String responseJson = httpResponse.getResultAsString();
-                        int accepted = Integer.valueOf(responseJson);
-                        if (statusCode == HttpStatus.SC_OK && accepted == HttpStatus.SC_ACCEPTED) {
+                        if (responseJson.equals("202 ACCEPTED")) {
                             LOG.info("Success save game");
                         } else {
                             LOG.info("Error saving game");
@@ -405,12 +402,10 @@ public class StationsMap extends BaseScreen {
 
                     @Override
                     public void failed(Throwable t) {
-                        LOG.info("Request failed");
                     }
 
                     @Override
                     public void cancelled() {
-                        LOG.severe("Request Canceled");
                     }
                 });
 
