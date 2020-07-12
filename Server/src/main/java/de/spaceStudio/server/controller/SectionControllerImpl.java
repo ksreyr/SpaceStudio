@@ -1,5 +1,7 @@
 package de.spaceStudio.server.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.internal.GsonBuildConfig;
 import de.spaceStudio.server.model.AI;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Section;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -75,6 +78,32 @@ public class SectionControllerImpl implements SectionController {
         return section.toString();
     }
 
+    @RequestMapping(value = "/sectiontoadd", method = RequestMethod.POST)
+    public String addSections(@RequestBody ArrayList<Section> sections) {
+        Player playerToUpdate;
+        AI ai;
+        Ship ship=sections.get(0).getShip();
+        /*if(playerRepository.findByName(section.getShip().getOwner().getName()).isPresent()){
+            playerToUpdate=playerRepository.findByName(section.getShip().getOwner().getName()).get();
+            Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(),playerToUpdate).get();
+            ship.setOwner(playerToUpdate);
+            section.setShip(ship);
+        }else{
+            ai=aiRepository.findByName(section.getShip().getOwner().getName()).get();
+            Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(),ai).get();
+            ship.setOwner(ai);
+            section.setShip(ship);
+        }*/
+        List<Section> sectionsadded= new ArrayList<>();
+        for (Section s :
+                sections) {
+            Section section= repository.save(s);
+            sectionsadded.add(section);
+        }
+        Gson gson = new Gson();
+        gson.toJson(sectionsadded);
+        return gson.toJson(sectionsadded);
+    }
     /**
      * Update data of the section
      *

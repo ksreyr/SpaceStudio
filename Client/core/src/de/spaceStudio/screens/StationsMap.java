@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
@@ -32,6 +33,11 @@ import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
+
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
+import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
@@ -66,9 +72,11 @@ public class StationsMap extends BaseScreen {
 
     //
     private Jumpservices jumpservices = new Jumpservices();
-    private Ship ship = Global.currentShip;
-    private StopAbstract currentStop = Global.planet1;
     private TextButton saveGameButton;
+    private Ship ship= Global.currentShip;
+    private StopAbstract currentStop= Global.planet1;
+    private List<Ship> shipList= new ArrayList<Ship>();
+
     //
     private boolean isGameSaved = false;
 
@@ -139,12 +147,14 @@ public class StationsMap extends BaseScreen {
         planet3ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentPlanet=Global.planet3;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if (obj.toString() == "true") {
                             counter++;
                             hoverListener(planet3ImgBTN, textAreaVIS);
                             jumpService(planet);
+
                         }
 
                     }
@@ -178,8 +188,6 @@ public class StationsMap extends BaseScreen {
                             counter++;
                             hoverListener(planet4ImgBTN, textAreaVIS);
                             jumpService(planet);
-                            game.setScreen(new CombatScreen(game));
-
 
                         }
                     }
@@ -297,9 +305,39 @@ public class StationsMap extends BaseScreen {
         ArrayList<StopAbstract> toChange = new ArrayList<StopAbstract>();
         toChange.add(currentStop);
         toChange.add(planet);
-        jumpservices.makeJumpRequest(toChange, Net.HttpMethods.POST);
-        game.setScreen(new CombatScreen(game));
+        makeJumpRequest(toChange, Net.HttpMethods.POST);
 
+    }
+
+    public void makeJumpRequest(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.MAKEJUMP_CREATION_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed");
+                }
+                System.out.println("statusCode of the Jump: " + statusCode);
+                String shipsList = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                Ship[] aiArray = gson.fromJson(shipsList, Ship[].class);
+                shipList = Arrays.asList(aiArray);
+
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
     }
 
 
@@ -393,6 +431,11 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().draw(start_ship.getKeyFrame(state), 140, 250, 150, 150);
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().end();
+        if(!shipList.isEmpty()){
+            Global.currentShip=shipList.get(1);
+            Global.currentShipGegner=shipList.get(0);
+            game.setScreen(new CombatScreen(game));
+        }
         stage.act();
         stage.draw();
 

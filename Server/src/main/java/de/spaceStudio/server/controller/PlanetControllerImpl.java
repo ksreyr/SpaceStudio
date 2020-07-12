@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import com.google.gson.Gson;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,18 @@ public class PlanetControllerImpl implements PlanetController {
         }
         return HttpStatus.OK.toString();
 
+    }
+
+    @RequestMapping(value = "/listplanet", method = RequestMethod.POST)
+    public String addPlanets(@RequestBody List<Planet> planets) {
+        List<Planet> planetadded= new ArrayList<Planet>();
+        for (Planet p :
+                planets) {
+           Planet planet= planetRepository.save(p);
+            planetadded.add(p);
+        }
+        Gson gson= new Gson();
+        return gson.toJson(planetadded) ;
     }
 
     @Override

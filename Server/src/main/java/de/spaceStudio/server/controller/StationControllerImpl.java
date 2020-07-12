@@ -1,19 +1,31 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.model.Station;
-import de.spaceStudio.server.repository.StationRepository;
+import com.google.gson.Gson;
+import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@RestController
 public class StationControllerImpl implements StationController{
     @Autowired
     StationRepository stationRepository;
+
+    @Autowired
+    UniverseRepository universeRepository;
+
+    @Autowired
+    PlayerRepository playerRepository;
+
+    @Autowired
+    ShipRepository shipRepository;
+
+    @Autowired
+    AIRepository aiRepository;
 
     @Override
     @RequestMapping(value = "/stations", method = RequestMethod.GET)
@@ -30,8 +42,88 @@ public class StationControllerImpl implements StationController{
     @Override
     @RequestMapping(value = "/station", method = RequestMethod.POST)
     public String addStation(@RequestBody Station station) {
-        stationRepository.save(station);
+        //stationRepository.save(station);
+        Universe universe= universeRepository.findByName(station.getUniverse().getName()).get();
+        Player p1 = new Player();
+        AI ai = new AI();
+        Ship shipReal = new Ship();
+        try{
+            ArrayList<Ship> shipList= (ArrayList<Ship>) station.getShips();
+            for (Ship ship :
+                    shipList) {
+                if(ship.getOwner()!=null){
+                    if (playerRepository.findByName(ship.getOwner().getName()).isPresent()) {
+                        p1 = playerRepository.findByName(ship.getOwner().getName()).get();
+                        shipReal = ship;
+                        shipReal = shipRepository.
+                                findShipByNameAndAndOwner(shipReal.getName(), p1).get();
+                    }else{
+                        ai = aiRepository.findByName(ship.getOwner().getName()).get();
+                        shipReal = ship;
+                        shipReal = shipRepository.
+                                findShipByNameAndAndOwner(shipReal.getName(), ai).get();
+                    }
+                    shipList.add(shipReal);
+                    shipList.remove(ship);
+                }
+                station.setShips(shipList);
+                station.setUniverse(universe);
+                stationRepository.save(station);
+                return HttpStatus.OK.toString();
+            }}catch (Exception e){
+            station.setShips(null);
+            station.setUniverse(universe);
+            stationRepository.save(station);
+            return HttpStatus.OK.toString();
+        }
         return HttpStatus.OK.toString();
+    }
+
+    @RequestMapping(value = "/liststation", method = RequestMethod.POST)
+    public String addStation(@RequestBody List<Station> stations) {
+        //stationRepository.save(station);
+        /*Universe universe= universeRepository.findByName(station.getUniverse().getName()).get();
+        Player p1 = new Player();
+        AI ai = new AI();
+        Ship shipReal = new Ship();
+        try{
+            ArrayList<Ship> shipList= (ArrayList<Ship>) station.getShips();
+            for (Ship ship :
+                    shipList) {
+                if(ship.getOwner()!=null){
+                    if (playerRepository.findByName(ship.getOwner().getName()).isPresent()) {
+                        p1 = playerRepository.findByName(ship.getOwner().getName()).get();
+                        shipReal = ship;
+                        shipReal = shipRepository.
+                                findShipByNameAndAndOwner(shipReal.getName(), p1).get();
+                    }else{
+                        ai = aiRepository.findByName(ship.getOwner().getName()).get();
+                        shipReal = ship;
+                        shipReal = shipRepository.
+                                findShipByNameAndAndOwner(shipReal.getName(), ai).get();
+                    }
+                    shipList.add(shipReal);
+                    shipList.remove(ship);
+                }
+                station.setShips(shipList);
+                station.setUniverse(universe);
+                stationRepository.save(station);
+                return HttpStatus.OK.toString();
+            }}catch (Exception e){
+            station.setShips(null);
+            station.setUniverse(universe);
+            stationRepository.save(station);
+            return HttpStatus.OK.toString();
+        }*/
+        List<Station> stationList= new ArrayList<>();
+        for (Station s :
+                stations) {
+            Station station=stationRepository.save(s);
+            stationList.add(s);
+        }
+        Gson gson= new Gson();
+
+        return gson.toJson(stationList);
     }
 
     @Override
@@ -52,14 +144,11 @@ public class StationControllerImpl implements StationController{
     }
 
     @Override
-    @RequestMapping(value = "/sections", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/stations", method = RequestMethod.DELETE)
     public String deleteAllStations() {
         stationRepository.deleteAll();
         return HttpStatus.OK.toString();
     }
 
-    @Override
-    public String hashPassword(String weakPassword) {
-        return null;
-    }
+
 }

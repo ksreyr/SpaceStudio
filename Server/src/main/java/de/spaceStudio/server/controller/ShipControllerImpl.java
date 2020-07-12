@@ -1,6 +1,7 @@
 package de.spaceStudio.server.controller;
 
 
+import com.google.gson.Gson;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.ActorRepository;
 import de.spaceStudio.server.repository.PlayerRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,14 +45,47 @@ public class ShipControllerImpl implements ShipController{
         try{
             player= (Player) actor.get();
             ship.setOwner(player);
+            shipRepository.save(ship);
+            Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),player).get();
+            return shipid.getId().toString();
         }catch (Exception e){
              ai= (AI) actor.get();
              ship.setOwner(ai);
+            shipRepository.save(ship);
+            Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),ai).get();
+            return shipid.getId().toString();
         }
-        shipRepository.save(ship);
-        return HttpStatus.CREATED.toString();
     }
 
+    @RequestMapping(value = "/shipstoadd",method = RequestMethod.POST)
+    public String addShip(@RequestBody List<Ship> ships) {
+        //Optional<Player> player= playerRepository.findByName( ship.getOwner().getName());
+        /*Optional<Actor> actor= actorRepository.findByName( ship.getOwner().getName());
+        Player player= new Player();
+        AI ai= new AI();
+        try{
+            player= (Player) actor.get();
+            ship.setOwner(player);
+            shipRepository.save(ship);
+            Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),player).get();
+            return shipid.getId().toString();
+        }catch (Exception e){
+            ai= (AI) actor.get();
+            ship.setOwner(ai);
+            shipRepository.save(ship);
+            Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),ai).get();
+            return shipid.getId().toString();
+        }*/
+        ArrayList<Ship> shipArrayList= new ArrayList<>();
+        for (Ship s :
+                ships) {
+            Ship ship=shipRepository.save(s);
+            shipArrayList.add(ship);
+        }
+        Gson gson= new Gson();
+        gson.toJson(shipArrayList);
+        return gson.toJson(shipArrayList);
+    }
     @Override
     public Ship updateShip(Ship ship) {
 

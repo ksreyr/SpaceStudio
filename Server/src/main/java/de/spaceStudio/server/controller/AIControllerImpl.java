@@ -1,11 +1,16 @@
 package de.spaceStudio.server.controller;
 
+import com.google.gson.Gson;
 import de.spaceStudio.server.model.AI;
 import de.spaceStudio.server.repository.AIRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 @RestController
 public class AIControllerImpl implements AIController {
@@ -44,6 +49,18 @@ public class AIControllerImpl implements AIController {
         return HttpStatus.CREATED.toString();
     }
 
+    @RequestMapping(value = "/AIs", method = RequestMethod.POST)
+    public String addAI(@RequestBody List<AI> ais) {
+        List<AI> aisSaved= new ArrayList<AI>();
+        for (AI ai :
+                ais) {
+            AI aisaved=aiRepository.save(ai);
+            aisSaved.add(aisaved);
+        }
+        Gson gson= new Gson();
+        gson.toJson(aisSaved);
+        return gson.toJson(aisSaved);
+    }
     /**
      * Update data of the AI
      *

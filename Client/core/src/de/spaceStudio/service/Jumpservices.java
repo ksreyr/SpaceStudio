@@ -7,6 +7,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import de.spaceStudio.client.util.Global;
 
+import static de.spaceStudio.client.util.Global.PLANETS_CREATION_ENDPOINT;
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
+
 public class Jumpservices {
     String response;
     public String makeJumpRequest(Object requestObject, String method) {
@@ -14,13 +17,8 @@ public class Jumpservices {
 
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
-
-        final Net.HttpRequest request = new Net.HttpRequest(method);
         final String url = Global.SERVER_URL + Global.MAKEJUMP_CREATION_ENDPOINT;
-        request.setUrl(url);
-        request.setContent(requestJson);
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Accept", "application/json");
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();

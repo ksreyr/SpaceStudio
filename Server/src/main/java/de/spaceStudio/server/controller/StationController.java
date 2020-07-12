@@ -62,5 +62,5 @@ public interface StationController {
     @RequestMapping(value = "/stations", method = RequestMethod.DELETE)
     String deleteAllStations();
 
-    String hashPassword(String weakPassword);
+
 }

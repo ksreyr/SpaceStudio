@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface CrewMemberRepository extends JpaRepository<CrewMember, Integer> {
     void deleteByCurrentSection(Section section);
     Optional<ArrayList<CrewMember>> findAllByCurrentSection(Section section);
+    Optional<CrewMember> findByCurrentSection(Section section);
+
 }
