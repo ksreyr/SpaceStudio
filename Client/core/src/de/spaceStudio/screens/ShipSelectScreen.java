@@ -468,7 +468,7 @@ public class ShipSelectScreen extends BaseScreen {
         /*Added Ship*/
         if (requestcounter == 1) {
             if (responseJson != null && !responseJson.isEmpty()) {
-                ship.setId(Integer.valueOf(responseJson));
+                ship.setId(Integer.valueOf(responseJson)); // FIXME SANTIAGO "query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2","path":"/ship"}"
                 Global.currentShip = ship;
                 //Ship to Sections
                 for (Section s :
