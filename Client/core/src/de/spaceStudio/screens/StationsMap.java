@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Planet;
@@ -29,7 +30,9 @@ import de.spaceStudio.server.model.StopAbstract;
 import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
@@ -65,6 +68,7 @@ public class StationsMap extends BaseScreen {
     private Jumpservices jumpservices = new Jumpservices();
     private Ship ship= Global.currentShip;
     private StopAbstract currentStop= Global.planet1;
+    private List<Ship> shipList= new ArrayList<Ship>();
 
     //
 
@@ -142,7 +146,6 @@ public class StationsMap extends BaseScreen {
                             hoverListener(planet3ImgBTN,textAreaVIS);
                             jumpService(planet);
 
-                            game.setScreen(new CombatScreen(game));
                         }
 
                     }
@@ -176,7 +179,6 @@ public class StationsMap extends BaseScreen {
                             counter++;
                             hoverListener(planet4ImgBTN,textAreaVIS);
                             jumpService(planet);
-                            game.setScreen(new CombatScreen(game));
 
                         }
                     }
@@ -294,15 +296,12 @@ public class StationsMap extends BaseScreen {
         ArrayList<StopAbstract> toChange = new ArrayList<StopAbstract>();
         toChange.add(currentStop);
         toChange.add(planet);
-        jumpservices.makeJumpRequest(toChange, Net.HttpMethods.POST);
-
-        game.setScreen(new CombatScreen(game));
+        makeJumpRequest(toChange, Net.HttpMethods.POST);
 
     }
 
     public void makeJumpRequest(Object requestObject, String method) {
         final Json json = new Json();
-
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
         final String url = Global.SERVER_URL + Global.MAKEJUMP_CREATION_ENDPOINT;
@@ -314,12 +313,11 @@ public class StationsMap extends BaseScreen {
                     System.out.println("Request Failed");
                 }
                 System.out.println("statusCode of the Jump: " + statusCode);
-                String responseJson = httpResponse.getResultAsString();
-                try {
-                    System.out.println("Response: " + responseJson);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
+                String shipsList = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                Ship[] aiArray = gson.fromJson(shipsList, Ship[].class);
+                shipList = Arrays.asList(aiArray);
+
             }
 
             public void failed(Throwable t) {
@@ -379,6 +377,11 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().draw(start_ship.getKeyFrame(state), 140, 250, 150,150);
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().end();
+        if(!shipList.isEmpty()){
+            Global.currentShip=shipList.get(1);
+            Global.currentShipGegner=shipList.get(0);
+            game.setScreen(new CombatScreen(game));
+        }
         stage.act();
         stage.draw();
 
