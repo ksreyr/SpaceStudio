@@ -19,11 +19,11 @@ public class JSONFile {
 
     public static final Logger logger = LoggerFactory.getLogger(JSONFile.class);
 
-    protected static UUID uuid = UUID.randomUUID();
+    // protected static UUID uuid = UUID.randomUUID();
     /**
      * File to store
      */
-    private static String FILE_NAME = "memory/saved-game" + uuid.toString() + ".json";
+    private static String FILE_NAME = "memory/saved-game";
 
     /**
      * exports game to json file
@@ -32,12 +32,14 @@ public class JSONFile {
      */
     public static String exportJSON(Game gameToExport) {
         Gson gson = new Gson();
-        try (FileWriter writer = new FileWriter(FILE_NAME)) {
+        UUID uuid = UUID.randomUUID();
+        String fullPath = FILE_NAME + uuid.toString() + ".json";
+        try (FileWriter writer = new FileWriter(fullPath)) {
             gson.toJson(gameToExport, writer);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return FILE_NAME;
+        return fullPath;
     }
 
 
@@ -48,12 +50,14 @@ public class JSONFile {
      */
     public static String exportJSON(SinglePlayerGame gameToExport) {
         Gson gson = new Gson();
-        try (FileWriter writer = new FileWriter(FILE_NAME)) {
+        UUID uuid = UUID.randomUUID();
+        String fullPath = FILE_NAME + uuid.toString() + ".json";
+        try (FileWriter writer = new FileWriter(fullPath)) {
             gson.toJson(gameToExport, writer);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return FILE_NAME;
+        return fullPath;
     }
 
     /**
