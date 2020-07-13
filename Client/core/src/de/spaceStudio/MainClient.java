@@ -17,7 +17,6 @@ public class MainClient extends Game {
 
 	private SpriteBatch batch;
 
-	private CombatScreen combatScreen;
 
 
 
@@ -26,11 +25,10 @@ public class MainClient extends Game {
 
 		assetManager = new AssetManager();
 		assetManager.finishLoading();
-		//loginScreen = new LoginScreen(this, assetManager);
+		loginScreen = new LoginScreen(this, assetManager);
 		batch = new SpriteBatch();
-		combatScreen = new CombatScreen(this);
-	    //setScreen(loginScreen);
-	    setScreen(combatScreen);
+
+	    setScreen(loginScreen);
 
 	}
 

@@ -53,8 +53,9 @@ public class StationsMap extends BaseScreen {
     private float state = 0.0f;
     private Sound jumpToPlanet, mouseClick;
 
-    boolean isLast;
+    boolean isLast, test;
     private ShipSelectScreen shipSelectScreen;
+
 
     //
     private Jumpservices jumpservices = new Jumpservices();
@@ -135,7 +136,8 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(planet3ImgBTN,textAreaVIS);
-                            jumpService(planet);
+                           // jumpService(planet);
+                            test=true;
                         }
 
                     }
