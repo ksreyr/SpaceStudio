@@ -100,27 +100,7 @@ public class WeaponControllerImpl implements WeaponController {
 
     @Override
     public String fire(@RequestBody List<Weapon> weapons) {
-        /*Ship ship=weapon.getSection().getShip();
-        ship=shipRepository.findShipByName(ship.getName()).get();
-        Ship gegnerShip=new Ship();
-        StopAbstract planet= stopAbstractRepository.findByShips(ship).get();
-        List<Ship> shipList= planet.getShips();
-        for (Ship s :
-                shipList) {
-            if(!s.equals(ship)){
-                gegnerShip=s;
-            }
-        }
-        List<Section> sectionList=sectionRepository.findAllByShip(gegnerShip).get();
-        for (Section s :
-                sectionList) {
-            if (weapon.getObjectiv().getSectionTyp().equals(s.getSectionTyp())) {
-                s.setUsable(false);
-                sectionRepository.save(s);
-            }
-        }
-        gegnerShip.setHp(gegnerShip.getHp() - weapon.getDamage());
-        shipRepository.save(gegnerShip);*/
+
         Ship ship=new Ship();
         for (Weapon weapon :
                 weapons) {

@@ -477,7 +477,7 @@ public class Global {
             name("Shipgegner5").owner(ai5).
             buildShip();
     public static Ship shipGegner6 = Ship.shipBluider().hp(100).
-            power(100).shield(1).
+            power(1000).shield(5).
             name("Shipgegner6").owner(ai6).
             buildShip();
 
