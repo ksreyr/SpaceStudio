@@ -136,8 +136,7 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(planet3ImgBTN,textAreaVIS);
-                           // jumpService(planet);
-                            test=true;
+                           jumpService(planet);
                         }
 
                     }
@@ -339,6 +338,8 @@ public class StationsMap extends BaseScreen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
+
+        if(test) game.setScreen(new CombatScreen(game));
         stage.getBatch().draw(background,0,0,BaseScreen.WIDTH,BaseScreen.HEIGHT);
         stage.getBatch().draw(start_ship.getKeyFrame(state), 140, 250, 150,150);
         Gdx.input.setInputProcessor(stage);

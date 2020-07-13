@@ -45,7 +45,7 @@ public class CombatScreen extends ScreenAdapter {
     private Viewport viewport;
     private Stage stage;
 
-    private Skin sgxSkin;
+    private Skin sgxSkin, sgxSkin2;
     private TextureAtlas gamePlayAtlas;
 
 
@@ -110,8 +110,7 @@ public class CombatScreen extends ScreenAdapter {
         stage = new Stage(viewport, universeMap.getBatch());
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
-        sgxSkin = assetManager.get(AssetDescriptors.SGX_SKIN);
-        gamePlayAtlas = assetManager.get(AssetDescriptors.BACKGROUND_AREA);
+        sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
 
 
 
@@ -196,7 +195,7 @@ public class CombatScreen extends ScreenAdapter {
         });
 
         Gdx.input.setInputProcessor(stage);
-        enableShield = new TextButton("Activate Shield",sgxSkin,StyleNames.EMPHASISTEXTBUTTON);
+        enableShield = new TextButton("Activate Shield",sgxSkin2,StyleNames.EMPHASISTEXTBUTTON);
         enableShield.setPosition(BaseScreen.WIDTH-1500,200);
         enableShield.addListener(new ChangeListener() {
             @Override
@@ -207,7 +206,7 @@ public class CombatScreen extends ScreenAdapter {
         });
 
 
-        enableEnemyShield = new TextButton("Enemy Shield",sgxSkin,StyleNames.EMPHASISTEXTBUTTON);
+        enableEnemyShield = new TextButton("Enemy Shield",sgxSkin2,StyleNames.EMPHASISTEXTBUTTON);
         enableEnemyShield.setPosition(BaseScreen.WIDTH-400,200);
         enableEnemyShield.addListener(new ChangeListener() {
             @Override
@@ -220,50 +219,16 @@ public class CombatScreen extends ScreenAdapter {
 
 
 
-
-
-        TextButton textButtonSinglePlayer = new TextButton(" Foo ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonSinglePlayer.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Global.IS_SINGLE_PLAYER = true;
-                mainClient.setScreen(new ShipSelectScreen(mainClient));
-
-            }
-        });
-
-        TextButton textButtonMultiplayer = new TextButton(" Escape ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonMultiplayer.addListener(new ChangeListener() {
+        TextButton escape = new TextButton(" Escape ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
+        escape.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Global.IS_SINGLE_PLAYER = false;
                 mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });
-        textButtonMultiplayer.setPosition(100,100);
-        //textButtonMultiplayer.setSize(500,100);
+        escape.setPosition(100,100);
 
-        TextButton textButtonBackToMenu = new TextButton("  Back to menu  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonBackToMenu.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                mainClient.setScreen(new MenuScreen(mainClient));
-            }
-        });
-
-        //Title:  Menu
-        Label label = new Label("New game", sgxSkin, StyleNames.TITLELABEL);
-
-
-       /* table.add(label).row();
-        table.row();
-        table.add(textButtonSinglePlayer).row();
-        table.add(textButtonMultiplayer).row();
-        table.add(textButtonBackToMenu).row();
-
-        //table.center();
-        table.setFillParent(true);
-        table.pack();*/
 
         stage.addActor(enableEnemyShield);
         stage.addActor(engine);
@@ -272,8 +237,7 @@ public class CombatScreen extends ScreenAdapter {
 
 
 
-        stage.addActor(textButtonBackToMenu);
-        stage.addActor(textButtonMultiplayer);
+        stage.addActor(escape);
 
         Gdx.input.setInputProcessor(stage);
     }
