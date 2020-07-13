@@ -497,7 +497,7 @@ public class Global {
         }};
         shipsgegneru1=shipsgegneru1new;
     }
-
+    // Ship Universe 2
     public static List<Ship> shipsgegneru2 =new ArrayList<Ship>(){{
         add(shipGegner1);
         add(shipGegner2);
@@ -516,6 +516,18 @@ public class Global {
         shipGegner5=shipsgegneru2.get(4);
         shipGegner6=shipsgegneru2.get(5);
     }
+    public static void updateShipsListgegneru2(){
+        List<Ship> shipsgegneru2new =new ArrayList<Ship>(){{
+            add(shipGegner1);
+            add(shipGegner2);
+            add(shipGegner3);
+            add(shipGegner4);
+            add(shipGegner5);
+            add(shipGegner6);
+        }};
+        shipsgegneru2=shipsgegneru2new;
+    }
+    //Sections Gegner
 
     public static Section section1Gegner = Section
             .sectionBuilder()
@@ -678,7 +690,7 @@ public class Global {
         add(section2Gegner4);
         add(section3Gegner4);
     }};
-    public static void updateVariblesGegner4(){
+    public static void updateVariblesSectionsGegner4(){
         section1Gegner4=sectionsgegner4.get(0);
         section2Gegner4=sectionsgegner4.get(1);
         section3Gegner4=sectionsgegner4.get(2);
@@ -720,7 +732,7 @@ public class Global {
         add(section2Gegner5);
         add(section3Gegner5);
     }};
-    public static void updateVariblesGegner5(){
+    public static void updateVariblesSectionsGegner5(){
         section1Gegner5=sectionsgegner5.get(0);
         section2Gegner5=sectionsgegner5.get(1);
         section3Gegner5=sectionsgegner5.get(2);
@@ -762,7 +774,7 @@ public class Global {
         add(section2Gegner6);
         add(section3Gegner6);
     }};
-    public static void updateVariblesGegner6(){
+    public static void updateVariblesSectionsGegner6(){
         section1Gegner6=sectionsgegner6.get(0);
         section2Gegner6=sectionsgegner6.get(1);
         section3Gegner6=sectionsgegner6.get(2);

@@ -358,7 +358,6 @@ public class CombatScreen extends BaseScreen {
             validation = "";
         }
         if (!sectionsGernerResponse.isEmpty()) {
-
             Section sectionResponse=sectionsGernerResponse.get(0);
             Ship shiptoUpdate =sectionResponse.getShip();
             switch (sectionResponse.getShip().getName()) {
@@ -377,8 +376,23 @@ public class CombatScreen extends BaseScreen {
                     Global.updateVariblesSectionsGegner3();
                     Global.shipGegner3=shiptoUpdate;
                     break;
+                case "Shipgegner4":
+                    Global.sectionsgegner4 = sectionsGernerResponse;
+                    Global.updateVariblesSectionsGegner4();
+                    Global.shipGegner4=shiptoUpdate;
+                    break;
+                case "Shipgegner5":
+                    Global.sectionsgegner5 = sectionsGernerResponse;
+                    Global.updateVariblesSectionsGegner5();
+                    Global.shipGegner5=shiptoUpdate;
+                    break;
+                case "Shipgegner6":
+                    Global.sectionsgegner6 = sectionsGernerResponse;
+                    Global.updateVariblesSectionsGegner6();
+                    Global.shipGegner6=shiptoUpdate;
+                    break;
             }
-            Global.updateShipsListgegneru1();
+            Global.updateShipsListgegneru2();
             System.out.println(Global.shipsgegneru1);
             List<Section> sizeO=new ArrayList<>();
             sectionsGernerResponse=sizeO;

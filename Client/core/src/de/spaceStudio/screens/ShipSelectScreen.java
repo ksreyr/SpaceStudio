@@ -817,11 +817,11 @@ public class ShipSelectScreen extends BaseScreen {
                 Global.sectionsgegner3 = sectionsgegner3;
                 Global.updateVariblesSectionsGegner3();
                 Global.sectionsgegner4 = sectionsgegner4;
-                Global.updateVariblesGegner4();
+                Global.updateVariblesSectionsGegner4();
                 Global.sectionsgegner5 = sectionsgegner5;
-                Global.updateVariblesGegner5();
+                Global.updateVariblesSectionsGegner5();
                 Global.sectionsgegner6 = sectionsgegner6;
-                Global.updateVariblesGegner6();
+                Global.updateVariblesSectionsGegner6();
                 requestcounter = 12;
             }
             //Planeten request
