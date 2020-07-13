@@ -1,7 +1,6 @@
 package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,21 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.SectionTyp;
 import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.service.CombatService;
-
-import java.util.List;
-
-import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
 public class CombatScreen extends BaseScreen {
@@ -72,7 +61,6 @@ public class CombatScreen extends BaseScreen {
 
     Sound rocketLaunch;
 
-    ShipSelectScreen shipSelectScreen;
 
     //
     CombatService cs = new CombatService();
@@ -87,7 +75,7 @@ public class CombatScreen extends BaseScreen {
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-
+        Gdx.input.setInputProcessor(stage);
         background = new Texture(Gdx.files.internal("Client/core/assets/data/CombatBG.jpg"));
         playerShip = new Texture(Gdx.files.internal("Client/core/assets/blueships_fulled.png"));
         enemyShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/enemy1.png"));
@@ -122,23 +110,23 @@ public class CombatScreen extends BaseScreen {
             }
         });
 
-        fire = new TextButton("Fire",skinButton,"small");
-        fire.setPosition(800,200);
+        fire = new TextButton("Fire", skinButton, "small");
+        fire.setPosition(800, 200);
         fire.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                rocketLaunch.play();
+                //rocketLaunch.play();
+                System.out.println("FIRE...!");
                 isFired = true;
             }
         });
-        Gdx.input.setInputProcessor(stage);
-         stage.addActor(fire);
-         stage.addActor(engine);
-         stage.addActor(cockpit);
 
+        stage.addActor(fire);
+        stage.addActor(engine);
+        stage.addActor(cockpit);
     }
 
-    private void logicOfFire() {
+    /*private void logicOfFire() {
 
         //Sections
         Global.currentShipGegner.getName();
@@ -240,7 +228,7 @@ public class CombatScreen extends BaseScreen {
                 }
                 break;
         }
-    }
+    }*/
     //ShotValidation
     ////Para ponerlas en la armas
     //encontrar la section que fue seleccionada
@@ -248,7 +236,7 @@ public class CombatScreen extends BaseScreen {
     ////sectiones del gegner
     ////set de
 
-    public void makeAShot(Object requestObject, String method) {
+   /* public void makeAShot(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
@@ -272,9 +260,9 @@ public class CombatScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
-    }
+    }*/
 
-    public void shotValidation(Object requestObject, String method) {
+   /* public void shotValidation(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
@@ -299,7 +287,7 @@ public class CombatScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
-    }
+    }*/
 
     private void hoverListener(final ImageButton imageButton) {
         imageButton.addListener(new HoverListener() {
@@ -317,7 +305,7 @@ public class CombatScreen extends BaseScreen {
         });
     }
 
-int counter=0;
+    int counter=0;
 
     @Override
     public void show() {
@@ -330,10 +318,7 @@ int counter=0;
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
-        if(isFired){
 
-            isFired=false;
-        }
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300,300,700,700);
@@ -398,7 +383,6 @@ int counter=0;
     @Override
     public void dispose() {
         super.dispose();
-        
         skin.dispose();
         shapeRenderer.dispose();
         rocketLaunch.dispose();
