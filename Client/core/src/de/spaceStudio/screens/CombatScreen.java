@@ -145,7 +145,7 @@ public class CombatScreen extends ScreenAdapter {
         bullets = new ArrayList<>();
         bulletsEnemy = new ArrayList<>();
 
- /*       if (planet.getName().equals("p1")) {
+       if (planet.getName().equals("p1")) {
             gegnerShip = Global.shipGegner1;
         } else if (planet.getName().equals("p2")) {
             gegnerShip = Global.shipGegner1;
@@ -159,7 +159,7 @@ public class CombatScreen extends ScreenAdapter {
         ArrayList<Section> sections = Global.sectionofShip(gegnerShip);
         section1Gegner = sections.get(0);
         section2Gegner = sections.get(1);
-        section3Gegner = sections.get(2);*/
+        section3Gegner = sections.get(2);
         engine = new ImageButton(engine_sym);
         engine.setPosition(1075,440);
         engine.setSize(1000,100);
