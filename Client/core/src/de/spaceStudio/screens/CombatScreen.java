@@ -9,7 +9,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -19,11 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
-import de.spaceStudio.assets.AssetDescriptors;
-import de.spaceStudio.assets.RegionNames;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.config.GameConfig;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
@@ -45,7 +41,7 @@ public class CombatScreen extends ScreenAdapter {
     private Viewport viewport;
     private Stage stage;
 
-    private Skin sgxSkin;
+    private Skin sgxSkin, sgxSkin2;
     private TextureAtlas gamePlayAtlas;
 
 
@@ -59,9 +55,9 @@ public class CombatScreen extends ScreenAdapter {
     private Texture background;
     private TextButton enableShield, enableEnemyShield;
 
-    private Texture missilleRight, missilleRightFired, explosion, missilleLeft, missilleLeftFired;
+    private Texture missilleRight,  explosion, missilleLeft, weaponSystem;
     int fuzeOffsetright,fuzeOffsetLeft;
-    private boolean isTargetSelected, isTargedEngine, isTargetCockpit, isTargetWeapon;
+    private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
     private ShapeRenderer shapeRenderer;
     private Skin  skinButton;
     boolean isWin;
@@ -76,6 +72,7 @@ public class CombatScreen extends ScreenAdapter {
     public static final int SPEED = 450;
     private int counterEngine = 0;
     private int counterCockpit = 0;
+    private int counterWeapon = 0;
 
     Weapon weapon = Global.weapon;
     float x=0;
@@ -110,8 +107,7 @@ public class CombatScreen extends ScreenAdapter {
         stage = new Stage(viewport, universeMap.getBatch());
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
-        sgxSkin = assetManager.get(AssetDescriptors.SGX_SKIN);
-        gamePlayAtlas = assetManager.get(AssetDescriptors.BACKGROUND_AREA);
+        sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
 
 
 
@@ -134,6 +130,9 @@ public class CombatScreen extends ScreenAdapter {
         final Drawable engine_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/engineRed.png"));
         final Drawable cockpit_nat = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/PilotingSymbol.png"));
         final Drawable cockpit_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/PilotingRed.png"));
+
+        final Drawable weapon_section = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weaponEnemy.png"));
+        final Drawable weapon_section_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weapon_red.png"));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
         fuzeOffsetright = 570;
@@ -167,7 +166,7 @@ public class CombatScreen extends ScreenAdapter {
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                isTargedEngine = true;
+                isTargetEngine = true;
                 isTargetSelected=true;
                 w = true;
                 o = false;
@@ -177,6 +176,22 @@ public class CombatScreen extends ScreenAdapter {
             }
         });
 
+
+        weaponSection = new ImageButton(weapon_section);
+        weaponSection.setPosition(1450,500);
+        weaponSection.setSize(100,100);
+        weaponSection.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                w = true;
+                o = false;
+                d = false;
+                isTargetSelected = true;
+                isTargetWeapon = true;
+                weaponSection.getStyle().imageUp = weapon_section_red;
+
+            }
+        });
 
         cockpit = new ImageButton(cockpit_nat);
         cockpit.setPosition(1075,660);
@@ -196,7 +211,7 @@ public class CombatScreen extends ScreenAdapter {
         });
 
         Gdx.input.setInputProcessor(stage);
-        enableShield = new TextButton("Activate Shield",sgxSkin,StyleNames.EMPHASISTEXTBUTTON);
+        enableShield = new TextButton("Activate Shield",sgxSkin2,StyleNames.EMPHASISTEXTBUTTON);
         enableShield.setPosition(BaseScreen.WIDTH-1500,200);
         enableShield.addListener(new ChangeListener() {
             @Override
@@ -207,7 +222,7 @@ public class CombatScreen extends ScreenAdapter {
         });
 
 
-        enableEnemyShield = new TextButton("Enemy Shield",sgxSkin,StyleNames.EMPHASISTEXTBUTTON);
+        enableEnemyShield = new TextButton("Enemy Shield",sgxSkin2,StyleNames.EMPHASISTEXTBUTTON);
         enableEnemyShield.setPosition(BaseScreen.WIDTH-400,200);
         enableEnemyShield.addListener(new ChangeListener() {
             @Override
@@ -220,60 +235,26 @@ public class CombatScreen extends ScreenAdapter {
 
 
 
-
-
-        TextButton textButtonSinglePlayer = new TextButton(" Foo ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonSinglePlayer.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Global.IS_SINGLE_PLAYER = true;
-                mainClient.setScreen(new ShipSelectScreen(mainClient));
-
-            }
-        });
-
-        TextButton textButtonMultiplayer = new TextButton(" Escape ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonMultiplayer.addListener(new ChangeListener() {
+        TextButton escape = new TextButton(" Escape ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
+        escape.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Global.IS_SINGLE_PLAYER = false;
                 mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });
-        textButtonMultiplayer.setPosition(100,100);
-        //textButtonMultiplayer.setSize(500,100);
+        escape.setPosition(100,100);
 
-        TextButton textButtonBackToMenu = new TextButton("  Back to menu  ", sgxSkin, StyleNames.EMPHASISTEXTBUTTON);
-        textButtonBackToMenu.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                mainClient.setScreen(new MenuScreen(mainClient));
-            }
-        });
-
-        //Title:  Menu
-        Label label = new Label("New game", sgxSkin, StyleNames.TITLELABEL);
-
-
-       /* table.add(label).row();
-        table.row();
-        table.add(textButtonSinglePlayer).row();
-        table.add(textButtonMultiplayer).row();
-        table.add(textButtonBackToMenu).row();
-
-        //table.center();
-        table.setFillParent(true);
-        table.pack();*/
 
         stage.addActor(enableEnemyShield);
         stage.addActor(engine);
         stage.addActor(cockpit);
         stage.addActor(enableShield);
+        stage.addActor(weaponSection);
 
 
 
-        stage.addActor(textButtonBackToMenu);
-        stage.addActor(textButtonMultiplayer);
+        stage.addActor(escape);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -362,10 +343,20 @@ public class CombatScreen extends ScreenAdapter {
                 rocketLaunch.play();
             }
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D) && isTargedEngine){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D) && isTargetEngine){
             counterEngine++;
             if(counterEngine < 4){
                 bullets.add(new Bullet(590,444));
+                rocketLaunch.play();
+            }
+
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W) && isTargetWeapon){
+            counterWeapon++;
+            if(counterWeapon < 4){
+                bullets.add(new Bullet(590,444));
+                //bullets.add(new Bullet(590,843));
                 rocketLaunch.play();
             }
 
@@ -382,6 +373,10 @@ public class CombatScreen extends ScreenAdapter {
         //explosion on enemy's engine
         if( counterEngine >= 3 && !isEnemyShield){
             stage.getBatch().draw(explosion,1515,422,100,100);
+        }
+
+        if( counterWeapon >= 3 && !isEnemyShield){
+            stage.getBatch().draw(explosion,1450,500,100,100);
         }
         //explosion on enemy's cockpit
         if( counterCockpit >= 2 && !isEnemyShield){
