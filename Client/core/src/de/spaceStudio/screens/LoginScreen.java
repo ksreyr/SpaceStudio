@@ -318,6 +318,7 @@ public class LoginScreen extends BaseScreen {
                             LOG.info("Credentials invalid or server down");
                         } else {
                             LOG.info("Login success");
+
                             isPressed = true;
                             currentPlayer.setId(Integer.parseInt(responseJson));
                         }

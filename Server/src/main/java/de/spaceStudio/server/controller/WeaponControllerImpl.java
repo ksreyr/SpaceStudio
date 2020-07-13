@@ -124,6 +124,16 @@ public class WeaponControllerImpl implements WeaponController {
 
     @Override
     public String shotValidation(List<Weapon> weapons) {
-        return null;
+        for (Weapon w :
+                weapons) {
+            if (w.getObjectiv() != null) {
+                if (w.getSection().getUsable() == true) {
+                    if (w.getObjectiv().getShip().getHp() > 0) {
+                        return "Fire Accepted";
+                    }
+                }
+            }
+        }
+        return "Fire not Accepted";
     }
 }

@@ -446,7 +446,7 @@ public class Global {
         add(weapon1Player);
         add(weapon2Player);
     }};
-    public static void updateweaponVariabel(){
+    public static void updateweaponPlayerVariabel(){
         weapon1Player= weaponListPlayer.get(0);
         weapon2Player= weaponListPlayer.get(1);
     }

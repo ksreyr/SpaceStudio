@@ -128,7 +128,7 @@ public class Section {
         this.powerRequired = powerRequired;
     }
 
-    public boolean isUsable() {
+    public boolean getUsable() {
         return usable;
     }
 

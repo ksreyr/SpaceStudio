@@ -695,7 +695,7 @@ public class ShipSelectScreen extends BaseScreen {
             }
             if (!weapons.isEmpty() && requestcounter == 21) {
                 weaponListPlayer = weapons;
-                Global.updateweaponVariabel();
+                Global.updateweaponPlayerVariabel();
                 requestcounter = 22;
             }
             if (requestcounter == 22) {
@@ -914,7 +914,7 @@ public class ShipSelectScreen extends BaseScreen {
             }
             if (!weapons.isEmpty() && requestcounter == 21) {
                 weaponListPlayer = weapons;
-                Global.updateweaponVariabel();
+                Global.updateweaponPlayerVariabel();
                 requestcounter = 22;
             }
             if (requestcounter == 22) {

@@ -3,7 +3,6 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -51,7 +50,7 @@ public class StationsMap extends BaseScreen {
 
     private static int POSX = 100;
     private static int POSY = 200;
-    private MainClient game;
+    private MainClient mainClient;
 
     private  String unvisited = "unvisited planet";
     private  String visited = "visited planet";
@@ -72,12 +71,11 @@ public class StationsMap extends BaseScreen {
 
     public StationsMap(final MainClient game) {
         super(game);
-        this.game = game;
+        this.mainClient = game;
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         background = new Texture(Gdx.files.internal("Client/core/assets/data/maps/sky-map.jpg"));
-
 
         start_ship = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/ZDci.gif").read());
         final Drawable drawable_station_unvisited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png")));
@@ -131,9 +129,7 @@ public class StationsMap extends BaseScreen {
         planet3ImgBTN.setPosition(600, 800);  //hikeButton is an ImageButton
         planet3ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
         hoverListener(planet3ImgBTN,textAreaUN);
-        final Planet planet = Global.planet3;
-
-        planet3ImgBTN.addListener(new ChangeListener() {
+        planet3ImgBTN.addListener( new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Global.currentPlanet=Global.planet3;
@@ -142,7 +138,7 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(planet3ImgBTN,textAreaVIS);
-                            jumpService(planet);
+                            jumpService(Global.planet3);
 
                         }
 
@@ -157,8 +153,6 @@ public class StationsMap extends BaseScreen {
 
             }
         });
-
-
     }
 
 
@@ -362,20 +356,21 @@ public class StationsMap extends BaseScreen {
 
     @Override
     public void show() {
+
+
         super.show();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        state += Gdx.graphics.getDeltaTime();
         if(!shipList.isEmpty()&&control==false){
             Global.currentShip=shipList.get(1);
             Global.currentShipGegner=shipList.get(0);
-            game.setScreen(new CombatScreen(game));
-
+            mainClient.setScreen(new CombatScreen(game));
             control=true;
         }
+        state += Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
