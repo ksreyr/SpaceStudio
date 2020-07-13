@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
@@ -76,7 +77,6 @@ public class CombatScreen extends BaseScreen {
     boolean isFired = false;
     boolean canFire = false;
     private boolean isExploied;
-    private boolean isTargetSelected;
     private boolean sectionw, sectiond, sectionOthers;
     private Texture missilleRight,  explosion, missilleLeft, weaponSystem;
     int fuzeOffsetright,fuzeOffsetLeft;
@@ -109,6 +109,7 @@ public class CombatScreen extends BaseScreen {
     //
 
     public CombatScreen(MainClient mainClient) {
+        super(mainClient);
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
@@ -139,7 +140,6 @@ public class CombatScreen extends BaseScreen {
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
 
-        shapeRenderer = new ShapeRenderer();
         final Drawable engine_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/enginesSymbol.png"));
         final Drawable engine_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/engineRed.png"));
         final Drawable cockpit_nat = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/PilotingSymbol.png"));
