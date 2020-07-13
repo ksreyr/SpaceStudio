@@ -69,7 +69,7 @@ public class CombatScreen extends ScreenAdapter {
     private ImageButton engine, weaponSection,cockpit;
     private int disappearRight = 570;
     private int disappearLeft = 570;
-    public static final int SPEED = 450;
+    public static final int SPEED = 750;
     private int counterEngine = 0;
     private int counterCockpit = 0;
     private int counterWeapon = 0;
@@ -235,7 +235,7 @@ public class CombatScreen extends ScreenAdapter {
 
 
 
-        TextButton escape = new TextButton(" Escape ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
+        TextButton escape = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
         escape.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -243,7 +243,7 @@ public class CombatScreen extends ScreenAdapter {
                 mainClient.setScreen(new ShipSelectScreen(mainClient));
             }
         });
-        escape.setPosition(100,100);
+        escape.setPosition(1000,200);
 
 
         stage.addActor(enableEnemyShield);
@@ -365,6 +365,11 @@ public class CombatScreen extends ScreenAdapter {
         if(isShieldEnabled) stage.getBatch().draw(shield,70,150,1100,1000);
         //shield for enemy
         if(isEnemyShield) stage.getBatch().draw(shield,1120,150,900,1000);
+
+        //explosion weapon
+        //if(counterEngi >= 2)
+        //    stage.getBatch().draw(explosion,1450,500,100,100);
+
 
         //explosion on player
         if(counterEngine >= 2)

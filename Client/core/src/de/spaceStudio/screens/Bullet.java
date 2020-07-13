@@ -7,7 +7,7 @@ import de.spaceStudio.server.model.Weapon;
 
 public class Bullet extends Weapon {
 
-    public static final int SPEED = 450;
+    public static final int SPEED = 550;
     public static int DEFAULT_X = 200;
     public static int DEFAULT_Y = 200;
     private static Texture bullet;
