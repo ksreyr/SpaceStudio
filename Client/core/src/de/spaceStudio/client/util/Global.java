@@ -385,7 +385,7 @@ public class Global {
             .powerRequired(10)
             .buildSection();
 
-    public  static List<Section> sectionPlayerList = new ArrayList<Section>() {{
+    public  static List<Section> sectionsPlayerList = new ArrayList<Section>() {{
         add(section1);
         add(section2);
         add(section3);
@@ -394,12 +394,12 @@ public class Global {
         add(section6);
     }};
     public static void updateVariableSectionShipPlayer(){
-        section1=sectionPlayerList.get(0);
-        section2=sectionPlayerList.get(1);
-        section3=sectionPlayerList.get(2);
-        section4=sectionPlayerList.get(3);
-        section5=sectionPlayerList.get(4);
-        section6=sectionPlayerList.get(5);
+        section1= sectionsPlayerList.get(0);
+        section2= sectionsPlayerList.get(1);
+        section3= sectionsPlayerList.get(2);
+        section4= sectionsPlayerList.get(3);
+        section5= sectionsPlayerList.get(4);
+        section6= sectionsPlayerList.get(5);
     }
     /*
      * Gegner
@@ -490,7 +490,13 @@ public class Global {
         shipGegner1=shipsgegneru1.get(0);
         shipGegner2=shipsgegneru1.get(1);
     }
-
+    public static void updateShipsListgegneru1(){
+        List<Ship> shipsgegneru1new =new ArrayList<Ship>(){{
+            add(shipGegner1);
+            add(shipGegner2);
+        }};
+        shipsgegneru1=shipsgegneru1new;
+    }
 
     public static List<Ship> shipsgegneru2 =new ArrayList<Ship>(){{
         add(shipGegner1);
@@ -547,7 +553,7 @@ public class Global {
         add(section2Gegner);
         add(section3Gegner);
     }};
-    public static void updateVariblesGegner1(){
+    public static void updateVariblesSectionsGegner1(){
         section1Gegner=sectionsgegner1.get(0);
         section2Gegner=sectionsgegner1.get(1);
         section3Gegner=sectionsgegner1.get(2);
@@ -588,7 +594,7 @@ public class Global {
         add(section2Gegner2);
         add(section3Gegner2);
     }};
-    public static void updateVariblesGegner2(){
+    public static void updateVariblesSectionsGegner2(){
         section1Gegner2=sectionsgegner2.get(0);
         section2Gegner2=sectionsgegner2.get(1);
         section3Gegner2=sectionsgegner2.get(2);
@@ -630,7 +636,7 @@ public class Global {
         add(section2Gegner3);
         add(section3Gegner3);
     }};
-    public static void updateVariblesGegner3(){
+    public static void updateVariblesSectionsGegner3(){
         section1Gegner3=sectionsgegner3.get(0);
         section2Gegner3=sectionsgegner3.get(1);
         section3Gegner3=sectionsgegner3.get(2);
@@ -761,6 +767,62 @@ public class Global {
         section2Gegner6=sectionsgegner6.get(1);
         section3Gegner6=sectionsgegner6.get(2);
     }
+    //*ALL SECTIONS*///
+    public static List<Section> sectionsallgame =new ArrayList<Section>(){{
+        add(section1);
+        add(section2);
+        add(section3);
+        add(section4);
+        add(section5);
+        add(section6);
+        add(section1Gegner);
+        add(section2Gegner);
+        add(section3Gegner);
+        add(section1Gegner2);
+        add(section2Gegner2);
+        add(section3Gegner2);
+        add(section1Gegner3);
+        add(section2Gegner3);
+        add(section3Gegner3);
+        add(section1Gegner4);
+        add(section2Gegner4);
+        add(section3Gegner4);
+        add(section1Gegner5);
+        add(section2Gegner5);
+        add(section3Gegner5);
+        add(section1Gegner6);
+        add(section2Gegner6);
+        add(section3Gegner6);
+    }};
+
+    public static void updateVariblesAllSections(){
+        section1=sectionsallgame.get(0);
+        section2=sectionsallgame.get(1);
+        section3=sectionsallgame.get(2);
+        section4=sectionsallgame.get(3);
+        section5=sectionsallgame.get(4);
+        section6=sectionsallgame.get(5);
+        section1Gegner=sectionsallgame.get(6);
+        section2Gegner=sectionsallgame.get(7);
+        section3Gegner=sectionsallgame.get(8);
+        section1Gegner2=sectionsallgame.get(9);
+        section2Gegner2=sectionsallgame.get(10);
+        section3Gegner2=sectionsallgame.get(11);
+        section1Gegner3=sectionsallgame.get(12);
+        section2Gegner3=sectionsallgame.get(13);
+        section3Gegner3=sectionsallgame.get(14);
+        section1Gegner4=sectionsallgame.get(15);
+        section2Gegner4=sectionsallgame.get(16);
+        section3Gegner4=sectionsallgame.get(17);
+        section1Gegner5=sectionsallgame.get(18);
+        section2Gegner5=sectionsallgame.get(19);
+        section3Gegner5=sectionsallgame.get(20);
+        section1Gegner6=sectionsallgame.get(21);
+        section2Gegner6=sectionsallgame.get(22);
+        section3Gegner6=sectionsallgame.get(23);
+
+    }
+
     /**
      * planete Univerise 1
      */

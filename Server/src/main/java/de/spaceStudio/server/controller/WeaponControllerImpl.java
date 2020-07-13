@@ -1,11 +1,15 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.SectionTyp;
+import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
 import de.spaceStudio.server.repository.WeaponRepository;
+import org.hibernate.hql.internal.ast.tree.AggregatedSelectExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -95,13 +99,12 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
-    public String fire(@RequestBody  Weapon weapon) {
-        Ship ship=weapon.getSection().getShip();
+    public String fire(@RequestBody List<Weapon> weapons) {
+        /*Ship ship=weapon.getSection().getShip();
         ship=shipRepository.findShipByName(ship.getName()).get();
         Ship gegnerShip=new Ship();
         StopAbstract planet= stopAbstractRepository.findByShips(ship).get();
         List<Ship> shipList= planet.getShips();
-
         for (Ship s :
                 shipList) {
             if(!s.equals(ship)){
@@ -117,9 +120,25 @@ public class WeaponControllerImpl implements WeaponController {
             }
         }
         gegnerShip.setHp(gegnerShip.getHp() - weapon.getDamage());
+        shipRepository.save(gegnerShip);*/
+        Ship ship=new Ship();
+        for (Weapon weapon :
+                weapons) {
+            ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
+            if (ship.getShield() > 0) {
+                ship.setShield(0);
+            }else{
+                //Without_Schield
+                ship.setHp(ship.getHp()-weapon.getDamage());
+                weapon.getObjectiv().setUsable(false);
+                sectionRepository.save(weapon.getObjectiv());
+            }
+            shipRepository.save(ship);
+        }
+        List<Section> sectionToSend = sectionRepository.findAllByShip(ship).get();
+        Gson gson = new Gson();
 
-        shipRepository.save(gegnerShip);
-        return HttpStatus.OK.toString();
+        return gson.toJson(sectionToSend);
     }
 
     @Override

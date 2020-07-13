@@ -24,18 +24,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.SectionTyp;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
-import de.spaceStudio.service.CombatService;
-import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
 public class CombatScreen extends BaseScreen {
@@ -55,7 +57,8 @@ public class CombatScreen extends BaseScreen {
 
     private Texture fuze, fuz2, explosion;
     int fuzeOffset;
-    boolean isFired=false;
+    boolean isFired = false;
+    boolean canFire = false;
     private boolean isExploied;
     private boolean isTargetSelected;
     private boolean sectionw, sectiond, sectionOthers;
@@ -73,7 +76,9 @@ public class CombatScreen extends BaseScreen {
 
 
     //
-    String validation="";
+    String validation = "";
+    List<Section> sectionsNachFire;
+    List<Section> sectionsGernerResponse = new ArrayList<Section>();
     //
 
     public CombatScreen(MainClient game) {
@@ -253,7 +258,11 @@ public class CombatScreen extends BaseScreen {
                     System.out.println("Request Failed makeAShot");
                 }
                 System.out.println("statusCode makeAShot: " + statusCode);
-                String responseJson = httpResponse.getResultAsString();
+                String SectionsGegner = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                Section[] aiArray = gson.fromJson(SectionsGegner, Section[].class);
+                sectionsGernerResponse = Arrays.asList(aiArray);
+                System.out.println("statusCode sendRequestAddShip: " + statusCode);
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -276,15 +285,15 @@ public class CombatScreen extends BaseScreen {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed makeAShot");
+                    System.out.println("Request Failed shotValidation");
                 }
-                System.out.println("statusCode makeAShot: " + statusCode);
+                System.out.println("statusCode Validation: " + statusCode);
                 validation = httpResponse.getResultAsString();
 
             }
 
             public void failed(Throwable t) {
-                System.out.println("Request Failed Completely");
+                System.out.println("Request Failed shotValidation Completely");
             }
 
             @Override
@@ -333,20 +342,54 @@ public class CombatScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(playerShip, 300,300,700,700);
-        stage.getBatch().draw(enemyShip, 1300,370,550,550);
-        stage.getBatch().draw(hull, 0,1020,500,50);
-        stage.getBatch().draw(fuze,disappear,422,400,50);
-        if(!validation.isEmpty()&&validation.equals("Fire Accepted")){
-            isFired=true;
+        stage.getBatch().draw(playerShip, 300, 300, 700, 700);
+        stage.getBatch().draw(enemyShip, 1300, 370, 550, 550);
+        stage.getBatch().draw(hull, 0, 1020, 500, 50);
+        stage.getBatch().draw(fuze, disappear, 422, 400, 50);
+        if (!validation.isEmpty() && validation.equals("Fire Accepted")) {
+            canFire = true;
+        } else if (!validation.isEmpty() && validation.equals("Fire not Accepted")) {
+            validation = "";
+        }
+        if (canFire) {
+            makeAShot(Global.weaponListPlayer, Net.HttpMethods.POST);
+            isFired = true;
+            canFire = false;
+            validation = "";
+        }
+        if (!sectionsGernerResponse.isEmpty()) {
+
+            Section sectionResponse=sectionsGernerResponse.get(0);
+            Ship shiptoUpdate =sectionResponse.getShip();
+            switch (sectionResponse.getShip().getName()) {
+                case "Shipgegner1":
+                    Global.sectionsgegner1 = sectionsGernerResponse;
+                    Global.updateVariblesSectionsGegner1();
+                    Global.shipGegner1=shiptoUpdate;
+                    break;
+                case "Shipgegner2":
+                    Global.sectionsgegner2 = sectionsGernerResponse;
+                    Global.updateVariblesSectionsGegner2();
+                    Global.shipGegner2=shiptoUpdate;
+                    break;
+                case "Shipgegner3":
+                    Global.sectionsgegner3 = sectionsGernerResponse;
+                    Global.updateVariblesSectionsGegner3();
+                    Global.shipGegner3=shiptoUpdate;
+                    break;
+            }
+            Global.updateShipsListgegneru1();
+            System.out.println(Global.shipsgegneru1);
+            List<Section> sizeO=new ArrayList<>();
+            sectionsGernerResponse=sizeO;
         }
 
-        if(isFired && isTargetSelected) {
+        if (isFired && isTargetSelected) {
             fuzeOffset++;
-            disappear=BaseScreen.WIDTH;
-            stage.getBatch().draw(fuz2,+fuzeOffset,422,400,50);
+            disappear = BaseScreen.WIDTH;
+            stage.getBatch().draw(fuz2, +fuzeOffset, 422, 400, 50);
 
-            if(fuzeOffset == 700){
+            if (fuzeOffset == 700) {
                 fuzeOffset = BaseScreen.WIDTH;
                 isExploied = true;
             }

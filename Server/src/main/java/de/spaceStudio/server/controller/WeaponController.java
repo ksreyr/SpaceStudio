@@ -81,7 +81,7 @@ public interface WeaponController  {
     String deleteAllWeapons();
 
     @RequestMapping(value = "/fire", method = RequestMethod.POST)
-    String fire(@RequestBody Weapon weapon);
+    String fire(@RequestBody List<Weapon> weapons);
 
     @RequestMapping(value = "/shotvalidation", method = RequestMethod.POST)
     String shotValidation(@RequestBody List<Weapon> weapons);

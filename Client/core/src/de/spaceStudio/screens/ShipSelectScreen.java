@@ -470,19 +470,19 @@ public class ShipSelectScreen extends BaseScreen {
                 Global.currentShip = ship;
                 //Ship to Sections
                 for (Section s :
-                        Global.sectionPlayerList) {
+                        Global.sectionsPlayerList) {
                     s.setShip(ship);
                 }
             }
             //Sent Sections
-            sendRequestAddSections(Global.sectionPlayerList, Net.HttpMethods.POST);
+            sendRequestAddSections(Global.sectionsPlayerList, Net.HttpMethods.POST);
             requestcounter = 2;
         }
 
         /*Added sectionList*/
         if (!sectionList.isEmpty() && requestcounter == 2) {
             //Section with ID
-            Global.sectionPlayerList = sectionList;
+            Global.sectionsPlayerList = sectionList;
             //Update Section variables
             updateVariableSectionShipPlayer();
             //Set crewMemebers
@@ -606,9 +606,9 @@ public class ShipSelectScreen extends BaseScreen {
                     }
                 }
                 Global.sectionsgegner1 = sectionsgegner1;
-                Global.updateVariblesGegner1();
+                Global.updateVariblesSectionsGegner1();
                 Global.sectionsgegner2 = sectionsgegner2;
-                Global.updateVariblesGegner2();
+                Global.updateVariblesSectionsGegner2();
                 requestcounter = 12;
             }
             //Planeten request
@@ -811,11 +811,11 @@ public class ShipSelectScreen extends BaseScreen {
 
                 }
                 Global.sectionsgegner1 = sectionsgegner1;
-                Global.updateVariblesGegner1();
+                Global.updateVariblesSectionsGegner1();
                 Global.sectionsgegner2 = sectionsgegner2;
-                Global.updateVariblesGegner2();
+                Global.updateVariblesSectionsGegner2();
                 Global.sectionsgegner3 = sectionsgegner3;
-                Global.updateVariblesGegner3();
+                Global.updateVariblesSectionsGegner3();
                 Global.sectionsgegner4 = sectionsgegner4;
                 Global.updateVariblesGegner4();
                 Global.sectionsgegner5 = sectionsgegner5;
