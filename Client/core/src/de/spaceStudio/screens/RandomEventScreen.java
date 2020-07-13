@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
@@ -28,7 +29,7 @@ public class RandomEventScreen extends BaseScreen {
     private MainClient mainClient;
     private Viewport viewport;
     private Stage stage;
-    final TextArea textAreaUN;
+    TextArea textAreaUN;
 
 
 
@@ -45,19 +46,73 @@ public class RandomEventScreen extends BaseScreen {
 
     public RandomEventScreen(MainClient game) {
         super(game);
-        final Drawable drawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png"))); // FIXME texture
+
+
+        // Listen to these Buttons
 
         skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        stage = new Stage(viewport);
+        final Drawable drawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png"))); // FIXME texture
 
         // Render the Fight Button
         FightImgBTN = new ImageButton( drawable );
         FightImgBTN.setPosition(250, 700);
         FightImgBTN.setSize(20,20);
         textAreaUN = new TextArea(fight, skin);
-
-        // Listen to these Buttons
-        hoverListener(FightImgBTN,textAreaUN);
         eventStop(drawable);
+        hoverListener(FightImgBTN,textAreaUN);
+
+
+    }
+
+    @Override
+    public void show()
+    {
+        //skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+
+        Gdx.input.setInputProcessor(stage);
+
+        randomDialog = new Dialog("New Stop for Ship", skin)
+        {
+            protected void result(Object object)
+            {
+                System.out.println("Option: " + object);
+                if (object.equals(1L))
+                {
+                    genenerateEvent(getRandomNumberInRange(0, 4));
+                    System.out.println("Button Pressed");
+                } else {
+                    // Goto main menut
+                }
+                Timer.schedule(new Timer.Task()
+                {
+
+                    @Override
+                    public void run()
+                    {
+                        randomDialog.show(stage);
+                    }
+                }, 1);
+            };
+        };
+
+        randomDialog.button("Check out the other Ship", 1L);
+        randomDialog.button("Check out the Station", 2L);
+
+        TextButton fire = new TextButton("Fire",skin,"small");
+        TextButton travel = new TextButton("Fire",skin,"small");
+
+        Timer.schedule(new Timer.Task()
+        {
+
+            @Override
+            public void run()
+            {
+                randomDialog.show(stage);
+            }
+        }, 1);
         stage.addActor(FightImgBTN);
 
     }
@@ -132,56 +187,7 @@ public class RandomEventScreen extends BaseScreen {
         return r.nextInt((max - min) + 1) + min;
     }
 
-    @Override
-    public void show()
-    {
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        stage = new Stage();
-
-        Gdx.input.setInputProcessor(stage);
-
-        randomDialog = new Dialog("New Stop for Ship", skin)
-        {
-            protected void result(Object object)
-            {
-                System.out.println("Option: " + object);
-                if (object.equals(1L))
-                {
-                    genenerateEvent(getRandomNumberInRange(0, 4));
-                    System.out.println("Button Pressed");
-                } else {
-                    // Goto main menut
-                }
-                Timer.schedule(new Timer.Task()
-                {
-
-                    @Override
-                    public void run()
-                    {
-                        randomDialog.show(stage);
-                    }
-                }, 1);
-            };
-        };
-
-        randomDialog.button("Check out the other Ship", 1L);
-        randomDialog.button("Check out the Station", 2L);
-
-        TextButton fire = new TextButton("Fire",skin,"big");
-        TextButton travel = new TextButton("Fire",skin,"big");
-
-        Timer.schedule(new Timer.Task()
-        {
-
-            @Override
-            public void run()
-            {
-                randomDialog.show(stage);
-            }
-        }, 1);
-
-    }
 
     private void genenerateEvent(int number) {
         switch (number) {

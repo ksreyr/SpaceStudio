@@ -17,6 +17,8 @@ public class MainClient extends Game {
 
 	private SpriteBatch batch;
 
+	private RandomEventScreen randomEventScreen;
+
 
 
 	@Override
@@ -26,7 +28,8 @@ public class MainClient extends Game {
 		assetManager.finishLoading();
 		loginScreen = new LoginScreen(this, assetManager);
 		batch = new SpriteBatch();
-	    setScreen(loginScreen);
+		randomEventScreen = new RandomEventScreen(this);
+	    setScreen(randomEventScreen);
 
 	}
 
