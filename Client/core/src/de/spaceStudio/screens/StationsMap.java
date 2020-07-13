@@ -3,6 +3,8 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -28,6 +30,7 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
+import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
@@ -60,7 +63,7 @@ public class StationsMap extends BaseScreen {
     private int counter = 0;
     private float state = 0.0f;
 
-    boolean isLast;
+    boolean isLast, test;
     private ShipSelectScreen shipSelectScreen;
     private Boolean control=false;
     //

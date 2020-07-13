@@ -156,7 +156,7 @@ public class ShipSelectScreen extends BaseScreen {
         usernameLabel = new Label("Pruebe", skinButton);
         usernameLabel.setPosition(100, 350);
         stage.addActor(usernameLabel);
-        background = new Texture(Gdx.files.internal("Client/core/assets/data/ast.jpg"));
+        background = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/shipSelectionBG.jpg"));
         shapeRenderer = new ShapeRenderer();
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 

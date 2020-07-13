@@ -26,6 +26,8 @@ public class Weapon {
     @ManyToOne
     private Section section;
 
+
+
     public Section getObjectiv() {
         return objectiv;
     }
