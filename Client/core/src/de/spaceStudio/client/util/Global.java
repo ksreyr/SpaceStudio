@@ -151,7 +151,7 @@ public class Global {
     /**
      * Global player, this data will be downloaded from server at login
      */
-    public static Ship currentShip;
+    public static Ship currentShipPlayer;
     /**
      * Global player, this data will be downloaded from server at login
      */

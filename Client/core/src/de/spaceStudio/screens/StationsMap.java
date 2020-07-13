@@ -3,8 +3,6 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -30,7 +28,6 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
-import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
@@ -368,8 +365,12 @@ public class StationsMap extends BaseScreen {
     public void render(float delta) {
         super.render(delta);
         if(!shipList.isEmpty()&&control==false){
-            Global.currentShip=shipList.get(1);
-            Global.currentShipGegner=shipList.get(0);
+            try {
+                Global.currentShipPlayer =shipList.get(1);
+                Global.currentShipGegner = shipList.get(0);
+            }catch (Exception e){
+                Global.currentShipPlayer =shipList.get(0);
+            }
             mainClient.setScreen(new CombatScreen(game));
             control=true;
         }

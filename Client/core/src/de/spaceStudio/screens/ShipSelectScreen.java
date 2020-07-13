@@ -467,7 +467,7 @@ public class ShipSelectScreen extends BaseScreen {
         if (requestcounter == 1) {
             if (responseJson != null && !responseJson.isEmpty()) {
                 ship.setId(Integer.valueOf(responseJson));
-                Global.currentShip = ship;
+                Global.currentShipPlayer = ship;
                 //Ship to Sections
                 for (Section s :
                         Global.sectionsPlayerList) {
@@ -614,7 +614,7 @@ public class ShipSelectScreen extends BaseScreen {
             //Planeten request
             if (requestcounter == 12) {
                 //Universe1
-                shipsP1.add(currentShip);
+                shipsP1.add(currentShipPlayer);
                 shipsP2.add(shipGegner1);
                 shipsP3.add(shipGegner2);
                 for (Planet p :
@@ -677,7 +677,7 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 18;
             }
             if (requestcounter == 18) {
-                shipRessource.setShip(currentShip);
+                shipRessource.setShip(currentShipPlayer);
                 sendRequestAddShipRessource(shipRessource, Net.HttpMethods.POST);
                 requestcounter = 19;
             }
@@ -827,7 +827,7 @@ public class ShipSelectScreen extends BaseScreen {
             //Planeten request
             if (requestcounter == 12) {
                 //Universe2
-                shipsP1.add(currentShip);
+                shipsP1.add(currentShipPlayer);
                 shipsP2.add(shipGegner1);
                 shipsP3.add(shipGegner2);
                 shipsP4.add(shipGegner3);
@@ -896,7 +896,7 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 18;
             }
             if (requestcounter == 18) {
-                shipRessource.setShip(currentShip);
+                shipRessource.setShip(currentShipPlayer);
                 sendRequestAddShipRessource(shipRessource, Net.HttpMethods.POST);
                 requestcounter = 19;
             }

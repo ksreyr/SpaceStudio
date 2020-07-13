@@ -3,45 +3,34 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.SectionTyp;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
-import de.spaceStudio.service.CombatService;
 import de.spaceStudio.util.GdxUtils;
-import de.spaceStudio.server.model.Weapon;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -125,16 +114,14 @@ public class CombatScreen extends BaseScreen {
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
 
 
-
-
-
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
         playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
         enemyShip = new Texture("Client/core/assets/combatAssets/enemy1.png");
-        missilleRight =  new Texture("Client/core/assets/combatAssets/missille_out.png");
+        enemyShip = new Texture("Client/core/assets/combatAssets/enemy1.png");
+        missilleRight = new Texture("Client/core/assets/combatAssets/missille_out.png");
         missilleLeft = new Texture("Client/core/assets/combatAssets/missille_out.png");
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
@@ -493,9 +480,11 @@ public class CombatScreen extends BaseScreen {
             List<Section> sizeO=new ArrayList<>();
             sectionsGernerResponse=sizeO;
         }
-
+        //A
+        //Logic
         //Create and launch missiles
         if(Gdx.input.isKeyJustPressed(Input.Keys.A) && isTargetCockpit){
+            logicOfFire();
             counterCockpit++;
             if(counterCockpit < 3){
                 bullets.add(new Bullet(590,843))  ;
