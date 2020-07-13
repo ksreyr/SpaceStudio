@@ -67,8 +67,8 @@ public class WeaponControllerImpl implements WeaponController {
         List<Weapon> weaponList= new ArrayList<Weapon>();
         for (Weapon w :
                 weapons) {
-            weaponRepository.save(w);
-            weaponList.add(w);
+            Weapon weapon =weaponRepository.save(w);
+            weaponList.add(weapon);
         }
         Gson gson= new Gson();
         return gson.toJson(weaponList);

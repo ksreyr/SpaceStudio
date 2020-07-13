@@ -512,12 +512,13 @@ public class ShipSelectScreen extends BaseScreen {
             requestcounter = 3;
             requestcounter = 4;
         }
+        //Updated Global CrewMember
         if (!crewMemberList.isEmpty() && requestcounter == 4) {
             Global.crewMemberList = crewMemberList;
             Global.updateVariableCrewMembersPlayer();
             requestcounter = 5;
         }
-
+        //Add Universe
         if (requestcounter == 5) {
             if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
                 universe2.setName(universe2.getName() + currentPlayer.getName());
@@ -531,6 +532,7 @@ public class ShipSelectScreen extends BaseScreen {
             }
             requestcounter = 6;
         }
+        //updated Universe
         if (requestcounter == 6 && universeID != 0) {
             if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
                 Global.universe2.setId(universeID);
@@ -552,7 +554,6 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 8;
             }
             if (requestcounter == 8) {
-                //UNIVERSE2????
                 for (Ship s :
                         shipsgegneru1) {
                     switch (s.getName()) {
@@ -700,16 +701,35 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 20;
             }
             if (requestcounter == 20) {
+                List<Weapon> weaponsUniver1=new ArrayList<>();
                 for (Weapon w :
                         weaponListPlayer) {
                     w.setSection(section2);
+                    weaponsUniver1.add(w);
                 }
-                sendRequestAddWeapon(weaponListPlayer, Net.HttpMethods.POST);
+                for(Weapon w:
+                        weaponListGegner1){
+                    w.setSection(section3Gegner);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner2){
+                    w.setSection(section3Gegner2);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner3){
+                    w.setSection(section3Gegner3);
+                    weaponsUniver1.add(w);
+                }
+                sendRequestAddWeapon(weaponsUniver1, Net.HttpMethods.POST);
                 requestcounter = 21;
             }
             if (!weapons.isEmpty() && requestcounter == 21) {
-                weaponListPlayer = weapons;
-                Global.updateweaponPlayerVariabel();
+                weaponListUniverse1 = weapons;
+                Global.updateweaponVariabelUniverse1();
+                System.out.println("ControlUniverse1:"+weapon1Player);
+
                 requestcounter = 22;
             }
             if (requestcounter == 22) {
@@ -719,6 +739,8 @@ public class ShipSelectScreen extends BaseScreen {
             //
             //
             //OBJECTE UNIVERSE 2
+            //
+            //
         } else {
             if (requestcounter == 7 && !aiList.isEmpty()) {
                 Global.aisU2 = aiList;
@@ -919,16 +941,49 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 20;
             }
             if (requestcounter == 20) {
+                List<Weapon> weaponsUniver1=new ArrayList<>();
                 for (Weapon w :
                         weaponListPlayer) {
                     w.setSection(section2);
+                    weaponsUniver1.add(w);
                 }
-                sendRequestAddWeapon(weaponListPlayer, Net.HttpMethods.POST);
+                for(Weapon w:
+                        weaponListGegner1){
+                    w.setSection(section3Gegner);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner2){
+                    w.setSection(section3Gegner2);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner3){
+                    w.setSection(section3Gegner3);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner1){
+                    w.setSection(section3Gegner4);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner2){
+                    w.setSection(section3Gegner5);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner3){
+                    w.setSection(section3Gegner6);
+                    weaponsUniver1.add(w);
+                }
+                sendRequestAddWeapon(weaponsUniver1, Net.HttpMethods.POST);
                 requestcounter = 21;
             }
             if (!weapons.isEmpty() && requestcounter == 21) {
-                weaponListPlayer = weapons;
-                Global.updateweaponPlayerVariabel();
+                weaponListUniverse2 = weapons;
+                Global.updateweaponVariabelUniverse2();
+                System.out.println("Control: "+weapon1Player);
                 requestcounter = 22;
             }
             if (requestcounter == 22) {

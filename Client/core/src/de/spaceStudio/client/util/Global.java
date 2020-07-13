@@ -454,6 +454,145 @@ public class Global {
     }
 
     /*
+     * Weapon Gegner1
+     * */
+    public static Weapon weapon1Gegner1 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+
+    public static Weapon weapon2Gegner1 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static List<Weapon> weaponListGegner1 = new ArrayList<Weapon>(){{
+        add(weapon1Gegner1);
+        add(weapon2Gegner1);
+    }};
+    public static void updateweaponGegner1Variabel(){
+        weapon1Gegner1= weaponListGegner1.get(0);
+        weapon2Gegner1= weaponListGegner1.get(1);
+    }
+    /*
+    * Weapons Gegner2
+    * */
+    public static Weapon weapon1Gegner2 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+
+    public static Weapon weapon2Gegner2 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static List<Weapon> weaponListGegner2 = new ArrayList<Weapon>(){{
+        add(weapon1Gegner2);
+        add(weapon2Gegner2);
+    }};
+    public static void updateweaponGegner2Variabel(){
+        weapon1Gegner2= weaponListGegner2.get(0);
+        weapon2Gegner2= weaponListGegner2.get(1);
+    }
+    /*
+     * Weapons Gegner3
+     * */
+    public static Weapon weapon1Gegner3 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+
+    public static Weapon weapon2Gegner3 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static List<Weapon> weaponListGegner3 = new ArrayList<Weapon>(){{
+        add(weapon1Gegner3);
+        add(weapon2Gegner3);
+    }};
+    public static void updateweaponGegner3Variabel(){
+        weapon1Gegner3= weaponListGegner3.get(0);
+        weapon2Gegner3= weaponListGegner3.get(1);
+    }
+    /*
+     * Weapons Gegner4
+     * */
+    public static Weapon weapon1Gegner4 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+
+    public static Weapon weapon2Gegner4 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static List<Weapon> weaponListGegner4 = new ArrayList<Weapon>(){{
+        add(weapon1Gegner4);
+        add(weapon2Gegner4);
+    }};
+    public static void updateweaponGegner4Variabel(){
+        weapon1Gegner4= weaponListGegner4.get(0);
+        weapon2Gegner4= weaponListGegner4.get(1);
+    }
+    /*
+     * Weapons Gegner3
+     * */
+    public static Weapon weapon1Gegner5 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+
+    public static Weapon weapon2Gegner5 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static List<Weapon> weaponListGegner5 = new ArrayList<Weapon>(){{
+        add(weapon1Gegner5);
+        add(weapon2Gegner5);
+    }};
+    public static void updateweaponGegner5Variabel(){
+        weapon1Gegner5= weaponListGegner5.get(0);
+        weapon2Gegner5= weaponListGegner5.get(1);
+    }
+    /*
+     * Weapons Gegner6
+     * */
+    public static Weapon weapon1Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+
+    public static Weapon weapon2Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static List<Weapon> weaponListGegner6 = new ArrayList<Weapon>(){{
+        add(weapon1Gegner6);
+        add(weapon2Gegner6);
+    }};
+    public static void updateweaponGegner6Variabel(){
+        weapon1Gegner6= weaponListGegner6.get(0);
+        weapon2Gegner6= weaponListGegner6.get(1);
+    }
+    /*Weapon Universe1*/
+    public static List<Weapon> weaponListUniverse1 = new ArrayList<Weapon>(){{
+        add(weapon1Player);
+        add(weapon2Player);
+        add(weapon1Gegner1);
+        add(weapon2Gegner1);
+        add(weapon1Gegner2);
+        add(weapon2Gegner2);
+        add(weapon1Gegner3);
+        add(weapon2Gegner3);
+    }};
+    public static void updateweaponVariabelUniverse1(){
+        weapon1Player= weaponListUniverse1.get(0);
+        weapon2Player= weaponListUniverse1.get(1);
+        weapon1Gegner1=weaponListUniverse1.get(2);
+        weapon2Gegner2=weaponListUniverse1.get(3);
+        weapon1Gegner2=weaponListUniverse1.get(4);
+        weapon2Gegner2=weaponListUniverse1.get(5);
+        weapon1Gegner3=weaponListUniverse1.get(6);
+        weapon2Gegner3=weaponListUniverse1.get(7);
+    }
+    /*Weapon Universe2*/
+
+    public static List<Weapon> weaponListUniverse2 = new ArrayList<Weapon>(){{
+        add(weapon1Player);
+        add(weapon2Player);
+        add(weapon1Gegner1);
+        add(weapon2Gegner1);
+        add(weapon1Gegner2);
+        add(weapon2Gegner2);
+        add(weapon1Gegner3);
+        add(weapon2Gegner3);
+        add(weapon1Gegner4);
+        add(weapon2Gegner4);
+        add(weapon1Gegner5);
+        add(weapon2Gegner5);
+        add(weapon1Gegner6);
+        add(weapon2Gegner6);
+    }};
+    public static void updateweaponVariabelUniverse2(){
+        weapon1Player= weaponListUniverse2.get(0);
+        weapon2Player= weaponListUniverse2.get(1);
+        weapon1Gegner1=weaponListUniverse2.get(2);
+        weapon2Gegner2=weaponListUniverse2.get(3);
+        weapon1Gegner2=weaponListUniverse2.get(4);
+        weapon2Gegner2=weaponListUniverse2.get(5);
+        weapon1Gegner3=weaponListUniverse2.get(6);
+        weapon2Gegner3=weaponListUniverse2.get(7);
+        weapon1Gegner4=weaponListUniverse2.get(8);
+        weapon2Gegner4=weaponListUniverse2.get(9);
+        weapon1Gegner5=weaponListUniverse2.get(10);
+        weapon2Gegner5=weaponListUniverse2.get(11);
+        weapon1Gegner6=weaponListUniverse2.get(12);
+        weapon2Gegner6=weaponListUniverse2.get(13);
+    }
+    /*
     Gegner Ship
      */
     public static Ship shipGegner1 = Ship.shipBluider().hp(100).
@@ -502,6 +641,8 @@ public class Global {
         }};
         shipsgegneru1=shipsgegneru1new;
     }
+    //**Weapons Universe 1**//
+
     // Ship Universe 2
     public static List<Ship> shipsgegneru2 =new ArrayList<Ship>(){{
         add(shipGegner1);
@@ -783,61 +924,6 @@ public class Global {
         section1Gegner6=sectionsgegner6.get(0);
         section2Gegner6=sectionsgegner6.get(1);
         section3Gegner6=sectionsgegner6.get(2);
-    }
-    //*ALL SECTIONS*///
-    public static List<Section> sectionsallgame =new ArrayList<Section>(){{
-        add(section1);
-        add(section2);
-        add(section3);
-        add(section4);
-        add(section5);
-        add(section6);
-        add(section1Gegner);
-        add(section2Gegner);
-        add(section3Gegner);
-        add(section1Gegner2);
-        add(section2Gegner2);
-        add(section3Gegner2);
-        add(section1Gegner3);
-        add(section2Gegner3);
-        add(section3Gegner3);
-        add(section1Gegner4);
-        add(section2Gegner4);
-        add(section3Gegner4);
-        add(section1Gegner5);
-        add(section2Gegner5);
-        add(section3Gegner5);
-        add(section1Gegner6);
-        add(section2Gegner6);
-        add(section3Gegner6);
-    }};
-
-    public static void updateVariblesAllSections(){
-        section1=sectionsallgame.get(0);
-        section2=sectionsallgame.get(1);
-        section3=sectionsallgame.get(2);
-        section4=sectionsallgame.get(3);
-        section5=sectionsallgame.get(4);
-        section6=sectionsallgame.get(5);
-        section1Gegner=sectionsallgame.get(6);
-        section2Gegner=sectionsallgame.get(7);
-        section3Gegner=sectionsallgame.get(8);
-        section1Gegner2=sectionsallgame.get(9);
-        section2Gegner2=sectionsallgame.get(10);
-        section3Gegner2=sectionsallgame.get(11);
-        section1Gegner3=sectionsallgame.get(12);
-        section2Gegner3=sectionsallgame.get(13);
-        section3Gegner3=sectionsallgame.get(14);
-        section1Gegner4=sectionsallgame.get(15);
-        section2Gegner4=sectionsallgame.get(16);
-        section3Gegner4=sectionsallgame.get(17);
-        section1Gegner5=sectionsallgame.get(18);
-        section2Gegner5=sectionsallgame.get(19);
-        section3Gegner5=sectionsallgame.get(20);
-        section1Gegner6=sectionsallgame.get(21);
-        section2Gegner6=sectionsallgame.get(22);
-        section3Gegner6=sectionsallgame.get(23);
-
     }
 
     /**
