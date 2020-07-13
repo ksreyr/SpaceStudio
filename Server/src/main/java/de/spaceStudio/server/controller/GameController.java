@@ -60,7 +60,7 @@ public class GameController {
     public String saveGame(@PathVariable("playerName") String playerName, @RequestBody SinglePlayerGame singlePlayerGame) {
         if (Global.userLogged.contains(playerName) && Global.SinglePlayerGameSessions.get(playerName) != null) {
             LOG.info("Accepting save request for player: " + playerName);
-            SinglePlayerGame sg = Global.SinglePlayerGameSessions.get(playerName);
+            SinglePlayerGame sg = singlePlayerGame;//Global.SinglePlayerGameSessions.get(playerName);
             Optional<Player> fetchPlayer = playerRepository.findByName(playerName);
             if (fetchPlayer != null && fetchPlayer.isPresent()) {
                 Player playerToUpdate = fetchPlayer.get();

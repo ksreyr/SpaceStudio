@@ -31,10 +31,9 @@ import de.spaceStudio.util.GdxUtils;
 
 import java.util.logging.Logger;
 
-import static de.spaceStudio.client.util.Global.singlePlayerGame;
+import static de.spaceStudio.client.util.Global.*;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
-import static de.spaceStudio.client.util.Global.currentPlayer;
 import static de.spaceStudio.service.LoginService.logout;
 
 
@@ -54,8 +53,8 @@ public class MenuScreen extends ScreenAdapter  {
 
 
     private Sound click;
-    private Sound sound;
     boolean isHover;
+    private boolean isLoaded = false;
     //
     PlayerDataService pds=new PlayerDataService();
     //
@@ -88,6 +87,7 @@ public class MenuScreen extends ScreenAdapter  {
         textButtonContinue.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                click.play();
                 String url = Global.SERVER_URL + Global.PLAYER_CONTINUE_ENDPOINT + currentPlayer.getName();
                 final Net.HttpRequest request = setupRequest(url, "", Net.HttpMethods.GET);
 
@@ -101,7 +101,10 @@ public class MenuScreen extends ScreenAdapter  {
                             Gson gson = new Gson();
                             LOG.info("Game load success for player: " + currentPlayer.getName());
                             singlePlayerGame = gson.fromJson(responseJson, SinglePlayerGame.class);
+                            currentShip = singlePlayerGame.getShip();
                             LOG.info(singlePlayerGame.getDifficult());
+                            LOG.info(singlePlayerGame.getShip().toString());
+                            isLoaded = true;
                         }
                     }
 
@@ -124,6 +127,7 @@ public class MenuScreen extends ScreenAdapter  {
         textButtonNewGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                click.play();
                 pds.cleaningData(currentPlayer, Net.HttpMethods.POST);
                 mainClient.setScreen(new NewGameScreen(mainClient));
             }
@@ -137,6 +141,7 @@ public class MenuScreen extends ScreenAdapter  {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 //When application closes, session muss be closed
+                click.play();
                 logout(currentPlayer);
                 Gdx.app.exit();
             }
@@ -170,6 +175,10 @@ public class MenuScreen extends ScreenAdapter  {
         GdxUtils.clearScreen();
         stage.act();
         stage.draw();
+        if(isLoaded){
+            mainClient.setScreen(new StationsMap(mainClient));
+        }
+
     }
 
     // Called when the Application is resized.

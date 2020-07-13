@@ -386,6 +386,7 @@ public class StationsMap extends BaseScreen {
                 LOG.info("Button CLicked");
 
                 Gson gson = new Gson();
+                Global.singlePlayerGame.setShip(Global.currentShip);
                 String requestBody = gson.toJson(Global.singlePlayerGame);
                 final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
                 Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
