@@ -45,20 +45,18 @@ public class ShipControllerImpl implements ShipController{
         try{
             player= (Player) actor.get();
             ship.setOwner(player);
-            shipRepository.save(ship);
-            Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),player).get();
+            Ship shipid = shipRepository.save(ship);
             return shipid.getId().toString();
-        }catch (Exception e){
-             ai= (AI) actor.get();
-             ship.setOwner(ai);
-            shipRepository.save(ship);
-            Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),ai).get();
+        }catch (Exception e) {
+            ai = (AI) actor.get();
+            ship.setOwner(ai);
+            Ship shipid = shipRepository.save(ship);
             return shipid.getId().toString();
         }
     }
 
-    @RequestMapping(value = "/shipstoadd",method = RequestMethod.POST)
-    public String addShip(@RequestBody List<Ship> ships) {
+    @RequestMapping(value = "/shipstoadd", method = RequestMethod.POST)
+    public String addShips(@RequestBody List<Ship> ships) {
         //Optional<Player> player= playerRepository.findByName( ship.getOwner().getName());
         /*Optional<Actor> actor= actorRepository.findByName( ship.getOwner().getName());
         Player player= new Player();

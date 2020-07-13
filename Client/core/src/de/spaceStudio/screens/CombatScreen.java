@@ -138,7 +138,7 @@ public class CombatScreen extends BaseScreen {
 
     }
 
-    /*private void logicOfFire() {
+    private void logicOfFire() {
 
         //Sections
         Global.currentShipGegner.getName();
@@ -240,7 +240,7 @@ public class CombatScreen extends BaseScreen {
                 }
                 break;
         }
-    }*/
+    }
     //ShotValidation
     ////Para ponerlas en la armas
     //encontrar la section que fue seleccionada
@@ -331,6 +331,7 @@ int counter=0;
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
         if(isFired){
+
             isFired=false;
         }
 

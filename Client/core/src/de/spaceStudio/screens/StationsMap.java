@@ -65,8 +65,6 @@ public class StationsMap extends BaseScreen {
     private ShipSelectScreen shipSelectScreen;
     private Boolean control=false;
     //
-    private Jumpservices jumpservices = new Jumpservices();
-    private Ship ship= Global.currentShip;
     private StopAbstract currentStop= Global.planet1;
     private List<Ship> shipList= new ArrayList<Ship>();
 
@@ -370,6 +368,12 @@ public class StationsMap extends BaseScreen {
     public void render(float delta) {
         super.render(delta);
         state += Gdx.graphics.getDeltaTime();
+        if(!shipList.isEmpty()&&control==false){
+            Global.currentShip=shipList.get(1);
+            Global.currentShipGegner=shipList.get(0);
+            game.setScreen(new CombatScreen(game));
+            control=true;
+        }
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
@@ -377,12 +381,6 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().draw(start_ship.getKeyFrame(state), 140, 250, 150,150);
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().end();
-        if(!shipList.isEmpty()&&control==false){
-            Global.currentShip=shipList.get(1);
-            Global.currentShipGegner=shipList.get(0);
-            game.setScreen(new CombatScreen(game));
-            control=true;
-        }
         stage.act();
         stage.draw();
 
