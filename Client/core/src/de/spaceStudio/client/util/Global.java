@@ -415,10 +415,12 @@ public class Global {
     public static List<AI> aisU1=new ArrayList<AI>(){{
         add(ai1);
         add(ai2);
+        add(ai3);
     }};
     public static void updateVariableaiu1(){
         ai1=aisU1.get(0);
         ai2=aisU1.get(1);
+        ai3=aisU1.get(2);
     }
     public static List<AI> aisU2=new ArrayList<AI>(){{
         add(ai1);
@@ -484,16 +486,19 @@ public class Global {
     public static List<Ship> shipsgegneru1 =new ArrayList<Ship>(){{
         add(shipGegner1);
         add(shipGegner2);
+        add(shipGegner3);
 
     }};
     public static void updateShipsVariabelgegneru1(){
         shipGegner1=shipsgegneru1.get(0);
         shipGegner2=shipsgegneru1.get(1);
+        shipGegner3=shipsgegneru1.get(2);
     }
     public static void updateShipsListgegneru1(){
         List<Ship> shipsgegneru1new =new ArrayList<Ship>(){{
             add(shipGegner1);
             add(shipGegner2);
+            add(shipGegner3);
         }};
         shipsgegneru1=shipsgegneru1new;
     }

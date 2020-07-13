@@ -562,6 +562,9 @@ public class ShipSelectScreen extends BaseScreen {
                         case "Shipgegner2":
                             s.setOwner(ai2);
                             break;
+                        case "Shipgegner3":
+                            s.setOwner(ai3);
+                            break;
                         default:
                             break;
                     }
@@ -588,6 +591,11 @@ public class ShipSelectScreen extends BaseScreen {
                     s.setShip(shipGegner2);
                     sectionsforU1.add(s);
                 }
+                for (Section s :
+                        Global.sectionsgegner3) {
+                    s.setShip(shipGegner3);
+                    sectionsforU1.add(s);
+                }
                 sendRequestAddSections(sectionsforU1, Net.HttpMethods.POST);
                 //man kann nicht das method clear an der list nutzen. deswegen sizeO
                 List<Section> sizeO = new ArrayList<>();
@@ -597,18 +605,23 @@ public class ShipSelectScreen extends BaseScreen {
             if (requestcounter == 11 && !sectionList.isEmpty()) {
                 List<Section> sectionsgegner1 = new ArrayList<>();
                 List<Section> sectionsgegner2 = new ArrayList<>();
+                List<Section> sectionsgegner3 = new ArrayList<>();
                 for (Section s :
                         sectionList) {
                     if (s.getShip().getName().equals("Shipgegner1")) {
                         sectionsgegner1.add(s);
                     } else if (s.getShip().getName().equals("Shipgegner2")) {
                         sectionsgegner2.add(s);
+                    }else if (s.getShip().getName().equals("Shipgegner3")) {
+                        sectionsgegner3.add(s);
                     }
                 }
                 Global.sectionsgegner1 = sectionsgegner1;
                 Global.updateVariblesSectionsGegner1();
                 Global.sectionsgegner2 = sectionsgegner2;
                 Global.updateVariblesSectionsGegner2();
+                Global.sectionsgegner3 = sectionsgegner3;
+                Global.updateVariblesSectionsGegner3();
                 requestcounter = 12;
             }
             //Planeten request
@@ -617,6 +630,7 @@ public class ShipSelectScreen extends BaseScreen {
                 shipsP1.add(currentShipPlayer);
                 shipsP2.add(shipGegner1);
                 shipsP3.add(shipGegner2);
+                shipsP4.add(shipGegner3);
                 for (Planet p :
                         Global.planetListU1) {
                     switch (p.getName()) {
@@ -630,7 +644,7 @@ public class ShipSelectScreen extends BaseScreen {
                             p.setShips(Global.shipsP3);
                             break;
                         case "p4":
-                            //  p.setShips(shipsP3);
+                            p.setShips(Global.shipsP4);
                             break;
                         case "p5":
                             // p.setShips(shipsP3);

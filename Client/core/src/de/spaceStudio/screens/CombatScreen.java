@@ -374,7 +374,7 @@ public class CombatScreen extends BaseScreen {
                 Gson gson = new Gson();
                 Section[] aiArray = gson.fromJson(SectionsGegner, Section[].class);
                 sectionsGernerResponse = Arrays.asList(aiArray);
-                System.out.println("statusCode sendRequestAddShip: " + statusCode);
+                System.out.println("statusCode makeAShot: " + statusCode);
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
