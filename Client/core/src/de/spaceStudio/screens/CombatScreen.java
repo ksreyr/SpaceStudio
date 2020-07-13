@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -18,12 +19,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.SectionTyp;
 import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.service.CombatService;
+
+import java.util.List;
 
 
 public class CombatScreen extends BaseScreen {
@@ -57,21 +64,19 @@ public class CombatScreen extends BaseScreen {
     private ImageButton engine, weapon, cockpit;
     int disappear = 570;
 
-    Ship shipPlayer = Global.currentShip;
-
     Sound rocketLaunch;
 
 
     //
-    CombatService cs = new CombatService();
 
     //
 
     public CombatScreen(MainClient game) {
         super(game);
 
+        OrthographicCamera camera = new OrthographicCamera(BaseScreen.WIDTH, BaseScreen.HEIGHT);
 
-        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new ExtendViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT, camera);
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
@@ -116,7 +121,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 //rocketLaunch.play();
-                System.out.println("FIRE...!");
+                logicOfFire();
                 isFired = true;
             }
         });
@@ -126,8 +131,7 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(cockpit);
     }
 
-    /*private void logicOfFire() {
-
+    private void logicOfFire() {
         //Sections
         Global.currentShipGegner.getName();
         switch (Global.currentShipGegner.getName()) {
@@ -228,7 +232,7 @@ public class CombatScreen extends BaseScreen {
                 }
                 break;
         }
-    }*/
+    }
     //ShotValidation
     ////Para ponerlas en la armas
     //encontrar la section que fue seleccionada

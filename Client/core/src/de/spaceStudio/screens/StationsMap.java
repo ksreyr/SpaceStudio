@@ -3,7 +3,6 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -13,7 +12,10 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -27,10 +29,9 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
-import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,7 +60,6 @@ public class StationsMap extends BaseScreen {
     private static int PLANET_SIZEY = 100;
     private int counter = 0;
     private float state = 0.0f;
-    private Sound jumpToPlanet, mouseClick;
 
     boolean isLast;
     private ShipSelectScreen shipSelectScreen;
@@ -294,8 +294,9 @@ public class StationsMap extends BaseScreen {
         ArrayList<StopAbstract> toChange = new ArrayList<StopAbstract>();
         toChange.add(currentStop);
         toChange.add(planet);
-        makeJumpRequest(toChange, Net.HttpMethods.POST);
-
+        if (shipList.isEmpty()) {
+            makeJumpRequest(toChange, Net.HttpMethods.POST);
+        }
     }
 
     public void makeJumpRequest(Object requestObject, String method) {
@@ -372,6 +373,7 @@ public class StationsMap extends BaseScreen {
             Global.currentShip=shipList.get(1);
             Global.currentShipGegner=shipList.get(0);
             game.setScreen(new CombatScreen(game));
+
             control=true;
         }
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
@@ -411,6 +413,7 @@ public class StationsMap extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
+        skin.dispose();
         stage.dispose();
     }
 
