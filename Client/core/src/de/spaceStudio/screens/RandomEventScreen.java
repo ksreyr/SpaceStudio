@@ -25,23 +25,19 @@ import java.util.Random;
 public class RandomEventScreen extends BaseScreen {
 
 
-    private MainClient universeMap;
     private MainClient mainClient;
     private Viewport viewport;
     private Stage stage;
     final TextArea textAreaUN;
 
 
-    private Skin skin;
-
 
     private Sound click;
 
     Dialog randomDialog;
 
-    AssetManager assetManager;
 
-    Skin skinButton;
+    Skin skin;
 
     private  String fight = "Fight Enemy";
 
@@ -49,15 +45,19 @@ public class RandomEventScreen extends BaseScreen {
 
     public RandomEventScreen(MainClient game) {
         super(game);
-        final Drawable drawable_station_unvisited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png"))); // FIXME texture
-        skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        this.universeMap = mainClient;
-        this.mainClient = mainClient;
-        assetManager = new AssetManager();
+        final Drawable drawable = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png"))); // FIXME texture
 
+        skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+
+        // Render the Fight Button
+        FightImgBTN = new ImageButton( drawable );
+        FightImgBTN.setPosition(250, 700);
+        FightImgBTN.setSize(20,20);
         textAreaUN = new TextArea(fight, skin);
 
-        eventStop(drawable_station_unvisited);
+        // Listen to these Buttons
+        hoverListener(FightImgBTN,textAreaUN);
+        eventStop(drawable);
         stage.addActor(FightImgBTN);
 
     }
@@ -104,11 +104,6 @@ public class RandomEventScreen extends BaseScreen {
     }
 
     private void eventStop(Drawable drawable_station_unvisited) {
-        FightImgBTN = new ImageButton( (drawable_station_unvisited) );
-        FightImgBTN.setPosition(250, 700);
-        FightImgBTN.setSize(20,20);
-        hoverListener(FightImgBTN,textAreaUN);
-        final Planet planet = Global.planet1;
         final int[] event_number = new int[1];
         FightImgBTN.addListener(new ChangeListener() {
             @Override
@@ -173,8 +168,8 @@ public class RandomEventScreen extends BaseScreen {
         randomDialog.button("Check out the other Ship", 1L);
         randomDialog.button("Check out the Station", 2L);
 
-        TextButton fire = new TextButton("Fire",skinButton,"big");
-        TextButton travel = new TextButton("Fire",skinButton,"big");
+        TextButton fire = new TextButton("Fire",skin,"big");
+        TextButton travel = new TextButton("Fire",skin,"big");
 
         Timer.schedule(new Timer.Task()
         {
