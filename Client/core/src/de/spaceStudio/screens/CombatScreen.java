@@ -9,7 +9,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -19,11 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
-import de.spaceStudio.assets.AssetDescriptors;
-import de.spaceStudio.assets.RegionNames;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.config.GameConfig;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
@@ -59,9 +55,9 @@ public class CombatScreen extends ScreenAdapter {
     private Texture background;
     private TextButton enableShield, enableEnemyShield;
 
-    private Texture missilleRight, missilleRightFired, explosion, missilleLeft, missilleLeftFired;
+    private Texture missilleRight,  explosion, missilleLeft, weaponSystem;
     int fuzeOffsetright,fuzeOffsetLeft;
-    private boolean isTargetSelected, isTargedEngine, isTargetCockpit, isTargetWeapon;
+    private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
     private ShapeRenderer shapeRenderer;
     private Skin  skinButton;
     boolean isWin;
@@ -76,6 +72,7 @@ public class CombatScreen extends ScreenAdapter {
     public static final int SPEED = 450;
     private int counterEngine = 0;
     private int counterCockpit = 0;
+    private int counterWeapon = 0;
 
     Weapon weapon = Global.weapon;
     float x=0;
@@ -134,6 +131,9 @@ public class CombatScreen extends ScreenAdapter {
         final Drawable cockpit_nat = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/PilotingSymbol.png"));
         final Drawable cockpit_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/PilotingRed.png"));
 
+        final Drawable weapon_section = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weaponEnemy.png"));
+        final Drawable weapon_section_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weapon_red.png"));
+
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
@@ -166,7 +166,7 @@ public class CombatScreen extends ScreenAdapter {
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                isTargedEngine = true;
+                isTargetEngine = true;
                 isTargetSelected=true;
                 w = true;
                 o = false;
@@ -176,6 +176,22 @@ public class CombatScreen extends ScreenAdapter {
             }
         });
 
+
+        weaponSection = new ImageButton(weapon_section);
+        weaponSection.setPosition(1450,500);
+        weaponSection.setSize(100,100);
+        weaponSection.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                w = true;
+                o = false;
+                d = false;
+                isTargetSelected = true;
+                isTargetWeapon = true;
+                weaponSection.getStyle().imageUp = weapon_section_red;
+
+            }
+        });
 
         cockpit = new ImageButton(cockpit_nat);
         cockpit.setPosition(1075,660);
@@ -234,6 +250,7 @@ public class CombatScreen extends ScreenAdapter {
         stage.addActor(engine);
         stage.addActor(cockpit);
         stage.addActor(enableShield);
+        stage.addActor(weaponSection);
 
 
 
@@ -326,10 +343,20 @@ public class CombatScreen extends ScreenAdapter {
                 rocketLaunch.play();
             }
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D) && isTargedEngine){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D) && isTargetEngine){
             counterEngine++;
             if(counterEngine < 4){
                 bullets.add(new Bullet(590,444));
+                rocketLaunch.play();
+            }
+
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W) && isTargetWeapon){
+            counterWeapon++;
+            if(counterWeapon < 4){
+                bullets.add(new Bullet(590,444));
+                //bullets.add(new Bullet(590,843));
                 rocketLaunch.play();
             }
 
@@ -346,6 +373,10 @@ public class CombatScreen extends ScreenAdapter {
         //explosion on enemy's engine
         if( counterEngine >= 3 && !isEnemyShield){
             stage.getBatch().draw(explosion,1515,422,100,100);
+        }
+
+        if( counterWeapon >= 3 && !isEnemyShield){
+            stage.getBatch().draw(explosion,1450,500,100,100);
         }
         //explosion on enemy's cockpit
         if( counterCockpit >= 2 && !isEnemyShield){
