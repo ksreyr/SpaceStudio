@@ -164,21 +164,6 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     /**
-     * Save the game
-     *
-     * @param player
-     */
-    @Override
-    @RequestMapping(value = "player/save-game", method = RequestMethod.POST)
-    public void saveGame(Player player) {
-        Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
-        if (fetchPlayer.isPresent()) {
-            // TODO
-            // craete new Issue
-        }
-    }
-
-    /**
      * Salt the password
      */
     @Override

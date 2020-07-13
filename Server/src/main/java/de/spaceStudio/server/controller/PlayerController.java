@@ -95,14 +95,6 @@ public interface PlayerController {
     @RequestMapping(value = "/player/logout", method = RequestMethod.POST)
     void logoutUser(@RequestBody Player player);
 
-    /**
-     * Save the game
-     *
-     * @param player
-     */
-    @RequestMapping(value = "player/save-game", method = RequestMethod.POST)
-    void saveGame(@RequestBody Player player);
-
     String hashPassword(String weakPassword);
 
     /**

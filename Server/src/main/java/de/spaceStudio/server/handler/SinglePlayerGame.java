@@ -36,6 +36,8 @@ public class SinglePlayerGame implements Serializable {
 
     private CrewMember crewMember;
 
+    private AI ai;
+
 
 
 
