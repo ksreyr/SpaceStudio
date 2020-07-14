@@ -38,7 +38,7 @@ import static de.spaceStudio.service.LoginService.logout;
 
 
 //Continue, New Game, Multiplayer Game, Options(Level Niveau), Exit
-public class MenuScreen extends ScreenAdapter  {
+public class MenuScreen extends ScreenAdapter {
 
     private final static Logger LOG = Logger.getLogger(MenuScreen.class.getName());
 
@@ -55,11 +55,12 @@ public class MenuScreen extends ScreenAdapter  {
     private Sound click;
     boolean isHover;
     private boolean isLoaded = false;
+    private String screenToLoad;
     //
-    PlayerDataService pds=new PlayerDataService();
+    PlayerDataService pds = new PlayerDataService();
     //
 
-    public MenuScreen(MainClient mainClient){
+    public MenuScreen(MainClient mainClient) {
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
@@ -70,7 +71,7 @@ public class MenuScreen extends ScreenAdapter  {
     public void show() {
         viewport = new FitViewport(GameConfig.WIDTH, GameConfig.HEIGHT);
         stage = new Stage(viewport, universeMap.getBatch());
-        click =  Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
+        click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
         sgxSkin = assetManager.get(AssetDescriptors.SGX_SKIN);
         gamePlayAtlas = assetManager.get(AssetDescriptors.BACKGROUND_AREA);
@@ -97,11 +98,12 @@ public class MenuScreen extends ScreenAdapter  {
                         LOG.info("statusCode: " + statusCode);
                         String responseJson = httpResponse.getResultAsString();
 
-                        if(statusCode == 200 && responseJson != null){
+                        if (statusCode == 200 && responseJson != null) {
                             Gson gson = new Gson();
                             LOG.info("Game load success for player: " + currentPlayer.getName());
                             singlePlayerGame = gson.fromJson(responseJson, SinglePlayerGame.class);
                             currentShipPlayer = singlePlayerGame.getShip();
+                            screenToLoad = singlePlayerGame.getLastScreen();
                             LOG.info(singlePlayerGame.getDifficult());
                             LOG.info(singlePlayerGame.getShip().toString());
                             isLoaded = true;
@@ -168,17 +170,30 @@ public class MenuScreen extends ScreenAdapter  {
     }
 
 
-
     // Called when the screen should render itself.
     @Override
     public void render(float delta) {
         GdxUtils.clearScreen();
         stage.act();
         stage.draw();
-        if(isLoaded){
-            mainClient.setScreen(new StationsMap(mainClient));
+        if (isLoaded) {
+            loadGameScreen();
         }
 
+    }
+
+    public void loadGameScreen() {
+        switch (screenToLoad) {
+            case "COMBAT":
+                mainClient.setScreen(new CombatScreen(mainClient));
+                break;
+            case "SHOP":
+                mainClient.setScreen(new StopScreen(mainClient));
+                break;
+            default:
+                mainClient.setScreen(new StationsMap(mainClient));
+                break;
+        }
     }
 
     // Called when the Application is resized.
@@ -189,11 +204,13 @@ public class MenuScreen extends ScreenAdapter  {
 
     // Called when the Application is paused, usually when it's not active or visible on-screen.
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     // Called when the Application is resumed from a paused state, usually when it regains focus.
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     // Called when this screen is no longer the current screen for a Game.
     @Override
@@ -206,7 +223,6 @@ public class MenuScreen extends ScreenAdapter  {
     public void dispose() {
         stage.dispose();
     }
-
 
 
 }

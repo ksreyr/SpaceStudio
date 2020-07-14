@@ -35,11 +35,14 @@ import de.spaceStudio.util.GdxUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
 public class CombatScreen extends BaseScreen {
+
+    private final static Logger LOG = Logger.getLogger(CombatScreen.class.getName());
 
     private MainClient universeMap;
     private final AssetManager assetManager;
@@ -221,6 +224,16 @@ public class CombatScreen extends BaseScreen {
 
 
         TextButton escape = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
+        escape.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                LOG.info("Button CLicked");
+
+                Gson gson = new Gson();
+                Global.singlePlayerGame.setLastScreen("COMBAT");
+            }
+        });
+
         escape.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

@@ -34,6 +34,7 @@ import thirdParties.GifDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.Global.*;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
@@ -42,6 +43,9 @@ import static de.spaceStudio.service.LoginService.logout;
 //“Sound effects obtained from https://www.zapsplat.com“
 
 public class ShipSelectScreen extends BaseScreen {
+
+    private final static Logger LOG = Logger.getLogger(ShipSelectScreen.class.getName());
+
     private Label usernameLabel, playersOnlineLabel, displayOnlinePlayerName;
 
     private static final int X_POSITION = 750;

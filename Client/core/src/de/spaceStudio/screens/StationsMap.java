@@ -37,7 +37,6 @@ import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 import java.util.Arrays;
 import java.util.List;
 
-import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 public class StationsMap extends BaseScreen {
 
@@ -313,9 +312,9 @@ public class StationsMap extends BaseScreen {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    LOG.info("Request Failed");
                 }
-                System.out.println("statusCode of the Jump: " + statusCode);
+                LOG.info("statusCode of the Jump: " + statusCode);
                 String shipsList = httpResponse.getResultAsString();
                 Gson gson = new Gson();
                 Ship[] aiArray = gson.fromJson(shipsList, Ship[].class);
@@ -382,7 +381,8 @@ public class StationsMap extends BaseScreen {
                 LOG.info("Button CLicked");
 
                 Gson gson = new Gson();
-                Global.singlePlayerGame.setShip(Global.currentShipGegner);
+                Global.singlePlayerGame.setShip(Global.currentShipPlayer);
+                Global.singlePlayerGame.setLastScreen("MAP");
                 String requestBody = gson.toJson(Global.singlePlayerGame);
                 final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
                 Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);

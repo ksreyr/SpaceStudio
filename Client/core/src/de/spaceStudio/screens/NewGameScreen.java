@@ -23,11 +23,14 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.config.GameConfig;
 import de.spaceStudio.util.GdxUtils;
 
+import java.util.logging.Logger;
+
 /**
  * NewGameScreen class
  */
 public class NewGameScreen extends ScreenAdapter {
 
+    private final static Logger LOG = Logger.getLogger(NewGameScreen.class.getName());
 
     private MainClient universeMap;
     private final AssetManager assetManager;
