@@ -3,6 +3,8 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -11,10 +13,7 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -31,6 +30,10 @@ import de.spaceStudio.server.model.StopAbstract;
 import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.logging.Logger;
+
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,13 +41,14 @@ import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 public class StationsMap extends BaseScreen {
 
+    private final static Logger LOG = Logger.getLogger(StationsMap.class.getName());
 
     private Stage stage;
     private Skin skin;
     private Texture background;
     private Viewport viewport;
     final TextArea textAreaUN, textAreaVIS;
-    private ImageButton planet1ImgBTN, planet2ImgBTN, planet3ImgBTN , planet4ImgBTN, planet5ImageBTN;
+    private ImageButton planet1ImgBTN, planet2ImgBTN, planet3ImgBTN, planet4ImgBTN, planet5ImageBTN;
     private ImageButton startPoint;
     Animation<TextureRegion> start_ship;
 
@@ -52,8 +56,8 @@ public class StationsMap extends BaseScreen {
     private static int POSY = 200;
     private MainClient mainClient;
 
-    private  String unvisited = "unvisited planet";
-    private  String visited = "visited planet";
+    private String unvisited = "unvisited planet";
+    private String visited = "visited planet";
 
     private static int PLANET_SIZEX = 100;
     private static int PLANET_SIZEY = 100;
@@ -63,11 +67,12 @@ public class StationsMap extends BaseScreen {
     boolean isLast, test;
     private ShipSelectScreen shipSelectScreen;
     private Boolean control=false;
-    //
+    private TextButton saveGameButton;
     private StopAbstract currentStop= Global.planet1;
     private List<Ship> shipList= new ArrayList<Ship>();
 
     //
+    private boolean isGameSaved = false;
 
     public StationsMap(final MainClient game) {
         super(game);
@@ -144,7 +149,7 @@ public class StationsMap extends BaseScreen {
 
                     }
                 };
-                actionDialog( dialog,"Planet 3 --> Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                actionDialog(dialog, "Planet 3 --> Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                         " Lorem Ipsum has been the industry's standard dummy\n" +
                         " text ever since the 1500s, when an unknown printer \n" +
                         "took a galley of type and scrambled it to make a type specimen book." +
@@ -153,6 +158,8 @@ public class StationsMap extends BaseScreen {
 
             }
         });
+
+
     }
 
 
@@ -343,6 +350,7 @@ public class StationsMap extends BaseScreen {
                 img.addActor(textArea);
 
             }
+
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
@@ -359,6 +367,49 @@ public class StationsMap extends BaseScreen {
 
 
         super.show();
+        saveGameButton = new TextButton("Save game", skin);
+        saveGameButton.setTransform(true);
+        saveGameButton.setScaleX(1.8f);
+        saveGameButton.setScaleY(1.5f);
+        saveGameButton.setPosition(BaseScreen.WIDTH - 250, BaseScreen.HEIGHT - 180);
+        saveGameButton.getLabel().setColor(Color.WHITE);
+        saveGameButton.getLabel().setFontScale(1.25f, 1.25f);
+        saveGameButton.setSize(90, 50);
+
+
+        saveGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                LOG.info("Button CLicked");
+
+                Gson gson = new Gson();
+                String requestBody = gson.toJson(Global.singlePlayerGame);
+                final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
+                Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
+                Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        int statusCode = httpResponse.getStatus().getStatusCode();
+                        String responseJson = httpResponse.getResultAsString();
+                        if (responseJson.equals("202 ACCEPTED")) {
+                            LOG.info("Success save game");
+                        } else {
+                            LOG.info("Error saving game");
+                        }
+                    }
+
+                    @Override
+                    public void failed(Throwable t) {
+                    }
+
+                    @Override
+                    public void cancelled() {
+                    }
+                });
+
+
+            }
+        });
+        stage.addActor(saveGameButton);
     }
 
     @Override
@@ -378,8 +429,8 @@ public class StationsMap extends BaseScreen {
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
-        stage.getBatch().draw(background,0,0,BaseScreen.WIDTH,BaseScreen.HEIGHT);
-        stage.getBatch().draw(start_ship.getKeyFrame(state), 140, 250, 150,150);
+        stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        stage.getBatch().draw(start_ship.getKeyFrame(state), 140, 250, 150, 150);
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().end();
         stage.act();
@@ -390,7 +441,7 @@ public class StationsMap extends BaseScreen {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-        viewport.update(width,height);
+        viewport.update(width, height);
 
     }
 

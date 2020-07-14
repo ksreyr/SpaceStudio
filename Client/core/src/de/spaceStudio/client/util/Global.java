@@ -137,6 +137,15 @@ public class Global {
      */
     public static final String WEAPONS_SHIP_CREATION_ENDPOINT = "/listweapons";
     /**
+     * Player load game endpoint
+     */
+    public static final String PLAYER_CONTINUE_ENDPOINT = "/game/load/";
+
+    /**
+     * Player save game endpoint
+     */
+    public static final String PLAYER_SAVE_GAME = "/game/save/";
+    /**
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
@@ -1028,7 +1037,6 @@ public class Global {
     public static List<Ship> shipsP4=new ArrayList<Ship>();
     public static List<Ship> shipsP5=new ArrayList<Ship>();
     public static List<Ship> shipsP6=new ArrayList<Ship>();
-
 
 
 }

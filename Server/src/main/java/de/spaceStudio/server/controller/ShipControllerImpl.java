@@ -52,7 +52,11 @@ public class ShipControllerImpl implements ShipController{
             ship.setOwner(ai);
             Ship shipid = shipRepository.save(ship);
             return shipid.getId().toString();
-        }
+        }/*
+        ship.setOwner(actor.get());
+        shipRepository.save(ship);
+        Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),actor.get()).get();
+        return shipid.getId().toString();*/
     }
 
     @RequestMapping(value = "/shipstoadd", method = RequestMethod.POST)
