@@ -1,18 +1,13 @@
 package de.spaceStudio.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
- import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import de.spaceStudio.MainClient;
-import de.spaceStudio.assets.Assets;
 
 import java.util.Random;
 
@@ -39,7 +34,7 @@ public class StopScreen  extends ScreenAdapter {
         return r.nextInt((max - min) + 1) + min;
     }
 
-    String event_outcome(int event){
+    String event_description(int event){
         String result;
         switch (event) {
             case 0:
@@ -117,7 +112,7 @@ public class StopScreen  extends ScreenAdapter {
                     new Dialog("After a while:", skin) {
 
                         {
-                            String outcome = event_outcome(event_number);
+                            String outcome = event_description(event_number);
                             text(outcome);
                             button("Flee", 1l);
                             button("Fight", 2l);
@@ -131,12 +126,12 @@ public class StopScreen  extends ScreenAdapter {
                                 game.setScreen(new CombatScreen(game));
                                 // IF there is an enemy
 
-                            } else {
+                            } else  if (object.equals(1l)){
                                 new Dialog("Go back to Map", skin) {
 
                                     {
                                         text("You have seen Enough. You go back to your Cockpit");
-                                        button("OK", 1l).getButtonTable().row();
+                                        button("View Map", 1l).getButtonTable().row();
                                     }
 
                                     @Override
@@ -148,7 +143,11 @@ public class StopScreen  extends ScreenAdapter {
 
                         }
                     }.show(stage);
+                } else  if (object.toString() == "true") {
+                    game.setScreen(new StationsMap(game));
                 }
+
+
             }
             }.show(stage);
     }
