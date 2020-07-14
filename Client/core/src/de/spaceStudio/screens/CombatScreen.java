@@ -35,6 +35,7 @@ import de.spaceStudio.util.GdxUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
@@ -82,6 +83,7 @@ public class CombatScreen extends BaseScreen {
     private int counterEngine = 0;
     private int counterCockpit = 0;
     private int counterWeapon = 0;
+    private int randomNumber;
 
     float x=0;
 
@@ -242,6 +244,9 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(escape);
 
         Gdx.input.setInputProcessor(stage);
+    }
+    public int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 
 
@@ -483,16 +488,18 @@ public class CombatScreen extends BaseScreen {
         //A
         //Logic
         //Create and launch missiles
-        if(Gdx.input.isKeyJustPressed(Input.Keys.A) && isTargetCockpit){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetCockpit){
             logicOfFire();
+            randomNumber = (int) ((Math.random() * (20)) + 0);
             counterCockpit++;
             if(counterCockpit < 3){
                 bullets.add(new Bullet(590,843))  ;
                 rocketLaunch.play();
             }
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D) && isTargetEngine){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetEngine){
             counterEngine++;
+            randomNumber = (int) ((Math.random() * (20)) + 0);
             if(counterEngine < 4){
                 bullets.add(new Bullet(590,444));
                 rocketLaunch.play();
@@ -500,11 +507,11 @@ public class CombatScreen extends BaseScreen {
 
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.W) && isTargetWeapon){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetWeapon){
             counterWeapon++;
+            randomNumber = (int) ((Math.random() * (20)) + 0);
             if(counterWeapon < 4){
                 bullets.add(new Bullet(590,444));
-                //bullets.add(new Bullet(590,843));
                 rocketLaunch.play();
             }
 
@@ -514,14 +521,21 @@ public class CombatScreen extends BaseScreen {
         //shield for enemy
         if(isEnemyShield) stage.getBatch().draw(shield,1120,150,900,1000);
 
-        //explosion weapon
-        //if(counterEngi >= 2)
-        //    stage.getBatch().draw(explosion,1450,500,100,100);
 
+        //explosion on player sections
+        //on healthpoint
+        if(randomNumber == 2)
+        stage.getBatch().draw(explosion,700,520,100,100);
+        //on cockpit
+        if(randomNumber == 3)
+        stage.getBatch().draw(explosion,710,670,100,100);
+        //engine
+        if(randomNumber == 4)
+            stage.getBatch().draw(explosion,445,395,100,100);
+        //on weapon system
+        if(randomNumber == 5)
+        stage.getBatch().draw(explosion,555,520,100,100);
 
-        //explosion on player
-        if(counterEngine >= 2)
-            stage.getBatch().draw(explosion,550,520,100,100);
 
         //explosion on enemy's engine
         if( counterEngine >= 3 && !isEnemyShield){
@@ -546,7 +560,6 @@ public class CombatScreen extends BaseScreen {
         }
 
         bulletToRemove.removeAll(bulletToRemove);
-
         stage.getBatch().end();
         mainClient.getBatch().begin();
         for (Bullet bullet:bullets ) {

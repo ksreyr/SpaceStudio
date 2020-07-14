@@ -76,7 +76,6 @@ public class StationsMap extends BaseScreen {
 
     //
     private boolean isGameSaved = false;
-
     public StationsMap(final MainClient game) {
         super(game);
         this.mainClient = game;

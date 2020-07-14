@@ -17,6 +17,7 @@ public class MainClient extends Game {
 	private SpriteBatch batch;
 
 	private StopScreen stopScreen;
+	private CombatScreen combatScreen;
 
 
 
