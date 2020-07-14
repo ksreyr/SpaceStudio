@@ -44,6 +44,8 @@ public class StopScreen  extends ScreenAdapter {
 
             case 1:
                 result = "You meet an Enemy Ship, it Starts attackng you";
+
+
                 // TODO SetScreen Fight
 
                 break;
@@ -143,7 +145,7 @@ public class StopScreen  extends ScreenAdapter {
 
                         }
                     }.show(stage);
-                } else  if (object.toString() == "true") {
+                } else  if (object.toString() == "false") {
                     game.setScreen(new StationsMap(game));
                 }
 
