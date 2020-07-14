@@ -16,6 +16,10 @@ public class MainClient extends Game {
 	public LoginScreen loginScreen;
 	private SpriteBatch batch;
 
+	private RandomEventScreen randomEventScreen;
+
+	private StopScreen stopScreen;
+
 
 
 	@Override
@@ -25,8 +29,11 @@ public class MainClient extends Game {
 		assetManager.finishLoading();
 		loginScreen = new LoginScreen(this, assetManager);
 		batch = new SpriteBatch();
-	    setScreen(loginScreen);
+		randomEventScreen = new RandomEventScreen(this);
+		stopScreen = new StopScreen(this);
 
+//	    setScreen(randomEventScreen);
+		setScreen(loginScreen);
 	}
 
 	public AssetManager getAssetManager() {

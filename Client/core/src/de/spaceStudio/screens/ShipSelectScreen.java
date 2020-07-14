@@ -512,7 +512,6 @@ public class ShipSelectScreen extends BaseScreen {
             requestcounter = 3;
             requestcounter = 4;
         }
-        //Updated Global CrewMember
         if (!crewMemberList.isEmpty() && requestcounter == 4) {
             Global.crewMemberList = crewMemberList;
             Global.updateVariableCrewMembersPlayer();

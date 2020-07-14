@@ -27,6 +27,7 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
+import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
@@ -66,7 +67,10 @@ public class StationsMap extends BaseScreen {
 
     boolean isLast, test;
     private ShipSelectScreen shipSelectScreen;
+
+    //
     private Boolean control=false;
+    private Jumpservices jumpservices = new Jumpservices();
     private TextButton saveGameButton;
     private StopAbstract currentStop= Global.planet1;
     private List<Ship> shipList= new ArrayList<Ship>();
@@ -422,7 +426,7 @@ public class StationsMap extends BaseScreen {
             }catch (Exception e){
                 Global.currentShipPlayer =shipList.get(0);
             }
-            mainClient.setScreen(new CombatScreen(game));
+            mainClient.setScreen(new StopScreen(game));
             control=true;
         }
         state += Gdx.graphics.getDeltaTime();
