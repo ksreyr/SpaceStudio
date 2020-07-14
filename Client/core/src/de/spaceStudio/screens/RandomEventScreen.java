@@ -26,7 +26,6 @@ import java.util.Random;
 public class RandomEventScreen extends BaseScreen {
 
 
-    private MainClient mainClient;
     private Viewport viewport;
     private Stage stage;
     TextArea textAreaUN;
