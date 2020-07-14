@@ -42,15 +42,15 @@ public class StopScreen extends ScreenAdapter {
         String result;
         switch (event) {
             case 0:
-                int life = Global.currentShip.getHp() + getRandomNumberInRange(1, 50);
-                Global.currentShip.setHp(life);
+                int life = Global.currentShipPlayer.getHp() + getRandomNumberInRange(1, 50);
+                Global.currentShipPlayer.setHp(life);
                 result = "You got lucky. You find dearly needed Spare Parts. Current HP = " + life;
                 break;
 
 
             case 1:
                 int n = 0;
-                int weapon_dammage = Global.currentShip.getHp() + getRandomNumberInRange(1, 50);
+                int weapon_dammage = Global.currentShipPlayer.getHp() + getRandomNumberInRange(1, 50);
                 Weapon wepaon = Global.weaponListPlayer.get(n);
                 wepaon.setDamage(weapon_dammage);
                 Global.weaponListPlayer.set(n, wepaon);
@@ -58,21 +58,21 @@ public class StopScreen extends ScreenAdapter {
                 break;
 
             case 2:
-                int dammage = Global.currentShip.getHp() + getRandomNumberInRange(1, 50);
-                Global.currentShip.setHp(dammage);
+                int dammage = Global.currentShipPlayer.getHp() + getRandomNumberInRange(1, 50);
+                Global.currentShipPlayer.setHp(dammage);
                 result = "Just when you wanted to Dock at the Station you get hit by a Comet";
                 // Loose live
                 break;
 
             case 3:
-                int shield = Global.currentShip.getShield() + getRandomNumberInRange(1, 50);
-                Global.currentShip.setShield(shield);
+                int shield = Global.currentShipPlayer.getShield() + getRandomNumberInRange(1, 50);
+                Global.currentShipPlayer.setShield(shield);
                 result = "At the abandoned Space Dock there is a Big Box. \n It contains an extra Shield\nShield = " + shield;
                 break;
 
             case 4:
-                int shieldDammage = Global.currentShip.getShield() - getRandomNumberInRange(1, 50);
-                Global.currentShip.setShield(shieldDammage);
+                int shieldDammage = Global.currentShipPlayer.getShield() - getRandomNumberInRange(1, 50);
+                Global.currentShipPlayer.setShield(shieldDammage);
                 result = "You approach the Station. \n A bomb explodes directly next to the Cockpit. \nShield = " + shieldDammage;
                 break;
 
@@ -82,7 +82,7 @@ public class StopScreen extends ScreenAdapter {
                 c.setHealth(health);
                 //c.getImg() // FIXME which List
                 c.setName("Hubert"); // TODO Liam add faker
-                c.setCurrentSection(Global.sectionPlayerList.get(0));
+                c.setCurrentSection(Global.sectionsPlayerList.get(0));
                 // FIXME update Backend
 
             default:
