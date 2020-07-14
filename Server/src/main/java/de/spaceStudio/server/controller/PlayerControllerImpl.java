@@ -230,10 +230,13 @@ public class PlayerControllerImpl implements PlayerController {
                                 System.out.println("not CrewMember to erase");
                             }
                             if(weaponRepository.findBySection(section).isPresent()){
-                                Weapon weapon=weaponRepository.findBySection(section).get();
-                                weaponRepository.delete(weapon);
+                                List<Weapon> weapons=weaponRepository.findBySection(section).get();
+                                for (Weapon w :
+                                        weapons) {
+                                    weaponRepository.delete(w);
+                                }
                             }else {
-                                System.out.println("not Section to erase");
+                                System.out.println("not Weapon to erase");
                             }
                             sectionRepository.delete(section);
                         }

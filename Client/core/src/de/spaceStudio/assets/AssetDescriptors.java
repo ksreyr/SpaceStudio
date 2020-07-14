@@ -4,7 +4,7 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-public class AssetDescriptors {
+public abstract class AssetDescriptors {
 
 
 
@@ -21,7 +21,6 @@ public class AssetDescriptors {
 
     public static final AssetDescriptor<TextureAtlas> BACKGROUND_LOGIN =
             new AssetDescriptor<>(AssetPaths.BACKGROUND_LOGIN, TextureAtlas.class);
-
 
     private AssetDescriptors() {
     }

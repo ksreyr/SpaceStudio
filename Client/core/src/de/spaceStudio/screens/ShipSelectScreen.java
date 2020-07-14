@@ -49,7 +49,7 @@ public class ShipSelectScreen extends BaseScreen {
     private static final int SHIP_WIDTH = 500;
     private static final int SHIP_HEIGHT = 500;
 
-    private final MainClient ships;
+    private final MainClient mainClient;
     private SpriteBatch batch;
     private BitmapFont font;
 
@@ -106,7 +106,6 @@ public class ShipSelectScreen extends BaseScreen {
     int requestcounter = 0;
     String responseJson;
 
-    Boolean airesquesSent = false;
     List<Section> sectionList = new ArrayList<>();
     List<CrewMember> crewMemberList = new ArrayList<>();
     List<AI> aiList = new ArrayList<>();
@@ -121,7 +120,7 @@ public class ShipSelectScreen extends BaseScreen {
     //
     public ShipSelectScreen(MainClient game) {
         super(game);
-        this.ships = game;
+        this.mainClient = game;
         // Clear cache before reload data again to avoid fake numbers
         playersOnline.clear();
         // download data
@@ -129,7 +128,6 @@ public class ShipSelectScreen extends BaseScreen {
 
         OrthographicCamera camera = new OrthographicCamera(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         viewport = new ExtendViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT, camera);
-        //viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
 
         Gdx.input.setInputProcessor(stage);
@@ -158,7 +156,7 @@ public class ShipSelectScreen extends BaseScreen {
         usernameLabel = new Label("Pruebe", skinButton);
         usernameLabel.setPosition(100, 350);
         stage.addActor(usernameLabel);
-        background = new Texture(Gdx.files.internal("Client/core/assets/data/ast.jpg"));
+        background = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/shipSelectionBG.jpg"));
         shapeRenderer = new ShapeRenderer();
         mouseClick = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
@@ -469,22 +467,22 @@ public class ShipSelectScreen extends BaseScreen {
         if (requestcounter == 1) {
             if (responseJson != null && !responseJson.isEmpty()) {
                 ship.setId(Integer.valueOf(responseJson));
-                Global.currentShip = ship;
+                Global.currentShipPlayer = ship;
                 //Ship to Sections
                 for (Section s :
-                        Global.sectionPlayerList) {
+                        Global.sectionsPlayerList) {
                     s.setShip(ship);
                 }
             }
             //Sent Sections
-            sendRequestAddSections(Global.sectionPlayerList, Net.HttpMethods.POST);
+            sendRequestAddSections(Global.sectionsPlayerList, Net.HttpMethods.POST);
             requestcounter = 2;
         }
 
         /*Added sectionList*/
         if (!sectionList.isEmpty() && requestcounter == 2) {
             //Section with ID
-            Global.sectionPlayerList = sectionList;
+            Global.sectionsPlayerList = sectionList;
             //Update Section variables
             updateVariableSectionShipPlayer();
             //Set crewMemebers
@@ -519,7 +517,7 @@ public class ShipSelectScreen extends BaseScreen {
             Global.updateVariableCrewMembersPlayer();
             requestcounter = 5;
         }
-
+        //Add Universe
         if (requestcounter == 5) {
             if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
                 universe2.setName(universe2.getName() + currentPlayer.getName());
@@ -533,173 +531,464 @@ public class ShipSelectScreen extends BaseScreen {
             }
             requestcounter = 6;
         }
+        //updated Universe
         if (requestcounter == 6 && universeID != 0) {
             if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
                 Global.universe2.setId(universeID);
                 currentUniverse = Global.universe2;
-                //AISFORU2
+                sendRequestAisCreation(Global.aisU2, Net.HttpMethods.POST);
             } else {
                 Global.universe1.setId(universeID);
                 currentUniverse = Global.universe1;
                 sendRequestAisCreation(Global.aisU1, Net.HttpMethods.POST);
-                requestcounter = 7;
-            }
-        }
-        if (requestcounter == 7 && !aiList.isEmpty()) {
-            Global.aisU1 = aiList;
-            Global.updateVariableaiu1();
-            requestcounter = 8;
-        }
-        if (requestcounter == 8) {
-            //UNIVERSE2????
-            for (Ship s :
-                    shipsgegneru1) {
-                switch (s.getName()) {
-                    case "Shipgegner1":
-                        s.setOwner(ai1);
-                        break;
-                    case "Shipgegner2":
-                        s.setOwner(ai2);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            sendRequestAddShips(shipsgegneru1, Net.HttpMethods.POST);
-            requestcounter = 9;
-        }
 
-        if (!shipsgerner.isEmpty() && requestcounter == 9) {
-            Global.shipsgegneru1 = shipsgerner;
-            Global.updateShipsVariabelgegneru1();
-            requestcounter = 10;
-        }
-
-        if (requestcounter == 10) {
-            List<Section> sectionsforU1 = new ArrayList<Section>();
-            for (Section s :
-                    Global.sectionsgegner1) {
-                s.setShip(shipGegner1);
-                sectionsforU1.add(s);
             }
-            for (Section s :
-                    Global.sectionsgegner2) {
-                s.setShip(shipGegner2);
-                sectionsforU1.add(s);
-            }
-            sendRequestAddSections(sectionsforU1, Net.HttpMethods.POST);
-            //man kann nicht das method clear an der list nutzen. deswegen sizeO
-            List<Section> sizeO = new ArrayList<>();
-            sectionList = sizeO;
-            requestcounter = 11;
+            requestcounter = 7;
         }
-        if (requestcounter == 11 && !sectionList.isEmpty()) {
-            List<Section> sectionsgegner1 = new ArrayList<>();
-            List<Section> sectionsgegner2 = new ArrayList<>();
-            for (Section s :
-                    sectionList) {
-                if (s.getShip().getName().equals("Shipgegner1")) {
-                    sectionsgegner1.add(s);
-                } else if (s.getShip().getName().equals("Shipgegner2")) {
-                    sectionsgegner2.add(s);
+        //DIFERENT OBJECTE IN DIFFENTEN UNIVERSE
+        if (levelDifficult == Difficult.EASY.getLevelCode()) {
+            if (requestcounter == 7 && !aiList.isEmpty()) {
+                Global.aisU1 = aiList;
+                Global.updateVariableaiu1();
+                requestcounter = 8;
+            }
+            if (requestcounter == 8) {
+                for (Ship s :
+                        shipsgegneru1) {
+                    switch (s.getName()) {
+                        case "Shipgegner1":
+                            s.setOwner(ai1);
+                            break;
+                        case "Shipgegner2":
+                            s.setOwner(ai2);
+                            break;
+                        case "Shipgegner3":
+                            s.setOwner(ai3);
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                sendRequestAddShips(shipsgegneru1, Net.HttpMethods.POST);
+                requestcounter = 9;
             }
-            Global.sectionsgegner1=sectionsgegner1;
-            Global.updateVariblesGegner1();
-            Global.sectionsgegner2=sectionsgegner2;
-            Global.updateVariblesGegner2();
-            requestcounter = 12;
-        }
-        //Planeten request
-        if (requestcounter == 12) {
-            //Universe1
-            shipsP1.add(currentShip);
-            shipsP2.add(shipGegner1);
-            shipsP3.add(shipGegner2);
-            for (Planet p :
-                    Global.planetList) {
-                switch (p.getName()) {
-                    case "p1":
-                        p.setShips(Global.shipsP1);
-                        break;
-                    case "p2":
-                        p.setShips(Global.shipsP2);
-                        break;
-                    case "p3":
-                        p.setShips(Global.shipsP3);
-                        break;
-                    case "p4":
-                        //  p.setShips(shipsP3);
-                        break;
-                    case "p5":
-                        // p.setShips(shipsP3);
-                        break;
-                    default:
-                        break;
-                }
-                p.setUniverse(currentUniverse);
-            }
-            sendRequestAddPlanets(planetList, Net.HttpMethods.POST);
-            requestcounter = 13;
-        }
-        if (!planets.isEmpty() && requestcounter == 13) {
-            Global.planetList = planets;
-            Global.updateVariblesPlanets();
-            List<Planet> size0 = new ArrayList<>();
-            planets = size0;
-            requestcounter = 14;
-        }
-        if (requestcounter == 14) {
-            for (Station s :
-                    stationList) {
-                s.setUniverse(currentUniverse);
-            }
-            sendRequestAddStation(stationList, Net.HttpMethods.POST);
-            requestcounter = 15;
-        }
-        if (requestcounter == 15 && !stations.isEmpty()) {
-            stationList = stations;
-            Global.updateVariblesStations();
-            List<Station> sizeO = new ArrayList<>();
-            stations = sizeO;
-            requestcounter = 16;
-        }
-        if (requestcounter == 16) {
-            Global.shopRessourceList.get(0).setStation(station1);
-            Global.shopRessourceList.get(1).setStation(station2);
 
-            sendRequestAddShopRessources(Global.shopRessourceList, Net.HttpMethods.POST);
-            requestcounter = 17;
-        }
-        if (requestcounter == 17 && !shopRessources.isEmpty()) {
-            Global.shopRessourceList = shopRessources;
-            Global.updateVariblesshopRessource();
-            requestcounter = 18;
-        }
-        if (requestcounter == 18) {
-            shipRessource.setShip(currentShip);
-            sendRequestAddShipRessource(shipRessource, Net.HttpMethods.POST);
-            requestcounter = 19;
-        }
-        if (requestcounter == 19 && shipRessourceID != 0) {
-            shipRessource.setId(shipRessourceID);
-            requestcounter = 20;
-        }
-        if(requestcounter==20){
-            for (Weapon w :
-                    weaponListPlayer) {
-                w.setSection(section2);
+            if (!shipsgerner.isEmpty() && requestcounter == 9) {
+                Global.shipsgegneru1 = shipsgerner;
+                Global.updateShipsVariabelgegneru1();
+                requestcounter = 10;
             }
-            sendRequestAddWeapon(weaponListPlayer,Net.HttpMethods.POST);
-            requestcounter=21;
-        }
-        if(!weapons.isEmpty()&&requestcounter==21){
-            weaponListPlayer=weapons;
-            Global.updateweaponVariabel();
-            requestcounter=22;
-        }
-        if(requestcounter==22){
-            ships.setScreen(new StationsMap(game));
+
+            if (requestcounter == 10) {
+                List<Section> sectionsforU1 = new ArrayList<Section>();
+                for (Section s :
+                        Global.sectionsgegner1) {
+                    s.setShip(shipGegner1);
+                    sectionsforU1.add(s);
+                }
+                for (Section s :
+                        Global.sectionsgegner2) {
+                    s.setShip(shipGegner2);
+                    sectionsforU1.add(s);
+                }
+                for (Section s :
+                        Global.sectionsgegner3) {
+                    s.setShip(shipGegner3);
+                    sectionsforU1.add(s);
+                }
+                sendRequestAddSections(sectionsforU1, Net.HttpMethods.POST);
+                //man kann nicht das method clear an der list nutzen. deswegen sizeO
+                List<Section> sizeO = new ArrayList<>();
+                sectionList = sizeO;
+                requestcounter = 11;
+            }
+            if (requestcounter == 11 && !sectionList.isEmpty()) {
+                List<Section> sectionsgegner1 = new ArrayList<>();
+                List<Section> sectionsgegner2 = new ArrayList<>();
+                List<Section> sectionsgegner3 = new ArrayList<>();
+                for (Section s :
+                        sectionList) {
+                    if (s.getShip().getName().equals("Shipgegner1")) {
+                        sectionsgegner1.add(s);
+                    } else if (s.getShip().getName().equals("Shipgegner2")) {
+                        sectionsgegner2.add(s);
+                    }else if (s.getShip().getName().equals("Shipgegner3")) {
+                        sectionsgegner3.add(s);
+                    }
+                }
+                Global.sectionsgegner1 = sectionsgegner1;
+                Global.updateVariblesSectionsGegner1();
+                Global.sectionsgegner2 = sectionsgegner2;
+                Global.updateVariblesSectionsGegner2();
+                Global.sectionsgegner3 = sectionsgegner3;
+                Global.updateVariblesSectionsGegner3();
+                requestcounter = 12;
+            }
+            //Planeten request
+            if (requestcounter == 12) {
+                //Universe1
+                shipsP1.add(currentShipPlayer);
+                shipsP2.add(shipGegner1);
+                shipsP3.add(shipGegner2);
+                shipsP4.add(shipGegner3);
+                for (Planet p :
+                        Global.planetListU1) {
+                    switch (p.getName()) {
+                        case "p1":
+                            p.setShips(Global.shipsP1);
+                            break;
+                        case "p2":
+                            p.setShips(Global.shipsP2);
+                            break;
+                        case "p3":
+                            p.setShips(Global.shipsP3);
+                            break;
+                        case "p4":
+                            p.setShips(Global.shipsP4);
+                            break;
+                        case "p5":
+                            // p.setShips(shipsP3);
+                            break;
+                        default:
+                            break;
+                    }
+                    p.setUniverse(currentUniverse);
+                }
+                sendRequestAddPlanets(planetListU1, Net.HttpMethods.POST);
+                requestcounter = 13;
+            }
+            if (!planets.isEmpty() && requestcounter == 13) {
+                Global.planetListU1 = planets;
+                Global.updateVariblesPlanetsU1();
+                List<Planet> size0 = new ArrayList<>();
+                planets = size0;
+                requestcounter = 14;
+            }
+            if (requestcounter == 14) {
+                for (Station s :
+                        stationListU1) {
+                    s.setUniverse(currentUniverse);
+                }
+                sendRequestAddStation(stationListU1, Net.HttpMethods.POST);
+                requestcounter = 15;
+            }
+            if (requestcounter == 15 && !stations.isEmpty()) {
+                stationListU1 = stations;
+                Global.updateVariblesStationsU1();
+                List<Station> sizeO = new ArrayList<>();
+                stations = sizeO;
+                requestcounter = 16;
+            }
+            if (requestcounter == 16) {
+                Global.shopRessourceList.get(0).setStation(station1);
+                Global.shopRessourceList.get(1).setStation(station2);
+                sendRequestAddShopRessources(Global.shopRessourceList, Net.HttpMethods.POST);
+                requestcounter = 17;
+            }
+            if (requestcounter == 17 && !shopRessources.isEmpty()) {
+                Global.shopRessourceList = shopRessources;
+                Global.updateVariblesshopRessource();
+                requestcounter = 18;
+            }
+            if (requestcounter == 18) {
+                shipRessource.setShip(currentShipPlayer);
+                sendRequestAddShipRessource(shipRessource, Net.HttpMethods.POST);
+                requestcounter = 19;
+            }
+            if (requestcounter == 19 && shipRessourceID != 0) {
+                shipRessource.setId(shipRessourceID);
+                requestcounter = 20;
+            }
+            if (requestcounter == 20) {
+                List<Weapon> weaponsUniver1=new ArrayList<>();
+                for (Weapon w :
+                        weaponListPlayer) {
+                    w.setSection(section2);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner1){
+                    w.setSection(section3Gegner);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner2){
+                    w.setSection(section3Gegner2);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner3){
+                    w.setSection(section3Gegner3);
+                    weaponsUniver1.add(w);
+                }
+                sendRequestAddWeapon(weaponsUniver1, Net.HttpMethods.POST);
+                requestcounter = 21;
+            }
+            if (!weapons.isEmpty() && requestcounter == 21) {
+                weaponListUniverse1 = weapons;
+                Global.updateweaponVariabelUniverse1();
+                System.out.println("ControlUniverse1:"+weapon1Player);
+
+                requestcounter = 22;
+            }
+            if (requestcounter == 22) {
+                mainClient.setScreen(new StationsMap(game));
+                requestcounter = 23;
+            }
+            //
+            //
+            //OBJECTE UNIVERSE 2
+            //
+            //
+        } else {
+            if (requestcounter == 7 && !aiList.isEmpty()) {
+                Global.aisU2 = aiList;
+                Global.updateVariableaiu2();
+                requestcounter = 8;
+            }
+            if (requestcounter == 8) {
+                for (Ship s :
+                        shipsgegneru2) {
+                    switch (s.getName()) {
+                        case "Shipgegner1":
+                            s.setOwner(ai1);
+                            break;
+                        case "Shipgegner2":
+                            s.setOwner(ai2);
+                            break;
+                        case "Shipgegner3":
+                            s.setOwner(ai3);
+                            break;
+                        case "Shipgegner4":
+                            s.setOwner(ai4);
+                            break;
+                        case "Shipgegner5":
+                            s.setOwner(ai5);
+                            break;
+                        case "Shipgegner6":
+                            s.setOwner(ai6);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                sendRequestAddShips(shipsgegneru2, Net.HttpMethods.POST);
+                requestcounter = 9;
+            }
+
+            if (!shipsgerner.isEmpty() && requestcounter == 9) {
+                Global.shipsgegneru2 = shipsgerner;
+                Global.updateShipsVariabelgegneru2();
+                requestcounter = 10;
+            }
+
+            if (requestcounter == 10) {
+                List<Section> sectionsforU2 = new ArrayList<Section>();
+                for (Section s :
+                        Global.sectionsgegner1) {
+                    s.setShip(shipGegner1);
+                    sectionsforU2.add(s);
+                }
+                for (Section s :
+                        Global.sectionsgegner2) {
+                    s.setShip(shipGegner2);
+                    sectionsforU2.add(s);
+                }
+                for (Section s :
+                        Global.sectionsgegner3) {
+                    s.setShip(shipGegner3);
+                    sectionsforU2.add(s);
+                }
+                for (Section s :
+                        Global.sectionsgegner4) {
+                    s.setShip(shipGegner4);
+                    sectionsforU2.add(s);
+                }
+                for (Section s :
+                        Global.sectionsgegner5) {
+                    s.setShip(shipGegner5);
+                    sectionsforU2.add(s);
+                }
+                for (Section s :
+                        Global.sectionsgegner6) {
+                    s.setShip(shipGegner6);
+                    sectionsforU2.add(s);
+                }
+                sendRequestAddSections(sectionsforU2, Net.HttpMethods.POST);
+                //man kann nicht das method clear an der list nutzen. deswegen sizeO
+                //i need clean sectionList because the data hat de User Section and i do not need it
+                List<Section> sizeO = new ArrayList<>();
+                sectionList = sizeO;
+                requestcounter = 11;
+            }
+            if (requestcounter == 11 && !sectionList.isEmpty()) {
+                List<Section> sectionsgegner1 = new ArrayList<>();
+                List<Section> sectionsgegner2 = new ArrayList<>();
+                List<Section> sectionsgegner3 = new ArrayList<>();
+                List<Section> sectionsgegner4 = new ArrayList<>();
+                List<Section> sectionsgegner5 = new ArrayList<>();
+                List<Section> sectionsgegner6 = new ArrayList<>();
+                for (Section s :
+                        sectionList) {
+                    if (s.getShip().getName().equals("Shipgegner1")) {
+                        sectionsgegner1.add(s);
+                    } else if (s.getShip().getName().equals("Shipgegner2")) {
+                        sectionsgegner2.add(s);
+                    } else if (s.getShip().getName().equals("Shipgegner3")) {
+                        sectionsgegner3.add(s);
+                    } else if (s.getShip().getName().equals("Shipgegner4")) {
+                        sectionsgegner4.add(s);
+                    } else if (s.getShip().getName().equals("Shipgegner5")) {
+                        sectionsgegner5.add(s);
+                    } else if (s.getShip().getName().equals("Shipgegner6")) {
+                        sectionsgegner6.add(s);
+                    }
+
+                }
+                Global.sectionsgegner1 = sectionsgegner1;
+                Global.updateVariblesSectionsGegner1();
+                Global.sectionsgegner2 = sectionsgegner2;
+                Global.updateVariblesSectionsGegner2();
+                Global.sectionsgegner3 = sectionsgegner3;
+                Global.updateVariblesSectionsGegner3();
+                Global.sectionsgegner4 = sectionsgegner4;
+                Global.updateVariblesSectionsGegner4();
+                Global.sectionsgegner5 = sectionsgegner5;
+                Global.updateVariblesSectionsGegner5();
+                Global.sectionsgegner6 = sectionsgegner6;
+                Global.updateVariblesSectionsGegner6();
+                requestcounter = 12;
+            }
+            //Planeten request
+            if (requestcounter == 12) {
+                //Universe2
+                shipsP1.add(currentShipPlayer);
+                shipsP2.add(shipGegner1);
+                shipsP3.add(shipGegner2);
+                shipsP4.add(shipGegner3);
+                shipsP5.add(shipGegner4);
+                shipsP6.add(shipGegner5);
+                for (Planet p :
+                        Global.planetListU2) {
+                    switch (p.getName()) {
+                        case "p1":
+                            p.setShips(Global.shipsP1);
+                            break;
+                        case "p2":
+                            p.setShips(Global.shipsP2);
+                            break;
+                        case "p3":
+                            p.setShips(Global.shipsP3);
+                            break;
+                        case "p4":
+                              p.setShips(Global.shipsP4);
+                            break;
+                        case "p5":
+                             p.setShips(Global.shipsP5);
+                            break;
+                        case "p6":
+                            p.setShips(Global.shipsP6);
+                            break;
+                        default:
+                            break;
+                    }
+                    p.setUniverse(currentUniverse);
+                }
+                sendRequestAddPlanets(planetListU2, Net.HttpMethods.POST);
+                requestcounter = 13;
+            }
+            if (!planets.isEmpty() && requestcounter == 13) {
+                Global.planetListU2 = planets;
+                Global.updateVariblesPlanetsU2();
+                List<Planet> size0 = new ArrayList<>();
+                planets = size0;
+                requestcounter = 14;
+            }
+            if (requestcounter == 14) {
+                for (Station s :
+                        stationListU2) {
+                    s.setUniverse(currentUniverse);
+                }
+                sendRequestAddStation(stationListU2, Net.HttpMethods.POST);
+                requestcounter = 15;
+            }
+            if (requestcounter == 15 && !stations.isEmpty()) {
+                stationListU2 = stations;
+                Global.updateVariblesStationsU2();
+                List<Station> sizeO = new ArrayList<>();
+                stations = sizeO;
+                requestcounter = 16;
+            }
+            if (requestcounter == 16) {
+                Global.shopRessourceList.get(0).setStation(station1);
+                Global.shopRessourceList.get(1).setStation(station2);
+                sendRequestAddShopRessources(Global.shopRessourceList, Net.HttpMethods.POST);
+                requestcounter = 17;
+            }
+            if (requestcounter == 17 && !shopRessources.isEmpty()) {
+                Global.shopRessourceList = shopRessources;
+                Global.updateVariblesshopRessource();
+                requestcounter = 18;
+            }
+            if (requestcounter == 18) {
+                shipRessource.setShip(currentShipPlayer);
+                sendRequestAddShipRessource(shipRessource, Net.HttpMethods.POST);
+                requestcounter = 19;
+            }
+            if (requestcounter == 19 && shipRessourceID != 0) {
+                shipRessource.setId(shipRessourceID);
+                requestcounter = 20;
+            }
+            if (requestcounter == 20) {
+                List<Weapon> weaponsUniver1=new ArrayList<>();
+                for (Weapon w :
+                        weaponListPlayer) {
+                    w.setSection(section2);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner1){
+                    w.setSection(section3Gegner);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner2){
+                    w.setSection(section3Gegner2);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner3){
+                    w.setSection(section3Gegner3);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner1){
+                    w.setSection(section3Gegner4);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner2){
+                    w.setSection(section3Gegner5);
+                    weaponsUniver1.add(w);
+                }
+                for(Weapon w:
+                        weaponListGegner3){
+                    w.setSection(section3Gegner6);
+                    weaponsUniver1.add(w);
+                }
+                sendRequestAddWeapon(weaponsUniver1, Net.HttpMethods.POST);
+                requestcounter = 21;
+            }
+            if (!weapons.isEmpty() && requestcounter == 21) {
+                weaponListUniverse2 = weapons;
+                Global.updateweaponVariabelUniverse2();
+                System.out.println("Control: "+weapon1Player);
+                requestcounter = 22;
+            }
+            if (requestcounter == 22) {
+                mainClient.setScreen(new StationsMap(game));
+                requestcounter = 23;
+            }
         }
 
 
@@ -985,7 +1274,6 @@ public class ShipSelectScreen extends BaseScreen {
                 Gson gson = new Gson();
                 AI[] aiArray = gson.fromJson(listAIS, AI[].class);
                 aiList = Arrays.asList(aiArray);
-                airesquesSent =true;
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");

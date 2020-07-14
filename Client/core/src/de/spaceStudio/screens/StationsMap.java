@@ -54,7 +54,7 @@ public class StationsMap extends BaseScreen {
 
     private static int POSX = 100;
     private static int POSY = 200;
-    private MainClient game;
+    private MainClient mainClient;
 
     private String unvisited = "unvisited planet";
     private String visited = "visited planet";
@@ -63,15 +63,14 @@ public class StationsMap extends BaseScreen {
     private static int PLANET_SIZEY = 100;
     private int counter = 0;
     private float state = 0.0f;
-    private Sound jumpToPlanet, mouseClick;
 
-    boolean isLast;
+    boolean isLast, test;
     private ShipSelectScreen shipSelectScreen;
 
     //
+    private Boolean control=false;
     private Jumpservices jumpservices = new Jumpservices();
     private TextButton saveGameButton;
-    private Ship ship= Global.currentShip;
     private StopAbstract currentStop= Global.planet1;
     private List<Ship> shipList= new ArrayList<Ship>();
 
@@ -80,27 +79,25 @@ public class StationsMap extends BaseScreen {
 
     public StationsMap(final MainClient game) {
         super(game);
-        this.game = game;
+        this.mainClient = game;
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         background = new Texture(Gdx.files.internal("Client/core/assets/data/maps/sky-map.jpg"));
-
 
         start_ship = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/ZDci.gif").read());
         final Drawable drawable_station_unvisited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png")));
         final Drawable drawable_station_visited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/visited-removebg-preview.png")));
 
 
-        textAreaUN = new TextArea(unvisited, skin);
-        textAreaVIS = new TextArea(visited, skin);
+        textAreaUN = new TextArea(unvisited,skin);
+        textAreaVIS = new TextArea(visited,skin);
         planet1(drawable_station_unvisited);
         planet2(drawable_station_unvisited);
         planet3(drawable_station_unvisited);
         planet4(drawable_station_unvisited);
         planet5(drawable_station_unvisited);
         setStartPoint(drawable_station_unvisited);
-
         stage.addActor(planet1ImgBTN);
         stage.addActor(planet2ImgBTN);
         stage.addActor(planet5ImageBTN);
@@ -112,19 +109,19 @@ public class StationsMap extends BaseScreen {
 
 
     private void setStartPoint(Drawable drawable_station_unvisited) {
-        startPoint = new ImageButton((drawable_station_unvisited));
+        startPoint = new ImageButton( (drawable_station_unvisited) );
         startPoint.setPosition(160, 200);  //hikeButton is an ImageButton
-        startPoint.setSize(PLANET_SIZEX, PLANET_SIZEY);
+        startPoint.setSize(PLANET_SIZEX,PLANET_SIZEY);
         startPoint.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Start Point", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") ;
+                        if(obj.toString()=="true") ;
 
                     }
                 };
-                dialog.text("Here is the start point");
+                 dialog.text("Here is the start point");
 
                 dialog.key(Input.Keys.ENTER, true);
                 dialog.key(Input.Keys.ESCAPE, false);
@@ -136,22 +133,20 @@ public class StationsMap extends BaseScreen {
     }
 
     private void planet3(Drawable drawable_station_unvisited) {
-        planet3ImgBTN = new ImageButton((drawable_station_unvisited));
+        planet3ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet3ImgBTN.setPosition(600, 800);  //hikeButton is an ImageButton
-        planet3ImgBTN.setSize(PLANET_SIZEX, PLANET_SIZEY);
-        hoverListener(planet3ImgBTN, textAreaUN);
-        final Planet planet = Global.planet3;
-
-        planet3ImgBTN.addListener(new ChangeListener() {
+        planet3ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
+        hoverListener(planet3ImgBTN,textAreaUN);
+        planet3ImgBTN.addListener( new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Global.currentPlanet=Global.planet3;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") {
+                        if(obj.toString()=="true") {
                             counter++;
-                            hoverListener(planet3ImgBTN, textAreaVIS);
-                            jumpService(planet);
+                            hoverListener(planet3ImgBTN,textAreaVIS);
+                            jumpService(Global.planet3);
 
                         }
 
@@ -172,25 +167,25 @@ public class StationsMap extends BaseScreen {
 
 
     private void planet4(Drawable drawable_station_unvisited) {
-        planet4ImgBTN = new ImageButton((drawable_station_unvisited));
+        planet4ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet4ImgBTN.setPosition(900, 550);
-        planet4ImgBTN.setSize(PLANET_SIZEX, PLANET_SIZEX);
+        planet4ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
         final Planet planet = Global.planet4;
-        hoverListener(planet4ImgBTN, textAreaUN);
+        hoverListener(planet4ImgBTN,textAreaUN);
         planet4ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") {
+                        if(obj.toString()=="true") {
                             counter++;
-                            hoverListener(planet4ImgBTN, textAreaVIS);
+                            hoverListener(planet4ImgBTN,textAreaVIS);
                             jumpService(planet);
 
                         }
                     }
                 };
-                actionDialog(dialog, "Planet 4 --> Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
+                actionDialog(dialog,"Planet 4 --> Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
                         " Lorem Ipsum has been the industry's standard dummy\n" +
                         " text ever since the 1500s, when an unknown printer took a galley of type\n" +
                         "and scrambled it to make a type specimen book.\n" +
@@ -202,10 +197,10 @@ public class StationsMap extends BaseScreen {
     }
 
     private void planet5(Drawable drawable_station_unvisited) {
-        planet5ImageBTN = new ImageButton((drawable_station_unvisited));
+        planet5ImageBTN = new ImageButton( (drawable_station_unvisited) );
         planet5ImageBTN.setPosition(1200, 700);
-        planet5ImageBTN.setSize(PLANET_SIZEX, PLANET_SIZEX);
-        hoverListener(planet5ImageBTN, textAreaUN);
+        planet5ImageBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
+        hoverListener(planet5ImageBTN,textAreaUN);
         final Planet planet = Global.planet5;
         planet5ImageBTN.addListener(new ChangeListener() {
             @Override
@@ -213,20 +208,20 @@ public class StationsMap extends BaseScreen {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
-                        if (obj.toString() == "true") {
-                            isLast = true;
-                        }
+                     if(obj.toString() == "true"){
+                         isLast = true;
+                     }
 
                     }
                 };
-                if (counter > 3) {
+                if( counter > 3) {
                     dialog.text("You are allow to travel last planet");
                     dialog.button("JUMP", true);
                     dialog.key(Input.Keys.ENTER, true);
-                    hoverListener(planet5ImageBTN, textAreaVIS);
+                    hoverListener(planet5ImageBTN,textAreaVIS);
                     jumpService(planet);
 
-                } else {
+                }else {
                     dialog.text("Before you travel here, you have to visit other planets");
                     dialog.button("BACK", false);
                     dialog.key(Input.Keys.ESCAPE, false);
@@ -241,10 +236,10 @@ public class StationsMap extends BaseScreen {
     }
 
     private void planet2(Drawable drawable_station_unvisited) {
-        planet2ImgBTN = new ImageButton((drawable_station_unvisited));
+        planet2ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet2ImgBTN.setPosition(500, 550);
-        planet2ImgBTN.setSize(PLANET_SIZEX, PLANET_SIZEX);
-        hoverListener(planet2ImgBTN, textAreaUN);
+        planet2ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
+        hoverListener(planet2ImgBTN,textAreaUN);
         final Planet planet = Global.planet2;
         planet2ImgBTN.addListener(new ChangeListener() {
             @Override
@@ -252,19 +247,19 @@ public class StationsMap extends BaseScreen {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
-                        if (obj.toString() == "true") {
-                            counter++;
-                            hoverListener(planet2ImgBTN, textAreaVIS);
-                            jumpService(planet);
-                        }
+                            if(obj.toString()=="true") {
+                                counter++;
+                                hoverListener(planet2ImgBTN,textAreaVIS);
+                                jumpService(planet);
+                            }
                     }
                 };
 
-                actionDialog(dialog, "Planet 2 -->Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n"
-                        + " Lorem Ipsum has been the industry's standard dummy\n" +
-                        " text ever since the 1500s, when an unknown printer took a galley of\n" +
-                        " type and scrambled it to make a type specimen book.\n" +
-                        "moves in to attact\n" + "Are you sure you want to jump there");
+                actionDialog(dialog,"Planet 2 -->Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n"
+                                               +" Lorem Ipsum has been the industry's standard dummy\n" +
+                                               " text ever since the 1500s, when an unknown printer took a galley of\n" +
+                                               " type and scrambled it to make a type specimen book.\n" +
+                                               "moves in to attact\n" + "Are you sure you want to jump there");
 
             }
         });
@@ -274,24 +269,24 @@ public class StationsMap extends BaseScreen {
 
 
     private void planet1(Drawable drawable_station_unvisited) {
-        planet1ImgBTN = new ImageButton((drawable_station_unvisited));
+        planet1ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet1ImgBTN.setPosition(250, 700);
-        planet1ImgBTN.setSize(PLANET_SIZEX, PLANET_SIZEY);
-        hoverListener(planet1ImgBTN, textAreaUN);
+        planet1ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
+        hoverListener(planet1ImgBTN,textAreaUN);
         final Planet planet = Global.planet1;
         planet1ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") {
+                        if(obj.toString()=="true") {
                             counter++;
-                            hoverListener(planet1ImgBTN, textAreaVIS);
+                            hoverListener(planet1ImgBTN,textAreaVIS);
                             jumpService(planet);
                         }
                     }
                 };
-                actionDialog(dialog, " Planet 1 --> You Jump to into sector of the nebula beset by a plasma storm. An automated Rebel scout stationed at he beacon" +
+                actionDialog( dialog," Planet 1 --> You Jump to into sector of the nebula beset by a plasma storm. An automated Rebel scout stationed at he beacon" +
                         "moves in to attact\n" +
                         "Are you sure you want to jump there?");
             }
@@ -303,8 +298,9 @@ public class StationsMap extends BaseScreen {
         ArrayList<StopAbstract> toChange = new ArrayList<StopAbstract>();
         toChange.add(currentStop);
         toChange.add(planet);
-        makeJumpRequest(toChange, Net.HttpMethods.POST);
-
+        if (shipList.isEmpty()) {
+            makeJumpRequest(toChange, Net.HttpMethods.POST);
+        }
     }
 
     public void makeJumpRequest(Object requestObject, String method) {
@@ -350,7 +346,7 @@ public class StationsMap extends BaseScreen {
 
 
     private void hoverListener(final ImageButton img, final TextArea textArea) {
-        img.addListener(new HoverListener() {
+        img.addListener(new HoverListener(){
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 img.addActor(textArea);
@@ -427,13 +423,18 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().draw(start_ship.getKeyFrame(state), 140, 250, 150, 150);
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().end();
-        if(!shipList.isEmpty()){
-            Global.currentShip=shipList.get(1);
-            Global.currentShipGegner=shipList.get(0);
-            game.setScreen(new CombatScreen(game));
-        }
         stage.act();
         stage.draw();
+        if(!shipList.isEmpty()&&control==false){
+            try {
+                Global.currentShipPlayer =shipList.get(1);
+                Global.currentShipGegner = shipList.get(0);
+            }catch (Exception e){
+                Global.currentShipPlayer =shipList.get(0);
+            }
+            mainClient.setScreen(new StopScreen(game));
+            control=true;
+        }
 
     }
 
