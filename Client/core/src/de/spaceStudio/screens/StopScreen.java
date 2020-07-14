@@ -1,5 +1,6 @@
 package de.spaceStudio.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,13 +11,33 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
+import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.Assets;
+
+import java.util.Random;
 
 
 public class StopScreen  extends ScreenAdapter {
+    MainClient game;
 
     private Stage stage;
     private Skin skin;
+
+    public StopScreen(MainClient game) {
+        super();
+        this.game = game;
+
+    }
+
+    private static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
 
     String event_outcome(int event){
         String result;
@@ -29,6 +50,7 @@ public class StopScreen  extends ScreenAdapter {
             case 1:
                 result = "You meet an Enemy Ship, it Starts attackng you";
                 // TODO SetScreen Fight
+
                 break;
 
             case 2:
@@ -44,6 +66,8 @@ public class StopScreen  extends ScreenAdapter {
 
         return result;
     }
+
+
 
     String stop_descripton(int event){
         String result;
@@ -75,35 +99,36 @@ public class StopScreen  extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        final int number = 1;
+        final int number = getRandomNumberInRange(0,3);
 
 
         new Dialog("You have a arrived at a new Stop" , skin) {
 
             {
                 text(stop_descripton(number));
-                button("Leave without inspecting", "false").getButtonTable().row();
+                button("Leave", "false").getButtonTable().row();
                 button("Explore", "true");
             }
 
             @Override
             protected void result(final Object object) {
                 if (object.toString() == "true") {
-                    final int event_number = 1;
+                    final int event_number = getRandomNumberInRange(0, 3);
                     new Dialog("After a while:", skin) {
 
                         {
                             String outcome = event_outcome(event_number);
                             text(outcome);
                             button("Flee", 1l);
-                            button("Inspect", 2l);
+                            button("Fight", 2l);
+                            button("Gather", 3l);
                         }
 
                         @Override
                         protected void result(Object object) {
                             if (object.equals(2l)) {
                                 // TODO Set FightScreen
-
+                                game.setScreen(new CombatScreen(game));
                                 // IF there is an enemy
 
                             } else {
@@ -113,16 +138,18 @@ public class StopScreen  extends ScreenAdapter {
                                         text("You have seen Enough. You go back to your Cockpit");
                                         button("OK", 1l).getButtonTable().row();
                                     }
+
+                                    @Override
+                                    protected void result(Object object) {
+                                        game.setScreen(new StationsMap(game));
+                                    }
                                 }.show(stage);
                             }
 
                         }
                     }.show(stage);
                 }
-                // TODO Set Screen to MAP
-                hide();
-                }
-
+            }
             }.show(stage);
     }
 

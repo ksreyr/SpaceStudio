@@ -380,7 +380,7 @@ public class StationsMap extends BaseScreen {
         if(!shipList.isEmpty()){
             Global.currentShip=shipList.get(1);
             Global.currentShipGegner=shipList.get(0);  // TODO Was passiert wenn es keinen Kampf gibt
-            game.setScreen(new RandomEventScreen(game));
+            game.setScreen(new StopScreen(game));
         }
         stage.act();
         stage.draw();
