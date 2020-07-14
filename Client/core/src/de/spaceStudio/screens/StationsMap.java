@@ -31,7 +31,6 @@ import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
@@ -346,7 +345,6 @@ public class StationsMap extends BaseScreen {
     }
 
 
-
     private void hoverListener(final ImageButton img, final TextArea textArea) {
         img.addListener(new HoverListener(){
             @Override
@@ -365,11 +363,8 @@ public class StationsMap extends BaseScreen {
     }
 
 
-
     @Override
     public void show() {
-
-
         super.show();
         saveGameButton = new TextButton("Save game", skin);
         saveGameButton.setTransform(true);
@@ -419,16 +414,6 @@ public class StationsMap extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        if(!shipList.isEmpty()&&control==false){
-            try {
-                Global.currentShipPlayer =shipList.get(1);
-                Global.currentShipGegner = shipList.get(0);
-            }catch (Exception e){
-                Global.currentShipPlayer =shipList.get(0);
-            }
-            mainClient.setScreen(new StopScreen(game));
-            control=true;
-        }
         state += Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.01f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -439,6 +424,16 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().end();
         stage.act();
         stage.draw();
+        if(!shipList.isEmpty()&&control==false){
+            try {
+                Global.currentShipPlayer =shipList.get(1);
+                Global.currentShipGegner = shipList.get(0);
+            }catch (Exception e){
+                Global.currentShipPlayer =shipList.get(0);
+            }
+            mainClient.setScreen(new StopScreen(game));
+            control=true;
+        }
 
     }
 
