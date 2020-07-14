@@ -3,9 +3,8 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,9 +14,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
+import de.spaceStudio.model.PlayerShip;
+import de.spaceStudio.model.Playership2;
 import de.spaceStudio.util.GdxUtils;
-
-import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.actor;
 
 
 public class ShopScreen2 extends ScreenAdapter {
@@ -29,7 +28,11 @@ public class ShopScreen2 extends ScreenAdapter {
     private Stage stage;
     private Skin spaceSkin;
 
+    //externes Schiff
+    private SpriteBatch batch;
+
     private Texture background, playerShip;
+    private Playership2 ship;
     private Texture rocket1, rocket2, crewMemberMTexture, crewMemberFTexture, securityTexture, oxygenTexture, driveTexture;
     private TextButton next, buy;
     private int itemNumber;
@@ -55,8 +58,16 @@ public class ShopScreen2 extends ScreenAdapter {
         oxygenTexture = new Texture("Client/core/assets/OxygenSymbol.png");
         driveTexture = new Texture("Client/core/assets/fire3.png");
         this.itemNumber = 0;
+        batch = new SpriteBatch();
+        drawShip();
         nextButton();
         buyItemsButton();
+    }
+
+    private void drawShip() {
+        ship = new Playership2(0,0);
+        ship.x = (Gdx.graphics.getWidth() - ship.width) / 2;
+        ship.y = (Gdx.graphics.getHeight() - ship.height) / 2;
     }
 
     @Override
@@ -138,10 +149,16 @@ public class ShopScreen2 extends ScreenAdapter {
     @Override
     public void render(float delta){
         GdxUtils.clearScreen();
+
+        batch.begin();
+        ship.render(batch);
+        batch.end();
+
         stage.getBatch().begin();
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 200,200,700,700);
+
 
 
         switch (itemNumber) {
@@ -169,10 +186,14 @@ public class ShopScreen2 extends ScreenAdapter {
         }
         showTextfield(itemNumber);
 
+        buyItems();
+
         stage.getBatch().end();
         stage.act();
         stage.draw();
+
     }
+
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
@@ -188,6 +209,7 @@ public class ShopScreen2 extends ScreenAdapter {
     @Override
     public void dispose() {
         stage.dispose();
+        ship.dispose();
     }
 
     public void nextButton() {
@@ -214,13 +236,28 @@ public class ShopScreen2 extends ScreenAdapter {
         buy.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                buyItems();
-            }
-
-            private void buyItems() {
-
+                return;
             }
         });
+    }
+
+    public void buyItems(){
+        if(checkBoxSection1.isChecked()){
+            if(itemNumber == 0)
+                stage.getBatch().draw(rocket1,50,50);
+            if(itemNumber == 1)
+                stage.getBatch().draw(rocket2,50,50);
+            if(itemNumber == 2)
+                stage.getBatch().draw(crewMemberFTexture,50,50);
+            if(itemNumber == 3)
+                stage.getBatch().draw(crewMemberMTexture,50,50);
+            if(itemNumber == 4)
+                stage.getBatch().draw(securityTexture,50,50);
+            if(itemNumber == 5)
+                stage.getBatch().draw(oxygenTexture,50,50);
+            if(itemNumber == 6)
+                stage.getBatch().draw(driveTexture,50,50);
+        }
     }
 
 
