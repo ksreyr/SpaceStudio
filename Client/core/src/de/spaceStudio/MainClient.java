@@ -16,8 +16,6 @@ public class MainClient extends Game {
 	public LoginScreen loginScreen;
 	private SpriteBatch batch;
 
-	private RandomEventScreen randomEventScreen;
-
 	private StopScreen stopScreen;
 
 
@@ -29,10 +27,7 @@ public class MainClient extends Game {
 		assetManager.finishLoading();
 		loginScreen = new LoginScreen(this, assetManager);
 		batch = new SpriteBatch();
-		randomEventScreen = new RandomEventScreen(this);
 		stopScreen = new StopScreen(this);
-
-//	    setScreen(randomEventScreen);
 		setScreen(loginScreen);
 	}
 
