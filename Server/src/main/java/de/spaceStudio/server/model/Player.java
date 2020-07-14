@@ -4,12 +4,12 @@ import javax.persistence.*;
 
 /**
  * @author Miguel Caceres, Santiago Rey
- *         modified 06.08.2020
+ * modified 06.08.2020
  */
 @Entity
 public class Player extends Actor {
 
-	//private String name;
+    //private String name;
 
 
     /**
@@ -18,8 +18,10 @@ public class Player extends Actor {
     public Player() {
 
     }
+
     /**
      * Builder constructor
+     *
      * @param builder
      */
     public Player(PlayerBuilder builder) {
@@ -28,6 +30,18 @@ public class Player extends Actor {
     }
 
     private String password;
+
+    @Column(nullable = true)
+    private String savedGame;
+
+
+    public String getSavedGame() {
+        return savedGame;
+    }
+
+    public void setSavedGame(String savedGame) {
+        this.savedGame = savedGame;
+    }
 
     public String getPassword() {
         return password;
@@ -50,8 +64,7 @@ public class Player extends Actor {
         }
 
         public PlayerBuilder(String name,
-                             String password)
-        {
+                             String password) {
             this.name = name;
             this.password = password;
         }
