@@ -15,11 +15,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
-import de.spaceStudio.client.util.Global;
-import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.util.GdxUtils;
 
-import java.util.Collection;
+import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.actor;
 
 
 public class ShopScreen2 extends ScreenAdapter {
@@ -29,17 +27,13 @@ public class ShopScreen2 extends ScreenAdapter {
     private final AssetManager assetManager;
     private Viewport viewport;
     private Stage stage;
-    private TextureAtlas gamePlayAtlas;
     private Skin spaceSkin;
-    private TextButton buyItem;
-    private ShapeRenderer shapeRenderer;
-    private boolean weaponFst;
 
     private Texture background, playerShip;
-    private Texture weaponTexture, crewMemberMTexture, crewMemberFTexture, item1, item2, item3;
-    private TextButton next;
+    private Texture rocket1, rocket2, crewMemberMTexture, crewMemberFTexture, securityTexture, oxygenTexture, driveTexture;
+    private TextButton next, buy;
     private int itemNumber;
-    private CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6;
+    public CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6, checkBoxAllSections;
 
 
 
@@ -48,17 +42,21 @@ public class ShopScreen2 extends ScreenAdapter {
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetmanager();
-        this.weaponFst = false;
 
         spaceSkin =  new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         background = new Texture("ownAssets/sgx/backgrounds/galaxyBackground.png");
         playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
 
-        weaponTexture = new Texture("data/ships/rocketSmall.png");
+        rocket1 = new Texture("data/ships/rocketSmall.png");
+        rocket2 = new Texture("data/ships/attack.png");
         crewMemberMTexture = new Texture("Client/core/assets/MaleHuman-3.png");
         crewMemberFTexture = new Texture("Client/core/assets/FemaleHuman-2.png");
+        securityTexture = new Texture("data/ships/securitySmall.png");
+        oxygenTexture = new Texture("Client/core/assets/OxygenSymbol.png");
+        driveTexture = new Texture("Client/core/assets/fire3.png");
         this.itemNumber = 0;
         nextButton();
+        buyItemsButton();
     }
 
     @Override
@@ -66,6 +64,7 @@ public class ShopScreen2 extends ScreenAdapter {
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport, universeMap.getBatch());
         stage.addActor(next);
+        stage.addActor(buy);
 
 
 
@@ -91,24 +90,28 @@ public class ShopScreen2 extends ScreenAdapter {
         checkBoxSection4 = new CheckBox("Section 4", skin);
         checkBoxSection5 = new CheckBox("Section 5", skin);
         checkBoxSection6 = new CheckBox("Section 6", skin);
+        checkBoxAllSections = new CheckBox("whole Ship", skin);
         checkBoxSection1.setPosition(800, 900);
         checkBoxSection2.setPosition(800, 870);
         checkBoxSection3.setPosition(800, 840);
         checkBoxSection4.setPosition(800, 810);
         checkBoxSection5.setPosition(800, 780);
         checkBoxSection6.setPosition(800, 750);
+        checkBoxAllSections.setPosition(800, 720 );
         checkBoxSection1.setChecked(false);
         checkBoxSection2.setChecked(false);
         checkBoxSection3.setChecked(false);
         checkBoxSection4.setChecked(false);
         checkBoxSection5.setChecked(false);
         checkBoxSection6.setChecked(false);
+        checkBoxAllSections.setChecked(false);
         stage.addActor(checkBoxSection1);
         stage.addActor(checkBoxSection2);
         stage.addActor(checkBoxSection3);
         stage.addActor(checkBoxSection4);
         stage.addActor(checkBoxSection5);
         stage.addActor(checkBoxSection6);
+        stage.addActor(checkBoxAllSections);
 
         //Dialog dialog = new Dialog("Store", skin);
         //dialog.setSize(500,250);
@@ -119,15 +122,6 @@ public class ShopScreen2 extends ScreenAdapter {
         //final SelectBox<String> selectBox2 = new SelectBox<String>(skin);
         //selectBox2.setItems("Section 1","Section 2","Section 3","Section 4","Section 5","Section 6");
 
-        TextButton buyButton = new TextButton("    Buy    ", spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
-        buyButton.setPosition(800,710);
-        buyButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                weaponFst = true;
-            }
-        });
-        stage.addActor(buyButton);
 
         //dialog.getContentTable().defaults().pad(5);
         //dialog.getContentTable().add(selectBox2, selectBox1);
@@ -149,19 +143,28 @@ public class ShopScreen2 extends ScreenAdapter {
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 200,200,700,700);
 
-        if(weaponFst){
-            stage.getBatch().draw(weaponTexture,840,520 );
-        }
 
         switch (itemNumber) {
             case 0:
-                stage.getBatch().draw(weaponTexture, 1200, 600);
+                stage.getBatch().draw(rocket1, 1200, 600);
                 break;
             case 1:
-                stage.getBatch().draw(crewMemberMTexture, 1200, 600);
+                stage.getBatch().draw(rocket2, 1200, 600);
                 break;
             case 2:
                 stage.getBatch().draw(crewMemberFTexture,1200, 600);
+                break;
+            case 3:
+                stage.getBatch().draw(crewMemberMTexture, 1200, 600);
+                break;
+            case 4:
+                stage.getBatch().draw(securityTexture, 1200, 600);
+                break;
+            case 5:
+                stage.getBatch().draw(oxygenTexture,1200, 600);
+                break;
+            case 6:
+                stage.getBatch().draw(driveTexture, 1200, 600);
                 break;
         }
         showTextfield(itemNumber);
@@ -190,12 +193,11 @@ public class ShopScreen2 extends ScreenAdapter {
     public void nextButton() {
         next = new TextButton("next", spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
         next.setPosition(1300,600);
-        next.getLabel().setColor(Color.BLACK);
 
         next.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(itemNumber > 1)
+                if(itemNumber > 5)
                     itemNumber=0;
                 else {
                     itemNumber++;
@@ -205,19 +207,91 @@ public class ShopScreen2 extends ScreenAdapter {
 
     }
 
+    public void buyItemsButton(){
+        buy = new TextButton("buy",spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
+        buy.setPosition(800,680);
+
+        buy.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                buyItems();
+            }
+
+            private void buyItems() {
+
+            }
+        });
+    }
+
+
+
     public void showTextfield(int itemNumber){
         Skin skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+
         if (itemNumber == 0) {
-            TextField info = new TextField("informationen", skin);
-            info.setPosition(1100,400);
-            info.setSize(250,150);
-            stage.addActor(info);
-        } else {
-            TextField info = new TextField("another informationen", skin);
-            info.setPosition(1100,400);
-            info.setSize(250,150);
-            stage.addActor(info);
+
+            TextArea textArea = new TextArea("Name: Rocket 1\nHit Probability: 50%\nShots: 2\nDamage: 1/10\nCosts: 150 $", skin);
+            textArea.setPosition(1100,380);
+            textArea.setWidth(400);
+            textArea.setHeight(200);
+            stage.addActor(textArea);
+
+        } else if (itemNumber == 1) {
+
+            TextArea textArea = new TextArea("Name: Rocket 2\nHit Probability: 60%\nShots: 3\nDamage: 3/10\nCosts: 200 $", skin);
+            textArea.setPosition(1100,380);
+            textArea.setWidth(400);
+            textArea.setHeight(200);
+            stage.addActor(textArea);
+
+        } else if (itemNumber == 2) {
+
+            TextArea textArea = new TextArea("Name: Male CrewMember\nRepairs: 50% per round\nCosts: 300 $", skin);
+            textArea.setPosition(1100,380);
+            textArea.setWidth(400);
+            textArea.setHeight(200);
+            stage.addActor(textArea);
+
+        } else if (itemNumber == 3){
+
+            TextArea textArea = new TextArea("Name: Female CrewMember\nRepairs: 60% per round\nCosts: 400 $", skin);
+            textArea.setPosition(1100,380);
+            textArea.setWidth(400);
+            textArea.setHeight(200);
+            stage.addActor(textArea);
+
+        } else if (itemNumber == 4) {
+
+            TextArea textArea = new TextArea("Name: Security\nCosts: 50 $", skin);
+            textArea.setPosition(1100, 380);
+            textArea.setWidth(400);
+            textArea.setHeight(200);
+            stage.addActor(textArea);
         }
+        else if (itemNumber == 5) {
+
+            TextArea textArea = new TextArea("Name: Oxygen\nCosts: 20 $", skin);
+            textArea.setPosition(1100, 380);
+            textArea.setWidth(400);
+            textArea.setHeight(200);
+            stage.addActor(textArea);
+
+        } else if (itemNumber == 6){
+
+            TextArea textArea = new TextArea("Name: Drive\nCosts: 30 $", skin);
+            textArea.setPosition(1100, 380);
+            textArea.setWidth(400);
+            textArea.setHeight(200);
+            stage.addActor(textArea);
+
+        } else {
+            TextArea textArea = new TextArea("No item chosen", skin);
+            textArea.setPosition(1100, 380);
+            textArea.setWidth(400);
+            textArea.setHeight(200);
+            stage.addActor(textArea);
+        }
+
     }
 
 }
