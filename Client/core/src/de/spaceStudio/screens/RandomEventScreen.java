@@ -71,6 +71,7 @@ public class RandomEventScreen extends BaseScreen {
         //skin = new Skin(Gdx.files.internal("uiskin.json"));
 
 
+        Gdx.input.setInputProcessor(stage);
 
 
         randomDialog = new Dialog("New Stop for Ship", skin)
@@ -193,8 +194,8 @@ public class RandomEventScreen extends BaseScreen {
             case 0:
                 //TODO LIAM DIESE WERTE SIND SCHON AN DER DATE BANK WARUM VERÄNDERST DU ES HIER????
                 // WENN DU HIER VERANDERST WILLST DENKE ICH DASS DU AUCH ZU DER SERVER ES SCHICKNE SOLLEST
-                //Global.currentShipPlayer.setHp(Global.currentShipPlayer.getHp() + getRandomNumberInRange(-20, 20));
-                //Global.currentShipPlayer.setShield(Global.currentShipPlayer.getShield());
+                Global.currentShipPlayer.setHp(Global.currentShipPlayer.getHp() + getRandomNumberInRange(-20, 20));
+                Global.currentShipPlayer.setShield(Global.currentShipPlayer.getShield());
                 // TODO Save state of Ship
                 // gameScreen.setIntScore(0);
                 break;
@@ -208,10 +209,9 @@ public class RandomEventScreen extends BaseScreen {
     @Override
     public void render(float delta)
     {
-//        GdxUtils.clearScreen();
+//      GdxUtils.clearScreen();
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.input.setInputProcessor(stage);
         stage.act();
         stage.draw();
 

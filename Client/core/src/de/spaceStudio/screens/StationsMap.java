@@ -467,7 +467,6 @@ public class StationsMap extends BaseScreen {
     @Override
     public void dispose() {
         super.dispose();
-        skin.dispose();
         stage.dispose();
     }
 
