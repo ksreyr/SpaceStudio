@@ -101,7 +101,7 @@ public class MenuScreen extends ScreenAdapter  {
                             Gson gson = new Gson();
                             LOG.info("Game load success for player: " + currentPlayer.getName());
                             singlePlayerGame = gson.fromJson(responseJson, SinglePlayerGame.class);
-                            currentShip = singlePlayerGame.getShip();
+                            currentShipPlayer = singlePlayerGame.getShip();
                             LOG.info(singlePlayerGame.getDifficult());
                             LOG.info(singlePlayerGame.getShip().toString());
                             isLoaded = true;
