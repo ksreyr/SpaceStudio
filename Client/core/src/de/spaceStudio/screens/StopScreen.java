@@ -8,8 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import de.spaceStudio.MainClient;
+import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.Weapon;
 
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 public class StopScreen  extends ScreenAdapter {
@@ -17,10 +21,12 @@ public class StopScreen  extends ScreenAdapter {
 
     private Stage stage;
     private Skin skin;
+    boolean enemyNearBy = true;
 
     public StopScreen(MainClient game) {
         super();
         this.game = game;
+
 
     }
 
@@ -38,25 +44,42 @@ public class StopScreen  extends ScreenAdapter {
         String result;
         switch (event) {
             case 0:
-                result = "You got lucky. You find More life";
-
+        int life = Global.currentShip.getHp() + getRandomNumberInRange(1, 50);
+                Global.currentShip.setHp(life);
+                result = "You got lucky. You find dearly needed Spare Parts. Current HP = " + life;
                 break;
 
-            case 1:
-                result = "You meet an Enemy Ship, it Starts attackng you";
 
+            case 1:
+                result = "You meet an abandoned Ship, you find a strange Weapon";
+                int weapon_dammage = Global.currentShip.getHp() + getRandomNumberInRange(1, 50);
+                Global.weaponListPlayer.get(0).
 
                 // TODO SetScreen Fight
 
                 break;
 
             case 2:
+                int dammage = Global.currentShip.getHp() + getRandomNumberInRange(1, 50);
+                Global.currentShip.setHp(dammage);
                 result = "Just when you wanted to Dock at the Station you get hit by a Comet";
                 // Loose live
                 break;
 
+            case 3:
+                int shield = Global.currentShip.getShield() + getRandomNumberInRange(1, 50);
+                Global.currentShip.setShield(shield);
+                result = "At the abandoned Space Dock there is a Big Box. \n It contains an extra Shield\nShield = " + shield ;
+                break;
+
+            case 4:
+                int shieldDammage = Global.currentShip.getShield() - getRandomNumberInRange(1, 50);
+                Global.currentShip.setShield(shieldDammage);
+                result = "You approach the Station. \n A bomb explodes directly next to the Cockpit. \nShield = " + shieldDammage ;
+                break;
+
             default:
-                result = "Nothing happens";
+                result = "Nothing happens. You glance at the vast expanse of Space";
                 break;
         }
 
