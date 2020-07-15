@@ -223,8 +223,8 @@ public class CombatScreen extends BaseScreen {
 
 
 
-        TextButton escape = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
-        escape.addListener(new ChangeListener() {
+        TextButton saveGameButton = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
+        saveGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 LOG.info("Button CLicked");
@@ -233,15 +233,7 @@ public class CombatScreen extends BaseScreen {
                 Global.singlePlayerGame.setLastScreen("COMBAT");
             }
         });
-
-        escape.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Global.IS_SINGLE_PLAYER = false;
-                mainClient.setScreen(new ShipSelectScreen(mainClient));
-            }
-        });
-        escape.setPosition(1000,200);
+        saveGameButton.setPosition(1000,200);
 
 
         stage.addActor(enableEnemyShield);
@@ -252,7 +244,7 @@ public class CombatScreen extends BaseScreen {
 
 
 
-        stage.addActor(escape);
+        stage.addActor(saveGameButton);
 
         Gdx.input.setInputProcessor(stage);
     }

@@ -344,6 +344,15 @@ public class StationsMap extends BaseScreen {
     }
 
 
+    private void saveMessageDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("OK", false);
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        dialog.show(stage);
+    }
+
+
     private void hoverListener(final ImageButton img, final TextArea textArea) {
         img.addListener(new HoverListener(){
             @Override
@@ -388,12 +397,15 @@ public class StationsMap extends BaseScreen {
                 Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
                 Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
                     public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        final Dialog dialog = new Dialog("Save game", skin, "dialog");
                         int statusCode = httpResponse.getStatus().getStatusCode();
                         String responseJson = httpResponse.getResultAsString();
                         if (responseJson.equals("202 ACCEPTED")) {
-                            LOG.info("Success save game");
+                            LOG.info("Success save game " + statusCode);
+                            saveMessageDialog( dialog," Saving Game was Successful ");
                         } else {
                             LOG.info("Error saving game");
+                            saveMessageDialog( dialog," Saving Game was not Successful ");
                         }
                     }
 
