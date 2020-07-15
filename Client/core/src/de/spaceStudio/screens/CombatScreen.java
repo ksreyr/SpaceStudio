@@ -501,6 +501,7 @@ public class CombatScreen extends BaseScreen {
             Global.sectionsPlayerList= sectionsToPlayerResponse;
             Global.updateVariableSectionShipPlayer();
             Global.currentShipPlayer= sectionsToPlayerResponse.get(0).getShip();
+            Global.actualizierungSectionInWeapons();
             List<Section> sizeO=new ArrayList<>();
             sectionsToPlayerResponse =sizeO;
         }
@@ -604,7 +605,7 @@ public class CombatScreen extends BaseScreen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetWeapon) {
             counterWeapon++;
-            randomNumber = (int) ((Math.random() * (7)) + 0);
+            randomNumber = (int) ((Math.random() * (5)) + 0);
             if (counterWeapon < 4) {
                 bullets.add(new Bullet(590, 444));
                 rocketLaunch.play();
@@ -742,8 +743,10 @@ public class CombatScreen extends BaseScreen {
                 for (Weapon w :
                         Global.weaponListUniverse1) {
                     if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
-                        if(sectionNumber==5){
+                        if(sectionNumber==2){
                             w.setObjectiv(Global.section2);
+                            System.out.println("::::::::::::::::::::.WEAPONS NULL:::::::::::::::");
+                            System.out.println("::::::::::::::::::::.WEAPONS NULL:::::::::::::::");
                             weaponList.add(w);
                         }else if(sectionNumber==4){
                             w.setObjectiv(Global.section1);
@@ -755,6 +758,9 @@ public class CombatScreen extends BaseScreen {
                     }
                 }
                 Global.updateweaponVariabelUniverse1();
+                Global.actualiziertweaponListGegner1();
+                Global.actualiziertweaponListGegner2();
+                Global.actualiziertweaponListGegner3();
             }
         }
         shotValidationGegner(weaponList,Net.HttpMethods.POST);
