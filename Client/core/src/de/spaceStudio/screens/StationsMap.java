@@ -73,6 +73,8 @@ public class StationsMap extends BaseScreen {
     private StopAbstract currentStop= Global.planet1;
     private List<Ship> shipList= new ArrayList<Ship>();
 
+    private Sound click;
+
     //
     private boolean isGameSaved = false;
 
@@ -349,6 +351,7 @@ public class StationsMap extends BaseScreen {
         dialog.button("OK", false);
         dialog.key(Input.Keys.ENTER, true);
         dialog.key(Input.Keys.ESCAPE, false);
+        click.play();
         dialog.show(stage);
     }
 
@@ -383,12 +386,13 @@ public class StationsMap extends BaseScreen {
         saveGameButton.getLabel().setFontScale(1.25f, 1.25f);
         saveGameButton.setSize(90, 50);
 
+        click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
         saveGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 LOG.info("Button CLicked");
-
+                click.play();
                 Gson gson = new Gson();
                 Global.singlePlayerGame.setShip(Global.currentShipPlayer);
                 Global.singlePlayerGame.setLastScreen("MAP");
