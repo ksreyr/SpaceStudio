@@ -13,6 +13,7 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -35,7 +36,6 @@ import de.spaceStudio.util.GdxUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
@@ -66,6 +66,7 @@ public class CombatScreen extends BaseScreen {
 
     boolean isFired = false;
     boolean canFire = false;
+    boolean canFireGegner = false;
     private boolean isExploied;
     private boolean sectionw, sectiond, sectionOthers;
     private Texture missilleRight,  explosion, missilleLeft, weaponSystem;
@@ -95,8 +96,11 @@ public class CombatScreen extends BaseScreen {
     ShipSelectScreen shipSelectScreen;
     //
     String validation = "";
+    String validationGegner="";
     List<Section> sectionsNachFire;
     List<Section> sectionsGernerResponse = new ArrayList<Section>();
+    Label lebengegnerShip;
+    Label lebenplayerShip;
     //
 
     public CombatScreen(MainClient mainClient) {
@@ -156,9 +160,9 @@ public class CombatScreen extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetEngine = true;
                 isTargetSelected=true;
-                sectionw = true;
+                sectionw = false;
                 sectionOthers = false;
-                sectiond = false;
+                sectiond = true;
                 engine.getStyle().imageUp = engine_red;
 
             }
@@ -231,15 +235,11 @@ public class CombatScreen extends BaseScreen {
             }
         });
         escape.setPosition(1000,200);
-
-
         stage.addActor(enableEnemyShield);
         stage.addActor(engine);
         stage.addActor(cockpit);
         stage.addActor(enableShield);
         stage.addActor(weaponSection);
-
-
 
         stage.addActor(escape);
 
@@ -250,7 +250,7 @@ public class CombatScreen extends BaseScreen {
     }
 
 
-    private void logicOfFire() {
+    private void logicOfFirePlayer() {
         //Sections
         Global.currentShipGegner.getName();
         switch (Global.currentShipGegner.getName()) {
@@ -269,6 +269,7 @@ public class CombatScreen extends BaseScreen {
                                 w.setObjectiv(s);
                             }
                         };
+                        //if section Zeil is drive
                     }else if(sectiond){
                         if(s.getSectionTyp().equals(SectionTyp.DRIVE)){
                             for (Weapon w :
@@ -276,6 +277,7 @@ public class CombatScreen extends BaseScreen {
                                 w.setObjectiv(s);
                             }
                         };
+                        //if section Zeil is others
                     }else{
                         if(s.getSectionTyp().equals(SectionTyp.NORMAL)){
                             for (Weapon w :
@@ -326,34 +328,41 @@ public class CombatScreen extends BaseScreen {
                         sectionListShipgegner3) {
                     //if section Zeil is weapons
                     if (sectionw) {
-                        if(s.getSectionTyp().equals(SectionTyp.WEAPONS)){
+                        if (s.getSectionTyp().equals(SectionTyp.WEAPONS)) {
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
-                    }else if(sectiond){
-                        if(s.getSectionTyp().equals(SectionTyp.DRIVE)){
+                        }
+                        ;
+                    } else if (sectiond) {
+                        if (s.getSectionTyp().equals(SectionTyp.DRIVE)) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
-                    }else{
-                        if(s.getSectionTyp().equals(SectionTyp.NORMAL)){
+                        }
+                        ;
+                    } else {
+                        if (s.getSectionTyp().equals(SectionTyp.NORMAL)) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
 
                             }
-                        };
+                        }
+                        ;
                     }
                 }
                 break;
+            //An the fall that the Gegner 3 ist
+
         }
+        // NO Hay ID en WEAPONS??
         Global.updateweaponPlayerVariabel();
-        shotValidation(Global.weaponListPlayer,Net.HttpMethods.POST);
+        System.out.println(Global.weapon1Player);
+        shotValidation(Global.weaponListPlayer, Net.HttpMethods.POST);
     }
     //ShotValidation
     ////Para ponerlas en la armas
@@ -406,9 +415,8 @@ public class CombatScreen extends BaseScreen {
                 }
                 System.out.println("statusCode Validation: " + statusCode);
                 validation = httpResponse.getResultAsString();
-
+                System.out.println("PlayerShot: "+ validation);
             }
-
             public void failed(Throwable t) {
                 System.out.println("Request Failed shotValidation Completely");
             }
@@ -430,130 +438,197 @@ public class CombatScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(playerShip, 300,300,700,700);
-        stage.getBatch().draw(enemyShip, 1300,370,550,550);
-        stage.getBatch().draw(missilleRight,disappearRight,422,400,50);
-        stage.getBatch().draw(missilleLeft,disappearLeft,825,400,50);
+        stage.getBatch().draw(playerShip, 300, 300, 700, 700);
+        if (Global.currentShipGegner != null) {
+            stage.getBatch().draw(enemyShip, 1300, 370, 550, 550);
+        }
+        stage.getBatch().draw(missilleRight, disappearRight, 422, 400, 50);
+        stage.getBatch().draw(missilleLeft, disappearLeft, 825, 400, 50);
+
+        if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
+            canFireGegner = true;
+        } else if (!validationGegner.isEmpty() && validationGegner.equals("Section unusable")) {
+            validationGegner = "";
+        }
+        if(canFireGegner){
+            switch (Global.currentShipGegner.getName()){
+                case "Shipgegner1":
+                    Global.actualiziertweaponListGegner1();
+                    makeAShotGegner(Global.weaponListGegner1,Net.HttpMethods.POST);
+                    break;
+                case "Shipgegner2":
+                    Global.actualiziertweaponListGegner2();
+                    makeAShotGegner(Global.weaponListGegner2,Net.HttpMethods.POST);
+                    break;
+                case "Shipgegner3":
+                    Global.actualiziertweaponListGegner3();
+                    makeAShotGegner(Global.weaponListGegner3,Net.HttpMethods.POST);
+                    break;
+                case "Shipgegner4":
+                    Global.actualiziertweaponListGegner4();
+                    makeAShotGegner(Global.weaponListGegner4,Net.HttpMethods.POST);
+                    break;
+                case "Shipgegner5":
+                    Global.actualiziertweaponListGegner5();
+                    makeAShotGegner(Global.weaponListGegner5,Net.HttpMethods.POST);
+                    break;
+                case "Shipgegner6":
+                    Global.actualiziertweaponListGegner6();
+                    makeAShotGegner(Global.weaponListGegner6,Net.HttpMethods.POST);
+                    break;
+            }
+            canFireGegner=false;
+            validationGegner = "";
+        }
         if (!validation.isEmpty() && validation.equals("Fire Accepted")) {
             canFire = true;
-        } else if (!validation.isEmpty() && validation.equals("Fire not Accepted")) {
+        } else if (!validation.isEmpty() && validation.equals("Section unusable")) {
             validation = "";
         }
         if (canFire) {
-            makeAShot(Global.weaponListPlayer, Net.HttpMethods.POST);
+            //makeAShot(Global.weaponListPlayer, Net.HttpMethods.POST);
             isFired = true;
             canFire = false;
             validation = "";
         }
         if (!sectionsGernerResponse.isEmpty()) {
-            Section sectionResponse=sectionsGernerResponse.get(0);
-            Ship shiptoUpdate =sectionResponse.getShip();
-            Global.currentShipGegner=shiptoUpdate;
+            Section sectionResponse = sectionsGernerResponse.get(0);
+            Ship shiptoUpdate = sectionResponse.getShip();
+            Global.currentShipGegner = shiptoUpdate;
             switch (sectionResponse.getShip().getName()) {
                 case "Shipgegner1":
                     Global.sectionsgegner1 = sectionsGernerResponse;
                     Global.updateVariblesSectionsGegner1();
-                    Global.shipGegner1=shiptoUpdate;
+                    Global.shipGegner1 = shiptoUpdate;
+                    Global.currentShipGegner = shiptoUpdate;
+
                     break;
                 case "Shipgegner2":
                     Global.sectionsgegner2 = sectionsGernerResponse;
                     Global.updateVariblesSectionsGegner2();
-                    Global.shipGegner2=shiptoUpdate;
+                    Global.shipGegner2 = shiptoUpdate;
+                    Global.currentShipGegner = shiptoUpdate;
+
                     break;
                 case "Shipgegner3":
                     Global.sectionsgegner3 = sectionsGernerResponse;
                     Global.updateVariblesSectionsGegner3();
-                    Global.shipGegner3=shiptoUpdate;
+                    Global.shipGegner3 = shiptoUpdate;
+                    Global.currentShipGegner = shiptoUpdate;
+
                     break;
                 case "Shipgegner4":
                     Global.sectionsgegner4 = sectionsGernerResponse;
                     Global.updateVariblesSectionsGegner4();
-                    Global.shipGegner4=shiptoUpdate;
+                    Global.shipGegner4 = shiptoUpdate;
+                    Global.currentShipGegner = shiptoUpdate;
+
                     break;
                 case "Shipgegner5":
                     Global.sectionsgegner5 = sectionsGernerResponse;
                     Global.updateVariblesSectionsGegner5();
-                    Global.shipGegner5=shiptoUpdate;
+                    Global.shipGegner5 = shiptoUpdate;
+                    Global.currentShipGegner = shiptoUpdate;
+
                     break;
                 case "Shipgegner6":
                     Global.sectionsgegner6 = sectionsGernerResponse;
                     Global.updateVariblesSectionsGegner6();
-                    Global.shipGegner6=shiptoUpdate;
+                    Global.shipGegner6 = shiptoUpdate;
+                    Global.currentShipGegner = shiptoUpdate;
                     break;
             }
             Global.updateShipsListgegneru2();
-            List<Section> sizeO=new ArrayList<>();
-            sectionsGernerResponse=sizeO;
+            List<Section> sizeO = new ArrayList<>();
+            sectionsGernerResponse = sizeO;
+            //GEGNER FIRE
+
         }
+
         //A
         //Logic
         //Create and launch missiles
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetCockpit){
-            logicOfFire();
-            randomNumber = (int) ((Math.random() * (20)) + 0);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetCockpit) {
+            logicOfFirePlayer();
+            randomNumber = (int) ((Math.random() * (10)) + 0);
             counterCockpit++;
-            if(counterCockpit < 3){
-                bullets.add(new Bullet(590,843))  ;
+            if (counterCockpit < 3) {
+                bullets.add(new Bullet(590, 843));
                 rocketLaunch.play();
             }
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetEngine){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetEngine) {
+
             counterEngine++;
-            randomNumber = (int) ((Math.random() * (20)) + 0);
-            if(counterEngine < 4){
-                bullets.add(new Bullet(590,444));
+            randomNumber = (int) ((Math.random() * (10)) + 0);
+            if (counterEngine < 4) {
+                bullets.add(new Bullet(590, 444));
                 rocketLaunch.play();
             }
 
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetWeapon){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetWeapon) {
             counterWeapon++;
-            randomNumber = (int) ((Math.random() * (20)) + 0);
-            if(counterWeapon < 4){
-                bullets.add(new Bullet(590,444));
+            randomNumber = (int) ((Math.random() * (10)) + 0);
+            if (counterWeapon < 4) {
+                bullets.add(new Bullet(590, 444));
                 rocketLaunch.play();
             }
 
         }
+
         //shield for player
-        if(isShieldEnabled) stage.getBatch().draw(shield,70,150,1100,1000);
+        if (isShieldEnabled) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
         //shield for enemy
-        if(isEnemyShield) stage.getBatch().draw(shield,1120,150,900,1000);
+        if (isEnemyShield) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
 
 
         //explosion on player sections
         //on healthpoint
-        if(randomNumber == 2)
-        stage.getBatch().draw(explosion,700,520,100,100);
+        if (randomNumber == 2) {
+            logicOfFireGegner(randomNumber);
+            stage.getBatch().draw(explosion, 700, 520, 100, 100);
+            randomNumber = 0;
+        }
         //on cockpit
-        if(randomNumber == 3)
-        stage.getBatch().draw(explosion,710,670,100,100);
+        if (randomNumber == 3) {
+            logicOfFireGegner(randomNumber);
+            stage.getBatch().draw(explosion, 710, 670, 100, 100);
+            randomNumber = 0;
+        }
         //engine
-        if(randomNumber == 4)
-            stage.getBatch().draw(explosion,445,395,100,100);
+        if (randomNumber == 4) {
+            logicOfFireGegner(randomNumber);
+            stage.getBatch().draw(explosion, 445, 395, 100, 100);
+            randomNumber = 0;
+        }
         //on weapon system
-        if(randomNumber == 5)
-        stage.getBatch().draw(explosion,555,520,100,100);
+        if (randomNumber == 5) {
+            logicOfFireGegner(randomNumber);
+            stage.getBatch().draw(explosion, 555, 520, 100, 100);
+            randomNumber = 0;
+        }
 
 
         //explosion on enemy's engine
-        if( counterEngine >= 3 && !isEnemyShield){
-            stage.getBatch().draw(explosion,1515,422,100,100);
+        if (counterEngine >= 3 && !isEnemyShield) {
+            stage.getBatch().draw(explosion, 1515, 422, 100, 100);
         }
 
-        if( counterWeapon >= 3 && !isEnemyShield){
-            stage.getBatch().draw(explosion,1450,500,100,100);
+        if (counterWeapon >= 3 && !isEnemyShield) {
+            stage.getBatch().draw(explosion, 1450, 500, 100, 100);
         }
         //explosion on enemy's cockpit
-        if( counterCockpit >= 2 && !isEnemyShield){
-            stage.getBatch().draw(explosion,1515,690,100,100);
+        if (counterCockpit >= 2 && !isEnemyShield) {
+            stage.getBatch().draw(explosion, 1515, 690, 100, 100);
         }
         //update bullets
         ArrayList<Bullet> bulletToRemove = new ArrayList<>();
-        for (Bullet bullet:bullets) {
+        for (Bullet bullet : bullets) {
             bullet.update(delta);
-            if(bullet.remove){
+            if (bullet.remove) {
                 bulletToRemove.add(bullet);
 
             }
@@ -562,14 +637,96 @@ public class CombatScreen extends BaseScreen {
         bulletToRemove.removeAll(bulletToRemove);
         stage.getBatch().end();
         mainClient.getBatch().begin();
-        for (Bullet bullet:bullets ) {
+        for (Bullet bullet : bullets) {
             bullet.render(mainClient.getBatch());
-        } mainClient.getBatch().end();
+        }
+        mainClient.getBatch().end();
 
 
         stage.act();
         stage.draw();
     }
+
+    public void shotValidationGegner(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.SHOT_VALIDATION_VALIDATION;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed shotValidation");
+                }
+                System.out.println("statusCode Validation: " + statusCode);
+                validationGegner = httpResponse.getResultAsString();
+                System.out.println("GegnerShot: "+ validationGegner);
+            }
+            public void failed(Throwable t) {
+                System.out.println("Request Failed shotValidation Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+    public void makeAShotGegner(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.MAKE_SHOT_VALIDATION;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed makeAShot");
+                }
+                System.out.println("statusCode makeAShot: " + statusCode);
+                String SectionsGegner = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                Section[] sectiongegnerArray = gson.fromJson(SectionsGegner, Section[].class);
+                sectionsGernerResponse = Arrays.asList(sectiongegnerArray);
+                System.out.println("statusCode makeAShot: " + statusCode);
+            }
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+    private void logicOfFireGegner(int sectionNumber) {
+        List<Weapon> weaponList= new ArrayList<>();
+        if (Global.currentShipGegner != null) {
+            if (Global.currentUniverse.getName().equals("Easy" + Global.currentPlayer.getName())) {
+                for (Weapon w :
+                        Global.weaponListUniverse1) {
+                    if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                        if(sectionNumber==5){
+                            w.setObjectiv(Global.section2);
+                            weaponList.add(w);
+                        }else if(sectionNumber==4){
+                            w.setObjectiv(Global.section1);
+                            weaponList.add(w);
+                        }else{
+                            w.setObjectiv(Global.section3);
+                            weaponList.add(w);
+                        }
+                    }
+                }
+                Global.updateweaponVariabelUniverse1();
+            }
+        }
+        shotValidationGegner(weaponList,Net.HttpMethods.POST);
+    }
+
 
     // Called when the Application is resized.
     @Override

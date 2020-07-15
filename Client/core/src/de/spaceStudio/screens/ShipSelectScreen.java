@@ -727,8 +727,13 @@ public class ShipSelectScreen extends BaseScreen {
             if (!weapons.isEmpty() && requestcounter == 21) {
                 weaponListUniverse1 = weapons;
                 Global.updateweaponVariabelUniverse1();
+                Global.aktualizierenweaponListUniverse1();
+                Global.actualiziertweaponListPlayer();
+                Global.actualiziertweaponListGegner1();
+                Global.actualiziertweaponListGegner2();
+                Global.actualiziertweaponListGegner3();
                 System.out.println("ControlUniverse1:"+weapon1Player);
-
+                System.out.println("ControlUniverse1:"+weapon1Gegner1);
                 requestcounter = 22;
             }
             if (requestcounter == 22) {
@@ -981,7 +986,15 @@ public class ShipSelectScreen extends BaseScreen {
             }
             if (!weapons.isEmpty() && requestcounter == 21) {
                 weaponListUniverse2 = weapons;
-                Global.updateweaponVariabelUniverse2();
+                Global.updateweaponVariabelUniverse1();
+                Global.aktualizierenweaponListUniverse1();
+                Global.actualiziertweaponListPlayer();
+                Global.actualiziertweaponListGegner1();
+                Global.actualiziertweaponListGegner2();
+                Global.actualiziertweaponListGegner3();
+                Global.actualiziertweaponListGegner4();
+                Global.actualiziertweaponListGegner5();
+                Global.actualiziertweaponListGegner6();
                 System.out.println("Control: "+weapon1Player);
                 requestcounter = 22;
             }
