@@ -199,7 +199,7 @@ public class Global {
     /**
      * Ship Variables
      */
-    public static Ship ship0= Ship.shipBluider().hp(10).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(1).buildShip();
+    public static Ship ship0= Ship.shipBluider().hp(100).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(1).buildShip();
     public static Ship ship1= Ship.shipBluider().hp(100).shipForm(ShipForm.SHIP2).name("ship1").power(100).shield(1).buildShip();
     public static Ship ship2= Ship.shipBluider().hp(200).shipForm(ShipForm.SHIP3).name("ship2").power(50).shield(2).buildShip();
     public static Ship ship3= Ship.shipBluider().hp(300).shipForm(ShipForm.SHIP4).name("ship3").power(200).shield(1).buildShip();
@@ -344,9 +344,9 @@ public class Global {
     /*
      * Weapon
      * */
-    public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(5).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(30).hitRate(100).img("Image1").name("Rocket").build();
 
-    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(5).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(30).hitRate(100).img("Image1").name("Rocket").build();
     public static List<Weapon> weaponListPlayer = new ArrayList<Weapon>(){{
         add(weapon1Player);
         add(weapon2Player);
@@ -470,9 +470,9 @@ public class Global {
     /*
      * Weapons Gegner6
      * */
-    public static Weapon weapon1Gegner6 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
 
-    public static Weapon weapon2Gegner6 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
     public static List<Weapon> weaponListGegner6 = new ArrayList<Weapon>(){{
         add(weapon1Gegner6);
         add(weapon2Gegner6);

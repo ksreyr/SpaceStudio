@@ -98,7 +98,8 @@ public class CombatScreen extends BaseScreen {
     String validation = "";
     String validationGegner="";
     List<Section> sectionsNachFire;
-    List<Section> sectionsGernerResponse = new ArrayList<Section>();
+    List<Section> sectionsToGernerResponse = new ArrayList<Section>();
+    List<Section> sectionsToPlayerResponse = new ArrayList<Section>();
     Label lebengegnerShip;
     Label lebenplayerShip;
     //
@@ -132,6 +133,9 @@ public class CombatScreen extends BaseScreen {
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
+
+        lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
+        lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()),skin);
 
         final Drawable engine_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/enginesSymbol.png"));
         final Drawable engine_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/engineRed.png"));
@@ -235,6 +239,13 @@ public class CombatScreen extends BaseScreen {
             }
         });
         escape.setPosition(1000,200);
+
+
+        lebengegnerShip.setPosition(100,20);
+        lebenplayerShip.setPosition(20,20);
+
+        stage.addActor(lebenplayerShip);
+        stage.addActor(lebengegnerShip);
         stage.addActor(enableEnemyShield);
         stage.addActor(engine);
         stage.addActor(cockpit);
@@ -361,7 +372,6 @@ public class CombatScreen extends BaseScreen {
         }
         // NO Hay ID en WEAPONS??
         Global.updateweaponPlayerVariabel();
-        System.out.println(Global.weapon1Player);
         shotValidation(Global.weaponListPlayer, Net.HttpMethods.POST);
     }
     //ShotValidation
@@ -381,14 +391,14 @@ public class CombatScreen extends BaseScreen {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed makeAShot");
+                    System.out.println("Request Failed playerMakeAShot");
                 }
-                System.out.println("statusCode makeAShot: " + statusCode);
+                System.out.println("statusCode playerMakeAShot: " + statusCode);
                 String SectionsGegner = httpResponse.getResultAsString();
                 Gson gson = new Gson();
                 Section[] aiArray = gson.fromJson(SectionsGegner, Section[].class);
-                sectionsGernerResponse = Arrays.asList(aiArray);
-                System.out.println("statusCode makeAShot: " + statusCode);
+                sectionsToGernerResponse = Arrays.asList(aiArray);
+                System.out.println("statusCode playerMakeAShot: " + statusCode);
             }
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
@@ -413,7 +423,7 @@ public class CombatScreen extends BaseScreen {
                 if (statusCode != HttpStatus.SC_OK) {
                     System.out.println("Request Failed shotValidation");
                 }
-                System.out.println("statusCode Validation: " + statusCode);
+                System.out.println("statusCode PlayershotValidation: " + statusCode);
                 validation = httpResponse.getResultAsString();
                 System.out.println("PlayerShot: "+ validation);
             }
@@ -444,11 +454,18 @@ public class CombatScreen extends BaseScreen {
         }
         stage.getBatch().draw(missilleRight, disappearRight, 422, 400, 50);
         stage.getBatch().draw(missilleLeft, disappearLeft, 825, 400, 50);
-
+        //Gegner
+        //Shot
         if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
+            System.out.println("::Gegner Shot now");
             canFireGegner = true;
         } else if (!validationGegner.isEmpty() && validationGegner.equals("Section unusable")) {
+            System.out.println(":::::Section unusable Gegner");
             validationGegner = "";
+        }else if (Global.currentShipPlayer.getHp()<=0) {
+            System.out.println(":::Defeat");
+            validationGegner = "";
+            mainClient.setScreen(new MenuScreen(game));
         }
         if(canFireGegner){
             switch (Global.currentShipGegner.getName()){
@@ -480,88 +497,104 @@ public class CombatScreen extends BaseScreen {
             canFireGegner=false;
             validationGegner = "";
         }
+        if(!sectionsToPlayerResponse.isEmpty()){
+            Global.sectionsPlayerList= sectionsToPlayerResponse;
+            Global.updateVariableSectionShipPlayer();
+            Global.currentShipPlayer= sectionsToPlayerResponse.get(0).getShip();
+            List<Section> sizeO=new ArrayList<>();
+            sectionsToPlayerResponse =sizeO;
+        }
+        /////
+        ////PLAYER SHOT
         if (!validation.isEmpty() && validation.equals("Fire Accepted")) {
+            System.out.println(":::::Player Shot");
             canFire = true;
         } else if (!validation.isEmpty() && validation.equals("Section unusable")) {
+            System.out.println("::::Section not usable Player");
             validation = "";
+        }else if (Global.currentShipGegner.getHp()<=0) {
+            System.out.println(":::Defeat gegner");
+            validation = "";
+            mainClient.setScreen(new StationsMap(game));
         }
         if (canFire) {
-            //makeAShot(Global.weaponListPlayer, Net.HttpMethods.POST);
+            makeAShot(Global.weaponListPlayer, Net.HttpMethods.POST);
             isFired = true;
             canFire = false;
             validation = "";
         }
-        if (!sectionsGernerResponse.isEmpty()) {
-            Section sectionResponse = sectionsGernerResponse.get(0);
+        if (!sectionsToGernerResponse.isEmpty()) {
+            Section sectionResponse = sectionsToGernerResponse.get(0);
             Ship shiptoUpdate = sectionResponse.getShip();
             Global.currentShipGegner = shiptoUpdate;
             switch (sectionResponse.getShip().getName()) {
                 case "Shipgegner1":
-                    Global.sectionsgegner1 = sectionsGernerResponse;
+                    Global.sectionsgegner1 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner1();
                     Global.shipGegner1 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
 
                     break;
                 case "Shipgegner2":
-                    Global.sectionsgegner2 = sectionsGernerResponse;
+                    Global.sectionsgegner2 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner2();
                     Global.shipGegner2 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
 
                     break;
                 case "Shipgegner3":
-                    Global.sectionsgegner3 = sectionsGernerResponse;
+                    Global.sectionsgegner3 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner3();
                     Global.shipGegner3 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
 
                     break;
                 case "Shipgegner4":
-                    Global.sectionsgegner4 = sectionsGernerResponse;
+                    Global.sectionsgegner4 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner4();
                     Global.shipGegner4 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
 
                     break;
                 case "Shipgegner5":
-                    Global.sectionsgegner5 = sectionsGernerResponse;
+                    Global.sectionsgegner5 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner5();
                     Global.shipGegner5 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
 
                     break;
                 case "Shipgegner6":
-                    Global.sectionsgegner6 = sectionsGernerResponse;
+                    Global.sectionsgegner6 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner6();
                     Global.shipGegner6 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
                     break;
             }
-            Global.updateShipsListgegneru2();
+            Global.updateShipsListgegneru1();
             List<Section> sizeO = new ArrayList<>();
-            sectionsGernerResponse = sizeO;
+            sectionsToGernerResponse = sizeO;
             //GEGNER FIRE
-
         }
-
+        lebengegnerShip.setText(String.valueOf(Global.currentShipGegner.getHp()));
+        lebenplayerShip.setText(String.valueOf(Global.currentShipPlayer.getHp()));
         //A
         //Logic
         //Create and launch missiles
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetCockpit) {
             logicOfFirePlayer();
-            randomNumber = (int) ((Math.random() * (10)) + 0);
+            randomNumber = (int) ((Math.random() * (7)) + 0);
             counterCockpit++;
             if (counterCockpit < 3) {
                 bullets.add(new Bullet(590, 843));
+                bullets.add(new Bullet(590, 444));
                 rocketLaunch.play();
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetEngine) {
 
             counterEngine++;
-            randomNumber = (int) ((Math.random() * (10)) + 0);
+            randomNumber = (int) ((Math.random() * (7)) + 0);
             if (counterEngine < 4) {
                 bullets.add(new Bullet(590, 444));
                 rocketLaunch.play();
@@ -571,7 +604,7 @@ public class CombatScreen extends BaseScreen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetWeapon) {
             counterWeapon++;
-            randomNumber = (int) ((Math.random() * (10)) + 0);
+            randomNumber = (int) ((Math.random() * (7)) + 0);
             if (counterWeapon < 4) {
                 bullets.add(new Bullet(590, 444));
                 rocketLaunch.play();
@@ -580,9 +613,9 @@ public class CombatScreen extends BaseScreen {
         }
 
         //shield for player
-        if (isShieldEnabled) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
+        if (Global.currentShipPlayer.getShield()>0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
         //shield for enemy
-        if (isEnemyShield) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
+        if (Global.currentShipGegner.getShield()>0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
 
 
         //explosion on player sections
@@ -659,7 +692,7 @@ public class CombatScreen extends BaseScreen {
                 if (statusCode != HttpStatus.SC_OK) {
                     System.out.println("Request Failed shotValidation");
                 }
-                System.out.println("statusCode Validation: " + statusCode);
+                System.out.println("statusCode GegnerShot: " + statusCode);
                 validationGegner = httpResponse.getResultAsString();
                 System.out.println("GegnerShot: "+ validationGegner);
             }
@@ -683,13 +716,13 @@ public class CombatScreen extends BaseScreen {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed makeAShot");
+                    System.out.println("Request Failed GegnermakeShot");
                 }
-                System.out.println("statusCode makeAShot: " + statusCode);
+                System.out.println("statusCode GegnermakeShot: " + statusCode);
                 String SectionsGegner = httpResponse.getResultAsString();
                 Gson gson = new Gson();
                 Section[] sectiongegnerArray = gson.fromJson(SectionsGegner, Section[].class);
-                sectionsGernerResponse = Arrays.asList(sectiongegnerArray);
+                sectionsToPlayerResponse = Arrays.asList(sectiongegnerArray);
                 System.out.println("statusCode makeAShot: " + statusCode);
             }
             public void failed(Throwable t) {
