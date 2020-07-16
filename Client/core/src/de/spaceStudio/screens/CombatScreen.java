@@ -466,6 +466,9 @@ public class CombatScreen extends BaseScreen {
         //Shot
         if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
             System.out.println("::Gegner Shot now");
+            bulletsEnemy.add(new Bullet(790, 843));
+            bulletsEnemy.add(new Bullet(790, 444));
+            rocketLaunch.play();
             canFireGegner = true;
         } else if (!validationGegner.isEmpty() && validationGegner.equals("Section unusable")) {
             System.out.println(":::::Section unusable Gegner");
@@ -505,6 +508,14 @@ public class CombatScreen extends BaseScreen {
             canFireGegner=false;
             validationGegner = "";
         }
+        //on weapon system Explosion
+        if (!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(1).getUsable()==false) {
+            stage.getBatch().draw(explosion, 555, 520, 100, 100);
+        }else if(!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(0).getUsable()==false){
+            stage.getBatch().draw(explosion, 700, 520, 100, 100);
+        }else if(!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(2).getUsable()==false){
+            stage.getBatch().draw(explosion, 710, 670, 100, 100);
+        }
         if(!sectionsToPlayerResponse.isEmpty()){
             Global.sectionsPlayerList= sectionsToPlayerResponse;
             Global.updateVariableSectionShipPlayer();
@@ -515,8 +526,11 @@ public class CombatScreen extends BaseScreen {
         }
         /////
         ////PLAYER SHOT
+        //////
         if (!validation.isEmpty() && validation.equals("Fire Accepted")) {
             System.out.println(":::::Player Shot");
+            bullets.add(new Bullet(590, 843));
+            bullets.add(new Bullet(590, 444));
             canFire = true;
         } else if (!validation.isEmpty() && validation.equals("Section unusable")) {
             System.out.println("::::Section not usable Player");
@@ -593,34 +607,14 @@ public class CombatScreen extends BaseScreen {
         //Create and launch missiles
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetCockpit) {
-            logicOfFirePlayer();
-            randomNumber = (int) ((Math.random() * (7)) + 0);
-            counterCockpit++;
-            bullets.add(new Bullet(590, 843));
-            bullets.add(new Bullet(590, 444));
-            rocketLaunch.play();
-
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetEngine) {
-            logicOfFirePlayer();
-            counterEngine++;
-            randomNumber = (int) ((Math.random() * (7)) + 0);
-
-            bullets.add(new Bullet(590, 444));
-            rocketLaunch.play();
-
-
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetWeapon) {
-            logicOfFirePlayer();
-            counterWeapon++;
             randomNumber = (int) ((Math.random() * (5)) + 0);
-            bullets.add(new Bullet(590, 444));
-            rocketLaunch.play();
-
-
+            //Set Target->Section of Player and gegner Weapons
+            logicOfFireGegner(randomNumber);
+            //Set Target->Section of  gegner and User Weapons
+            logicOfFirePlayer();
+            counterCockpit++;
         }
+
 
         //shield for player
         if (Global.currentShipPlayer.getShield()>0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
@@ -630,29 +624,18 @@ public class CombatScreen extends BaseScreen {
 
         //explosion on player sections
         //on healthpoint
-        if (randomNumber == 2) {
-            logicOfFireGegner(randomNumber);
+        /*if (randomNumber == 2) {
             stage.getBatch().draw(explosion, 700, 520, 100, 100);
-            randomNumber = 0;
         }
         //on cockpit
         if (randomNumber == 3) {
-            logicOfFireGegner(randomNumber);
             stage.getBatch().draw(explosion, 710, 670, 100, 100);
-            randomNumber = 0;
         }
         //engine
         if (randomNumber == 4) {
-            logicOfFireGegner(randomNumber);
             stage.getBatch().draw(explosion, 445, 395, 100, 100);
-            randomNumber = 0;
-        }
-        //on weapon system
-        if (randomNumber == 5) {
-            logicOfFireGegner(randomNumber);
-            stage.getBatch().draw(explosion, 555, 520, 100, 100);
-            randomNumber = 0;
-        }
+        }*/
+
 
 
         //explosion on enemy's engine
@@ -671,6 +654,14 @@ public class CombatScreen extends BaseScreen {
         ArrayList<Bullet> bulletToRemove = new ArrayList<>();
         for (Bullet bullet : bullets) {
             bullet.update(delta);
+            if (bullet.remove) {
+                bulletToRemove.add(bullet);
+
+            }
+        }
+        ArrayList<Bullet> bulletGegnerToRemove = new ArrayList<>();
+        for (Bullet bullet : bulletsEnemy) {
+            bullet.updateTo(delta);
             if (bullet.remove) {
                 bulletToRemove.add(bullet);
 
@@ -752,7 +743,8 @@ public class CombatScreen extends BaseScreen {
                 for (Weapon w :
                         Global.weaponListUniverse2) {
                     if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
-                        if(sectionNumber==2){
+                        //Weapons gegner set Weapons Section of Player
+                        if(sectionNumber==2||sectionNumber==3){
                             w.setObjectiv(Global.section2);
                             System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
                             weaponList.add(w);

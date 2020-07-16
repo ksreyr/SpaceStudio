@@ -359,6 +359,7 @@ public class Global {
         weapon2Player.setSection(section2);
         actualiziertweaponListPlayer();
     }
+
     /*
      * Weapon Gegner1
      * */
