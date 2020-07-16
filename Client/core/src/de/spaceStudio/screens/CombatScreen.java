@@ -466,8 +466,8 @@ public class CombatScreen extends BaseScreen {
         //Shot
         if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
             System.out.println("::Gegner Shot now");
-            bulletsEnemy.add(new Bullet(790, 843));
-            bulletsEnemy.add(new Bullet(790, 444));
+            bulletsEnemy.add(new Bullet(1600, 743));
+            bulletsEnemy.add(new Bullet(1600, 544));
             rocketLaunch.play();
             canFireGegner = true;
         } else if (!validationGegner.isEmpty() && validationGegner.equals("Section unusable")) {
@@ -656,15 +656,14 @@ public class CombatScreen extends BaseScreen {
             bullet.update(delta);
             if (bullet.remove) {
                 bulletToRemove.add(bullet);
-
             }
         }
+
         ArrayList<Bullet> bulletGegnerToRemove = new ArrayList<>();
         for (Bullet bullet : bulletsEnemy) {
             bullet.updateTo(delta);
             if (bullet.remove) {
-                bulletToRemove.add(bullet);
-
+                bulletGegnerToRemove.add(bullet);
             }
         }
 
@@ -674,9 +673,15 @@ public class CombatScreen extends BaseScreen {
         for (Bullet bullet : bullets) {
             bullet.render(mainClient.getBatch());
         }
+
+        bulletToRemove.removeAll(bulletGegnerToRemove);
+        stage.getBatch().end();
+        mainClient.getBatch().begin();
+        for (Bullet bullet : bulletsEnemy) {
+            bullet.render(mainClient.getBatch());
+        }
+
         mainClient.getBatch().end();
-
-
         stage.act();
         stage.draw();
     }
