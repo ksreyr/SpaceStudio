@@ -97,7 +97,6 @@ public class CombatScreen extends BaseScreen {
     //
     String validation = "";
     String validationGegner="";
-    List<Section> sectionsNachFire;
     List<Section> sectionsToGernerResponse = new ArrayList<Section>();
     List<Section> sectionsToPlayerResponse = new ArrayList<Section>();
     Label lebengegnerShip;
@@ -273,6 +272,7 @@ public class CombatScreen extends BaseScreen {
                         sectionListShipgegner1) {
                     //if section Zeil is weapons
                     if (sectionw) {
+                        System.out.println("::: Shipgegner1 WEAPONS GEGNER UNUSABLE::::");
                         if(s.getSectionTyp().equals(SectionTyp.WEAPONS)){
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
@@ -282,6 +282,7 @@ public class CombatScreen extends BaseScreen {
                         };
                         //if section Zeil is drive
                     }else if(sectiond){
+                        System.out.println(":::Shipgegner1 Drive GEGNER UNUSABLE::::");
                         if(s.getSectionTyp().equals(SectionTyp.DRIVE)){
                             for (Weapon w :
                                     Global.weaponListPlayer) {
@@ -290,6 +291,7 @@ public class CombatScreen extends BaseScreen {
                         };
                         //if section Zeil is others
                     }else{
+                        System.out.println(":::Shipgegner1 Other GEGNER UNUSABLE::::");
                         if(s.getSectionTyp().equals(SectionTyp.NORMAL)){
                             for (Weapon w :
                                     Global.weaponListPlayer) {
@@ -307,6 +309,7 @@ public class CombatScreen extends BaseScreen {
                         sectionListShipgegner2) {
                     //if section Zeil is weapons
                     if (sectionw) {
+                        System.out.println("::: Shipgegner2 WEAPONS GEGNER UNUSABLE::::");
                         if(s.getSectionTyp().equals(SectionTyp.WEAPONS)){
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
@@ -315,6 +318,7 @@ public class CombatScreen extends BaseScreen {
                             }
                         };
                     }else if(sectiond){
+                        System.out.println(":::Shipgegner2 Drive GEGNER UNUSABLE::::");
                         if(s.getSectionTyp().equals(SectionTyp.DRIVE)){
                             for (Weapon w :
                                     Global.weaponListPlayer) {
@@ -322,6 +326,7 @@ public class CombatScreen extends BaseScreen {
                             }
                         };
                     }else{
+                        System.out.println(":::Shipgegner2 Other GEGNER UNUSABLE::::");
                         if(s.getSectionTyp().equals(SectionTyp.NORMAL)){
                             for (Weapon w :
                                     Global.weaponListPlayer) {
@@ -339,6 +344,7 @@ public class CombatScreen extends BaseScreen {
                         sectionListShipgegner3) {
                     //if section Zeil is weapons
                     if (sectionw) {
+                        System.out.println(":::Shipgegner3 WEAPONS GEGNER UNUSABLE::::");
                         if (s.getSectionTyp().equals(SectionTyp.WEAPONS)) {
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
@@ -348,6 +354,7 @@ public class CombatScreen extends BaseScreen {
                         }
                         ;
                     } else if (sectiond) {
+                        System.out.println(":::Shipgegner3 DRIVE GEGNER UNUSABLE::::");
                         if (s.getSectionTyp().equals(SectionTyp.DRIVE)) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
@@ -356,6 +363,7 @@ public class CombatScreen extends BaseScreen {
                         }
                         ;
                     } else {
+                        System.out.println(":::Shipgegner3 OTHER GEGNER UNUSABLE::::");
                         if (s.getSectionTyp().equals(SectionTyp.NORMAL)) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
@@ -524,6 +532,7 @@ public class CombatScreen extends BaseScreen {
             canFire = false;
             validation = "";
         }
+        //Update Server Response
         if (!sectionsToGernerResponse.isEmpty()) {
             Section sectionResponse = sectionsToGernerResponse.get(0);
             Ship shiptoUpdate = sectionResponse.getShip();
@@ -534,41 +543,42 @@ public class CombatScreen extends BaseScreen {
                     Global.updateVariblesSectionsGegner1();
                     Global.shipGegner1 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
-
+                    Global.aktualizierenweaponListUniverse2();
                     break;
                 case "Shipgegner2":
                     Global.sectionsgegner2 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner2();
                     Global.shipGegner2 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
-
+                    Global.aktualizierenweaponListUniverse2();
                     break;
                 case "Shipgegner3":
                     Global.sectionsgegner3 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner3();
                     Global.shipGegner3 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
-
+                    Global.aktualizierenweaponListUniverse2();
                     break;
                 case "Shipgegner4":
                     Global.sectionsgegner4 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner4();
                     Global.shipGegner4 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
-
+                    Global.aktualizierenweaponListUniverse2();
                     break;
                 case "Shipgegner5":
                     Global.sectionsgegner5 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner5();
                     Global.shipGegner5 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
-
+                    Global.aktualizierenweaponListUniverse2();
                     break;
                 case "Shipgegner6":
                     Global.sectionsgegner6 = sectionsToGernerResponse;
                     Global.updateVariblesSectionsGegner6();
                     Global.shipGegner6 = shiptoUpdate;
                     Global.currentShipGegner = shiptoUpdate;
+                    Global.aktualizierenweaponListUniverse2();
                     break;
             }
             Global.updateShipsListgegneru1();
@@ -586,30 +596,29 @@ public class CombatScreen extends BaseScreen {
             logicOfFirePlayer();
             randomNumber = (int) ((Math.random() * (7)) + 0);
             counterCockpit++;
-            if (counterCockpit < 3) {
-                bullets.add(new Bullet(590, 843));
-                bullets.add(new Bullet(590, 444));
-                rocketLaunch.play();
-            }
+            bullets.add(new Bullet(590, 843));
+            bullets.add(new Bullet(590, 444));
+            rocketLaunch.play();
+
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetEngine) {
-
+            logicOfFirePlayer();
             counterEngine++;
             randomNumber = (int) ((Math.random() * (7)) + 0);
-            if (counterEngine < 4) {
-                bullets.add(new Bullet(590, 444));
-                rocketLaunch.play();
-            }
+
+            bullets.add(new Bullet(590, 444));
+            rocketLaunch.play();
+
 
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetWeapon) {
+            logicOfFirePlayer();
             counterWeapon++;
             randomNumber = (int) ((Math.random() * (5)) + 0);
-            if (counterWeapon < 4) {
-                bullets.add(new Bullet(590, 444));
-                rocketLaunch.play();
-            }
+            bullets.add(new Bullet(590, 444));
+            rocketLaunch.play();
+
 
         }
 

@@ -521,6 +521,20 @@ public class Global {
         weapon2Gegner6=weaponListUniverse2.get(13);
     }
     public static void aktualizierenweaponListUniverse2(){
+        weapon1Player.setSection(section2);
+        weapon2Player.setSection(section2);
+        weapon1Gegner1.setSection(section3Gegner);
+        weapon2Gegner1.setSection(section3Gegner);
+        weapon1Gegner2.setSection(section3Gegner2);
+        weapon2Gegner2.setSection(section3Gegner2);
+        weapon1Gegner3.setSection(section3Gegner3);
+        weapon2Gegner3.setSection(section3Gegner3);
+        weapon1Gegner4.setSection(section3Gegner4);
+        weapon2Gegner4.setSection(section3Gegner4);
+        weapon1Gegner5.setSection(section3Gegner5);
+        weapon2Gegner5.setSection(section3Gegner5);
+        weapon1Gegner6.setSection(section3Gegner6);
+        weapon2Gegner6.setSection(section3Gegner6);
         List<Weapon> newweaponListUniverse2 = new ArrayList<Weapon>(){{
             add(weapon1Player);
             add(weapon2Player);
@@ -588,7 +602,7 @@ public class Global {
         }};
         shipsgegneru1=shipsgegneru1new;
     }
-    //**Weapons Universe 1**//
+    //**Weapons Universe **//
 
     // Ship Universe 2
     public static List<Ship> shipsgegneru2 =new ArrayList<Ship>(){{
@@ -834,7 +848,7 @@ public class Global {
     public static Section section1Gegner6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
-            .img("Section1Gegner3")
+            .img("Section1Gegner6")
             .oxygen(100)
             .powerCurrent(100)
             .usable(true)
@@ -844,7 +858,7 @@ public class Global {
     public static Section section2Gegner6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.DRIVE)
-            .img("Section2Gegner3")
+            .img("Section2Gegner6")
             .oxygen(100)
             .powerCurrent(100)
             .usable(true)
@@ -854,7 +868,7 @@ public class Global {
     public static Section section3Gegner6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
-            .img("Section3Gegner3")
+            .img("Section3Gegner6")
             .oxygen(100)
             .powerCurrent(100)
             .usable(true)
