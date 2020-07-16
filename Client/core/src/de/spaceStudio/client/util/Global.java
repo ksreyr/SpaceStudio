@@ -220,7 +220,7 @@ public class Global {
         add(crewMember1);
         add(crewMember2);
     }};
-    public static boolean allReady = false;
+    public static boolean allReady = false;  // FIXME change to true when all Player will jump
 
     public static void updateVariableCrewMembersPlayer(){
         crewMember0=crewMemberList.get(0);
