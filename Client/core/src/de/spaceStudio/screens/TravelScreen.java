@@ -88,14 +88,16 @@ public class TravelScreen extends ScreenAdapter {
         travelText = "Traveling threw Space Time since " + (int) timePassed + " Seconds";
         timePassed += delta;
         travelLabel.setText(travelText);
-        dot++;
-        String dots = "";
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < dot % 5; i++) {
-            sb.append('.');
+        if (Global.isOnlineGame) {
+            dot++;
+            String dots = "";
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < dot % 5; i++) {
+                sb.append('.');
+            }
+            dots = sb.toString();
+            playerLabel.setText(playerText + dots);
         }
-        dots = sb.toString();
-        playerLabel.setText(playerText + dots);
 
         // Switch Screen after 10 Seconds or when all Players are ready
         boolean jumpReady = !Global.isOnlineGame || Global.allReady;
