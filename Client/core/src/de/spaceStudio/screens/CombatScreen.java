@@ -739,14 +739,13 @@ public class CombatScreen extends BaseScreen {
     private void logicOfFireGegner(int sectionNumber) {
         List<Weapon> weaponList= new ArrayList<>();
         if (Global.currentShipGegner != null) {
-            if (Global.currentUniverse.getName().equals("Easy" + Global.currentPlayer.getName())) {
+            if (Global.currentUniverse.getName().equals("Normal" + Global.currentPlayer.getName())) {
                 for (Weapon w :
-                        Global.weaponListUniverse1) {
+                        Global.weaponListUniverse2) {
                     if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
                         if(sectionNumber==2){
                             w.setObjectiv(Global.section2);
-                            System.out.println("::::::::::::::::::::.WEAPONS NULL:::::::::::::::");
-                            System.out.println("::::::::::::::::::::.WEAPONS NULL:::::::::::::::");
+                            System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
                             weaponList.add(w);
                         }else if(sectionNumber==4){
                             w.setObjectiv(Global.section1);
@@ -757,10 +756,13 @@ public class CombatScreen extends BaseScreen {
                         }
                     }
                 }
-                Global.updateweaponVariabelUniverse1();
+                Global.updateweaponVariabelUniverse2();
                 Global.actualiziertweaponListGegner1();
                 Global.actualiziertweaponListGegner2();
                 Global.actualiziertweaponListGegner3();
+                Global.actualiziertweaponListGegner4();
+                Global.actualiziertweaponListGegner5();
+                Global.actualiziertweaponListGegner6();
             }
         }
         shotValidationGegner(weaponList,Net.HttpMethods.POST);

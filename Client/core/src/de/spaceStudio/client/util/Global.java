@@ -315,16 +315,8 @@ public class Global {
     public static AI ai5 = AI.builderAI().name("gegner5").buildAI();
     public static AI ai6 = AI.builderAI().name("gegner6").buildAI();
 
-    public static List<AI> aisU1=new ArrayList<AI>(){{
-        add(ai1);
-        add(ai2);
-        add(ai3);
-    }};
-    public static void updateVariableaiu1(){
-        ai1=aisU1.get(0);
-        ai2=aisU1.get(1);
-        ai3=aisU1.get(2);
-    }
+
+
     public static List<AI> aisU2=new ArrayList<AI>(){{
         add(ai1);
         add(ai2);
@@ -493,40 +485,7 @@ public class Global {
         }};
         weaponListGegner6=newweaponListGegner6;
     }
-    /*Weapon Universe1*/
-    public static List<Weapon> weaponListUniverse1 = new ArrayList<Weapon>(){{
-        add(weapon1Player);
-        add(weapon2Player);
-        add(weapon1Gegner1);
-        add(weapon2Gegner1);
-        add(weapon1Gegner2);
-        add(weapon2Gegner2);
-        add(weapon1Gegner3);
-        add(weapon2Gegner3);
-    }};
-    public static void updateweaponVariabelUniverse1(){
-        weapon1Player= weaponListUniverse1.get(0);
-        weapon2Player= weaponListUniverse1.get(1);
-        weapon1Gegner1=weaponListUniverse1.get(2);
-        weapon2Gegner1=weaponListUniverse1.get(3);
-        weapon1Gegner2=weaponListUniverse1.get(4);
-        weapon2Gegner2=weaponListUniverse1.get(5);
-        weapon1Gegner3=weaponListUniverse1.get(6);
-        weapon2Gegner3=weaponListUniverse1.get(7);
-    }
-    public static void aktualizierenweaponListUniverse1(){
-        List<Weapon> newweaponListUniverse1 = new ArrayList<Weapon>(){{
-            add(weapon1Player);
-            add(weapon2Player);
-            add(weapon1Gegner1);
-            add(weapon2Gegner1);
-            add(weapon1Gegner2);
-            add(weapon2Gegner2);
-            add(weapon1Gegner3);
-            add(weapon2Gegner3);
-        }};
-        weaponListUniverse1=newweaponListUniverse1;
-    }
+
     /*Weapon Universe2*/
 
     public static List<Weapon> weaponListUniverse2 = new ArrayList<Weapon>(){{
@@ -560,6 +519,25 @@ public class Global {
         weapon2Gegner5=weaponListUniverse2.get(11);
         weapon1Gegner6=weaponListUniverse2.get(12);
         weapon2Gegner6=weaponListUniverse2.get(13);
+    }
+    public static void aktualizierenweaponListUniverse2(){
+        List<Weapon> newweaponListUniverse2 = new ArrayList<Weapon>(){{
+            add(weapon1Player);
+            add(weapon2Player);
+            add(weapon1Gegner1);
+            add(weapon2Gegner1);
+            add(weapon1Gegner2);
+            add(weapon2Gegner2);
+            add(weapon1Gegner3);
+            add(weapon2Gegner3);
+            add(weapon1Gegner4);
+            add(weapon2Gegner4);
+            add(weapon1Gegner5);
+            add(weapon2Gegner5);
+            add(weapon1Gegner6);
+            add(weapon2Gegner6);
+        }};
+        weaponListUniverse2=newweaponListUniverse2;
     }
     /*
     Gegner Ship
@@ -1000,3 +978,51 @@ public class Global {
 
 
 }
+
+
+/*Weapon Universe1*/
+    /*public static List<Weapon> weaponListUniverse1 = new ArrayList<Weapon>(){{
+        add(weapon1Player);
+        add(weapon2Player);
+        add(weapon1Gegner1);
+        add(weapon2Gegner1);
+        add(weapon1Gegner2);
+        add(weapon2Gegner2);
+        add(weapon1Gegner3);
+        add(weapon2Gegner3);
+    }};
+    public static void updateweaponVariabelUniverse1(){
+        weapon1Player= weaponListUniverse1.get(0);
+        weapon2Player= weaponListUniverse1.get(1);
+        weapon1Gegner1=weaponListUniverse1.get(2);
+        weapon2Gegner1=weaponListUniverse1.get(3);
+        weapon1Gegner2=weaponListUniverse1.get(4);
+        weapon2Gegner2=weaponListUniverse1.get(5);
+        weapon1Gegner3=weaponListUniverse1.get(6);
+        weapon2Gegner3=weaponListUniverse1.get(7);
+    }
+    public static void aktualizierenweaponListUniverse1(){
+        List<Weapon> newweaponListUniverse1 = new ArrayList<Weapon>(){{
+            add(weapon1Player);
+            add(weapon2Player);
+            add(weapon1Gegner1);
+            add(weapon2Gegner1);
+            add(weapon1Gegner2);
+            add(weapon2Gegner2);
+            add(weapon1Gegner3);
+            add(weapon2Gegner3);
+        }};
+        weaponListUniverse1=newweaponListUniverse1;
+    }*/
+
+    /*public static List<AI> aisU1=new ArrayList<AI>(){{
+        add(ai1);
+        add(ai2);
+        add(ai3);
+    }};
+    public static void updateVariableaiu1(){
+        ai1=aisU1.get(0);
+        ai2=aisU1.get(1);
+        ai3=aisU1.get(2);
+    }
+    */

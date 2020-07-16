@@ -519,34 +519,33 @@ public class ShipSelectScreen extends BaseScreen {
         }
         //Add Universe
         if (requestcounter == 5) {
-            if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+            //if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
                 universe2.setName(universe2.getName() + currentPlayer.getName());
                 Global.universe2.setName(universe2.getName());
                 sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
 
-            } else {
-                universe1.setName(universe1.getName() + currentPlayer.getName());
-                Global.universe1.setName(universe1.getName());
-                sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
-            }
+            //} else {
+            //  universe1.setName(universe1.getName() + currentPlayer.getName());
+            //    Global.universe1.setName(universe1.getName());
+            //   sendRequestAddUniverse(universe1, Net.HttpMethods.POST);
+            //}
             requestcounter = 6;
         }
         //updated Universe
         if (requestcounter == 6 && universeID != 0) {
-            if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
+            //if (levelDifficult == Difficult.NORMAL.getLevelCode()) {
                 Global.universe2.setId(universeID);
                 currentUniverse = Global.universe2;
                 sendRequestAisCreation(Global.aisU2, Net.HttpMethods.POST);
-            } else {
-                Global.universe1.setId(universeID);
-                currentUniverse = Global.universe1;
-                sendRequestAisCreation(Global.aisU1, Net.HttpMethods.POST);
-
-            }
+            //} else {
+              //  Global.universe1.setId(universeID);
+              //  currentUniverse = Global.universe1;
+              //  sendRequestAisCreation(Global.aisU1, Net.HttpMethods.POST);
+           // }
             requestcounter = 7;
         }
-        //DIFERENT OBJECTE IN DIFFENTEN UNIVERSE
-        if (levelDifficult == Difficult.EASY.getLevelCode()) {
+        //UNIVERSE 1
+        /*if (levelDifficult == Difficult.EASY.getLevelCode()) {
             if (requestcounter == 7 && !aiList.isEmpty()) {
                 Global.aisU1 = aiList;
                 Global.updateVariableaiu1();
@@ -745,7 +744,7 @@ public class ShipSelectScreen extends BaseScreen {
             //OBJECTE UNIVERSE 2
             //
             //
-        } else {
+        } else {*/
             if (requestcounter == 7 && !aiList.isEmpty()) {
                 Global.aisU2 = aiList;
                 Global.updateVariableaiu2();
@@ -945,49 +944,49 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 20;
             }
             if (requestcounter == 20) {
-                List<Weapon> weaponsUniver1=new ArrayList<>();
+                List<Weapon> weaponsUniver2=new ArrayList<>();
                 for (Weapon w :
                         weaponListPlayer) {
                     w.setSection(section2);
-                    weaponsUniver1.add(w);
+                    weaponsUniver2.add(w);
                 }
                 for(Weapon w:
                         weaponListGegner1){
                     w.setSection(section3Gegner);
-                    weaponsUniver1.add(w);
+                    weaponsUniver2.add(w);
                 }
                 for(Weapon w:
                         weaponListGegner2){
                     w.setSection(section3Gegner2);
-                    weaponsUniver1.add(w);
+                    weaponsUniver2.add(w);
                 }
                 for(Weapon w:
                         weaponListGegner3){
                     w.setSection(section3Gegner3);
-                    weaponsUniver1.add(w);
+                    weaponsUniver2.add(w);
                 }
                 for(Weapon w:
-                        weaponListGegner1){
+                        weaponListGegner4){
                     w.setSection(section3Gegner4);
-                    weaponsUniver1.add(w);
+                    weaponsUniver2.add(w);
                 }
                 for(Weapon w:
-                        weaponListGegner2){
+                        weaponListGegner5){
                     w.setSection(section3Gegner5);
-                    weaponsUniver1.add(w);
+                    weaponsUniver2.add(w);
                 }
                 for(Weapon w:
-                        weaponListGegner3){
+                        weaponListGegner6){
                     w.setSection(section3Gegner6);
-                    weaponsUniver1.add(w);
+                    weaponsUniver2.add(w);
                 }
-                sendRequestAddWeapon(weaponsUniver1, Net.HttpMethods.POST);
+                sendRequestAddWeapon(weaponsUniver2, Net.HttpMethods.POST);
                 requestcounter = 21;
             }
             if (!weapons.isEmpty() && requestcounter == 21) {
                 weaponListUniverse2 = weapons;
-                Global.updateweaponVariabelUniverse1();
-                Global.aktualizierenweaponListUniverse1();
+                Global.updateweaponVariabelUniverse2();
+                Global.aktualizierenweaponListUniverse2();
                 Global.actualiziertweaponListPlayer();
                 Global.actualiziertweaponListGegner1();
                 Global.actualiziertweaponListGegner2();
@@ -1002,7 +1001,7 @@ public class ShipSelectScreen extends BaseScreen {
                 mainClient.setScreen(new StationsMap(game));
                 requestcounter = 23;
             }
-        }
+        //}
 
 
         /////
