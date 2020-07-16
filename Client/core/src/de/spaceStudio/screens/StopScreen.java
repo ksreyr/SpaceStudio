@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class StopScreen extends ScreenAdapter {
     MainClient game;
-    boolean enemyNearBy = true;
+    boolean enemyNearBy = Global.currentShipGegner != null;
     private Stage stage;
     private Skin skin;
 

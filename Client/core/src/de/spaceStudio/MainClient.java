@@ -29,6 +29,7 @@ public class MainClient extends Game {
 		loginScreen = new LoginScreen(this, assetManager);
 		batch = new SpriteBatch();
 		stopScreen = new StopScreen(this);
+
 		setScreen(loginScreen);
 	}
 

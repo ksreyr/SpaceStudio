@@ -425,7 +425,7 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().end();
         stage.act();
         stage.draw();
-        if(!shipList.isEmpty()&&control==false){
+        if(!shipList.isEmpty() && control==false ){
             try {
                 Global.currentShipPlayer =shipList.get(1);
                 Global.currentShipGegner = shipList.get(0);
@@ -434,7 +434,7 @@ public class StationsMap extends BaseScreen {
                 Global.currentShipPlayer =shipList.get(0);
                 Global.currentShipGegner=null;
             }
-            mainClient.setScreen(new StopScreen(game));
+            mainClient.setScreen(new TravelScreen(game));
             control=true;
         }
 

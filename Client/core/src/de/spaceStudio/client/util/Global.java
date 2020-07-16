@@ -220,6 +220,8 @@ public class Global {
         add(crewMember1);
         add(crewMember2);
     }};
+    public static boolean allReady = false;
+
     public static void updateVariableCrewMembersPlayer(){
         crewMember0=crewMemberList.get(0);
         crewMember1=crewMemberList.get(1);
