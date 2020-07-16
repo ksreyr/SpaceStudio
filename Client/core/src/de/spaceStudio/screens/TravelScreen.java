@@ -101,7 +101,7 @@ public class TravelScreen extends ScreenAdapter {
 
         // Switch Screen after 10 Seconds or when all Players are ready
         boolean jumpReady = !Global.isOnlineGame || Global.allReady;
-        if (timePassed > 15 && jumpReady) {
+        if (timePassed > 5 && jumpReady) {
             game.setScreen(new StopScreen(game));
         }
 
