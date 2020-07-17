@@ -606,7 +606,7 @@ public class CombatScreen extends BaseScreen {
         //Logic
         //Create and launch missiles
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && isTargetCockpit) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             randomNumber = (int) ((Math.random() * (5)) + 0);
             //Set Target->Section of Player and gegner Weapons
             logicOfFireGegner(randomNumber);
@@ -749,7 +749,7 @@ public class CombatScreen extends BaseScreen {
                         Global.weaponListUniverse2) {
                     if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
                         //Weapons gegner set Weapons Section of Player
-                        if(sectionNumber==2||sectionNumber==3){
+                        if(sectionNumber==2){
                             w.setObjectiv(Global.section2);
                             System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
                             weaponList.add(w);
