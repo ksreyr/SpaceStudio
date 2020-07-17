@@ -111,6 +111,7 @@ public class ShopScreen extends Base {
         font.draw(batch,"press 'z' to activate weapon in second Section ", 800, 940);
         font.draw(batch,"press 'u' to activate weapon in third Section ", 800, 920);
         font.draw(batch,"press 'i' to activate weapon in fourth Section ", 800, 900);
+
         if (tPressed) {
             ship.setWeaponFst(true);
             ship.setMoney(-10);

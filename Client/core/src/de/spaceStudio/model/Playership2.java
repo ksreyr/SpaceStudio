@@ -3,6 +3,7 @@ package de.spaceStudio.model;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import de.spaceStudio.server.model.CrewMember;
 
 public class Playership2 extends Rectangle {
 
@@ -43,19 +44,24 @@ public class Playership2 extends Rectangle {
     private boolean crewMemberMs6;
 
 
-    private float money;
+    private int money;
     private int secure;
+    private int oxygen;
+    private int drive;
+
 
     public Playership2(float x, float y) {
         this.x = 0;
         this.y = 0;
 
-        this.money = 100f;
+        this.money = 100;
         this.secure = 20;
+        this.oxygen = 50;
+        this.drive = 30;
 
         texture =  new Texture("Client/core/assets/data/ships/blueships1_section.png");
         rocket1 = new Texture("data/ships/rocketSmall.png");
-        rocket2 = new Texture("data/ships/attack.png");
+        rocket2 = new Texture("data/ships/attack_small.png");
         crewMemberMTexture = new Texture("Client/core/assets/MaleHuman-3.png");
         crewMemberFTexture = new Texture("Client/core/assets/FemaleHuman-2.png");
         oxygenTexture = new Texture("Client/core/assets/OxygenSymbol.png");
@@ -92,31 +98,84 @@ public class Playership2 extends Rectangle {
         this.crewMemberMs5 = false;
         this.crewMemberMs6 = false;
 
-
     }
 
     public void render(SpriteBatch batch) {
         // draw texture
         batch.draw(texture, x, y);
-
         if(rocket1s1){
-            batch.draw(rocket1,840,520 );
+            batch.draw(rocket1,280,620  );
         }
         if(rocket1s2){
-            batch.draw(rocket1,840,520 );
+            batch.draw(rocket1,280,160 );
         }
         if(rocket1s3){
-            batch.draw(rocket1,840,520 );
+            batch.draw(rocket1,500,490 );
         }
         if(rocket1s4){
-            batch.draw(rocket1,840,520 );
+            batch.draw(rocket1,500,300 );
         }
         if(rocket1s5){
-            batch.draw(rocket1,840,520 );
+            batch.draw(rocket1,700,490 );
         }
         if(rocket1s6){
-            batch.draw(rocket1,840,520 );
+            batch.draw(rocket1,700,340 );
         }
+        if(rocket2s1){
+            batch.draw(rocket2,330,620);
+        }
+        if(rocket2s2){
+            batch.draw(rocket2,330,160);
+        }
+        if(rocket2s3){
+            batch.draw(rocket2,550,490);
+        }
+        if(rocket2s4){
+            batch.draw(rocket2,550,300);
+        }
+        if(rocket2s5){
+            batch.draw(rocket2,750,490);
+        }
+        if(rocket2s6){
+            batch.draw(rocket2,750,340);
+        }
+        if(crewMemberFs1){
+            batch.draw(crewMemberFTexture,300,690);
+        }
+        if(crewMemberFs2){
+            batch.draw(crewMemberFTexture,300,230);
+        }
+        if(crewMemberFs3){
+            batch.draw(crewMemberFTexture,500,560);
+        }
+        if(crewMemberFs4){
+            batch.draw(crewMemberFTexture,500,370);
+        }
+        if(crewMemberFs5){
+            batch.draw(crewMemberFTexture,700,560);
+        }
+        if(crewMemberFs6){
+            batch.draw(crewMemberFTexture,700,410);
+        }
+        if(crewMemberMs1){
+            batch.draw(crewMemberMTexture,350,690);
+        }
+        if(crewMemberMs2){
+            batch.draw(crewMemberMTexture,350,230);
+        }
+        if(crewMemberMs3){
+            batch.draw(crewMemberMTexture,550,560);
+        }
+        if(crewMemberMs4){
+            batch.draw(crewMemberMTexture,550,370);
+        }
+        if(crewMemberMs5){
+            batch.draw(crewMemberMTexture,750,560);
+        }
+        if(crewMemberMs6){
+            batch.draw(crewMemberMTexture,750,410);
+        }
+
     }
 
     public void dispose() {
@@ -320,10 +379,35 @@ public class Playership2 extends Rectangle {
         this.crewMemberMs6 = crewMemberMs6;
     }
 
-    public void setMoney(float amount){
-        this.money = money + amount;
+    public int getSecure() {
+        return secure;
     }
-    public float getMoney(){
-        return this.money;
+
+    public void setSecure(int secure) {
+        this.secure = secure;
+    }
+
+    public int getOxygen() {
+        return oxygen;
+    }
+
+    public void setOxygen(int oxygen) {
+        this.oxygen = oxygen;
+    }
+
+    public int getDrive() {
+        return drive;
+    }
+
+    public void setDrive(int drive) {
+        this.drive = drive;
+    }
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
 }
