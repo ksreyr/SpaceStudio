@@ -15,6 +15,7 @@ public class MainClient extends Game {
 
 	public LoginScreen loginScreen;
 	private SpriteBatch batch;
+	public ShopScreen2 shopScreen;
 
 	private StopScreen stopScreen;
 
@@ -29,6 +30,8 @@ public class MainClient extends Game {
 		batch = new SpriteBatch();
 		stopScreen = new StopScreen(this);
 		setScreen(loginScreen);
+		shopScreen = new ShopScreen2(this);
+
 	}
 
 	public AssetManager getAssetManager() {
