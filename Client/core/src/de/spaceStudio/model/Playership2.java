@@ -15,19 +15,9 @@ public class Playership2 extends Rectangle {
 
 
     //rocket1
-    private boolean rocket1s1;
-    private boolean rocket1s2;
-    private boolean rocket1s3;
-    private boolean rocket1s4;
-    private boolean rocket1s5;
-    private boolean rocket1s6;
+    private boolean rocket1s1,rocket1s2,rocket1s3,rocket1s4,rocket1s5,rocket1s6;
     //rocket2
-    private boolean rocket2s1;
-    private boolean rocket2s2;
-    private boolean rocket2s3;
-    private boolean rocket2s4;
-    private boolean rocket2s5;
-    private boolean rocket2s6;
+    private boolean rocket2s1,rocket2s2,rocket2s3,rocket2s4,rocket2s5,rocket2s6;
     //crewmemberF
     private boolean crewMemberFs1;
     private boolean crewMemberFs2;

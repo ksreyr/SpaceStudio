@@ -57,7 +57,7 @@ public class ShopScreen2 extends ScreenAdapter {
         crewMemberMTexture = new Texture("Client/core/assets/MaleHuman-3.png");
         crewMemberFTexture = new Texture("Client/core/assets/FemaleHuman-2.png");
         securityTexture = new Texture("data/ships/securitySmall.png");
-        oxygenTexture = new Texture("Client/core/assets/OxygenSymbol.png");
+        oxygenTexture = new Texture("Client/core/assets/OxygenSymbol_large.png");
         driveTexture = new Texture("Client/core/assets/fire3.png");
         this.itemNumber = 0;
         batch = new SpriteBatch();
@@ -126,7 +126,7 @@ public class ShopScreen2 extends ScreenAdapter {
         stage.addActor(checkBoxSection4);
         stage.addActor(checkBoxSection5);
         stage.addActor(checkBoxSection6);
-        stage.addActor(checkBoxAllSections);
+        //stage.addActor(checkBoxAllSections);
 
         //Dialog dialog = new Dialog("Store", skin);
         //dialog.setSize(500,250);
@@ -256,7 +256,7 @@ public class ShopScreen2 extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 changeItems(false);
-                setAllSectionCheckboxesFalse();
+                //setAllSectionCheckboxesFalse();
             }
         });
     }
@@ -264,18 +264,19 @@ public class ShopScreen2 extends ScreenAdapter {
 
         if(itemNumber > 3){
             setAllSectionCheckboxesFalse();
-            checkBoxAllSections.setChecked(true);
                 if(itemNumber == 4)
                     ship.setSecure(ship.getSecure()+10);
-                    ship.setMoney(ship.getMoney()-10);
                 if(itemNumber == 5)
                     ship.setOxygen(ship.getOxygen()+10);
-                    ship.setMoney(ship.getMoney()-10);
                 if(itemNumber == 6)
                     ship.setDrive(ship.getDrive()+10);
+                if(b){
                     ship.setMoney(ship.getMoney()-10);
-
+                }else{
+                    ship.setMoney(ship.getMoney()+10);
+                }
         }
+
         if(checkBoxSection1.isChecked()){
             if(itemNumber == 0)
                 ship.setRocket1s1(b);
@@ -285,7 +286,11 @@ public class ShopScreen2 extends ScreenAdapter {
                 ship.setCrewMemberFs1(b);
             if(itemNumber == 3)
                 ship.setCrewMemberMs1(b);
-            ship.setMoney(ship.getMoney()-100);
+            if(b){
+                ship.setMoney(ship.getMoney()-100);
+            }else{
+                ship.setMoney(ship.getMoney()+100);
+            }
         }
         if(checkBoxSection2.isChecked()){
             if(itemNumber == 0)
@@ -296,7 +301,11 @@ public class ShopScreen2 extends ScreenAdapter {
                 ship.setCrewMemberFs2(b);
             if(itemNumber == 3)
                 ship.setCrewMemberMs2(b);
-            ship.setMoney(ship.getMoney()-100);
+            if(b){
+                ship.setMoney(ship.getMoney()-100);
+            }else{
+                ship.setMoney(ship.getMoney()+100);
+            }
         }
         if(checkBoxSection3.isChecked()){
             if(itemNumber == 0)
@@ -307,7 +316,11 @@ public class ShopScreen2 extends ScreenAdapter {
                 ship.setCrewMemberFs3(b);
             if(itemNumber == 3)
                 ship.setCrewMemberMs3(b);
-            ship.setMoney(ship.getMoney()-100);
+            if(b){
+                ship.setMoney(ship.getMoney()-100);
+            }else{
+                ship.setMoney(ship.getMoney()+100);
+            }
         }
         if(checkBoxSection4.isChecked()){
             if(itemNumber == 0)
@@ -318,7 +331,11 @@ public class ShopScreen2 extends ScreenAdapter {
                 ship.setCrewMemberFs4(b);
             if(itemNumber == 3)
                 ship.setCrewMemberMs4(b);
-            ship.setMoney(ship.getMoney()-100);
+            if(b){
+                ship.setMoney(ship.getMoney()-100);
+            }else{
+                ship.setMoney(ship.getMoney()+100);
+            }
         }
         if(checkBoxSection5.isChecked()){
             if(itemNumber == 0)
@@ -329,7 +346,11 @@ public class ShopScreen2 extends ScreenAdapter {
                 ship.setCrewMemberFs5(b);
             if(itemNumber == 3)
                 ship.setCrewMemberMs5(b);
-            ship.setMoney(ship.getMoney()-100);
+            if(b){
+                ship.setMoney(ship.getMoney()-100);
+            }else{
+                ship.setMoney(ship.getMoney()+100);
+            }
         }
         if(checkBoxSection6.isChecked()){
             if(itemNumber == 0)
@@ -340,7 +361,11 @@ public class ShopScreen2 extends ScreenAdapter {
                 ship.setCrewMemberFs6(b);
             if(itemNumber == 3)
                 ship.setCrewMemberMs6(b);
-            ship.setMoney(ship.getMoney()-100);
+            if(b){
+                ship.setMoney(ship.getMoney()-100);
+            }else{
+                ship.setMoney(ship.getMoney()+100);
+            }
         }
 
     }
@@ -384,7 +409,7 @@ public class ShopScreen2 extends ScreenAdapter {
 
         } else if (itemNumber == 4) {
 
-            TextArea textArea = new TextArea("Name: Security\nAmount: + 10 %\nCosts: 10 $", skin);
+            TextArea textArea = new TextArea("Name: Security\nAmount: + 10 %\nCosts: 10 $\nInfo: for the whole ship", skin);
             textArea.setPosition(1100, 380);
             textArea.setWidth(400);
             textArea.setHeight(200);
@@ -392,7 +417,7 @@ public class ShopScreen2 extends ScreenAdapter {
         }
         else if (itemNumber == 5) {
 
-            TextArea textArea = new TextArea("Name: Oxygen\nCosts: 10 $", skin);
+            TextArea textArea = new TextArea("Name: Oxygen\nCosts: 10 $\nInfo: for the whole ship", skin);
             textArea.setPosition(1100, 380);
             textArea.setWidth(400);
             textArea.setHeight(200);
@@ -400,7 +425,7 @@ public class ShopScreen2 extends ScreenAdapter {
 
         } else if (itemNumber == 6){
 
-            TextArea textArea = new TextArea("Name: Drive\nCosts: 10 $", skin);
+            TextArea textArea = new TextArea("Name: Drive\nCosts: 10 $\nInfo: for the whole ship", skin);
             textArea.setPosition(1100, 380);
             textArea.setWidth(400);
             textArea.setHeight(200);
