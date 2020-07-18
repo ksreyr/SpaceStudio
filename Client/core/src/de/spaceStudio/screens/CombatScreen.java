@@ -59,26 +59,26 @@ public class CombatScreen extends BaseScreen {
     private SpriteBatch batch;
 
     private Texture playerShip;
-    private Texture enemyShip;
+    private Texture enemyShip1,enemyShip2,enemyShip3;
     private Texture hull;
     private Texture background;
-    private TextButton enableShield, enableEnemyShield;
+
 
     boolean isFired = false;
     boolean canFire = false;
     boolean canFireGegner = false;
     private boolean isExploied;
     private boolean sectionw, sectiond, sectionOthers;
-    private Texture missilleRight,  explosion, missilleLeft, weaponSystem;
-    int fuzeOffsetright,fuzeOffsetLeft;
+    private Texture missilleRight, explosion, missilleLeft, weaponSystem;
+    int fuzeOffsetright, fuzeOffsetLeft;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
-    private Skin  skinButton;
+    private Skin skinButton;
     boolean isWin;
 
     Texture bullet, shield;
-    private boolean isShieldEnabled,  isEnemyShield;
+    private boolean isShieldEnabled, isEnemyShield, isTargetO2, isTargetMedical;
 
-    private ImageButton engine, weaponSection,cockpit;
+    private ImageButton engine, weaponSection, cockpit, o2, healthPoint;
     private int disappearRight = 570;
     private int disappearLeft = 570;
     private int counterEngine = 0;
@@ -86,7 +86,7 @@ public class CombatScreen extends BaseScreen {
     private int counterWeapon = 0;
     private int randomNumber;
 
-    float x=0;
+    float x = 0;
 
     Sound rocketLaunch;
 
@@ -125,16 +125,17 @@ public class CombatScreen extends BaseScreen {
 
         background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
         playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
-        enemyShip = new Texture("Client/core/assets/combatAssets/enemy1.png");
-        enemyShip = new Texture("Client/core/assets/combatAssets/enemy1.png");
+        enemyShip1 = new Texture("Client/core/assets/combatAssets/enemy1.png");
+        enemyShip2 = new Texture("Client/core/assets/combatAssets/enemy_2.png");
+        enemyShip3 = new Texture("Client/core/assets/combatAssets/enemy_3.png");
         missilleRight = new Texture("Client/core/assets/combatAssets/missille_out.png");
         missilleLeft = new Texture("Client/core/assets/combatAssets/missille_out.png");
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
 
-        lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
-        lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()),skin);
+        lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
+        lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()), skin);
 
         final Drawable engine_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/enginesSymbol.png"));
         final Drawable engine_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/engineRed.png"));
@@ -143,6 +144,11 @@ public class CombatScreen extends BaseScreen {
 
         final Drawable weapon_section = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weaponEnemy.png"));
         final Drawable weapon_section_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weapon_red.png"));
+        final Drawable oxygen_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/oxygen_sym.png"));
+        final Drawable oxygen_sym_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/oxygen_red.png"));
+
+        final Drawable medical_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/medical.png"));
+        final Drawable medical_sym_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/medical_red.png"));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
         fuzeOffsetright = 570;
@@ -155,14 +161,51 @@ public class CombatScreen extends BaseScreen {
         bullets = new ArrayList<>();
         bulletsEnemy = new ArrayList<>();
 
+        o2 = new ImageButton(oxygen_sym);
+        o2.setPosition(1560, 510);
+        o2.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                isTargetO2 = true;
+                isTargetSelected = true;
+                sectionw = false;
+                sectionOthers = false;
+                sectiond = false;
+                o2.getStyle().imageUp = oxygen_sym_red;
+                engine.getStyle().imageUp = engine_sym;
+                weaponSection.getStyle().imageUp = weapon_section;
+                cockpit.getStyle().imageUp = cockpit_nat;
+                //healthPoint.getStyle().imageUp = medical_sym;
+            }
+        });
+        healthPoint = new ImageButton(medical_sym);
+        healthPoint.setPosition(1650, 500);
+        healthPoint.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                isTargetMedical = true;
+                isTargetSelected = true;
+                sectionw = false;
+                sectionOthers = false;
+                sectiond = false;
+                healthPoint.getStyle().imageUp = medical_sym_red;
+                engine.getStyle().imageUp = engine_sym;
+                weaponSection.getStyle().imageUp = weapon_section;
+                cockpit.getStyle().imageUp = cockpit_nat;
+                o2.getStyle().imageUp = oxygen_sym;
+
+
+            }
+        });
+
         engine = new ImageButton(engine_sym);
-        engine.setPosition(1075,440);
-        engine.setSize(1000,100);
+        engine.setPosition(1075, 440);
+        engine.setSize(1000, 100);
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetEngine = true;
-                isTargetSelected=true;
+                isTargetSelected = true;
                 sectionw = false;
                 sectionOthers = false;
                 sectiond = true;
@@ -205,27 +248,7 @@ public class CombatScreen extends BaseScreen {
         });
 
         Gdx.input.setInputProcessor(stage);
-        enableShield = new TextButton("Activate Shield",sgxSkin2,StyleNames.EMPHASISTEXTBUTTON);
-        enableShield.setPosition(BaseScreen.WIDTH-1500,200);
-        enableShield.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if(isShieldEnabled) isShieldEnabled=false;
-                else isShieldEnabled = true;
-            }
-        });
 
-
-        enableEnemyShield = new TextButton("Enemy Shield",sgxSkin2,StyleNames.EMPHASISTEXTBUTTON);
-        enableEnemyShield.setPosition(BaseScreen.WIDTH-400,200);
-        enableEnemyShield.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if(isEnemyShield) isEnemyShield=false;
-                else isEnemyShield = true;
-
-            }
-        });
 
 
 
@@ -244,11 +267,11 @@ public class CombatScreen extends BaseScreen {
         lebenplayerShip.setPosition(20,20);
 
         stage.addActor(lebenplayerShip);
+        stage.addActor(o2);
+        stage.addActor(healthPoint);
         stage.addActor(lebengegnerShip);
-        stage.addActor(enableEnemyShield);
         stage.addActor(engine);
         stage.addActor(cockpit);
-        stage.addActor(enableShield);
         stage.addActor(weaponSection);
 
         stage.addActor(escape);
@@ -273,7 +296,7 @@ public class CombatScreen extends BaseScreen {
                     //if section Zeil is weapons
                     if (sectionw) {
                         System.out.println("::: Shipgegner1 WEAPONS GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.WEAPONS)){
+                        if(s.getImg().equals("Section1Gegner1")){
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
                                     Global.weaponListPlayer) {
@@ -458,7 +481,7 @@ public class CombatScreen extends BaseScreen {
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300, 300, 700, 700);
         if (Global.currentShipGegner != null) {
-            stage.getBatch().draw(enemyShip, 1300, 370, 550, 550);
+            stage.getBatch().draw(enemyShip1, 1300, 370, 550, 550);
         }
         stage.getBatch().draw(missilleRight, disappearRight, 422, 400, 50);
         stage.getBatch().draw(missilleLeft, disappearLeft, 825, 400, 50);

@@ -713,15 +713,27 @@ public  class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
+    public static Section section4Gegner2 = Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.WEAPONS)
+            .img("Section4Gegner2")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
     public static List<Section> sectionsgegner2 =new ArrayList<Section>(){{
         add(section1Gegner2);
         add(section2Gegner2);
         add(section3Gegner2);
+        add(section4Gegner2);
     }};
     public static void updateVariblesSectionsGegner2(){
         section1Gegner2=sectionsgegner2.get(0);
         section2Gegner2=sectionsgegner2.get(1);
         section3Gegner2=sectionsgegner2.get(2);
+        section4Gegner2=sectionsgegner2.get(3);
     }
 
     public static Section section1Gegner3 = Section
@@ -754,16 +766,40 @@ public  class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
+    public static Section section4Gegner3 = Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.DRIVE)
+            .img("Section4Gegner3")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section5Gegner3 = Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.WEAPONS)
+            .img("Section5Gegner3")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
 
     public static List<Section> sectionsgegner3 =new ArrayList<Section>(){{
         add(section1Gegner3);
         add(section2Gegner3);
         add(section3Gegner3);
+        add(section4Gegner3);
+        add(section5Gegner3);
     }};
     public static void updateVariblesSectionsGegner3(){
         section1Gegner3=sectionsgegner3.get(0);
         section2Gegner3=sectionsgegner3.get(1);
         section3Gegner3=sectionsgegner3.get(2);
+        section4Gegner3=sectionsgegner3.get(3);
+        section5Gegner3=sectionsgegner3.get(4);
     }
 
     public static Section section1Gegner4 = Section
