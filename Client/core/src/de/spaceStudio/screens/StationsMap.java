@@ -45,9 +45,10 @@ public class StationsMap extends BaseScreen {
     private Skin skin;
     private Texture background;
     private Viewport viewport;
-    final TextArea textAreaUN, textAreaVIS;
+    final TextArea textAreaUN, textAreaVIS, textAreaShop;
     private ImageButton planet1ImgBTN, planet2ImgBTN, planet3ImgBTN, planet4ImgBTN, planet5ImageBTN;
     private ImageButton startPoint;
+    private ImageButton shopImg;
     Animation<TextureRegion> start_ship;
 
     private static int POSX = 100;
@@ -56,6 +57,7 @@ public class StationsMap extends BaseScreen {
 
     private String unvisited = "unvisited planet";
     private String visited = "visited planet";
+    private String shopText = "Shopping mall";
 
     private static int PLANET_SIZEX = 100;
     private static int PLANET_SIZEY = 100;
@@ -92,6 +94,7 @@ public class StationsMap extends BaseScreen {
         start_ship = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/ZDci.gif").read());
         final Drawable drawable_station_unvisited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png")));
         final Drawable drawable_station_visited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/visited-removebg-preview.png")));
+        final Drawable shopStationIcon = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/shopping.png")));
 
 
 
@@ -107,11 +110,13 @@ public class StationsMap extends BaseScreen {
 
         textAreaUN = new TextArea(unvisited,skin);
         textAreaVIS = new TextArea(visited,skin);
+        textAreaShop = new TextArea(shopText,skin);
         planet1(drawable_station_unvisited);
         planet2(drawable_station_unvisited);
         planet3(drawable_station_unvisited);
         planet4(drawable_station_unvisited);
         planet5(drawable_station_unvisited);
+        shopStation(shopStationIcon);
         setStartPoint(drawable_station_unvisited);
         stage.addActor(planet1ImgBTN);
         stage.addActor(planet2ImgBTN);
@@ -119,6 +124,7 @@ public class StationsMap extends BaseScreen {
         stage.addActor(planet4ImgBTN);
         stage.addActor(planet3ImgBTN);
         stage.addActor(startPoint);
+        stage.addActor(shopImg);
 
     }
 
