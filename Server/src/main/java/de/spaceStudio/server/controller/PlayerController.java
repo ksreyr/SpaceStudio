@@ -19,7 +19,7 @@ public interface PlayerController {
      * @return true if exists else false
      */
     @RequestMapping(value = "/player/login", method = RequestMethod.POST)
-    String loginUser(@RequestBody Player player);
+    Player loginUser(@RequestBody Player player);
 
 
     /**

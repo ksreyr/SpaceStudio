@@ -877,6 +877,7 @@ public class ShipSelectScreen extends BaseScreen {
                 shipsP4.add(shipGegner3);
                 shipsP5.add(shipGegner4);
                 shipsP6.add(shipGegner5);
+                shipsP6.add(shipGegner6);
                 for (Planet p :
                         Global.planetListU2) {
                     switch (p.getName()) {

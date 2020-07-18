@@ -53,7 +53,6 @@ public class MenuScreen extends ScreenAdapter {
 
 
     private Sound click;
-    boolean isHover;
     private boolean isLoaded = false;
     private String screenToLoad;
     //
@@ -155,7 +154,12 @@ public class MenuScreen extends ScreenAdapter {
 
         table.add(label).row();
         table.row();
-        table.add(textButtonContinue).row();
+        // Player does not have saved game
+        if(currentPlayer.getSavedGame() == null){
+            textButtonContinue.setDisabled(true);
+        } else {
+            table.add(textButtonContinue).row();
+        }
         table.add(textButtonNewGame).row();
         table.add(textButtonOptions).row();
         table.add(textButtonExit).row();

@@ -58,7 +58,7 @@ public class StopScreen extends ScreenAdapter {
                 break;
 
             case 2:
-                int dammage = Global.currentShipPlayer.getHp() + getRandomNumberInRange(1, 50);
+                int dammage = Global.currentShipPlayer.getHp() - getRandomNumberInRange(1, 50);
                 Global.currentShipPlayer.setHp(dammage);
                 result = "Just when you wanted to Dock at the Station you get hit by a Comet";
                 // Loose live

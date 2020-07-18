@@ -12,7 +12,7 @@ import java.util.List;
  * @author Miguel Caceres
  * created on 6.17.2020
  */
-public class Global {
+public  class Global {
 
 
     /**
@@ -164,7 +164,7 @@ public class Global {
     /**
      * Global player, this data will be downloaded from server at login
      */
-    public static Planet currentPlanet;
+    public static StopAbstract currentStop;
     /**
      * Global player, this data will be downloaded from server at login
      */
@@ -221,6 +221,7 @@ public class Global {
         add(crewMember2);
     }};
     public static boolean allReady = false;  // FIXME change to true when all Player will jump
+    public static int currentStopNumber = 0;
 
     public static void updateVariableCrewMembersPlayer(){
         crewMember0=crewMemberList.get(0);
@@ -461,6 +462,7 @@ public class Global {
         weapon2Gegner5= weaponListGegner5.get(1);
     }
     public static void actualiziertweaponListGegner5(){
+
         List<Weapon> newweaponListGegner5 = new ArrayList<Weapon>(){{
             add(weapon1Gegner5);
             add(weapon2Gegner5);
@@ -585,7 +587,7 @@ public class Global {
             power(1000).shield(5).
             name("Shipgegner6").owner(ai6).
             buildShip();
-
+    /*
     public static List<Ship> shipsgegneru1 =new ArrayList<Ship>(){{
         add(shipGegner1);
         add(shipGegner2);
@@ -604,7 +606,7 @@ public class Global {
             add(shipGegner3);
         }};
         shipsgegneru1=shipsgegneru1new;
-    }
+    }*/
     //**Weapons Universe **//
 
     // Ship Universe 2
