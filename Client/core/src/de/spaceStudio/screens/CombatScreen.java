@@ -63,6 +63,8 @@ public class CombatScreen extends BaseScreen {
     private Texture background;
 
 
+    boolean isNewExpo, isNewExpo2, isNewExpo3;
+
     boolean isFired = false;
     boolean canFire = false;
     boolean canFireGegner = false;
@@ -260,6 +262,7 @@ public class CombatScreen extends BaseScreen {
 
             }
         });
+       // isNewExpo = !sectionsToPlayerResponse.isEmpty();
 
         cockpit = new ImageButton(cockpit_nat);
         cockpit.setPosition(1560,650);
@@ -604,13 +607,19 @@ public class CombatScreen extends BaseScreen {
             validationGegner = "";
         }
         //on weapon system Explosion
-        if (!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(1).getUsable()==false) {
+        if ((!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(1).getUsable()==false) || isNewExpo) {
+            isNewExpo=true;
             stage.getBatch().draw(explosion, 555, 520, 100, 100);
-        }else if(!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(0).getUsable()==false){
+        }
+        if((!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(1).getUsable()==false) || isNewExpo2){
+            isNewExpo2= true;
             stage.getBatch().draw(explosion, 700, 520, 100, 100);
-        }else if(!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(2).getUsable()==false){
+        }
+        if((!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(1).getUsable()==false) || isNewExpo3){
+            isNewExpo3= true;
             stage.getBatch().draw(explosion, 710, 670, 100, 100);
         }
+
         if(!sectionsToPlayerResponse.isEmpty()){
             Global.sectionsPlayerList= sectionsToPlayerResponse;
             Global.updateVariableSectionShipPlayer();
@@ -707,7 +716,10 @@ public class CombatScreen extends BaseScreen {
             logicOfFireGegner(randomNumber);
             //Set Target->Section of  gegner and User Weapons
             logicOfFirePlayer();
-            counterCockpit++;
+
+          counterCockpit++;
+
+
         }
 
 
@@ -721,6 +733,7 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(explosion, 1515, 422, 100, 100);
         }
 
+        //explosion on enemy's weapon
         if (counterWeapon >= 3 && !isEnemyShield) {
             stage.getBatch().draw(explosion, 1450, 500, 100, 100);
         }
