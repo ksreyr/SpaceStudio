@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Player;
@@ -297,9 +298,8 @@ public class LoginScreen extends BaseScreen {
                         .password(getUserPassword())
                         .buildPlayer();
 
-                final Json json = new Json();
+                final Gson json = new Gson();
 
-                json.setOutputType(JsonWriter.OutputType.json);
                 LOG.info("JSON to send " + json.toJson(currentPlayer));
                 final String requestJson = json.toJson(currentPlayer);
 
@@ -309,18 +309,20 @@ public class LoginScreen extends BaseScreen {
 
                     public void handleHttpResponse(Net.HttpResponse httpResponse) {
                         int statusCode = httpResponse.getStatus().getStatusCode();
-                        LOG.info("statusCode: " + statusCode);
+
                         String responseJson = httpResponse.getResultAsString();
-                        String isValid = responseJson;
-                        if (statusCode != HttpStatus.SC_OK || isValid.equals("false")) {
+                        LOG.info("statusCode: " + statusCode + " JSON: "  + responseJson);
+                        Player reponseUser = json.fromJson(responseJson, Player.class);
+
+                        if (statusCode != HttpStatus.SC_OK || responseJson.isEmpty() ) {
                             loginConfirmation.setText("invalid username or password!");
                             loginConfirmation.setColor(Color.RED);
                             LOG.info("Credentials invalid or server down");
                         } else {
                             LOG.info("Login success");
-
                             isPressed = true;
-                            currentPlayer.setId(Integer.parseInt(responseJson));
+                            currentPlayer.setId(reponseUser.getId());
+                            currentPlayer.setSavedGame(reponseUser.getSavedGame());
                         }
                     }
 
