@@ -31,7 +31,7 @@ public class MainClient extends Game {
 		batch = new SpriteBatch();
 		//stopScreen = new StopScreen(this);
 		winScreen = new WinScreen(this);
-		setScreen(winScreen);
+		setScreen(loginScreen);
 	}
 
 	public AssetManager getAssetManager() {
