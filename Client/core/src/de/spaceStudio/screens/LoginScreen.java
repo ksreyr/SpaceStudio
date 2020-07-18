@@ -33,6 +33,9 @@ import java.util.logging.Logger;
 import static de.spaceStudio.client.util.Global.currentPlayer;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
+/**
+ * LoginScreen with all GUI components and server communication to register or login users
+ */
 public class LoginScreen extends BaseScreen {
 
     private final static Logger LOG = Logger.getLogger(LoginScreen.class.getName());
@@ -64,9 +67,13 @@ public class LoginScreen extends BaseScreen {
     private static final int TEXTBOX_LENGTH = 20;
 
 
-    private boolean isValid = false;
     private float state = 0.0f;
 
+    /**
+     * Constructor
+     * @param game
+     * @param assetManager
+     */
     public LoginScreen(final MainClient game, AssetManager assetManager) {
 
         super(game);
@@ -284,6 +291,9 @@ public class LoginScreen extends BaseScreen {
 
     }
 
+    /**
+     * Http request to Server, server validates User
+     */
     private void loginUser() {
         login.addListener(new ChangeListener() {
             @Override
