@@ -31,8 +31,10 @@ public class MainClient extends Game {
 		loginScreen = new LoginScreen(this, assetManager);
 		batch = new SpriteBatch();
 		//stopScreen = new StopScreen(this);
-		winScreen = new WinScreen(this);
-		setScreen(loginScreen);
+		//winScreen = new WinScreen(this);
+		//setScreen(loginScreen);
+		shopScreen = new ShopScreen2(this);
+		setScreen(shopScreen);
 	}
 
 	public AssetManager getAssetManager() {

@@ -42,6 +42,7 @@ public class ShopScreen2 extends ScreenAdapter {
 
 
     public ShopScreen2(MainClient mainClient) {
+        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
@@ -76,7 +77,7 @@ public class ShopScreen2 extends ScreenAdapter {
 
     @Override
     public void show(){
-        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        //viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport, universeMap.getBatch());
         stage.addActor(next);
         stage.addActor(buy);
@@ -106,13 +107,13 @@ public class ShopScreen2 extends ScreenAdapter {
         checkBoxSection5 = new CheckBox("Section 5", skin);
         checkBoxSection6 = new CheckBox("Section 6", skin);
         checkBoxAllSections = new CheckBox("whole Ship", skin);
-        checkBoxSection1.setPosition(800, 900);
-        checkBoxSection2.setPosition(800, 870);
-        checkBoxSection3.setPosition(800, 840);
-        checkBoxSection4.setPosition(800, 810);
-        checkBoxSection5.setPosition(800, 780);
-        checkBoxSection6.setPosition(800, 750);
-        checkBoxAllSections.setPosition(800, 720 );
+        checkBoxSection1.setPosition(900, 1000);
+        checkBoxSection2.setPosition(900, 970);
+        checkBoxSection3.setPosition(900, 940);
+        checkBoxSection4.setPosition(900, 910);
+        checkBoxSection5.setPosition(900, 880);
+        checkBoxSection6.setPosition(900, 850);
+        checkBoxAllSections.setPosition(900, 820 );
         checkBoxSection1.setChecked(false);
         checkBoxSection2.setChecked(false);
         checkBoxSection3.setChecked(false);
@@ -171,25 +172,25 @@ public class ShopScreen2 extends ScreenAdapter {
         batch.begin();
         switch (itemNumber) {
             case 0:
-                stage.getBatch().draw(rocket1, 1200, 600);
+                stage.getBatch().draw(rocket1, 1125, 500);
                 break;
             case 1:
-                stage.getBatch().draw(rocket2, 1200, 600);
+                stage.getBatch().draw(rocket2, 1125, 500);
                 break;
             case 2:
-                stage.getBatch().draw(crewMemberFTexture,1200, 600);
+                stage.getBatch().draw(crewMemberFTexture,1125, 500);
                 break;
             case 3:
-                stage.getBatch().draw(crewMemberMTexture, 1200, 600);
+                stage.getBatch().draw(crewMemberMTexture, 1125, 500);
                 break;
             case 4:
-                stage.getBatch().draw(securityTexture, 1200, 600);
+                stage.getBatch().draw(securityTexture, 1125, 500);
                 break;
             case 5:
-                stage.getBatch().draw(oxygenTexture,1200, 600);
+                stage.getBatch().draw(oxygenTexture,1125, 500);
                 break;
             case 6:
-                stage.getBatch().draw(driveTexture, 1200, 600);
+                stage.getBatch().draw(driveTexture, 1125, 500);
                 break;
         }
         showTextfield(itemNumber);
@@ -220,7 +221,7 @@ public class ShopScreen2 extends ScreenAdapter {
 
     public void nextButton() {
         next = new TextButton("next", spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
-        next.setPosition(1300,600);
+        next.setPosition(1600,700);
 
         next.addListener(new ChangeListener() {
             @Override
@@ -237,7 +238,7 @@ public class ShopScreen2 extends ScreenAdapter {
 
     public void buyItemsButton(){
         buy = new TextButton("buy",spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
-        buy.setPosition(800,680);
+        buy.setPosition(900,780);
 
         buy.addListener(new ChangeListener() {
             @Override
@@ -250,7 +251,7 @@ public class ShopScreen2 extends ScreenAdapter {
 
     public void sellItemsButton(){
         sell = new TextButton("sell",spaceSkin,StyleNames.EMPHASISTEXTBUTTON);
-        sell.setPosition(850,680);
+        sell.setPosition(950,780);
 
         sell.addListener(new ChangeListener() {
             @Override
@@ -281,7 +282,7 @@ public class ShopScreen2 extends ScreenAdapter {
             if(itemNumber == 0)
                 ship.setRocket1s1(b);
             if(itemNumber == 1)
-                ship.setRocket2s2(b);
+                ship.setRocket2s1(b);
             if(itemNumber == 2)
                 ship.setCrewMemberFs1(b);
             if(itemNumber == 3)
@@ -292,6 +293,7 @@ public class ShopScreen2 extends ScreenAdapter {
                 ship.setMoney(ship.getMoney()+100);
             }
         }
+
         if(checkBoxSection2.isChecked()){
             if(itemNumber == 0)
                 ship.setRocket1s2(b);
@@ -378,7 +380,7 @@ public class ShopScreen2 extends ScreenAdapter {
         if (itemNumber == 0) {
 
             TextArea textArea = new TextArea("Name: Rocket 1\nHit Probability: 50%\nShots: 2\nDamage: 1/10\nCosts: 100 $", skin);
-            textArea.setPosition(1100,380);
+            textArea.setPosition(1400,450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
@@ -386,7 +388,7 @@ public class ShopScreen2 extends ScreenAdapter {
         } else if (itemNumber == 1) {
 
             TextArea textArea = new TextArea("Name: Rocket 2\nHit Probability: 60%\nShots: 3\nDamage: 3/10\nCosts: 100 $", skin);
-            textArea.setPosition(1100,380);
+            textArea.setPosition(1400,450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
@@ -394,7 +396,7 @@ public class ShopScreen2 extends ScreenAdapter {
         } else if (itemNumber == 2) {
 
             TextArea textArea = new TextArea("Name: Male CrewMember\nRepairs: 50% per round\nCosts: 100 $", skin);
-            textArea.setPosition(1100,380);
+            textArea.setPosition(1400,450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
@@ -402,7 +404,7 @@ public class ShopScreen2 extends ScreenAdapter {
         } else if (itemNumber == 3){
 
             TextArea textArea = new TextArea("Name: Female CrewMember\nRepairs: 60% per round\nCosts: 100 $", skin);
-            textArea.setPosition(1100,380);
+            textArea.setPosition(1400,450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
@@ -410,7 +412,7 @@ public class ShopScreen2 extends ScreenAdapter {
         } else if (itemNumber == 4) {
 
             TextArea textArea = new TextArea("Name: Security\nAmount: + 10 %\nCosts: 10 $\nInfo: for the whole ship", skin);
-            textArea.setPosition(1100, 380);
+            textArea.setPosition(1400,450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
@@ -418,7 +420,7 @@ public class ShopScreen2 extends ScreenAdapter {
         else if (itemNumber == 5) {
 
             TextArea textArea = new TextArea("Name: Oxygen\nCosts: 10 $\nInfo: for the whole ship", skin);
-            textArea.setPosition(1100, 380);
+            textArea.setPosition(1400,450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
@@ -426,14 +428,14 @@ public class ShopScreen2 extends ScreenAdapter {
         } else if (itemNumber == 6){
 
             TextArea textArea = new TextArea("Name: Drive\nCosts: 10 $\nInfo: for the whole ship", skin);
-            textArea.setPosition(1100, 380);
+            textArea.setPosition(1400,450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
 
         } else {
             TextArea textArea = new TextArea("No item chosen", skin);
-            textArea.setPosition(1100, 380);
+            textArea.setPosition(1400,450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);

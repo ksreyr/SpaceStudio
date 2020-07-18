@@ -19,19 +19,9 @@ public class Playership2 extends Rectangle {
     //rocket2
     private boolean rocket2s1,rocket2s2,rocket2s3,rocket2s4,rocket2s5,rocket2s6;
     //crewmemberF
-    private boolean crewMemberFs1;
-    private boolean crewMemberFs2;
-    private boolean crewMemberFs3;
-    private boolean crewMemberFs4;
-    private boolean crewMemberFs5;
-    private boolean crewMemberFs6;
+    private boolean crewMemberFs1, crewMemberFs2, crewMemberFs3, crewMemberFs4, crewMemberFs5, crewMemberFs6;
     //crewmemberM
-    private boolean crewMemberMs1;
-    private boolean crewMemberMs2;
-    private boolean crewMemberMs3;
-    private boolean crewMemberMs4;
-    private boolean crewMemberMs5;
-    private boolean crewMemberMs6;
+    private boolean crewMemberMs1, crewMemberMs2, crewMemberMs3,crewMemberMs4,crewMemberMs5,crewMemberMs6;
 
 
     private int money;
@@ -94,40 +84,40 @@ public class Playership2 extends Rectangle {
         // draw texture
         batch.draw(texture, x, y);
         if(rocket1s1){
-            batch.draw(rocket1,280,620  );
+            batch.draw(rocket1,220,540 );
         }
         if(rocket1s2){
-            batch.draw(rocket1,280,160 );
+            batch.draw(rocket1,220,80 );
         }
         if(rocket1s3){
-            batch.draw(rocket1,500,490 );
+            batch.draw(rocket1,440,410 );
         }
         if(rocket1s4){
-            batch.draw(rocket1,500,300 );
+            batch.draw(rocket1,440,220 );
         }
         if(rocket1s5){
-            batch.draw(rocket1,700,490 );
+            batch.draw(rocket1,640,410 );
         }
         if(rocket1s6){
-            batch.draw(rocket1,700,340 );
+            batch.draw(rocket1,640,260 );
         }
         if(rocket2s1){
-            batch.draw(rocket2,330,620);
+            batch.draw(rocket2,270,540);
         }
         if(rocket2s2){
-            batch.draw(rocket2,330,160);
+            batch.draw(rocket2,270,80);
         }
         if(rocket2s3){
-            batch.draw(rocket2,550,490);
+            batch.draw(rocket2,470,410);
         }
         if(rocket2s4){
-            batch.draw(rocket2,550,300);
+            batch.draw(rocket2,470,220);
         }
         if(rocket2s5){
-            batch.draw(rocket2,750,490);
+            batch.draw(rocket2,670,410);
         }
         if(rocket2s6){
-            batch.draw(rocket2,750,340);
+            batch.draw(rocket2,670,260);
         }
         if(crewMemberFs1){
             batch.draw(crewMemberFTexture,300,690);

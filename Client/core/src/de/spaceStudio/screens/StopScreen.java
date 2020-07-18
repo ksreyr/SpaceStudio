@@ -25,7 +25,6 @@ public class StopScreen extends ScreenAdapter {
         super();
         this.game = game;
 
-
     }
 
     private static int getRandomNumberInRange(int min, int max) {
