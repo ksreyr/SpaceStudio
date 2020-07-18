@@ -164,7 +164,7 @@ public  class Global {
     /**
      * Global player, this data will be downloaded from server at login
      */
-    public static Planet currentPlanet;
+    public static StopAbstract currentStop;
     /**
      * Global player, this data will be downloaded from server at login
      */
