@@ -1,0 +1,52 @@
+#+TITLE: Test Protokol
+
+* Testfall Single Player
+1. Login Screen
+   1. Register
+      - Test if name exists
+      - Test if one can register
+      - Does the Client alert if the Server is offline?
+   2. Login
+2. Menu Screen
+   1. New Game
+      - Single Player
+        - Goes back to Fight Screen
+        - Goes back to Station Map
+        - Goes back to Shop
+   2. Single Player (Ship Select Screen)
+      - Are the Stats Updated for the Ship?
+      - Can I spawn into the Map?
+      - Are there Any Exceptions?
+
+* Station Screen
+1. StationMap
+   1. Select Planet
+      - Can I select every Planet?
+      - Does the Dialog Appear?
+   2. Jump
+      - Jump can I jump to every Planet?
+      - Do I see if I have visited the Planet?
+      - Does the Back Button work?
+
+* Stop Abstract
+4. StopScreen
+   1. Leave
+      1. Leave
+      2. View Map -> Station Map
+   2. Explore
+      1. Flee -> Station Screen
+      2. Fight -> CombatScreen
+      3. Shop -> Station Mao
+   2. Back to Map -> Station Map
+
+* Combat Screen
+
+
+
+
+
+* Strangenes
+- Rainbow Line
+- Pruebe Kopf in ShipSelectScreen
+- Bug Ship is not add at Stop
+- Jump to same Planet
