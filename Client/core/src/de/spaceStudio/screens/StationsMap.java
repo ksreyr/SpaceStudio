@@ -73,7 +73,6 @@ public class StationsMap extends BaseScreen {
     private List<Ship> shipList= new ArrayList<Ship>();
 
     List<Pair> coord = new ArrayList<Pair>();
-    int currentStationNumber = 0;
 
     //
     private boolean isGameSaved = false;
@@ -163,7 +162,7 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(planet1ImgBTN,textAreaVIS);
-                            currentStationNumber = 1;
+                            Global.currentStopNumber = 1;
                             jumpService(planet);
                         }
                     }
@@ -191,7 +190,7 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(planet2ImgBTN,textAreaVIS);
-                            currentStationNumber = 2;
+                            Global.currentStopNumber = 2;
                             jumpService(planet);
                         }
                     }
@@ -225,7 +224,7 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(planet3ImgBTN,textAreaVIS);
-                            currentStationNumber = 3;
+                            Global.currentStopNumber = 3;
                             jumpService(Global.planet3);
 
                         }
@@ -260,7 +259,7 @@ public class StationsMap extends BaseScreen {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(planet4ImgBTN,textAreaVIS);
-                            currentStationNumber = 4;
+                            Global.currentStopNumber = 4;
                             jumpService(planet);
 
                         }
@@ -300,7 +299,7 @@ public class StationsMap extends BaseScreen {
                     dialog.button("JUMP", true);
                     dialog.key(Input.Keys.ENTER, true);
                     hoverListener(planet5ImageBTN,textAreaVIS);
-                    currentStationNumber = 5;
+                    Global.currentStopNumber = 5;
                     jumpService(planet);
 
                 }else {
@@ -445,6 +444,8 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
 
 
+        xShip = coord.get(Global.currentStopNumber).key();
+        yShip = coord.get(Global.currentStopNumber).value();
         stage.getBatch().draw(start_ship.getKeyFrame(state), xShip, yShip, 150, 150);
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().end();

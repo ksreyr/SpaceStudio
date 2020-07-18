@@ -221,6 +221,7 @@ public  class Global {
         add(crewMember2);
     }};
     public static boolean allReady = false;  // FIXME change to true when all Player will jump
+    public static int currentStopNumber = 0;
 
     public static void updateVariableCrewMembersPlayer(){
         crewMember0=crewMemberList.get(0);
