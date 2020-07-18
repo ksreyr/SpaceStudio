@@ -12,7 +12,7 @@ import java.util.List;
  * @author Miguel Caceres
  * created on 6.17.2020
  */
-public class Global {
+public  class Global {
 
 
     /**
@@ -199,7 +199,7 @@ public class Global {
     /**
      * Ship Variables
      */
-    public static Ship ship0= Ship.shipBluider().hp(300).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(1).buildShip();
+    public static Ship ship0= Ship.shipBluider().hp(30).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(1).buildShip();
     public static Ship ship1= Ship.shipBluider().hp(100).shipForm(ShipForm.SHIP2).name("ship1").power(100).shield(1).buildShip();
     public static Ship ship2= Ship.shipBluider().hp(200).shipForm(ShipForm.SHIP3).name("ship2").power(50).shield(2).buildShip();
     public static Ship ship3= Ship.shipBluider().hp(300).shipForm(ShipForm.SHIP4).name("ship3").power(200).shield(1).buildShip();
@@ -461,6 +461,7 @@ public class Global {
         weapon2Gegner5= weaponListGegner5.get(1);
     }
     public static void actualiziertweaponListGegner5(){
+
         List<Weapon> newweaponListGegner5 = new ArrayList<Weapon>(){{
             add(weapon1Gegner5);
             add(weapon2Gegner5);
@@ -585,7 +586,7 @@ public class Global {
             power(1000).shield(5).
             name("Shipgegner6").owner(ai6).
             buildShip();
-
+    /*
     public static List<Ship> shipsgegneru1 =new ArrayList<Ship>(){{
         add(shipGegner1);
         add(shipGegner2);
@@ -604,7 +605,7 @@ public class Global {
             add(shipGegner3);
         }};
         shipsgegneru1=shipsgegneru1new;
-    }
+    }*/
     //**Weapons Universe **//
 
     // Ship Universe 2

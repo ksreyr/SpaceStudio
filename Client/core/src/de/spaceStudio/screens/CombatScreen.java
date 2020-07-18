@@ -476,6 +476,7 @@ public class CombatScreen extends BaseScreen {
         }else if (Global.currentShipPlayer.getHp()<=0) {
             System.out.println(":::Defeat");
             validationGegner = "";
+
             mainClient.setScreen(new MenuScreen(game));
         }
         if(canFireGegner){
@@ -595,7 +596,7 @@ public class CombatScreen extends BaseScreen {
                     Global.aktualizierenweaponListUniverse2();
                     break;
             }
-            Global.updateShipsListgegneru1();
+            Global.updateShipsListgegneru2();
             List<Section> sizeO = new ArrayList<>();
             sectionsToGernerResponse = sizeO;
             //GEGNER FIRE
