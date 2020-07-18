@@ -254,6 +254,7 @@ public class StationsMap extends BaseScreen {
         planet4ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentPlanet=Global.planet4;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if(obj.toString()=="true") {
@@ -281,10 +282,10 @@ public class StationsMap extends BaseScreen {
         planet5ImageBTN.setPosition(coord.get(5).key(), coord.get(5).value());
         planet5ImageBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
         hoverListener(planet5ImageBTN,textAreaUN);
-        final Planet planet = Global.planet5;
         planet5ImageBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentPlanet=Global.planet5;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
@@ -301,6 +302,7 @@ public class StationsMap extends BaseScreen {
                     hoverListener(planet5ImageBTN,textAreaVIS);
                     Global.currentStopNumber = 5;
                     jumpService(planet);
+                    jumpService(Global.planet5);
 
                 }else {
                     dialog.text("Before you travel here, you have to visit other planets");
@@ -460,8 +462,9 @@ public class StationsMap extends BaseScreen {
                 Global.currentShipPlayer =shipList.get(0);
                 Global.currentShipGegner=null;
             }
-            mainClient.setScreen(new TravelScreen(game));
             control=true;
+            mainClient.setScreen(new TravelScreen(game));
+
         }
 
     }
