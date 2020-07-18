@@ -627,7 +627,7 @@ public class CombatScreen extends BaseScreen {
             }
             Global.updateShipsListgegneru2();
             List<Section> sizeO=new ArrayList<>();
-            sectionsGernerResponse=sizeO;
+            sectionsToGernerResponse=sizeO;
         }
         lebengegnerShip.setText(String.valueOf(Global.currentShipGegner.getHp()));
         lebenplayerShip.setText(String.valueOf(Global.currentShipPlayer.getHp()));
