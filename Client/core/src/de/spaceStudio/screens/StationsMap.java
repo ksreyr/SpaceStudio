@@ -49,6 +49,7 @@ public class StationsMap extends BaseScreen {
     private ImageButton planet1ImgBTN, planet2ImgBTN, planet3ImgBTN, planet4ImgBTN, planet5ImageBTN;
     private ImageButton startPoint;
     private ImageButton shopImg;
+    private boolean isPlanet;
     Animation<TextureRegion> start_ship;
 
     private static int POSX = 100;
@@ -128,6 +129,34 @@ public class StationsMap extends BaseScreen {
 
     }
 
+    private void shopStation(Drawable shopStationIcon){
+        isPlanet=false;
+        shopImg = new ImageButton((shopStationIcon));
+        shopImg.setPosition(400, 900);
+        shopImg.setSize(PLANET_SIZEX,PLANET_SIZEX);
+        hoverListener(shopImg, textAreaShop);
+        shopImg.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                final Dialog dialog = new Dialog("Information", skin, "dialog") {
+                    public void result(Object obj) {
+
+                        if(obj.toString()=="true") {
+                            counter++;
+                            hoverListener(shopImg,textAreaShop);
+                            jumpService(Global.station1);
+                        }
+                    }
+                };
+
+                actionDialog(dialog,"Shopping Mall --> Lets shop like there's no tomorrow!!\n"
+                        + "moves in to the mall\n" + "Are you sure you want to jump there");
+
+            }
+        });
+
+
+    }
 
     private void setStartPoint(Drawable drawable_station_unvisited) {
         startPoint = new ImageButton( (drawable_station_unvisited) );
@@ -155,6 +184,7 @@ public class StationsMap extends BaseScreen {
 
 
     private void planet1(Drawable drawable_station_unvisited) {
+        isPlanet=true;
         planet1ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet1ImgBTN.setPosition(coord.get(1).key(), coord.get(1).value());
         planet1ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
@@ -183,6 +213,7 @@ public class StationsMap extends BaseScreen {
     }
 
     private void planet2(Drawable drawable_station_unvisited) {
+        isPlanet=true;
         planet2ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet2ImgBTN.setPosition(coord.get(2).key(), coord.get(2).value());
         planet2ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
@@ -219,6 +250,7 @@ public class StationsMap extends BaseScreen {
 
 
     private void planet3(Drawable drawable_station_unvisited) {
+        isPlanet=true;
         planet3ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet3ImgBTN.setPosition(coord.get(3).key(), coord.get(3).value());  //hikeButton is an ImageButton
         planet3ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
@@ -254,6 +286,7 @@ public class StationsMap extends BaseScreen {
 
 
     private void planet4(Drawable drawable_station_unvisited) {
+        isPlanet=true;
         planet4ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet4ImgBTN.setPosition(coord.get(4).key(), coord.get(4).value());
         planet4ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
@@ -285,6 +318,7 @@ public class StationsMap extends BaseScreen {
     }
 
     private void planet5(Drawable drawable_station_unvisited) {
+        isPlanet=true;
         planet5ImageBTN = new ImageButton( (drawable_station_unvisited) );
         planet5ImageBTN.setPosition(coord.get(5).key(), coord.get(5).value());
         planet5ImageBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
@@ -308,7 +342,6 @@ public class StationsMap extends BaseScreen {
                     dialog.key(Input.Keys.ENTER, true);
                     hoverListener(planet5ImageBTN,textAreaVIS);
                     Global.currentStopNumber = 5;
-                    jumpService(currentStop);
                     jumpService(Global.planet5);
 
                 }else {
@@ -462,7 +495,7 @@ public class StationsMap extends BaseScreen {
         stage.draw();
         if(!shipList.isEmpty() && control==false ){
             try {
-                Global.currentShipPlayer =shipList.get(1);
+                Global.currentShipPlayer = shipList.get(1);
                 Global.currentShipGegner = shipList.get(0);
                 Global.currentGegner = Global.currentShipGegner.getOwner();
             }catch (Exception e){
@@ -470,8 +503,12 @@ public class StationsMap extends BaseScreen {
                 Global.currentShipGegner=null;
             }
             control=true;
-            mainClient.setScreen(new TravelScreen(game));
 
+            if(isPlanet) {
+                mainClient.setScreen(new TravelScreen(game));
+            }else{
+                game.setScreen(new ShopScreen2(game));
+            }
         }
 
     }
