@@ -213,6 +213,7 @@ public class ShipSelectScreen extends BaseScreen {
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
         previousButton();
+
         showHideRoom();
         selectLevelView();
 
