@@ -80,9 +80,9 @@ public class CombatScreen extends BaseScreen {
     boolean isWin;
 
     Texture bullet, shield;
-    private boolean isShieldEnabled, isEnemyShield;
+    private boolean isShieldEnabled,  isEnemyShield;
 
-    private ImageButton engine, weaponSection, cockpit;
+    private ImageButton engine, weaponSection,cockpit;
     private int disappearRight = 570;
     private int disappearLeft = 570;
     private int counterEngine = 0;
@@ -90,7 +90,7 @@ public class CombatScreen extends BaseScreen {
     private int counterWeapon = 0;
     private int randomNumber;
 
-    float x = 0;
+    float x=0;
 
     Sound rocketLaunch;
 
@@ -508,6 +508,7 @@ public class CombatScreen extends BaseScreen {
         }else if (Global.currentShipPlayer.getHp()<=0) {
             System.out.println(":::Defeat");
             validationGegner = "";
+
             mainClient.setScreen(new MenuScreen(game));
         }
         if(canFireGegner){
@@ -626,8 +627,9 @@ public class CombatScreen extends BaseScreen {
                     break;
             }
             Global.updateShipsListgegneru2();
-            List<Section> sizeO=new ArrayList<>();
-            sectionsToGernerResponse=sizeO;
+            List<Section> sizeO = new ArrayList<>();
+            sectionsToGernerResponse = sizeO;
+            //GEGNER FIRE
         }
         lebengegnerShip.setText(String.valueOf(Global.currentShipGegner.getHp()));
         lebenplayerShip.setText(String.valueOf(Global.currentShipPlayer.getHp()));
