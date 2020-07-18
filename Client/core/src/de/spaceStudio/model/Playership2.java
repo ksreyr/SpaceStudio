@@ -52,9 +52,9 @@ public class Playership2 extends Rectangle {
         texture =  new Texture("Client/core/assets/data/ships/blueships1_section.png");
         rocket1 = new Texture("data/ships/rocketSmall.png");
         rocket2 = new Texture("data/ships/attack_small.png");
-        crewMemberMTexture = new Texture("Client/core/assets/MaleHuman-3.png");
-        crewMemberFTexture = new Texture("Client/core/assets/FemaleHuman-2.png");
-        oxygenTexture = new Texture("Client/core/assets/OxygenSymbol.png");
+        crewMemberMTexture = new Texture("Client/core/assets/combatAssets/MaleHuman-3.png");
+        crewMemberFTexture = new Texture("Client/core/assets/combatAssets/female_human.png");
+        oxygenTexture = new Texture("Client/core/assets/OxygenSymbol_large.png");
 
         width = texture.getWidth();
         height = texture.getHeight();

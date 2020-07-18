@@ -44,7 +44,7 @@ public class ShopScreen2 extends ScreenAdapter {
     public ShopScreen2(MainClient mainClient) {
         this.universeMap = mainClient;
         this.mainClient = mainClient;
-        assetManager = universeMap.getAssetmanager();
+        assetManager = universeMap.getAssetManager();
         this.renderer = new ShapeRenderer();
         font = new BitmapFont(Gdx.files.internal("Client/core/assets/skin/default.fnt"));
 
@@ -54,8 +54,8 @@ public class ShopScreen2 extends ScreenAdapter {
 
         rocket1 = new Texture("data/ships/rocketSmall.png");
         rocket2 = new Texture("data/ships/attack.png");
-        crewMemberMTexture = new Texture("Client/core/assets/MaleHuman-3.png");
-        crewMemberFTexture = new Texture("Client/core/assets/FemaleHuman-2.png");
+        crewMemberMTexture = new Texture("Client/core/assets/combatAssets/MaleHuman-3.png");
+        crewMemberFTexture = new Texture("Client/core/assets/combatAssets/female_human.png");
         securityTexture = new Texture("data/ships/securitySmall.png");
         oxygenTexture = new Texture("Client/core/assets/OxygenSymbol_large.png");
         driveTexture = new Texture("Client/core/assets/fire3.png");
