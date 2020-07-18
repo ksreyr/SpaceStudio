@@ -175,6 +175,7 @@ public class StationsMap extends BaseScreen {
         planet4ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentPlanet=Global.planet4;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if(obj.toString()=="true") {
@@ -201,10 +202,10 @@ public class StationsMap extends BaseScreen {
         planet5ImageBTN.setPosition(1200, 700);
         planet5ImageBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
         hoverListener(planet5ImageBTN,textAreaUN);
-        final Planet planet = Global.planet5;
         planet5ImageBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentPlanet=Global.planet5;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
@@ -219,7 +220,7 @@ public class StationsMap extends BaseScreen {
                     dialog.button("JUMP", true);
                     dialog.key(Input.Keys.ENTER, true);
                     hoverListener(planet5ImageBTN,textAreaVIS);
-                    jumpService(planet);
+                    jumpService(Global.planet5);
 
                 }else {
                     dialog.text("Before you travel here, you have to visit other planets");
@@ -240,17 +241,18 @@ public class StationsMap extends BaseScreen {
         planet2ImgBTN.setPosition(500, 550);
         planet2ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
         hoverListener(planet2ImgBTN,textAreaUN);
-        final Planet planet = Global.planet2;
+
         planet2ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentPlanet=Global.planet2;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
                             if(obj.toString()=="true") {
                                 counter++;
                                 hoverListener(planet2ImgBTN,textAreaVIS);
-                                jumpService(planet);
+                                jumpService( Global.planet2);
                             }
                     }
                 };
@@ -273,16 +275,16 @@ public class StationsMap extends BaseScreen {
         planet1ImgBTN.setPosition(250, 700);
         planet1ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
         hoverListener(planet1ImgBTN,textAreaUN);
-        final Planet planet = Global.planet1;
         planet1ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentPlanet=Global.planet1;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(planet1ImgBTN,textAreaVIS);
-                            jumpService(planet);
+                            jumpService(Global.planet1);
                         }
                     }
                 };
@@ -434,8 +436,9 @@ public class StationsMap extends BaseScreen {
                 Global.currentShipPlayer =shipList.get(0);
                 Global.currentShipGegner=null;
             }
-            mainClient.setScreen(new TravelScreen(game));
             control=true;
+            mainClient.setScreen(new TravelScreen(game));
+
         }
 
     }
