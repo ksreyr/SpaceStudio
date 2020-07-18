@@ -422,7 +422,7 @@ public class StationsMap extends BaseScreen {
                 LOG.info("Button CLicked");
                 click.play();
                 Gson gson = new Gson();
-                Global.singlePlayerGame.setShip(Global.currentShipPlayer);
+                Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
                 Global.singlePlayerGame.setLastScreen("MAP");
                 String requestBody = gson.toJson(Global.singlePlayerGame);
                 final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();

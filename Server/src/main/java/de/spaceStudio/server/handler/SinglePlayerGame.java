@@ -14,14 +14,6 @@ public class SinglePlayerGame implements Serializable {
         this.difficult = difficult;
     }
 
-    public Ship getShip() {
-        return ship;
-    }
-
-    public void setShip(Ship ship) {
-        this.ship = ship;
-    }
-
     public StopAbstract getStopAbstractShip() {
         return stopAbstractShip;
     }
@@ -78,9 +70,28 @@ public class SinglePlayerGame implements Serializable {
         this.lastScreen = lastScreen;
     }
 
+    public Ship getPlayerShip() {
+        return playerShip;
+    }
+
+    public void setPlayerShip(Ship playerShip) {
+        this.playerShip = playerShip;
+    }
+
+    public Ship getShipGegner() {
+        return shipGegner;
+    }
+
+    public void setShipGegner(Ship shipGegner) {
+        this.shipGegner = shipGegner;
+    }
+
+    private Ship shipGegner;
+
     private String difficult;
 
-    private Ship ship;
+    private Ship playerShip;
+
 
     private StopAbstract stopAbstractShip;
 

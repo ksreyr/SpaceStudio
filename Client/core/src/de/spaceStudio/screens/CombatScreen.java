@@ -53,14 +53,12 @@ public class CombatScreen extends BaseScreen {
     private Stage stage;
 
     private Skin sgxSkin, sgxSkin2;
-    private TextureAtlas gamePlayAtlas;
 
 
     private Sound click;
 
 
     private Skin skin;
-    private SpriteBatch batch;
 
     private Texture playerShip;
     private Texture enemyShip;
@@ -94,10 +92,8 @@ public class CombatScreen extends BaseScreen {
 
     Sound rocketLaunch;
 
-
     ArrayList<Bullet> bullets;
     ArrayList<Bullet> bulletsEnemy;
-    ShipSelectScreen shipSelectScreen;
     //
     String validation = "";
     String validationGegner="";
@@ -240,7 +236,8 @@ public class CombatScreen extends BaseScreen {
                 click.play();
                 Gson gson = new Gson();
                 Global.singlePlayerGame.setLastScreen("COMBAT");
-                Global.singlePlayerGame.setShip(Global.currentShipPlayer);
+                Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
+                Global.singlePlayerGame.setShipGegner(Global.currentShipGegner);
                 String requestBody = gson.toJson(Global.singlePlayerGame);
                 final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
                 Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);

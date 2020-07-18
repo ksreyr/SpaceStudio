@@ -169,10 +169,7 @@ public  class Global {
      * Global player, this data will be downloaded from server at login
      */
     public static Universe currentUniverse;
-    /**
-     * Global player, this data will be downloaded from server at login
-     */
-    public static Weapon currentWeapon;
+
     /**
      * Server logged player endpoint
      */

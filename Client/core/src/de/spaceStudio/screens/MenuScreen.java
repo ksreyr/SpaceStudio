@@ -32,6 +32,7 @@ import de.spaceStudio.util.GdxUtils;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.Global.*;
+import static de.spaceStudio.client.util.Global.singlePlayerGame;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 import static de.spaceStudio.service.LoginService.logout;
@@ -65,6 +66,12 @@ public class MenuScreen extends ScreenAdapter {
         assetManager = universeMap.getAssetManager();
     }
 
+    private void UpdateGlobalSInglePlayer(SinglePlayerGame singlePlayerGame){
+        Global.singlePlayerGame = singlePlayerGame;
+        currentShipPlayer = singlePlayerGame.getPlayerShip();
+        screenToLoad = singlePlayerGame.getLastScreen();
+        currentShipGegner = singlePlayerGame.getShipGegner();
+    }
     //Called when this screen becomes the current screen for a Game.
     @Override
     public void show() {
@@ -101,10 +108,9 @@ public class MenuScreen extends ScreenAdapter {
                             Gson gson = new Gson();
                             LOG.info("Game load success for player: " + currentPlayer.getName());
                             singlePlayerGame = gson.fromJson(responseJson, SinglePlayerGame.class);
-                            currentShipPlayer = singlePlayerGame.getShip();
-                            screenToLoad = singlePlayerGame.getLastScreen();
+                            UpdateGlobalSInglePlayer(singlePlayerGame);
                             LOG.info(singlePlayerGame.getDifficult());
-                            LOG.info(singlePlayerGame.getShip().toString());
+                            LOG.info(singlePlayerGame.getPlayerShip().toString());
                             isLoaded = true;
                         }
                     }
