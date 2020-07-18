@@ -180,7 +180,7 @@ public class CombatScreen extends BaseScreen {
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
                 cockpit.getStyle().imageUp = cockpit_nat;
-                //healthPoint.getStyle().imageUp = medical_sym;
+                healthPoint.getStyle().imageUp = medical_sym;
             }
         });
         healthPoint = new ImageButton(medical_sym);
@@ -223,6 +223,11 @@ public class CombatScreen extends BaseScreen {
                 isSectionhealth =false;
 
                 engine.getStyle().imageUp = engine_red;
+                weaponSection.getStyle().imageUp = weapon_section;
+                cockpit.getStyle().imageUp = cockpit_nat;
+                o2.getStyle().imageUp = oxygen_sym;
+                healthPoint.getStyle().imageUp = medical_sym;
+
 
             }
         });
@@ -245,13 +250,19 @@ public class CombatScreen extends BaseScreen {
                 isSectionhealth =false;
 
                 weaponSection.getStyle().imageUp = weapon_section_red;
+                engine.getStyle().imageUp = engine_sym;
+                cockpit.getStyle().imageUp = cockpit_nat;
+                o2.getStyle().imageUp = oxygen_sym;
+                healthPoint.getStyle().imageUp = medical_sym;
+
+
+
 
             }
         });
 
         cockpit = new ImageButton(cockpit_nat);
-        cockpit.setPosition(1075,660);
-        cockpit.setSize(1000,100);
+        cockpit.setPosition(1560,650);
         cockpit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -261,6 +272,12 @@ public class CombatScreen extends BaseScreen {
                 isSectionOthers = true;
                 isSectiond = false;
                 cockpit.getStyle().imageUp = cockpit_red;
+                engine.getStyle().imageUp = engine_sym;
+                weaponSection.getStyle().imageUp = weapon_section;
+                o2.getStyle().imageUp = oxygen_sym;
+                healthPoint.getStyle().imageUp = medical_sym;
+
+
 
             }
         });
@@ -275,7 +292,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Global.IS_SINGLE_PLAYER = false;
-                mainClient.setScreen(new ShipSelectScreen(mainClient));
+                mainClient.setScreen(new StationsMap(mainClient));
             }
         });
         escape.setPosition(1000,200);
@@ -532,7 +549,10 @@ public class CombatScreen extends BaseScreen {
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300, 300, 700, 700);
         if (Global.currentShipGegner != null) {
-            stage.getBatch().draw(enemyShip1, 1300, 370, 550, 550);
+            if (Global.currentStop == Global.planet2) stage.getBatch().draw(enemyShip1, 1300, 370, 550, 550);
+            else if (Global.currentStop == Global.planet3) stage.getBatch().draw(enemyShip2, 1300, 370, 550, 550);
+            else  stage.getBatch().draw(enemyShip3, 1300, 370, 550, 550);
+
         }
         stage.getBatch().draw(missilleRight, disappearRight, 422, 400, 50);
         stage.getBatch().draw(missilleLeft, disappearLeft, 825, 400, 50);
