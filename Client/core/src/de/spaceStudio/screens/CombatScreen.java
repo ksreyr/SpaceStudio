@@ -696,23 +696,6 @@ public class CombatScreen extends BaseScreen {
         //shield for enemy
         if (Global.currentShipGegner.getShield()>0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
 
-
-        //explosion on player sections
-        //on healthpoint
-        /*if (randomNumber == 2) {
-            stage.getBatch().draw(explosion, 700, 520, 100, 100);
-        }
-        //on cockpit
-        if (randomNumber == 3) {
-            stage.getBatch().draw(explosion, 710, 670, 100, 100);
-        }
-        //engine
-        if (randomNumber == 4) {
-            stage.getBatch().draw(explosion, 445, 395, 100, 100);
-        }*/
-
-
-
         //explosion on enemy's engine
         if (counterEngine >= 3 && !isEnemyShield) {
             stage.getBatch().draw(explosion, 1515, 422, 100, 100);
@@ -820,23 +803,129 @@ public class CombatScreen extends BaseScreen {
         List<Weapon> weaponList= new ArrayList<>();
         if (Global.currentShipGegner != null) {
             if (Global.currentUniverse.getName().equals("Normal" + Global.currentPlayer.getName())) {
-                for (Weapon w :
-                        Global.weaponListUniverse2) {
-                    if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
-                        //Weapons gegner set Weapons Section of Player
-                        if(sectionNumber==2){
-                            w.setObjectiv(Global.section2);
-                            System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
-                            weaponList.add(w);
-                        }else if(sectionNumber==4){
-                            w.setObjectiv(Global.section1);
-                            weaponList.add(w);
-                        }else{
-                            w.setObjectiv(Global.section3);
-                            weaponList.add(w);
+                switch (Global.currentShipGegner.getName()) {
+                    case "Shipgegner1":
+                        for (Weapon w :
+                                Global.weaponListGegner1) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
                         }
-                    }
+                        shotValidationGegner(Global.weaponListGegner1,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner2":
+                        for (Weapon w :
+                                Global.weaponListGegner2) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner2,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner3":
+                        for (Weapon w :
+                                Global.weaponListGegner3) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner3,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner4":
+                        for (Weapon w :
+                                Global.weaponListGegner4) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner4,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner5":
+                        for (Weapon w :
+                                Global.weaponListGegner5) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner5,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner6":
+                        for (Weapon w :
+                                Global.weaponListGegner6) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner6,Net.HttpMethods.POST);
+                        break;
                 }
+
                 Global.updateweaponVariabelUniverse2();
                 Global.actualiziertweaponListGegner1();
                 Global.actualiziertweaponListGegner2();
@@ -846,7 +935,7 @@ public class CombatScreen extends BaseScreen {
                 Global.actualiziertweaponListGegner6();
             }
         }
-        shotValidationGegner(weaponList,Net.HttpMethods.POST);
+
     }
 
 
