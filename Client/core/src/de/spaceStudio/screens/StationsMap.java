@@ -48,9 +48,10 @@ public class StationsMap extends BaseScreen {
     private Skin skin;
     private Texture background;
     private Viewport viewport;
-    final TextArea textAreaUN, textAreaVIS;
+    final TextArea textAreaUN, textAreaVIS, textAreaShop;
     private ImageButton planet1ImgBTN, planet2ImgBTN, planet3ImgBTN, planet4ImgBTN, planet5ImageBTN;
     private ImageButton startPoint;
+    private ImageButton shopImg;
     Animation<TextureRegion> start_ship;
 
     private static int POSX = 100;
@@ -59,6 +60,7 @@ public class StationsMap extends BaseScreen {
 
     private String unvisited = "unvisited planet";
     private String visited = "visited planet";
+    private String shopText = "Shopping mall";
 
     private static int PLANET_SIZEX = 100;
     private static int PLANET_SIZEY = 100;
@@ -88,15 +90,18 @@ public class StationsMap extends BaseScreen {
         start_ship = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/ZDci.gif").read());
         final Drawable drawable_station_unvisited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png")));
         final Drawable drawable_station_visited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/visited-removebg-preview.png")));
+        final Drawable shopStationIcon = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/shopping.png")));
 
 
         textAreaUN = new TextArea(unvisited,skin);
         textAreaVIS = new TextArea(visited,skin);
+        textAreaShop = new TextArea(shopText,skin);
         planet1(drawable_station_unvisited);
         planet2(drawable_station_unvisited);
         planet3(drawable_station_unvisited);
         planet4(drawable_station_unvisited);
         planet5(drawable_station_unvisited);
+        shopStation(shopStationIcon);
         setStartPoint(drawable_station_unvisited);
         stage.addActor(planet1ImgBTN);
         stage.addActor(planet2ImgBTN);
@@ -104,6 +109,7 @@ public class StationsMap extends BaseScreen {
         stage.addActor(planet4ImgBTN);
         stage.addActor(planet3ImgBTN);
         stage.addActor(startPoint);
+        stage.addActor(shopImg);
 
     }
 
@@ -269,6 +275,35 @@ public class StationsMap extends BaseScreen {
 
     }
 
+    private void shopStation(Drawable shopStationIcon){
+        shopImg = new ImageButton((shopStationIcon));
+        shopImg.setPosition(400, 900);
+        shopImg.setSize(PLANET_SIZEX,PLANET_SIZEX);
+        hoverListener(shopImg, textAreaShop);
+        shopImg.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                final Dialog dialog = new Dialog("Information", skin, "dialog") {
+                    public void result(Object obj) {
+
+                        if(obj.toString()=="true") {
+                            counter++;
+                            hoverListener(shopImg,textAreaShop);
+                            //jumpService(planet);
+                            game.setScreen(new ShopScreen2(game));
+                        }
+                    }
+                };
+
+                actionDialog(dialog,"Shopping Mall --> Lets shop like there's no tomorrow!!\n"
+                        + "moves in to the mall\n" + "Are you sure you want to jump there");
+
+            }
+        });
+
+
+    }
+
 
     private void planet1(Drawable drawable_station_unvisited) {
         planet1ImgBTN = new ImageButton( (drawable_station_unvisited) );
@@ -295,6 +330,7 @@ public class StationsMap extends BaseScreen {
         });
 
     }
+
 
     private void jumpService(Planet planet) {
         ArrayList<StopAbstract> toChange = new ArrayList<StopAbstract>();
