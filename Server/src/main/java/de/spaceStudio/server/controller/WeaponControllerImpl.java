@@ -104,6 +104,7 @@ public class WeaponControllerImpl implements WeaponController {
         Ship ship=new Ship();
         for (Weapon weapon :
                 weapons) {
+            //Search the objective
             ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
             if (ship.getShield() > 0) {
                 ship.setShield(0);
@@ -129,10 +130,12 @@ public class WeaponControllerImpl implements WeaponController {
                 if (w.getSection().getUsable() == true) {
                     if (w.getObjectiv().getShip().getHp() > 0) {
                         return "Fire Accepted";
+                    }else{
+                        return "Ship Defeat";
                     }
                 }
             }
         }
-        return "Fire not Accepted";
+        return "Section unusable";
     }
 }

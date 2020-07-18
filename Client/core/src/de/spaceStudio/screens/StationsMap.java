@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.AI;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
@@ -77,7 +78,6 @@ public class StationsMap extends BaseScreen {
 
     //
     private boolean isGameSaved = false;
-
     public StationsMap(final MainClient game) {
         super(game);
         this.mainClient = game;
@@ -441,14 +441,16 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().end();
         stage.act();
         stage.draw();
-        if(!shipList.isEmpty()&&control==false){
+        if(!shipList.isEmpty() && control==false ){
             try {
                 Global.currentShipPlayer =shipList.get(1);
                 Global.currentShipGegner = shipList.get(0);
+                Global.currentGegner = Global.currentShipGegner.getOwner();
             }catch (Exception e){
                 Global.currentShipPlayer =shipList.get(0);
+                Global.currentShipGegner=null;
             }
-            mainClient.setScreen(new StopScreen(game));
+            mainClient.setScreen(new TravelScreen(game));
             control=true;
         }
 

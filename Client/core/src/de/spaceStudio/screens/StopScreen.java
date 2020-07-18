@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class StopScreen extends ScreenAdapter {
     MainClient game;
-    boolean enemyNearBy = true;
+    boolean enemyNearBy = Global.currentShipGegner != null;
     private Stage stage;
     private Skin skin;
 
@@ -154,7 +154,8 @@ public class StopScreen extends ScreenAdapter {
                     new Dialog("After a while:", skin) {
 
                         {
-                            String outcome = event_description(event_number);
+                            // TODO UNTIL SERVER VALIDATION THIS NUMBER WILL BE SIX-> DEFAULT
+                            String outcome = event_description(6);
                             text(outcome);
                             button("Flee", 1l);
                             button("Fight", 2l);

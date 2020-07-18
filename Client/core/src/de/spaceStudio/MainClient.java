@@ -15,8 +15,11 @@ public class MainClient extends Game {
 
 	public LoginScreen loginScreen;
 	private SpriteBatch batch;
+	public ShopScreen2 shopScreen;
 
 	private StopScreen stopScreen;
+	private CombatScreen combatScreen;
+	private WinScreen winScreen;
 
 
 
@@ -27,7 +30,8 @@ public class MainClient extends Game {
 		assetManager.finishLoading();
 		loginScreen = new LoginScreen(this, assetManager);
 		batch = new SpriteBatch();
-		stopScreen = new StopScreen(this);
+		//stopScreen = new StopScreen(this);
+		winScreen = new WinScreen(this);
 		setScreen(loginScreen);
 	}
 
