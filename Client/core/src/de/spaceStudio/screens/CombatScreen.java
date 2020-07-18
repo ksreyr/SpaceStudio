@@ -118,7 +118,7 @@ public class CombatScreen extends BaseScreen {
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
-        System.out.println("Global planet: "+ Global.currentPlanet.getName());
+        System.out.println("Global planet: "+ Global.currentStop.getName());
 
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));

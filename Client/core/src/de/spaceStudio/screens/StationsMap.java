@@ -157,6 +157,7 @@ public class StationsMap extends BaseScreen {
         planet1ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentStop =Global.planet1;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if(obj.toString()=="true") {
@@ -184,6 +185,7 @@ public class StationsMap extends BaseScreen {
         planet2ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentStop =Global.planet2;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
@@ -249,19 +251,18 @@ public class StationsMap extends BaseScreen {
         planet4ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet4ImgBTN.setPosition(coord.get(4).key(), coord.get(4).value());
         planet4ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
-        final Planet planet = Global.planet4;
         hoverListener(planet4ImgBTN,textAreaUN);
         planet4ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Global.currentPlanet=Global.planet4;
+                Global.currentStop=Global.planet4;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if(obj.toString()=="true") {
                             counter++;
                             hoverListener(planet4ImgBTN,textAreaVIS);
                             Global.currentStopNumber = 4;
-                            jumpService(planet);
+                            jumpService(Global.planet4);
 
                         }
                     }
@@ -285,7 +286,7 @@ public class StationsMap extends BaseScreen {
         planet5ImageBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Global.currentPlanet=Global.planet5;
+                Global.currentStop=Global.planet5;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
@@ -301,7 +302,7 @@ public class StationsMap extends BaseScreen {
                     dialog.key(Input.Keys.ENTER, true);
                     hoverListener(planet5ImageBTN,textAreaVIS);
                     Global.currentStopNumber = 5;
-                    jumpService(planet);
+                    jumpService(currentStop);
                     jumpService(Global.planet5);
 
                 }else {
@@ -318,10 +319,10 @@ public class StationsMap extends BaseScreen {
 
     }
 
-    private void jumpService(Planet planet) {
+    private void jumpService(StopAbstract stopAbstract) {
         ArrayList<StopAbstract> toChange = new ArrayList<StopAbstract>();
         toChange.add(currentStop);
-        toChange.add(planet);
+        toChange.add(stopAbstract);
         if (shipList.isEmpty()) {
             makeJumpRequest(toChange, Net.HttpMethods.POST);
         }
