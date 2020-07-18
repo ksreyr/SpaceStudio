@@ -715,7 +715,7 @@ public  class Global {
             .buildSection();
     public static Section section4Gegner2 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.WEAPONS)
+            .sectionTyp(SectionTyp.O2)
             .img("Section4Gegner2")
             .oxygen(100)
             .powerCurrent(100)
@@ -768,7 +768,7 @@ public  class Global {
             .buildSection();
     public static Section section4Gegner3 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.DRIVE)
+            .sectionTyp(SectionTyp.O2)
             .img("Section4Gegner3")
             .oxygen(100)
             .powerCurrent(100)
@@ -778,7 +778,7 @@ public  class Global {
             .buildSection();
     public static Section section5Gegner3 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.WEAPONS)
+            .sectionTyp(SectionTyp.HEALT)
             .img("Section5Gegner3")
             .oxygen(100)
             .powerCurrent(100)

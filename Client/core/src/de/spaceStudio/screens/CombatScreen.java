@@ -28,7 +28,6 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.SectionTyp;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.util.GdxUtils;
@@ -59,7 +58,7 @@ public class CombatScreen extends BaseScreen {
     private SpriteBatch batch;
 
     private Texture playerShip;
-    private Texture enemyShip1,enemyShip2,enemyShip3;
+    private Texture enemyShip1, enemyShip2, enemyShip3;
     private Texture hull;
     private Texture background;
 
@@ -68,7 +67,7 @@ public class CombatScreen extends BaseScreen {
     boolean canFire = false;
     boolean canFireGegner = false;
     private boolean isExploied;
-    private boolean sectionw, sectiond, sectionOthers;
+    private boolean isSectionw, isSectiond, isSectionOthers, isSectiono2, isSectionhealth;
     private Texture missilleRight, explosion, missilleLeft, weaponSystem;
     int fuzeOffsetright, fuzeOffsetLeft;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
@@ -166,11 +165,17 @@ public class CombatScreen extends BaseScreen {
         o2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+
+                isSectiono2=true;
+                isSectionw = false;
+                isSectionOthers = false;
+                isSectiond = false;
+                isSectionhealth =false;
+
+
                 isTargetO2 = true;
                 isTargetSelected = true;
-                sectionw = false;
-                sectionOthers = false;
-                sectiond = false;
+
                 o2.getStyle().imageUp = oxygen_sym_red;
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
@@ -185,9 +190,13 @@ public class CombatScreen extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetMedical = true;
                 isTargetSelected = true;
-                sectionw = false;
-                sectionOthers = false;
-                sectiond = false;
+
+                isSectionw = false;
+                isSectionOthers = false;
+                isSectiond = false;
+                isSectiono2=false;
+                isSectionhealth =true;
+
                 healthPoint.getStyle().imageUp = medical_sym_red;
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
@@ -199,16 +208,20 @@ public class CombatScreen extends BaseScreen {
         });
 
         engine = new ImageButton(engine_sym);
-        engine.setPosition(1075, 440);
-        engine.setSize(1000, 100);
+        engine.setPosition(1560,470);
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetEngine = true;
                 isTargetSelected = true;
-                sectionw = false;
-                sectionOthers = false;
-                sectiond = true;
+
+
+                isSectionw = false;
+                isSectionOthers = false;
+                isSectiond = true;
+                isSectiono2=false;
+                isSectionhealth =false;
+
                 engine.getStyle().imageUp = engine_red;
 
             }
@@ -217,15 +230,20 @@ public class CombatScreen extends BaseScreen {
 
         weaponSection = new ImageButton(weapon_section);
         weaponSection.setPosition(1450,500);
-        weaponSection.setSize(100,100);
         weaponSection.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                sectionw = true;
-                sectionOthers = false;
-                sectiond = false;
+
+                isSectiond = false;
                 isTargetSelected = true;
                 isTargetWeapon = true;
+
+                isSectionw = true;
+                isSectionOthers = false;
+                isSectiond = false;
+                isSectiono2=false;
+                isSectionhealth =false;
+
                 weaponSection.getStyle().imageUp = weapon_section_red;
 
             }
@@ -239,9 +257,9 @@ public class CombatScreen extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
                 isTargetCockpit = true;
-                sectionw = false;
-                sectionOthers = true;
-                sectiond = false;
+                isSectionw = false;
+                isSectionOthers = true;
+                isSectiond = false;
                 cockpit.getStyle().imageUp = cockpit_red;
 
             }
@@ -267,8 +285,13 @@ public class CombatScreen extends BaseScreen {
         lebenplayerShip.setPosition(20,20);
 
         stage.addActor(lebenplayerShip);
-        stage.addActor(o2);
-        stage.addActor(healthPoint);
+        if(Global.currentShipGegner.getName().equals("Shipgegner2")){
+            stage.addActor(o2);
+        }
+        if(Global.currentShipGegner.getName().equals("Shipgegner3")){
+            stage.addActor(o2);
+            stage.addActor(healthPoint);
+        }
         stage.addActor(lebengegnerShip);
         stage.addActor(engine);
         stage.addActor(cockpit);
@@ -294,28 +317,30 @@ public class CombatScreen extends BaseScreen {
                 for (Section s :
                         sectionListShipgegner1) {
                     //if section Zeil is weapons
-                    if (sectionw) {
+                    if (isSectionw) {
                         System.out.println("::: Shipgegner1 WEAPONS GEGNER UNUSABLE::::");
-                        if(s.getImg().equals("Section1Gegner1")){
+                        if (s.getImg().equals("Section3Gegner1")) {
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
+                        }
+                        ;
                         //if section Zeil is drive
-                    }else if(sectiond){
+                    } else if (isSectiond) {
                         System.out.println(":::Shipgegner1 Drive GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.DRIVE)){
+                        if (s.getImg().equals("Section2Gegner1")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
+                        }
+                        ;
                         //if section Zeil is others
-                    }else{
+                    } else {
                         System.out.println(":::Shipgegner1 Other GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.NORMAL)){
+                        if (s.getImg().equals("Section1Gegner1")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
@@ -331,31 +356,42 @@ public class CombatScreen extends BaseScreen {
                 for (Section s :
                         sectionListShipgegner2) {
                     //if section Zeil is weapons
-                    if (sectionw) {
+                    if (isSectionw) {
                         System.out.println("::: Shipgegner2 WEAPONS GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.WEAPONS)){
+                        if (s.getImg().equals("Section3Gegner2")) {
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
-                    }else if(sectiond){
+                        }
+
+                    } else if (isSectiond) {
                         System.out.println(":::Shipgegner2 Drive GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.DRIVE)){
+                        if (s.getImg().equals("Section2Gegner2")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
+                        }
+
+                    } else if (isSectiono2) {
+                        System.out.println(":::Shipgegner2 O2 GEGNER UNUSABLE::::");
+                        if (s.getImg().equals("Section4Gegner2")) {
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setObjectiv(s);
+                            }
+                        }
+
                     }else{
                         System.out.println(":::Shipgegner2 Other GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.NORMAL)){
+                        if (s.getImg().equals("Section1Gegner2")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
+                        }
                     }
                 }
                 break;
@@ -366,9 +402,9 @@ public class CombatScreen extends BaseScreen {
                 for (Section s :
                         sectionListShipgegner3) {
                     //if section Zeil is weapons
-                    if (sectionw) {
+                    if (isSectionw) {
                         System.out.println(":::Shipgegner3 WEAPONS GEGNER UNUSABLE::::");
-                        if (s.getSectionTyp().equals(SectionTyp.WEAPONS)) {
+                        if (s.getImg().equals("Section3Gegner3")) {
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
                                     Global.weaponListPlayer) {
@@ -376,32 +412,47 @@ public class CombatScreen extends BaseScreen {
                             }
                         }
                         ;
-                    } else if (sectiond) {
+                    } else if (isSectiond) {
                         System.out.println(":::Shipgegner3 DRIVE GEGNER UNUSABLE::::");
-                        if (s.getSectionTyp().equals(SectionTyp.DRIVE)) {
+                        if (s.getImg().equals("Section2Gegner3")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
                         }
                         ;
-                    } else {
-                        System.out.println(":::Shipgegner3 OTHER GEGNER UNUSABLE::::");
-                        if (s.getSectionTyp().equals(SectionTyp.NORMAL)) {
+                    } else if (isSectiono2) {
+                        System.out.println(":::Shipgegner2 O2 GEGNER UNUSABLE::::");
+                        if (s.getImg().equals("Section4Gegner3")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
+                            }
+                        }
 
+                    }else if (isSectionhealth) {
+                        System.out.println(":::Shipgegner2 HEALTH GEGNER UNUSABLE::::");
+                        if (s.getImg().equals("Section4Gegner3")) {
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setObjectiv(s);
                             }
                         }
-                        ;
+
+                    }else{
+                        System.out.println(":::Shipgegner2 Other GEGNER UNUSABLE::::");
+                        if (s.getImg().equals("Section1Gegner2")) {
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setObjectiv(s);
+                            }
+                        }
                     }
                 }
                 break;
-            //An the fall that the Gegner 3 ist
 
         }
-        // NO Hay ID en WEAPONS??
+
         Global.updateweaponPlayerVariabel();
         shotValidation(Global.weaponListPlayer, Net.HttpMethods.POST);
     }
