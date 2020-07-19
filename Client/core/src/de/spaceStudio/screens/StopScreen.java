@@ -11,11 +11,15 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Weapon;
+import org.graalvm.compiler.lir.alloc.trace.GlobalLivenessInfo;
 
 import java.util.Random;
 
 
 public class StopScreen extends ScreenAdapter {
+    private final int dammagePrice = 50;
+    private final int coolDownPrice = 40;
+    private final int accuracyPrice = 60;
     MainClient game;
     boolean enemyNearBy = Global.currentShipGegner != null;
     private Stage stage;
@@ -24,8 +28,6 @@ public class StopScreen extends ScreenAdapter {
     public StopScreen(MainClient game) {
         super();
         this.game = game;
-
-
     }
 
     private static int getRandomNumberInRange(int min, int max) {
@@ -39,7 +41,7 @@ public class StopScreen extends ScreenAdapter {
     }
 
     String event_description(int event) {
-        String result;
+        String result = "You go Blind";
         switch (event) {
             case 0:
                 int life = Global.currentShipPlayer.getHp() + getRandomNumberInRange(1, 50);
@@ -84,6 +86,7 @@ public class StopScreen extends ScreenAdapter {
                 c.setName("Hubert"); // TODO Liam add faker
                 c.setCurrentSection(Global.sectionsPlayerList.get(0));
                 // FIXME update Backend
+                break;
 
             default:
                 result = "Nothing happens. You glance at the vast expanse of Space";
@@ -155,11 +158,12 @@ public class StopScreen extends ScreenAdapter {
 
                         {
                             // TODO UNTIL SERVER VALIDATION THIS NUMBER WILL BE SIX-> DEFAULT
-                            String outcome = event_description(6);
+                            String outcome = event_description(3);
                             text(outcome);
                             button("Flee", 1l);
                             button("Fight", 2l);
                             button("Shop", 3l);
+                            button("Upgrade", 4l);
 
                         }
 
@@ -231,6 +235,77 @@ public class StopScreen extends ScreenAdapter {
                                     @Override
                                     protected void result(Object object) {
                                         game.setScreen(new StationsMap(game));
+                                    }
+                                }.show(stage);
+                            } else if (object.equals(4l)) {
+                                new Dialog("What do you want to Upgrade?", skin) {
+
+                                    {
+                                        int price_dammage = Global.weaponListPlayer.size() * dammagePrice;
+                                        int price_accuracy = Global.weaponListPlayer.size() * accuracyPrice;
+                                        int price_coolDown = Global.weaponListPlayer.size() * coolDownPrice;
+
+                                        text("You can Upgrade all Weapons or one at a time");
+
+                                        if (Global.currentShipPlayer.getMoney() >= price_dammage) {
+                                            button("+10% Dammage for  all (" + price_dammage + ")", 1l).getButtonTable().row();
+                                        } else   if (Global.currentShipPlayer.getMoney() >= price_coolDown) {
+                                            button("+10% Accuracy for  all (" + price_accuracy + ")", 2l).getButtonTable().row();
+                                        }  if (Global.currentShipPlayer.getMoney() >= price_accuracy) {
+
+                                        button("-10% Cooldown for  all (" + price_coolDown + ")", 2l).getButtonTable().row();
+                                    }
+                                        button("Single Upgrade TODO", 0l);
+                                    }
+
+                                    @Override
+                                    protected void result(Object object) {
+                                        if (object.equals(0L)) {
+                                            new Dialog("Go back to Map", skin) {
+
+                                                {
+                                                    text("You have seen Enough. You go back to your Cockpit");
+                                                    button("View Map", 1l).getButtonTable().row();
+
+                                                }
+
+                                                @Override
+                                                protected void result(Object object) {
+                                                    game.setScreen(new StationsMap(game));
+                                                }
+                                            }.show(stage);
+                                        }
+                                        if (object.equals(1l)) {
+                                            for (Weapon w :
+                                                    Global.weaponListPlayer) {
+                                                w.setDamage((int) (w.getDamage() + w.getDamage() * 0.1)); // FIXME if dammage is below 10 this will fail
+                                            }
+                                        } else if (object.equals(2l)) {
+                                            for (Weapon w :
+                                                    Global.weaponListPlayer) {
+                                                w.setCoolDown((int) (w.getCoolDown() + w.getCoolDown() * 0.1)); // FIXME if dammage is below 10 this will fail
+                                            }
+                                        } else if (object.equals(3l)) {
+                                            for (Weapon w :
+                                                    Global.weaponListPlayer) {
+                                                w.setCoolDown((int) (w.getCoolDown() + w.getCoolDown() * 0.1)); // FIXME if dammage is below 10 this will fail
+                                            }
+                                        }
+
+                                        new Dialog("Upgrade Succesfull", skin) {
+
+                                            {
+                                                text("You the eager Mechnanic has finished");
+                                                button("View Map", 1l).getButtonTable().row();
+
+                                            }
+
+                                            @Override
+                                            protected void result(Object object) {
+                                                game.setScreen(new StationsMap(game));
+                                            }
+                                        }.show(stage);
+
                                     }
                                 }.show(stage);
                             }

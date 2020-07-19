@@ -44,11 +44,11 @@ public interface WeaponController  {
     /**
      * Get all weapons of a Ship
      *
-     * @param ship of which the weapons will be shown
-     * @return the Weapons of thhe Ship
+     * @param id of the Ship
+     * @return the Weapons of the Ship
      */
-    @RequestMapping(value = "/ship/weapon/", method = RequestMethod.GET)
-    List<Weapon> getWeapons(@RequestBody Ship ship);
+    @RequestMapping(value = "/ship/{id}/weapons", method = RequestMethod.GET)
+    List<Weapon> getWeapons(@PathVariable Integer id);
 
 
     /**

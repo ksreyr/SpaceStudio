@@ -50,8 +50,12 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
-    public List<Weapon> getWeapons(Ship ship) {
-        List<Section> sections = sectionRepository.findAllByShip(ship).get();
+    public List<Weapon> getWeapons(Integer id) {
+        Optional<Ship> ship = shipRepository.findById(id);
+        if (ship.isEmpty()) {
+            return null;
+        }
+        List<Section> sections = sectionRepository.findAllByShip(ship.get()).get();
         List<Weapon> weapons = new ArrayList<Weapon>();
         sections.stream().map(s ->  weapons.addAll(weaponRepository.findBySection(s).get()));
         return weapons;

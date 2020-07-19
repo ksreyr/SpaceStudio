@@ -1,11 +1,15 @@
 package de.spaceStudio.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 import javax.persistence.*;
 
 @Entity
 @Inheritance(
         strategy = InheritanceType.TABLE_PER_CLASS
 )
+@JsonIdentityInfo(generator= JSOGGenerator.class)
 public class Weapon {
 
     @Id
@@ -20,6 +24,8 @@ public class Weapon {
     private int hitRate;
 
     private int damage;
+
+    private int coolDown;
 
     private String img;
 
@@ -98,6 +104,15 @@ public class Weapon {
     public static WeaponBuilder WeaponBuilder(){
         return new WeaponBuilder();
     }
+
+    public int getCoolDown() {
+        return coolDown;
+    }
+
+    public void setCoolDown(int coolDown) {
+        this.coolDown = coolDown;
+    }
+
     public  static class WeaponBuilder{
         private Integer id;
         private String name;

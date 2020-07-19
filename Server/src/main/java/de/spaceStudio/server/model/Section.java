@@ -2,7 +2,9 @@ package de.spaceStudio.server.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -17,6 +19,7 @@ import java.util.List;
         strategy = InheritanceType.TABLE_PER_CLASS
 )
 @NamedQuery(name = "Section.findByShip", query = "SELECT p FROM Section p WHERE  p.ship = ?1")
+@JsonIdentityInfo(generator= JSOGGenerator.class)
 public class Section {
     @Id
     //@JsonValue

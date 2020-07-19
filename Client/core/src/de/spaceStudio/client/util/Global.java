@@ -15,6 +15,7 @@ import java.util.List;
 public  class Global {
 
 
+    public static final String WEAPONS = "weapons" ;
     /**
      * boolean value for single player disable lobby
      */
