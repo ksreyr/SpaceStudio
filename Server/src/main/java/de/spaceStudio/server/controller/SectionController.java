@@ -63,5 +63,13 @@ public interface SectionController {
      */
     @RequestMapping(value = "/sections", method = RequestMethod.DELETE)
     String deleteAllSections();
+
+    /**
+     * Find all Sections for one Ship
+     * @param id the Ship
+     * @return the Sections
+     */
+    @RequestMapping(value =  "/ship/{id}/sections", method = RequestMethod.GET)
+    List<Section> sectionsByShip(@PathVariable Integer id);
 }
 

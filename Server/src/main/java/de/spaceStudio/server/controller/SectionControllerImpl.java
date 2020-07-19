@@ -135,4 +135,10 @@ public class SectionControllerImpl implements SectionController {
     public String deleteAllSections() {
         return null;
     }
+
+    @Override
+    public List<Section> sectionsByShip(Integer id) {
+        Ship ship = shipRepository.findById(id).get();
+        return repository.findAllByShip(ship).get();
+    }
 }

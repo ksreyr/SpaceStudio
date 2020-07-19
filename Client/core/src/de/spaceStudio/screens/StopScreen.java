@@ -125,7 +125,7 @@ public class StopScreen extends ScreenAdapter {
      * A terminal loads a new Screen
      * Capitals are non Terminals, non Capitals are not
      * Leave = A
-     * A =  | flee | fight | shop
+     * A =  | flee | fight | shop | upgrade
      * Flee = stationMap
      * Shop = enter | exit
      * Fight = enemy | noEnemy

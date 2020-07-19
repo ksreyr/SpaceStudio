@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestController
 public class WeaponControllerImpl implements WeaponController {
@@ -44,6 +47,14 @@ public class WeaponControllerImpl implements WeaponController {
     @RequestMapping(value = "/weapon/{id}", method = RequestMethod.GET)
     public Weapon getWeapon(@PathVariable Integer id) {
         return weaponRepository.getOne(id);
+    }
+
+    @Override
+    public List<Weapon> getWeapons(Ship ship) {
+        List<Section> sections = sectionRepository.findAllByShip(ship).get();
+        List<Weapon> weapons = new ArrayList<Weapon>();
+        sections.stream().map(s ->  weapons.addAll(weaponRepository.findBySection(s).get()));
+        return weapons;
     }
 
     @Override

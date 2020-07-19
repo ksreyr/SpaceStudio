@@ -41,6 +41,15 @@ public interface WeaponController  {
     @RequestMapping(value = "/weapon/{id}", method = RequestMethod.GET)
     Weapon getWeapon(@PathVariable Integer id);
 
+    /**
+     * Get all weapons of a Ship
+     *
+     * @param ship of which the weapons will be shown
+     * @return the Weapons of thhe Ship
+     */
+    @RequestMapping(value = "/ship/weapon/", method = RequestMethod.GET)
+    List<Weapon> getWeapons(@RequestBody Ship ship);
+
 
     /**
      * Creates a new weapon from JSON weapon object
