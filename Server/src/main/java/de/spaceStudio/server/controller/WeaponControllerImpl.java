@@ -9,7 +9,6 @@ import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
 import de.spaceStudio.server.repository.WeaponRepository;
-import org.hibernate.hql.internal.ast.tree.AggregatedSelectExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @RestController
 public class WeaponControllerImpl implements WeaponController {
@@ -141,16 +138,33 @@ public class WeaponControllerImpl implements WeaponController {
     public String shotValidation(List<Weapon> weapons) {
         for (Weapon w :
                 weapons) {
-            if (w.getObjectiv() != null) {
-                if (w.getSection().getUsable() == true) {
-                    if (w.getObjectiv().getShip().getHp() > 0) {
+                if (canShoot(w)) {
                         return "Fire Accepted";
                     }else{
-                        return "Ship Defeat";
-                    }
-                }
+                    return "Ship Defeat";
             }
         }
         return "Section unusable";
+    }
+
+    private boolean canShoot(Weapon w) {
+        if (w.getObjectiv() != null) { return false;}
+        if (w.getObjectiv().getShip().getHp() > 0 && isOutsideRange(w.getLastShot(), w.getCoolDown())) {
+            return w.getSection().getUsable();
+        }
+        return false;
+    }
+
+
+    /**
+     * Has the last shot been within coolDown Time
+     * @param lastShot happend at this time
+     * @param coolDown lasts this long
+     * @return if the weapon can shot
+     */
+    boolean isOutsideRange(long lastShot, long coolDown) {
+        long now = System.nanoTime();
+        long timeElapsed = now - lastShot;
+        return ((timeElapsed) /  1000000) > coolDown;  // Convert to Milliseconds
     }
 }
