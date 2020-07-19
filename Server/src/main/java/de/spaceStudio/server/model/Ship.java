@@ -181,7 +181,7 @@ public class Ship {
 
         public Ship buildShip() {
             Ship ship = new Ship(this);
-            ship.setMoney(0);
+            ship.setMoney(30);
             return ship;
         }
     }
