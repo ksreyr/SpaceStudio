@@ -119,10 +119,10 @@ public class WeaponControllerImpl implements WeaponController {
             //Search the objective
             ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
             if (ship.getShield() > 0) {
-                ship.setShield(0);
+                ship.setShield(ship.getShield() - weapon.getDamage());
             }else{
                 //Without_Schield
-                ship.setHp(ship.getHp()-weapon.getDamage());
+                ship.setHp(ship.getHp() - weapon.getDamage());
                 weapon.getObjectiv().setUsable(false);
                 sectionRepository.save(weapon.getObjectiv());
             }
