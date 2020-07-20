@@ -366,6 +366,7 @@ public class ShipSelectScreen extends BaseScreen {
                 levelDifficult = Difficult.EASY.getLevelCode();
                 normalButton.setColor(Color.BLACK);
                 easyButton.setColor(Color.CYAN);
+                ISEASY = true;
             }
         });
 
@@ -384,6 +385,7 @@ public class ShipSelectScreen extends BaseScreen {
                 levelDifficult = Difficult.NORMAL.getLevelCode();
                 normalButton.setColor(Color.CYAN);
                 easyButton.setColor(Color.BLACK);
+                ISEASY = false;
             }
         });
 

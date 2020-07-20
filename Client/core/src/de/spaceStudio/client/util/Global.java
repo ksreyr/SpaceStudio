@@ -21,6 +21,10 @@ public  class Global {
     public static boolean IS_SINGLE_PLAYER = false;
 
     /**
+     * @return true if level easy
+     */
+    public static boolean ISEASY = false;
+    /**
      * Hardcoded server URL
      */
     public static final String SERVER_URL = "http://localhost:8080";

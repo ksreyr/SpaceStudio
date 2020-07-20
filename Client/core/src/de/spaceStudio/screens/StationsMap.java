@@ -113,11 +113,14 @@ public class StationsMap extends BaseScreen {
         planet4(drawable_station_unvisited);
         planet5(drawable_station_unvisited);
         setStartPoint(drawable_station_unvisited);
+
         stage.addActor(planet1ImgBTN);
         stage.addActor(planet2ImgBTN);
-        stage.addActor(planet5ImageBTN);
-        stage.addActor(planet4ImgBTN);
         stage.addActor(planet3ImgBTN);
+        if(!Global.ISEASY){
+            stage.addActor(planet5ImageBTN);
+            stage.addActor(planet4ImgBTN);
+        }
         stage.addActor(startPoint);
 
     }
