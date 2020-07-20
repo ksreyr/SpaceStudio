@@ -283,7 +283,6 @@ public class ShipSelectScreen extends BaseScreen {
         });
     }
 
-
     private void showHideRoom() {
         showHideRoom = new TextButton("show rooms", skinButton, "small");
         showHideRoom.setPosition((BaseScreen.WIDTH / 2) - 50, 500);

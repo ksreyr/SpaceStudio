@@ -21,9 +21,9 @@ import java.util.Random;
 
 
 public class StopScreen extends ScreenAdapter {
-    private final int dammagePrice = 50;
-    private final int coolDownPrice = 40;
-    private final int accuracyPrice = 60;
+    private final int dammagePrice = 5;
+    private final int coolDownPrice = 4;
+    private final int accuracyPrice = 6;
     MainClient game;
     boolean enemyNearBy = Global.currentShipGegner != null;
     private Stage stage;
@@ -37,6 +37,7 @@ public class StopScreen extends ScreenAdapter {
 
     /**
      * Generate a random Number
+     *
      * @param min lowest
      * @param max highest
      * @return a number inside the bounds
@@ -53,6 +54,7 @@ public class StopScreen extends ScreenAdapter {
 
     /**
      * Return the Text to the event which is executed prior
+     *
      * @param event which is selected
      * @return what happens
      */
@@ -122,7 +124,7 @@ public class StopScreen extends ScreenAdapter {
                 break;
 
             case 1:
-                result = "Before you lies a Blueg Laggon, It looks like an oasis";
+                result = "Before you lies a Blue Laggon, It looks like an oasis";
                 break;
 
             case 2:
@@ -130,7 +132,7 @@ public class StopScreen extends ScreenAdapter {
                 break;
 
             default:
-                result = "";
+                result = "Nothing is here, just the existential void of being";
                 break;
         }
 
@@ -142,9 +144,9 @@ public class StopScreen extends ScreenAdapter {
         StringBuilder sb = new StringBuilder();
 
         sb.append("Life :" + s.getHp() + "\n");
-        sb.append("Shield :" +  s.getShield() + "\n");
+        sb.append("Shield :" + s.getShield() + "\n");
         sb.append("Money: " + s.getMoney() + "\n");
-        sb.append("Power" + s.getPower() +  "\n" );
+        sb.append("Power: " + s.getPower() + "\n");
 
         return sb.toString();
     }
@@ -173,7 +175,7 @@ public class StopScreen extends ScreenAdapter {
 
         BitmapFont myFont = new BitmapFont(Gdx.files.internal("bitmap/amble.fnt"));
         label1Style.font = myFont;
-        label1Style.fontColor = Color.BLUE;
+        label1Style.fontColor = Color.RED;
 
         statsLabel = new Label(getStats(Global.currentShipPlayer), label1Style);
         statsLabel.setSize(Gdx.graphics.getWidth(), row_height);
@@ -286,17 +288,28 @@ public class StopScreen extends ScreenAdapter {
                                         int price_dammage = Global.weaponListPlayer.size() * dammagePrice;
                                         int price_accuracy = Global.weaponListPlayer.size() * accuracyPrice;
                                         int price_coolDown = Global.weaponListPlayer.size() * coolDownPrice;
+                                        int price_life = 20;
+                                        int price_shield = 15;
 
                                         text("You can Upgrade all Weapons or one at a time");
 
                                         if (Global.currentShipPlayer.getMoney() >= price_dammage) {
                                             button("+10% Dammage for  all (" + price_dammage + ")", 1l).getButtonTable().row();
-                                        } else   if (Global.currentShipPlayer.getMoney() >= price_coolDown) {
+                                        }
+                                        if (Global.currentShipPlayer.getMoney() >= price_coolDown) {
                                             button("+10% Accuracy for  all (" + price_accuracy + ")", 2l).getButtonTable().row();
-                                        }  if (Global.currentShipPlayer.getMoney() >= price_accuracy) {
+                                        }
+                                        if (Global.currentShipPlayer.getMoney() >= price_accuracy) {
+                                            button("-10% Cooldown for  all (" + price_coolDown + ")", 2l).getButtonTable().row();
+                                        }
+                                        if (Global.currentShipPlayer.getMoney() >= price_life) {
+                                            button("+10% Life (" + price_life + ")", 4l).getButtonTable().row();
+                                        }
 
-                                        button("-10% Cooldown for  all (" + price_coolDown + ")", 2l).getButtonTable().row();
-                                    }
+                                        if (Global.currentShipPlayer.getMoney() >= price_shield) {
+                                            button("+10 Shield  (" + price_shield + ")", 5l).getButtonTable().row();
+                                        }
+
                                         button("Single Upgrade TODO", 0l);
                                     }
 
@@ -332,6 +345,10 @@ public class StopScreen extends ScreenAdapter {
                                                     Global.weaponListPlayer) {
                                                 w.setCoolDown((int) (w.getCoolDown() + w.getCoolDown() * 0.1)); // FIXME if dammage is below 10 this will fail
                                             }
+                                        } else if (object.equals(4l)) {
+                                            Global.currentShipPlayer.setHp(Global.currentShipPlayer.getHp() + (int) (Global.currentShipPlayer.getHp() * 0.1f) );
+                                        } else if (object.equals(5l)) {
+                                            Global.currentShipPlayer.setShield(Global.currentShipPlayer.getShield() + 10);
                                         }
 
                                         new Dialog("Upgrade Succesfull", skin) {
