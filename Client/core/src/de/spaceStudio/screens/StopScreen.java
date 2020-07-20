@@ -383,6 +383,7 @@ public class StopScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0f, 0.23f, 0.34f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         statsLabel.setText(getStats(Global.currentShipPlayer));
         stage.act(delta);
