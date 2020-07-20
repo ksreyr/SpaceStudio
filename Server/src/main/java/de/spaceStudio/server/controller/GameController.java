@@ -1,9 +1,9 @@
 package de.spaceStudio.server.controller;
 
+import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.repository.PlayerRepository;
-import de.spaceStudio.server.utils.Game;
 import de.spaceStudio.server.utils.Global;
 import de.spaceStudio.server.utils.JSONFile;
 import org.slf4j.Logger;
@@ -12,13 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
- * Game Controller
+ * <h1>Game Controller</h1>
+ * The GameController class implements the single player and
+ * multi player endpoints to create game sessions in server
  *
  * @author Miguel Caceres
  * Created: 7.7.2020
+ * @version 1.0
  */
 @RestController
 public class GameController {
@@ -45,7 +50,67 @@ public class GameController {
         } else {
             return HttpStatus.NOT_ACCEPTABLE.toString();
         }
+    }
 
+    /**
+     * @return
+     */
+    @RequestMapping(value = "/game/start/multiplayer", method = RequestMethod.POST)
+    @ResponseBody
+    public String initMultiPlayer(@RequestBody Player player) {
+        if (Global.userLogged.contains(player.getName())) {
+            MultiPlayerGame mult = new MultiPlayerGame();
+            mult.setPlayerOne(player);
+            if(Global.MultiPlayerGameSessions.isEmpty()){
+                Global.MultiPlayerGameSessions.put(UUID.randomUUID().toString(), mult);
+                return HttpStatus.ACCEPTED.toString();
+            }
+            /*
+            int counter = 0;
+
+            for (Map.Entry<String, MultiPlayerGame> findMap : Global.MultiPlayerGameSessions.entrySet()) {
+                if (!findMap.getValue().getPlayerOne().equals(mult.getPlayerOne()) || !findMap.getValue().getPlayerTwo().equals(mult.getPlayerTwo())) {
+                    if (counter < 1) {
+                        Global.MultiPlayerGameSessions.put(UUID.randomUUID().toString(), mult);
+                        counter++;
+                    }
+                }
+            }
+            if (counter == 1) {
+                return HttpStatus.ACCEPTED.toString();
+            }
+            */
+        }
+        return HttpStatus.NOT_ACCEPTABLE.toString();
+    }
+
+    /**
+     * This method is used to get the session room to join other players
+     *
+     * @return String This returns the UUID to find current session
+     */
+    @RequestMapping(value = "/game/multiplayer/room", method = RequestMethod.GET)
+    @ResponseBody
+    public String checkMultiPlayerRoom() {
+        if (!Global.MultiPlayerGameSessions.isEmpty()) {
+            Map.Entry<String, MultiPlayerGame> entry = Global.MultiPlayerGameSessions.entrySet().iterator().next();
+            return entry.getKey();
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     *
+     * @param gameSession
+     * @param player
+     * @return
+     */
+    @RequestMapping(value = "/game/multiplayer/{sessionID}", method = RequestMethod.POST)
+    @ResponseBody
+    public String joinMultiplayerSession(@PathVariable("sessionID") String gameSession, @RequestBody Player player){
+        // TODO validate
+        return null;
     }
 
     /**
