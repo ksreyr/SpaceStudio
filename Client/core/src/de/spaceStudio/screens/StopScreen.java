@@ -2,16 +2,20 @@ package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
-import org.graalvm.compiler.lir.alloc.trace.GlobalLivenessInfo;
 
 import java.util.Random;
 
@@ -24,12 +28,20 @@ public class StopScreen extends ScreenAdapter {
     boolean enemyNearBy = Global.currentShipGegner != null;
     private Stage stage;
     private Skin skin;
+    private Label statsLabel;
 
     public StopScreen(MainClient game) {
         super();
         this.game = game;
     }
 
+    /**
+     * Generate a random Number
+     *
+     * @param min lowest
+     * @param max highest
+     * @return a number inside the bounds
+     */
     private static int getRandomNumberInRange(int min, int max) {
 
         if (min >= max) {
@@ -40,6 +52,12 @@ public class StopScreen extends ScreenAdapter {
         return r.nextInt((max - min) + 1) + min;
     }
 
+    /**
+     * Return the Text to the event which is executed prior
+     *
+     * @param event which is selected
+     * @return what happens
+     */
     String event_description(int event) {
         String result = "You go Blind";
         switch (event) {
@@ -106,7 +124,7 @@ public class StopScreen extends ScreenAdapter {
                 break;
 
             case 1:
-                result = "Before you lies a Blueg Laggon, It looks like an oasis";
+                result = "Before you lies a Blue Laggon, It looks like an oasis";
                 break;
 
             case 2:
@@ -114,12 +132,23 @@ public class StopScreen extends ScreenAdapter {
                 break;
 
             default:
-                result = "";
+                result = "Nothing is here, just the existential void of being";
                 break;
         }
 
 
         return result;
+    }
+
+    private String getStats(Ship s) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Life :" + s.getHp() + "\n");
+        sb.append("Shield :" + s.getShield() + "\n");
+        sb.append("Money: " + s.getMoney() + "\n");
+        sb.append("Power: " + s.getPower() + "\n");
+
+        return sb.toString();
     }
 
 
@@ -138,6 +167,21 @@ public class StopScreen extends ScreenAdapter {
     public void show() {
         Gdx.input.setInputProcessor(stage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
+
+        int row_height = Gdx.graphics.getWidth() / 12;
+        int col_width = Gdx.graphics.getWidth() / 12;
+        Label.LabelStyle label1Style = new Label.LabelStyle();
+
+        BitmapFont myFont = new BitmapFont(Gdx.files.internal("bitmap/amble.fnt"));
+        label1Style.font = myFont;
+        label1Style.fontColor = Color.RED;
+
+        statsLabel = new Label(getStats(Global.currentShipPlayer), label1Style);
+        statsLabel.setSize(Gdx.graphics.getWidth(), row_height);
+        statsLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
+        statsLabel.setAlignment(Align.bottomRight);
+
 
         final int number = getRandomNumberInRange(0, 3);
 
@@ -244,18 +288,29 @@ public class StopScreen extends ScreenAdapter {
                                         int price_dammage = Global.weaponListPlayer.size() * dammagePrice;
                                         int price_accuracy = Global.weaponListPlayer.size() * accuracyPrice;
                                         int price_coolDown = Global.weaponListPlayer.size() * coolDownPrice;
+                                        int price_life = 20;
+                                        int price_shield = 15;
 
                                         text("You can Upgrade all Weapons or one at a time");
                                         text("You have " + Global.currentShipPlayer.getMoney() +  "Money");
 
                                         if (Global.currentShipPlayer.getMoney() >= price_dammage) {
                                             button("+10% Dammage for  all (" + price_dammage + ")", 1l).getButtonTable().row();
-                                        } else   if (Global.currentShipPlayer.getMoney() >= price_coolDown) {
+                                        }
+                                        if (Global.currentShipPlayer.getMoney() >= price_coolDown) {
                                             button("+10% Accuracy for  all (" + price_accuracy + ")", 2l).getButtonTable().row();
-                                        }  if (Global.currentShipPlayer.getMoney() >= price_accuracy) {
+                                        }
+                                        if (Global.currentShipPlayer.getMoney() >= price_accuracy) {
+                                            button("-10% Cooldown for  all (" + price_coolDown + ")", 2l).getButtonTable().row();
+                                        }
+                                        if (Global.currentShipPlayer.getMoney() >= price_life) {
+                                            button("+10% Life (" + price_life + ")", 4l).getButtonTable().row();
+                                        }
 
-                                        button("-10% Cooldown for  all (" + price_coolDown + ")", 2l).getButtonTable().row();
-                                    }
+                                        if (Global.currentShipPlayer.getMoney() >= price_shield) {
+                                            button("+10 Shield  (" + price_shield + ")", 5l).getButtonTable().row();
+                                        }
+
                                         button("Single Upgrade TODO", 0l);
                                     }
 
@@ -290,6 +345,10 @@ public class StopScreen extends ScreenAdapter {
                                                     Global.weaponListPlayer) {
                                                 w.setCoolDown((int) (w.getCoolDown() + w.getCoolDown() * 0.1)); // FIXME if dammage is below 10 this will fail
                                             }
+                                        } else if (object.equals(4l)) {
+                                            Global.currentShipPlayer.setHp(Global.currentShipPlayer.getHp() + (int) (Global.currentShipPlayer.getHp() * 0.1f) );
+                                        } else if (object.equals(5l)) {
+                                            Global.currentShipPlayer.setShield(Global.currentShipPlayer.getShield() + 10);
                                         }
 
 
@@ -332,6 +391,7 @@ public class StopScreen extends ScreenAdapter {
 
             }
         }.show(stage);
+        stage.addActor(statsLabel);
     }
 
 
@@ -342,7 +402,9 @@ public class StopScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0f, 0.23f, 0.34f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        statsLabel.setText(getStats(Global.currentShipPlayer));
         stage.act(delta);
         stage.draw();
     }

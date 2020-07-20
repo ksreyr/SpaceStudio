@@ -21,11 +21,12 @@ public class Weapon {
     @OneToOne
     private Section objectiv;
 
-    private int hitRate;
+    private float hitRate;
 
     private int damage;
 
-    private int coolDown;
+    private long coolDown;
+    private long lastShot;
 
     private String img;
 
@@ -66,11 +67,11 @@ public class Weapon {
         this.name = name;
     }
 
-    public int getHitRate() {
+    public float getHitRate() {
         return hitRate;
     }
 
-    public void setHitRate(int hitRate) {
+    public void setHitRate(float hitRate) {
         this.hitRate = hitRate;
     }
 
@@ -105,12 +106,20 @@ public class Weapon {
         return new WeaponBuilder();
     }
 
-    public int getCoolDown() {
+    public long getCoolDown() {
         return coolDown;
     }
 
     public void setCoolDown(int coolDown) {
         this.coolDown = coolDown;
+    }
+
+    public long getLastShot() {
+        return lastShot;
+    }
+
+    public void setLastShot(long lastShot) {
+        this.lastShot = lastShot;
     }
 
     public  static class WeaponBuilder{
