@@ -1,22 +1,35 @@
 package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
+import de.spaceStudio.client.util.Global;
 import de.spaceStudio.model.Playership2;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.ShipRessource;
 import de.spaceStudio.util.GdxUtils;
+
+import java.util.Arrays;
+
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
 public class ShopScreen2 extends ScreenAdapter {
@@ -39,7 +52,10 @@ public class ShopScreen2 extends ScreenAdapter {
     private TextButton next, buy, sell;
     private int itemNumber;
     public CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6, checkBoxAllSections;
+    //
+    ShipRessource shipRessource;
 
+    //
 
     public ShopScreen2(MainClient mainClient) {
         this.universeMap = mainClient;
@@ -52,6 +68,7 @@ public class ShopScreen2 extends ScreenAdapter {
         background = new Texture("ownAssets/sgx/backgrounds/galaxyBackground.png");
         playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
 
+        holdShipRessource(Global.currentShipPlayer, Net.HttpMethods.POST);
         rocket1 = new Texture("data/ships/rocketSmall.png");
         rocket2 = new Texture("data/ships/attack.png");
         crewMemberMTexture = new Texture("Client/core/assets/combatAssets/MaleHuman-3.png");
@@ -66,7 +83,35 @@ public class ShopScreen2 extends ScreenAdapter {
         buyItemsButton();
         sellItemsButton();
     }
+    public void holdShipRessource(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.SHIP_RESSORUCE_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed holdShipRessource");
+                }
+                System.out.println("statusCode holdShipRessource: " + statusCode);
+                String stringshipRessourcen = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                ShipRessource[] sectiongegnerArray = gson.fromJson(stringshipRessourcen, ShipRessource[].class);
+                shipRessource = Arrays.asList(sectiongegnerArray).get(0);
+                System.out.println("statusCode holdShipRessource: " + statusCode);
+            }
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely holdShipRessource");
+            }
 
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
     private void drawShip() {
         // Add new Ship and center it
         ship = new Playership2(0,0);

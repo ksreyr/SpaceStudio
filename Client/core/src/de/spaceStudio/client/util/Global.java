@@ -150,6 +150,10 @@ public  class Global {
      */
     public static final String PLAYER_SAVE_GAME = "/game/save/";
     /**
+     * Player save game endpoint
+     */
+    public static final String SHIP_RESSORUCE_ENDPOINT = "/shipressource";
+    /**
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
@@ -173,6 +177,10 @@ public  class Global {
      * Global player, this data will be downloaded from server at login
      */
     public static Universe currentUniverse;
+    /**
+     * Current Ressourcen Player
+     */
+    public static ShipRessource currentshipressourcen;
     /**
      * Global player, this data will be downloaded from server at login
      */
