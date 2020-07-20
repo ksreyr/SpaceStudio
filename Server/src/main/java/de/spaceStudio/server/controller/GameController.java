@@ -109,8 +109,15 @@ public class GameController {
     @RequestMapping(value = "/game/multiplayer/{sessionID}", method = RequestMethod.POST)
     @ResponseBody
     public String joinMultiplayerSession(@PathVariable("sessionID") String gameSession, @RequestBody Player player){
-        // TODO validate
-        return null;
+        if(gameSession != null || !gameSession.isEmpty()){
+            MultiPlayerGame mult = Global.MultiPlayerGameSessions.get(gameSession);
+            if(mult != null) {
+                mult.setPlayerTwo(player);
+                Global.MultiPlayerGameSessions.replace(gameSession, mult);
+                return HttpStatus.ACCEPTED.toString();
+            }
+        }
+        return "";
     }
 
     /**
