@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @RestController
 public class WeaponControllerImpl implements WeaponController {
@@ -54,7 +55,7 @@ public class WeaponControllerImpl implements WeaponController {
         }
         List<Section> sections = sectionRepository.findAllByShip(ship.get()).get();
         List<Weapon> weapons = new ArrayList<Weapon>();
-        sections.stream().map(s ->  weapons.addAll(weaponRepository.findBySection(s).get()));
+        sections.stream().map(s -> weapons.addAll(weaponRepository.findBySection(s).get()));
         return weapons;
     }
 
@@ -76,13 +77,13 @@ public class WeaponControllerImpl implements WeaponController {
 
     @RequestMapping(value = "/listweapons", method = RequestMethod.POST)
     public String addWeapons(@RequestBody List<Weapon> weapons) {
-        List<Weapon> weaponList= new ArrayList<Weapon>();
+        List<Weapon> weaponList = new ArrayList<Weapon>();
         for (Weapon w :
                 weapons) {
-            Weapon weapon =weaponRepository.save(w);
+            Weapon weapon = weaponRepository.save(w);
             weaponList.add(weapon);
         }
-        Gson gson= new Gson();
+        Gson gson = new Gson();
         return gson.toJson(weaponList);
     }
 
@@ -110,21 +111,42 @@ public class WeaponControllerImpl implements WeaponController {
         return HttpStatus.OK.toString();
     }
 
+    /**
+     * Generate a random Number
+     *
+     * @param min lowest
+     * @param max highest
+     * @return a number inside the bounds
+     */
+    private static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
+
     @Override
     public String fire(@RequestBody List<Weapon> weapons) {
+    Random random = new Random();
 
-        Ship ship=new Ship();
+        Ship ship = new Ship();
         for (Weapon weapon :
                 weapons) {
             //Search the objective
-            ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
-            if (ship.getShield() > 0) {
-                ship.setShield(ship.getShield() - weapon.getDamage());
-            }else{
-                //Without_Schield
-                ship.setHp(ship.getHp() - weapon.getDamage());
-                weapon.getObjectiv().setUsable(false);
-                sectionRepository.save(weapon.getObjectiv());
+            boolean hasHit = (random.nextInt(101) * weapon.getHitRate()) > 50;  // Treffer falls ueber 50%
+            if (hasHit) {  // Dont change anything if no hit
+                ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
+                if (ship.getShield() > 0) {
+                    ship.setShield(ship.getShield() - weapon.getDamage());
+                } else {
+                    //Without_Schield
+                    ship.setHp(ship.getHp() - weapon.getDamage());
+                    weapon.getObjectiv().setUsable(false);
+                    sectionRepository.save(weapon.getObjectiv());
+                }
             }
             shipRepository.save(ship);
         }
@@ -138,17 +160,19 @@ public class WeaponControllerImpl implements WeaponController {
     public String shotValidation(List<Weapon> weapons) {
         for (Weapon w :
                 weapons) {
-                if (canShoot(w)) {
-                        return "Fire Accepted";
-                    }else{
-                    return "Ship Defeat";
+            if (canShoot(w)) {
+                return "Fire Accepted";
+            } else {
+                return "Ship Defeat";
             }
         }
         return "Section unusable";
     }
 
     private boolean canShoot(Weapon w) {
-        if (w.getObjectiv() != null) { return false;}
+        if (w.getObjectiv() != null) {
+            return false;
+        }
         if (w.getObjectiv().getShip().getHp() > 0 && isOutsideRange(w.getLastShot(), w.getCoolDown())) {
             return w.getSection().getUsable();
         }
@@ -158,6 +182,7 @@ public class WeaponControllerImpl implements WeaponController {
 
     /**
      * Has the last shot been within coolDown Time
+     *
      * @param lastShot happend at this time
      * @param coolDown lasts this long
      * @return if the weapon can shot
@@ -165,6 +190,6 @@ public class WeaponControllerImpl implements WeaponController {
     boolean isOutsideRange(long lastShot, long coolDown) {
         long now = System.nanoTime();
         long timeElapsed = now - lastShot;
-        return ((timeElapsed) /  1000000) > coolDown;  // Convert to Milliseconds
+        return ((timeElapsed) / 1000000) > coolDown;  // Convert to Milliseconds
     }
 }

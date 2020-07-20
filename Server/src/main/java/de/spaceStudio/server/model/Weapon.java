@@ -21,7 +21,7 @@ public class Weapon {
     @OneToOne
     private Section objectiv;
 
-    private int hitRate;
+    private float hitRate;
 
     private int damage;
 
@@ -67,11 +67,11 @@ public class Weapon {
         this.name = name;
     }
 
-    public int getHitRate() {
+    public float getHitRate() {
         return hitRate;
     }
 
-    public void setHitRate(int hitRate) {
+    public void setHitRate(float hitRate) {
         this.hitRate = hitRate;
     }
 
