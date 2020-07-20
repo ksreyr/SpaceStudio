@@ -276,6 +276,7 @@ public class ShipSelectScreen extends BaseScreen {
                 }
 
                 ship.setOwner(Global.currentPlayer);
+                ship.setMoney(40); // TODO FIXME change later
                 sendRequestAddShip(ship, Net.HttpMethods.POST);
 
             }
