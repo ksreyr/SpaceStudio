@@ -11,7 +11,6 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Weapon;
-import org.graalvm.compiler.lir.alloc.trace.GlobalLivenessInfo;
 
 import java.util.Random;
 
@@ -30,6 +29,12 @@ public class StopScreen extends ScreenAdapter {
         this.game = game;
     }
 
+    /**
+     * Generate a random Number
+     * @param min lowest
+     * @param max highest
+     * @return a number inside the bounds
+     */
     private static int getRandomNumberInRange(int min, int max) {
 
         if (min >= max) {
@@ -40,6 +45,11 @@ public class StopScreen extends ScreenAdapter {
         return r.nextInt((max - min) + 1) + min;
     }
 
+    /**
+     * Return the Text to the event which is executed prior
+     * @param event which is selected
+     * @return what happens
+     */
     String event_description(int event) {
         String result = "You go Blind";
         switch (event) {
