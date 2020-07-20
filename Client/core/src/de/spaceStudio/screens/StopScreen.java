@@ -17,9 +17,9 @@ import java.util.Random;
 
 
 public class StopScreen extends ScreenAdapter {
-    private final int dammagePrice = 50;
-    private final int coolDownPrice = 40;
-    private final int accuracyPrice = 60;
+    private final int dammagePrice = 5;
+    private final int coolDownPrice = 4;
+    private final int accuracyPrice = 6;
     MainClient game;
     boolean enemyNearBy = Global.currentShipGegner != null;
     private Stage stage;
@@ -246,6 +246,7 @@ public class StopScreen extends ScreenAdapter {
                                         int price_coolDown = Global.weaponListPlayer.size() * coolDownPrice;
 
                                         text("You can Upgrade all Weapons or one at a time");
+                                        text("You have " + Global.currentShipPlayer.getMoney() +  "Money");
 
                                         if (Global.currentShipPlayer.getMoney() >= price_dammage) {
                                             button("+10% Dammage for  all (" + price_dammage + ")", 1l).getButtonTable().row();
@@ -274,8 +275,7 @@ public class StopScreen extends ScreenAdapter {
                                                     game.setScreen(new StationsMap(game));
                                                 }
                                             }.show(stage);
-                                        }
-                                        if (object.equals(1l)) {
+                                        } else  if (object.equals(1l)) {
                                             for (Weapon w :
                                                     Global.weaponListPlayer) {
                                                 w.setDamage((int) (w.getDamage() + w.getDamage() * 0.1)); // FIXME if dammage is below 10 this will fail
@@ -292,21 +292,23 @@ public class StopScreen extends ScreenAdapter {
                                             }
                                         }
 
-                                        new Dialog("Upgrade Succesfull", skin) {
 
-                                            {
-                                                text("You the eager Mechnanic has finished");
-                                                button("View Map", 1l).getButtonTable().row();
+                                    // Where does this go
+                                  new Dialog("Upgrade Succesfull", skin) {
 
-                                            }
+                                        {
+                                            text("You the eager Mechnanic has finished");
+                                            button("View Map", 1l).getButtonTable().row();
 
-                                            @Override
-                                            protected void result(Object object) {
-                                                game.setScreen(new StationsMap(game));
-                                            }
-                                        }.show(stage);
+                                        }
 
-                                    }
+                                        @Override
+                                        protected void result(Object object) {
+                                            game.setScreen(new StationsMap(game));
+                                        }
+                                    }.show(stage);
+
+                                  }
                                 }.show(stage);
                             }
 
