@@ -1,5 +1,8 @@
 package de.spaceStudio.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +10,7 @@ import javax.persistence.*;
  * modified 06.08.2020
  */
 @Entity
+@JsonIdentityInfo(generator= JSOGGenerator.class)
 public class Player extends Actor {
 
     //private String name;

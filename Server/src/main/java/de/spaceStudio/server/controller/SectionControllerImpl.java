@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class SectionControllerImpl implements SectionController {
@@ -134,5 +135,15 @@ public class SectionControllerImpl implements SectionController {
     @Override
     public String deleteAllSections() {
         return null;
+    }
+
+    @Override
+    public List<Section> sectionsByShip(Integer id) {
+        Optional<Ship> ship = shipRepository.findById(id);
+        if (ship.isEmpty()) {
+            return null;
+        }
+        List<Section> secs = repository.findAllByShip(ship.get()).get();
+        return secs;
     }
 }

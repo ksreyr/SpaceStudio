@@ -12,7 +12,5 @@ public class DesktopLauncher {
 		config.width =  BaseScreen.WIDTH;
 		config.height =  BaseScreen.HEIGHT;
         config.title = "SpaceStudio";
-
-
 	}
 }

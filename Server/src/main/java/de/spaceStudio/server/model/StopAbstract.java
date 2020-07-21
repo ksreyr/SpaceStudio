@@ -1,5 +1,8 @@
 package de.spaceStudio.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import java.util.List;
 @Inheritance(
         strategy = InheritanceType.TABLE_PER_CLASS
 )
+@JsonIdentityInfo(generator= JSOGGenerator.class)
 public class StopAbstract {
 
     @Id

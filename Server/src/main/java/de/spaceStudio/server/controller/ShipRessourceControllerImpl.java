@@ -60,4 +60,10 @@ public class ShipRessourceControllerImpl implements ShipRessourceController {
     public String updateEnergy(ShipRessource shipRessource) {
         return null;
     }
+
+    @Override
+    public String getResourcebyShip(Ship ship) {
+        Ship ship1;
+        return null;
+    }
 }

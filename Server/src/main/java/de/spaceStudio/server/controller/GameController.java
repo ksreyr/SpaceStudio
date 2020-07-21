@@ -64,6 +64,11 @@ public class GameController {
             Optional<Player> fetchPlayer = playerRepository.findByName(playerName);
             if (fetchPlayer != null && fetchPlayer.isPresent()) {
                 Player playerToUpdate = fetchPlayer.get();
+                // Overwriting JSON file
+                if (playerToUpdate.getSavedGame() != null) {
+                    JSONFile.cleanJSONSinglePlayerGame(playerToUpdate.getSavedGame());
+                    LOG.info("Overwriting save file");
+                }
                 String storeGamePath = JSONFile.exportJSON(sg);
                 playerToUpdate.setSavedGame(storeGamePath);
                 playerRepository.save(playerToUpdate);

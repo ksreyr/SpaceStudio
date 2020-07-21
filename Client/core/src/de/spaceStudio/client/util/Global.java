@@ -15,11 +15,16 @@ import java.util.List;
 public  class Global {
 
 
+    public static final String WEAPONS = "weapons" ;
     /**
      * boolean value for single player disable lobby
      */
     public static boolean IS_SINGLE_PLAYER = false;
 
+    /**
+     * @return true if level easy
+     */
+    public static boolean ISEASY = false;
     /**
      * Hardcoded server URL
      */
@@ -146,6 +151,10 @@ public  class Global {
      */
     public static final String PLAYER_SAVE_GAME = "/game/save/";
     /**
+     * Player save game endpoint
+     */
+    public static final String SHIP_RESSORUCE_ENDPOINT = "/shipressource";
+    /**
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
@@ -169,6 +178,10 @@ public  class Global {
      * Global player, this data will be downloaded from server at login
      */
     public static Universe currentUniverse;
+    /**
+     * Current Ressourcen Player
+     */
+    public static ShipRessource currentshipressourcen;
     /**
      * Global player, this data will be downloaded from server at login
      */
@@ -713,15 +726,27 @@ public  class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
+    public static Section section4Gegner2 = Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.O2)
+            .img("Section4Gegner2")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
     public static List<Section> sectionsgegner2 =new ArrayList<Section>(){{
         add(section1Gegner2);
         add(section2Gegner2);
         add(section3Gegner2);
+        add(section4Gegner2);
     }};
     public static void updateVariblesSectionsGegner2(){
         section1Gegner2=sectionsgegner2.get(0);
         section2Gegner2=sectionsgegner2.get(1);
         section3Gegner2=sectionsgegner2.get(2);
+        section4Gegner2=sectionsgegner2.get(3);
     }
 
     public static Section section1Gegner3 = Section
@@ -754,16 +779,40 @@ public  class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
+    public static Section section4Gegner3 = Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.O2)
+            .img("Section4Gegner3")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section5Gegner3 = Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.HEALT)
+            .img("Section5Gegner3")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
 
     public static List<Section> sectionsgegner3 =new ArrayList<Section>(){{
         add(section1Gegner3);
         add(section2Gegner3);
         add(section3Gegner3);
+        add(section4Gegner3);
+        add(section5Gegner3);
     }};
     public static void updateVariblesSectionsGegner3(){
         section1Gegner3=sectionsgegner3.get(0);
         section2Gegner3=sectionsgegner3.get(1);
         section3Gegner3=sectionsgegner3.get(2);
+        section4Gegner3=sectionsgegner3.get(3);
+        section5Gegner3=sectionsgegner3.get(4);
     }
 
     public static Section section1Gegner4 = Section

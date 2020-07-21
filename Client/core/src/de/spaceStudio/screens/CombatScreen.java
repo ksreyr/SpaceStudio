@@ -5,23 +5,27 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
@@ -36,11 +40,16 @@ import de.spaceStudio.util.GdxUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
 public class CombatScreen extends BaseScreen {
+
+    private final static Logger LOG = Logger.getLogger(CombatScreen.class.getName());
+    private final Label weaponLabel;
+    private final String[] weaponText = {"All Weapons", "You have selected Weapon: "  };
 
     private MainClient universeMap;
     private final AssetManager assetManager;
@@ -49,7 +58,7 @@ public class CombatScreen extends BaseScreen {
     private Stage stage;
 
     private Skin sgxSkin, sgxSkin2;
-    private TextureAtlas gamePlayAtlas;
+    //private TextureAtlas gamePlayAtlas;
 
 
     private Sound click;
@@ -59,26 +68,45 @@ public class CombatScreen extends BaseScreen {
     private SpriteBatch batch;
 
     private Texture playerShip;
-    private Texture enemyShip;
+    private Texture enemyShip1, enemyShip2, enemyShip3;
     private Texture hull;
     private Texture background;
+    private Texture crewMemberOne;
+    private Texture crewMemberTwo;
+    private Texture crewMemberThree;
+    private RedPin redPinSectionOne;
+    private RedPin redPinSectionTwo;
+    private RedPin redPinSectionThree;
+    private RedPin redPinSectionFour;
+    private RedPin redPinSectionFive;
+    private RedPin redPinSectionSix;
+    private Image imageCrewMemberOne;
+    private Image imageCrewMemberTwo;
+    private Image imageCrewMemberThree;
+    private List<Image> listOfCrewImages;
+
     private TextButton enableShield, enableEnemyShield;
+
+
+    boolean isNewExpo, isNewExpo2, isNewExpo3;
 
     boolean isFired = false;
     boolean canFire = false;
     boolean canFireGegner = false;
     private boolean isExploied;
-    private boolean sectionw, sectiond, sectionOthers;
-    private Texture missilleRight,  explosion, missilleLeft, weaponSystem;
-    int fuzeOffsetright,fuzeOffsetLeft;
+    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
+
+
+    private Texture missilleRight, explosion, missilleLeft, weaponSystem;
+    int fuzeOffsetright, fuzeOffsetLeft;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
-    private Skin  skinButton;
+    private Skin skinButton;
     boolean isWin;
 
     Texture bullet, shield;
-    private boolean isShieldEnabled,  isEnemyShield;
+    private boolean isShieldEnabled, isEnemyShield, isTargetO2, isTargetMedical;
 
-    private ImageButton engine, weaponSection,cockpit;
+    private ImageButton engine, weaponSection, cockpit, o2, healthPoint;
     private int disappearRight = 570;
     private int disappearLeft = 570;
     private int counterEngine = 0;
@@ -86,7 +114,7 @@ public class CombatScreen extends BaseScreen {
     private int counterWeapon = 0;
     private int randomNumber;
 
-    float x=0;
+    float x = 0;
 
     Sound rocketLaunch;
 
@@ -101,40 +129,87 @@ public class CombatScreen extends BaseScreen {
     List<Section> sectionsToPlayerResponse = new ArrayList<Section>();
     Label lebengegnerShip;
     Label lebenplayerShip;
-    //
+    private int aktiveWeapon = 0;
+    private List<Weapon> selectedWeapons;
+    private boolean dragged = false;
+    private OrthographicCamera camera;
+
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
+        camera = new OrthographicCamera();
+
+        int row_height = Gdx.graphics.getWidth() / 12;
+        int col_width = Gdx.graphics.getWidth() / 12;
+        Label.LabelStyle label1Style = new Label.LabelStyle();
+
+        BitmapFont myFont = new BitmapFont(Gdx.files.internal("bitmap/amble.fnt"));
+        label1Style.font = myFont;
+        label1Style.fontColor = Color.RED;
+
+        weaponLabel = new Label(weaponText[0], label1Style);
+        weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
+        weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
+        weaponLabel.setAlignment(Align.bottomRight);
+        selectedWeapons = Global.weaponListPlayer;
+
     }
 
     @Override
     public void show() {
 
-        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT,camera);
         stage = new Stage(viewport, universeMap.getBatch());
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
-        System.out.println("Global planet: "+ Global.currentStop.getName());
+        listOfCrewImages = new ArrayList<>();
+        redPinSectionOne = new RedPin();
+        redPinSectionTwo = new RedPin();
+        redPinSectionThree = new RedPin();
+        redPinSectionFour = new RedPin();
+        redPinSectionFive = new RedPin();
+        redPinSectionSix = new RedPin();
 
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
-        playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
-        enemyShip = new Texture("Client/core/assets/combatAssets/enemy1.png");
-        enemyShip = new Texture("Client/core/assets/combatAssets/enemy1.png");
+        playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
+       // playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
+        enemyShip1 = new Texture("Client/core/assets/combatAssets/enemy1.png");
+        enemyShip2 = new Texture("Client/core/assets/combatAssets/enemy_2.png");
+        enemyShip3 = new Texture("Client/core/assets/combatAssets/enemy_3.png");
         missilleRight = new Texture("Client/core/assets/combatAssets/missille_out.png");
         missilleLeft = new Texture("Client/core/assets/combatAssets/missille_out.png");
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
+        crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
 
-        lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
+        imageCrewMemberOne = new Image(crewMemberOne);
+        imageCrewMemberTwo = new Image(crewMemberTwo);
+        imageCrewMemberThree = new Image(crewMemberThree);
+        listOfCrewImages.add(imageCrewMemberOne);
+        listOfCrewImages.add(imageCrewMemberTwo);
+        listOfCrewImages.add(imageCrewMemberThree);
+        imageCrewMemberOne.setBounds(30,30,30,30);
+        imageCrewMemberTwo.setBounds(30,30,30,30);
+        imageCrewMemberThree.setBounds(30,30,30,30);
+        imageCrewMemberOne.setPosition(BaseScreen.WIDTH/4f-60,BaseScreen.HEIGHT-600);
+        imageCrewMemberTwo.setPosition(BaseScreen.WIDTH/4f+170,BaseScreen.HEIGHT-300);
+        imageCrewMemberThree.setPosition(BaseScreen.WIDTH/4f+280,BaseScreen.HEIGHT-545);
+
+
+       lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()),skin);
+        lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
+        lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()), skin);
 
         final Drawable engine_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/enginesSymbol.png"));
         final Drawable engine_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/engineRed.png"));
@@ -143,6 +218,11 @@ public class CombatScreen extends BaseScreen {
 
         final Drawable weapon_section = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weaponEnemy.png"));
         final Drawable weapon_section_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weapon_red.png"));
+        final Drawable oxygen_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/oxygen_sym.png"));
+        final Drawable oxygen_sym_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/oxygen_red.png"));
+
+        final Drawable medical_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/medical.png"));
+        final Drawable medical_sym_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/medical_red.png"));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
         fuzeOffsetright = 570;
@@ -155,18 +235,74 @@ public class CombatScreen extends BaseScreen {
         bullets = new ArrayList<>();
         bulletsEnemy = new ArrayList<>();
 
+        o2 = new ImageButton(oxygen_sym);
+        o2.setPosition(1560, 510);
+        o2.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+
+                isSectiono2=true;
+                isSectionw = false;
+                isSectionOthers = false;
+                isSectiond = false;
+                isSectionhealth =false;
+
+
+                isTargetO2 = true;
+                isTargetSelected = true;
+
+                o2.getStyle().imageUp = oxygen_sym_red;
+                engine.getStyle().imageUp = engine_sym;
+                weaponSection.getStyle().imageUp = weapon_section;
+                cockpit.getStyle().imageUp = cockpit_nat;
+                healthPoint.getStyle().imageUp = medical_sym;
+            }
+        });
+        healthPoint = new ImageButton(medical_sym);
+        healthPoint.setPosition(1650, 500);
+        healthPoint.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                isTargetMedical = true;
+                isTargetSelected = true;
+
+                isSectionw = false;
+                isSectionOthers = false;
+                isSectiond = false;
+                isSectiono2=false;
+                isSectionhealth =true;
+
+                healthPoint.getStyle().imageUp = medical_sym_red;
+                engine.getStyle().imageUp = engine_sym;
+                weaponSection.getStyle().imageUp = weapon_section;
+                cockpit.getStyle().imageUp = cockpit_nat;
+                o2.getStyle().imageUp = oxygen_sym;
+
+
+            }
+        });
+
         engine = new ImageButton(engine_sym);
-        engine.setPosition(1075,440);
-        engine.setSize(1000,100);
+        engine.setPosition(1560,470);
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetEngine = true;
-                isTargetSelected=true;
-                sectionw = false;
-                sectionOthers = false;
-                sectiond = true;
+                isTargetSelected = true;
+
+
+                isSectionw = false;
+                isSectionOthers = false;
+                isSectiond = true;
+                isSectiono2=false;
+                isSectionhealth =false;
+
                 engine.getStyle().imageUp = engine_red;
+                weaponSection.getStyle().imageUp = weapon_section;
+                cockpit.getStyle().imageUp = cockpit_nat;
+                o2.getStyle().imageUp = oxygen_sym;
+                healthPoint.getStyle().imageUp = medical_sym;
+
 
             }
         });
@@ -174,84 +310,125 @@ public class CombatScreen extends BaseScreen {
 
         weaponSection = new ImageButton(weapon_section);
         weaponSection.setPosition(1450,500);
-        weaponSection.setSize(100,100);
         weaponSection.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                sectionw = true;
-                sectionOthers = false;
-                sectiond = false;
+
+                isSectiond = false;
                 isTargetSelected = true;
                 isTargetWeapon = true;
+
+                isSectionw = true;
+                isSectionOthers = false;
+                isSectiond = false;
+                isSectiono2=false;
+                isSectionhealth =false;
+
                 weaponSection.getStyle().imageUp = weapon_section_red;
+                engine.getStyle().imageUp = engine_sym;
+                cockpit.getStyle().imageUp = cockpit_nat;
+                o2.getStyle().imageUp = oxygen_sym;
+                healthPoint.getStyle().imageUp = medical_sym;
+
+
+
 
             }
         });
+       // isNewExpo = !sectionsToPlayerResponse.isEmpty();
 
         cockpit = new ImageButton(cockpit_nat);
-        cockpit.setPosition(1075,660);
-        cockpit.setSize(1000,100);
+        cockpit.setPosition(1560,650);
         cockpit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
                 isTargetCockpit = true;
-                sectionw = false;
-                sectionOthers = true;
-                sectiond = false;
+                isSectionw = false;
+                isSectionOthers = true;
+                isSectiond = false;
                 cockpit.getStyle().imageUp = cockpit_red;
+                engine.getStyle().imageUp = engine_sym;
+                weaponSection.getStyle().imageUp = weapon_section;
+                o2.getStyle().imageUp = oxygen_sym;
+                healthPoint.getStyle().imageUp = medical_sym;
+
+
 
             }
         });
 
         Gdx.input.setInputProcessor(stage);
-        enableShield = new TextButton("Activate Shield",sgxSkin2,StyleNames.EMPHASISTEXTBUTTON);
-        enableShield.setPosition(BaseScreen.WIDTH-1500,200);
-        enableShield.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if(isShieldEnabled) isShieldEnabled=false;
-                else isShieldEnabled = true;
-            }
-        });
-
-
-        enableEnemyShield = new TextButton("Enemy Shield",sgxSkin2,StyleNames.EMPHASISTEXTBUTTON);
-        enableEnemyShield.setPosition(BaseScreen.WIDTH-400,200);
-        enableEnemyShield.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if(isEnemyShield) isEnemyShield=false;
-                else isEnemyShield = true;
-
-            }
-        });
 
 
 
-        TextButton escape = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
-        escape.addListener(new ChangeListener() {
+        TextButton saveGameButton = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
+        saveGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Global.IS_SINGLE_PLAYER = false;
-                mainClient.setScreen(new ShipSelectScreen(mainClient));
+                mainClient.setScreen(new StationsMap(mainClient));
+                LOG.info("Button CLicked");
+                click.play();
+                Gson gson = new Gson();
+                Global.singlePlayerGame.setLastScreen("COMBAT");
+                Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
+                Global.singlePlayerGame.setShipGegner(Global.currentShipGegner);
+                String requestBody = gson.toJson(Global.singlePlayerGame);
+                final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
+                Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
+                Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        final Dialog dialog = new Dialog("Save game", skin, "dialog");
+                        int statusCode = httpResponse.getStatus().getStatusCode();
+                        String responseJson = httpResponse.getResultAsString();
+                        if (responseJson.equals("202 ACCEPTED")) {
+                            LOG.info("Success save game " + statusCode);
+                            saveMessageDialog(dialog, " Saving Game was Successful ");
+                        } else {
+                            LOG.info("Error saving game");
+                            saveMessageDialog(dialog, " Saving Game was not Successful ");
+                        }
+                    }
+
+                    public void failed(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void cancelled() {
+                    }
+                });
             }
         });
-        escape.setPosition(1000,200);
-
+        saveGameButton.setPosition(1000, 200);
+        for(int i = 0; i < listOfCrewImages.size(); i++){
+            dragAndDrop(listOfCrewImages.get(i));
+        }
 
         lebengegnerShip.setPosition(100,20);
         lebenplayerShip.setPosition(20,20);
 
         stage.addActor(lebenplayerShip);
+        if(Global.currentShipGegner.getName().equals("Shipgegner2")){
+            stage.addActor(o2);
+        }
+        if(Global.currentShipGegner.getName().equals("Shipgegner3")){
+            stage.addActor(o2);
+            stage.addActor(healthPoint);
+        }
         stage.addActor(lebengegnerShip);
-        stage.addActor(enableEnemyShield);
         stage.addActor(engine);
         stage.addActor(cockpit);
-        stage.addActor(enableShield);
         stage.addActor(weaponSection);
+        stage.addActor(weaponLabel);
+        stage.addActor(imageCrewMemberOne);
+        stage.addActor(imageCrewMemberTwo);
+        stage.addActor(imageCrewMemberThree);
 
-        stage.addActor(escape);
+
+
+        stage.addActor(saveGameButton);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -259,6 +436,53 @@ public class CombatScreen extends BaseScreen {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
+    private void dragAndDrop(Image imageCrewMember) {
+        imageCrewMember.addListener(new DragListener() {
+            float crewOneX;
+            float crewOneY;
+            public void drag(InputEvent event, float x, float y, int pointer) {
+                dragged = true;
+                imageCrewMember.moveBy(x - imageCrewMember.getWidth() / 2, y - imageCrewMember.getHeight() / 2);
+            }
+            public void dragStart (InputEvent event, float x, float y, int pointer) {
+                crewOneX = imageCrewMember.getX();
+                crewOneY = imageCrewMember.getY();
+            }
+            public void dragStop (InputEvent event, float x, float y, int pointer) {
+                //do something when texture is touched
+                Vector3 tmp= new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+                camera.unproject(tmp);
+                Rectangle sectionOne = getRectOfTextures(redPinSectionOne);
+                Rectangle sectionTwo = getRectOfTextures(redPinSectionTwo);
+                Rectangle sectionThree = getRectOfTextures(redPinSectionThree);
+                Rectangle sectionFour = getRectOfTextures(redPinSectionFour);
+                Rectangle sectionFive = getRectOfTextures(redPinSectionFive);
+                Rectangle sectionSix = getRectOfTextures(redPinSectionSix);
+                if(sectionOne.contains(tmp.x,tmp.y)) {
+                    imageCrewMember.setPosition(redPinSectionOne.x_position,redPinSectionOne.y_position);
+                } else if(sectionTwo.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionTwo.x_position, redPinSectionTwo.y_position);
+                } else if(sectionThree.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionThree.x_position, redPinSectionThree.y_position);
+                } else if(sectionFour.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionFour.x_position, redPinSectionFour.y_position);
+                } else if(sectionFive.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionFive.x_position, redPinSectionFive.y_position);
+                } else if(sectionSix.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionSix.x_position, redPinSectionSix.y_position);
+                }
+                else {
+                    imageCrewMember.setPosition(crewOneX, crewOneY);
+                }
+                dragged = false;
+            }
+        });
+    }
+
+    private Rectangle getRectOfTextures(RedPin redPin){
+        return new Rectangle(redPin.x_position,redPin.y_position,
+                redPin.texture.getWidth(),redPin.texture.getHeight());
+    }
 
     private void logicOfFirePlayer() {
         //Sections
@@ -271,28 +495,30 @@ public class CombatScreen extends BaseScreen {
                 for (Section s :
                         sectionListShipgegner1) {
                     //if section Zeil is weapons
-                    if (sectionw) {
+                    if (isSectionw) {
                         System.out.println("::: Shipgegner1 WEAPONS GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.WEAPONS)){
+                        if (s.getImg().equals("Section3Gegner1")) {
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
+                        }
+                        ;
                         //if section Zeil is drive
-                    }else if(sectiond){
+                    } else if (isSectiond) {
                         System.out.println(":::Shipgegner1 Drive GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.DRIVE)){
+                        if (s.getImg().equals("Section2Gegner1")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
+                        }
+                        ;
                         //if section Zeil is others
-                    }else{
+                    } else {
                         System.out.println(":::Shipgegner1 Other GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.NORMAL)){
+                        if (s.getImg().equals("Section1Gegner1")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
@@ -308,31 +534,42 @@ public class CombatScreen extends BaseScreen {
                 for (Section s :
                         sectionListShipgegner2) {
                     //if section Zeil is weapons
-                    if (sectionw) {
+                    if (isSectionw) {
                         System.out.println("::: Shipgegner2 WEAPONS GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.WEAPONS)){
+                        if (s.getImg().equals("Section3Gegner2")) {
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
-                    }else if(sectiond){
+                        }
+
+                    } else if (isSectiond) {
                         System.out.println(":::Shipgegner2 Drive GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.DRIVE)){
+                        if (s.getImg().equals("Section2Gegner2")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
+                        }
+
+                    } else if (isSectiono2) {
+                        System.out.println(":::Shipgegner2 O2 GEGNER UNUSABLE::::");
+                        if (s.getImg().equals("Section4Gegner2")) {
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setObjectiv(s);
+                            }
+                        }
+
                     }else{
                         System.out.println(":::Shipgegner2 Other GEGNER UNUSABLE::::");
-                        if(s.getSectionTyp().equals(SectionTyp.NORMAL)){
+                        if (s.getImg().equals("Section1Gegner2")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
-                        };
+                        }
                     }
                 }
                 break;
@@ -343,9 +580,9 @@ public class CombatScreen extends BaseScreen {
                 for (Section s :
                         sectionListShipgegner3) {
                     //if section Zeil is weapons
-                    if (sectionw) {
+                    if (isSectionw) {
                         System.out.println(":::Shipgegner3 WEAPONS GEGNER UNUSABLE::::");
-                        if (s.getSectionTyp().equals(SectionTyp.WEAPONS)) {
+                        if (s.getImg().equals("Section3Gegner3")) {
                             //jedes Weapons der User muss dieses section haben
                             for (Weapon w :
                                     Global.weaponListPlayer) {
@@ -353,18 +590,36 @@ public class CombatScreen extends BaseScreen {
                             }
                         }
                         ;
-                    } else if (sectiond) {
+                    } else if (isSectiond) {
                         System.out.println(":::Shipgegner3 DRIVE GEGNER UNUSABLE::::");
-                        if (s.getSectionTyp().equals(SectionTyp.DRIVE)) {
+                        if (s.getImg().equals("Section2Gegner3")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
                             }
                         }
                         ;
-                    } else {
-                        System.out.println(":::Shipgegner3 OTHER GEGNER UNUSABLE::::");
-                        if (s.getSectionTyp().equals(SectionTyp.NORMAL)) {
+                    } else if (isSectiono2) {
+                        System.out.println(":::Shipgegner2 O2 GEGNER UNUSABLE::::");
+                        if (s.getImg().equals("Section4Gegner3")) {
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setObjectiv(s);
+                            }
+                        }
+
+                    }else if (isSectionhealth) {
+                        System.out.println(":::Shipgegner2 HEALTH GEGNER UNUSABLE::::");
+                        if (s.getImg().equals("Section4Gegner3")) {
+                            for (Weapon w :
+                                    Global.weaponListPlayer) {
+                                w.setObjectiv(s);
+                            }
+                        }
+
+                    }else{
+                        System.out.println(":::Shipgegner2 Other GEGNER UNUSABLE::::");
+                        if (s.getImg().equals("Section1Gegner2")) {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
@@ -378,7 +633,7 @@ public class CombatScreen extends BaseScreen {
             //An the fall that the Gegner 3 ist
 
         }
-        // NO Hay ID en WEAPONS??
+
         Global.updateweaponPlayerVariabel();
         shotValidation(Global.weaponListPlayer, Net.HttpMethods.POST);
     }
@@ -450,15 +705,53 @@ public class CombatScreen extends BaseScreen {
     // Called when the screen should render itself.
     @Override
     public void render(float delta) {
+
         GdxUtils.clearScreen();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+            aktiveWeapon++;
+             aktiveWeapon = aktiveWeapon % (Global.weaponListPlayer.size() + 1);  // Add one more because index is +1
+            if (aktiveWeapon == 0) {
+                selectedWeapons = Global.weaponListPlayer;
+                weaponLabel.setText(weaponText[0]);
+            } else {
+                selectedWeapons = List.of(Global.weaponListPlayer.get(aktiveWeapon - 1)); // Weapons start at 0. Index at 1
+                weaponLabel.setText(weaponText[1] + selectedWeapons.get(0).getName());
+            }
+        }
+
+
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300, 300, 700, 700);
+        if(dragged){
+            redPinSectionOne.x_position = BaseScreen.WIDTH/4f-60;
+            redPinSectionOne.y_position = BaseScreen.HEIGHT-290;
+            redPinSectionTwo.x_position = BaseScreen.WIDTH/4f-60;
+            redPinSectionTwo.y_position = BaseScreen.HEIGHT-600;
+            redPinSectionThree.x_position = BaseScreen.WIDTH/4f+170;
+            redPinSectionThree.y_position = BaseScreen.HEIGHT-300;
+            redPinSectionFour.x_position = BaseScreen.WIDTH/4f+170;
+            redPinSectionFour.y_position = BaseScreen.HEIGHT-590;
+            redPinSectionFive.x_position = BaseScreen.WIDTH/4f+280;
+            redPinSectionFive.y_position = BaseScreen.HEIGHT-340;
+            redPinSectionSix.x_position = BaseScreen.WIDTH/4f+280;
+            redPinSectionSix.y_position = BaseScreen.HEIGHT-545;
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionOne.x_position,redPinSectionOne.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionTwo.x_position,redPinSectionTwo.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionThree.x_position,redPinSectionThree.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionFour.x_position,redPinSectionFour.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionFive.x_position,redPinSectionFive.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionSix.x_position,redPinSectionSix.y_position);
+        }
         if (Global.currentShipGegner != null) {
-            stage.getBatch().draw(enemyShip, 1300, 370, 550, 550);
+            if (Global.currentStop == Global.planet2) stage.getBatch().draw(enemyShip1, 1300, 370, 550, 550);
+            else if (Global.currentStop == Global.planet3) stage.getBatch().draw(enemyShip2, 1300, 370, 550, 550);
+            else  stage.getBatch().draw(enemyShip3, 1300, 370, 550, 550);
+
         }
         stage.getBatch().draw(missilleRight, disappearRight, 422, 400, 50);
         stage.getBatch().draw(missilleLeft, disappearLeft, 825, 400, 50);
@@ -510,13 +803,19 @@ public class CombatScreen extends BaseScreen {
             validationGegner = "";
         }
         //on weapon system Explosion
-        if (!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(1).getUsable()==false) {
+        if ((!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(1).getUsable()==false) || isNewExpo) {
+            isNewExpo=true;
             stage.getBatch().draw(explosion, 555, 520, 100, 100);
-        }else if(!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(0).getUsable()==false){
+        }
+        if((!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(1).getUsable()==false) || isNewExpo2){
+            isNewExpo2= true;
             stage.getBatch().draw(explosion, 700, 520, 100, 100);
-        }else if(!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(2).getUsable()==false){
+        }
+        if((!sectionsToPlayerResponse.isEmpty() && sectionsToPlayerResponse.get(1).getUsable()==false) || isNewExpo3){
+            isNewExpo3= true;
             stage.getBatch().draw(explosion, 710, 670, 100, 100);
         }
+
         if(!sectionsToPlayerResponse.isEmpty()){
             Global.sectionsPlayerList= sectionsToPlayerResponse;
             Global.updateVariableSectionShipPlayer();
@@ -622,28 +921,12 @@ public class CombatScreen extends BaseScreen {
         //shield for enemy
         if (Global.currentShipGegner.getShield()>0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
 
-
-        //explosion on player sections
-        //on healthpoint
-        /*if (randomNumber == 2) {
-            stage.getBatch().draw(explosion, 700, 520, 100, 100);
-        }
-        //on cockpit
-        if (randomNumber == 3) {
-            stage.getBatch().draw(explosion, 710, 670, 100, 100);
-        }
-        //engine
-        if (randomNumber == 4) {
-            stage.getBatch().draw(explosion, 445, 395, 100, 100);
-        }*/
-
-
-
         //explosion on enemy's engine
         if (counterEngine >= 3 && !isEnemyShield) {
             stage.getBatch().draw(explosion, 1515, 422, 100, 100);
         }
 
+        //explosion on enemy's weapon
         if (counterWeapon >= 3 && !isEnemyShield) {
             stage.getBatch().draw(explosion, 1450, 500, 100, 100);
         }
@@ -746,23 +1029,129 @@ public class CombatScreen extends BaseScreen {
         List<Weapon> weaponList= new ArrayList<>();
         if (Global.currentShipGegner != null) {
             if (Global.currentUniverse.getName().equals("Normal" + Global.currentPlayer.getName())) {
-                for (Weapon w :
-                        Global.weaponListUniverse2) {
-                    if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
-                        //Weapons gegner set Weapons Section of Player
-                        if(sectionNumber==2){
-                            w.setObjectiv(Global.section2);
-                            System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
-                            weaponList.add(w);
-                        }else if(sectionNumber==4){
-                            w.setObjectiv(Global.section1);
-                            weaponList.add(w);
-                        }else{
-                            w.setObjectiv(Global.section3);
-                            weaponList.add(w);
+                switch (Global.currentShipGegner.getName()) {
+                    case "Shipgegner1":
+                        for (Weapon w :
+                                Global.weaponListGegner1) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
                         }
-                    }
+                        shotValidationGegner(Global.weaponListGegner1,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner2":
+                        for (Weapon w :
+                                Global.weaponListGegner2) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner2,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner3":
+                        for (Weapon w :
+                                Global.weaponListGegner3) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner3,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner4":
+                        for (Weapon w :
+                                Global.weaponListGegner4) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner4,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner5":
+                        for (Weapon w :
+                                Global.weaponListGegner5) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner5,Net.HttpMethods.POST);
+                        break;
+                    case "Shipgegner6":
+                        for (Weapon w :
+                                Global.weaponListGegner6) {
+                            if(w.getSection().getShip().getId()==Global.currentShipGegner.getId()){
+                                //Weapons gegner set Weapons Section of Player
+                                if(sectionNumber==2){
+                                    w.setObjectiv(Global.section2);
+                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
+                                    weaponList.add(w);
+                                }else if(sectionNumber==4){
+                                    w.setObjectiv(Global.section1);
+                                    weaponList.add(w);
+                                }else{
+                                    w.setObjectiv(Global.section3);
+                                    weaponList.add(w);
+                                }
+                            }
+                        }
+                        shotValidationGegner(Global.weaponListGegner6,Net.HttpMethods.POST);
+                        break;
                 }
+
                 Global.updateweaponVariabelUniverse2();
                 Global.actualiziertweaponListGegner1();
                 Global.actualiziertweaponListGegner2();
@@ -772,7 +1161,7 @@ public class CombatScreen extends BaseScreen {
                 Global.actualiziertweaponListGegner6();
             }
         }
-        shotValidationGegner(weaponList,Net.HttpMethods.POST);
+
     }
 
 
@@ -805,5 +1194,14 @@ public class CombatScreen extends BaseScreen {
         skin.dispose();
         rocketLaunch.dispose();
         stage.dispose();
+    }
+
+    private void saveMessageDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("OK", false);
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        click.play();
+        dialog.show(stage);
     }
 }
