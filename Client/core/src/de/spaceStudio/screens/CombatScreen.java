@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.HttpStatus;
@@ -57,7 +58,7 @@ public class CombatScreen extends BaseScreen {
     private Stage stage;
 
     private Skin sgxSkin, sgxSkin2;
-    private TextureAtlas gamePlayAtlas;
+    //private TextureAtlas gamePlayAtlas;
 
 
     private Sound click;
@@ -93,7 +94,9 @@ public class CombatScreen extends BaseScreen {
     boolean canFire = false;
     boolean canFireGegner = false;
     private boolean isExploied;
-    private boolean sectionw, sectiond, sectionOthers;
+    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
+
+
     private Texture missilleRight, explosion, missilleLeft, weaponSystem;
     int fuzeOffsetright, fuzeOffsetLeft;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
@@ -176,7 +179,7 @@ public class CombatScreen extends BaseScreen {
 
         background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
         playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
-        playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
+       // playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
         enemyShip1 = new Texture("Client/core/assets/combatAssets/enemy1.png");
         enemyShip2 = new Texture("Client/core/assets/combatAssets/enemy_2.png");
         enemyShip3 = new Texture("Client/core/assets/combatAssets/enemy_3.png");
@@ -203,7 +206,7 @@ public class CombatScreen extends BaseScreen {
         imageCrewMemberThree.setPosition(BaseScreen.WIDTH/4f+280,BaseScreen.HEIGHT-545);
 
 
-        lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
+       lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()),skin);
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()), skin);
@@ -402,7 +405,6 @@ public class CombatScreen extends BaseScreen {
         for(int i = 0; i < listOfCrewImages.size(); i++){
             dragAndDrop(listOfCrewImages.get(i));
         }
-
 
         lebengegnerShip.setPosition(100,20);
         lebenplayerShip.setPosition(20,20);
