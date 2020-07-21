@@ -532,7 +532,7 @@ public class StationsMap extends BaseScreen {
             if(isPlanet) {
                 mainClient.setScreen(new TravelScreen(game));
             }else{
-                game.setScreen(new ShopScreen2(game));
+                game.setScreen(new ShopScreen(game));
             }
         }
 
