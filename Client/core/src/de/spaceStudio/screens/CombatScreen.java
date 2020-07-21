@@ -24,7 +24,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
@@ -72,7 +71,6 @@ public class CombatScreen extends BaseScreen {
     private Texture crewMemberOne;
     private Texture crewMemberTwo;
     private Texture crewMemberThree;
-    private Texture crewDropPointSectionOne, crewDropPointSectionTwo;
     private RedPin redPinSectionOne;
     private RedPin redPinSectionTwo;
     private RedPin redPinSectionThree;
@@ -125,8 +123,6 @@ public class CombatScreen extends BaseScreen {
     private List<Weapon> selectedWeapons;
     private boolean dragged = false;
     private OrthographicCamera camera;
-    private float crewDropPointSectionOne_X;
-    private float crewDropPointSectionOne_Y;
 
 
     public CombatScreen(MainClient mainClient) {
@@ -183,7 +179,6 @@ public class CombatScreen extends BaseScreen {
         crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
-        //crewDropPointSectionOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/pin.png"));
 
         imageCrewMemberOne = new Image(crewMemberOne);
         imageCrewMemberTwo = new Image(crewMemberTwo);
