@@ -300,7 +300,7 @@ public class ShopScreen extends ScreenAdapter {
     public void changeItems(boolean b){
 
         if(itemNumber > 3){
-            setAllSectionCheckboxesFalse();
+            //setAllSectionCheckboxesFalse();
                 if(itemNumber == 4)
                     setSecure(getSecure()+10);
                 if(itemNumber == 5)
@@ -503,30 +503,15 @@ public class ShopScreen extends ScreenAdapter {
         float position1 = playerShip.getHeight();
         float position2 = playerShip.getWidth();
 
-        if(!secureIconS1){
-            stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 520);
-        }
-        if(secureIconS1){
-            stage.getBatch().draw(securityTexture,playershipX + 150,playershipY + 520);
-        }
-        if(!driveIconS1){
-            stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 520);
-        }
-        if(driveIconS1){
-            stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 520);
-        }
-        if(!secureIconS2){
-            stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 140);
-        }
-        if(secureIconS2){
-            stage.getBatch().draw(securityTexture,playershipX + 150,playershipY + 140);
-        }
-        if(!driveIconS2){
-            stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 140);
-        }
-        if(driveIconS2){
-            stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 140);
-        }
+        //if(!secureIconS1){ stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 520); }
+        if(secureIconS1){ stage.getBatch().draw(securityTexture,playershipX + 150,playershipY + 520); }
+        //if(!driveIconS1){ stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 520); }
+        if(driveIconS1){ stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 520); }
+        //if(!secureIconS2){ stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 140); }
+        if(secureIconS2){ stage.getBatch().draw(securityTexture,playershipX + 150,playershipY + 140); }
+        ///if(!driveIconS2){ stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 140); }
+        if(driveIconS2){ stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 140); }
+
         if(rocket1s1){
             stage.getBatch().draw(rocket1,300,310);
         }
