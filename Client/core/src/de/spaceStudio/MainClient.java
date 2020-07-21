@@ -6,16 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.spaceStudio.screens.*;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class MainClient extends Game {
 
 	private AssetManager assetManager;
 
 	public LoginScreen loginScreen;
 	private SpriteBatch batch;
-	public ShopScreen2 shopScreen;
+	public ShopScreen shopScreen;
 
 	private StopScreen stopScreen;
 	private CombatScreen combatScreen;
@@ -33,7 +30,7 @@ public class MainClient extends Game {
 		//stopScreen = new StopScreen(this);
 		//winScreen = new WinScreen(this);
 		//setScreen(loginScreen);
-		shopScreen = new ShopScreen2(this);
+		shopScreen = new ShopScreen(this);
 		setScreen(shopScreen);
 	}
 

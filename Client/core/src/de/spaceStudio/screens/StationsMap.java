@@ -80,7 +80,6 @@ public class StationsMap extends BaseScreen {
     private float yShip = 150;
 
 
-
     public StationsMap(final MainClient game) {
         super(game);
         this.mainClient = game;
