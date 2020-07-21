@@ -15,11 +15,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
-<<<<<<< HEAD
-=======
-import de.spaceStudio.model.Playership2;
-import de.spaceStudio.util.Base;
->>>>>>> DriveShieldControllerInSections
 import de.spaceStudio.util.GdxUtils;
 
 
@@ -39,10 +34,7 @@ public class ShopScreen extends ScreenAdapter {
 
     //Textures
     private Texture background, playerShip;
-<<<<<<< HEAD
     private Texture securityTextureGrey, driveTextureGrey;
-=======
->>>>>>> DriveShieldControllerInSections
     private Texture rocket1, rocket2, crewMemberMTexture, crewMemberFTexture, securityTexture, oxygenTexture, driveTexture;
     private TextButton next, buy, sell;
     private int itemNumber;
@@ -64,11 +56,8 @@ public class ShopScreen extends ScreenAdapter {
     private boolean crewMemberFs1, crewMemberFs2, crewMemberFs3, crewMemberFs4, crewMemberFs5, crewMemberFs6;
     //crewmemberM
     private boolean crewMemberMs1, crewMemberMs2, crewMemberMs3,crewMemberMs4,crewMemberMs5,crewMemberMs6;
-<<<<<<< HEAD
     //secure,drive
     private boolean secureIconS1, driveIconS1,secureIconS2, driveIconS2;
-=======
->>>>>>> DriveShieldControllerInSections
 
     public ShopScreen(MainClient mainClient) {
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
@@ -130,7 +119,6 @@ public class ShopScreen extends ScreenAdapter {
         this.crewMemberMs5 = false;
         this.crewMemberMs6 = false;
 
-<<<<<<< HEAD
         //must haves
         this.secureIconS1 = false;
         this.driveIconS1 = false;
@@ -138,8 +126,6 @@ public class ShopScreen extends ScreenAdapter {
         this.driveIconS2 = false;
 
 
-=======
->>>>>>> DriveShieldControllerInSections
         nextButton();
         buyItemsButton();
         sellItemsButton();
@@ -208,15 +194,12 @@ public class ShopScreen extends ScreenAdapter {
         textArea.setHeight(150);
         stage.addActor(textArea);
 
-<<<<<<< HEAD
         TextArea shipInformationArea = new TextArea("Ship Options: \nSection1: Rocket1, Rocket2, CrewMember Female, CrewMember Male, Secure, Drive", skin);
         shipInformationArea.setPosition(900,50);
         shipInformationArea.setWidth(500);
         shipInformationArea.setHeight(250);
         stage.addActor(shipInformationArea);
 
-=======
->>>>>>> DriveShieldControllerInSections
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip,BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
 
@@ -331,6 +314,7 @@ public class ShopScreen extends ScreenAdapter {
                 }
         }
 
+
         if(checkBoxSection1.isChecked()){
             if(itemNumber == 0)
                 setRocket1s1(b);
@@ -340,6 +324,10 @@ public class ShopScreen extends ScreenAdapter {
                 setCrewMemberFs1(b);
             if(itemNumber == 3)
                 setCrewMemberMs1(b);
+            if(itemNumber == 4)
+                setSecureIconS1(b);
+            if(itemNumber == 6)
+                setDriveIconS1(b);
             if(b){
                 setMoney(getMoney()-100);
             }else{
@@ -356,6 +344,10 @@ public class ShopScreen extends ScreenAdapter {
                 setCrewMemberFs2(b);
             if(itemNumber == 3)
                 setCrewMemberMs2(b);
+            if(itemNumber == 4)
+                setSecureIconS2(b);
+            if(itemNumber == 6)
+                setDriveIconS2(b);
             if(b){
                 setMoney(getMoney()-100);
             }else{
@@ -506,7 +498,6 @@ public class ShopScreen extends ScreenAdapter {
 
     public void drawItems(){
 
-<<<<<<< HEAD
         float playershipX = BaseScreen.WIDTH / 8;
         float playershipY = BaseScreen.HEIGHT / 8;
         float position1 = playerShip.getHeight();
@@ -536,8 +527,6 @@ public class ShopScreen extends ScreenAdapter {
         if(driveIconS2){
             stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 140);
         }
-=======
->>>>>>> DriveShieldControllerInSections
         if(rocket1s1){
             stage.getBatch().draw(rocket1,300,310);
         }
@@ -738,5 +727,21 @@ public class ShopScreen extends ScreenAdapter {
 
     public void setCrewMemberMs6(boolean crewMemberMs6) {
         this.crewMemberMs6 = crewMemberMs6;
+    }
+
+    public void setSecureIconS1(boolean secureIconS1) {
+        this.secureIconS1 = secureIconS1;
+    }
+
+    public void setDriveIconS1(boolean driveIconS1) {
+        this.driveIconS1 = driveIconS1;
+    }
+
+    public void setSecureIconS2(boolean secureIconS2) {
+        this.secureIconS2 = secureIconS2;
+    }
+
+    public void setDriveIconS2(boolean driveIconS2) {
+        this.driveIconS2 = driveIconS2;
     }
 }
