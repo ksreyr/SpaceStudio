@@ -1,6 +1,5 @@
 package de.spaceStudio.server.controller;
 
-import com.google.gson.Gson;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -264,14 +263,18 @@ public class PlayerControllerImpl implements PlayerController {
             }
             for (StopAbstract s :
                     stopAbstracts) {
-                    try {
-                        ShopRessource shopRessource=shopRessourceRepository.findByStation((Station) s).get();
-                        shopRessourceRepository.delete(shopRessource);
-                    }catch (Exception e){
 
+                try {
+                    if (shopRessourceRepository.findByStation((Station) s).isPresent()) {
+                        List<ShopRessource> shopRessources = shopRessourceRepository.findByStation((Station) s).get();
+                        for (ShopRessource sr :
+                                shopRessources) {
+                            shopRessourceRepository.delete(sr);
+                        }
                     }
-                    stopAbstractRepository.delete(s);
-
+                } catch (Exception e) {
+                }
+                stopAbstractRepository.delete(s);
             }
             universeRepository.delete(universe);
 

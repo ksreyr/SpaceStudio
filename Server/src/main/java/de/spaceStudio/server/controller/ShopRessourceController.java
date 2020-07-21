@@ -1,6 +1,8 @@
 package de.spaceStudio.server.controller;
 
+import de.spaceStudio.server.model.Ressource;
 import de.spaceStudio.server.model.ShopRessource;
+import de.spaceStudio.server.model.StopAbstract;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,5 +64,18 @@ public interface ShopRessourceController {
     @RequestMapping(value = "/shopressource", method = RequestMethod.DELETE)
     String deleteAllShopRessources();
 
-
+    /**
+     * Delete all players
+     *
+     * @return JSON of deleted player
+     */
+    @RequestMapping(value = "/getshopressourcebystop", method = RequestMethod.POST)
+    String getShopRessourceByStop(@RequestBody StopAbstract stopAbstract);
+    /**
+     * Delete all players
+     *
+     * @return JSON of deleted player
+     */
+    @RequestMapping(value = "/buyitem", method = RequestMethod.POST)
+    String buyItem(@RequestBody List<ShopRessource> ressourceList);
 }

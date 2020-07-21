@@ -1,11 +1,9 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.model.ShopRessource;
-import de.spaceStudio.server.model.Station;
-import de.spaceStudio.server.model.StopAbstract;
-import de.spaceStudio.server.model.Universe;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.ShopRessourceRepository;
+import de.spaceStudio.server.repository.StationRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
 import de.spaceStudio.server.repository.UniverseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,9 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
     ShopRessourceRepository shopRessourceRepository;
     @Autowired
     StopAbstractRepository stopAbstractRepository;
+    @Autowired
+    StationRepository stationRepository;
+
     @Override
     public List<ShopRessource> getAllShopRessources() {
         return null;
@@ -81,6 +82,23 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
 
     @Override
     public String deleteAllShopRessources() {
+        return null;
+    }
+
+    @Override
+    public String getShopRessourceByStop(@RequestBody StopAbstract stopAbstract) {
+        Station station = stationRepository.findById(stopAbstract.getId()).get();
+        List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station).get();
+        Gson gson = new Gson();
+        return gson.toJson(shopRessources);
+    }
+
+    @Override
+    public String buyItem(List<ShopRessource> ressourceList) {
+
+        ShopRessource shopRessource = ressourceList.get(0);
+        shopRessource.getStation();
+
         return null;
     }
 }

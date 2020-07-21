@@ -722,6 +722,7 @@ public class ShipSelectScreen extends BaseScreen {
             if (requestcounter == 16) {
                 Global.shopRessourceList.get(0).setStation(station1);
                 Global.shopRessourceList.get(1).setStation(station2);
+                Global.shopRessourceList.get(2).setStation(station1);
                 sendRequestAddShopRessources(Global.shopRessourceList, Net.HttpMethods.POST);
                 requestcounter = 17;
             }
