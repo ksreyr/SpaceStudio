@@ -32,7 +32,7 @@ public class MainClient extends Game {
 		batch = new SpriteBatch();
 		//stopScreen = new StopScreen(this);
 		winScreen = new WinScreen(this);
-		setScreen(loginScreen);
+		setScreen(new CombatScreen(this));
 	}
 
 	public AssetManager getAssetManager() {

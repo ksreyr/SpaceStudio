@@ -7,23 +7,25 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
@@ -67,6 +69,21 @@ public class CombatScreen extends BaseScreen {
     private Texture enemyShip;
     private Texture hull;
     private Texture background;
+    private Texture crewMemberOne;
+    private Texture crewMemberTwo;
+    private Texture crewMemberThree;
+    private Texture crewDropPointSectionOne, crewDropPointSectionTwo;
+    private RedPin redPinSectionOne;
+    private RedPin redPinSectionTwo;
+    private RedPin redPinSectionThree;
+    private RedPin redPinSectionFour;
+    private RedPin redPinSectionFive;
+    private RedPin redPinSectionSix;
+    private Image imageCrewMemberOne;
+    private Image imageCrewMemberTwo;
+    private Image imageCrewMemberThree;
+    private List<Image> listOfCrewImages;
+
     private TextButton enableShield, enableEnemyShield;
 
     boolean isFired = false;
@@ -106,13 +123,18 @@ public class CombatScreen extends BaseScreen {
     Label lebenplayerShip;
     private int aktiveWeapon = 0;
     private List<Weapon> selectedWeapons;
-    //
+    private boolean dragged = false;
+    private OrthographicCamera camera;
+    private float crewDropPointSectionOne_X;
+    private float crewDropPointSectionOne_Y;
+
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
+        camera = new OrthographicCamera();
 
         int row_height = Gdx.graphics.getWidth() / 12;
         int col_width = Gdx.graphics.getWidth() / 12;
@@ -133,18 +155,24 @@ public class CombatScreen extends BaseScreen {
     @Override
     public void show() {
 
-        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT,camera);
         stage = new Stage(viewport, universeMap.getBatch());
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
-
+        listOfCrewImages = new ArrayList<>();
+        redPinSectionOne = new RedPin();
+        redPinSectionTwo = new RedPin();
+        redPinSectionThree = new RedPin();
+        redPinSectionFour = new RedPin();
+        redPinSectionFive = new RedPin();
+        redPinSectionSix = new RedPin();
 
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
-        playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
+        playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
         enemyShip = new Texture("Client/core/assets/combatAssets/enemy1.png");
         enemyShip = new Texture("Client/core/assets/combatAssets/enemy1.png");
         missilleRight = new Texture("Client/core/assets/combatAssets/missille_out.png");
@@ -152,9 +180,27 @@ public class CombatScreen extends BaseScreen {
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
+        crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
+        //crewDropPointSectionOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/pin.png"));
 
-        lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
-        lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()),skin);
+        imageCrewMemberOne = new Image(crewMemberOne);
+        imageCrewMemberTwo = new Image(crewMemberTwo);
+        imageCrewMemberThree = new Image(crewMemberThree);
+        listOfCrewImages.add(imageCrewMemberOne);
+        listOfCrewImages.add(imageCrewMemberTwo);
+        listOfCrewImages.add(imageCrewMemberThree);
+        imageCrewMemberOne.setBounds(30,30,30,30);
+        imageCrewMemberTwo.setBounds(30,30,30,30);
+        imageCrewMemberThree.setBounds(30,30,30,30);
+        imageCrewMemberOne.setPosition(BaseScreen.WIDTH/4f-60,BaseScreen.HEIGHT-600);
+        imageCrewMemberTwo.setPosition(BaseScreen.WIDTH/4f+170,BaseScreen.HEIGHT-300);
+        imageCrewMemberThree.setPosition(BaseScreen.WIDTH/4f+280,BaseScreen.HEIGHT-545);
+
+
+        //lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
+        //lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()),skin);
 
         final Drawable engine_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/enginesSymbol.png"));
         final Drawable engine_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/engineRed.png"));
@@ -286,19 +332,26 @@ public class CombatScreen extends BaseScreen {
             }
         });
         saveGameButton.setPosition(1000, 200);
+        for(int i = 0; i < listOfCrewImages.size(); i++){
+            dragAndDrop(listOfCrewImages.get(i));
+        }
 
 
-        lebengegnerShip.setPosition(100,20);
-        lebenplayerShip.setPosition(20,20);
+        //lebengegnerShip.setPosition(100,20);
+        //lebenplayerShip.setPosition(20,20);
 
-        stage.addActor(lebenplayerShip);
-        stage.addActor(lebengegnerShip);
+        //stage.addActor(lebenplayerShip);
+        //stage.addActor(lebengegnerShip);
         stage.addActor(enableEnemyShield);
         stage.addActor(engine);
         stage.addActor(cockpit);
         stage.addActor(enableShield);
         stage.addActor(weaponSection);
         stage.addActor(weaponLabel);
+        stage.addActor(imageCrewMemberOne);
+        stage.addActor(imageCrewMemberTwo);
+        stage.addActor(imageCrewMemberThree);
+
 
 
         stage.addActor(saveGameButton);
@@ -309,6 +362,53 @@ public class CombatScreen extends BaseScreen {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
+    private void dragAndDrop(Image imageCrewMember) {
+        imageCrewMember.addListener(new DragListener() {
+            float crewOneX;
+            float crewOneY;
+            public void drag(InputEvent event, float x, float y, int pointer) {
+                dragged = true;
+                imageCrewMember.moveBy(x - imageCrewMember.getWidth() / 2, y - imageCrewMember.getHeight() / 2);
+            }
+            public void dragStart (InputEvent event, float x, float y, int pointer) {
+                crewOneX = imageCrewMember.getX();
+                crewOneY = imageCrewMember.getY();
+            }
+            public void dragStop (InputEvent event, float x, float y, int pointer) {
+                //do something when texture is touched
+                Vector3 tmp= new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+                camera.unproject(tmp);
+                Rectangle sectionOne = getRectOfTextures(redPinSectionOne);
+                Rectangle sectionTwo = getRectOfTextures(redPinSectionTwo);
+                Rectangle sectionThree = getRectOfTextures(redPinSectionThree);
+                Rectangle sectionFour = getRectOfTextures(redPinSectionFour);
+                Rectangle sectionFive = getRectOfTextures(redPinSectionFive);
+                Rectangle sectionSix = getRectOfTextures(redPinSectionSix);
+                if(sectionOne.contains(tmp.x,tmp.y)) {
+                    imageCrewMember.setPosition(redPinSectionOne.x_position,redPinSectionOne.y_position);
+                } else if(sectionTwo.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionTwo.x_position, redPinSectionTwo.y_position);
+                } else if(sectionThree.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionThree.x_position, redPinSectionThree.y_position);
+                } else if(sectionFour.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionFour.x_position, redPinSectionFour.y_position);
+                } else if(sectionFive.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionFive.x_position, redPinSectionFive.y_position);
+                } else if(sectionSix.contains(tmp.x,tmp.y)){
+                    imageCrewMember.setPosition(redPinSectionSix.x_position, redPinSectionSix.y_position);
+                }
+                else {
+                    imageCrewMember.setPosition(crewOneX, crewOneY);
+                }
+                dragged = false;
+            }
+        });
+    }
+
+    private Rectangle getRectOfTextures(RedPin redPin){
+        return new Rectangle(redPin.x_position,redPin.y_position,
+                redPin.texture.getWidth(),redPin.texture.getHeight());
+    }
 
     private void logicOfFirePlayer() {
         //Sections
@@ -522,11 +622,32 @@ public class CombatScreen extends BaseScreen {
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300, 300, 700, 700);
+        if(dragged){
+            redPinSectionOne.x_position = BaseScreen.WIDTH/4f-60;
+            redPinSectionOne.y_position = BaseScreen.HEIGHT-290;
+            redPinSectionTwo.x_position = BaseScreen.WIDTH/4f-60;
+            redPinSectionTwo.y_position = BaseScreen.HEIGHT-600;
+            redPinSectionThree.x_position = BaseScreen.WIDTH/4f+170;
+            redPinSectionThree.y_position = BaseScreen.HEIGHT-300;
+            redPinSectionFour.x_position = BaseScreen.WIDTH/4f+170;
+            redPinSectionFour.y_position = BaseScreen.HEIGHT-590;
+            redPinSectionFive.x_position = BaseScreen.WIDTH/4f+280;
+            redPinSectionFive.y_position = BaseScreen.HEIGHT-340;
+            redPinSectionSix.x_position = BaseScreen.WIDTH/4f+280;
+            redPinSectionSix.y_position = BaseScreen.HEIGHT-545;
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionOne.x_position,redPinSectionOne.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionTwo.x_position,redPinSectionTwo.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionThree.x_position,redPinSectionThree.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionFour.x_position,redPinSectionFour.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionFive.x_position,redPinSectionFive.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionSix.x_position,redPinSectionSix.y_position);
+        }
         if (Global.currentShipGegner != null) {
             stage.getBatch().draw(enemyShip, 1300, 370, 550, 550);
         }
         stage.getBatch().draw(missilleRight, disappearRight, 422, 400, 50);
         stage.getBatch().draw(missilleLeft, disappearLeft, 825, 400, 50);
+
         //Gegner
         //Shot
         if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
@@ -538,11 +659,11 @@ public class CombatScreen extends BaseScreen {
         } else if (!validationGegner.isEmpty() && validationGegner.equals("Section unusable")) {
             System.out.println(":::::Section unusable Gegner");
             validationGegner = "";
-        }else if (Global.currentShipPlayer.getHp()<=0) {
-            System.out.println(":::Defeat");
-            validationGegner = "";
+        //}else if (Global.currentShipPlayer.getHp()<=0) {
+         //   System.out.println(":::Defeat");
+           // validationGegner = "";
 
-            mainClient.setScreen(new MenuScreen(game));
+            //mainClient.setScreen(new MenuScreen(game));
         }
         if(canFireGegner){
             switch (Global.currentShipGegner.getName()){
@@ -601,11 +722,11 @@ public class CombatScreen extends BaseScreen {
         } else if (!validation.isEmpty() && validation.equals("Section unusable")) {
             System.out.println("::::Section not usable Player");
             validation = "";
-        }else if (Global.currentShipGegner.getHp()<=0) {
+        }/*else if (Global.currentShipGegner.getHp()<=0) {
             System.out.println(":::Defeat gegner");
             validation = "";
             mainClient.setScreen(new StationsMap(game));
-        }
+        }*/
         if (canFire) {
             makeAShot(Global.weaponListPlayer, Net.HttpMethods.POST);
             isFired = true;
@@ -664,8 +785,8 @@ public class CombatScreen extends BaseScreen {
             sectionsToGernerResponse = sizeO;
             //GEGNER FIRE
         }
-        lebengegnerShip.setText(String.valueOf(Global.currentShipGegner.getHp()));
-        lebenplayerShip.setText(String.valueOf(Global.currentShipPlayer.getHp()));
+        //lebengegnerShip.setText(String.valueOf(Global.currentShipGegner.getHp()));
+        //lebenplayerShip.setText(String.valueOf(Global.currentShipPlayer.getHp()));
         //A
         //Logic
         //Create and launch missiles
@@ -681,9 +802,9 @@ public class CombatScreen extends BaseScreen {
 
 
         //shield for player
-        if (Global.currentShipPlayer.getShield()>0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
+        //if (Global.currentShipPlayer.getShield()>0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
         //shield for enemy
-        if (Global.currentShipGegner.getShield()>0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
+        //if (Global.currentShipGegner.getShield()>0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
 
 
         //explosion on player sections
