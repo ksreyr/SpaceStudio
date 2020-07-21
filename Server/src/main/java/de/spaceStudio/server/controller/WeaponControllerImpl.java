@@ -48,7 +48,8 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
-    public List<Weapon> getWeapons(Integer id) {
+    @GetMapping(value = "/ship/{id}/weapons")
+    public List<Weapon> getWeapons(@PathVariable Integer id) {
         Optional<Ship> ship = shipRepository.findById(id);
         if (ship.isEmpty()) {
             return null;
@@ -159,7 +160,7 @@ public class WeaponControllerImpl implements WeaponController {
     @Override
     public String shotValidation(List<Weapon> weapons) {
         for (Weapon w :
-                weapons) {
+                 weapons) {
             if (canShoot(w)) {
                 return "Fire Accepted";
             } else {
@@ -190,6 +191,7 @@ public class WeaponControllerImpl implements WeaponController {
     boolean isOutsideRange(long lastShot, long coolDown) {
         long now = System.nanoTime();
         long timeElapsed = now - lastShot;
-        return ((timeElapsed) / 1000000) > coolDown;  // Convert to Milliseconds
+        long nanosPassed = coolDown * 1000000;
+        return ( timeElapsed > nanosPassed);  // Convert to Milliseconds
     }
 }

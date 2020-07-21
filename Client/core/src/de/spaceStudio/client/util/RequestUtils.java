@@ -37,6 +37,8 @@ public final class RequestUtils {
         Net.HttpRequest r = setupRequest(url, "", Net.HttpMethods.GET);
 
         final String[] responseString = {null};
+
+        LOG.info("Sending get Request to: " + url);
         Gdx.net.sendHttpRequest(r, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
@@ -66,11 +68,11 @@ public final class RequestUtils {
     }
 
     public static void weaponsByShip(Ship ship) {
-        String response = genericGetRequest(Global.ASK_FOR_SHIP +"/" + ship.getId() + "/" + Global.WEAPONS, false, ship.getId());
+        String response = genericGetRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP +"/" + ship.getId() + "/" + Global.WEAPONS, false, ship.getId());
     }
 
     public static void sectionsByShip(Ship ship) {
-        String response = genericGetRequest(Global.SHIP_ENDPOINT +"/" + ship.getId() + "/" + Global.SECTIONS, false, ship.getId());
+        String response = genericGetRequest( Global.SERVER_URL + Global.ASK_FOR_SHIP +"/" + ship.getId() + "/" + Global.SECTIONS, false, ship.getId());
     }
 
 }
