@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import com.google.gson.Gson;
 import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.Player;
@@ -28,9 +29,15 @@ import java.util.UUID;
 @RestController
 public class GameController {
 
+    /**
+     * PlayerRepository Data
+     */
     @Autowired
     private PlayerRepository playerRepository;
 
+    /**
+     * Logger object
+     */
     private static final Logger LOG = LoggerFactory.getLogger(GameController.class);
 
     /**
@@ -53,6 +60,52 @@ public class GameController {
     }
 
     /**
+     * Remove single player sessions from Server
+     *
+     * @param playerName
+     * @return HTTP status Accepted if success otherwise HTTP status Not Accepted
+     */
+    @RequestMapping(value = "/game/destroy/single-player/{playerName}", method = RequestMethod.GET)
+    @ResponseBody
+    public String destroySinglePlayerGameSession(@PathVariable("playerName") String playerName) {
+        if (Global.userLogged.contains(playerName) && (Global.SinglePlayerGameSessions.containsKey(playerName))) {
+            Global.SinglePlayerGameSessions.remove(playerName);
+            return HttpStatus.ACCEPTED.toString();
+        } else {
+            return HttpStatus.NOT_EXTENDED.toString();
+        }
+    }
+
+    /**
+     * Show all active single player game sessions
+     *
+     * @return JSON
+     */
+    @RequestMapping(value = "/game/sessions/single-player")
+    @ResponseBody
+    public String getAllSinglePlayerSessions() {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(Global.SinglePlayerGameSessions);
+        LOG.info(jsonString);
+        return jsonString;
+    }
+
+    /**
+     * Show all active multiplayer game sessions
+     *
+     * @return JSON
+     */
+    @RequestMapping(value = "/game/sessions/multiplayer")
+    @ResponseBody
+    public String getAllMultiPlayerSessions() {
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(Global.MultiPlayerGameSessions);
+        LOG.info(jsonString);
+        return jsonString;
+    }
+
+
+    /**
      * @return
      */
     @RequestMapping(value = "/game/start/multiplayer", method = RequestMethod.POST)
@@ -61,7 +114,7 @@ public class GameController {
         if (Global.userLogged.contains(player.getName())) {
             MultiPlayerGame mult = new MultiPlayerGame();
             mult.setPlayerOne(player);
-            if(Global.MultiPlayerGameSessions.isEmpty()){
+            if (Global.MultiPlayerGameSessions.isEmpty()) {
                 Global.MultiPlayerGameSessions.put(UUID.randomUUID().toString(), mult);
                 return HttpStatus.ACCEPTED.toString();
             }
@@ -101,17 +154,16 @@ public class GameController {
     }
 
     /**
-     *
      * @param gameSession
      * @param player
      * @return
      */
     @RequestMapping(value = "/game/multiplayer/{sessionID}", method = RequestMethod.POST)
     @ResponseBody
-    public String joinMultiplayerSession(@PathVariable("sessionID") String gameSession, @RequestBody Player player){
-        if(gameSession != null || !gameSession.isEmpty()){
+    public String joinMultiplayerSession(@PathVariable("sessionID") String gameSession, @RequestBody Player player) {
+        if (gameSession != null || !gameSession.isEmpty()) {
             MultiPlayerGame mult = Global.MultiPlayerGameSessions.get(gameSession);
-            if(mult != null) {
+            if (mult != null) {
                 mult.setPlayerTwo(player);
                 Global.MultiPlayerGameSessions.replace(gameSession, mult);
                 return HttpStatus.ACCEPTED.toString();
@@ -120,12 +172,16 @@ public class GameController {
         return "";
     }
 
+    public String destroyMultiPlayerSession() {
+        return null;
+    }
+
     /**
      * Saves single game in Server
      *
      * @param playerName
      * @param singlePlayerGame
-     * @return HTTP Status
+     * @return HTTP ACCEPTED Status if success, otherwise HTTP NOT ACCEPTED status
      */
     @RequestMapping(value = "/game/save/{playerName}", method = RequestMethod.POST)
     @ResponseBody
@@ -154,10 +210,11 @@ public class GameController {
     }
 
     /**
-     * Load the game
+     * Load the single player game
+     * Extern JSON will loaded
      *
      * @param playerName
-     * @return
+     * @return SinglePlayer object
      */
     @RequestMapping(value = "/game/load/{playerName}", method = RequestMethod.GET)
     @ResponseBody
