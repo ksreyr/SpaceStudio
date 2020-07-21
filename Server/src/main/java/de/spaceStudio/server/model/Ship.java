@@ -1,14 +1,18 @@
 package de.spaceStudio.server.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 
 
 @Entity
+@JsonIdentityInfo(generator= JSOGGenerator.class)
 public class Ship {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -30,6 +34,9 @@ public class Ship {
 
     @NonNull
     private int power;
+
+    @NonNull
+    private int money;
 
     public Ship() {
     }
@@ -105,6 +112,14 @@ public class Ship {
         return new ShipBluider();
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     public static class ShipBluider {
 
         private Integer id;
@@ -165,7 +180,9 @@ public class Ship {
         }
 
         public Ship buildShip() {
-            return new Ship(this);
+            Ship ship = new Ship(this);
+            ship.setMoney(30);
+            return ship;
         }
     }
 }

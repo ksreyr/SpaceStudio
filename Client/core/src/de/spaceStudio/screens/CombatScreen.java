@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -19,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -28,6 +31,7 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.SectionTyp;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.util.GdxUtils;
@@ -35,11 +39,16 @@ import de.spaceStudio.util.GdxUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
 public class CombatScreen extends BaseScreen {
+
+    private final static Logger LOG = Logger.getLogger(CombatScreen.class.getName());
+    private final Label weaponLabel;
+    private final String[] weaponText = {"All Weapons", "You have selected Weapon: "  };
 
     private MainClient universeMap;
     private final AssetManager assetManager;
@@ -102,6 +111,8 @@ public class CombatScreen extends BaseScreen {
     List<Section> sectionsToPlayerResponse = new ArrayList<Section>();
     Label lebengegnerShip;
     Label lebenplayerShip;
+    private int aktiveWeapon = 0;
+    private List<Weapon> selectedWeapons;
     //
 
     public CombatScreen(MainClient mainClient) {
@@ -109,6 +120,21 @@ public class CombatScreen extends BaseScreen {
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
+
+        int row_height = Gdx.graphics.getWidth() / 12;
+        int col_width = Gdx.graphics.getWidth() / 12;
+        Label.LabelStyle label1Style = new Label.LabelStyle();
+
+        BitmapFont myFont = new BitmapFont(Gdx.files.internal("bitmap/amble.fnt"));
+        label1Style.font = myFont;
+        label1Style.fontColor = Color.RED;
+
+        weaponLabel = new Label(weaponText[0], label1Style);
+        weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
+        weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
+        weaponLabel.setAlignment(Align.bottomRight);
+        selectedWeapons = Global.weaponListPlayer;
+
     }
 
     @Override
@@ -119,7 +145,7 @@ public class CombatScreen extends BaseScreen {
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
-        System.out.println("Global planet: "+ Global.currentStop.getName());
+
 
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
@@ -289,16 +315,46 @@ public class CombatScreen extends BaseScreen {
 
 
 
-
-        TextButton escape = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
-        escape.addListener(new ChangeListener() {
+        TextButton saveGameButton = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
+        saveGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Global.IS_SINGLE_PLAYER = false;
                 mainClient.setScreen(new StationsMap(mainClient));
+                LOG.info("Button CLicked");
+                click.play();
+                Gson gson = new Gson();
+                Global.singlePlayerGame.setLastScreen("COMBAT");
+                Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
+                Global.singlePlayerGame.setShipGegner(Global.currentShipGegner);
+                String requestBody = gson.toJson(Global.singlePlayerGame);
+                final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
+                Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
+                Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        final Dialog dialog = new Dialog("Save game", skin, "dialog");
+                        int statusCode = httpResponse.getStatus().getStatusCode();
+                        String responseJson = httpResponse.getResultAsString();
+                        if (responseJson.equals("202 ACCEPTED")) {
+                            LOG.info("Success save game " + statusCode);
+                            saveMessageDialog(dialog, " Saving Game was Successful ");
+                        } else {
+                            LOG.info("Error saving game");
+                            saveMessageDialog(dialog, " Saving Game was not Successful ");
+                        }
+                    }
+
+                    public void failed(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void cancelled() {
+                    }
+                });
             }
         });
-        escape.setPosition(1000,200);
+        saveGameButton.setPosition(1000, 200);
 
 
         lebengegnerShip.setPosition(100,20);
@@ -316,8 +372,10 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(engine);
         stage.addActor(cockpit);
         stage.addActor(weaponSection);
+        stage.addActor(weaponLabel);
 
-        stage.addActor(escape);
+
+        stage.addActor(saveGameButton);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -465,11 +523,14 @@ public class CombatScreen extends BaseScreen {
                             for (Weapon w :
                                     Global.weaponListPlayer) {
                                 w.setObjectiv(s);
+
                             }
                         }
+                        ;
                     }
                 }
                 break;
+            //An the fall that the Gegner 3 ist
 
         }
 
@@ -544,10 +605,25 @@ public class CombatScreen extends BaseScreen {
     // Called when the screen should render itself.
     @Override
     public void render(float delta) {
+
         GdxUtils.clearScreen();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+            aktiveWeapon++;
+             aktiveWeapon = aktiveWeapon % (Global.weaponListPlayer.size() + 1);  // Add one more because index is +1
+            if (aktiveWeapon == 0) {
+                selectedWeapons = Global.weaponListPlayer;
+                weaponLabel.setText(weaponText[0]);
+            } else {
+                selectedWeapons = List.of(Global.weaponListPlayer.get(aktiveWeapon - 1)); // Weapons start at 0. Index at 1
+                weaponLabel.setText(weaponText[1] + selectedWeapons.get(0).getName());
+            }
+        }
+
+
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, 300, 300, 700, 700);
@@ -716,10 +792,7 @@ public class CombatScreen extends BaseScreen {
             logicOfFireGegner(randomNumber);
             //Set Target->Section of  gegner and User Weapons
             logicOfFirePlayer();
-
-          counterCockpit++;
-
-
+            counterCockpit++;
         }
 
 
@@ -1001,5 +1074,14 @@ public class CombatScreen extends BaseScreen {
         skin.dispose();
         rocketLaunch.dispose();
         stage.dispose();
+    }
+
+    private void saveMessageDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("OK", false);
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        click.play();
+        dialog.show(stage);
     }
 }

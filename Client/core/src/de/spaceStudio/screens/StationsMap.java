@@ -3,6 +3,7 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -36,6 +37,7 @@ import java.util.logging.Logger;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 import java.util.Arrays;
 import java.util.List;
+
 
 public class StationsMap extends BaseScreen {
 
@@ -74,6 +76,8 @@ public class StationsMap extends BaseScreen {
     private TextButton saveGameButton;
     private StopAbstract currentStop= Global.planet1;
     private List<Ship> shipList= new ArrayList<Ship>();
+
+    private Sound click;
 
     List<Pair> coord = new ArrayList<Pair>();
 
@@ -384,9 +388,9 @@ public class StationsMap extends BaseScreen {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    LOG.info("Request Failed");
                 }
-                System.out.println("statusCode of the Jump: " + statusCode);
+                LOG.info("statusCode of the Jump: " + statusCode);
                 String shipsList = httpResponse.getResultAsString();
                 Gson gson = new Gson();
                 Ship[] aiArray = gson.fromJson(shipsList, Ship[].class);
@@ -412,6 +416,16 @@ public class StationsMap extends BaseScreen {
         dialog.button("BACK", false);
         dialog.key(Input.Keys.ENTER, true);
         dialog.key(Input.Keys.ESCAPE, false);
+        dialog.show(stage);
+    }
+
+
+    private void saveMessageDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("OK", false);
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        click.play();
         dialog.show(stage);
     }
 
@@ -446,25 +460,30 @@ public class StationsMap extends BaseScreen {
         saveGameButton.getLabel().setFontScale(1.25f, 1.25f);
         saveGameButton.setSize(90, 50);
 
+        click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
 
         saveGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 LOG.info("Button CLicked");
-
+                click.play();
                 Gson gson = new Gson();
-                Global.singlePlayerGame.setShip(Global.currentShipGegner);
+                Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
+                Global.singlePlayerGame.setLastScreen("MAP");
                 String requestBody = gson.toJson(Global.singlePlayerGame);
                 final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
                 Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
                 Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
                     public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        final Dialog dialog = new Dialog("Save game", skin, "dialog");
                         int statusCode = httpResponse.getStatus().getStatusCode();
                         String responseJson = httpResponse.getResultAsString();
                         if (responseJson.equals("202 ACCEPTED")) {
-                            LOG.info("Success save game");
+                            LOG.info("Success save game " + statusCode);
+                            saveMessageDialog( dialog," Saving Game was Successful ");
                         } else {
                             LOG.info("Error saving game");
+                            saveMessageDialog( dialog," Saving Game was not Successful ");
                         }
                     }
 

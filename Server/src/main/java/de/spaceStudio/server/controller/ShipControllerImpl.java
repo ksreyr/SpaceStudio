@@ -32,7 +32,12 @@ public class ShipControllerImpl implements ShipController{
     @Override
     @RequestMapping(value = "/Ship/{id}", method = RequestMethod.GET)
     public Ship getShip(@PathVariable Integer id) {
-        return shipRepository.findById(id).get();
+        Optional<Ship> s = shipRepository.findById(id);
+         if (s.isEmpty()) {
+             return null;
+         } else {
+             return s.get();
+         }
     }
 
     @Override

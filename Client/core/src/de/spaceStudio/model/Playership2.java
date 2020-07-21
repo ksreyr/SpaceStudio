@@ -34,7 +34,7 @@ public class Playership2 extends Rectangle {
     private boolean crewMemberMs6;
 
 
-    private int money;
+    private int money;  // FIXME WTF why is this not persisted?????????????
     private int secure;
     private int oxygen;
     private int drive;

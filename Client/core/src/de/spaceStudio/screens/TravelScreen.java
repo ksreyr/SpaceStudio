@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.spaceStudio.Actors.ParallaxBackground;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.client.util.RequestUtils;
 
 
 /**
@@ -102,6 +103,7 @@ public class TravelScreen extends ScreenAdapter {
         // Switch Screen after 10 Seconds or when all Players are ready
         boolean jumpReady = !Global.isOnlineGame || Global.allReady;
         if (timePassed > 5 && jumpReady) {
+//            Global.weaponListPlayer = RequestUtils.weaponsByShip(Global.currentShipPlayer); // Load all the Weapons  FIXME make async
             game.setScreen(new StopScreen(game));
         }
 

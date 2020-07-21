@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Player;
@@ -32,6 +33,9 @@ import java.util.logging.Logger;
 import static de.spaceStudio.client.util.Global.currentPlayer;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
+/**
+ * LoginScreen with all GUI components and server communication to register or login users
+ */
 public class LoginScreen extends BaseScreen {
 
     private final static Logger LOG = Logger.getLogger(LoginScreen.class.getName());
@@ -63,9 +67,13 @@ public class LoginScreen extends BaseScreen {
     private static final int TEXTBOX_LENGTH = 20;
 
 
-    private boolean isValid = false;
     private float state = 0.0f;
 
+    /**
+     * Constructor
+     * @param game
+     * @param assetManager
+     */
     public LoginScreen(final MainClient game, AssetManager assetManager) {
 
         super(game);
@@ -283,6 +291,9 @@ public class LoginScreen extends BaseScreen {
 
     }
 
+    /**
+     * Http request to Server, server validates User
+     */
     private void loginUser() {
         login.addListener(new ChangeListener() {
             @Override
@@ -297,9 +308,8 @@ public class LoginScreen extends BaseScreen {
                         .password(getUserPassword())
                         .buildPlayer();
 
-                final Json json = new Json();
+                final Gson json = new Gson();
 
-                json.setOutputType(JsonWriter.OutputType.json);
                 LOG.info("JSON to send " + json.toJson(currentPlayer));
                 final String requestJson = json.toJson(currentPlayer);
 
@@ -309,18 +319,20 @@ public class LoginScreen extends BaseScreen {
 
                     public void handleHttpResponse(Net.HttpResponse httpResponse) {
                         int statusCode = httpResponse.getStatus().getStatusCode();
-                        LOG.info("statusCode: " + statusCode);
+
                         String responseJson = httpResponse.getResultAsString();
-                        String isValid = responseJson;
-                        if (statusCode != HttpStatus.SC_OK || isValid.equals("false")) {
+                        LOG.info("statusCode: " + statusCode + " JSON: "  + responseJson);
+                        Player reponseUser = json.fromJson(responseJson, Player.class);
+
+                        if (statusCode != HttpStatus.SC_OK || responseJson.isEmpty() ) {
                             loginConfirmation.setText("invalid username or password!");
                             loginConfirmation.setColor(Color.RED);
                             LOG.info("Credentials invalid or server down");
                         } else {
                             LOG.info("Login success");
-
                             isPressed = true;
-                            currentPlayer.setId(Integer.parseInt(responseJson));
+                            currentPlayer.setId(reponseUser.getId());
+                            currentPlayer.setSavedGame(reponseUser.getSavedGame());
                         }
                     }
 

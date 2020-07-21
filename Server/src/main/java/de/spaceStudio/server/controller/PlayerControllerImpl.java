@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import com.google.gson.Gson;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -64,13 +65,13 @@ public class PlayerControllerImpl implements PlayerController {
      */
     @Override
     @RequestMapping(value = "/player/login", method = RequestMethod.POST)
-    public String loginUser(@RequestBody Player player) {
+    public Player loginUser(@RequestBody Player player) {
         Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
         if (fetchPlayer.isPresent() && authUser(fetchPlayer, player)) {
             Global.userLogged.add(player.getName());
-            return String.valueOf(fetchPlayer.get().getId());
+            return fetchPlayer.get();
         }
-        return "false";
+        return null;
     }
 
     /**
