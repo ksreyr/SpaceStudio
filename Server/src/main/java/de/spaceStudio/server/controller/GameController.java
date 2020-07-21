@@ -107,6 +107,16 @@ public class GameController {
         return jsonString;
     }
 
+    @RequestMapping(value = "/game/multiplayer/synchronize/{gameSession}", method = RequestMethod.GET)
+    @ResponseBody
+    public String synchroMultiPlayer(@PathVariable("sessionID") String gameSession){
+        MultiPlayerGame multiPlayerGame = Global.MultiPlayerGameSessions.get(gameSession);
+        if(multiPlayerGame.getPlayerOne() != null && multiPlayerGame.getPlayerTwo() != null){
+            return "true";
+        }
+    return "false";
+    }
+
     /**
      * Show all active multiplayer game sessions
      *

@@ -418,6 +418,8 @@ public class ShipSelectScreen extends BaseScreen {
                     createSinglePlayerGame();
                 } else {
                     startButton.setColor(Color.GREEN);
+                    // send request
+
                 }
 
 
@@ -465,7 +467,7 @@ public class ShipSelectScreen extends BaseScreen {
     /**
      * Ask server every 5 seconds
      */
-    public void scheduleLobby(){
+    private void scheduleLobby(){
         Timer schedule = new Timer( );
         schedule.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -475,6 +477,14 @@ public class ShipSelectScreen extends BaseScreen {
             }
         }, 1000,5000);
     }
+
+    /**
+     *
+     */
+    private void scheduleReadyUp(){
+        //
+    }
+
 
     @Override
     public void render(float delta) {
