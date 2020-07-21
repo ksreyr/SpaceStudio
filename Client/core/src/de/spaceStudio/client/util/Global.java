@@ -155,6 +155,10 @@ public  class Global {
      */
     public static final String SHIP_RESSORUCE_ENDPOINT = "/shipressource";
     /**
+     * Player save game endpoint
+     */
+    public static final String GET_RESSOURCE_BY_SHIP = "/shipressourcebyship";
+    /**
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;

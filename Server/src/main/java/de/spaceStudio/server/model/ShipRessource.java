@@ -57,6 +57,7 @@ public class ShipRessource extends Ressource{
             this.amount=amount;
             return ShipRessourceBluilder.this;
         }
+
         public ShipRessource build(){
             return new ShipRessource(this);
         }

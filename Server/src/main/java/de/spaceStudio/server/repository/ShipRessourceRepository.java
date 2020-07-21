@@ -5,10 +5,11 @@ import de.spaceStudio.server.model.ShipRessource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ShipRessourceRepository extends JpaRepository<ShipRessource, Integer>{
-    Optional<ShipRessource> findByShip(Ship ship);
+    Optional<List<ShipRessource>> findByShip(Ship ship);
 }
 

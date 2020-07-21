@@ -765,7 +765,7 @@ public class CombatScreen extends BaseScreen {
             canFireGegner = true;
         } else if (!validationGegner.isEmpty() && validationGegner.equals("Section unusable")) {
             System.out.println(":::::Section unusable Gegner");
-            validationGegner = "";
+
         }else if (Global.currentShipPlayer.getHp()<=0) {
             System.out.println(":::Defeat");
             validationGegner = "";
