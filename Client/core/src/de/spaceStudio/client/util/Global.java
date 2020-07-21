@@ -4,6 +4,7 @@ import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ public  class Global {
 
 
     public static final String WEAPONS = "weapons" ;
+    public static final String SECTIONS = "sections";
     /**
      * boolean value for single player disable lobby
      */
@@ -78,7 +80,7 @@ public  class Global {
     /**
      * Ship Cretion
      */
-    public static final String SHIP_CREATION_ENDPOINT = "/ship";
+    public static final String SHIP_ENDPOINT = "/ship";
     /**
      * Ship Cretion
      */
@@ -235,6 +237,8 @@ public  class Global {
     }};
     public static boolean allReady = false;  // FIXME change to true when all Player will jump
     public static int currentStopNumber = 0;
+    public static HashMap<Integer, List<Section>> combatSections = new HashMap<>();
+    public static HashMap<Integer, List<Weapon>> combatWeapons = new HashMap<>();
 
     public static void updateVariableCrewMembersPlayer(){
         crewMember0=crewMemberList.get(0);
