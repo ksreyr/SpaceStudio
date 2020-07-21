@@ -15,8 +15,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
-import de.spaceStudio.model.Playership2;
-import de.spaceStudio.util.Base;
 import de.spaceStudio.util.GdxUtils;
 
 
@@ -36,6 +34,7 @@ public class ShopScreen extends ScreenAdapter {
 
     //Textures
     private Texture background, playerShip;
+    private Texture securityTextureGrey, driveTextureGrey;
     private Texture rocket1, rocket2, crewMemberMTexture, crewMemberFTexture, securityTexture, oxygenTexture, driveTexture;
     private TextButton next, buy, sell;
     private int itemNumber;
@@ -57,6 +56,8 @@ public class ShopScreen extends ScreenAdapter {
     private boolean crewMemberFs1, crewMemberFs2, crewMemberFs3, crewMemberFs4, crewMemberFs5, crewMemberFs6;
     //crewmemberM
     private boolean crewMemberMs1, crewMemberMs2, crewMemberMs3,crewMemberMs4,crewMemberMs5,crewMemberMs6;
+    //secure,drive
+    private boolean secureIconS1, driveIconS1,secureIconS2, driveIconS2;
 
     public ShopScreen(MainClient mainClient) {
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
@@ -117,6 +118,13 @@ public class ShopScreen extends ScreenAdapter {
         this.crewMemberMs4 = false;
         this.crewMemberMs5 = false;
         this.crewMemberMs6 = false;
+
+        //must haves
+        this.secureIconS1 = false;
+        this.driveIconS1 = false;
+        this.secureIconS2 = false;
+        this.driveIconS2 = false;
+
 
         nextButton();
         buyItemsButton();
@@ -475,6 +483,35 @@ public class ShopScreen extends ScreenAdapter {
 
     public void drawItems(){
 
+        float playershipX = BaseScreen.WIDTH / 8;
+        float playershipY = BaseScreen.HEIGHT / 8;
+        float position1 = playerShip.getHeight();
+        float position2 = playerShip.getWidth();
+
+        if(!secureIconS1){
+            stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 520);
+        }
+        if(secureIconS1){
+            stage.getBatch().draw(securityTexture,playershipX + 150,playershipY + 520);
+        }
+        if(!driveIconS1){
+            stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 520);
+        }
+        if(driveIconS1){
+            stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 520);
+        }
+        if(!secureIconS2){
+            stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 140);
+        }
+        if(secureIconS2){
+            stage.getBatch().draw(securityTexture,playershipX + 150,playershipY + 140);
+        }
+        if(!driveIconS2){
+            stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 140);
+        }
+        if(driveIconS2){
+            stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 140);
+        }
         if(rocket1s1){
             stage.getBatch().draw(rocket1,300,310);
         }
