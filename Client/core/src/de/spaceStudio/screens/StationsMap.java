@@ -133,7 +133,7 @@ public class StationsMap extends BaseScreen {
     }
 
     private void shopStation(Drawable shopStationIcon){
-        isPlanet=false;
+
         shopImg = new ImageButton((shopStationIcon));
         shopImg.setPosition(400, 900);
         shopImg.setSize(PLANET_SIZEX,PLANET_SIZEX);
@@ -141,6 +141,8 @@ public class StationsMap extends BaseScreen {
         shopImg.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                isPlanet=false;
+
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
@@ -187,7 +189,6 @@ public class StationsMap extends BaseScreen {
 
 
     private void planet1(Drawable drawable_station_unvisited) {
-        isPlanet=true;
         planet1ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet1ImgBTN.setPosition(coord.get(1).key(), coord.get(1).value());
         planet1ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
@@ -196,6 +197,7 @@ public class StationsMap extends BaseScreen {
         planet1ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                isPlanet=true;
                 Global.currentStop =Global.planet1;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
@@ -216,7 +218,6 @@ public class StationsMap extends BaseScreen {
     }
 
     private void planet2(Drawable drawable_station_unvisited) {
-        isPlanet=true;
         planet2ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet2ImgBTN.setPosition(coord.get(2).key(), coord.get(2).value());
         planet2ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
@@ -225,6 +226,8 @@ public class StationsMap extends BaseScreen {
         planet2ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                isPlanet=true;
+
                 Global.currentStop =Global.planet2;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
@@ -253,7 +256,6 @@ public class StationsMap extends BaseScreen {
 
 
     private void planet3(Drawable drawable_station_unvisited) {
-        isPlanet=true;
         planet3ImgBTN = new ImageButton( (drawable_station_unvisited) );
         planet3ImgBTN.setPosition(coord.get(3).key(), coord.get(3).value());  //hikeButton is an ImageButton
         planet3ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
@@ -261,6 +263,7 @@ public class StationsMap extends BaseScreen {
         planet3ImgBTN.addListener( new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                isPlanet=true;
                 Global.currentStop =Global.planet3;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
@@ -297,6 +300,7 @@ public class StationsMap extends BaseScreen {
         planet4ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                isPlanet=true;
                 Global.currentStop=Global.planet4;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
