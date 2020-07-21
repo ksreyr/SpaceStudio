@@ -253,7 +253,11 @@ public class PlayerControllerImpl implements PlayerController {
                     stopAbstractRepository.delete(sa);
                     }
                     if(shipRessourceRepository.findByShip(s).isPresent()){
-                        shipRessourceRepository.delete(shipRessourceRepository.findByShip(s).get());
+                        List<ShipRessource> shipRessources=shipRessourceRepository.findByShip(s).get();
+                        for (ShipRessource sr:
+                                shipRessources) {
+                            shipRessourceRepository.delete(sr);
+                        }
                     }
                     shipRepository.delete(s);
                 }

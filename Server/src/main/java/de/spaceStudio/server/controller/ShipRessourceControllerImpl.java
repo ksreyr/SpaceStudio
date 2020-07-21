@@ -67,7 +67,6 @@ public class ShipRessourceControllerImpl implements ShipRessourceController {
         shipRessourceRepository.findByShip(ship);
         Gson gson= new Gson();
         List<ShipRessource> shipRessource=shipRessourceRepository.findByShip(ship).get();
-
         return gson.toJson(shipRessource);
     }
 }
