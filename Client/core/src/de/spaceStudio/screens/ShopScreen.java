@@ -194,6 +194,12 @@ public class ShopScreen extends ScreenAdapter {
         textArea.setHeight(150);
         stage.addActor(textArea);
 
+        TextArea shipInformationArea = new TextArea("Ship Options: \nSection1: Rocket1, Rocket2, CrewMember Female, CrewMember Male, Secure, Drive", skin);
+        shipInformationArea.setPosition(900,50);
+        shipInformationArea.setWidth(500);
+        shipInformationArea.setHeight(250);
+        stage.addActor(shipInformationArea);
+
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip,BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
 
