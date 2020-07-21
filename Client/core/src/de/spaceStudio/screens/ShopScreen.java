@@ -194,10 +194,10 @@ public class ShopScreen extends ScreenAdapter {
         textArea.setHeight(150);
         stage.addActor(textArea);
 
-        TextArea shipInformationArea = new TextArea("Ship Options: \nSection1: Rocket1, Rocket2, CrewMember Female, CrewMember Male, Secure, Drive", skin);
+        TextArea shipInformationArea = new TextArea("Ship Options: \nSection1: Rocket1, Rocket2, CrewMember Female, CrewMember Male, Secure, Drive\nSection2: Rocket1, Rocket2, CrewMember Female, CrewMember Male, Secure, Drive\nSection3: Rocket1, Rocket2, CrewMember Female, CrewMember Male\nSection4: Rocket1, Rocket2, CrewMember Female, CrewMember Male\nSection5: Rocket1, Rocket2, CrewMember Female, CrewMember Male\nSection6: Rocket1, Rocket2, CrewMember Female, CrewMember Male", skin);
         shipInformationArea.setPosition(900,50);
         shipInformationArea.setWidth(500);
-        shipInformationArea.setHeight(250);
+        shipInformationArea.setHeight(270);
         stage.addActor(shipInformationArea);
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
@@ -512,78 +512,30 @@ public class ShopScreen extends ScreenAdapter {
         ///if(!driveIconS2){ stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 140); }
         if(driveIconS2){ stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 140); }
 
-        if(rocket1s1){
-            stage.getBatch().draw(rocket1,300,310);
-        }
-        if(rocket1s2){
-            stage.getBatch().draw(rocket1,300,320);
-        }
-        if(rocket1s3){
-            stage.getBatch().draw(rocket1,300,330);
-        }
-        if(rocket1s4){
-            stage.getBatch().draw(rocket1,300,340);
-        }
-        if(rocket1s5){
-            stage.getBatch().draw(rocket1,300,350);
-        }
-        if(rocket1s6){
-            stage.getBatch().draw(rocket1,300,360);
-        }
-        if(rocket2s1){
-            stage.getBatch().draw(rocket2,300,370);
-        }
-        if(rocket2s2){
-            stage.getBatch().draw(rocket2,300,380);
-        }
-        if(rocket2s3){
-            stage.getBatch().draw(rocket2,300,390);
-        }
-        if(rocket2s4){
-            stage.getBatch().draw(rocket2,300,400);
-        }
-        if(rocket2s5){
-            stage.getBatch().draw(rocket2,300,410);
-        }
-        if(rocket2s6){
-            stage.getBatch().draw(rocket2,300,420);
-        }
-        if(crewMemberFs1){
-            stage.getBatch().draw( crewMemberFTexture,300,430);
-        }
-        if(crewMemberFs2){
-            stage.getBatch().draw(crewMemberFTexture,300,440);
-        }
-        if(crewMemberFs3){
-            stage.getBatch().draw(crewMemberFTexture,300,450);
-        }
-        if(crewMemberFs4){
-            stage.getBatch().draw(crewMemberFTexture,300,460);
-        }
-        if(crewMemberFs5){
-            stage.getBatch().draw(crewMemberFTexture,300,470);
-        }
-        if(crewMemberFs6){
-            stage.getBatch().draw(crewMemberFTexture,300,480);
-        }
-        if(crewMemberMs1){
-            stage.getBatch().draw(crewMemberMTexture,300,490);
-        }
-        if(crewMemberMs2){
-            stage.getBatch().draw(crewMemberMTexture,300,500);
-        }
-        if(crewMemberMs3){
-            stage.getBatch().draw(crewMemberMTexture,300,510);
-        }
-        if(crewMemberMs4){
-            stage.getBatch().draw(crewMemberMTexture,300,520);
-        }
-        if(crewMemberMs5){
-            stage.getBatch().draw(crewMemberMTexture,300,530);
-        }
-        if(crewMemberMs6){
-            stage.getBatch().draw(crewMemberMTexture,300,540);
-        }
+        if(rocket1s1){ stage.getBatch().draw(rocket1,280,620); }
+        if(rocket1s2){ stage.getBatch().draw(rocket1,280,160); }
+        if(rocket1s3){ stage.getBatch().draw(rocket1,500,490); }
+        if(rocket1s4){ stage.getBatch().draw(rocket1,500,300 ); }
+        if(rocket1s5){ stage.getBatch().draw(rocket1,700,490); }
+        if(rocket1s6){ stage.getBatch().draw(rocket1,700,340); }
+        if(rocket2s1){ stage.getBatch().draw(rocket2,330,620); }
+        if(rocket2s2){ stage.getBatch().draw(rocket2,330,160); }
+        if(rocket2s3){ stage.getBatch().draw(rocket2,550,490); }
+        if(rocket2s4){ stage.getBatch().draw(rocket2,550,300); }
+        if(rocket2s5){ stage.getBatch().draw(rocket2,750,490); }
+        if(rocket2s6){ stage.getBatch().draw(rocket2,750,340); }
+        if(crewMemberFs1){ stage.getBatch().draw( crewMemberFTexture,300,690); }
+        if(crewMemberFs2){ stage.getBatch().draw(crewMemberFTexture,300,230); }
+        if(crewMemberFs3){ stage.getBatch().draw(crewMemberFTexture,500,560); }
+        if(crewMemberFs4){ stage.getBatch().draw(crewMemberFTexture,500,370); }
+        if(crewMemberFs5){ stage.getBatch().draw(crewMemberFTexture,700,560); }
+        if(crewMemberFs6){ stage.getBatch().draw(crewMemberFTexture,700,410); }
+        if(crewMemberMs1){ stage.getBatch().draw(crewMemberMTexture,350,690); }
+        if(crewMemberMs2){ stage.getBatch().draw(crewMemberMTexture,350,230); }
+        if(crewMemberMs3){ stage.getBatch().draw(crewMemberMTexture,550,560); }
+        if(crewMemberMs4){ stage.getBatch().draw(crewMemberMTexture,550,370); }
+        if(crewMemberMs5){ stage.getBatch().draw(crewMemberMTexture,750,560); }
+        if(crewMemberMs6){ stage.getBatch().draw(crewMemberMTexture,750,410); }
     }
 
     public int getMoney() {
