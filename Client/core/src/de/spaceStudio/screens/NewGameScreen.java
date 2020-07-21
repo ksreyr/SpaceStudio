@@ -147,5 +147,6 @@ public class NewGameScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         stage.dispose();
+        click.dispose();
     }
 }

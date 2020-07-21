@@ -31,8 +31,7 @@ import de.spaceStudio.service.InitialDataGameService;
 import de.spaceStudio.service.SinglePlayerGameService;
 import thirdParties.GifDecoder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -245,8 +244,11 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(showHideRoom);
         stage.addActor(startButton);
         stage.addActor(backMenuButton);
-        stage.addActor(easyButton);
-        stage.addActor(normalButton);
+        // Don't show online
+        if(IS_SINGLE_PLAYER){
+            stage.addActor(easyButton);
+            stage.addActor(normalButton);
+        }
         stage.addActor(crew_1_name);
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
@@ -396,9 +398,14 @@ public class ShipSelectScreen extends BaseScreen {
 
         startButton = new TextButton("START", skinButton, "small");
         startButton.setTransform(true);
+        startButton.setColor(Color.GOLDENROD);
+        if(!IS_SINGLE_PLAYER) {
+            startButton.setText("READY UP");
+            startButton.setColor(Color.CYAN);
+        }
         startButton.setScaleX(1.8f);
         startButton.setScaleY(1.5f);
-        startButton.setColor(Color.GOLDENROD);
+
         startButton.setPosition(BaseScreen.WIDTH - 250, BaseScreen.HEIGHT - 155);
         startButton.getLabel().setColor(Color.WHITE);
         startButton.getLabel().setFontScale(1.25f, 1.25f);
@@ -407,8 +414,10 @@ public class ShipSelectScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                if (!Global.isOnlineGame) {
+                if (IS_SINGLE_PLAYER) {
                     createSinglePlayerGame();
+                } else {
+                    startButton.setColor(Color.GREEN);
                 }
 
 
@@ -450,6 +459,21 @@ public class ShipSelectScreen extends BaseScreen {
     public void show() {
         super.show();
         StartButton();
+        scheduleLobby();
+    }
+
+    /**
+     * Ask server every 5 seconds
+     */
+    public void scheduleLobby(){
+        Timer schedule = new Timer( );
+        schedule.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                LOG.info("Fetching data from server...");
+                fetchLoggedUsers();
+            }
+        }, 1000,5000);
     }
 
     @Override
@@ -470,6 +494,8 @@ public class ShipSelectScreen extends BaseScreen {
         stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 10, 180, 70, 70);
         stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 10, 110, 70, 70);
 
+        // Bock
+        if(IS_SINGLE_PLAYER){
         /*Added Ship*/
         if (requestcounter == 1) {
             if (responseJson != null && !responseJson.isEmpty()) {
@@ -798,8 +824,9 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 23;
             }
         //}
-
-
+        } else {
+            // TODO Online game
+        }
         /////
         switch (shipNumber) {
             case 0:
@@ -880,6 +907,8 @@ public class ShipSelectScreen extends BaseScreen {
         // Get first position, we support max 2 players in the whole game
         if (playersOnline.size() > 0) {
             displayOnlinePlayerName.setText(playersOnline.get(0));
+        } else {
+            displayOnlinePlayerName.setText("");
         }
     }
 
@@ -908,6 +937,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.dispose();
         shapeRenderer.dispose();
         mouseClick.dispose();
+        batch.dispose();
     }
     //
     //

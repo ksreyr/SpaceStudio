@@ -77,11 +77,28 @@ public class GameController {
     }
 
     /**
-     * Show all active single player game sessions
+     * Remove multi player sessions from Server
      *
-     * @return JSON
+     * @param sessionID
+     * @return HTTP status Accepted if success otherwise HTTP status Not Accepted
      */
-    @RequestMapping(value = "/game/sessions/single-player")
+    @RequestMapping(value = "/game/destroy/multiplayer/{sessionID}", method = RequestMethod.GET)
+    @ResponseBody
+    public String destroyMultiPlayerGameSession(@PathVariable("sessionID") String sessionID) {
+        if (Global.MultiPlayerGameSessions.containsKey(sessionID)) {
+            Global.MultiPlayerGameSessions.remove(sessionID);
+            return HttpStatus.ACCEPTED.toString();
+        } else {
+            return HttpStatus.NOT_EXTENDED.toString();
+        }
+    }
+
+        /**
+         * Show all active single player game sessions
+         *
+         * @return JSON
+         */
+    @RequestMapping(value = "/game/sessions/single-player", method = RequestMethod.GET)
     @ResponseBody
     public String getAllSinglePlayerSessions() {
         Gson gson = new Gson();
@@ -95,7 +112,7 @@ public class GameController {
      *
      * @return JSON
      */
-    @RequestMapping(value = "/game/sessions/multiplayer")
+    @RequestMapping(value = "/game/sessions/multiplayer", method = RequestMethod.GET)
     @ResponseBody
     public String getAllMultiPlayerSessions() {
         Gson gson = new Gson();

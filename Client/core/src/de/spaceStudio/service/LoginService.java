@@ -72,6 +72,7 @@ public class LoginService {
                 try {
                     List<String> dataFromServer = new Gson().fromJson(httpResponse.getResultAsString(), new TypeToken<List<String>>() {
                     }.getType());
+                    playersOnline.clear();
                     for (String onlinePlayer : dataFromServer) {
                         if(currentPlayer != null) {
                             if (!currentPlayer.getName().equals(onlinePlayer)) {
