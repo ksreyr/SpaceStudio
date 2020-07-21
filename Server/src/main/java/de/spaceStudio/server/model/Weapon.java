@@ -101,6 +101,7 @@ public class Weapon {
        setName(weaponBuilder.name);
        setSection(weaponBuilder.section);
        setObjectiv(weaponBuilder.objectiv);
+       setCoolDown(weaponBuilder.coolDown);
     }
     public static WeaponBuilder WeaponBuilder(){
         return new WeaponBuilder();
@@ -110,7 +111,7 @@ public class Weapon {
         return coolDown;
     }
 
-    public void setCoolDown(int coolDown) {
+    public void setCoolDown(long coolDown) {
         this.coolDown = coolDown;
     }
 
@@ -123,6 +124,7 @@ public class Weapon {
     }
 
     public  static class WeaponBuilder{
+        public long coolDown;
         private Integer id;
         private String name;
         private int hitRate;
@@ -140,7 +142,8 @@ public class Weapon {
                              int damage,
                              String img,
                              Section section,
-                             Section objectiv)
+                             Section objectiv,
+                             long coolDown)
         {
             this.id = id;
             this.name = name;
@@ -149,6 +152,7 @@ public class Weapon {
             this.img = img;
             this.section = section;
             this.objectiv=objectiv;
+            this.coolDown = coolDown;
 
         }
         public WeaponBuilder id(int id){
@@ -177,6 +181,11 @@ public class Weapon {
         }
         public WeaponBuilder objectiv(Section objectiv){
             this.objectiv= objectiv;
+            return WeaponBuilder.this;
+        }
+
+        public WeaponBuilder coolDown(long coolDown){
+            this.coolDown= coolDown;
             return WeaponBuilder.this;
         }
         public Weapon build(){

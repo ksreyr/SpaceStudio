@@ -1,6 +1,7 @@
 package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.ShipRessource;
 import de.spaceStudio.server.model.Weapon;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,5 +77,8 @@ public interface ShipRessourceController {
      */
     @RequestMapping(value = "/shipressource/energy", method = RequestMethod.PUT)
     String updateEnergy(@RequestBody ShipRessource shipRessource);
+
+    @RequestMapping(value = "/shipressourcebyship", method = RequestMethod.POST)
+    String getResourcebyShip(@RequestBody Ship ship);
 
 }

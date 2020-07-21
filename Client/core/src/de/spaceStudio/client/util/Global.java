@@ -22,6 +22,10 @@ public  class Global {
     public static boolean IS_SINGLE_PLAYER = false;
 
     /**
+     * @return true if level easy
+     */
+    public static boolean ISEASY = false;
+    /**
      * Hardcoded server URL
      */
     public static final String SERVER_URL = "http://localhost:8080";
@@ -147,6 +151,10 @@ public  class Global {
      */
     public static final String PLAYER_SAVE_GAME = "/game/save/";
     /**
+     * Player save game endpoint
+     */
+    public static final String SHIP_RESSORUCE_ENDPOINT = "/shipressource";
+    /**
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
@@ -170,7 +178,14 @@ public  class Global {
      * Global player, this data will be downloaded from server at login
      */
     public static Universe currentUniverse;
-
+    /**
+     * Current Ressourcen Player
+     */
+    public static ShipRessource currentshipressourcen;
+    /**
+     * Global player, this data will be downloaded from server at login
+     */
+    public static Weapon currentWeapon;
     /**
      * Server logged player endpoint
      */
@@ -334,12 +349,14 @@ public  class Global {
         ai5=aisU2.get(4);
         ai6=aisU2.get(5);
     }
+
+    private static long rocketCoolDown = 4000l;
     /*
      * Weapon
      * */
-    public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Right").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListPlayer = new ArrayList<Weapon>(){{
         add(weapon1Player);
         add(weapon2Player);
@@ -364,9 +381,9 @@ public  class Global {
     /*
      * Weapon Gegner1
      * */
-    public static Weapon weapon1Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner1 = new ArrayList<Weapon>(){{
         add(weapon1Gegner1);
         add(weapon2Gegner1);
@@ -385,9 +402,9 @@ public  class Global {
     /*
     * Weapons Gegner2
     * */
-    public static Weapon weapon1Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner2 = new ArrayList<Weapon>(){{
         add(weapon1Gegner2);
         add(weapon2Gegner2);
@@ -406,9 +423,9 @@ public  class Global {
     /*
      * Weapons Gegner3
      * */
-    public static Weapon weapon1Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner3 = new ArrayList<Weapon>(){{
         add(weapon1Gegner3);
         add(weapon2Gegner3);
@@ -427,9 +444,9 @@ public  class Global {
     /*
      * Weapons Gegner4
      * */
-    public static Weapon weapon1Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner4 = new ArrayList<Weapon>(){{
         add(weapon1Gegner4);
         add(weapon2Gegner4);
@@ -448,9 +465,9 @@ public  class Global {
     /*
      * Weapons Gegner3
      * */
-    public static Weapon weapon1Gegner5 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner5 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner5 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner5 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner5 = new ArrayList<Weapon>(){{
         add(weapon1Gegner5);
         add(weapon2Gegner5);
@@ -470,9 +487,9 @@ public  class Global {
     /*
      * Weapons Gegner6
      * */
-    public static Weapon weapon1Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner6 = new ArrayList<Weapon>(){{
         add(weapon1Gegner6);
         add(weapon2Gegner6);
@@ -711,15 +728,27 @@ public  class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
+    public static Section section4Gegner2 = Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.O2)
+            .img("Section4Gegner2")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
     public static List<Section> sectionsgegner2 =new ArrayList<Section>(){{
         add(section1Gegner2);
         add(section2Gegner2);
         add(section3Gegner2);
+        add(section4Gegner2);
     }};
     public static void updateVariblesSectionsGegner2(){
         section1Gegner2=sectionsgegner2.get(0);
         section2Gegner2=sectionsgegner2.get(1);
         section3Gegner2=sectionsgegner2.get(2);
+        section4Gegner2=sectionsgegner2.get(3);
     }
 
     public static Section section1Gegner3 = Section
@@ -752,16 +781,40 @@ public  class Global {
             .connectingTo(null)
             .powerRequired(10)
             .buildSection();
+    public static Section section4Gegner3 = Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.O2)
+            .img("Section4Gegner3")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
+    public static Section section5Gegner3 = Section
+            .sectionBuilder()
+            .sectionTyp(SectionTyp.HEALT)
+            .img("Section5Gegner3")
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(true)
+            .connectingTo(null)
+            .powerRequired(10)
+            .buildSection();
 
     public static List<Section> sectionsgegner3 =new ArrayList<Section>(){{
         add(section1Gegner3);
         add(section2Gegner3);
         add(section3Gegner3);
+        add(section4Gegner3);
+        add(section5Gegner3);
     }};
     public static void updateVariblesSectionsGegner3(){
         section1Gegner3=sectionsgegner3.get(0);
         section2Gegner3=sectionsgegner3.get(1);
         section3Gegner3=sectionsgegner3.get(2);
+        section4Gegner3=sectionsgegner3.get(3);
+        section5Gegner3=sectionsgegner3.get(4);
     }
 
     public static Section section1Gegner4 = Section
