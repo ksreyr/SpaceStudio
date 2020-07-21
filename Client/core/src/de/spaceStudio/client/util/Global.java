@@ -349,12 +349,14 @@ public  class Global {
         ai5=aisU2.get(4);
         ai6=aisU2.get(5);
     }
+
+    private static long rocketCoolDown = 4000l;
     /*
      * Weapon
      * */
-    public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Right").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListPlayer = new ArrayList<Weapon>(){{
         add(weapon1Player);
         add(weapon2Player);
@@ -379,9 +381,9 @@ public  class Global {
     /*
      * Weapon Gegner1
      * */
-    public static Weapon weapon1Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner1 = new ArrayList<Weapon>(){{
         add(weapon1Gegner1);
         add(weapon2Gegner1);
@@ -400,9 +402,9 @@ public  class Global {
     /*
     * Weapons Gegner2
     * */
-    public static Weapon weapon1Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner2 = new ArrayList<Weapon>(){{
         add(weapon1Gegner2);
         add(weapon2Gegner2);
@@ -421,9 +423,9 @@ public  class Global {
     /*
      * Weapons Gegner3
      * */
-    public static Weapon weapon1Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner3 = new ArrayList<Weapon>(){{
         add(weapon1Gegner3);
         add(weapon2Gegner3);
@@ -442,9 +444,9 @@ public  class Global {
     /*
      * Weapons Gegner4
      * */
-    public static Weapon weapon1Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner4 = new ArrayList<Weapon>(){{
         add(weapon1Gegner4);
         add(weapon2Gegner4);
@@ -463,9 +465,9 @@ public  class Global {
     /*
      * Weapons Gegner3
      * */
-    public static Weapon weapon1Gegner5 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner5 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner5 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner5 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner5 = new ArrayList<Weapon>(){{
         add(weapon1Gegner5);
         add(weapon2Gegner5);
@@ -485,9 +487,9 @@ public  class Global {
     /*
      * Weapons Gegner6
      * */
-    public static Weapon weapon1Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon1Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket").build();
+    public static Weapon weapon2Gegner6 = Weapon.WeaponBuilder().damage(50).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
     public static List<Weapon> weaponListGegner6 = new ArrayList<Weapon>(){{
         add(weapon1Gegner6);
         add(weapon2Gegner6);

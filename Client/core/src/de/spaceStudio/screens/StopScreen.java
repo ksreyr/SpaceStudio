@@ -179,8 +179,8 @@ public class StopScreen extends ScreenAdapter {
 
         statsLabel = new Label(getStats(Global.currentShipPlayer), label1Style);
         statsLabel.setSize(Gdx.graphics.getWidth(), row_height);
-        statsLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
-        statsLabel.setAlignment(Align.bottomRight);
+        statsLabel.setPosition(50, Gdx.graphics.getHeight() - row_height * 6);
+        statsLabel.setAlignment(Align.topLeft);
 
 
         final int number = getRandomNumberInRange(0, 3);
