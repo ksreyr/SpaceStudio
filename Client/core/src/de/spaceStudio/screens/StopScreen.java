@@ -38,6 +38,10 @@ public class StopScreen extends ScreenAdapter {
         RequestUtils.sectionsByShip(Global.currentShipGegner);
         RequestUtils.weaponsByShip(Global.currentShipGegner);
         RequestUtils.weaponsByShip(Global.currentShipPlayer);
+        RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
+        if (Global.currentGegner != null) {
+            RequestUtils.crewMemeberByShip(Global.currentShipGegner);
+        }
     }
 
     /**

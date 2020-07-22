@@ -1,10 +1,7 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.model.CrewMember;
-import de.spaceStudio.server.model.Player;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.CrewMemberRepository;
 import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.SectionRepository;
@@ -13,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,5 +166,17 @@ public class CrewMemberControllerImpl implements CrewMemberController {
             crewMemberRepository.save(c);
             return c;
         }
+    }
+
+    @Override
+    public List<CrewMember> getMembers(@PathVariable Integer id) {
+        Optional<Ship> ship = shipRepository.findById(id);
+        if (ship.isEmpty()) {
+            return null;
+        }
+        List<Section> sections = sectionRepository.findAllByShip(ship.get()).get();
+        List<CrewMember> crewMembers = new ArrayList<CrewMember>();
+        sections.stream().map(s -> crewMembers.addAll(crewMemberRepository.findAllByCurrentSection(s).get()));
+        return crewMembers;
     }
 }

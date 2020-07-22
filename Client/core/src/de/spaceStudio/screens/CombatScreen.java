@@ -32,14 +32,13 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
@@ -48,6 +47,14 @@ import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 public class CombatScreen extends BaseScreen {
 
     private final static Logger LOG = Logger.getLogger(CombatScreen.class.getName());
+    public static final int XEnemyShip = 1300;
+    public static final int YEnemyPos = 370;
+    public static final int WIDTHGegner = 550;
+    public static final int HEIGHTGegner = 550;
+    public static final int XPlayerShip = 300;
+    public static final int YPlayerShip = 300;
+    public static final int WidthShip = 700;
+    public static final int HeightPlayerShip = 700;
     private final Label weaponLabel;
     private final String[] weaponText = {"All Weapons", "You have selected Weapon: "  };
 
@@ -125,8 +132,8 @@ public class CombatScreen extends BaseScreen {
     //
     String validation = "";
     String validationGegner="";
-    List<Section> sectionsGegner = new ArrayList<Section>();
-    List<Section> sectionsPlayer = new ArrayList<Section>();
+    List<Section> sectionsGegner = Global.combatSections.get(Global.currentShipGegner.getId());
+    List<Section> sectionsPlayer = Global.combatSections.get(Global.currentShipPlayer.getId());
     Label lebengegnerShip;
     Label lebenplayerShip;
     private int aktiveWeapon = 0;
@@ -134,6 +141,8 @@ public class CombatScreen extends BaseScreen {
     private boolean dragged = false;
     private OrthographicCamera camera;
     private Section selectedTarget;
+    private Optional<Section> startSectionCrewMove;
+    private Optional<Section> endSectionCrewMove;
 
 
     public CombatScreen(MainClient mainClient) {
@@ -151,16 +160,12 @@ public class CombatScreen extends BaseScreen {
         label1Style.font = myFont;
         label1Style.fontColor = Color.RED;
 
-        
-        
         weaponLabel = new Label(weaponText[0], label1Style);
         weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
         weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
         weaponLabel.setAlignment(Align.bottomRight);
-        RequestUtils.sectionsByShip(Global.currentShipPlayer);
-        RequestUtils.sectionsByShip(Global.currentShipGegner);
-        RequestUtils.weaponsByShip(Global.currentShipGegner);
-        RequestUtils.weaponsByShip(Global.currentShipPlayer);
+
+
 
     }
 
@@ -246,7 +251,7 @@ public class CombatScreen extends BaseScreen {
         o2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-               selectedTarget = sectionsGegner.get(4);
+               selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
 
                 o2.getStyle().imageUp = oxygen_sym_red;
@@ -261,7 +266,7 @@ public class CombatScreen extends BaseScreen {
         healthPoint.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = sectionsGegner.get(0);
+                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
 
                 healthPoint.getStyle().imageUp = medical_sym_red;
@@ -279,7 +284,7 @@ public class CombatScreen extends BaseScreen {
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = sectionsGegner.get(1);
+                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
 
                 engine.getStyle().imageUp = engine_red;
@@ -299,7 +304,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                selectedTarget = sectionsGegner.get(2);
+                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
                 weaponSection.getStyle().imageUp = weapon_section_red;
                 engine.getStyle().imageUp = engine_sym;
@@ -319,7 +324,7 @@ public class CombatScreen extends BaseScreen {
         cockpit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = sectionsGegner.get(3);
+                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
 
                 cockpit.getStyle().imageUp = cockpit_red;
@@ -413,15 +418,17 @@ public class CombatScreen extends BaseScreen {
 
     private void dragAndDrop(Image imageCrewMember) {
         imageCrewMember.addListener(new DragListener() {
-            float crewOneX;
-            float crewOneY;
+            float crewX;
+            float crewY;
             public void drag(InputEvent event, float x, float y, int pointer) {
                 dragged = true;
                 imageCrewMember.moveBy(x - imageCrewMember.getWidth() / 2, y - imageCrewMember.getHeight() / 2);
             }
             public void dragStart (InputEvent event, float x, float y, int pointer) {
-                crewOneX = imageCrewMember.getX();
-                crewOneY = imageCrewMember.getY();
+                crewX = imageCrewMember.getX();
+                crewY = imageCrewMember.getY();
+                startSectionCrewMove = findSection(imageCrewMember);
+                System.out.println("Starting with Section: " + startSectionCrewMove.get().getId());
             }
             public void dragStop (InputEvent event, float x, float y, int pointer) {
                 //do something when texture is touched
@@ -447,11 +454,89 @@ public class CombatScreen extends BaseScreen {
                     imageCrewMember.setPosition(redPinSectionSix.x_position, redPinSectionSix.y_position);
                 }
                 else {
-                    imageCrewMember.setPosition(crewOneX, crewOneY);
+                    imageCrewMember.setPosition(crewX, crewY);
                 }
+                endSectionCrewMove = findSection(imageCrewMember);
+                System.out.println("Going to Section: " + startSectionCrewMove.get().getId());
+                if (startSectionCrewMove.isPresent() && endSectionCrewMove.isPresent()) {
+                  Optional<CrewMember> c = Global.combatCrew.get(Global.currentShipPlayer.getId()).stream()
+                            .filter(cm -> cm.getCurrentSection().equals(startSectionCrewMove.get()))
+                            .findFirst();
+                  if (c.isPresent()) {
+                      System.out.println("Crew Member has is: " + c.get().getName() + " " + c.get().getId());
+                  } else {
+                      System.out.println("I have not found a Crew Member");
+                  }
+                }
+
+
+                // make Move Request c from start to end
                 dragged = false;
             }
         });
+    }
+
+    /**
+     * This method gives you the Position of the Ship to which something could belong
+     * @param x Coordinates
+     * @param y Coordinates
+     * @return Coordinates of the nearest Ship
+     */
+    private Pair getShipPos(float x, float y) {
+    return (x < 600 ? new Pair( (float) XPlayerShip, (float) YPlayerShip) : new Pair((float) XEnemyShip, (float) YEnemyPos));
+}
+    /**
+     * Recieves an Image and Returns the Section which is nearest to the imagge
+     * @param image which is where the user Klicks
+     * @return the Section to which this belongs;
+     */
+private Optional<Section> findSection(Image image) {
+        return findSection(image.getImageX(), image.getImageY());
+}
+
+
+    /**
+     * Recieves an Image and Returns the Section which is nearest to the imagge
+     * @param x postion
+     * @param y position
+     * @return the Section to which this belongs;
+     */
+    private Optional<Section> findSection(float x, float y) {
+
+        Pair shipsPos  = getShipPos(x, y);
+
+        float xAbs = x + shipsPos.getLeft();
+        float yAbs = y + shipsPos.getRight();
+
+        float delta = Float.MAX_VALUE;
+        Optional<Section> nearest =  Optional.empty();
+        for (List<Section> xs :
+                Global.combatSections.values()) {
+            for (Section s :
+                    xs) {
+
+                float diff = distance(xAbs, yAbs, s.getxPos(), s.getyPos());
+            if (diff < delta) {
+                nearest = Optional.of(s);
+                delta = diff;
+            }
+            }
+        }
+        System.out.println("You have Selected" + nearest.get().getId() + " " + nearest.get().getImg());
+        return nearest;
+    }
+
+    /**
+     * Use the Euclidiean Formular to calculate the Disance of 4 Points in a 2d Pane
+     * https://en.wikipedia.org/wiki/Euclidean_distancek
+     * @param Ax 1st x
+     * @param Ay 1st y
+     * @param Bx 2nd x
+     * @param By 2nd y
+     * @return the distance as a float
+     */
+    private float distance(float Ax,float Ay,float Bx,float By) {
+        return Float.parseFloat(String.valueOf(Math.sqrt(Math.pow( (Ax  - Bx), 2) + Math.pow( (Ay  - By), 2))));
     }
 
     private Rectangle getRectOfTextures(RedPin redPin){
@@ -468,7 +553,7 @@ public class CombatScreen extends BaseScreen {
                 w.setObjectiv(selectedTarget);
             }
         }
-        
+
         Global.updateweaponPlayerVariabel();
         shotValidation(Global.combatWeapons.get(Global.currentShipPlayer.getId()), Net.HttpMethods.POST);
     }
@@ -562,7 +647,8 @@ public class CombatScreen extends BaseScreen {
 
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(playerShip, 300, 300, 700, 700);
+        // Render the Ship of the current Player
+        stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthShip, HeightPlayerShip);
         if(dragged){
             redPinSectionOne.x_position = BaseScreen.WIDTH/4f-60;
             redPinSectionOne.y_position = BaseScreen.HEIGHT-290;
@@ -586,10 +672,14 @@ public class CombatScreen extends BaseScreen {
 
             selectedWeapons = Global.combatWeapons.get(Global.currentShipPlayer.getId());
 
+
+        // Spaawn Enemy Ship
             if (Global.currentShipGegner != null) {
-                if (Global.currentStop == Global.planet2) stage.getBatch().draw(enemyShip1, 1300, 370, 550, 550);
-                else if (Global.currentStop == Global.planet3) stage.getBatch().draw(enemyShip2, 1300, 370, 550, 550);
-                else stage.getBatch().draw(enemyShip3, 1300, 370, 550, 550);
+                if (Global.currentStop == Global.planet2) stage.getBatch().draw(enemyShip1, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
+                else if (Global.currentStop == Global.planet3) stage.getBatch().draw(enemyShip2, XEnemyShip, YEnemyPos ,WIDTHGegner, HEIGHTGegner);
+                else stage.getBatch().draw(enemyShip3, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
+
+                // FIXME Brutal Online
 
             }
             stage.getBatch().draw(missilleRight, disappearRight, 422, 400, 50);
@@ -633,7 +723,7 @@ public class CombatScreen extends BaseScreen {
 
             if (!sectionsPlayer.isEmpty()) {
                 Global.sectionsPlayerList = sectionsPlayer;
-                Global.updateVariableSectionShipPlayer();
+//                Global.updateVariableSectionShipPlayer(); WTF FIXME is this is important
                 Global.currentShipPlayer = sectionsPlayer.get(0).getShip();
                 Global.actualizierungSectionInWeapons();
                 List<Section> sizeO = new ArrayList<>();
