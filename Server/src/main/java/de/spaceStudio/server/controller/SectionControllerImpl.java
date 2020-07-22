@@ -2,6 +2,7 @@ package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.GsonBuildConfig;
+import de.spaceStudio.server.ServerCore;
 import de.spaceStudio.server.model.AI;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Section;
@@ -10,6 +11,8 @@ import de.spaceStudio.server.repository.AIRepository;
 import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +33,11 @@ public class SectionControllerImpl implements SectionController {
     private ShipRepository shipRepository;
     @Autowired
     private AIRepository aiRepository;
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
+
+
     /**
      * Get all sections from db
      *
@@ -139,6 +147,7 @@ public class SectionControllerImpl implements SectionController {
 
     @Override
     public List<Section> sectionsByShip(Integer id) {
+        LOGGER.info("EEEK");
         Optional<Ship> ship = shipRepository.findById(id);
         if (ship.isEmpty()) {
             return null;

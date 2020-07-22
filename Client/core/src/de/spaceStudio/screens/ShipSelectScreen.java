@@ -1001,7 +1001,7 @@ public class ShipSelectScreen extends BaseScreen {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
-        final String url = Global.SERVER_URL + Global.SHIP_CREATION_ENDPOINT;
+        final String url = Global.SERVER_URL + Global.SHIP_ENDPOINT;
         final Net.HttpRequest request = setupRequest(url, requestJson, method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
