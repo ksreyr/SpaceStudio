@@ -746,6 +746,7 @@ public class ShipSelectScreen extends BaseScreen {
             if (requestcounter == 19 && shipRessourceID != 0) {
                 shipRessource.setId(shipRessourceID);
                 requestcounter = 20;
+                shipRessourceID=0;
             }
             if (requestcounter == 20) {
                 List<Weapon> weaponsUniver2=new ArrayList<>();

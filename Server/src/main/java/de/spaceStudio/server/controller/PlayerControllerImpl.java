@@ -55,6 +55,8 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Autowired
     ShopRessourceRepository shopRessourceRepository;
+    @Autowired
+    StationRepository stationRepository;
     /**
      * This function is temporal in use to test client to Server connection
      * Login user if exists
@@ -249,7 +251,20 @@ public class PlayerControllerImpl implements PlayerController {
                         aiRepository.delete(ai);
                     }
                     if(stopAbstractRepository.findById(sa.getId()).isPresent()){
-                    stopAbstractRepository.delete(sa);
+                        if(stationRepository.existsById(sa.getId())){
+                                Station station=stationRepository.findById(sa.getId()).get();
+                            if (shopRessourceRepository.findByStation(station).isPresent()) {
+                                List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station).get();
+                                for (ShopRessource sr :
+                                        shopRessources) {
+                                    shopRessourceRepository.delete(sr);
+                                }
+                            }
+                            stopAbstractRepository.delete(sa);
+                        }else {
+                            stopAbstractRepository.delete(sa);
+                        }
+
                     }
                     if(shipRessourceRepository.findByShip(s).isPresent()){
                         List<ShipRessource> shipRessources=shipRessourceRepository.findByShip(s).get();
@@ -261,10 +276,13 @@ public class PlayerControllerImpl implements PlayerController {
                     shipRepository.delete(s);
                 }
             }
+            stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
+
             for (StopAbstract s :
                     stopAbstracts) {
 
                 try {
+
                     if (shopRessourceRepository.findByStation((Station) s).isPresent()) {
                         List<ShopRessource> shopRessources = shopRessourceRepository.findByStation((Station) s).get();
                         for (ShopRessource sr :
