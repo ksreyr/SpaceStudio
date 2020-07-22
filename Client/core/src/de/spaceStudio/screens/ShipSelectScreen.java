@@ -38,8 +38,7 @@ import java.util.logging.Logger;
 import static de.spaceStudio.client.util.Global.*;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
-import static de.spaceStudio.service.MultiPlayerService.fetchMultiPlayerSession;
-import static de.spaceStudio.service.MultiPlayerService.joinMultiplayerRoom;
+import static de.spaceStudio.service.MultiPlayerService.*;
 //“Sound effects obtained from https://www.zapsplat.com“
 
 public class ShipSelectScreen extends BaseScreen {
@@ -100,6 +99,7 @@ public class ShipSelectScreen extends BaseScreen {
     private int levelDifficult = 0;
     private boolean killTimer;
     private boolean logoutMultiPlayer;
+    private boolean readyUpTriggered;
 
 
     Ship ship = new Ship();
@@ -421,9 +421,19 @@ public class ShipSelectScreen extends BaseScreen {
                 if (IS_SINGLE_PLAYER) {
                     createSinglePlayerGame();
                 } else {
-                    startButton.setColor(Color.GREEN);
-                    // send request
-                    joinMultiplayerRoom();
+                    if(!readyUpTriggered) {
+                        joinMultiplayerRoom();
+                        startButton.setColor(Color.GREEN);
+                        readyUpTriggered = true;
+                        scheduleReadyUpMultiplayer();
+
+                    } else {
+                        // send request
+                        startButton.setColor(Color.CYAN);
+                        readyUpTriggered = false;
+                    }
+
+
                 }
 
 
@@ -514,6 +524,22 @@ public class ShipSelectScreen extends BaseScreen {
         }, 1000,5000);
     }
 
+    private void scheduleReadyUpMultiplayer(){
+        Timer schedule = new Timer( );
+        schedule.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(killTimer){
+                    schedule.cancel();
+                    schedule.purge();
+                    LOG.info("Timer killed");
+                } else {
+                    LOG.info("Waiting for Players to start...");
+                    checkMultiPlayerToStartSynchro();
+                }
+            }
+        }, 1000,1000);
+    }
     /**
      *
      */

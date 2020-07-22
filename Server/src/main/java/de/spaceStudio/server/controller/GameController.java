@@ -109,7 +109,8 @@ public class GameController {
 
     @RequestMapping(value = "/game/multiplayer/synchronize/{gameSession}", method = RequestMethod.GET)
     @ResponseBody
-    public String synchroMultiPlayer(@PathVariable("sessionID") String gameSession){
+    public String synchroMultiPlayer(@PathVariable("gameSession") String gameSession){
+        LOG.info("Ready up");
         MultiPlayerGame multiPlayerGame = Global.MultiPlayerGameSessions.get(gameSession);
         if(multiPlayerGame.getPlayerOne() != null && multiPlayerGame.getPlayerTwo() != null){
             return "true";
