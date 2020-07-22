@@ -56,7 +56,7 @@ public class LoginService {
     }
 
     public static void fetchLoggedUsers() {
-        Net.HttpRequest request = RequestUtils.setupRequest(Global.SERVER_URL + Global.PLAYER_LOGGED_ENDPOINT, "", Net.HttpMethods.GET);
+        Net.HttpRequest request = RequestUtils.setupRequest(Global.SERVER_URL + Global.MULTIPLAYER_GET_PLAYERS, "", Net.HttpMethods.GET);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();

@@ -144,8 +144,8 @@ public class GameController {
             Global.usersMultiPlayer.add(player.getName());
             if (Global.MultiPlayerGameSessions.isEmpty()) {
                 Global.MultiPlayerGameSessions.put(UUID.randomUUID().toString(), mult);
-                return HttpStatus.ACCEPTED.toString();
             }
+            return HttpStatus.ACCEPTED.toString();
             /*
             int counter = 0;
 
@@ -272,6 +272,7 @@ public class GameController {
         LOG.info("getting single player data for player " + playerName);
         return Global.SinglePlayerGameSessions.get(playerName);
     }
+
 
     /**
      * This function is temporal in use to logout user from game

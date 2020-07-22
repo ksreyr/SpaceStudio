@@ -98,6 +98,7 @@ public class ShipSelectScreen extends BaseScreen {
     private InputHandler inputHandler;
     private int levelDifficult = 0;
     private boolean killTimer;
+    private boolean logoutMultiPlayer;
 
 
     Ship ship = new Ship();
@@ -442,9 +443,30 @@ public class ShipSelectScreen extends BaseScreen {
         backMenuButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                IS_SINGLE_PLAYER = true;
-                killTimer = true;
-                game.setScreen(new NewGameScreen(game));
+
+                Gson gson = new Gson();
+                String url = SERVER_URL + MULTIPLAYER_LOGOUT;
+                String payLoad = gson.toJson(currentPlayer);
+                Net.HttpRequest request = setupRequest(url, payLoad, Net.HttpMethods.POST);
+                Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+                    @Override
+                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        logoutMultiPlayer = true;
+                        IS_SINGLE_PLAYER = true;
+                        killTimer = true;
+                    }
+
+                    @Override
+                    public void failed(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void cancelled() {
+
+                    }
+                });
             }
         });
 
@@ -533,6 +555,10 @@ public class ShipSelectScreen extends BaseScreen {
             requestcounter = 2;
         }
 
+        if(logoutMultiPlayer){
+            logoutMultiPlayer = false;
+            mainClient.setScreen(new NewGameScreen(game));
+        }
         /*Added sectionList*/
         if (!sectionList.isEmpty() && requestcounter == 2) {
             //Section with ID
@@ -949,8 +975,6 @@ public class ShipSelectScreen extends BaseScreen {
         super.hide();
         LOG.info("HIDE CALLED");
         isOnlineGame = false;
-        this.dispose();
-
     }
 
     @Override
@@ -963,7 +987,6 @@ public class ShipSelectScreen extends BaseScreen {
         shapeRenderer.dispose();
         mouseClick.dispose();
         batch.dispose();
-        System.gc();
     }
     //
     //

@@ -170,6 +170,19 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     /**
+     * This function is temporal in use to logout user from multiplayer game
+     *
+     * @return
+     */
+    @RequestMapping(value = "/player/multiplayer/logout", method = RequestMethod.POST)
+    public void logoutMultiPlayer(@RequestBody Player player) {
+        Global.usersMultiPlayer.remove(player.getName());
+        LOG.info("User :" + player.getName() + " removed from multiplayer");
+    }
+
+
+
+    /**
      * Salt the password
      */
     @Override

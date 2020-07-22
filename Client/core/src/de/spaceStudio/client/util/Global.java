@@ -45,6 +45,10 @@ public  class Global {
      */
     public static final String MULTIPLAYER_INIT = "/game/start/multiplayer";
 
+    public static final String MULTIPLAYER_GET_PLAYERS = "/player/multiplayer-list";
+
+    public static final String MULTIPLAYER_LOGOUT = "/player/multiplayer/logout";
+
     /**
      *
      */
