@@ -8,10 +8,8 @@ import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.ShipRessourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -65,9 +63,8 @@ public class ShipRessourceControllerImpl implements ShipRessourceController {
     @Override
     public String getResourcebyShip(Ship ship) {
         shipRessourceRepository.findByShip(ship);
-        Gson gson= new Gson();
-        List<ShipRessource> shipRessource=shipRessourceRepository.findByShip(ship).get();
-
+        Gson gson = new Gson();
+        List<ShipRessource> shipRessource = shipRessourceRepository.findByShip(ship).get();
         return gson.toJson(shipRessource);
     }
 }

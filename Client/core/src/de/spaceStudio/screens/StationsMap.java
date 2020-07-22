@@ -144,6 +144,7 @@ public class StationsMap extends BaseScreen {
         shopImg.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentStop=Global.station1;
                 isPlanet=false;
 
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {

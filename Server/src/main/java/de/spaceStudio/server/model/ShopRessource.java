@@ -5,6 +5,8 @@ import javax.persistence.*;
 @Entity
 public class ShopRessource extends Ressource {
 
+
+
     private int price;
 
     @ManyToOne

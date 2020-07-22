@@ -161,6 +161,14 @@ public  class Global {
      */
     public static final String GET_RESSOURCE_BY_SHIP = "/shipressourcebyship";
     /**
+     * Player save game endpoint
+     */
+    public static final String GET_RESSOURCE_BY_STOP = "/getshopressourcebystop";
+    /**
+     * Player save game endpoint
+     */
+    public static final String BUY_RESSOURCE = "/buyitem";
+    /**
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
@@ -359,12 +367,13 @@ public  class Global {
     }
 
     private static long rocketCoolDown = 4000l;
+    private static long lasserCoolDown = 4000l;
     /*
      * Weapon
      * */
     public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Right").coolDown(rocketCoolDown).build();
+    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(30).hitRate(300).img("Image1").name("Lasser Right").coolDown(lasserCoolDown).build();
     public static List<Weapon> weaponListPlayer = new ArrayList<Weapon>(){{
         add(weapon1Player);
         add(weapon2Player);
@@ -1030,18 +1039,22 @@ public  class Global {
         station4= stationListU2.get(3);
     }
 
-    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).amount(100).build();
-    public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).amount(100).build();
+    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
+    public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
+    public static ShopRessource shopRessource3 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
     public static List<ShopRessource> shopRessourceList =new ArrayList<ShopRessource>(){{
         add(shopRessource1);
         add(shopRessource2);
+        add(shopRessource3);
     }};
     public static void updateVariblesshopRessource(){
         shopRessource1= shopRessourceList.get(0);
         shopRessource2= shopRessourceList.get(1);
+        shopRessource3= shopRessourceList.get(2);
     }
     public static ShipRessource shipRessource = ShipRessource.builderShipRessource().amount(100).name(RessourceName.GOLD).build();
-    /**
+
+    /*
      * Universe Univerise 1
      */
     public static Universe universe1 = Universe.universeBuilder().name("Easy").build();
