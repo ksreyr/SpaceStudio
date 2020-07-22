@@ -279,10 +279,11 @@ public class ShopScreen extends ScreenAdapter {
                     System.out.println("Request Failed GegnermakeShot");
                 }
                 System.out.println("statusCode GegnermakeShot: " + statusCode);
-                String shopRessource = httpResponse.getResultAsString();
+                String shipRessource = httpResponse.getResultAsString();
                 Gson gson = new Gson();
-                ShopRessource[] shopRessourceList = gson.fromJson(shopRessource, ShopRessource[].class);
-                shopRessources = Arrays.asList(shopRessourceList);
+                ShipRessource[] shipRessourceList = gson.fromJson(shipRessource, ShipRessource[].class);
+                shipRessources = Arrays.asList(shipRessourceList);
+                getShopRessourcen(Global.currentStop, Net.HttpMethods.POST);
                 System.out.println("statusCode makeAShot: " + statusCode);
             }
 
@@ -399,6 +400,8 @@ public class ShopScreen extends ScreenAdapter {
                 changeItems(true);
                 if(itemNumber==0){
                     buyItem(List.of(shopRessources.get(0)),Net.HttpMethods.POST);
+                }else if(itemNumber==1){
+                    buyItem(List.of(shopRessources.get(1)),Net.HttpMethods.POST);
                 }
                 //setAllSectionCheckboxesFalse();
             }
@@ -545,7 +548,7 @@ public class ShopScreen extends ScreenAdapter {
         if (!shopRessources.isEmpty()) {
             if (itemNumber == 0) {
 
-                TextArea textArea = new TextArea(String.valueOf(shopRessources.get(0).getName()) + " Price: " + String.valueOf(shopRessources.get(0).getPrice()), skin);
+                TextArea textArea = new TextArea(String.valueOf(shopRessources.get(0).getName()) + " Amoung: "+ String.valueOf(shopRessources.get(0).getAmount()) +" Price: " + String.valueOf(shopRessources.get(0).getPrice()), skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);
@@ -553,7 +556,7 @@ public class ShopScreen extends ScreenAdapter {
 
             } else if (itemNumber == 1) {
 
-                TextArea textArea = new TextArea(String.valueOf(shopRessources.get(1).getName()) + " Price: " + String.valueOf(shopRessources.get(1).getPrice()), skin);
+                TextArea textArea = new TextArea(String.valueOf(shopRessources.get(1).getName()) +" Amoung: "+ String.valueOf(shopRessources.get(1).getAmount()) + " Price: " + String.valueOf(shopRessources.get(1).getPrice()), skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);

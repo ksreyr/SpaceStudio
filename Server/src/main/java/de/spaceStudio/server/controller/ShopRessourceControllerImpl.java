@@ -2,10 +2,7 @@ package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
 import de.spaceStudio.server.model.*;
-import de.spaceStudio.server.repository.ShopRessourceRepository;
-import de.spaceStudio.server.repository.StationRepository;
-import de.spaceStudio.server.repository.StopAbstractRepository;
-import de.spaceStudio.server.repository.UniverseRepository;
+import de.spaceStudio.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +23,10 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
     StopAbstractRepository stopAbstractRepository;
     @Autowired
     StationRepository stationRepository;
-
+    @Autowired
+    ShipRepository shipRepository;
+    @Autowired
+    ShipRessourceRepository shipRessourceRepository;
     @Override
     public List<ShopRessource> getAllShopRessources() {
         return null;
@@ -97,8 +97,35 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
     public String buyItem(List<ShopRessource> ressourceList) {
 
         ShopRessource shopRessource = ressourceList.get(0);
-        shopRessource.getStation();
+        Station station=shopRessource.getStation();
+        Ship ship= station.getShips().get(0);
+        List<ShipRessource> shipRessources= shipRessourceRepository.findByShip(ship).get();
+        Boolean control=false;
+        for (ShipRessource sr :
+                shipRessources) {
+            if(shopRessource.getName().equals(sr.getName())){
+                sr.setAmount(shopRessource.getAmount()+sr.getAmount());
+                control=true;
+            }
+            if(sr.getName().toString().equals("GOLD")){
+                sr.setAmount(sr.getAmount()-shopRessource.getPrice());
+            }
+        }
+        if(!control){
+            ShipRessource shipRessource=ShipRessource
+                    .builderShipRessource()
+                    .name(shopRessource.getName())
+                    .amount(shopRessource.getAmount())
+                    .ship(ship)
+                    .build();
+            shipRessourceRepository.save(shipRessource);
 
-        return null;
+        }
+        shopRessource.setAmount(0);
+        shopRessource.setPrice(0);
+        shopRessourceRepository.save(shopRessource);
+        Gson gson= new Gson();
+        shipRessources= shipRessourceRepository.findByShip(ship).get();
+        return gson.toJson(shipRessources);
     }
 }

@@ -363,12 +363,13 @@ public  class Global {
     }
 
     private static long rocketCoolDown = 4000l;
+    private static long lasserCoolDown = 4000l;
     /*
      * Weapon
      * */
     public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Right").coolDown(rocketCoolDown).build();
+    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(30).hitRate(300).img("Image1").name("Lasser Right").coolDown(lasserCoolDown).build();
     public static List<Weapon> weaponListPlayer = new ArrayList<Weapon>(){{
         add(weapon1Player);
         add(weapon2Player);
