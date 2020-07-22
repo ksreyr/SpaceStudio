@@ -50,6 +50,9 @@ public class Section {
 
     private boolean usable;
 
+    private float xPos;
+    private float yPos;
+
     public Section() {
     }
     public Section(SectionBuilder builder) {
@@ -151,6 +154,22 @@ public class Section {
         return new SectionBuilder();
     }
 
+    public float getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(float yPos) {
+        this.yPos = yPos;
+    }
+
+    public float getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(float xPos) {
+        this.xPos = xPos;
+    }
+
     public static class SectionBuilder{
         private Integer id;
         private Ship ship;
@@ -162,6 +181,8 @@ public class Section {
         private  int powerCurrent;
         private boolean usable;
         private SectionTyp sectionTyp;
+        private float yPos;
+        private float xPos;
 
         public SectionBuilder id(Integer id){
             this.id=id;
@@ -205,6 +226,11 @@ public class Section {
         }
         public Section buildSection(){
             return new Section(this);
+        }
+        public SectionBuilder pos(float x, float y) {
+            this.yPos = y;
+            this.xPos = x;
+            return SectionBuilder.this;
         }
     }
 

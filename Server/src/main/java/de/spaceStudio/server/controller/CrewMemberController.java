@@ -3,10 +3,7 @@ package de.spaceStudio.server.controller;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Section;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -76,6 +73,7 @@ public interface CrewMemberController {
     @RequestMapping(value = "/crew", method = RequestMethod.PUT)
     CrewMember updatePostion(int shipID, @RequestBody CrewMember crewMember, @RequestBody Section sectionNew, @RequestBody Section sectionOld);
 
-
+    @GetMapping(value = "/ship/{id}/crewMembers" )
+    List<CrewMember> getMembers(@PathVariable Integer id);
 }
 

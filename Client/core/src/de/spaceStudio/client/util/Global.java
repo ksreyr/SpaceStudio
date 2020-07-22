@@ -4,6 +4,7 @@ import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,6 +19,7 @@ public  class Global {
 
     public static final String WEAPONS = "weapons" ;
     public static final String SECTIONS = "sections";
+    public static final String CREWMEMBERS = "crewMembers";
     /**
      * boolean value for single player disable lobby
      */
@@ -251,6 +253,7 @@ public  class Global {
     public static int currentStopNumber = 0;
     public static HashMap<Integer, List<Section>> combatSections = new HashMap<>();
     public static HashMap<Integer, List<Weapon>> combatWeapons = new HashMap<>();
+    public static HashMap<Integer, List<CrewMember>> combatCrew = new HashMap<>();
 
     public static void updateVariableCrewMembersPlayer(){
         crewMember0=crewMemberList.get(0);
@@ -269,6 +272,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(20, 40)
             .buildSection();
     public static Section section2= Section
             .sectionBuilder()

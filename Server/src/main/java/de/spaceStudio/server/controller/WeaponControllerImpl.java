@@ -1,10 +1,7 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.SectionTyp;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.SectionRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
@@ -169,6 +166,7 @@ public class WeaponControllerImpl implements WeaponController {
         }
         return "Section unusable";
     }
+
 
     private boolean canShoot(Weapon w) {
         if (w.getObjectiv() == null) {
