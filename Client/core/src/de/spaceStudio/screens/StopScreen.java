@@ -226,9 +226,7 @@ public class StopScreen extends ScreenAdapter {
 
                                     @Override
                                     protected void result(Object object) {
-                                        if (object.equals("FIXME")) {
-                                            //   game.setScreen(new (...); // FIXME go to Shop
-                                        }
+                                            game.setScreen(new ShopScreen(game));
                                     }
                                 }.show(stage);
 
