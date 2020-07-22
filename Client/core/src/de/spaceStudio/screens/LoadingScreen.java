@@ -89,11 +89,13 @@ public class LoadingScreen extends ScreenAdapter {
 
     @Override
     public void hide() {
+        super.hide();
         dispose();
     }
 
     @Override
     public void dispose() {
+        super.dispose();
         skin.dispose();
         stage.dispose();
         renderer.dispose();

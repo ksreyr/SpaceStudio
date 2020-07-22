@@ -38,7 +38,8 @@ import java.util.logging.Logger;
 import static de.spaceStudio.client.util.Global.*;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
-import static de.spaceStudio.service.LoginService.logout;
+import static de.spaceStudio.service.MultiPlayerService.fetchMultiPlayerSession;
+import static de.spaceStudio.service.MultiPlayerService.joinMultiplayerRoom;
 //“Sound effects obtained from https://www.zapsplat.com“
 
 public class ShipSelectScreen extends BaseScreen {
@@ -404,6 +405,7 @@ public class ShipSelectScreen extends BaseScreen {
         if(!IS_SINGLE_PLAYER) {
             startButton.setText("READY UP");
             startButton.setColor(Color.CYAN);
+            fetchMultiPlayerSession();
         }
         startButton.setScaleX(1.8f);
         startButton.setScaleY(1.5f);
@@ -421,7 +423,7 @@ public class ShipSelectScreen extends BaseScreen {
                 } else {
                     startButton.setColor(Color.GREEN);
                     // send request
-
+                    joinMultiplayerRoom();
                 }
 
 
@@ -505,6 +507,7 @@ public class ShipSelectScreen extends BaseScreen {
                     LOG.info("Timer killed");
                 } else {
                     LOG.info("Fetching data from server...");
+                    LOG.info(multiPlayerSessionID);
                     fetchLoggedUsers();
                 }
             }

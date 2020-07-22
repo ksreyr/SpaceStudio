@@ -468,7 +468,6 @@ public class LoginScreen extends BaseScreen {
         music.dispose();
         stage.dispose();
         mouseClick.dispose();
-
     }
 
 

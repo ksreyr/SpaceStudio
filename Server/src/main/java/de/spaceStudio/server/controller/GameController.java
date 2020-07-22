@@ -139,10 +139,11 @@ public class GameController {
     @ResponseBody
     public String initMultiPlayer(@RequestBody Player player) {
         if (Global.userLogged.contains(player.getName())) {
+            LOG.info("Creating multiplayer room...");
             MultiPlayerGame mult = new MultiPlayerGame();
-            mult.setPlayerOne(player);
             Global.usersMultiPlayer.add(player.getName());
             if (Global.MultiPlayerGameSessions.isEmpty()) {
+                mult.setPlayerOne(player);
                 Global.MultiPlayerGameSessions.put(UUID.randomUUID().toString(), mult);
             }
             return HttpStatus.ACCEPTED.toString();
@@ -191,11 +192,12 @@ public class GameController {
     public String joinMultiplayerSession(@PathVariable("sessionID") String gameSession, @RequestBody Player player) {
         if (gameSession != null || !gameSession.isEmpty()) {
             MultiPlayerGame mult = Global.MultiPlayerGameSessions.get(gameSession);
-            if (mult != null) {
+            if (mult != null && !mult.getPlayerOne().getName().equals(player.getName())) {
                 mult.setPlayerTwo(player);
                 Global.MultiPlayerGameSessions.replace(gameSession, mult);
-                return HttpStatus.ACCEPTED.toString();
+                LOG.info("Player 2 success join room");
             }
+            return HttpStatus.ACCEPTED.toString();
         }
         return "";
     }

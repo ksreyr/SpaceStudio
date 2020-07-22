@@ -49,6 +49,11 @@ public  class Global {
 
     public static final String MULTIPLAYER_LOGOUT = "/player/multiplayer/logout";
 
+    public static String multiPlayerSessionID;
+
+    public static final String MULTIPLAYER_ROOM_ID = "/game/multiplayer/room";
+
+    public static final String MULTIPLAYER_JOIN_ROOM = "/game/multiplayer/";
     /**
      *
      */
