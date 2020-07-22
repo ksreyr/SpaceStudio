@@ -97,8 +97,9 @@ public class ShipSelectScreen extends BaseScreen {
     private boolean isOpen;
     private InputHandler inputHandler;
     private int levelDifficult = 0;
+    private boolean killTimer;
 
-    //
+
     Ship ship = new Ship();
 
 
@@ -441,6 +442,8 @@ public class ShipSelectScreen extends BaseScreen {
         backMenuButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                IS_SINGLE_PLAYER = true;
+                killTimer = true;
                 game.setScreen(new NewGameScreen(game));
             }
         });
@@ -461,7 +464,9 @@ public class ShipSelectScreen extends BaseScreen {
     public void show() {
         super.show();
         StartButton();
-        scheduleLobby();
+        if(!IS_SINGLE_PLAYER) {
+            scheduleLobby();
+        }
     }
 
     /**
@@ -472,8 +477,14 @@ public class ShipSelectScreen extends BaseScreen {
         schedule.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                LOG.info("Fetching data from server...");
-                fetchLoggedUsers();
+                if(killTimer){
+                    schedule.cancel();
+                    schedule.purge();
+                    LOG.info("Timer killed");
+                } else {
+                    LOG.info("Fetching data from server...");
+                    fetchLoggedUsers();
+                }
             }
         }, 1000,5000);
     }
@@ -936,11 +947,15 @@ public class ShipSelectScreen extends BaseScreen {
     @Override
     public void hide() {
         super.hide();
+        LOG.info("HIDE CALLED");
+        isOnlineGame = false;
+        this.dispose();
+
     }
 
     @Override
     public void dispose() {
-        logout(currentPlayer);
+        LOG.info("DISPOSE CALLED");
         super.dispose();
         skinButton.dispose();
         spaceShipChange.dispose();
@@ -948,6 +963,7 @@ public class ShipSelectScreen extends BaseScreen {
         shapeRenderer.dispose();
         mouseClick.dispose();
         batch.dispose();
+        System.gc();
     }
     //
     //

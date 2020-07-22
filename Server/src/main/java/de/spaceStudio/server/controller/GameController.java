@@ -141,6 +141,7 @@ public class GameController {
         if (Global.userLogged.contains(player.getName())) {
             MultiPlayerGame mult = new MultiPlayerGame();
             mult.setPlayerOne(player);
+            Global.usersMultiPlayer.add(player.getName());
             if (Global.MultiPlayerGameSessions.isEmpty()) {
                 Global.MultiPlayerGameSessions.put(UUID.randomUUID().toString(), mult);
                 return HttpStatus.ACCEPTED.toString();
@@ -271,4 +272,15 @@ public class GameController {
         LOG.info("getting single player data for player " + playerName);
         return Global.SinglePlayerGameSessions.get(playerName);
     }
+
+    /**
+     * This function is temporal in use to logout user from game
+     *
+     * @return
+     */
+    @RequestMapping(value = "/game/multiplayer/unjoin", method = RequestMethod.POST)
+    public void unjoinMultiPlayerUser(@RequestBody Player player) {
+        Global.usersMultiPlayer.remove(player.getName());
+    }
+
 }

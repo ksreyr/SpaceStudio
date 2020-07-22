@@ -153,6 +153,11 @@ public class PlayerControllerImpl implements PlayerController {
         return Global.userLogged;
     }
 
+    @RequestMapping(value = "/player/multiplayer-list", method = RequestMethod.GET)
+    public Set<String> getMutiplayers(){
+        return Global.usersMultiPlayer;
+    }
+
     /**
      * This function is temporal in use to logout user from game
      *

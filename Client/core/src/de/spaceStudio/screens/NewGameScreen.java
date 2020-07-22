@@ -1,11 +1,13 @@
 package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,11 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.AssetDescriptors;
 import de.spaceStudio.assets.RegionNames;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.config.GameConfig;
 import de.spaceStudio.util.GdxUtils;
 
@@ -43,6 +47,7 @@ public class NewGameScreen extends ScreenAdapter {
 
 
     private Sound click;
+    private Boolean isMultiPayerRequestDone = false;
 
 
     public NewGameScreen(MainClient mainClient) {
@@ -83,7 +88,34 @@ public class NewGameScreen extends ScreenAdapter {
             public void changed(ChangeEvent event, Actor actor) {
                 click.play();
                 Global.IS_SINGLE_PLAYER = false;
-                mainClient.setScreen(new ShipSelectScreen(mainClient));
+                final Gson gson = new Gson();
+                String payLoad = gson.toJson(Global.currentPlayer);
+                Net.HttpRequest request = RequestUtils.setupRequest(Global.SERVER_URL + Global.MULTIPLAYER_INIT, payLoad, Net.HttpMethods.POST);
+                Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+                            @Override
+                            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                                int statusCode = httpResponse.getStatus().getStatusCode();
+                                String responseJson = httpResponse.getResultAsString();
+                                LOG.info("User is now online");
+                                System.out.println(statusCode);
+                                LOG.info(responseJson);
+                                if (statusCode == HttpStatus.SC_OK && responseJson.equals("202 ACCEPTED")) {
+                                    LOG.info("User is now online");
+                                    isMultiPayerRequestDone = true;
+                                }
+                            }
+
+                            @Override
+                            public void failed(Throwable t) {
+
+                            }
+
+                            @Override
+                            public void cancelled() {
+
+                            }
+                        });
             }
         });
 
@@ -119,6 +151,9 @@ public class NewGameScreen extends ScreenAdapter {
         GdxUtils.clearScreen();
         stage.act();
         stage.draw();
+        if(isMultiPayerRequestDone){
+            mainClient.setScreen(new ShipSelectScreen(mainClient));
+        }
     }
 
     // Called when the Application is resized.
@@ -140,7 +175,7 @@ public class NewGameScreen extends ScreenAdapter {
     // Called when this screen is no longer the current screen for a Game.
     @Override
     public void hide() {
-        dispose();
+        super.hide();
     }
 
     // Called when the Application is destroyed.

@@ -41,6 +41,15 @@ public  class Global {
     public static final String PLAYER_LOGGED_ENDPOINT = "/player/logged-players";
 
     /**
+     *
+     */
+    public static final String MULTIPLAYER_INIT = "/game/start/multiplayer";
+
+    /**
+     *
+     */
+    public static final String MULTIPLAYER_UNJOIN = "/game/multiplayer/unjoin";
+    /**
      * Server logged player endpoint
      */
     public static final String NAME_VALIDATION = "/shipname";
