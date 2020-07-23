@@ -44,7 +44,7 @@ public class WinScreen extends BaseScreen {
 
         float x=0;
 
-
+       private boolean isWin;
 
         public WinScreen(MainClient mainClient) {
             super(mainClient);
@@ -67,7 +67,6 @@ public class WinScreen extends BaseScreen {
             background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
             playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
 
-
             final Dialog dialog = new Dialog("Information",skin) {
                 public void result(Object obj) {
                     if(obj.toString()=="true") {
@@ -77,11 +76,19 @@ public class WinScreen extends BaseScreen {
 
                 }
             };
-            actionDialog(dialog, "Congratulations! You won the game.\n" +
-                    " You might flight to another planet to fight \n" +
-                    " You might save the game continue later on\n" +
-                    " You might destroy game and quit\n" +
-                    "Have a fun!");
+            if(isWin){
+                actionDialog(dialog, "Congratulations! You won the game.\n" +
+                        " You might flight to another planet to fight \n" +
+                        " You might save the game continue later on\n" +
+                        " You might destroy game and quit\n" +
+                        "Have a fun!");
+            }else {
+                actionDialog(dialog, "Unfortunetly you lost the game\n" +
+                        " You have lost 20 percent of your resoources \n" +
+                        " You might save the game continue later on\n" +
+                        " You might destroy game and quit\n" +
+                        "Have a fun!");
+            }
 
 
 
