@@ -221,7 +221,7 @@ public class CombatScreen extends BaseScreen {
         imageCrewMemberThree.setPosition(BaseScreen.WIDTH/4f+280,BaseScreen.HEIGHT-545);
 
 
-       lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
+        lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()),skin);
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()), skin);
@@ -463,11 +463,11 @@ public class CombatScreen extends BaseScreen {
                 endSectionCrewMove = findSection(imageCrewMember);
                 System.out.println("Going to Section: " + startSectionCrewMove.get().getId());
                 if (startSectionCrewMove.isPresent() && endSectionCrewMove.isPresent()) {
-                  Optional<CrewMember> c = Global.combatCrew.get(Global.currentShipPlayer.getId()).stream()
+                  Optional<CrewMember> crewMember = Global.combatCrew.get(Global.currentShipPlayer.getId()).stream()
                             .filter(cm -> cm.getCurrentSection().equals(startSectionCrewMove.get()))
                             .findFirst();
-                  if (c.isPresent()) {
-                      System.out.println("Crew Member has is: " + c.get().getName() + " " + c.get().getId());
+                  if (crewMember.isPresent()) {
+                      System.out.println("Crew Member has is: " + crewMember.get().getName() + " " + crewMember.get().getId());
                   } else {
                       System.out.println("I have not found a Crew Member");
                   }

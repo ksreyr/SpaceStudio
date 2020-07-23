@@ -1,0 +1,157 @@
+% SWP-Präambel
+% C 2003-2017 Sebastian Offermann, Rainer Koschke, Karsten Hölscher
+% In Zeilen 40 und 41 sind jeweils die aktuellen Daten einzutragen
+
+\usepackage[utf8]{inputenc}     % Kodierung der Tex-Datei
+\usepackage[T1]{fontenc}        % Korrekte Ausgabe von Sonderzeichen (Umlaute)
+\usepackage[ngerman]{babel}     % Deutsche Einstellungen [ab \begin{document}]
+
+\usepackage{bibgerm}            % Bibliographie
+\usepackage{fancyhdr}           % obere Seitenränder gestalten
+\usepackage{float}              % Floats Objekte mit [H] festsetzen
+\usepackage{graphicx}           % Graphiken als jpg, png etc. einbinden
+\usepackage{moreverb}           % zusätzliche verbatim-Umgebungen
+\usepackage{pdflscape}          % PDF-Support für landscape
+\usepackage[final]{pdfpages}    % Externe PDFs einbinden
+\usepackage{stmaryrd}           % zusätzliche Symbole
+\usepackage{supertabular}       % Tabellen über Seitenränder hinaus
+\usepackage{tabularx}           % Tabellen mit vorgegebener Breite
+\usepackage{url}                % setzt URLs schön mit \url{http://bla.laber.com/~mypage}
+
+%%% Die Reihenfolge der folgenden Pakete muss beibehalten werden:
+%%% varioref, hyperref, cleveref, bookmark
+% Verweise innerhalb des Dokuments schick mit " ... auf Seite ... "
+% automatisch versehen. Dazu \vref{labelname} benutzen
+\usepackage[ngerman]{varioref}  % [vor hyperref für korrekte Verweise]
+\usepackage[colorlinks=true, pdfstartview=FitV, linkcolor=blue,
+            citecolor=blue, urlcolor=blue, hyperfigures=true,
+            pdftex=true]{hyperref} % [vor bookmark wegen der Optionen]
+\usepackage[ngerman]{cleveref}
+\usepackage{bookmark}
+
+\hyphenation{Arbeits-paket}     % Trennungsregeln
+
+%%% Definitionen
+\newcommand{\grad}{\ensuremath{^{\circ}} }
+\renewcommand{\strut}{\vrule width 0pt height5mm depth2mm}
+\newcommand{\gq}[1]{\glqq{}#1\grqq{}}
+
+%%% Semesterkonstanten
+\newboolean{langversion} %Deklaration
+\setboolean{langversion}{true} %Zuweisung ist 'false' für Blockkurs
+\newcommand{\jahr}[1]{2020} %2017/2018
+
+% erstes Argument: SWP-2, zweites SWP-1
+\newcommand{\highlight}[1]{\textcolor{blue}{\textbf{#1}}}
+\newcommand{\variante}[2]{\ifthenelse{\boolean{langversion}}{#1}{#2}}
+\newcommand{\nurlangversion}[0]%
+    {\variante{\highlight{}}%Muss in SWP-2 ausgefüllt werden}}%
+              {\highlight{Entfällt in SWP-1}}}
+\newcommand{\swp}[0]{Software-Projekt \variante{2}{1}}
+\newcommand{\semester}[0]{SoSe \jahr}
+
+%%% Formatierungsanpassungen
+% Damit Latex nicht zu lange Zeilen produziert:
+\sloppy
+%Uneinheitlicher unterer Seitenrand:
+%\raggedbottom
+
+% Kein Erstzeileneinzug beim Absatzanfang
+% Sieht aber nur gut aus, wenn man zwischen Absätzen viel Platz einbaut
+\setlength{\parindent}{0ex}
+
+% Abstand zwischen zwei Absätzen
+\setlength{\parskip}{1ex}
+
+% Seitenränder für Korrekturen verändern
+\addtolength{\evensidemargin}{-1cm}
+\addtolength{\oddsidemargin}{1cm}
+
+\bibliographystyle{gerapali}
+
+% 1. Parameter: Euer/Eure TutorIn, z. B. {Kim Harrison}
+% 2. Parameter: Abgabedatum, z. B. {05. April 2063}
+% 3. Parameter: Versionsnummer, z. B. {1.1}
+% 4.-9. Parameter: jeweils Name und (Uni-)Email-Adresse jedes 
+%                 Gruppenmitglieds; mit einem & getrennt, z. B.
+% {Robin Cowl & roco@tzi.de}
+% Besteht die Gruppe aus weniger als 6 Personen, so werden die 
+% übrigen Parameter leer gelassen: {}
+\newcommand \swpdocument[9] {
+% Lustige Header auf den Seiten
+  \pagestyle{fancy}
+  \setlength{\headheight}{70.55003pt}
+  \fancyhead{}
+  \fancyhead[LO,RE]{\swp{}\\%
+                    \semester{}\\%
+                    \documentTitle}
+  \fancyhead[LE,RO]{Seite \thepage\\%
+                    \slshape \leftmark\\%
+                    \slshape \rightmark}
+
+% Lustige Header nur auf dieser Seite (Titelseite)
+  \thispagestyle{fancy}
+  \fancyhead[LO,RE]{ }
+  \fancyhead[LE,RO]{Universität Bremen\\%
+                    FB 3 -- Informatik\\%
+                    Dr. Karsten Hölscher\\%
+                    TutorIn: #1}
+  \fancyfoot[C]{}
+
+% Start Titelseite
+  \vspace{3cm}
+  \begin{minipage}[H]{\textwidth}
+    \begin{center}
+      \bfseries \Large \swp{} -- \semester{}\\
+      \smallskip
+      \small VAK 03-BA-901.02\\
+      \vspace{3cm}
+    \end{center}
+  \end{minipage}
+  \begin{minipage}[H]{\textwidth}
+    \begin{center}
+      \vspace{1cm}
+      \bfseries \Large \documentTitle\\
+      \vfill
+    \end{center}
+  \end{minipage}
+  \vfill
+  \begin{minipage}[H]{\textwidth}
+    \begin{center}
+      \sffamily
+      \begin{tabular}{lr}
+        #4 \\
+        #5 \\
+        #6 \\
+        #7 \\
+        #8 \\
+        #9 \\
+      \end{tabular}
+      \\[22mm]
+      \itshape Abgabe: #2 --- Version #3 \\ ~
+    \end{center}
+  \end{minipage}
+% Ende Titelseite
+
+% Start Inhaltsverzeichnis
+\newpage
+  \thispagestyle{fancy}
+  \fancyhead{}
+  \fancyhead[LO,RE]{\swp{}\\%
+                    \semester{}\\%
+                    \documentTitle}
+  \fancyhead[LE,RO]{Seite \thepage\\%
+                    \slshape \leftmark\\~}
+  \fancyfoot{}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \tableofcontents
+% Ende Inhaltsverzeichnis
+
+% Header für alle weiteren Seiten
+\newpage
+  \fancyhead[LE,RO]{Seite \thepage\\%
+                    \slshape \leftmark\\%
+                    \slshape \rightmark}
+
+}
+
