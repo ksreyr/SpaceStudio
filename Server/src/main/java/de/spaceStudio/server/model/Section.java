@@ -1,9 +1,7 @@
 package de.spaceStudio.server.model;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import org.springframework.lang.NonNull;
 
@@ -53,6 +51,8 @@ public class Section {
     private float xPos;
 
     private float yPos;
+
+    private double lastUpdated;
 
     public Section() {
     }
@@ -171,6 +171,14 @@ public class Section {
 
     public void setxPos(float xPos) {
         this.xPos = xPos;
+    }
+
+    public double getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(double lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public static class SectionBuilder{
