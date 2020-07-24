@@ -456,16 +456,18 @@ public class LoginScreen extends BaseScreen {
 
     @Override
     public void hide() {
+        super.hide();
         Gdx.input.setInputProcessor(null);
+        dispose();
     }
 
     @Override
     public void dispose() {
+        super.dispose();
         skin.dispose();
         music.dispose();
         stage.dispose();
         mouseClick.dispose();
-
     }
 
 

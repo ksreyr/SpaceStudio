@@ -154,6 +154,11 @@ public class PlayerControllerImpl implements PlayerController {
         return Global.userLogged;
     }
 
+    @RequestMapping(value = "/player/multiplayer-list", method = RequestMethod.GET)
+    public Set<String> getMutiplayers(){
+        return Global.usersMultiPlayer;
+    }
+
     /**
      * This function is temporal in use to logout user from game
      *
@@ -164,6 +169,19 @@ public class PlayerControllerImpl implements PlayerController {
     public void logoutUser(@RequestBody Player player) {
         Global.userLogged.remove(player.getName());
     }
+
+    /**
+     * This function is temporal in use to logout user from multiplayer game
+     *
+     * @return
+     */
+    @RequestMapping(value = "/player/multiplayer/logout", method = RequestMethod.POST)
+    public void logoutMultiPlayer(@RequestBody Player player) {
+        Global.usersMultiPlayer.remove(player.getName());
+        LOG.info("User :" + player.getName() + " removed from multiplayer");
+    }
+
+
 
     /**
      * Salt the password

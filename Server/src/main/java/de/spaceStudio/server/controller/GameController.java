@@ -77,11 +77,28 @@ public class GameController {
     }
 
     /**
-     * Show all active single player game sessions
+     * Remove multi player sessions from Server
      *
-     * @return JSON
+     * @param sessionID
+     * @return HTTP status Accepted if success otherwise HTTP status Not Accepted
      */
-    @RequestMapping(value = "/game/sessions/single-player")
+    @RequestMapping(value = "/game/destroy/multiplayer/{sessionID}", method = RequestMethod.GET)
+    @ResponseBody
+    public String destroyMultiPlayerGameSession(@PathVariable("sessionID") String sessionID) {
+        if (Global.MultiPlayerGameSessions.containsKey(sessionID)) {
+            Global.MultiPlayerGameSessions.remove(sessionID);
+            return HttpStatus.ACCEPTED.toString();
+        } else {
+            return HttpStatus.NOT_EXTENDED.toString();
+        }
+    }
+
+        /**
+         * Show all active single player game sessions
+         *
+         * @return JSON
+         */
+    @RequestMapping(value = "/game/sessions/single-player", method = RequestMethod.GET)
     @ResponseBody
     public String getAllSinglePlayerSessions() {
         Gson gson = new Gson();
@@ -90,12 +107,24 @@ public class GameController {
         return jsonString;
     }
 
+    @RequestMapping(value = "/game/multiplayer/synchronize/{gameSession}", method = RequestMethod.GET)
+    @ResponseBody
+    public String synchroMultiPlayer(@PathVariable("gameSession") String gameSession){
+        LOG.info("Ready up");
+        MultiPlayerGame multiPlayerGame = Global.MultiPlayerGameSessions.get(gameSession);
+        if(multiPlayerGame.getPlayerOne() != null && multiPlayerGame.getPlayerTwo() != null){
+            LOG.info("true");
+            return "true";
+        }
+    return "false";
+    }
+
     /**
      * Show all active multiplayer game sessions
      *
      * @return JSON
      */
-    @RequestMapping(value = "/game/sessions/multiplayer")
+    @RequestMapping(value = "/game/sessions/multiplayer", method = RequestMethod.GET)
     @ResponseBody
     public String getAllMultiPlayerSessions() {
         Gson gson = new Gson();
@@ -112,12 +141,14 @@ public class GameController {
     @ResponseBody
     public String initMultiPlayer(@RequestBody Player player) {
         if (Global.userLogged.contains(player.getName())) {
+            LOG.info("Creating multiplayer room...");
             MultiPlayerGame mult = new MultiPlayerGame();
-            mult.setPlayerOne(player);
+            Global.usersMultiPlayer.add(player.getName());
             if (Global.MultiPlayerGameSessions.isEmpty()) {
+                mult.setPlayerOne(player);
                 Global.MultiPlayerGameSessions.put(UUID.randomUUID().toString(), mult);
-                return HttpStatus.ACCEPTED.toString();
             }
+            return HttpStatus.ACCEPTED.toString();
             /*
             int counter = 0;
 
@@ -163,11 +194,12 @@ public class GameController {
     public String joinMultiplayerSession(@PathVariable("sessionID") String gameSession, @RequestBody Player player) {
         if (gameSession != null || !gameSession.isEmpty()) {
             MultiPlayerGame mult = Global.MultiPlayerGameSessions.get(gameSession);
-            if (mult != null) {
+            if (mult != null && !mult.getPlayerOne().getName().equals(player.getName())) {
                 mult.setPlayerTwo(player);
                 Global.MultiPlayerGameSessions.replace(gameSession, mult);
-                return HttpStatus.ACCEPTED.toString();
+                LOG.info("Player 2 success join room");
             }
+            return HttpStatus.ACCEPTED.toString();
         }
         return "";
     }
@@ -244,4 +276,16 @@ public class GameController {
         LOG.info("getting single player data for player " + playerName);
         return Global.SinglePlayerGameSessions.get(playerName);
     }
+
+
+    /**
+     * This function is temporal in use to logout user from game
+     *
+     * @return
+     */
+    @RequestMapping(value = "/game/multiplayer/unjoin", method = RequestMethod.POST)
+    public void unjoinMultiPlayerUser(@RequestBody Player player) {
+        Global.usersMultiPlayer.remove(player.getName());
+    }
+
 }

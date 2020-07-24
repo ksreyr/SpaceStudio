@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.client.util.RequestUtils;
 
 import java.util.List;
 
@@ -55,13 +56,8 @@ public class LoginService {
     }
 
     public static void fetchLoggedUsers() {
-        Net.HttpRequest request = new Net.HttpRequest("GET");
-        request.setUrl(Global.SERVER_URL + Global.PLAYER_LOGGED_ENDPOINT);
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Accept", "application/json");
-
+        Net.HttpRequest request = RequestUtils.setupRequest(Global.SERVER_URL + Global.MULTIPLAYER_GET_PLAYERS, "", Net.HttpMethods.GET);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
@@ -72,6 +68,7 @@ public class LoginService {
                 try {
                     List<String> dataFromServer = new Gson().fromJson(httpResponse.getResultAsString(), new TypeToken<List<String>>() {
                     }.getType());
+                    playersOnline.clear();
                     for (String onlinePlayer : dataFromServer) {
                         if(currentPlayer != null) {
                             if (!currentPlayer.getName().equals(onlinePlayer)) {

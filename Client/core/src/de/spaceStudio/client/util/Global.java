@@ -42,6 +42,26 @@ public  class Global {
     public static final String PLAYER_LOGGED_ENDPOINT = "/player/logged-players";
 
     /**
+     *
+     */
+    public static final String MULTIPLAYER_INIT = "/game/start/multiplayer";
+
+    public static final String MULTIPLAYER_GET_PLAYERS = "/player/multiplayer-list";
+
+    public static final String MULTIPLAYER_LOGOUT = "/player/multiplayer/logout";
+
+    public static String multiPlayerSessionID;
+
+    public static final String MULTIPLAYER_ROOM_ID = "/game/multiplayer/room";
+
+    public static final String MULTIPLAYER_JOIN_ROOM = "/game/multiplayer/";
+
+    public static final String MULTIPLAYER_SYNCHRO_ROOM = "/game/multiplayer/synchronize/";
+    /**
+     *
+     */
+    public static final String MULTIPLAYER_UNJOIN = "/game/multiplayer/unjoin";
+    /**
      * Server logged player endpoint
      */
     public static final String NAME_VALIDATION = "/shipname";

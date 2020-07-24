@@ -25,21 +25,21 @@ import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.InitialDataGameService;
 import de.spaceStudio.service.SinglePlayerGameService;
 import thirdParties.GifDecoder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.Global.*;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
-import static de.spaceStudio.service.LoginService.logout;
+import static de.spaceStudio.service.MultiPlayerService.*;
 //“Sound effects obtained from https://www.zapsplat.com“
 
 public class ShipSelectScreen extends BaseScreen {
@@ -107,8 +107,13 @@ public class ShipSelectScreen extends BaseScreen {
     private boolean isOpen;
     private InputHandler inputHandler;
     private int levelDifficult = 0;
+    private boolean killTimer;
+    private boolean logoutMultiPlayer;
+    private boolean readyUpTriggered;
+    private boolean deployMultiplayer;
+    private int timeoutMultiPlayer = 0;
 
-    //
+
     Ship ship = new Ship();
 
 
@@ -271,8 +276,11 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(showHideRoom);
         stage.addActor(startButton);
         stage.addActor(backMenuButton);
-        stage.addActor(easyButton);
-        stage.addActor(normalButton);
+        // Don't show online
+        if(IS_SINGLE_PLAYER){
+            stage.addActor(easyButton);
+            stage.addActor(normalButton);
+        }
         stage.addActor(crew_1_name);
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
@@ -427,9 +435,15 @@ public class ShipSelectScreen extends BaseScreen {
 
         startButton = new TextButton("START", skinButton, "small");
         startButton.setTransform(true);
+        startButton.setColor(Color.GOLDENROD);
+        if(!IS_SINGLE_PLAYER) {
+            startButton.setText("READY UP");
+            startButton.setColor(Color.CYAN);
+            fetchMultiPlayerSession();
+        }
         startButton.setScaleX(1.8f);
         startButton.setScaleY(1.5f);
-        startButton.setColor(Color.GOLDENROD);
+
         startButton.setPosition(BaseScreen.WIDTH - 250, BaseScreen.HEIGHT - 155);
         startButton.getLabel().setColor(Color.WHITE);
         startButton.getLabel().setFontScale(1.25f, 1.25f);
@@ -438,8 +452,21 @@ public class ShipSelectScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                if (!Global.isOnlineGame) {
+                if (IS_SINGLE_PLAYER) {
                     createSinglePlayerGame();
+                } else {
+                    if(!readyUpTriggered) {
+                        joinMultiplayerRoom();
+                        startButton.setColor(Color.GREEN);
+                        readyUpTriggered = true;;
+
+                    } else {
+                        // send request
+                        startButton.setColor(Color.CYAN);
+                        readyUpTriggered = false;
+                    }
+
+
                 }
 
 
@@ -461,7 +488,30 @@ public class ShipSelectScreen extends BaseScreen {
         backMenuButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new NewGameScreen(game));
+
+                Gson gson = new Gson();
+                String url = SERVER_URL + MULTIPLAYER_LOGOUT;
+                String payLoad = gson.toJson(currentPlayer);
+                Net.HttpRequest request = setupRequest(url, payLoad, Net.HttpMethods.POST);
+                Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+                    @Override
+                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        logoutMultiPlayer = true;
+                        IS_SINGLE_PLAYER = true;
+                        killTimer = true;
+                    }
+
+                    @Override
+                    public void failed(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void cancelled() {
+
+                    }
+                });
             }
         });
 
@@ -481,6 +531,93 @@ public class ShipSelectScreen extends BaseScreen {
     public void show() {
         super.show();
         StartButton();
+        if(!IS_SINGLE_PLAYER) {
+            scheduleLobby();
+        }
+    }
+
+    /**
+     * Ask server every 5 seconds
+     */
+    private void scheduleLobby(){
+        Timer schedule = new Timer( );
+        schedule.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(killTimer){
+                    schedule.cancel();
+                    schedule.purge();
+                    LOG.info("Timer killed");
+                } else {
+                    LOG.info("Fetching data from server...");
+                    LOG.info(multiPlayerSessionID);
+                    fetchLoggedUsers();
+                    if (readyUpTriggered){
+                        checkMultiPlayerToStartSynchro();
+                        }
+                }
+            }
+        }, 1000,5000);
+    }
+
+    /*
+    private void scheduleReadyUpMultiplayer(){
+        Timer schedule = new Timer( );
+        schedule.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(killTimer){
+                    schedule.cancel();
+                    schedule.purge();
+                    LOG.info("Timer killed");
+                } else {
+                    LOG.info("Waiting for Players to start...");
+                    checkMultiPlayerToStartSynchro();
+                }
+            }
+        }, 1000,1000);
+    }
+    /*
+     */
+    /**
+     *
+     */
+    private void scheduleReadyUp(){
+        //
+    }
+
+    public void checkMultiPlayerToStartSynchro() {
+        String url = Global.SERVER_URL + Global.MULTIPLAYER_SYNCHRO_ROOM + Global.multiPlayerSessionID;
+        Net.HttpRequest request = RequestUtils.setupRequest(url, "", Net.HttpMethods.GET);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                LOG.info("Waiting for players...");
+                String response = httpResponse.getResultAsString();
+                LOG.info(response);
+                if (response.equals("true")){
+                    // SetScreen Station Map
+                    LOG.info("Setting up stationStop Screen");
+                    deployMultiplayer = true;
+                } else {
+                    LOG.info("False var");
+                    // Notify Player try again or play single player
+                    deployMultiplayer = false;
+                }
+            }
+
+            @Override
+            public void failed(Throwable t) {
+
+            }
+
+            @Override
+            public void cancelled() {
+
+            }
+        });
+
     }
 
     @Override
@@ -502,6 +639,11 @@ public class ShipSelectScreen extends BaseScreen {
         stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 45, 150, 70, 70);
         stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 45, 80, 70, 70);
 
+        if (deployMultiplayer){
+            mainClient.setScreen(new StationsMap(game));
+        }
+        // Bock
+        if(IS_SINGLE_PLAYER){
         /*Added Ship*/
         if (requestcounter == 1) {
             if (responseJson != null && !responseJson.isEmpty()) {
@@ -518,13 +660,10 @@ public class ShipSelectScreen extends BaseScreen {
             requestcounter = 2;
         }
 
-        /*if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            Vector3 mousePos = new Vector3();
-            camera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-            System.out.println("X Input: " + mousePos.x);
-            System.out.println("Y Input: " + mousePos.y);
-        }*/
-
+        if(logoutMultiPlayer){
+            logoutMultiPlayer = false;
+            mainClient.setScreen(new NewGameScreen(game));
+        }
         /*Added sectionList*/
         if (!sectionList.isEmpty() && requestcounter == 2) {
             //Section with ID
@@ -849,8 +988,9 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 23;
             }
         //}
-
-
+        } else {
+            // TODO Online game
+        }
         /////
         switch (shipNumber) {
             case 0:
@@ -928,6 +1068,8 @@ public class ShipSelectScreen extends BaseScreen {
         // Get first position, we support max 2 players in the whole game
         if (playersOnline.size() > 0) {
             displayOnlinePlayerName.setText(playersOnline.get(0));
+        } else {
+            displayOnlinePlayerName.setText("");
         }
     }
 
@@ -945,16 +1087,19 @@ public class ShipSelectScreen extends BaseScreen {
     @Override
     public void hide() {
         super.hide();
+        LOG.info("HIDE CALLED");
+        isOnlineGame = false;
     }
 
     @Override
     public void dispose() {
-        logout(currentPlayer);
+        LOG.info("DISPOSE CALLED");
         super.dispose();
         skinButton.dispose();
         spaceShipChange.dispose();
         stage.dispose();
         mouseClick.dispose();
+        batch.dispose();
     }
 
     public void sendRequestAddCrewMembers(Object requestObject, String method) {

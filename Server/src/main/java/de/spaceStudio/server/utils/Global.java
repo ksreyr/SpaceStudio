@@ -17,6 +17,12 @@ public class Global {
      */
     public static Set<String> userLogged = new HashSet<>();
 
+
+    /**
+     * Stores all MultiPlayer users
+     */
+    public static Set<String> usersMultiPlayer = new HashSet<>();
+
     /**
      * Handler the single player sessions
      */
