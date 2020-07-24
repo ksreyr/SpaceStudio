@@ -165,8 +165,10 @@ public class WeaponControllerImpl implements WeaponController {
     public String shotValidation(List<Weapon> weapons) {
         for (Weapon w :
                  weapons) {
-             if (canShoot(w)) {
+             if (canShoot(w)&&!w.getObjectiv().equals(null)) {
                 return "Fire Accepted";
+            }else if(w.getObjectiv().equals(null)){
+                 return "Not Objectiv";
             } else {
                 return "Ship Defeat";
             }
@@ -176,9 +178,7 @@ public class WeaponControllerImpl implements WeaponController {
 
 
     private boolean canShoot(Weapon w) {
-        if (w.getObjectiv() == null) {
-            return false;
-        }
+
         if (w.getObjectiv().getShip().getHp() > 0 && isOutsideRange(w.getLastShot(), w.getCoolDown())) {
             return w.getSection().getUsable();
         }

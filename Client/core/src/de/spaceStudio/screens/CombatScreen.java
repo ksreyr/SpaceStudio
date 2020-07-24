@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.GLOnlyTextureData;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.HttpStatus;
@@ -24,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -34,14 +32,11 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
 
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
@@ -269,12 +264,12 @@ public class CombatScreen extends BaseScreen {
 
          switch (Global.currentGegner.getName()) {
 
-                    case "Gegner2" :
+             case "gegner2":
                         selectedTarget = Global.section4Gegner2;
                         break;
 
 
-                    case "Gegner3":
+             case "gegner3":
                         selectedTarget = Global.section4Gegner3;
                         break;
 
@@ -333,24 +328,22 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-
+                System.out.println("Weapon");
 
                 switch (Global.currentGegner.getName()) {
 
-                    case "Gegner" :
+                    case "gegner1":
                         selectedTarget = Global.section3Gegner;
                         break;
 
-                    case "Gegner2" :
+                    case "gegner2":
                         selectedTarget = Global.section3Gegner2;
                         break;
 
 
-                    case "Gegner3":
+                    case "gegner3":
                         selectedTarget = Global.section3Gegner3;
                         break;
-
-
 
                     default:
                         break;
@@ -597,16 +590,14 @@ private Optional<Section> findSection(Image image) {
 
     private void logicOfFirePlayer() {
         Ship enemyShip = Global.currentShipGegner;
-        for (Section s :
-                sectionsGegner) {
-            for (Weapon w: selectedWeapons) {
-                selectedTarget = sectionsGegner.get(0); // FIXME
+
+        for (Weapon w: selectedWeapons) {
+                //selectedTarget = sectionsGegner.get(0); // FIXME
                 w.setObjectiv(selectedTarget);
-            }
         }
 
         Global.updateweaponPlayerVariabel();
-        shotValidation(Global.combatWeapons.get(Global.currentShipPlayer.getId()), Net.HttpMethods.POST);
+        shotValidation(selectedWeapons, Net.HttpMethods.POST);
     }
     //ShotValidation
     ////Para ponerlas en la armas
@@ -876,7 +867,7 @@ private Optional<Section> findSection(Image image) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                 randomNumber = (int) ((Math.random() * (5)) + 0);
                 //Set Target->Section of Player and gegner Weapons
-                logicOfFireGegner(randomNumber);
+                //logicOfFireGegner(randomNumber);
                 //Set Target->Section of  gegner and User Weapons
                 logicOfFirePlayer();
                 counterCockpit++;
