@@ -268,12 +268,12 @@ public  class Global {
 
 
             List<Pair> pairs = new ArrayList<>();
-            pairs.add(new Pair(271f, 158f));
-            pairs.add(new Pair(475f, 293f));
-            pairs.add(new Pair(647f, 307f));
-            pairs.add(new Pair(479f, 469f));
-            pairs.add(new Pair(646f, 461f));
-            pairs.add(new Pair(266f, 607f));
+            pairs.add(new Pair(124f, 90f));
+            pairs.add(new Pair(0f, 293f));  // Fehlt
+            pairs.add(new Pair(647f, 307f)); // Fehlt
+            pairs.add(new Pair(320f, 210f));
+            pairs.add(new Pair(646f, 461f)); // Fehlt
+            pairs.add(new Pair(336f, 240f));
 
             res.put(0, pairs);
 
