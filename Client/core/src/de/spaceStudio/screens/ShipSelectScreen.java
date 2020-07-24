@@ -538,7 +538,7 @@ public class ShipSelectScreen extends BaseScreen {
      * Ask server every 5 seconds
      */
     private void scheduleLobby(){
-        Timer schedule = new Timer( );
+        Timer schedule = new Timer();
         schedule.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -556,32 +556,6 @@ public class ShipSelectScreen extends BaseScreen {
                 }
             }
         }, 1000,5000);
-    }
-
-    /*
-    private void scheduleReadyUpMultiplayer(){
-        Timer schedule = new Timer( );
-        schedule.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if(killTimer){
-                    schedule.cancel();
-                    schedule.purge();
-                    LOG.info("Timer killed");
-                } else {
-                    LOG.info("Waiting for Players to start...");
-                    checkMultiPlayerToStartSynchro();
-                }
-            }
-        }, 1000,1000);
-    }
-    /*
-     */
-    /**
-     *
-     */
-    private void scheduleReadyUp(){
-        //
     }
 
     public void checkMultiPlayerToStartSynchro() {
@@ -638,6 +612,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 45, 80, 70, 70);
 
         if (deployMultiplayer){
+            killTimer = true;
             mainClient.setScreen(new StationsMap(game));
         }
         // Bock
@@ -708,6 +683,8 @@ public class ShipSelectScreen extends BaseScreen {
         if (!crewMemberList.isEmpty() && requestcounter == 4) {
             Global.crewMemberList = crewMemberList;
             Global.updateVariableCrewMembersPlayer();
+            List<CrewMember> sizeO=new ArrayList<>();
+            crewMemberList=sizeO;
             requestcounter = 5;
         }
         //Add Universe
@@ -978,12 +955,27 @@ public class ShipSelectScreen extends BaseScreen {
                 Global.actualiziertweaponListGegner4();
                 Global.actualiziertweaponListGegner5();
                 Global.actualiziertweaponListGegner6();
-                System.out.println("Control: "+weapon1Player);
                 requestcounter = 22;
             }
             if (requestcounter == 22) {
-                mainClient.setScreen(new StationsMap(game));
+                for (Section section :
+                        sectionsgegner1) {
+                    switch (section.getImg()){
+                        case "Section1Gegner1":
+                            crewMember1gegner1.setCurrentSection(section);
+                            break;
+                        case "Section2Gegner1":
+                            crewMember2gegner1.setCurrentSection(section);
+                            break;
+                    }
+                }
+                sendRequestAddCrewMembers(List.of(crewMember1gegner1,crewMember2gegner1),Net.HttpMethods.POST);
                 requestcounter = 23;
+            }
+            if(!crewMemberList.isEmpty()&&requestcounter ==23){
+
+                mainClient.setScreen(new StationsMap(game));
+                requestcounter=24;
             }
         //}
         } else {
@@ -1098,6 +1090,24 @@ public class ShipSelectScreen extends BaseScreen {
         stage.dispose();
         mouseClick.dispose();
         batch.dispose();
+        font.dispose();
+        blueShip.dispose();
+        redShip.dispose();
+        greenship.dispose();
+        topdownfighter.dispose();
+        blueShipRoom.dispose();
+        redShipRoom.dispose();
+        greenshipRoom.dispose();
+        topdownfighterRoom.dispose();
+        relevantSystems.dispose();
+        shield.dispose();
+        weaponsSystem.dispose();
+        drive.dispose();
+        crewDisplay.dispose();
+        crewTest.dispose();
+        crewTest2.dispose();
+        crewTest3.dispose();
+        background.dispose();
     }
 
     public void sendRequestAddCrewMembers(Object requestObject, String method) {

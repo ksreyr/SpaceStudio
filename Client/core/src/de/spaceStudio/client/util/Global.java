@@ -270,6 +270,20 @@ public  class Global {
         add(crewMember1);
         add(crewMember2);
     }};
+    /*
+    Crewmember gegner
+     */
+    public static CrewMember crewMember1gegner1= CrewMember.crewMemberBuilder().health(100)
+            .img("Robot").role(Role.FIGHTER).buildCrewMember();
+    public static CrewMember crewMember2gegner1= CrewMember.crewMemberBuilder().health(200).
+            img("Human").role(Role.TECHNICIAN).buildCrewMember();
+
+    public static List<CrewMember> crewMemberListGegner1=new ArrayList<CrewMember>(){{
+        add(crewMember1gegner1);
+        add(crewMember2gegner1);
+    }};
+
+
     public static boolean allReady = false;  // FIXME change to true when all Player will jump
     public static int currentStopNumber = 0;
     public static HashMap<Integer, List<Section>> combatSections = new HashMap<>();

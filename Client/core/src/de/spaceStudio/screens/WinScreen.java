@@ -182,7 +182,7 @@ public class WinScreen extends BaseScreen {
         // Called when this screen is no longer the current screen for a Game.
         @Override
         public void hide() {
-            dispose();
+            super.hide();
         }
 
         // Called when the Application is destroyed.
@@ -193,6 +193,10 @@ public class WinScreen extends BaseScreen {
             sgxSkin.dispose();
             sgxSkin2.dispose();
             stage.dispose();
+            click.dispose();
+            batch.dispose();
+            playerShip.dispose();
+            background.dispose();
         }
     }
 

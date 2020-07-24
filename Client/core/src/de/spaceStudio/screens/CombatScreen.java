@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.GLOnlyTextureData;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.HttpStatus;
@@ -24,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -34,14 +32,11 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
 
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
@@ -264,8 +259,24 @@ public class CombatScreen extends BaseScreen {
         o2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-               selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
+
+
+         switch (Global.currentGegner.getName()) {
+
+             case "gegner2":
+                        selectedTarget = Global.section4Gegner2;
+                        break;
+
+
+             case "gegner3":
+                        selectedTarget = Global.section4Gegner3;
+                        break;
+
+                    default:
+                        break;
+
+                }
 
                 o2.getStyle().imageUp = oxygen_sym_red;
                 engine.getStyle().imageUp = engine_sym;
@@ -279,8 +290,8 @@ public class CombatScreen extends BaseScreen {
         healthPoint.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
+                selectedTarget = Global.section2Gegner;
 
                 healthPoint.getStyle().imageUp = medical_sym_red;
                 engine.getStyle().imageUp = engine_sym;
@@ -297,7 +308,7 @@ public class CombatScreen extends BaseScreen {
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
+                selectedTarget = Global.section2Gegner;
                 isTargetSelected = true;
 
                 engine.getStyle().imageUp = engine_red;
@@ -317,7 +328,28 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
+                System.out.println("Weapon");
+
+                switch (Global.currentGegner.getName()) {
+
+                    case "gegner1":
+                        selectedTarget = Global.section3Gegner;
+                        break;
+
+                    case "gegner2":
+                        selectedTarget = Global.section3Gegner2;
+                        break;
+
+
+                    case "gegner3":
+                        selectedTarget = Global.section3Gegner3;
+                        break;
+
+                    default:
+                        break;
+
+                }
+
                 isTargetSelected = true;
                 weaponSection.getStyle().imageUp = weapon_section_red;
                 engine.getStyle().imageUp = engine_sym;
@@ -335,8 +367,8 @@ public class CombatScreen extends BaseScreen {
         cockpit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
+                selectedTarget = Global.section2Gegner;
 
                 cockpit.getStyle().imageUp = cockpit_red;
                 engine.getStyle().imageUp = engine_sym;
@@ -558,16 +590,14 @@ private Optional<Section> findSection(Image image) {
 
     private void logicOfFirePlayer() {
         Ship enemyShip = Global.currentShipGegner;
-        for (Section s :
-                sectionsGegner) {
-            for (Weapon w: selectedWeapons) {
-                selectedTarget = sectionsGegner.get(0); // FIXME
+
+        for (Weapon w: selectedWeapons) {
+                //selectedTarget = sectionsGegner.get(0); // FIXME
                 w.setObjectiv(selectedTarget);
-            }
         }
 
         Global.updateweaponPlayerVariabel();
-        shotValidation(Global.combatWeapons.get(Global.currentShipPlayer.getId()), Net.HttpMethods.POST);
+        shotValidation(selectedWeapons, Net.HttpMethods.POST);
     }
     //ShotValidation
     ////Para ponerlas en la armas
@@ -825,7 +855,7 @@ private Optional<Section> findSection(Image image) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                 randomNumber = (int) ((Math.random() * (5)) + 0);
                 //Set Target->Section of Player and gegner Weapons
-                logicOfFireGegner(randomNumber);
+                //logicOfFireGegner(randomNumber);
                 //Set Target->Section of  gegner and User Weapons
                 logicOfFirePlayer();
                 counterCockpit++;

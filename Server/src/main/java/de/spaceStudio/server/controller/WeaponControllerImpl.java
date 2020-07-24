@@ -49,11 +49,17 @@ public class WeaponControllerImpl implements WeaponController {
     public List<Weapon> getWeapons(@PathVariable Integer id) {
         Optional<Ship> ship = shipRepository.findById(id);
         if (ship.isEmpty()) {
-            return null;
+            return new ArrayList<Weapon>();
         }
         List<Section> sections = sectionRepository.findAllByShip(ship.get()).get();
-        List<Weapon> weapons = new ArrayList<Weapon>();
-        sections.stream().map(s -> weapons.addAll(weaponRepository.findBySection(s).get()));
+        List<Weapon> weapons = new ArrayList<>();
+
+        for (Section s :
+                sections) {
+            Optional<List<Weapon>> w = weaponRepository.findBySection(s);
+            w.ifPresent(weapons::addAll);
+        }
+
         return weapons;
     }
 
@@ -159,8 +165,10 @@ public class WeaponControllerImpl implements WeaponController {
     public String shotValidation(List<Weapon> weapons) {
         for (Weapon w :
                  weapons) {
-            if (canShoot(w)) {
+             if (canShoot(w)&&!w.getObjectiv().equals(null)) {
                 return "Fire Accepted";
+            }else if(w.getObjectiv().equals(null)){
+                 return "Not Objectiv";
             } else {
                 return "Ship Defeat";
             }
@@ -170,9 +178,7 @@ public class WeaponControllerImpl implements WeaponController {
 
 
     private boolean canShoot(Weapon w) {
-        if (w.getObjectiv() == null) {
-            return false;
-        }
+
         if (w.getObjectiv().getShip().getHp() > 0 && isOutsideRange(w.getLastShot(), w.getCoolDown())) {
             return w.getSection().getUsable();
         }
