@@ -1,0 +1,1 @@
+{"shipGegner":{"id":19,"name":"Shipgegner1","owner":{"id":13,"name":"gegner1"},"hp":100,"shield":1,"power":100,"money":30},"difficult":"easy","playerShip":{"id":2,"name":"ship0","shipForm":"SHIP1","owner":{"id":1,"name":"q"},"hp":300,"shield":1,"power":10,"money":40},"lastScreen":"COMBAT"}

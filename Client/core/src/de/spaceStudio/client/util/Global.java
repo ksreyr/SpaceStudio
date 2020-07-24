@@ -3,10 +3,7 @@ package de.spaceStudio.client.util;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class contains global variables, they can be access in the whole project
@@ -263,6 +260,26 @@ public  class Global {
     /**
      * Sections Variables
      */
+
+     private static Map<Integer, List<Pair>> getPos() {
+
+         var res = new HashMap<Integer, List<Pair>>();
+
+
+
+            List<Pair> pairs = new ArrayList<>();
+            pairs.add(new Pair(124f, 90f));
+            pairs.add(new Pair(0f, 293f));  // Fehlt
+            pairs.add(new Pair(647f, 307f)); // Fehlt
+            pairs.add(new Pair(320f, 210f));
+            pairs.add(new Pair(646f, 461f)); // Fehlt
+            pairs.add(new Pair(336f, 240f));
+
+            res.put(0, pairs);
+
+            return res;
+     }
+
     public static Section section1=Section
             .sectionBuilder()
             .img("Section1")

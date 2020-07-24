@@ -275,6 +275,15 @@ public class ShipSelectScreen extends BaseScreen {
                 switch (shipNumber) {
                     case 0:
                         ship = Global.ship0;
+                        /*
+                        271, 158
+                        475, 293
+                        647, 307
+                        479, 469
+                        646, 461
+                        266, 607
+                         */
+
                         break;
                     case 1:
                         ship = Global.ship1;
@@ -509,7 +518,17 @@ public class ShipSelectScreen extends BaseScreen {
         /*Added sectionList*/
         if (!sectionList.isEmpty() && requestcounter == 2) {
             //Section with ID
+                                    /*
+                        271, 158
+                        475, 293
+                        647, 307
+                        479, 469
+                        646, 461
+                        266, 607
+                         */
+
             Global.sectionsPlayerList = sectionList;
+
             //Update Section variables
             updateVariableSectionShipPlayer();
             //Set crewMemebers

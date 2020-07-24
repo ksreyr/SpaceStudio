@@ -1,9 +1,7 @@
 package de.spaceStudio.server.model;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import org.springframework.lang.NonNull;
 
@@ -51,7 +49,10 @@ public class Section {
     private boolean usable;
 
     private float xPos;
+
     private float yPos;
+
+    private double lastUpdated;
 
     public Section() {
     }
@@ -67,6 +68,8 @@ public class Section {
         setUsable(builder.usable);
         setConnectingTo(builder.connectingTo);
         setSectionTyp(builder.sectionTyp);
+        setxPos(builder.xPos);
+        setyPos(builder.yPos);
     }
 
     @NonNull
@@ -170,6 +173,14 @@ public class Section {
         this.xPos = xPos;
     }
 
+    public double getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(double lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
     public static class SectionBuilder{
         private Integer id;
         private Ship ship;
@@ -222,6 +233,14 @@ public class Section {
         }
         public SectionBuilder usable(boolean usable){
             this.usable=usable;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder yPos(float yPos){
+            this.yPos=yPos;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder xPos(float xPos){
+            this.xPos=xPos;
             return SectionBuilder.this;
         }
         public Section buildSection(){
