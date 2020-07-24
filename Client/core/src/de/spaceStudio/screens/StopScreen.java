@@ -425,5 +425,6 @@ public class StopScreen extends ScreenAdapter {
     public void dispose() {
         super.dispose();
         skin.dispose();
+        stage.dispose();
     }
 }

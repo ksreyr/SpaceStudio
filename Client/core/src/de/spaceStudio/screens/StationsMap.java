@@ -566,6 +566,9 @@ public class StationsMap extends BaseScreen {
     public void dispose() {
         super.dispose();
         stage.dispose();
+        skin.dispose();
+        background.dispose();
+        click.dispose();
     }
 
 

@@ -181,7 +181,10 @@ public class NewGameScreen extends ScreenAdapter {
     // Called when the Application is destroyed.
     @Override
     public void dispose() {
+        super.dispose();
         stage.dispose();
         click.dispose();
+        sgxSkin.dispose();
+
     }
 }

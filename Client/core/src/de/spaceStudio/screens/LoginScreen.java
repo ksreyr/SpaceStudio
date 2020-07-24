@@ -465,8 +465,10 @@ public class LoginScreen extends BaseScreen {
         super.dispose();
         skin.dispose();
         music.dispose();
+        keyboard.dispose();
         stage.dispose();
         mouseClick.dispose();
+
     }
 
 

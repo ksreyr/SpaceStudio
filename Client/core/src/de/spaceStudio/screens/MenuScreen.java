@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.AssetDescriptors;
+import de.spaceStudio.assets.Assets;
 import de.spaceStudio.assets.RegionNames;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
@@ -215,23 +216,27 @@ public class MenuScreen extends ScreenAdapter {
     // Called when the Application is paused, usually when it's not active or visible on-screen.
     @Override
     public void pause() {
+        super.pause();
     }
 
     // Called when the Application is resumed from a paused state, usually when it regains focus.
     @Override
     public void resume() {
+        super.resume();
     }
 
     // Called when this screen is no longer the current screen for a Game.
     @Override
     public void hide() {
-        dispose();
+        super.hide();
     }
 
     // Called when the Application is destroyed.
     @Override
     public void dispose() {
+        super.dispose();
         stage.dispose();
+        sgxSkin.dispose();
     }
 
 

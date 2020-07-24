@@ -193,6 +193,10 @@ public class WinScreen extends BaseScreen {
             sgxSkin.dispose();
             sgxSkin2.dispose();
             stage.dispose();
+            click.dispose();
+            batch.dispose();
+            playerShip.dispose();
+            background.dispose();
         }
     }
 

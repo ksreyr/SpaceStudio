@@ -367,11 +367,27 @@ public class ShopScreen extends ScreenAdapter {
     public void resume() { }
     @Override
     public void hide() {
-        dispose();
+        super.hide();
     }
     @Override
     public void dispose() {
         stage.dispose();
+        font.dispose();
+        spaceSkin.dispose();
+        renderer.dispose();
+        batch.dispose();
+        background.dispose();
+        playerShip.dispose();
+        securityTextureGrey.dispose();
+        driveTextureGrey.dispose();
+        rocket1.dispose();
+        rocket2.dispose();
+        crewMemberMTexture.dispose();
+        crewMemberFTexture.dispose();
+        securityTexture.dispose();
+        oxygenTexture.dispose();
+        driveTexture.dispose();
+        skin.dispose();
     }
 
     public void nextButton() {

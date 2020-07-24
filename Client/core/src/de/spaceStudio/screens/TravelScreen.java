@@ -131,11 +131,12 @@ public class TravelScreen extends ScreenAdapter {
 
     @Override
     public void hide() {
-
+        super.hide();
     }
 
     @Override
     public void dispose() {
+        super.dispose();
         stage.dispose();
     }
 
