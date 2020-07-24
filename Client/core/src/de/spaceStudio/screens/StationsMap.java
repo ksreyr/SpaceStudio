@@ -400,12 +400,12 @@ public class StationsMap extends BaseScreen {
             }
 
             public void failed(Throwable t) {
-                System.out.println("Request Failed Completely");
+                LOG.info("Request Failed Completely");
             }
 
             @Override
             public void cancelled() {
-                System.out.println("request cancelled");
+                LOG.info("request cancelled");
             }
         });
     }
@@ -448,10 +448,7 @@ public class StationsMap extends BaseScreen {
         });
     }
 
-
-    @Override
-    public void show() {
-        super.show();
+    public void renderSaveGameButton(){
         saveGameButton = new TextButton("Save game", skin);
         saveGameButton.setTransform(true);
         saveGameButton.setScaleX(1.8f);
@@ -501,6 +498,15 @@ public class StationsMap extends BaseScreen {
             }
         });
         stage.addActor(saveGameButton);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        if(Global.IS_SINGLE_PLAYER){
+            renderSaveGameButton();
+        }
+
     }
 
     @Override

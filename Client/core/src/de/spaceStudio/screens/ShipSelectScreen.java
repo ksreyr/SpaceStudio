@@ -524,7 +524,7 @@ public class ShipSelectScreen extends BaseScreen {
      * Ask server every 5 seconds
      */
     private void scheduleLobby(){
-        Timer schedule = new Timer( );
+        Timer schedule = new Timer();
         schedule.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -542,32 +542,6 @@ public class ShipSelectScreen extends BaseScreen {
                 }
             }
         }, 1000,5000);
-    }
-
-    /*
-    private void scheduleReadyUpMultiplayer(){
-        Timer schedule = new Timer( );
-        schedule.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if(killTimer){
-                    schedule.cancel();
-                    schedule.purge();
-                    LOG.info("Timer killed");
-                } else {
-                    LOG.info("Waiting for Players to start...");
-                    checkMultiPlayerToStartSynchro();
-                }
-            }
-        }, 1000,1000);
-    }
-    /*
-     */
-    /**
-     *
-     */
-    private void scheduleReadyUp(){
-        //
     }
 
     public void checkMultiPlayerToStartSynchro() {
@@ -624,6 +598,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 45, 80, 70, 70);
 
         if (deployMultiplayer){
+            killTimer = true;
             mainClient.setScreen(new StationsMap(game));
         }
         // Bock
