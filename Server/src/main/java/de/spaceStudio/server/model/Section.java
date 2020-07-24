@@ -54,6 +54,9 @@ public class Section {
 
     private double lastUpdated;
 
+    private int hulleIntegritat;
+
+
     public Section() {
     }
     public Section(SectionBuilder builder) {
@@ -70,6 +73,7 @@ public class Section {
         setSectionTyp(builder.sectionTyp);
         setxPos(builder.xPos);
         setyPos(builder.yPos);
+        setHulleIntegritat(builder.hulleIntegritat);
     }
 
     @NonNull
@@ -181,6 +185,18 @@ public class Section {
         this.lastUpdated = lastUpdated;
     }
 
+    public boolean isUsable() {
+        return usable;
+    }
+
+    public int getHulleIntegritat() {
+        return hulleIntegritat;
+    }
+
+    public void setHulleIntegritat(int hulleIntegritat) {
+        this.hulleIntegritat = hulleIntegritat;
+    }
+
     public static class SectionBuilder{
         private Integer id;
         private Ship ship;
@@ -194,6 +210,7 @@ public class Section {
         private SectionTyp sectionTyp;
         private float yPos;
         private float xPos;
+        private int hulleIntegritat;
 
         public SectionBuilder id(Integer id){
             this.id=id;
@@ -241,6 +258,10 @@ public class Section {
         }
         public SectionBuilder xPos(float xPos){
             this.xPos=xPos;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder hulleIntegritat(int hulleIntegritat){
+            this.hulleIntegritat=hulleIntegritat;
             return SectionBuilder.this;
         }
         public Section buildSection(){

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.GLOnlyTextureData;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.HttpStatus;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -33,16 +35,13 @@ import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.SectionTyp;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
@@ -91,11 +90,12 @@ public class CombatScreen extends BaseScreen {
     private RedPin redPinSectionFour;
     private RedPin redPinSectionFive;
     private RedPin redPinSectionSix;
+    private Label labelsection1,labelsection2,labelsection3,labelsection4,labelsection5,labelsection6;
     private Image imageCrewMemberOne;
     private Image imageCrewMemberTwo;
     private Image imageCrewMemberThree;
     private List<Image> listOfCrewImages;
-
+    private Boolean killTimer=false;
     private TextButton enableShield, enableEnemyShield;
 
 
@@ -138,6 +138,8 @@ public class CombatScreen extends BaseScreen {
     String validationGegner="";
     List<Section> sectionsGegner = Global.combatSections.get(Global.currentShipGegner.getId());
     List<Section> sectionsPlayer = Global.combatSections.get(Global.currentShipPlayer.getId());
+    List<Section> sectionsPlayerTimer = Global.combatSections.get(Global.currentShipPlayer.getId());
+
     Label lebengegnerShip;
     Label lebenplayerShip;
     private int aktiveWeapon = 0;
@@ -164,6 +166,13 @@ public class CombatScreen extends BaseScreen {
         label1Style.font = myFont;
         label1Style.fontColor = Color.RED;
 
+        labelsection1=new Label("Section1",label1Style);
+        labelsection2=new Label("Section2",label1Style);
+        labelsection3=new Label("Section3",label1Style);
+        labelsection4=new Label("Section4",label1Style);
+        labelsection5=new Label("Section5",label1Style);
+        labelsection6=new Label("Section6",label1Style);
+
         weaponLabel = new Label(weaponText[0], label1Style);
         weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
         weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
@@ -179,7 +188,7 @@ public class CombatScreen extends BaseScreen {
         viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT,camera);
         stage = new Stage(viewport, universeMap.getBatch());
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
-
+        scheduleLobby();
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         listOfCrewImages = new ArrayList<>();
         redPinSectionOne = new RedPin();
@@ -317,8 +326,6 @@ public class CombatScreen extends BaseScreen {
                 healthPoint.getStyle().imageUp = medical_sym;
 
 
-
-
             }
         });
        // isNewExpo = !sectionsToPlayerResponse.isEmpty();
@@ -351,6 +358,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Global.IS_SINGLE_PLAYER = false;
+                killTimer=true;
                 mainClient.setScreen(new StationsMap(mainClient));
                 LOG.info("Button CLicked");
                 click.play();
@@ -634,6 +642,17 @@ private Optional<Section> findSection(Image image) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
+        if(!Global.combatSections.get(Global.currentShipPlayer.getId()).isEmpty()){
+            labelsection1.setText("\n Usable: "+String.valueOf(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getUsable())+"\n Oxigen: "+Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getOxygen());
+            labelsection1.setPosition(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getxPos(),Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getyPos());
+            stage.addActor(labelsection1);
+        }
+
+        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(1);
+        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(2);
+        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(3);
+        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(4);
+        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(5);
 
         if (Global.combatWeapons.size() >= 1) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
@@ -851,6 +870,9 @@ private Optional<Section> findSection(Image image) {
                     bulletToRemove.add(bullet);
                 }
             }
+            int p = Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getPowerCurrent();
+            //int u = Global.combatWeapons.get(Global.currentShipPlayer.getId()).get(0).getDamage();
+            //int i = Global.combatCrew.get(Global.currentShipPlayer.getId()).get(0).getHealth();
 
             ArrayList<Bullet> bulletGegnerToRemove = new ArrayList<>();
             for (Bullet bullet : bulletsEnemy) {
@@ -1073,7 +1095,24 @@ private Optional<Section> findSection(Image image) {
         }
 
     }
+    private void scheduleLobby(){
+        Timer schedule = new Timer( );
+        schedule.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(killTimer){
+                    schedule.cancel();
+                    schedule.purge();
+                    LOG.info("Timer killed");
+                } else {
+                    LOG.info("Reparation");
+                    LOG.info(Global.currentShipPlayer.getId().toString());
+                    RequestUtils.sectionsByShip(Global.currentShipPlayer);
+                }
+            }
 
+        }, 1000,5000);
+    }
 
     // Called when the Application is resized.
     @Override

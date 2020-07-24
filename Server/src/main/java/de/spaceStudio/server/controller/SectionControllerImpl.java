@@ -1,7 +1,6 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.GsonBuildConfig;
 import de.spaceStudio.server.ServerCore;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
@@ -31,8 +30,12 @@ public class SectionControllerImpl implements SectionController {
     @Autowired
     private CrewMemberRepository crewMemberRepository;
 
-    @Autowired WeaponRepository weaponRepository;
+    @Autowired
+    WeaponRepository weaponRepository;
 
+
+    @Autowired
+    SectionRepository sectionRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
 
@@ -157,13 +160,11 @@ public class SectionControllerImpl implements SectionController {
         return secs;
     }
 
-    private List<Section> makeChanges(List<Section> secs) {
+    private List<Section> makeChanges(List<Section> sections) {
 
         for (Section s :
-                secs) {
-
+                sections) {
             Optional<CrewMember> crew = crewMemberRepository.findByCurrentSection(s);
-
             if (crew.isPresent() && crew.get().getRole().equals(s.getRole())) {
                 switch (crew.get().getRole()) {
                     case FIGHTER:
@@ -171,10 +172,20 @@ public class SectionControllerImpl implements SectionController {
                         if (weapons.isPresent()) { // More Power is Crew is in Sections
                             s.setPowerCurrent(s.getPowerCurrent() + 1);
                         }
-
+                    case TECHNICIAN:
+                        s.setHulleIntegritat(s.getHulleIntegritat() + 5);
                 }
+
             }
+            if (crew.isPresent()) {
+                s.setUsable(true);
+            }
+            if(crew.isPresent()&&s.getOxygen()<30)
+            {
+                crewMemberRepository.delete(crew.get());
+            }
+            sectionRepository.save(s);
         }
-        return secs;
+        return sections;
     }
 }

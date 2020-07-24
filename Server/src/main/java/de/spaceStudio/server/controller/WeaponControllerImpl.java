@@ -143,6 +143,7 @@ public class WeaponControllerImpl implements WeaponController {
                     //Without_Schield
                     ship.setHp(ship.getHp() - weapon.getDamage());
                     weapon.getObjectiv().setUsable(false);
+                    weapon.getObjectiv().setOxygen(  weapon.getObjectiv().getOxygen()-weapon.getDamage());
                     sectionRepository.save(weapon.getObjectiv());
                 }
             }
