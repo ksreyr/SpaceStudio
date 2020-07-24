@@ -51,6 +51,7 @@ public class Section {
     private boolean usable;
 
     private float xPos;
+
     private float yPos;
 
     public Section() {
@@ -67,6 +68,8 @@ public class Section {
         setUsable(builder.usable);
         setConnectingTo(builder.connectingTo);
         setSectionTyp(builder.sectionTyp);
+        setxPos(builder.xPos);
+        setyPos(builder.yPos);
     }
 
     @NonNull
@@ -222,6 +225,14 @@ public class Section {
         }
         public SectionBuilder usable(boolean usable){
             this.usable=usable;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder yPos(float yPos){
+            this.yPos=yPos;
+            return SectionBuilder.this;
+        }
+        public SectionBuilder xPos(float xPos){
+            this.xPos=xPos;
             return SectionBuilder.this;
         }
         public Section buildSection(){

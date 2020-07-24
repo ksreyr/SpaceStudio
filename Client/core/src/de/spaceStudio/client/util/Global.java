@@ -283,6 +283,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(100, 100)
             .buildSection();
     public static Section section3= Section
             .sectionBuilder()
