@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
@@ -33,6 +34,14 @@ public class StopScreen extends ScreenAdapter {
     public StopScreen(MainClient game) {
         super();
         this.game = game;
+        RequestUtils.sectionsByShip(Global.currentShipPlayer);
+        RequestUtils.sectionsByShip(Global.currentShipGegner);
+        RequestUtils.weaponsByShip(Global.currentShipGegner);
+        RequestUtils.weaponsByShip(Global.currentShipPlayer);
+        RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
+        if (Global.currentGegner != null) {
+            RequestUtils.crewMemeberByShip(Global.currentShipGegner);
+        }
     }
 
     /**
@@ -226,9 +235,7 @@ public class StopScreen extends ScreenAdapter {
 
                                     @Override
                                     protected void result(Object object) {
-                                        if (object.equals("FIXME")) {
-                                            //   game.setScreen(new (...); // FIXME go to Shop
-                                        }
+                                            game.setScreen(new ShopScreen(game));
                                     }
                                 }.show(stage);
 

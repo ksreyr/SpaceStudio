@@ -1,0 +1,120 @@
+% Created 2020-07-18 Sa 16:59
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Liam Hurwitz}
+\date{\today}
+\title{Test Protokol}
+\hypersetup{
+ pdfauthor={Liam Hurwitz},
+ pdftitle={Test Protokol},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.3 (Org mode 9.4)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Testfall Single Player}
+\label{sec:orgc5dc561}
+\begin{enumerate}
+\item Login Screen
+\begin{enumerate}
+\item Register
+\begin{itemize}
+\item Test if name exists
+\item Test if one can register
+\item Does the Client alert if the Server is offline?
+\end{itemize}
+\item Login
+\end{enumerate}
+\item Menu Screen
+\begin{enumerate}
+\item New Game
+\begin{itemize}
+\item Single Player
+\begin{itemize}
+\item Goes back to Fight Screen
+\item Goes back to Station Map
+\item Goes back to Shop
+\end{itemize}
+\end{itemize}
+\item Single Player (Ship Select Screen)
+\begin{itemize}
+\item Are the Stats Updated for the Ship?
+\item Can I spawn into the Map?
+\item Are there Any Exceptions?
+\end{itemize}
+\end{enumerate}
+\end{enumerate}
+
+\section{Station Screen}
+\label{sec:orga891bce}
+\begin{enumerate}
+\item StationMap
+\begin{enumerate}
+\item Select Planet
+\begin{itemize}
+\item Can I select every Planet?
+\item Does the Dialog Appear?
+\end{itemize}
+\item Jump
+\begin{itemize}
+\item Jump can I jump to every Planet?
+\item Do I see if I have visited the Planet?
+\item Does the Back Button work?
+\end{itemize}
+\end{enumerate}
+\end{enumerate}
+
+\section{Stop Abstract}
+\label{sec:org3bde3ec}
+\begin{enumerate}
+\item StopScreen
+\begin{enumerate}
+\item Leave
+\begin{enumerate}
+\item Leave
+\item View Map -> Station Map
+\end{enumerate}
+\item Explore
+\begin{enumerate}
+\item Flee -> Station Screen
+\item Fight -> CombatScreen
+\item Shop -> Station Mao
+\end{enumerate}
+\item Back to Map -> Station Map
+\end{enumerate}
+\end{enumerate}
+
+\section{Combat Screen}
+\label{sec:org9c941a6}
+
+
+
+
+
+\section{Strangenes}
+\label{sec:org4b85c14}
+\begin{itemize}
+\item Rainbow Line
+\item Pruebe Kopf in ShipSelectScreen
+\item Bug Ship is not add at Stop
+\item Jump to same Planet
+\end{itemize}
+\end{document}

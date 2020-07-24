@@ -115,7 +115,7 @@ public class Weapon {
         this.coolDown = coolDown;
     }
 
-    public long getLastShot() {
+    public long  getLastShot() {
         return lastShot;
     }
 

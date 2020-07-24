@@ -2,18 +2,18 @@ package de.spaceStudio.server.model;
 
 public class Pair
 {
-    private final Float key;
-    private final Float value;
+    private final Float left;
+    private final Float right;
 
     public Pair(Float aKey, Float aValue)
     {
 
 
-        key   = aKey;
-        value = aValue;
+        left = aKey;
+        right = aValue;
     }
 
-    public Float key()   { return key; }
-    public Float value() { return value; }
+    public Float getLeft()   { return left; }
+    public Float getRight() { return right; }
 }
 

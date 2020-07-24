@@ -18,7 +18,7 @@ public class InitialDataGameService {
         final String requestJson = json.toJson(requestObject);
 
         final Net.HttpRequest request = new Net.HttpRequest(method);
-        final String url = Global.SERVER_URL + Global.SHIP_CREATION_ENDPOINT;
+        final String url = Global.SERVER_URL + Global.SHIP_ENDPOINT;
         request.setUrl(url);
         request.setContent(requestJson);
         request.setHeader("Content-Type", "application/json");

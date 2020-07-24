@@ -1,21 +1,38 @@
 package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
+import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.ShipRessource;
+import de.spaceStudio.server.model.ShopRessource;
 import de.spaceStudio.util.GdxUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
 public class ShopScreen extends ScreenAdapter {
@@ -49,15 +66,20 @@ public class ShopScreen extends ScreenAdapter {
     private int oxygen;
 
     //rocket1
-    private boolean rocket1s1,rocket1s2,rocket1s3,rocket1s4,rocket1s5,rocket1s6;
+    private boolean rocket1s1, rocket1s2, rocket1s3, rocket1s4, rocket1s5, rocket1s6;
     //rocket2
-    private boolean rocket2s1,rocket2s2,rocket2s3,rocket2s4,rocket2s5,rocket2s6;
+    private boolean rocket2s1, rocket2s2, rocket2s3, rocket2s4, rocket2s5, rocket2s6;
     //crewmemberF
     private boolean crewMemberFs1, crewMemberFs2, crewMemberFs3, crewMemberFs4, crewMemberFs5, crewMemberFs6;
     //crewmemberM
-    private boolean crewMemberMs1, crewMemberMs2, crewMemberMs3,crewMemberMs4,crewMemberMs5,crewMemberMs6;
+    private boolean crewMemberMs1, crewMemberMs2, crewMemberMs3, crewMemberMs4, crewMemberMs5, crewMemberMs6;
     //secure,drive
-    private boolean secureIconS1, driveIconS1,secureIconS2, driveIconS2;
+    private boolean secureIconS1, driveIconS1, secureIconS2, driveIconS2;
+
+    //
+    List<ShipRessource> shipRessources = new ArrayList<>();
+    List<ShopRessource> shopRessources = new ArrayList<>();
+    //
 
     public ShopScreen(MainClient mainClient) {
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
@@ -125,7 +147,10 @@ public class ShopScreen extends ScreenAdapter {
         this.secureIconS2 = false;
         this.driveIconS2 = false;
 
-
+        //
+        getShipRessourcen(Global.currentShipPlayer, Net.HttpMethods.POST);
+        getShopRessourcen(Global.currentStop, Net.HttpMethods.POST);
+        //
         nextButton();
         buyItemsButton();
         sellItemsButton();
@@ -180,28 +205,121 @@ public class ShopScreen extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
     }
 
+    public void getShipRessourcen(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.GET_RESSOURCE_BY_SHIP;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed GegnermakeShot");
+                }
+                System.out.println("statusCode GegnermakeShot: " + statusCode);
+                String shipRessource = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                ShipRessource[] sectiongegnerArray = gson.fromJson(shipRessource, ShipRessource[].class);
+                shipRessources = Arrays.asList(sectiongegnerArray);
+                System.out.println("statusCode makeAShot: " + statusCode);
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+
+    public void getShopRessourcen(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.GET_RESSOURCE_BY_STOP;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed GegnermakeShot");
+                }
+                System.out.println("statusCode GegnermakeShot: " + statusCode);
+                String shopRessource = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                ShopRessource[] shopRessourceList = gson.fromJson(shopRessource, ShopRessource[].class);
+                shopRessources = Arrays.asList(shopRessourceList);
+                System.out.println("statusCode makeAShot: " + statusCode);
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+    public void buyItem(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.BUY_RESSOURCE;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed GegnermakeShot");
+                }
+                System.out.println("statusCode GegnermakeShot: " + statusCode);
+                String shipRessource = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                ShipRessource[] shipRessourceList = gson.fromJson(shipRessource, ShipRessource[].class);
+                shipRessources = Arrays.asList(shipRessourceList);
+                getShopRessourcen(Global.currentStop, Net.HttpMethods.POST);
+                System.out.println("statusCode makeAShot: " + statusCode);
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
 
     @Override
-    public void render(float delta){
+    public void render(float delta) {
 
         GdxUtils.clearScreen();
 
         stage.getBatch().begin();
-
-        TextArea textArea = new TextArea("Money: " + money + "\nSecure: 50%\nOxygen: 2\nDrive: ", skin);
-        textArea.setPosition(BaseScreen.WIDTH / 20,850);
-        textArea.setWidth(200);
-        textArea.setHeight(150);
-        stage.addActor(textArea);
+        if (!shipRessources.isEmpty()) {
+            TextArea textArea = new TextArea(shipRessources.get(0).getName().toString() + String.valueOf(shipRessources.get(0).getAmount()), skin);
+            textArea.setPosition(BaseScreen.WIDTH / 20, 850);
+            textArea.setWidth(200);
+            textArea.setHeight(150);
+            stage.addActor(textArea);
+        }
 
         TextArea shipInformationArea = new TextArea("Ship Options: \nSection1: Rocket1, Rocket2, CrewMember Female, CrewMember Male, Secure, Drive\nSection2: Rocket1, Rocket2, CrewMember Female, CrewMember Male, Secure, Drive\nSection3: Rocket1, Rocket2, CrewMember Female, CrewMember Male\nSection4: Rocket1, Rocket2, CrewMember Female, CrewMember Male\nSection5: Rocket1, Rocket2, CrewMember Female, CrewMember Male\nSection6: Rocket1, Rocket2, CrewMember Female, CrewMember Male", skin);
-        shipInformationArea.setPosition(900,50);
+        shipInformationArea.setPosition(900, 50);
         shipInformationArea.setWidth(500);
         shipInformationArea.setHeight(270);
         stage.addActor(shipInformationArea);
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(playerShip,BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
+        stage.getBatch().draw(playerShip, BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
 
         float positionX = 1450;
         float positionY = 700;
@@ -229,6 +347,8 @@ public class ShopScreen extends ScreenAdapter {
                 stage.getBatch().draw(driveTexture, positionX, positionY);
                 break;
         }
+
+
         showTextfield(itemNumber);
         drawItems();
 
@@ -278,6 +398,11 @@ public class ShopScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 changeItems(true);
+                if(itemNumber==0){
+                    buyItem(List.of(shopRessources.get(0)),Net.HttpMethods.POST);
+                }else if(itemNumber==1){
+                    buyItem(List.of(shopRessources.get(1)),Net.HttpMethods.POST);
+                }
                 //setAllSectionCheckboxesFalse();
             }
         });
@@ -420,24 +545,25 @@ public class ShopScreen extends ScreenAdapter {
 
 
     public void showTextfield(int itemNumber){
+        if (!shopRessources.isEmpty()) {
+            if (itemNumber == 0) {
 
-        if (itemNumber == 0) {
+                TextArea textArea = new TextArea(String.valueOf(shopRessources.get(0).getName()) + " Amoung: "+ String.valueOf(shopRessources.get(0).getAmount()) +" Price: " + String.valueOf(shopRessources.get(0).getPrice()), skin);
+                textArea.setPosition(1400, 450);
+                textArea.setWidth(400);
+                textArea.setHeight(200);
+                stage.addActor(textArea);
 
-            TextArea textArea = new TextArea("Name: Rocket 1\nHit Probability: 50%\nShots: 2\nDamage: 1/10\nCosts: 100 $", skin);
-            textArea.setPosition(1400,450);
-            textArea.setWidth(400);
-            textArea.setHeight(200);
-            stage.addActor(textArea);
+            } else if (itemNumber == 1) {
 
-        } else if (itemNumber == 1) {
+                TextArea textArea = new TextArea(String.valueOf(shopRessources.get(1).getName()) +" Amoung: "+ String.valueOf(shopRessources.get(1).getAmount()) + " Price: " + String.valueOf(shopRessources.get(1).getPrice()), skin);
+                textArea.setPosition(1400, 450);
+                textArea.setWidth(400);
+                textArea.setHeight(200);
+                stage.addActor(textArea);
 
-            TextArea textArea = new TextArea("Name: Rocket 2\nHit Probability: 60%\nShots: 3\nDamage: 3/10\nCosts: 100 $", skin);
-            textArea.setPosition(1400,450);
-            textArea.setWidth(400);
-            textArea.setHeight(200);
-            stage.addActor(textArea);
-
-        } else if (itemNumber == 2) {
+            }
+        }/*else if (itemNumber == 2) {
 
             TextArea textArea = new TextArea("Name: Male CrewMember\nRepairs: 50% per round\nCosts: 100 $", skin);
             textArea.setPosition(1400,450);
@@ -483,7 +609,7 @@ public class ShopScreen extends ScreenAdapter {
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
-        }
+        }*/
 
     }
 

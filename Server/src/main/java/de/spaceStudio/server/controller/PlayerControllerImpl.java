@@ -1,6 +1,5 @@
 package de.spaceStudio.server.controller;
 
-import com.google.gson.Gson;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -56,6 +55,8 @@ public class PlayerControllerImpl implements PlayerController {
 
     @Autowired
     ShopRessourceRepository shopRessourceRepository;
+    @Autowired
+    StationRepository stationRepository;
     /**
      * This function is temporal in use to test client to Server connection
      * Login user if exists
@@ -268,24 +269,48 @@ public class PlayerControllerImpl implements PlayerController {
                         aiRepository.delete(ai);
                     }
                     if(stopAbstractRepository.findById(sa.getId()).isPresent()){
-                    stopAbstractRepository.delete(sa);
+                        if(stationRepository.existsById(sa.getId())){
+                                Station station=stationRepository.findById(sa.getId()).get();
+                            if (shopRessourceRepository.findByStation(station).isPresent()) {
+                                List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station).get();
+                                for (ShopRessource sr :
+                                        shopRessources) {
+                                    shopRessourceRepository.delete(sr);
+                                }
+                            }
+                            stopAbstractRepository.delete(sa);
+                        }else {
+                            stopAbstractRepository.delete(sa);
+                        }
+
                     }
                     if(shipRessourceRepository.findByShip(s).isPresent()){
-                        shipRessourceRepository.delete(shipRessourceRepository.findByShip(s).get());
+                        List<ShipRessource> shipRessources=shipRessourceRepository.findByShip(s).get();
+                        for (ShipRessource sr:
+                                shipRessources) {
+                            shipRessourceRepository.delete(sr);
+                        }
                     }
                     shipRepository.delete(s);
                 }
             }
+            stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
+
             for (StopAbstract s :
                     stopAbstracts) {
-                    try {
-                        ShopRessource shopRessource=shopRessourceRepository.findByStation((Station) s).get();
-                        shopRessourceRepository.delete(shopRessource);
-                    }catch (Exception e){
 
+                try {
+
+                    if (shopRessourceRepository.findByStation((Station) s).isPresent()) {
+                        List<ShopRessource> shopRessources = shopRessourceRepository.findByStation((Station) s).get();
+                        for (ShopRessource sr :
+                                shopRessources) {
+                            shopRessourceRepository.delete(sr);
+                        }
                     }
-                    stopAbstractRepository.delete(s);
-
+                } catch (Exception e) {
+                }
+                stopAbstractRepository.delete(s);
             }
             universeRepository.delete(universe);
 

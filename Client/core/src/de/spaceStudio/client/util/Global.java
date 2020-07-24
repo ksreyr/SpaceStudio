@@ -3,8 +3,7 @@ package de.spaceStudio.client.util;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class contains global variables, they can be access in the whole project
@@ -16,6 +15,8 @@ public  class Global {
 
 
     public static final String WEAPONS = "weapons" ;
+    public static final String SECTIONS = "sections";
+    public static final String CREWMEMBERS = "crewMembers";
     /**
      * boolean value for single player disable lobby
      */
@@ -98,7 +99,7 @@ public  class Global {
     /**
      * Ship Cretion
      */
-    public static final String SHIP_CREATION_ENDPOINT = "/ship";
+    public static final String SHIP_ENDPOINT = "/ship";
     /**
      * Ship Cretion
      */
@@ -174,6 +175,22 @@ public  class Global {
      * Player save game endpoint
      */
     public static final String SHIP_RESSORUCE_ENDPOINT = "/shipressource";
+    /**
+     * Player save game endpoint
+     */
+    public static final String GET_RESSOURCE_BY_SHIP = "/shipressourcebyship";
+    /**
+     * Player save game endpoint
+     */
+    public static final String GET_RESSOURCE_BY_STOP = "/getshopressourcebystop";
+    /**
+     * Player save game endpoint
+     */
+    public static final String BUY_RESSOURCE = "/buyitem";
+    /**
+     * Player save game endpoint
+     */
+    public static final String SECTION_BY_SHIP_END_POINT = "/ship/{id}/sections";
     /**
      * Global player, this data will be downloaded from server at login
      */
@@ -255,6 +272,9 @@ public  class Global {
     }};
     public static boolean allReady = false;  // FIXME change to true when all Player will jump
     public static int currentStopNumber = 0;
+    public static HashMap<Integer, List<Section>> combatSections = new HashMap<>();
+    public static HashMap<Integer, List<Weapon>> combatWeapons = new HashMap<>();
+    public static HashMap<Integer, List<CrewMember>> combatCrew = new HashMap<>();
 
     public static void updateVariableCrewMembersPlayer(){
         crewMember0=crewMemberList.get(0);
@@ -264,15 +284,36 @@ public  class Global {
     /**
      * Sections Variables
      */
+
+     private static Map<Integer, List<Pair>> getPos() {
+
+         var res = new HashMap<Integer, List<Pair>>();
+
+
+
+            List<Pair> pairs = new ArrayList<>();
+            pairs.add(new Pair(124f, 90f));
+            pairs.add(new Pair(0f, 293f));  // Fehlt
+            pairs.add(new Pair(647f, 307f)); // Fehlt
+            pairs.add(new Pair(320f, 210f));
+            pairs.add(new Pair(646f, 461f)); // Fehlt
+            pairs.add(new Pair(336f, 240f));
+
+            res.put(0, pairs);
+
+            return res;
+     }
+
     public static Section section1=Section
             .sectionBuilder()
             .img("Section1")
             .oxygen(100)
             .powerCurrent(100)
             .sectionTyp(SectionTyp.DRIVE)
-            .usable(true)
+            .usable(false)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(getPos().get(0).get(0).getLeft(), getPos().get(0).get(0).getRight())
             .buildSection();
     public static Section section2= Section
             .sectionBuilder()
@@ -283,6 +324,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(getPos().get(0).get(1).getLeft(), getPos().get(0).get(1).getRight())
             .buildSection();
     public static Section section3= Section
             .sectionBuilder()
@@ -292,7 +334,9 @@ public  class Global {
             .powerCurrent(100)
             .usable(true)
             .connectingTo(null)
+            .pos(getPos().get(0).get(2).getLeft(), getPos().get(0).get(2).getRight())
             .powerRequired(10)
+            .hulleIntegritat(100)
             .buildSection();
     public static Section section4= Section
             .sectionBuilder()
@@ -301,7 +345,9 @@ public  class Global {
             powerCurrent(100)
             .usable(true)
             .connectingTo(null)
+            .pos(getPos().get(0).get(3).getLeft(), getPos().get(0).get(3).getRight())
             .powerRequired(10)
+            .hulleIntegritat(100)
             .buildSection();
     public static Section section5= Section
             .sectionBuilder()
@@ -312,16 +358,20 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(getPos().get(0).get(4).getLeft(), getPos().get(0).get(4).getRight())
+            .hulleIntegritat(100)
             .buildSection();
     public static Section section6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section6")
-            .oxygen(100).
-                    powerCurrent(100)
-            .usable(true)
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(false)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(getPos().get(0).get(5).getLeft(), getPos().get(0).get(5).getRight())
+            .hulleIntegritat(100)
             .buildSection();
 
     public  static List<Section> sectionsPlayerList = new ArrayList<Section>() {{
@@ -371,12 +421,13 @@ public  class Global {
     }
 
     private static long rocketCoolDown = 4000l;
+    private static long lasserCoolDown = 4000l;
     /*
      * Weapon
      * */
     public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Left").coolDown(rocketCoolDown).build();
 
-    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Image1").name("Rocket Right").coolDown(rocketCoolDown).build();
+    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(30).hitRate(300).img("Image1").name("Lasser Right").coolDown(lasserCoolDown).build();
     public static List<Weapon> weaponListPlayer = new ArrayList<Weapon>(){{
         add(weapon1Player);
         add(weapon2Player);
@@ -1042,18 +1093,22 @@ public  class Global {
         station4= stationListU2.get(3);
     }
 
-    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).amount(100).build();
-    public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).amount(100).build();
+    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
+    public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
+    public static ShopRessource shopRessource3 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
     public static List<ShopRessource> shopRessourceList =new ArrayList<ShopRessource>(){{
         add(shopRessource1);
         add(shopRessource2);
+        add(shopRessource3);
     }};
     public static void updateVariblesshopRessource(){
         shopRessource1= shopRessourceList.get(0);
         shopRessource2= shopRessourceList.get(1);
+        shopRessource3= shopRessourceList.get(2);
     }
     public static ShipRessource shipRessource = ShipRessource.builderShipRessource().amount(100).name(RessourceName.GOLD).build();
-    /**
+
+    /*
      * Universe Univerise 1
      */
     public static Universe universe1 = Universe.universeBuilder().name("Easy").build();

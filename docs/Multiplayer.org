@@ -1,0 +1,8 @@
+#+TITLE: Multiplayer
+
+
+Client -> Server: /game/get/single-player/{playerName}
+Server -> Client: 202 ACCEPTED
+
+Client -> Server: /game/multiplayer/{SessionID}
+Server -> Client: 202 ACCEPTED

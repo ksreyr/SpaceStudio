@@ -144,6 +144,7 @@ public class StationsMap extends BaseScreen {
         shopImg.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Global.currentStop=Global.station1;
                 isPlanet=false;
 
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
@@ -168,7 +169,8 @@ public class StationsMap extends BaseScreen {
 
     private void setStartPoint(Drawable drawable_station_unvisited) {
         startPoint = new ImageButton( (drawable_station_unvisited) );
-        startPoint.setPosition(coord.get(0).key(), coord.get(0).value());  //hikeButton is an ImageButton
+        startPoint.setPosition(coord.get(0).getLeft(), coord.get(0).getRight());  //hikeButton is an ImageButton
+
         startPoint.setSize(PLANET_SIZEX,PLANET_SIZEY);
         startPoint.addListener(new ChangeListener() {
             @Override
@@ -193,7 +195,7 @@ public class StationsMap extends BaseScreen {
 
     private void planet1(Drawable drawable_station_unvisited) {
         planet1ImgBTN = new ImageButton( (drawable_station_unvisited) );
-        planet1ImgBTN.setPosition(coord.get(1).key(), coord.get(1).value());
+        planet1ImgBTN.setPosition(coord.get(1).getLeft(), coord.get(1).getRight());
         planet1ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
         hoverListener(planet1ImgBTN,textAreaUN);
         final Planet planet = Global.planet1;
@@ -222,7 +224,7 @@ public class StationsMap extends BaseScreen {
 
     private void planet2(Drawable drawable_station_unvisited) {
         planet2ImgBTN = new ImageButton( (drawable_station_unvisited) );
-        planet2ImgBTN.setPosition(coord.get(2).key(), coord.get(2).value());
+        planet2ImgBTN.setPosition(coord.get(2).getLeft(), coord.get(2).getRight());
         planet2ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
         hoverListener(planet2ImgBTN,textAreaUN);
         final Planet planet = Global.planet2;
@@ -260,7 +262,7 @@ public class StationsMap extends BaseScreen {
 
     private void planet3(Drawable drawable_station_unvisited) {
         planet3ImgBTN = new ImageButton( (drawable_station_unvisited) );
-        planet3ImgBTN.setPosition(coord.get(3).key(), coord.get(3).value());  //hikeButton is an ImageButton
+        planet3ImgBTN.setPosition(coord.get(3).getLeft(), coord.get(3).getRight());  //hikeButton is an ImageButton
         planet3ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEY);
         hoverListener(planet3ImgBTN,textAreaUN);
         planet3ImgBTN.addListener( new ChangeListener() {
@@ -297,7 +299,7 @@ public class StationsMap extends BaseScreen {
     private void planet4(Drawable drawable_station_unvisited) {
         isPlanet=true;
         planet4ImgBTN = new ImageButton( (drawable_station_unvisited) );
-        planet4ImgBTN.setPosition(coord.get(4).key(), coord.get(4).value());
+        planet4ImgBTN.setPosition(coord.get(4).getLeft(), coord.get(4).getRight());
         planet4ImgBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
         hoverListener(planet4ImgBTN,textAreaUN);
         planet4ImgBTN.addListener(new ChangeListener() {
@@ -330,7 +332,7 @@ public class StationsMap extends BaseScreen {
     private void planet5(Drawable drawable_station_unvisited) {
         isPlanet=true;
         planet5ImageBTN = new ImageButton( (drawable_station_unvisited) );
-        planet5ImageBTN.setPosition(coord.get(5).key(), coord.get(5).value());
+        planet5ImageBTN.setPosition(coord.get(5).getLeft(), coord.get(5).getRight());
         planet5ImageBTN.setSize(PLANET_SIZEX,PLANET_SIZEX);
         hoverListener(planet5ImageBTN,textAreaUN);
         planet5ImageBTN.addListener(new ChangeListener() {
@@ -511,8 +513,8 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
 
 
-        xShip = coord.get(Global.currentStopNumber).key();
-        yShip = coord.get(Global.currentStopNumber).value();
+        xShip = coord.get(Global.currentStopNumber).getLeft();
+        yShip = coord.get(Global.currentStopNumber).getRight();
         stage.getBatch().draw(start_ship.getKeyFrame(state), xShip, yShip, 150, 150);
         Gdx.input.setInputProcessor(stage);
         stage.getBatch().end();
