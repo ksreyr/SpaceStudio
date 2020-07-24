@@ -182,7 +182,7 @@ public class WinScreen extends BaseScreen {
         // Called when this screen is no longer the current screen for a Game.
         @Override
         public void hide() {
-            dispose();
+            super.hide();
         }
 
         // Called when the Application is destroyed.
