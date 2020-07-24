@@ -147,8 +147,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
     /**
      * Reassign Crew in the Ship
      *
-     * @param shipID
-     * @param crewMember which has been moved
+     * @param shipID where a crewmember was moved
      * @param sectionNew to where he will be moved
      * @param sectionOld from where he will be moved
      * @return the Ship with updated Crew Postions if validated
