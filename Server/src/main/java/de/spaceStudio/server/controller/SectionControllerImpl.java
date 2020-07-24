@@ -3,14 +3,8 @@ package de.spaceStudio.server.controller;
 import com.google.gson.Gson;
 import com.google.gson.internal.GsonBuildConfig;
 import de.spaceStudio.server.ServerCore;
-import de.spaceStudio.server.model.AI;
-import de.spaceStudio.server.model.Player;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.repository.AIRepository;
-import de.spaceStudio.server.repository.PlayerRepository;
-import de.spaceStudio.server.repository.SectionRepository;
-import de.spaceStudio.server.repository.ShipRepository;
+import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +27,11 @@ public class SectionControllerImpl implements SectionController {
     private ShipRepository shipRepository;
     @Autowired
     private AIRepository aiRepository;
+
+    @Autowired
+    private CrewMemberRepository crewMemberRepository;
+
+    @Autowired WeaponRepository weaponRepository;
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
@@ -147,12 +146,35 @@ public class SectionControllerImpl implements SectionController {
 
     @Override
     public List<Section> sectionsByShip(Integer id) {
-        LOGGER.info("EEEK");
         Optional<Ship> ship = shipRepository.findById(id);
         if (ship.isEmpty()) {
             return null;
         }
         List<Section> secs = repository.findAllByShip(ship.get()).get();
+
+        secs = makeChanges(secs);
+
+        return secs;
+    }
+
+    private List<Section> makeChanges(List<Section> secs) {
+
+        for (Section s :
+                secs) {
+
+            Optional<CrewMember> crew = crewMemberRepository.findByCurrentSection(s);
+
+            if (crew.isPresent() && crew.get().getRole().equals(s.getRole())) {
+                switch (crew.get().getRole()) {
+                    case FIGHTER:
+                        Optional<List<Weapon>> weapons = weaponRepository.findBySection(s);
+                        if (weapons.isPresent()) { // More Power is Crew is in Sections
+                            s.setPowerCurrent(s.getPowerCurrent() + 1);
+                        }
+
+                }
+            }
+        }
         return secs;
     }
 }
