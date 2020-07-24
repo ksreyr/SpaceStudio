@@ -3,10 +3,7 @@ package de.spaceStudio.client.util;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class contains global variables, they can be access in the whole project
@@ -263,6 +260,26 @@ public  class Global {
     /**
      * Sections Variables
      */
+
+     private static Map<Integer, List<Pair>> getPos() {
+
+         var res = new HashMap<Integer, List<Pair>>();
+
+
+
+            List<Pair> pairs = new ArrayList<>();
+            pairs.add(new Pair(271f, 158f));
+            pairs.add(new Pair(475f, 293f));
+            pairs.add(new Pair(647f, 307f));
+            pairs.add(new Pair(479f, 469f));
+            pairs.add(new Pair(646f, 461f));
+            pairs.add(new Pair(266f, 607f));
+
+            res.put(0, pairs);
+
+            return res;
+     }
+
     public static Section section1=Section
             .sectionBuilder()
             .img("Section1")
@@ -272,7 +289,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
-            .pos(20, 40)
+            .pos(getPos().get(0).get(0).getLeft(), getPos().get(0).get(0).getRight())
             .buildSection();
     public static Section section2= Section
             .sectionBuilder()
@@ -283,7 +300,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
-            .pos(100, 100)
+            .pos(getPos().get(0).get(1).getLeft(), getPos().get(0).get(1).getRight())
             .buildSection();
     public static Section section3= Section
             .sectionBuilder()
@@ -293,6 +310,7 @@ public  class Global {
             .powerCurrent(100)
             .usable(true)
             .connectingTo(null)
+            .pos(getPos().get(0).get(2).getLeft(), getPos().get(0).get(2).getRight())
             .powerRequired(10)
             .buildSection();
     public static Section section4= Section
@@ -302,6 +320,7 @@ public  class Global {
             powerCurrent(100)
             .usable(true)
             .connectingTo(null)
+            .pos(getPos().get(0).get(3).getLeft(), getPos().get(0).get(3).getRight())
             .powerRequired(10)
             .buildSection();
     public static Section section5= Section
@@ -313,6 +332,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(getPos().get(0).get(4).getLeft(), getPos().get(0).get(4).getRight())
             .buildSection();
     public static Section section6 = Section
             .sectionBuilder()
@@ -323,6 +343,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(getPos().get(0).get(5).getLeft(), getPos().get(0).get(5).getRight())
             .buildSection();
 
     public  static List<Section> sectionsPlayerList = new ArrayList<Section>() {{
