@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.InitialDataGameService;
@@ -100,6 +101,8 @@ public class ShipSelectScreen extends BaseScreen {
     private boolean killTimer;
     private boolean logoutMultiPlayer;
     private boolean readyUpTriggered;
+    private boolean deployMultiplayer;
+    private int timeoutMultiPlayer = 0;
 
 
     Ship ship = new Ship();
@@ -424,8 +427,7 @@ public class ShipSelectScreen extends BaseScreen {
                     if(!readyUpTriggered) {
                         joinMultiplayerRoom();
                         startButton.setColor(Color.GREEN);
-                        readyUpTriggered = true;
-                        scheduleReadyUpMultiplayer();
+                        readyUpTriggered = true;;
 
                     } else {
                         // send request
@@ -519,11 +521,15 @@ public class ShipSelectScreen extends BaseScreen {
                     LOG.info("Fetching data from server...");
                     LOG.info(multiPlayerSessionID);
                     fetchLoggedUsers();
+                    if (readyUpTriggered){
+                        checkMultiPlayerToStartSynchro();
+                        }
                 }
             }
         }, 1000,5000);
     }
 
+    /*
     private void scheduleReadyUpMultiplayer(){
         Timer schedule = new Timer( );
         schedule.scheduleAtFixedRate(new TimerTask() {
@@ -540,6 +546,8 @@ public class ShipSelectScreen extends BaseScreen {
             }
         }, 1000,1000);
     }
+    /*
+     */
     /**
      *
      */
@@ -547,6 +555,39 @@ public class ShipSelectScreen extends BaseScreen {
         //
     }
 
+    public void checkMultiPlayerToStartSynchro() {
+        String url = Global.SERVER_URL + Global.MULTIPLAYER_SYNCHRO_ROOM + Global.multiPlayerSessionID;
+        Net.HttpRequest request = RequestUtils.setupRequest(url, "", Net.HttpMethods.GET);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                LOG.info("Waiting for players...");
+                String response = httpResponse.getResultAsString();
+                LOG.info(response);
+                if (response.equals("true")){
+                    // SetScreen Station Map
+                    LOG.info("Setting up stationStop Screen");
+                    deployMultiplayer = true;
+                } else {
+                    LOG.info("False var");
+                    // Notify Player try again or play single player
+                    deployMultiplayer = false;
+                }
+            }
+
+            @Override
+            public void failed(Throwable t) {
+
+            }
+
+            @Override
+            public void cancelled() {
+
+            }
+        });
+
+    }
 
     @Override
     public void render(float delta) {
@@ -566,6 +607,9 @@ public class ShipSelectScreen extends BaseScreen {
         stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 10, 180, 70, 70);
         stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 10, 110, 70, 70);
 
+        if (deployMultiplayer){
+            mainClient.setScreen(new StationsMap(game));
+        }
         // Bock
         if(IS_SINGLE_PLAYER){
         /*Added Ship*/

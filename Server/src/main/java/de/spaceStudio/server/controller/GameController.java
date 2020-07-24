@@ -113,6 +113,7 @@ public class GameController {
         LOG.info("Ready up");
         MultiPlayerGame multiPlayerGame = Global.MultiPlayerGameSessions.get(gameSession);
         if(multiPlayerGame.getPlayerOne() != null && multiPlayerGame.getPlayerTwo() != null){
+            LOG.info("true");
             return "true";
         }
     return "false";
