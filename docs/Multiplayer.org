@@ -1,8 +1,37 @@
 #+TITLE: Multiplayer
 
+#+BEGIN_SRC dot :file multi1.png
+ digraph finite_state_machine {
 
-Client -> Server: /game/get/single-player/{playerName}
-Server -> Client: 202 ACCEPTED
+ loginScreen -> selectScreen;
+ selectScreen -> shipSelectScreen
 
-Client -> Server: /game/multiplayer/{SessionID}
-Server -> Client: 202 ACCEPTED
+ shipSelectScreen -> stationMap
+ stationMap -> shopScreen
+ shopScreen -> stationMap
+
+ stationMap -> travelScreen
+travelScreen -> stopScreen
+stopScreen -> stationMap
+
+stopScreen ->  stationMap
+stopScreen-> combatScreen
+combatScreen -> stationMap
+
+ }
+#+END_SRC
+
+#+RESULTS:
+[[file:multi1.png]]
+
+
+#+BEGIN_SRC dot :file multiFight.png
+ digraph finite_state_machine {
+
+canShot -> shot
+canShot -> canShot
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ [[file:multiFight.png]]

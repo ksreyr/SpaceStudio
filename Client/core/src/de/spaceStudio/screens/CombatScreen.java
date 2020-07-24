@@ -264,8 +264,24 @@ public class CombatScreen extends BaseScreen {
         o2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-               selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
+
+
+         switch (Global.currentGegner.getName()) {
+
+                    case "Gegner2" :
+                        selectedTarget = Global.section4Gegner2;
+                        break;
+
+
+                    case "Gegner3":
+                        selectedTarget = Global.section4Gegner3;
+                        break;
+
+                    default:
+                        break;
+
+                }
 
                 o2.getStyle().imageUp = oxygen_sym_red;
                 engine.getStyle().imageUp = engine_sym;
@@ -279,8 +295,8 @@ public class CombatScreen extends BaseScreen {
         healthPoint.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
+                selectedTarget = Global.section2Gegner;
 
                 healthPoint.getStyle().imageUp = medical_sym_red;
                 engine.getStyle().imageUp = engine_sym;
@@ -297,7 +313,7 @@ public class CombatScreen extends BaseScreen {
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
+                selectedTarget = Global.section2Gegner;
                 isTargetSelected = true;
 
                 engine.getStyle().imageUp = engine_red;
@@ -317,7 +333,30 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
+
+
+                switch (Global.currentGegner.getName()) {
+
+                    case "Gegner" :
+                        selectedTarget = Global.section3Gegner;
+                        break;
+
+                    case "Gegner2" :
+                        selectedTarget = Global.section3Gegner2;
+                        break;
+
+
+                    case "Gegner3":
+                        selectedTarget = Global.section3Gegner3;
+                        break;
+
+
+
+                    default:
+                        break;
+
+                }
+
                 isTargetSelected = true;
                 weaponSection.getStyle().imageUp = weapon_section_red;
                 engine.getStyle().imageUp = engine_sym;
@@ -335,8 +374,8 @@ public class CombatScreen extends BaseScreen {
         cockpit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = findSection( (float) Gdx.input.getX(), (float) Gdx.input.getY()).get();
                 isTargetSelected = true;
+                selectedTarget = Global.section2Gegner;
 
                 cockpit.getStyle().imageUp = cockpit_red;
                 engine.getStyle().imageUp = engine_sym;
