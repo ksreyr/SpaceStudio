@@ -168,6 +168,10 @@ public  class Global {
      */
     public static final String BUY_RESSOURCE = "/buyitem";
     /**
+     * Player save game endpoint
+     */
+    public static final String SECTION_BY_SHIP_END_POINT = "/ship/{id}/sections";
+    /**
      * Global player, this data will be downloaded from server at login
      */
     public static Player currentPlayer;
@@ -286,7 +290,7 @@ public  class Global {
             .oxygen(100)
             .powerCurrent(100)
             .sectionTyp(SectionTyp.DRIVE)
-            .usable(true)
+            .usable(false)
             .connectingTo(null)
             .powerRequired(10)
             .pos(getPos().get(0).get(0).getLeft(), getPos().get(0).get(0).getRight())
@@ -312,6 +316,7 @@ public  class Global {
             .connectingTo(null)
             .pos(getPos().get(0).get(2).getLeft(), getPos().get(0).get(2).getRight())
             .powerRequired(10)
+            .hulleIntegritat(100)
             .buildSection();
     public static Section section4= Section
             .sectionBuilder()
@@ -322,6 +327,7 @@ public  class Global {
             .connectingTo(null)
             .pos(getPos().get(0).get(3).getLeft(), getPos().get(0).get(3).getRight())
             .powerRequired(10)
+            .hulleIntegritat(100)
             .buildSection();
     public static Section section5= Section
             .sectionBuilder()
@@ -333,17 +339,19 @@ public  class Global {
             .connectingTo(null)
             .powerRequired(10)
             .pos(getPos().get(0).get(4).getLeft(), getPos().get(0).get(4).getRight())
+            .hulleIntegritat(100)
             .buildSection();
     public static Section section6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section6")
-            .oxygen(100).
-                    powerCurrent(100)
-            .usable(true)
+            .oxygen(100)
+            .powerCurrent(100)
+            .usable(false)
             .connectingTo(null)
             .powerRequired(10)
             .pos(getPos().get(0).get(5).getLeft(), getPos().get(0).get(5).getRight())
+            .hulleIntegritat(100)
             .buildSection();
 
     public  static List<Section> sectionsPlayerList = new ArrayList<Section>() {{
