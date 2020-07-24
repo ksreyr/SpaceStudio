@@ -694,6 +694,8 @@ public class ShipSelectScreen extends BaseScreen {
         if (!crewMemberList.isEmpty() && requestcounter == 4) {
             Global.crewMemberList = crewMemberList;
             Global.updateVariableCrewMembersPlayer();
+            List<CrewMember> sizeO=new ArrayList<>();
+            crewMemberList=sizeO;
             requestcounter = 5;
         }
         //Add Universe
@@ -964,12 +966,27 @@ public class ShipSelectScreen extends BaseScreen {
                 Global.actualiziertweaponListGegner4();
                 Global.actualiziertweaponListGegner5();
                 Global.actualiziertweaponListGegner6();
-                System.out.println("Control: "+weapon1Player);
                 requestcounter = 22;
             }
             if (requestcounter == 22) {
-                mainClient.setScreen(new StationsMap(game));
+                for (Section section :
+                        sectionsgegner1) {
+                    switch (section.getImg()){
+                        case "Section1Gegner1":
+                            crewMember1gegner1.setCurrentSection(section);
+                            break;
+                        case "Section2Gegner1":
+                            crewMember2gegner1.setCurrentSection(section);
+                            break;
+                    }
+                }
+                sendRequestAddCrewMembers(List.of(crewMember1gegner1,crewMember2gegner1),Net.HttpMethods.POST);
                 requestcounter = 23;
+            }
+            if(!crewMemberList.isEmpty()&&requestcounter ==23){
+
+                mainClient.setScreen(new StationsMap(game));
+                requestcounter=24;
             }
         //}
         } else {
