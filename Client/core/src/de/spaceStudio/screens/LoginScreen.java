@@ -458,7 +458,6 @@ public class LoginScreen extends BaseScreen {
     public void hide() {
         super.hide();
         Gdx.input.setInputProcessor(null);
-        dispose();
     }
 
     @Override
