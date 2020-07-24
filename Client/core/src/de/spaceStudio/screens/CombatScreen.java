@@ -54,10 +54,10 @@ public class CombatScreen extends BaseScreen {
     public static final int YEnemyPos = 370;
     public static final int WIDTHGegner = 550;
     public static final int HEIGHTGegner = 550;
-    public static final int XPlayerShip = 300;
-    public static final int YPlayerShip = 300;
-    public static final int WidthShip = 700;
-    public static final int HeightPlayerShip = 700;
+    public static final int XPlayerShip = 400;
+    public static final int YPlayerShip = 400;
+    public static final int WidthPlayerShip = 500;
+    public static final int HeightPlayerShip = 500;
     private final Label weaponLabel;
     private final String[] weaponText = {"All Weapons", "You have selected Weapon: "  };
 
@@ -212,23 +212,23 @@ public class CombatScreen extends BaseScreen {
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
-        crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
         crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
+        crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
 
         imageCrewMemberOne = new Image(crewMemberOne);
         imageCrewMemberTwo = new Image(crewMemberTwo);
         imageCrewMemberThree = new Image(crewMemberThree);
-        listOfCrewImages.add(imageCrewMemberOne);
-        listOfCrewImages.add(imageCrewMemberTwo);
-        listOfCrewImages.add(imageCrewMemberThree);
         imageCrewMemberOne.setBounds(30,30,30,30);
         imageCrewMemberTwo.setBounds(30,30,30,30);
         imageCrewMemberThree.setBounds(30,30,30,30);
-        imageCrewMemberOne.setPosition(BaseScreen.WIDTH/4f-60,BaseScreen.HEIGHT-600);
-        imageCrewMemberTwo.setPosition(BaseScreen.WIDTH/4f+170,BaseScreen.HEIGHT-300);
-        imageCrewMemberThree.setPosition(BaseScreen.WIDTH/4f+280,BaseScreen.HEIGHT-545);
+        imageCrewMemberOne.setPosition(XPlayerShip + Global.section2.getxPos(),YPlayerShip + Global.section2.getyPos());
+        imageCrewMemberTwo.setPosition(XPlayerShip + Global.section4.getxPos(), YPlayerShip + Global.section4.getyPos());
+        imageCrewMemberThree.setPosition(XPlayerShip + Global.section6.getxPos(), YPlayerShip + Global.section6.getyPos());
 
+        listOfCrewImages.add(imageCrewMemberOne);
+        listOfCrewImages.add(imageCrewMemberTwo);
+        listOfCrewImages.add(imageCrewMemberThree);
 
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()),skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()),skin);
@@ -446,24 +446,24 @@ public class CombatScreen extends BaseScreen {
                 //do something when texture is touched
                 Vector3 tmp= new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
                 camera.unproject(tmp);
-                Rectangle sectionOne = getRectOfTextures(redPinSectionOne);
-                Rectangle sectionTwo = getRectOfTextures(redPinSectionTwo);
-                Rectangle sectionThree = getRectOfTextures(redPinSectionThree);
-                Rectangle sectionFour = getRectOfTextures(redPinSectionFour);
-                Rectangle sectionFive = getRectOfTextures(redPinSectionFive);
-                Rectangle sectionSix = getRectOfTextures(redPinSectionSix);
+                Rectangle sectionOne = getRectOfTextures(Global.section1.getxPos(),Global.section1.getyPos());
+                Rectangle sectionTwo = getRectOfTextures(Global.section2.getxPos(),Global.section2.getyPos());
+                Rectangle sectionThree = getRectOfTextures(Global.section3.getxPos(),Global.section3.getyPos());
+                Rectangle sectionFour = getRectOfTextures(Global.section4.getxPos(),Global.section4.getyPos());
+                Rectangle sectionFive = getRectOfTextures(Global.section5.getxPos(),Global.section5.getyPos());
+                Rectangle sectionSix = getRectOfTextures(Global.section6.getxPos(),Global.section6.getyPos());
                 if(sectionOne.contains(tmp.x,tmp.y)) {
-                    imageCrewMember.setPosition(redPinSectionOne.x_position,redPinSectionOne.y_position);
+                    imageCrewMember.setPosition(XPlayerShip + Global.section1.getxPos(),YPlayerShip + Global.section1.getyPos());
                 } else if(sectionTwo.contains(tmp.x,tmp.y)){
-                    imageCrewMember.setPosition(redPinSectionTwo.x_position, redPinSectionTwo.y_position);
+                    imageCrewMember.setPosition(XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
                 } else if(sectionThree.contains(tmp.x,tmp.y)){
-                    imageCrewMember.setPosition(redPinSectionThree.x_position, redPinSectionThree.y_position);
+                    imageCrewMember.setPosition(XPlayerShip + Global.section3.getxPos(), YPlayerShip + Global.section3.getyPos());
                 } else if(sectionFour.contains(tmp.x,tmp.y)){
-                    imageCrewMember.setPosition(redPinSectionFour.x_position, redPinSectionFour.y_position);
+                    imageCrewMember.setPosition(XPlayerShip + Global.section4.getxPos(), YPlayerShip + Global.section4.getyPos());
                 } else if(sectionFive.contains(tmp.x,tmp.y)){
-                    imageCrewMember.setPosition(redPinSectionFive.x_position, redPinSectionFive.y_position);
+                    imageCrewMember.setPosition(XPlayerShip + Global.section5.getxPos(), YPlayerShip + Global.section5.getyPos());
                 } else if(sectionSix.contains(tmp.x,tmp.y)){
-                    imageCrewMember.setPosition(redPinSectionSix.x_position, redPinSectionSix.y_position);
+                    imageCrewMember.setPosition(XPlayerShip + Global.section6.getxPos(), YPlayerShip + Global.section6.getyPos());
                 }
                 else {
                     imageCrewMember.setPosition(crewX, crewY);
@@ -551,9 +551,9 @@ private Optional<Section> findSection(Image image) {
         return Float.parseFloat(String.valueOf(Math.sqrt(Math.pow( (Ax  - Bx), 2) + Math.pow( (Ay  - By), 2))));
     }
 
-    private Rectangle getRectOfTextures(RedPin redPin){
-        return new Rectangle(redPin.x_position,redPin.y_position,
-                redPin.texture.getWidth(),redPin.texture.getHeight());
+    private Rectangle getRectOfTextures(float redPinXPosition, float redPinYPosition){
+        return new Rectangle(XPlayerShip + redPinXPosition, YPlayerShip + redPinYPosition,
+                redPinSectionOne.texture.getWidth(),redPinSectionOne.texture.getHeight());
     }
 
     private void logicOfFirePlayer() {
@@ -671,26 +671,14 @@ private Optional<Section> findSection(Image image) {
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         // Render the Ship of the current Player
-        stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthShip, HeightPlayerShip);
+        stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
         if(dragged){
-            redPinSectionOne.x_position = BaseScreen.WIDTH/4f-60;
-            redPinSectionOne.y_position = BaseScreen.HEIGHT-290;
-            redPinSectionTwo.x_position = BaseScreen.WIDTH/4f-60;
-            redPinSectionTwo.y_position = BaseScreen.HEIGHT-600;
-            redPinSectionThree.x_position = BaseScreen.WIDTH/4f+170;
-            redPinSectionThree.y_position = BaseScreen.HEIGHT-300;
-            redPinSectionFour.x_position = BaseScreen.WIDTH/4f+170;
-            redPinSectionFour.y_position = BaseScreen.HEIGHT-590;
-            redPinSectionFive.x_position = BaseScreen.WIDTH/4f+280;
-            redPinSectionFive.y_position = BaseScreen.HEIGHT-340;
-            redPinSectionSix.x_position = BaseScreen.WIDTH/4f+280;
-            redPinSectionSix.y_position = BaseScreen.HEIGHT-545;
-            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionOne.x_position,redPinSectionOne.y_position);
-            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionTwo.x_position,redPinSectionTwo.y_position);
-            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionThree.x_position,redPinSectionThree.y_position);
-            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionFour.x_position,redPinSectionFour.y_position);
-            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionFive.x_position,redPinSectionFive.y_position);
-            stage.getBatch().draw(redPinSectionOne.texture,redPinSectionSix.x_position,redPinSectionSix.y_position);
+            stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(),YPlayerShip + Global.section1.getyPos());
+            stage.getBatch().draw(redPinSectionTwo.texture, XPlayerShip + Global.section2.getxPos(),YPlayerShip + Global.section2.getyPos());
+            stage.getBatch().draw(redPinSectionThree.texture, XPlayerShip + Global.section3.getxPos(),YPlayerShip + Global.section3.getyPos());
+            stage.getBatch().draw(redPinSectionFour.texture, XPlayerShip + Global.section4.getxPos(),YPlayerShip + Global.section4.getyPos());
+            stage.getBatch().draw(redPinSectionFive.texture, XPlayerShip + Global.section5.getxPos(),YPlayerShip + Global.section5.getyPos());
+            stage.getBatch().draw(redPinSectionSix.texture, XPlayerShip + Global.section6.getxPos(),YPlayerShip + Global.section6.getyPos());
         }
 
             selectedWeapons = Global.combatWeapons.get(Global.currentShipPlayer.getId());

@@ -71,7 +71,7 @@ public interface CrewMemberController {
      * @return the Ship with updated Crew Postions if validated
      */
     @RequestMapping(value = "/crew", method = RequestMethod.PUT)
-    CrewMember updatePostion(int shipID, @RequestBody CrewMember crewMember, @RequestBody Section sectionNew, @RequestBody Section sectionOld);
+    Boolean updatePostion(int shipID, @RequestBody Section sectionNew, @RequestBody Section sectionOld);
 
     @GetMapping(value = "/ship/{id}/crewMembers" )
     List<CrewMember> getMembers(@PathVariable Integer id);

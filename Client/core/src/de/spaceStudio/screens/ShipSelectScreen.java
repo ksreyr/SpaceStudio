@@ -65,9 +65,9 @@ public class ShipSelectScreen extends BaseScreen {
     private Texture weaponsSystem;
     private Texture drive;
     private Texture crewDisplay;
-    private Texture crewTest;
-    private Texture crewTest2;
-    private Texture crewTest3;
+    private Texture crewMember;
+    private Texture crewMember2;
+    private Texture crewMember3;
 
     private RedPin redPin;
     private RedPin redPin2;
@@ -75,9 +75,9 @@ public class ShipSelectScreen extends BaseScreen {
     private RedPin redPin4;
     private RedPin redPin5;
     private RedPin redPin6;
-    private Image imageCrewTestSektion2;
-    private Image imageCrewTestSektion4;
-    private Image imageCrewTestSektion6;
+    private Image imageCrewMemberSektion2;
+    private Image imageCrewMemberSektion4;
+    private Image imageCrewMemberSektion6;
     private TextField crew_1_name, crew_2_name, crew_3_name;
 
     Animation<TextureRegion> crew1;
@@ -223,9 +223,9 @@ public class ShipSelectScreen extends BaseScreen {
         drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         crewDisplay = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shipPanel.png"));
-        crewTest = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        crewTest2 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        crewTest3 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
+        crewMember = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
+        crewMember2 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        crewMember3 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         redPin = new RedPin();
         redPin2 = new RedPin();
         redPin3 = new RedPin();
@@ -233,17 +233,15 @@ public class ShipSelectScreen extends BaseScreen {
         redPin5 = new RedPin();
         redPin6 = new RedPin();
 
-        imageCrewTestSektion4 = new Image(crewTest);
-        imageCrewTestSektion6 = new Image(crewTest2);
-        imageCrewTestSektion2 = new Image(crewTest3);
-        imageCrewTestSektion4.setBounds(30,30,30,30);
-        imageCrewTestSektion6.setBounds(30,30,30,30);
-        imageCrewTestSektion2.setBounds(30,30,30,30);
-        imageCrewTestSektion4.setPosition((BaseScreen.WIDTH/2f)+110,BaseScreen.HEIGHT-320);
-        //System.out.println("Zeile 226: " + ((BaseScreen.WIDTH/2f)+110));
-        //System.out.println("Zeile 227: " + imageCrewTest.getX());
-        imageCrewTestSektion6.setPosition(840,674);
-        imageCrewTestSektion2.setPosition(990,886);
+        imageCrewMemberSektion2 = new Image(crewMember);
+        imageCrewMemberSektion4 = new Image(crewMember2);
+        imageCrewMemberSektion6 = new Image(crewMember3);
+        imageCrewMemberSektion2.setBounds(30,30,30,30);
+        imageCrewMemberSektion4.setBounds(30,30,30,30);
+        imageCrewMemberSektion6.setBounds(30,30,30,30);
+        imageCrewMemberSektion2.setPosition(990,886);
+        imageCrewMemberSektion4.setPosition((BaseScreen.WIDTH/2f)+110,BaseScreen.HEIGHT-320);
+        imageCrewMemberSektion6.setPosition(840,674);
 
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
@@ -1015,15 +1013,15 @@ public class ShipSelectScreen extends BaseScreen {
                     stage.getBatch().draw(redPin6.texture, X_POSITION + 90, Y_POSITION + 124);
 
                     //Crewmember befindet sich in Sektion 2
-                    stage.addActor(imageCrewTestSektion2);
+                    stage.addActor(imageCrewMemberSektion2);
                     //Crewmember befindet sich in Sektion 4
-                    stage.addActor(imageCrewTestSektion4);
+                    stage.addActor(imageCrewMemberSektion4);
                     //Crewmember befindet sich in Sektion 6
-                    stage.addActor(imageCrewTestSektion6);
+                    stage.addActor(imageCrewMemberSektion6);
                 }else {
-                    imageCrewTestSektion4.remove();
-                    imageCrewTestSektion6.remove();
-                    imageCrewTestSektion2.remove();
+                    imageCrewMemberSektion2.remove();
+                    imageCrewMemberSektion4.remove();
+                    imageCrewMemberSektion6.remove();
                 }
                 break;
             case 1:

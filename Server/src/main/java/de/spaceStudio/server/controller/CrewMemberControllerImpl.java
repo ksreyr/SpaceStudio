@@ -154,18 +154,21 @@ public class CrewMemberControllerImpl implements CrewMemberController {
      * @return the Ship with updated Crew Postions if validated
      */
     @Override
-    public CrewMember updatePostion(int shipID, CrewMember crewMember, Section sectionNew, Section sectionOld) {
-        Optional<Ship> oldShip = shipRepository.findById(shipID);
+    public Boolean updatePostion(int shipID, Section sectionNew, Section sectionOld) {
+        Optional<CrewMember> crewMember = Optional.empty();
+        if (!sectionOld.equals(sectionNew)) {
+            crewMember = crewMemberRepository.findByCurrentSection(sectionOld);
+            if (crewMember.isEmpty()) {
+                logger.error("Illegal Request made from Client updatePostion(" + crewMember.get().getId() + "to " + sectionNew + ")");
+                return false;
+            }
 
-        if (crewMemberRepository.findById(shipID).get().getCurrentSection() != sectionOld) {
-            logger.error("Illegal Request made from Client updatePostion(" + crewMember.getId() + "to " + sectionNew + ")");
-            return crewMember;
-        } else {
-            CrewMember c = crewMemberRepository.findById(crewMember.getId()).get();
-            c.setCurrentSection(sectionNew);
-            crewMemberRepository.save(c);
-            return c;
+            if (crewMemberRepository.findByCurrentSection(sectionNew).isEmpty()) {
+                crewMember.get().setCurrentSection(sectionNew);
+                return true;
+            }
         }
+        return false;
     }
 
     @Override

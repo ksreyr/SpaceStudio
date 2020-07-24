@@ -371,7 +371,6 @@ public  class Global {
             .connectingTo(null)
             .powerRequired(10)
             .pos(90,124)
-            .pos(getPos().get(0).get(5).getLeft(), getPos().get(0).get(5).getRight())
             .hulleIntegritat(100)
             .buildSection();
 
