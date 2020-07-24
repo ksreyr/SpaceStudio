@@ -1084,6 +1084,24 @@ public class ShipSelectScreen extends BaseScreen {
         stage.dispose();
         mouseClick.dispose();
         batch.dispose();
+        font.dispose();
+        blueShip.dispose();
+        redShip.dispose();
+        greenship.dispose();
+        topdownfighter.dispose();
+        blueShipRoom.dispose();
+        redShipRoom.dispose();
+        greenshipRoom.dispose();
+        topdownfighterRoom.dispose();
+        relevantSystems.dispose();
+        shield.dispose();
+        weaponsSystem.dispose();
+        drive.dispose();
+        crewDisplay.dispose();
+        crewTest.dispose();
+        crewTest2.dispose();
+        crewTest3.dispose();
+        background.dispose();
     }
     //
     //
