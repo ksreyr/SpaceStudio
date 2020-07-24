@@ -90,7 +90,6 @@ public class LoadingScreen extends ScreenAdapter {
     @Override
     public void hide() {
         super.hide();
-        dispose();
     }
 
     @Override
