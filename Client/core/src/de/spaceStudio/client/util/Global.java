@@ -28,7 +28,7 @@ public  class Global {
     /**
      * @return true if level easy
      */
-    public static boolean ISEASY = false;
+    public static boolean ISEASY = true;
     /**
      * Hardcoded server URL
      */
@@ -272,7 +272,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
-            .pos(20, 40)
+            .pos(90, 350)
             .buildSection();
     public static Section section2= Section
             .sectionBuilder()
@@ -283,6 +283,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(240, 336)
             .buildSection();
     public static Section section3= Section
             .sectionBuilder()
@@ -293,6 +294,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(320,270)
             .buildSection();
     public static Section section4= Section
             .sectionBuilder()
@@ -302,6 +304,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(320,210)
             .buildSection();
     public static Section section5= Section
             .sectionBuilder()
@@ -312,6 +315,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(240,135)
             .buildSection();
     public static Section section6 = Section
             .sectionBuilder()
@@ -322,6 +326,7 @@ public  class Global {
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)
+            .pos(90,124)
             .buildSection();
 
     public  static List<Section> sectionsPlayerList = new ArrayList<Section>() {{

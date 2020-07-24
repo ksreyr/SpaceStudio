@@ -1,6 +1,7 @@
 package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -67,9 +69,10 @@ public class ShipSelectScreen extends BaseScreen {
     private Texture crewTest2;
     private Texture crewTest3;
     //private Texture redPoint;
-    private Image imageCrewTest;
-    private Image imageCrewTest2;
-    private Image imageCrewTest3;
+    private RedPin redPin;
+    private Image imageCrewTestSektion2;
+    private Image imageCrewTestSektion4;
+    private Image imageCrewTestSektion6;
     private TextField crew_1_name, crew_2_name, crew_3_name;
 
     Animation<TextureRegion> crew1;
@@ -213,16 +216,19 @@ public class ShipSelectScreen extends BaseScreen {
         crewTest = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewTest2 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewTest3 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
+        redPin = new RedPin();
 
-        imageCrewTest = new Image(crewTest);
-        imageCrewTest2 = new Image(crewTest2);
-        imageCrewTest3 = new Image(crewTest3);
-        imageCrewTest.setBounds(30,30,30,30);
-        imageCrewTest2.setBounds(30,30,30,30);
-        imageCrewTest3.setBounds(30,30,30,30);
-        imageCrewTest.setPosition((BaseScreen.WIDTH/2f)+110,BaseScreen.HEIGHT-320);
-        imageCrewTest2.setPosition(840,674);
-        imageCrewTest3.setPosition(990,886);
+        imageCrewTestSektion4 = new Image(crewTest);
+        imageCrewTestSektion6 = new Image(crewTest2);
+        imageCrewTestSektion2 = new Image(crewTest3);
+        imageCrewTestSektion4.setBounds(30,30,30,30);
+        imageCrewTestSektion6.setBounds(30,30,30,30);
+        imageCrewTestSektion2.setBounds(30,30,30,30);
+        imageCrewTestSektion4.setPosition((BaseScreen.WIDTH/2f)+110,BaseScreen.HEIGHT-320);
+        //System.out.println("Zeile 226: " + ((BaseScreen.WIDTH/2f)+110));
+        //System.out.println("Zeile 227: " + imageCrewTest.getX());
+        imageCrewTestSektion6.setPosition(840,674);
+        imageCrewTestSektion2.setPosition(990,886);
 
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
@@ -492,6 +498,13 @@ public class ShipSelectScreen extends BaseScreen {
             sendRequestAddSections(Global.sectionsPlayerList, Net.HttpMethods.POST);
             requestcounter = 2;
         }
+
+        /*if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            Vector3 mousePos = new Vector3();
+            camera.unproject(mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+            System.out.println("X Input: " + mousePos.x);
+            System.out.println("Y Input: " + mousePos.y);
+        }*/
 
         /*Added sectionList*/
         if (!sectionList.isEmpty() && requestcounter == 2) {
@@ -818,13 +831,35 @@ public class ShipSelectScreen extends BaseScreen {
                     stage.getBatch().draw(shield, BaseScreen.WIDTH/2f,BaseScreen.HEIGHT-240);
                     stage.getBatch().draw(drive,(BaseScreen.WIDTH/2f)-100,BaseScreen.HEIGHT-450);
                     stage.getBatch().draw(weaponsSystem,(BaseScreen.WIDTH/2f)+85,BaseScreen.HEIGHT-350);
-                    stage.addActor(imageCrewTest);
-                    stage.addActor(imageCrewTest2);
-                    stage.addActor(imageCrewTest3);
+
+                    RedPin redPin2 = new RedPin();
+                    RedPin redPin3 = new RedPin();
+                    RedPin redPin4 = new RedPin();
+                    RedPin redPin5 = new RedPin();
+                    RedPin redPin6 = new RedPin();
+                    //Sektion 1
+                    stage.getBatch().draw(redPin.texture, X_POSITION + 90, Y_POSITION + 350);
+                    //Sektion 2
+                    stage.getBatch().draw(redPin2.texture, X_POSITION + 240, Y_POSITION + 336);
+                    //Sektion 3
+                    stage.getBatch().draw(redPin3.texture, X_POSITION + 320, Y_POSITION + 270);
+                    //Sektion 4
+                    stage.getBatch().draw(redPin4.texture, X_POSITION + 320, Y_POSITION + 210);
+                    //Sektion 5
+                    stage.getBatch().draw(redPin5.texture, X_POSITION + 240, Y_POSITION + 135);
+                    //Sektion 6
+                    stage.getBatch().draw(redPin6.texture, X_POSITION + 90, Y_POSITION + 124);
+
+                    //Crewmember befindet sich in Sektion 2
+                    stage.addActor(imageCrewTestSektion2);
+                    //Crewmember befindet sich in Sektion 4
+                    stage.addActor(imageCrewTestSektion4);
+                    //Crewmember befindet sich in Sektion 6
+                    stage.addActor(imageCrewTestSektion6);
                 }else {
-                    imageCrewTest.remove();
-                    imageCrewTest2.remove();
-                    imageCrewTest3.remove();
+                    imageCrewTestSektion4.remove();
+                    imageCrewTestSektion6.remove();
+                    imageCrewTestSektion2.remove();
                 }
                 break;
             case 1:
@@ -897,9 +932,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.dispose();
         mouseClick.dispose();
     }
-    //
-    //
-    //
+
     public void sendRequestAddCrewMembers(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
