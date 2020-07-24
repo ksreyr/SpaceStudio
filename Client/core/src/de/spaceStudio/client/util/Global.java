@@ -235,11 +235,11 @@ public  class Global {
      * CrewMember Variables
      */
     public static CrewMember crewMember0= CrewMember.crewMemberBuilder().health(100)
-            .img("Robot").role(Role.FIGHTER).buildCrewMember();
+            .img("Female").role(Role.FIGHTER).buildCrewMember();
     public static CrewMember crewMember1= CrewMember.crewMemberBuilder().health(200).
-            img("Human").role(Role.TECHNICIAN).buildCrewMember();
+            img("Male").role(Role.TECHNICIAN).buildCrewMember();
     public static CrewMember crewMember2= CrewMember.crewMemberBuilder().health(300).
-            img("Batman").role(Role.FIGHTER).buildCrewMember();
+            img("Male").role(Role.FIGHTER).buildCrewMember();
 
     public static List<CrewMember> crewMemberList=new ArrayList<CrewMember>(){{
         add(crewMember0);
@@ -338,8 +338,8 @@ public  class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section6")
-            .oxygen(100).
-                    powerCurrent(100)
+            .oxygen(100)
+            .powerCurrent(100)
             .usable(true)
             .connectingTo(null)
             .powerRequired(10)

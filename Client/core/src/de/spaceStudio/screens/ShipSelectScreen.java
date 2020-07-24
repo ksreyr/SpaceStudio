@@ -68,8 +68,13 @@ public class ShipSelectScreen extends BaseScreen {
     private Texture crewTest;
     private Texture crewTest2;
     private Texture crewTest3;
-    //private Texture redPoint;
+
     private RedPin redPin;
+    private RedPin redPin2;
+    private RedPin redPin3;
+    private RedPin redPin4;
+    private RedPin redPin5;
+    private RedPin redPin6;
     private Image imageCrewTestSektion2;
     private Image imageCrewTestSektion4;
     private Image imageCrewTestSektion6;
@@ -180,11 +185,11 @@ public class ShipSelectScreen extends BaseScreen {
         usernameLabel = new Label("UserName", skinButton);
         usernameLabel.setPosition(100, 350);
 
-        crew_1_name = new TextArea("John", skinButton);
+        crew_1_name = new TextArea("Clara", skinButton);
         crew_1_name.setPosition(120, 220);
-        crew_2_name = new TextArea("Max", skinButton);
+        crew_2_name = new TextArea("Mehmet", skinButton);
         crew_2_name.setPosition(120, 150);
-        crew_3_name = new TextArea("Jack", skinButton);
+        crew_3_name = new TextArea("Santiago", skinButton);
         crew_3_name.setPosition(120, 80);
 
 
@@ -217,6 +222,11 @@ public class ShipSelectScreen extends BaseScreen {
         crewTest2 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewTest3 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
         redPin = new RedPin();
+        redPin2 = new RedPin();
+        redPin3 = new RedPin();
+        redPin4 = new RedPin();
+        redPin5 = new RedPin();
+        redPin6 = new RedPin();
 
         imageCrewTestSektion4 = new Image(crewTest);
         imageCrewTestSektion6 = new Image(crewTest2);
@@ -537,15 +547,15 @@ public class ShipSelectScreen extends BaseScreen {
                     Global.crewMemberList) {
                 switch (counter) {
                     case 1:
-                        c.setCurrentSection(Global.section1);
+                        c.setCurrentSection(section2);
                         c.setName(crew_1_name.getText());
                         break;
                     case 2:
-                        c.setCurrentSection(Global.section2);
+                        c.setCurrentSection(section4);
                         c.setName(crew_2_name.getText());
                         break;
                     case 3:
-                        c.setCurrentSection(Global.section3);
+                        c.setCurrentSection(section6);
                         c.setName(crew_3_name.getText());
                         break;
                     default:
@@ -851,11 +861,6 @@ public class ShipSelectScreen extends BaseScreen {
                     stage.getBatch().draw(drive,(BaseScreen.WIDTH/2f)-100,BaseScreen.HEIGHT-450);
                     stage.getBatch().draw(weaponsSystem,(BaseScreen.WIDTH/2f)+85,BaseScreen.HEIGHT-350);
 
-                    RedPin redPin2 = new RedPin();
-                    RedPin redPin3 = new RedPin();
-                    RedPin redPin4 = new RedPin();
-                    RedPin redPin5 = new RedPin();
-                    RedPin redPin6 = new RedPin();
                     //Sektion 1
                     stage.getBatch().draw(redPin.texture, X_POSITION + 90, Y_POSITION + 350);
                     //Sektion 2
