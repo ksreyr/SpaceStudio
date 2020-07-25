@@ -33,13 +33,14 @@ public final class RequestUtils {
         return request;
     }
 
-    public static String genericRequest(String url, boolean noWait, Integer id, String method, Object payload) {
+    public static String genericRequest(String url, boolean shipRequest, Integer id, String method, Object payload) {
                 ObjectMapper objectMapper = new ObjectMapper();
         Net.HttpRequest r = null;
         try {
             if (!payload.equals("")) {
                 r = setupRequest(url, objectMapper.writeValueAsString(payload), method);
-            } else {
+            }
+            else {
                 r = setupRequest(url, "", method);
             }
         } catch (JsonProcessingException e) {
@@ -81,6 +82,12 @@ public final class RequestUtils {
                 } else  if (url.contains("canLand")) {
                     try {
                         Global.allReady = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {});
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                } else if (shipRequest) {
+                    try {
+                        Global.currentShipPlayer = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {});
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -128,6 +135,8 @@ public final class RequestUtils {
                 false, 0, Net.HttpMethods.GET, player);
     }
 
-
-
+    public static void getShip(Ship ship) {
+        genericRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/",
+                true, ship.getId(), Net.HttpMethods.GET, "");
+    }
 }
