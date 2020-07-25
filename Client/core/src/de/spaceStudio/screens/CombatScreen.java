@@ -103,6 +103,9 @@ public class CombatScreen extends BaseScreen {
     private Texture crewMemberOne;
     private Texture crewMemberTwo;
     private Texture crewMemberThree;
+    private Texture shieldSystem;
+    private Texture weaponsSystem;
+    private Texture driveSystem;
     //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
     private RedPin redPinSectionOne;
     private RedPin redPinSectionTwo;
@@ -213,6 +216,9 @@ public class CombatScreen extends BaseScreen {
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
+        shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
+        driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
+        weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
         crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
@@ -783,6 +789,9 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
             // Render the Ship of the current Player
             stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
+            stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
+            stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
+            stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
                 stage.getBatch().draw(redPinSectionTwo.texture, XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
@@ -1187,6 +1196,9 @@ public class CombatScreen extends BaseScreen {
         super.dispose();
         skin.dispose();
         rocketLaunch.dispose();
+        shieldSystem.dispose();
+        weaponsSystem.dispose();
+        driveSystem.dispose();
         stage.dispose();
     }
 
