@@ -235,7 +235,7 @@ public class StopScreen extends ScreenAdapter {
 
                                     @Override
                                     protected void result(Object object) {
-                                            game.setScreen(new ShopScreen(game));
+                                        game.setScreen(new ShopScreen(game));
                                     }
                                 }.show(stage);
 
@@ -299,7 +299,7 @@ public class StopScreen extends ScreenAdapter {
                                         int price_shield = 15;
 
                                         text("You can Upgrade all Weapons or one at a time");
-                                        text("You have " + Global.currentShipPlayer.getMoney() +  "Money");
+                                        text("You have " + Global.currentShipPlayer.getMoney() + "Money");
 
                                         if (Global.currentShipPlayer.getMoney() >= price_dammage) {
                                             button("+10% Dammage for  all (" + price_dammage + ")", 1l).getButtonTable().row();
@@ -337,7 +337,7 @@ public class StopScreen extends ScreenAdapter {
                                                     game.setScreen(new StationsMap(game));
                                                 }
                                             }.show(stage);
-                                        } else  if (object.equals(1l)) {
+                                        } else if (object.equals(1l)) {
                                             for (Weapon w :
                                                     Global.weaponListPlayer) {
                                                 w.setDamage((int) (w.getDamage() + w.getDamage() * 0.1)); // FIXME if dammage is below 10 this will fail
@@ -353,28 +353,28 @@ public class StopScreen extends ScreenAdapter {
                                                 w.setCoolDown((int) (w.getCoolDown() + w.getCoolDown() * 0.1)); // FIXME if dammage is below 10 this will fail
                                             }
                                         } else if (object.equals(4l)) {
-                                            Global.currentShipPlayer.setHp(Global.currentShipPlayer.getHp() + (int) (Global.currentShipPlayer.getHp() * 0.1f) );
+                                            Global.currentShipPlayer.setHp(Global.currentShipPlayer.getHp() + (int) (Global.currentShipPlayer.getHp() * 0.1f));
                                         } else if (object.equals(5l)) {
                                             Global.currentShipPlayer.setShield(Global.currentShipPlayer.getShield() + 10);
                                         }
 
 
-                                    // Where does this go
-                                  new Dialog("Upgrade Succesfull", skin) {
+                                        // Where does this go
+                                        new Dialog("Upgrade Succesfull", skin) {
 
-                                        {
-                                            text("You the eager Mechnanic has finished");
-                                            button("View Map", 1l).getButtonTable().row();
+                                            {
+                                                text("You the eager Mechnanic has finished");
+                                                button("View Map", 1l).getButtonTable().row();
 
-                                        }
+                                            }
 
-                                        @Override
-                                        protected void result(Object object) {
-                                            game.setScreen(new StationsMap(game));
-                                        }
-                                    }.show(stage);
+                                            @Override
+                                            protected void result(Object object) {
+                                                game.setScreen(new StationsMap(game));
+                                            }
+                                        }.show(stage);
 
-                                  }
+                                    }
                                 }.show(stage);
                             }
 

@@ -11,7 +11,8 @@ public class InputHandler {
     public static boolean DOWN_TOUCHED;
     public static boolean LEFT_TOUCHED;
     public static boolean RIGHT_TOUCHED;
-    public boolean update(){
+
+    public boolean update() {
         // reset all variables
         UP_TOUCHED = false;
         DOWN_TOUCHED = false;
@@ -20,7 +21,7 @@ public class InputHandler {
 
         // set boolean to true if key is touched
         if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-           return LEFT_TOUCHED = true;
+            return LEFT_TOUCHED = true;
         }
         if (Gdx.input.isKeyPressed(Keys.DOWN)) {
             return DOWN_TOUCHED = true;

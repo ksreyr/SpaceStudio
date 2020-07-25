@@ -5,6 +5,7 @@ import com.badlogic.gdx.Net;
 import com.google.gson.Gson;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
+
 import java.util.logging.Logger;
 
 public class MultiPlayerService {
@@ -15,7 +16,7 @@ public class MultiPlayerService {
     private final static java.util.logging.Logger LOG = Logger.getLogger(MultiPlayerService.class.getName());
 
 
-    public static void fetchMultiPlayerSession(){
+    public static void fetchMultiPlayerSession() {
         String url = Global.SERVER_URL + Global.MULTIPLAYER_ROOM_ID;
         Net.HttpRequest request = RequestUtils.setupRequest(url, "", Net.HttpMethods.GET);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
@@ -63,4 +64,4 @@ public class MultiPlayerService {
         });
     }
 
-    }
+}

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 public class GdxUtils {
 
-    public static void clearScreen(){
+    public static void clearScreen() {
         clearScreen(Color.BLACK);
     }
 

@@ -38,33 +38,39 @@ import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 public class ShopScreen extends ScreenAdapter {
 
     private final MainClient universeMap;
-    private MainClient mainClient;
     private final AssetManager assetManager;
-    private Viewport viewport;
-    private Stage stage;
-    private Skin spaceSkin;
-    private BitmapFont font;
-    private ShapeRenderer renderer;
-
+    private final MainClient mainClient;
+    private final Viewport viewport;
+    private final Skin spaceSkin;
+    private final BitmapFont font;
+    private final ShapeRenderer renderer;
     //externes Schiff
-    private SpriteBatch batch;
-
+    private final SpriteBatch batch;
     //Textures
-    private Texture background, playerShip;
-    private Texture securityTextureGrey, driveTextureGrey;
-    private Texture rocket1, rocket2, crewMemberMTexture, crewMemberFTexture, securityTexture, oxygenTexture, driveTexture;
+    private final Texture background;
+    private final Texture playerShip;
+    private final Texture securityTextureGrey;
+    private final Texture driveTextureGrey;
+    private final Texture rocket1;
+    private final Texture rocket2;
+    private final Texture crewMemberMTexture;
+    private final Texture crewMemberFTexture;
+    private final Texture securityTexture;
+    private final Texture oxygenTexture;
+    private final Texture driveTexture;
+    private final Skin skin;
+    public CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6, checkBoxAllSections;
+    //
+    List<ShipRessource> shipRessources = new ArrayList<>();
+    List<ShopRessource> shopRessources = new ArrayList<>();
+    private Stage stage;
     private TextButton next, buy, sell;
     private int itemNumber;
-    public CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6, checkBoxAllSections;
-
-    private Skin skin;
-
     //Ressourcen
     private int money;
     private int secure;
     private int drive;
     private int oxygen;
-
     //rocket1
     private boolean rocket1s1, rocket1s2, rocket1s3, rocket1s4, rocket1s5, rocket1s6;
     //rocket2
@@ -75,10 +81,6 @@ public class ShopScreen extends ScreenAdapter {
     private boolean crewMemberMs1, crewMemberMs2, crewMemberMs3, crewMemberMs4, crewMemberMs5, crewMemberMs6;
     //secure,drive
     private boolean secureIconS1, driveIconS1, secureIconS2, driveIconS2;
-
-    //
-    List<ShipRessource> shipRessources = new ArrayList<>();
-    List<ShopRessource> shopRessources = new ArrayList<>();
     //
 
     public ShopScreen(MainClient mainClient) {
@@ -90,7 +92,7 @@ public class ShopScreen extends ScreenAdapter {
         this.skin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
         font = new BitmapFont(Gdx.files.internal("Client/core/assets/skin/default.fnt"));
-        spaceSkin =  new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
+        spaceSkin = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         background = new Texture("ownAssets/sgx/backgrounds/galaxyBackground.png");
         playerShip = new Texture("Client/core/assets/data/ships/blueships2.png");
         rocket1 = new Texture("data/ships/rocketSmall.png");
@@ -158,7 +160,7 @@ public class ShopScreen extends ScreenAdapter {
 
 
     @Override
-    public void show(){
+    public void show() {
 
         //viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage = new Stage(viewport, universeMap.getBatch());
@@ -167,14 +169,14 @@ public class ShopScreen extends ScreenAdapter {
         stage.addActor(sell);
 
         //Back to Map Button
-        TextButton backToMap = new TextButton(" Back to Map ", spaceSkin , StyleNames.EMPHASISTEXTBUTTON);
+        TextButton backToMap = new TextButton(" Back to Map ", spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
         backToMap.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 mainClient.setScreen(new StationsMap(mainClient));
             }
         });
-        backToMap.setPosition(1650,1000);
+        backToMap.setPosition(1650, 1000);
         stage.addActor(backToMap);
 
         checkBoxSection1 = new CheckBox("Section 1", skin);
@@ -266,6 +268,7 @@ public class ShopScreen extends ScreenAdapter {
             }
         });
     }
+
     public void buyItem(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -305,7 +308,7 @@ public class ShopScreen extends ScreenAdapter {
 
         stage.getBatch().begin();
         if (!shipRessources.isEmpty()) {
-            TextArea textArea = new TextArea(shipRessources.get(0).getName().toString() + String.valueOf(shipRessources.get(0).getAmount()), skin);
+            TextArea textArea = new TextArea(shipRessources.get(0).getName().toString() + shipRessources.get(0).getAmount(), skin);
             textArea.setPosition(BaseScreen.WIDTH / 20, 850);
             textArea.setWidth(200);
             textArea.setHeight(150);
@@ -332,7 +335,7 @@ public class ShopScreen extends ScreenAdapter {
                 stage.getBatch().draw(rocket2, positionX, positionY);
                 break;
             case 2:
-                stage.getBatch().draw(crewMemberFTexture,positionX, positionY);
+                stage.getBatch().draw(crewMemberFTexture, positionX, positionY);
                 break;
             case 3:
                 stage.getBatch().draw(crewMemberMTexture, positionX, positionY);
@@ -341,7 +344,7 @@ public class ShopScreen extends ScreenAdapter {
                 stage.getBatch().draw(securityTexture, positionX, positionY);
                 break;
             case 5:
-                stage.getBatch().draw(oxygenTexture,positionX, positionY);
+                stage.getBatch().draw(oxygenTexture, positionX, positionY);
                 break;
             case 6:
                 stage.getBatch().draw(driveTexture, positionX, positionY);
@@ -361,14 +364,20 @@ public class ShopScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         viewport.update(width, height, true);
     }
+
     @Override
-    public void pause() { }
+    public void pause() {
+    }
+
     @Override
-    public void resume() { }
+    public void resume() {
+    }
+
     @Override
     public void hide() {
         super.hide();
     }
+
     @Override
     public void dispose() {
         stage.dispose();
@@ -392,13 +401,13 @@ public class ShopScreen extends ScreenAdapter {
 
     public void nextButton() {
         next = new TextButton("next", spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
-        next.setPosition(1600,700);
+        next.setPosition(1600, 700);
 
         next.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(itemNumber > 5)
-                    itemNumber=0;
+                if (itemNumber > 5)
+                    itemNumber = 0;
                 else {
                     itemNumber++;
                 }
@@ -406,27 +415,27 @@ public class ShopScreen extends ScreenAdapter {
         });
     }
 
-    public void buyItemsButton(){
-        buy = new TextButton("buy",spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
-        buy.setPosition(900,780);
+    public void buyItemsButton() {
+        buy = new TextButton("buy", spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
+        buy.setPosition(900, 780);
 
         buy.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 changeItems(true);
-                if(itemNumber==0){
-                    buyItem(List.of(shopRessources.get(0)),Net.HttpMethods.POST);
-                }else if(itemNumber==1){
-                    buyItem(List.of(shopRessources.get(1)),Net.HttpMethods.POST);
+                if (itemNumber == 0) {
+                    buyItem(List.of(shopRessources.get(0)), Net.HttpMethods.POST);
+                } else if (itemNumber == 1) {
+                    buyItem(List.of(shopRessources.get(1)), Net.HttpMethods.POST);
                 }
                 //setAllSectionCheckboxesFalse();
             }
         });
     }
 
-    public void sellItemsButton(){
-        sell = new TextButton("sell",spaceSkin,StyleNames.EMPHASISTEXTBUTTON);
-        sell.setPosition(950,780);
+    public void sellItemsButton() {
+        sell = new TextButton("sell", spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
+        sell.setPosition(950, 780);
 
         sell.addListener(new ChangeListener() {
             @Override
@@ -438,133 +447,133 @@ public class ShopScreen extends ScreenAdapter {
         //drawItems();
     }
 
-    public void changeItems(boolean b){
+    public void changeItems(boolean b) {
 
-        if(itemNumber > 3){
+        if (itemNumber > 3) {
             //setAllSectionCheckboxesFalse();
-                if(itemNumber == 4)
-                    setSecure(getSecure()+10);
-                if(itemNumber == 5)
-                    setOxygen(getOxygen()+10);
-                if(itemNumber == 6)
-                    setDrive(getDrive()+10);
-                if(b){
-                    setMoney(getMoney()-10);
-                }else{
-                    setMoney(getMoney()+10);
-                }
+            if (itemNumber == 4)
+                setSecure(getSecure() + 10);
+            if (itemNumber == 5)
+                setOxygen(getOxygen() + 10);
+            if (itemNumber == 6)
+                setDrive(getDrive() + 10);
+            if (b) {
+                setMoney(getMoney() - 10);
+            } else {
+                setMoney(getMoney() + 10);
+            }
         }
 
 
-        if(checkBoxSection1.isChecked()){
-            if(itemNumber == 0)
+        if (checkBoxSection1.isChecked()) {
+            if (itemNumber == 0)
                 setRocket1s1(b);
-            if(itemNumber == 1)
+            if (itemNumber == 1)
                 setRocket2s1(b);
-            if(itemNumber == 2)
+            if (itemNumber == 2)
                 setCrewMemberFs1(b);
-            if(itemNumber == 3)
+            if (itemNumber == 3)
                 setCrewMemberMs1(b);
-            if(itemNumber == 4)
+            if (itemNumber == 4)
                 setSecureIconS1(b);
-            if(itemNumber == 6)
+            if (itemNumber == 6)
                 setDriveIconS1(b);
-            if(b){
-                setMoney(getMoney()-100);
-            }else{
-                setMoney(getMoney()+100);
+            if (b) {
+                setMoney(getMoney() - 100);
+            } else {
+                setMoney(getMoney() + 100);
             }
         }
 
-        if(checkBoxSection2.isChecked()){
-            if(itemNumber == 0)
+        if (checkBoxSection2.isChecked()) {
+            if (itemNumber == 0)
                 setRocket1s2(b);
-            if(itemNumber == 1)
+            if (itemNumber == 1)
                 setRocket2s2(b);
-            if(itemNumber == 2)
+            if (itemNumber == 2)
                 setCrewMemberFs2(b);
-            if(itemNumber == 3)
+            if (itemNumber == 3)
                 setCrewMemberMs2(b);
-            if(itemNumber == 4)
+            if (itemNumber == 4)
                 setSecureIconS2(b);
-            if(itemNumber == 6)
+            if (itemNumber == 6)
                 setDriveIconS2(b);
-            if(b){
-                setMoney(getMoney()-100);
-            }else{
-                setMoney(getMoney()+100);
+            if (b) {
+                setMoney(getMoney() - 100);
+            } else {
+                setMoney(getMoney() + 100);
             }
         }
-        if(checkBoxSection3.isChecked()){
-            if(itemNumber == 0)
+        if (checkBoxSection3.isChecked()) {
+            if (itemNumber == 0)
                 setRocket1s3(b);
-            if(itemNumber == 1)
+            if (itemNumber == 1)
                 setRocket2s3(b);
-            if(itemNumber == 2)
+            if (itemNumber == 2)
                 setCrewMemberFs3(b);
-            if(itemNumber == 3)
+            if (itemNumber == 3)
                 setCrewMemberMs3(b);
-            if(b){
-                setMoney(getMoney()-100);
-            }else{
-                setMoney(getMoney()+100);
+            if (b) {
+                setMoney(getMoney() - 100);
+            } else {
+                setMoney(getMoney() + 100);
             }
         }
-        if(checkBoxSection4.isChecked()){
-            if(itemNumber == 0)
+        if (checkBoxSection4.isChecked()) {
+            if (itemNumber == 0)
                 setRocket1s4(b);
-            if(itemNumber == 1)
+            if (itemNumber == 1)
                 setRocket2s4(b);
-            if(itemNumber == 2)
+            if (itemNumber == 2)
                 setCrewMemberFs4(b);
-            if(itemNumber == 3)
+            if (itemNumber == 3)
                 setCrewMemberMs4(b);
-            if(b){
-                setMoney(getMoney()-100);
-            }else{
-                setMoney(getMoney()+100);
+            if (b) {
+                setMoney(getMoney() - 100);
+            } else {
+                setMoney(getMoney() + 100);
             }
         }
 
-        if(checkBoxSection5.isChecked()){
-            if(itemNumber == 0)
+        if (checkBoxSection5.isChecked()) {
+            if (itemNumber == 0)
                 setRocket1s5(b);
-            if(itemNumber == 1)
+            if (itemNumber == 1)
                 setRocket2s5(b);
-            if(itemNumber == 2)
+            if (itemNumber == 2)
                 setCrewMemberFs5(b);
-            if(itemNumber == 3)
+            if (itemNumber == 3)
                 setCrewMemberMs5(b);
-            if(b){
-                setMoney(getMoney()-100);
-            }else{
-                setMoney(getMoney()+100);
+            if (b) {
+                setMoney(getMoney() - 100);
+            } else {
+                setMoney(getMoney() + 100);
             }
         }
-        if(checkBoxSection6.isChecked()){
-            if(itemNumber == 0)
+        if (checkBoxSection6.isChecked()) {
+            if (itemNumber == 0)
                 setRocket1s6(b);
-            if(itemNumber == 1)
+            if (itemNumber == 1)
                 setRocket2s6(b);
-            if(itemNumber == 2)
+            if (itemNumber == 2)
                 setCrewMemberFs6(b);
-            if(itemNumber == 3)
+            if (itemNumber == 3)
                 setCrewMemberMs6(b);
-            if(b){
-                setMoney(getMoney()-100);
-            }else{
-                setMoney(getMoney()+100);
+            if (b) {
+                setMoney(getMoney() - 100);
+            } else {
+                setMoney(getMoney() + 100);
             }
         }
 
     }
 
 
-    public void showTextfield(int itemNumber){
+    public void showTextfield(int itemNumber) {
         if (!shopRessources.isEmpty()) {
             if (itemNumber == 0) {
 
-                TextArea textArea = new TextArea(String.valueOf(shopRessources.get(0).getName()) + " Amoung: "+ String.valueOf(shopRessources.get(0).getAmount()) +" Price: " + String.valueOf(shopRessources.get(0).getPrice()), skin);
+                TextArea textArea = new TextArea(shopRessources.get(0).getName() + " Amoung: " + shopRessources.get(0).getAmount() + " Price: " + shopRessources.get(0).getPrice(), skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);
@@ -572,7 +581,7 @@ public class ShopScreen extends ScreenAdapter {
 
             } else if (itemNumber == 1) {
 
-                TextArea textArea = new TextArea(String.valueOf(shopRessources.get(1).getName()) +" Amoung: "+ String.valueOf(shopRessources.get(1).getAmount()) + " Price: " + String.valueOf(shopRessources.get(1).getPrice()), skin);
+                TextArea textArea = new TextArea(shopRessources.get(1).getName() + " Amoung: " + shopRessources.get(1).getAmount() + " Price: " + shopRessources.get(1).getPrice(), skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);
@@ -629,7 +638,7 @@ public class ShopScreen extends ScreenAdapter {
 
     }
 
-    public void setAllSectionCheckboxesFalse(){
+    public void setAllSectionCheckboxesFalse() {
         checkBoxSection1.setChecked(false);
         checkBoxSection2.setChecked(false);
         checkBoxSection3.setChecked(false);
@@ -638,7 +647,7 @@ public class ShopScreen extends ScreenAdapter {
         checkBoxSection6.setChecked(false);
     }
 
-    public void drawItems(){
+    public void drawItems() {
 
         float playershipX = BaseScreen.WIDTH / 8;
         float playershipY = BaseScreen.HEIGHT / 8;
@@ -646,38 +655,94 @@ public class ShopScreen extends ScreenAdapter {
         float position2 = playerShip.getWidth();
 
         //if(!secureIconS1){ stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 520); }
-        if(secureIconS1){ stage.getBatch().draw(securityTexture,playershipX + 150,playershipY + 520); }
+        if (secureIconS1) {
+            stage.getBatch().draw(securityTexture, playershipX + 150, playershipY + 520);
+        }
         //if(!driveIconS1){ stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 520); }
-        if(driveIconS1){ stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 520); }
+        if (driveIconS1) {
+            stage.getBatch().draw(driveTexture, playershipX + 190, playershipY + 520);
+        }
         //if(!secureIconS2){ stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 140); }
-        if(secureIconS2){ stage.getBatch().draw(securityTexture,playershipX + 150,playershipY + 140); }
+        if (secureIconS2) {
+            stage.getBatch().draw(securityTexture, playershipX + 150, playershipY + 140);
+        }
         ///if(!driveIconS2){ stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 140); }
-        if(driveIconS2){ stage.getBatch().draw(driveTexture,playershipX + 190,playershipY + 140); }
+        if (driveIconS2) {
+            stage.getBatch().draw(driveTexture, playershipX + 190, playershipY + 140);
+        }
 
-        if(rocket1s1){ stage.getBatch().draw(rocket1,280,620); }
-        if(rocket1s2){ stage.getBatch().draw(rocket1,280,160); }
-        if(rocket1s3){ stage.getBatch().draw(rocket1,500,490); }
-        if(rocket1s4){ stage.getBatch().draw(rocket1,500,300 ); }
-        if(rocket1s5){ stage.getBatch().draw(rocket1,700,490); }
-        if(rocket1s6){ stage.getBatch().draw(rocket1,700,340); }
-        if(rocket2s1){ stage.getBatch().draw(rocket2,330,620); }
-        if(rocket2s2){ stage.getBatch().draw(rocket2,330,160); }
-        if(rocket2s3){ stage.getBatch().draw(rocket2,550,490); }
-        if(rocket2s4){ stage.getBatch().draw(rocket2,550,300); }
-        if(rocket2s5){ stage.getBatch().draw(rocket2,750,490); }
-        if(rocket2s6){ stage.getBatch().draw(rocket2,750,340); }
-        if(crewMemberFs1){ stage.getBatch().draw( crewMemberFTexture,300,690); }
-        if(crewMemberFs2){ stage.getBatch().draw(crewMemberFTexture,300,230); }
-        if(crewMemberFs3){ stage.getBatch().draw(crewMemberFTexture,500,560); }
-        if(crewMemberFs4){ stage.getBatch().draw(crewMemberFTexture,500,370); }
-        if(crewMemberFs5){ stage.getBatch().draw(crewMemberFTexture,700,560); }
-        if(crewMemberFs6){ stage.getBatch().draw(crewMemberFTexture,700,410); }
-        if(crewMemberMs1){ stage.getBatch().draw(crewMemberMTexture,350,690); }
-        if(crewMemberMs2){ stage.getBatch().draw(crewMemberMTexture,350,230); }
-        if(crewMemberMs3){ stage.getBatch().draw(crewMemberMTexture,550,560); }
-        if(crewMemberMs4){ stage.getBatch().draw(crewMemberMTexture,550,370); }
-        if(crewMemberMs5){ stage.getBatch().draw(crewMemberMTexture,750,560); }
-        if(crewMemberMs6){ stage.getBatch().draw(crewMemberMTexture,750,410); }
+        if (rocket1s1) {
+            stage.getBatch().draw(rocket1, 280, 620);
+        }
+        if (rocket1s2) {
+            stage.getBatch().draw(rocket1, 280, 160);
+        }
+        if (rocket1s3) {
+            stage.getBatch().draw(rocket1, 500, 490);
+        }
+        if (rocket1s4) {
+            stage.getBatch().draw(rocket1, 500, 300);
+        }
+        if (rocket1s5) {
+            stage.getBatch().draw(rocket1, 700, 490);
+        }
+        if (rocket1s6) {
+            stage.getBatch().draw(rocket1, 700, 340);
+        }
+        if (rocket2s1) {
+            stage.getBatch().draw(rocket2, 330, 620);
+        }
+        if (rocket2s2) {
+            stage.getBatch().draw(rocket2, 330, 160);
+        }
+        if (rocket2s3) {
+            stage.getBatch().draw(rocket2, 550, 490);
+        }
+        if (rocket2s4) {
+            stage.getBatch().draw(rocket2, 550, 300);
+        }
+        if (rocket2s5) {
+            stage.getBatch().draw(rocket2, 750, 490);
+        }
+        if (rocket2s6) {
+            stage.getBatch().draw(rocket2, 750, 340);
+        }
+        if (crewMemberFs1) {
+            stage.getBatch().draw(crewMemberFTexture, 300, 690);
+        }
+        if (crewMemberFs2) {
+            stage.getBatch().draw(crewMemberFTexture, 300, 230);
+        }
+        if (crewMemberFs3) {
+            stage.getBatch().draw(crewMemberFTexture, 500, 560);
+        }
+        if (crewMemberFs4) {
+            stage.getBatch().draw(crewMemberFTexture, 500, 370);
+        }
+        if (crewMemberFs5) {
+            stage.getBatch().draw(crewMemberFTexture, 700, 560);
+        }
+        if (crewMemberFs6) {
+            stage.getBatch().draw(crewMemberFTexture, 700, 410);
+        }
+        if (crewMemberMs1) {
+            stage.getBatch().draw(crewMemberMTexture, 350, 690);
+        }
+        if (crewMemberMs2) {
+            stage.getBatch().draw(crewMemberMTexture, 350, 230);
+        }
+        if (crewMemberMs3) {
+            stage.getBatch().draw(crewMemberMTexture, 550, 560);
+        }
+        if (crewMemberMs4) {
+            stage.getBatch().draw(crewMemberMTexture, 550, 370);
+        }
+        if (crewMemberMs5) {
+            stage.getBatch().draw(crewMemberMTexture, 750, 560);
+        }
+        if (crewMemberMs6) {
+            stage.getBatch().draw(crewMemberMTexture, 750, 410);
+        }
     }
 
     public int getMoney() {

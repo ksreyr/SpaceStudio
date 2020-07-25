@@ -7,13 +7,13 @@ import com.badlogic.gdx.ScreenAdapter;
 
 public class Base extends ScreenAdapter implements ApplicationListener, InputProcessor, Screen {
 
+    public Base() {
+        super();
+    }
+
     @Override
     public void create() {
 
-    }
-
-    public Base() {
-        super();
     }
 
     @Override

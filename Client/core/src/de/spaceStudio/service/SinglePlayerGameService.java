@@ -7,9 +7,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import de.spaceStudio.client.util.Global;
 
-import static de.spaceStudio.client.util.RequestUtils.setupRequest;
-
 import java.util.logging.Logger;
+
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 public class SinglePlayerGameService {
 

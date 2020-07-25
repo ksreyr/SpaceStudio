@@ -7,11 +7,11 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import de.spaceStudio.client.util.Global;
 
-import static de.spaceStudio.client.util.Global.PLANETS_CREATION_ENDPOINT;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 public class Jumpservices {
     String response;
+
     public String makeJumpRequest(Object requestObject, String method) {
         final Json json = new Json();
 
@@ -29,11 +29,12 @@ public class Jumpservices {
                 String responseJson = httpResponse.getResultAsString();
                 try {
                     System.out.println("Response: " + responseJson);
-                    response = responseJson.toString();
+                    response = responseJson;
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }

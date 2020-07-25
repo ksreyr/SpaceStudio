@@ -4,7 +4,7 @@ package de.spaceStudio.config;
 public class GameConfig {
 
     //size of window in pixels
-    public static final float WIDTH =  800f; //1152f;
+    public static final float WIDTH = 800f; //1152f;
     public static final float HEIGHT = 480f; //648f;
 
     //part the world in units
@@ -16,5 +16,6 @@ public class GameConfig {
     public static final float WORLD_CENTER_Y = WORLD_HEIGHT / 2f; // world units
 
 
-    private GameConfig(){}
+    private GameConfig() {
+    }
 }

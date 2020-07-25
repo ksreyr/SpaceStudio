@@ -70,11 +70,11 @@ public class LoginService {
                     }.getType());
                     playersOnline.clear();
                     for (String onlinePlayer : dataFromServer) {
-                        if(currentPlayer != null) {
+                        if (currentPlayer != null) {
                             if (!currentPlayer.getName().equals(onlinePlayer)) {
                                 playersOnline.add(onlinePlayer);
                             }
-                        }else{
+                        } else {
                             playersOnline.add(onlinePlayer);
                         }
                     }
