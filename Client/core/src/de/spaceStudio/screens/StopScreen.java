@@ -34,14 +34,6 @@ public class StopScreen extends ScreenAdapter {
     public StopScreen(MainClient game) {
         super();
         this.game = game;
-        RequestUtils.sectionsByShip(Global.currentShipPlayer);
-        RequestUtils.sectionsByShip(Global.currentShipGegner);
-        RequestUtils.weaponsByShip(Global.currentShipGegner);
-        RequestUtils.weaponsByShip(Global.currentShipPlayer);
-        RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
-        if (Global.currentGegner != null) {
-            RequestUtils.crewMemeberByShip(Global.currentShipGegner);
-        }
     }
 
     /**
