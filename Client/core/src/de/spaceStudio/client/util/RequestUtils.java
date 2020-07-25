@@ -98,5 +98,4 @@ public final class RequestUtils {
     public static void crewMemeberByShip(Ship ship) {
         genericGetRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.CREWMEMBERS, false, ship.getId());
     }
-
 }

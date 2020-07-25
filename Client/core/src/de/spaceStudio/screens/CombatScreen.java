@@ -114,6 +114,7 @@ public class CombatScreen extends BaseScreen {
     private Image imageCrewMemberTwo;
     private Image imageCrewMemberThree;
     private List<Image> listOfCrewImages;
+    private List<CrewMember> myCrew;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
     private boolean isExploied;
@@ -130,7 +131,7 @@ public class CombatScreen extends BaseScreen {
     private Section selectedTarget;
     private Optional<Section> startSectionCrewMove;
     private Optional<Section> endSectionCrewMove;
-
+    boolean movingAllowed = false;
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -138,6 +139,9 @@ public class CombatScreen extends BaseScreen {
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
         camera = new OrthographicCamera();
+
+        myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
+
 
         int row_height = Gdx.graphics.getWidth() / 12;
         int col_width = Gdx.graphics.getWidth() / 12;
@@ -548,7 +552,7 @@ public class CombatScreen extends BaseScreen {
                     }
                 }
 
-
+                //System.out.println("Hallo " + myCrew.get(0).getImg());
                 // make Move Request c from start to end
                 dragged = false;
             }
@@ -643,7 +647,7 @@ public class CombatScreen extends BaseScreen {
     ////sectiones del gegner
     ////set de
 
-    public void moveCrewMember(Object requestObject, String method) {
+    public boolean moveCrewMember(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
@@ -656,11 +660,12 @@ public class CombatScreen extends BaseScreen {
                     System.out.println("Request Failed moveCrewMember");
                 }
                 System.out.println("statusCode moveCrewMember: " + statusCode);
-                String SectionsGegner = httpResponse.getResultAsString();
-                Gson gson = new Gson();
-                Section[] aiArray = gson.fromJson(SectionsGegner, Section[].class);
-                sectionsGegner = Arrays.asList(aiArray);
-                System.out.println("statusCode moveCrewMember: " + statusCode);
+                String result = httpResponse.getResultAsString();
+                if(result.equals("true")){
+                    movingAllowed = true;
+                }else{
+                    movingAllowed = false;
+                }
             }
 
             public void failed(Throwable t) {
@@ -672,6 +677,7 @@ public class CombatScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
+        return movingAllowed;
     }
 
     public void makeAShot(Object requestObject, String method) {
