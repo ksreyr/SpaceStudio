@@ -35,3 +35,55 @@ canShot -> canShot
 
  #+RESULTS:
  [[file:multiFight.png]]
+
+
+
+
+#+BEGIN_SRC dot :file Multiplayer.png
+ digraph finite_state_machine {
+
+
+lobbyEnter -> lobbyWaiting  [label="enter the Lobby"]
+lobbyWaiting -> lobbyWaiting
+lobbyWaiting -> lobbyFull [label="other player joins"]
+
+lobbyWaiting -> singlePlayer [label="no player found"]
+
+
+
+ lobbyFull -> readyAllPressed ->  startGame
+ }
+ #+END_SRC
+
+ #+RESULTS:
+ [[file:Multiplayer.png]]
+
+
+
+#+BEGIN_SRC dot :file jumping.png
+digraph jumping {
+
+        selectShipScreen -> stationMap [label="begin game"]
+        stationMap -> { stopScreen, shopScreen }
+        shopScreen -> stationMap
+
+        stopScreen -> fightScreen
+
+        fightScreen -> looseScreen
+        looseScreen -> stationMap        [label="looses half of Ressources"]
+
+        stopScreen -> stationMap
+
+
+       fightScreen -> winScreen -> stationMap
+
+
+
+       stationMap -> jumpWaiting -> jumpWaiting -> jumpingAllReady -> travelScreen
+       travelScreen -> stationMap [label="Get all Acotrs from Stop"]
+}
+
+#+END_SRC
+
+#+RESULTS:
+[[file:jumping.png]]
