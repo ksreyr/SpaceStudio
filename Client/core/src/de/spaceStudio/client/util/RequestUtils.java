@@ -2,6 +2,9 @@ package de.spaceStudio.client.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Section;
@@ -9,6 +12,7 @@ import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 public final class RequestUtils {
@@ -45,13 +49,27 @@ public final class RequestUtils {
                 LOG.info("statusCode: " + statusCode);
                 responseString[0] = httpResponse.getResultAsString();
 
-                Gson gson = new Gson();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+
                 if (url.contains("sections")) {
-                    Global.combatSections.put(id, Arrays.asList(gson.fromJson(responseString[0], Section[].class)));
+                    try {
+                        Global.combatSections.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Section>>(){} ));
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 } else if (url.contains("weapon")) {
-                    Global.combatWeapons.put(id, Arrays.asList(gson.fromJson(responseString[0], Weapon[].class)));
+                    try {
+                        Global.combatWeapons.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>(){}));
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 } else if (url.contains("crewMembers")) {
-                    Global.combatCrew.put(id, Arrays.asList(gson.fromJson(responseString[0], CrewMember[].class)));
+                    try {
+                        Global.combatCrew.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<CrewMember>>(){}));
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 

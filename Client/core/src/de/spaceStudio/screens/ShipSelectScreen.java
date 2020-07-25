@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Difficult;
@@ -1131,11 +1133,15 @@ public class ShipSelectScreen extends BaseScreen {
 
     //
     public void sendRequestAddSections(Object requestObject, String method) {
-        final Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        final String requestJson;
+        try {
+            requestJson = objectMapper.writeValueAsString(requestObject);
         final String url = Global.SERVER_URL + Global.SECTIONS_CREATION_ENDPOINT;
         final Net.HttpRequest request = setupRequest(url, requestJson, method);
+
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
@@ -1158,7 +1164,9 @@ public class ShipSelectScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
-
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     //
