@@ -1,16 +1,11 @@
 package de.spaceStudio.server.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.voodoodyne.jackson.jsog.JSOGGenerator;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 
 
 @Entity
-@JsonIdentityInfo(generator= JSOGGenerator.class)
 public class Ship {
 
     @Id

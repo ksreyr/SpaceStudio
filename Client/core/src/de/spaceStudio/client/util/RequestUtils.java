@@ -5,13 +5,11 @@ import com.badlogic.gdx.Net;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 

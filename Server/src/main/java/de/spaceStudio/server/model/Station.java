@@ -1,6 +1,6 @@
 package de.spaceStudio.server.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.List;
 
 @Entity

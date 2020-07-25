@@ -1,6 +1,7 @@
 package de.spaceStudio.server.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 

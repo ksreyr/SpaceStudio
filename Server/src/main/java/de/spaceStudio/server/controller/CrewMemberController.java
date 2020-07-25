@@ -2,7 +2,6 @@ package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Section;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

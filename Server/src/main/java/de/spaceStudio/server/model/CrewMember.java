@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import javax.persistence.*;
 
 @Entity
-@JsonIdentityInfo(generator= JSOGGenerator.class)
 public class CrewMember {
 
     @Id

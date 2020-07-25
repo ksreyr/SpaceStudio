@@ -1,6 +1,5 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.model.Ressource;
 import de.spaceStudio.server.model.ShopRessource;
 import de.spaceStudio.server.model.StopAbstract;
 import org.springframework.web.bind.annotation.PathVariable;

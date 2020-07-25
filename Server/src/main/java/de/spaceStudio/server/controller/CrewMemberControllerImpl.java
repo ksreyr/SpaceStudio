@@ -1,7 +1,10 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Player;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.repository.CrewMemberRepository;
 import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.SectionRepository;
