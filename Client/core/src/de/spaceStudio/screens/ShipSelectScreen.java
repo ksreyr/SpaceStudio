@@ -958,11 +958,33 @@ public class ShipSelectScreen extends BaseScreen {
                             break;
                     }
                 }
-                sendRequestAddCrewMembers(List.of(crewMember1gegner1, crewMember2gegner1), Net.HttpMethods.POST);
+                for (Section section :
+                        sectionsgegner2) {
+                    switch (section.getImg()) {
+                        case "Section1Gegner2":
+                            crewMember1gegner2.setCurrentSection(section);
+                            break;
+                        case "Section2Gegner2":
+                            crewMember2gegner2.setCurrentSection(section);
+                            break;
+                    }
+                }
+                for (Section section :
+                        sectionsgegner3) {
+                    switch (section.getImg()) {
+                        case "Section1Gegner3":
+                            crewMember1gegner3.setCurrentSection(section);
+                            break;
+                        case "Section2Gegner3":
+                            crewMember2gegner3.setCurrentSection(section);
+                            break;
+                    }
+                }
+                sendRequestAddCrewMembers(List.of(crewMember1gegner1, crewMember2gegner1, crewMember1gegner2,crewMember2gegner2,crewMember1gegner3,crewMember2gegner3), Net.HttpMethods.POST);
                 requestcounter = 23;
             }
             if (!crewMemberList.isEmpty() && requestcounter == 23) {
-
+                crewMemberList.get(0);
                 mainClient.setScreen(new StationsMap(game));
                 requestcounter = 24;
             }
