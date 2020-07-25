@@ -1,12 +1,14 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
+import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
 import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
+import de.spaceStudio.server.utils.Global;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -109,5 +111,33 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         Gson gson= new Gson();
 
         return gson.toJson(shipJump);
+    }
+
+
+    @Override
+    public Boolean canLand(Player player) {
+        boolean playersJumping = false;  // Assume no one is jumping
+        for (MultiPlayerGame multiPlayerGame :
+                Global.MultiPlayerGameSessions.values()) {
+
+            // Suche nach dem aktuellen Spieler
+            Player[] playerSet = multiPlayerGame.players.keySet().toArray(new Player[0]);
+
+            // Gucke für jeden Spieler
+            for (int i = 0; i < multiPlayerGame.players.size(); i++) {
+                Player p = playerSet[i];
+
+                if (p.equals(player)) {
+                    for (Boolean b :
+                        // Gucke für jeden Boolean Wert aus dem Game
+                            multiPlayerGame.players.values()) {
+                        if (b) {  // Falls jemand am Springen ist
+                            playersJumping = true;
+                        }
+                    }
+                }
+            }
+        }
+        return !playersJumping; // If there are Still Players who are Jumping
     }
 }
