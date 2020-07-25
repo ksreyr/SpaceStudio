@@ -166,12 +166,11 @@ public class WeaponControllerImpl implements WeaponController {
 
     @Override
     public String shotValidation(List<Weapon> weapons) {
+
         for (Weapon w :
                  weapons) {
-             if (canShoot(w)&&!w.getObjectiv().equals(null)) {
+             if (canShoot(w)) {
                 return "Fire Accepted";
-            }else if(w.getObjectiv().equals(null)){
-                 return "Not Objectiv";
             } else {
                 return "Ship Defeat";
             }

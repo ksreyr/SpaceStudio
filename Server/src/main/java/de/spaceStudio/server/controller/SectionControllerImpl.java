@@ -173,6 +173,7 @@ public class SectionControllerImpl implements SectionController {
             }
             sectionRepository.save(s);
         }
+
         return sections;
     }
 }

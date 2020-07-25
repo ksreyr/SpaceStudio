@@ -636,7 +636,12 @@ public class CombatScreen extends BaseScreen {
         for (Weapon w : selectedWeapons) {
             w.setObjectiv(selectedTarget);
         }
-
+        if(!sectionsPlayer.isEmpty()){
+            for (Weapon w :
+                    selectedWeapons) {
+                w.setSection(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1));
+            }
+        }
 //        Global.updateweaponPlayerVariabel();
         shotValidation(selectedWeapons, Net.HttpMethods.POST);
     }
@@ -749,8 +754,8 @@ public class CombatScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
         if (!Global.combatSections.get(Global.currentShipPlayer.getId()).isEmpty()) {
-            labelsection1.setText("\n Usable: " + Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getUsable() + "\n Oxigen: " + Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getOxygen());
-            labelsection1.setPosition(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getxPos(), Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getyPos());
+            labelsection1.setText("\n Usable: " + Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getUsable() + "\n Oxigen: " + Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getOxygen());
+            labelsection1.setPosition(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getxPos(), Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getyPos());
             stage.addActor(labelsection1);
         }
 
@@ -933,7 +938,7 @@ public class CombatScreen extends BaseScreen {
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                 randomNumber = (int) ((Math.random() * (5)) + 0);
                 //Set Target->Section of Player and gegner Weapons
-                //logicOfFireGegner(randomNumber);
+                logicOfFireGegner(randomNumber);
                 //Set Target->Section of  gegner and User Weapons
                 logicOfFirePlayer();
                 counterCockpit++;
