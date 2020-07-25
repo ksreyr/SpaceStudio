@@ -177,6 +177,7 @@ public class CombatScreen extends BaseScreen {
 
     }
 
+    //called when the Screen gains focus
     @Override
     public void show() {
 
@@ -534,7 +535,7 @@ public class CombatScreen extends BaseScreen {
      * @param image which is where the user Klicks
      * @return the Section to which this belongs;
      */
-private Optional<Section> findSection(Image image) {
+    private Optional<Section> findSection(Image image) {
         return findSection(image.getImageX(), image.getImageY());
 }
 
@@ -1149,6 +1150,7 @@ private Optional<Section> findSection(Image image) {
     }
 
     // Called when this screen is no longer the current screen for a Game.
+    //called when the Screen loses focus
     @Override
     public void hide() {
         dispose();

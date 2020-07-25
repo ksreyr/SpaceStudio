@@ -1104,9 +1104,9 @@ public class ShipSelectScreen extends BaseScreen {
         weaponsSystem.dispose();
         drive.dispose();
         crewDisplay.dispose();
-        crewTest.dispose();
-        crewTest2.dispose();
-        crewTest3.dispose();
+        crewMember.dispose();
+        crewMember2.dispose();
+        crewMember3.dispose();
         background.dispose();
     }
 
