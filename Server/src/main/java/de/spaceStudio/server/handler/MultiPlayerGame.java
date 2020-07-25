@@ -4,9 +4,12 @@ import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Ship;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MultiPlayerGame implements Serializable {
+    public class MultiPlayerGame implements Serializable {
 
+    public Map<Player, Boolean> players;  // Is the Player jumping??
     private String universe;
     private Player playerOne;
     private Player playerTwo;
@@ -17,9 +20,10 @@ public class MultiPlayerGame implements Serializable {
         return universe;
     }
 
-    public void setUniverse(String universe) {
-        this.universe = universe;
-    }
+        public void setUniverse(String universe) {
+            this.universe = universe;
+            this.players = new HashMap<>();
+        }
 
     public Player getPlayerOne() {
         return playerOne;
