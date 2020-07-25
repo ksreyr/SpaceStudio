@@ -192,9 +192,8 @@ public class WeaponControllerImpl implements WeaponController {
      * @return if the weapon can shot
      */
     boolean isOutsideRange(long lastShot, long coolDown) {
-        long now = System.nanoTime();
+        long now = System.currentTimeMillis();
         long timeElapsed = now - lastShot;
-        long nanosPassed = coolDown * 1000000;
-        return ( timeElapsed > nanosPassed);  // Convert to Milliseconds
+        return ( timeElapsed > coolDown);  // Convert to Milliseconds
     }
 }
