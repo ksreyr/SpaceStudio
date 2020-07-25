@@ -642,6 +642,37 @@ public class CombatScreen extends BaseScreen {
     ////sectiones del gegner
     ////set de
 
+    public void moveCrewMember(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.CREWMEMBER_UPDATE_ENDPOINT;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed moveCrewMember");
+                }
+                System.out.println("statusCode moveCrewMember: " + statusCode);
+                String SectionsGegner = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                Section[] aiArray = gson.fromJson(SectionsGegner, Section[].class);
+                sectionsGegner = Arrays.asList(aiArray);
+                System.out.println("statusCode moveCrewMember: " + statusCode);
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+
     public void makeAShot(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);

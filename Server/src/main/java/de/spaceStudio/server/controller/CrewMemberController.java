@@ -64,9 +64,7 @@ public interface CrewMemberController {
     /**
      * Reassign Crew in the Ship
      *
-     * @param shipID where a crewmember was moved
-     * @param sectionNew to where he will be moved
-     * @param sectionOld from where he will be moved
+     * @param crewMember Crew Member to be moved
      * @return the Ship with updated Crew Postions if validated
      */
     @RequestMapping(value = "/crew", method = RequestMethod.PUT)

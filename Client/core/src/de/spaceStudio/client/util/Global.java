@@ -89,8 +89,14 @@ public class Global {
      * Crew Cretion
      */
     public static final String CREWMEMBER_CREATION_ENDPOINT = "/crewMember";
+
     /**
-     * Crew Cretion
+     * Update Crew Member position
+     */
+    public static final String CREWMEMBER_UPDATE_ENDPOINT = "/crew";
+
+    /**
+     * Weapon Cretion
      */
     public static final String WEAPON_CREATION_ENDPOINT = "/weapon";
     /**
