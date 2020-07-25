@@ -915,21 +915,7 @@ public class ShipSelectScreen extends BaseScreen {
                     w.setSection(section3Gegner3);
                     weaponsUniver2.add(w);
                 }
-                for (Weapon w :
-                        weaponListGegner4) {
-                    w.setSection(section3Gegner4);
-                    weaponsUniver2.add(w);
-                }
-                for (Weapon w :
-                        weaponListGegner5) {
-                    w.setSection(section3Gegner5);
-                    weaponsUniver2.add(w);
-                }
-                for (Weapon w :
-                        weaponListGegner6) {
-                    w.setSection(section3Gegner6);
-                    weaponsUniver2.add(w);
-                }
+
                 sendRequestAddWeapon(weaponsUniver2, Net.HttpMethods.POST);
                 requestcounter = 21;
             }
@@ -941,9 +927,7 @@ public class ShipSelectScreen extends BaseScreen {
                 Global.actualiziertweaponListGegner1();
                 Global.actualiziertweaponListGegner2();
                 Global.actualiziertweaponListGegner3();
-                Global.actualiziertweaponListGegner4();
-                Global.actualiziertweaponListGegner5();
-                Global.actualiziertweaponListGegner6();
+
                 requestcounter = 22;
             }
             if (requestcounter == 22) {
