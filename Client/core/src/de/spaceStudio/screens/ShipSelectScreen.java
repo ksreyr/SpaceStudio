@@ -984,7 +984,12 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 23;
             }
             if (!crewMemberList.isEmpty() && requestcounter == 23) {
-                crewMemberList.get(0);
+                Global.crewMember1gegner1=crewMemberList.get(0);
+                Global.crewMember2gegner1=crewMemberList.get(1);
+                Global.crewMember1gegner2=crewMemberList.get(2);
+                Global.crewMember2gegner2=crewMemberList.get(3);
+                Global.crewMember1gegner3=crewMemberList.get(4);
+                Global.crewMember2gegner3=crewMemberList.get(5);
                 mainClient.setScreen(new StationsMap(game));
                 requestcounter = 24;
             }
