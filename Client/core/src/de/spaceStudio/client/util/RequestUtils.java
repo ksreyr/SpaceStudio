@@ -5,11 +5,9 @@ import com.badlogic.gdx.Net;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.spaceStudio.server.model.CrewMember;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.model.*;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -35,8 +33,18 @@ public final class RequestUtils {
         return request;
     }
 
-    public static String genericGetRequest(String url, boolean noWait, Integer id) {
-        Net.HttpRequest r = setupRequest(url, "", Net.HttpMethods.GET);
+    public static String genericRequest(String url, boolean noWait, Integer id, String method, Object payload) {
+                ObjectMapper objectMapper = new ObjectMapper();
+        Net.HttpRequest r = null;
+        try {
+            if (!payload.equals("")) {
+                r = setupRequest(url, objectMapper.writeValueAsString(payload), method);
+            } else {
+                r = setupRequest(url, "", method);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         final String[] responseString = {null};
 
@@ -48,23 +56,31 @@ public final class RequestUtils {
                 responseString[0] = httpResponse.getResultAsString();
 
 
-                ObjectMapper objectMapper = new ObjectMapper();
 
                 if (url.contains("sections")) {
                     try {
-                        Global.combatSections.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Section>>(){} ));
+                        Global.combatSections.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Section>>() {
+                        }));
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
                 } else if (url.contains("weapon")) {
                     try {
-                        Global.combatWeapons.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>(){}));
+                        Global.combatWeapons.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>() {
+                        }));
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
                 } else if (url.contains("crewMembers")) {
                     try {
-                        Global.combatCrew.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<CrewMember>>(){}));
+                        Global.combatCrew.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<CrewMember>>() {
+                        }));
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                } else  if (url.contains("canLand")) {
+                    try {
+                        Global.allReady = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {});
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -88,14 +104,30 @@ public final class RequestUtils {
     }
 
     public static void weaponsByShip(Ship ship) {
-        genericGetRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.WEAPONS, false, ship.getId());
+        genericRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.WEAPONS,
+                false, ship.getId(), Net.HttpMethods.GET, "");
     }
 
     public static void sectionsByShip(Ship ship) {
-        genericGetRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.SECTIONS, false, ship.getId());
+        genericRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.SECTIONS,
+                false, ship.getId(), Net.HttpMethods.GET, "");
     }
 
     public static void crewMemeberByShip(Ship ship) {
-        genericGetRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.CREWMEMBERS, false, ship.getId());
+        genericRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.CREWMEMBERS,
+                false, ship.getId(), Net.HttpMethods.GET, "");
     }
+
+    public static void hasLanded(Player player) {
+        genericRequest(Global.SERVER_URL + Global.HAS_LANDED,
+                false,0,   Net.HttpMethods.POST, player);
+    }
+
+    public static void canJump(Player player) {
+        genericRequest(Global.SERVER_URL + Global.CAN_LAND,
+                false, 0, Net.HttpMethods.GET, player);
+    }
+
+
+
 }
