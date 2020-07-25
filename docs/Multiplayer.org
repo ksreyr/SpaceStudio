@@ -107,6 +107,7 @@ digraph automaton {
         logicOfFirePlayer -> shotValidation [label="List<Weapon> weapons"];
 
 
+        handleShot -> {drawBullet, removeShield}
 
 
 
@@ -122,9 +123,9 @@ digraph automaton {
         checkHP -> outSideRange [label="(currentTime - lastShot) > coolDow"]
         outSideRange -> noShot [label="false"]
         noShot -> shotValidation
-        outSideRange -> fireShot [label="true"]
-        fireShot -> shotValidation
-
+        outSideRange -> isUsable  [label="true"]
+        isUsable -> fireShot [label="true"]
+        fireShot -> shotValidation  [label="List<Boolean> bullets"]
 
         }
 
@@ -137,6 +138,9 @@ digraph automaton {
         makeAShot -> hasHit [label="% hitRate + % random"]
 
         hasHit -> miss [label="hasHit < 1"]
+        miss -> shotAnswer
+
+
         hasHit -> hitShield[label="Shield < 0"]
         hitShield -> reduceShield [label="shield - dammage"]
         reduceShield -> shotAnswer
@@ -148,6 +152,7 @@ digraph automaton {
 
 
 
+        shotAnswer -> handleShot
 
 
     }
@@ -157,3 +162,28 @@ digraph automaton {
 
 #+RESULTS:
 [[file:kampf.png]]
+
+
+
+
+
+#+BEGIN_SRC dot :file fightMechanik.png
+
+
+digraph automaton {
+
+    start -> checkHP [label="hp > 0"]
+    checkHP ->  loosesFight [label="false"]
+
+    #start -> getCrewMember[label="site == 0"]
+    #getCrewMember -> loosesFight [label="true"]
+
+
+}
+
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:fightMechanik.png]]
