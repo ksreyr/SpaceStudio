@@ -184,7 +184,7 @@ public class Global {
      */
     public static final String PLAYER_CLEAN_ENDPOINT = "/cleanuser";
     public static final String CAN_LAND =  "/canLand";
-    public static final String HAS_LANDED = "hasLanded" ;
+    public static final String HAS_LANDED = "/hasLanded" ;
     private static final long rocketCoolDown = 4000l;
     private static final long lasserCoolDown = 4000l;
     private static final long droneCoolDown = 4000l;
