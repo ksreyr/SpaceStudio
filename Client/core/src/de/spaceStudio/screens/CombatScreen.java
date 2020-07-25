@@ -135,14 +135,11 @@ public class CombatScreen extends BaseScreen {
     private Section selectedTarget;
     private Optional<Section> startSectionCrewMove;
     private Optional<Section> endSectionCrewMove;
-<<<<<<< HEAD
     boolean movingAllowed = false;
-=======
     private List<Weapon> weaponsToFire = new ArrayList<>();
     private int shotDelta = 400;
     private int yWeaponPos = 798 ;
 
->>>>>>> c744f0f... multiplayer
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
