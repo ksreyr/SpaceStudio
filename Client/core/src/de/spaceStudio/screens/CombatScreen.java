@@ -102,8 +102,8 @@ public class CombatScreen extends BaseScreen {
     private Texture background;
     private Texture crewMemberOne;
     private Texture crewMemberTwo;
-    //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
     private Texture crewMemberThree;
+    //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
     private RedPin redPinSectionOne;
     private RedPin redPinSectionTwo;
     private RedPin redPinSectionThree;

@@ -207,7 +207,6 @@ public class ShipSelectScreen extends BaseScreen {
         relevantSystems = new Texture(pixmapNew);
         pixmapOld.dispose();
         pixmapNew.dispose();
-        //redPoint = new Texture(Gdx.files.internal("Client/core/assets/data/ships/pin.png"));
         shield = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
         drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
@@ -228,9 +227,9 @@ public class ShipSelectScreen extends BaseScreen {
         imageCrewMemberSektion2.setBounds(30, 30, 30, 30);
         imageCrewMemberSektion4.setBounds(30, 30, 30, 30);
         imageCrewMemberSektion6.setBounds(30, 30, 30, 30);
-        imageCrewMemberSektion2.setPosition(990, 886);
-        imageCrewMemberSektion4.setPosition((BaseScreen.WIDTH / 2f) + 110, BaseScreen.HEIGHT - 320);
-        imageCrewMemberSektion6.setPosition(840, 674);
+        imageCrewMemberSektion2.setPosition(X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
+        imageCrewMemberSektion4.setPosition(X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());
+        imageCrewMemberSektion6.setPosition(X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());
 
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
@@ -1003,22 +1002,22 @@ public class ShipSelectScreen extends BaseScreen {
                 stage.getBatch().draw(blueShip, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 if (isOpen) {
                     stage.getBatch().draw(blueShipRoom, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
-                    stage.getBatch().draw(shield, BaseScreen.WIDTH / 2f, BaseScreen.HEIGHT - 240);
-                    stage.getBatch().draw(drive, (BaseScreen.WIDTH / 2f) - 100, BaseScreen.HEIGHT - 450);
-                    stage.getBatch().draw(weaponsSystem, (BaseScreen.WIDTH / 2f) + 85, BaseScreen.HEIGHT - 350);
+                    stage.getBatch().draw(shield, X_POSITION + 210, Y_POSITION + 290);
+                    stage.getBatch().draw(drive, X_POSITION + 110, Y_POSITION + 80);
+                    stage.getBatch().draw(weaponsSystem, X_POSITION + 295, Y_POSITION + 180);
 
                     //Sektion 1
-                    stage.getBatch().draw(redPin.texture, X_POSITION + 90, Y_POSITION + 350);
+                    stage.getBatch().draw(redPin.texture, X_POSITION + section1.getxPos(), Y_POSITION + section1.getyPos());
                     //Sektion 2
-                    stage.getBatch().draw(redPin2.texture, X_POSITION + 240, Y_POSITION + 336);
+                    stage.getBatch().draw(redPin2.texture, X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
                     //Sektion 3
-                    stage.getBatch().draw(redPin3.texture, X_POSITION + 320, Y_POSITION + 270);
+                    stage.getBatch().draw(redPin3.texture, X_POSITION + section3.getxPos(), Y_POSITION + section3.getyPos());
                     //Sektion 4
-                    stage.getBatch().draw(redPin4.texture, X_POSITION + 320, Y_POSITION + 210);
+                    stage.getBatch().draw(redPin4.texture, X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());
                     //Sektion 5
-                    stage.getBatch().draw(redPin5.texture, X_POSITION + 240, Y_POSITION + 135);
+                    stage.getBatch().draw(redPin5.texture, X_POSITION + section5.getxPos(), Y_POSITION + section5.getyPos());
                     //Sektion 6
-                    stage.getBatch().draw(redPin6.texture, X_POSITION + 90, Y_POSITION + 124);
+                    stage.getBatch().draw(redPin6.texture, X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());
 
                     //Crewmember befindet sich in Sektion 2
                     stage.addActor(imageCrewMemberSektion2);
