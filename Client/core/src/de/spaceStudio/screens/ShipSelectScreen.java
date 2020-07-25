@@ -100,7 +100,7 @@ public class ShipSelectScreen extends BaseScreen {
     Ship ship = new Ship();
     Universe universe1 = Global.universe1;
     Universe universe2 = Global.universe2;
-    int requestcounter = 0;
+    private int requestcounter;
     String responseJson;
     List<Section> sectionList = new ArrayList<>();
     List<CrewMember> crewMemberList = new ArrayList<>();
@@ -140,7 +140,7 @@ public class ShipSelectScreen extends BaseScreen {
         camera = new OrthographicCamera();
         viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT, camera);
         stage = new Stage(viewport);
-
+        requestcounter = 0;
 
         Gdx.input.setInputProcessor(stage);
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
@@ -280,6 +280,7 @@ public class ShipSelectScreen extends BaseScreen {
         startButton.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+
                 switch (shipNumber) {
                     case 0:
                         ship = Global.ship0;
@@ -520,9 +521,10 @@ public class ShipSelectScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
-        StartButton();
         if (!IS_SINGLE_PLAYER) {
             scheduleLobby();
+        } else {
+            StartButton();
         }
     }
 
@@ -540,9 +542,10 @@ public class ShipSelectScreen extends BaseScreen {
                     counter = 0;
                     LOG.info("Timer killed");
                 } else {
+                    if(playersOnline.size() == 0){
                     counter += 1;
                     if (counter % 2 == 0) {
-                        System.out.println("::::::::::::::::::: DIALOG:::::::::::::::::::::::");
+                        LOG.info("::::::::::::::::::: DIALOG:::::::::::::::::::::::");
                         killTimer = true;
                         new Dialog("No players found", skinButton) {
 
@@ -560,13 +563,17 @@ public class ShipSelectScreen extends BaseScreen {
                                     game.setScreen(new ShipSelectScreen(game));
                                     // make single player here
                                 } else if (object.equals("try")) {
-                                    killTimer = false;
+                                    killTimer = true;
                                     // reload all here
+                                    game.setScreen(new ShipSelectScreen(game));
                                 }
                             }
 
                         }.show(stage);
                     }
+                    }
+
+
                     LOG.info("Fetching data from server...");
                     LOG.info(multiPlayerSessionID);
                     fetchLoggedUsers();
