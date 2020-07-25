@@ -815,8 +815,8 @@ public class CombatScreen extends BaseScreen {
                 // FIXME Brutal Online
 
             }
-            stage.getBatch().draw(missilleRight, disappearRight, 422, 400, 50);
-            stage.getBatch().draw(missilleLeft, disappearLeft, 825, 400, 50);
+            stage.getBatch().draw(missilleRight, XPlayerShip + 170, YPlayerShip + 22, 400, 50);
+            stage.getBatch().draw(missilleLeft, XPlayerShip + 170, YPlayerShip + 425, 400, 50);
             //Gegner
             //Shot
             if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
