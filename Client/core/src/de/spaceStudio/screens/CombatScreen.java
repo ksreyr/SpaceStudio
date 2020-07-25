@@ -1127,75 +1127,13 @@ public class CombatScreen extends BaseScreen {
                         }
                         shotValidationGegner(Global.weaponListGegner3, Net.HttpMethods.POST);
                         break;
-                    case "Shipgegner4":
-                        for (Weapon w :
-                                Global.weaponListGegner4) {
-                            if (w.getSection().getShip().getId() == Global.currentShipGegner.getId()) {
-                                //Weapons gegner set Weapons Section of Player
-                                if (sectionNumber == 2) {
-                                    w.setObjectiv(Global.section2);
-                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
-                                    weaponList.add(w);
-                                } else if (sectionNumber == 4) {
-                                    w.setObjectiv(Global.section1);
-                                    weaponList.add(w);
-                                } else {
-                                    w.setObjectiv(Global.section3);
-                                    weaponList.add(w);
-                                }
-                            }
-                        }
-                        shotValidationGegner(Global.weaponListGegner4, Net.HttpMethods.POST);
-                        break;
-                    case "Shipgegner5":
-                        for (Weapon w :
-                                Global.weaponListGegner5) {
-                            if (w.getSection().getShip().getId() == Global.currentShipGegner.getId()) {
-                                //Weapons gegner set Weapons Section of Player
-                                if (sectionNumber == 2) {
-                                    w.setObjectiv(Global.section2);
-                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
-                                    weaponList.add(w);
-                                } else if (sectionNumber == 4) {
-                                    w.setObjectiv(Global.section1);
-                                    weaponList.add(w);
-                                } else {
-                                    w.setObjectiv(Global.section3);
-                                    weaponList.add(w);
-                                }
-                            }
-                        }
-                        shotValidationGegner(Global.weaponListGegner5, Net.HttpMethods.POST);
-                        break;
-                    case "Shipgegner6":
-                        for (Weapon w :
-                                Global.weaponListGegner6) {
-                            if (w.getSection().getShip().getId() == Global.currentShipGegner.getId()) {
-                                //Weapons gegner set Weapons Section of Player
-                                if (sectionNumber == 2) {
-                                    w.setObjectiv(Global.section2);
-                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
-                                    weaponList.add(w);
-                                } else if (sectionNumber == 4) {
-                                    w.setObjectiv(Global.section1);
-                                    weaponList.add(w);
-                                } else {
-                                    w.setObjectiv(Global.section3);
-                                    weaponList.add(w);
-                                }
-                            }
-                        }
-                        shotValidationGegner(Global.weaponListGegner6, Net.HttpMethods.POST);
-                        break;
                 }
 
                 Global.updateweaponVariabelUniverse2();
                 Global.actualiziertweaponListGegner1();
                 Global.actualiziertweaponListGegner2();
                 Global.actualiziertweaponListGegner3();
-                Global.actualiziertweaponListGegner4();
-                Global.actualiziertweaponListGegner5();
-                Global.actualiziertweaponListGegner6();
+
             }
         }
 

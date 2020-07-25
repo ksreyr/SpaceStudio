@@ -82,6 +82,8 @@ public class ShipSelectScreen extends BaseScreen {
     private final Texture background;
     private final Stage stage;
     private final Skin skinButton;
+    private final Skin skin;
+
     private final Viewport viewport;
     private final Sound spaceShipChange;
     private final Sound mouseClick;
@@ -124,6 +126,7 @@ public class ShipSelectScreen extends BaseScreen {
     private boolean logoutMultiPlayer;
     private boolean readyUpTriggered;
     private boolean deployMultiplayer;
+    private int counter = 0;
 
     //
     public ShipSelectScreen(MainClient game) {
@@ -141,10 +144,10 @@ public class ShipSelectScreen extends BaseScreen {
 
         Gdx.input.setInputProcessor(stage);
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        
         if (Global.isOnlineGame) {
             fetchLoggedUsers();
-            Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
             playersOnlineLabel = new Label(null, skin);
             playersOnlineLabel.setPosition(20, 950);
             playersOnlineLabel.setFontScale(2);
@@ -271,6 +274,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
     }
+
 
     private void StartButton() {
         startButton.addCaptureListener(new ChangeListener() {
@@ -533,8 +537,34 @@ public class ShipSelectScreen extends BaseScreen {
                 if (killTimer) {
                     schedule.cancel();
                     schedule.purge();
+                    counter = 0;
                     LOG.info("Timer killed");
                 } else {
+                    counter += 1;
+                    if (counter % 2 == 0) {
+                        System.out.println("::::::::::::::::::: DIALOG:::::::::::::::::::::::");
+                        killTimer = true;
+                        new Dialog("No players found", skinButton) {
+
+                            {
+                                text("There is no player");
+                                button("Try again", "try").getButtonTable().row();
+                                button("Play with AI", "ai").getButtonTable().row();
+                            }
+
+                            @Override
+                            protected void result(Object object) {
+                                if (object.equals("ai")) {
+                                    killTimer = true;
+                                    // make single player here
+                                } else if (object.equals("try")) {
+                                    killTimer = false;
+                                    // reload all here
+                                }
+                            }
+
+                        }.show(stage);
+                    }
                     LOG.info("Fetching data from server...");
                     LOG.info(multiPlayerSessionID);
                     fetchLoggedUsers();
@@ -914,21 +944,7 @@ public class ShipSelectScreen extends BaseScreen {
                     w.setSection(section3Gegner3);
                     weaponsUniver2.add(w);
                 }
-                for (Weapon w :
-                        weaponListGegner4) {
-                    w.setSection(section3Gegner4);
-                    weaponsUniver2.add(w);
-                }
-                for (Weapon w :
-                        weaponListGegner5) {
-                    w.setSection(section3Gegner5);
-                    weaponsUniver2.add(w);
-                }
-                for (Weapon w :
-                        weaponListGegner6) {
-                    w.setSection(section3Gegner6);
-                    weaponsUniver2.add(w);
-                }
+
                 sendRequestAddWeapon(weaponsUniver2, Net.HttpMethods.POST);
                 requestcounter = 21;
             }
@@ -940,9 +956,7 @@ public class ShipSelectScreen extends BaseScreen {
                 Global.actualiziertweaponListGegner1();
                 Global.actualiziertweaponListGegner2();
                 Global.actualiziertweaponListGegner3();
-                Global.actualiziertweaponListGegner4();
-                Global.actualiziertweaponListGegner5();
-                Global.actualiziertweaponListGegner6();
+
                 requestcounter = 22;
             }
             if (requestcounter == 22) {
@@ -979,16 +993,16 @@ public class ShipSelectScreen extends BaseScreen {
                             break;
                     }
                 }
-                sendRequestAddCrewMembers(List.of(crewMember1gegner1, crewMember2gegner1, crewMember1gegner2,crewMember2gegner2,crewMember1gegner3,crewMember2gegner3), Net.HttpMethods.POST);
+                sendRequestAddCrewMembers(List.of(crewMember1gegner1, crewMember2gegner1, crewMember1gegner2, crewMember2gegner2, crewMember1gegner3, crewMember2gegner3), Net.HttpMethods.POST);
                 requestcounter = 23;
             }
             if (!crewMemberList.isEmpty() && requestcounter == 23) {
-                Global.crewMember1gegner1=crewMemberList.get(0);
-                Global.crewMember2gegner1=crewMemberList.get(1);
-                Global.crewMember1gegner2=crewMemberList.get(2);
-                Global.crewMember2gegner2=crewMemberList.get(3);
-                Global.crewMember1gegner3=crewMemberList.get(4);
-                Global.crewMember2gegner3=crewMemberList.get(5);
+                Global.crewMember1gegner1 = crewMemberList.get(0);
+                Global.crewMember2gegner1 = crewMemberList.get(1);
+                Global.crewMember1gegner2 = crewMemberList.get(2);
+                Global.crewMember2gegner2 = crewMemberList.get(3);
+                Global.crewMember1gegner3 = crewMemberList.get(4);
+                Global.crewMember2gegner3 = crewMemberList.get(5);
                 mainClient.setScreen(new StationsMap(game));
                 requestcounter = 24;
             }
@@ -1165,31 +1179,31 @@ public class ShipSelectScreen extends BaseScreen {
         final String requestJson;
         try {
             requestJson = objectMapper.writeValueAsString(requestObject);
-        final String url = Global.SERVER_URL + Global.SECTIONS_CREATION_ENDPOINT;
-        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+            final String url = Global.SERVER_URL + Global.SECTIONS_CREATION_ENDPOINT;
+            final Net.HttpRequest request = setupRequest(url, requestJson, method);
 
-        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                int statusCode = httpResponse.getStatus().getStatusCode();
-                if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed sendRequestAddSections");
+            Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+                public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                    int statusCode = httpResponse.getStatus().getStatusCode();
+                    if (statusCode != HttpStatus.SC_OK) {
+                        System.out.println("Request Failed sendRequestAddSections");
+                    }
+                    String listofsections = httpResponse.getResultAsString();
+                    Gson gson = new Gson();
+                    Section[] sectionArray = gson.fromJson(listofsections, Section[].class);
+                    sectionList = Arrays.asList(sectionArray);
+                    System.out.println("statusCode sendRequestAddSections: " + statusCode);
                 }
-                String listofsections = httpResponse.getResultAsString();
-                Gson gson = new Gson();
-                Section[] sectionArray = gson.fromJson(listofsections, Section[].class);
-                sectionList = Arrays.asList(sectionArray);
-                System.out.println("statusCode sendRequestAddSections: " + statusCode);
-            }
 
-            public void failed(Throwable t) {
-                System.out.println("Request Failed Completely");
-            }
+                public void failed(Throwable t) {
+                    System.out.println("Request Failed Completely");
+                }
 
-            @Override
-            public void cancelled() {
-                System.out.println("request cancelled");
-            }
-        });
+                @Override
+                public void cancelled() {
+                    System.out.println("request cancelled");
+                }
+            });
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
