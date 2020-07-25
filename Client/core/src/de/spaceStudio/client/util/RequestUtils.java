@@ -136,7 +136,7 @@ public final class RequestUtils {
     }
 
     public static void getShip(Ship ship) {
-        genericRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/",
+        genericRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId(),
                 true, ship.getId(), Net.HttpMethods.GET, "");
     }
 }
