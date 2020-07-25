@@ -34,6 +34,7 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.*;
@@ -129,12 +130,19 @@ public class CombatScreen extends BaseScreen {
     private int counterCockpit = 0;
     private int randomNumber;
     private int aktiveWeapon = 0;
-    private List<Weapon> selectedWeapons;
+    private List<Weapon> selectedWeapons = Global.combatWeapons.get(Global.currentShipPlayer.getId());
     private boolean dragged = false;
     private Section selectedTarget;
     private Optional<Section> startSectionCrewMove;
     private Optional<Section> endSectionCrewMove;
+<<<<<<< HEAD
     boolean movingAllowed = false;
+=======
+    private List<Weapon> weaponsToFire = new ArrayList<>();
+    private int shotDelta = 400;
+    private int yWeaponPos = 798 ;
+
+>>>>>>> c744f0f... multiplayer
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -708,6 +716,13 @@ public class CombatScreen extends BaseScreen {
                 Gson gson = new Gson();
                 Section[] aiArray = gson.fromJson(SectionsGegner, Section[].class);
                 sectionsGegner = Arrays.asList(aiArray);
+
+                if (sectionsGegner.get(0).getShip().getHp() <= 0) {
+                    LOG.info("You have Won the Fight");
+                    // FIXME Add Loos Screen
+                }
+
+
                 System.out.println("statusCode playerMakeAShot: " + statusCode);
             }
 
@@ -735,8 +750,28 @@ public class CombatScreen extends BaseScreen {
                     System.out.println("Request Failed shotValidation");
                 }
                 System.out.println("statusCode PlayershotValidation: " + statusCode);
-                validation = httpResponse.getResultAsString();
-                System.out.println("PlayerShot: " + validation);
+
+                List<Boolean> firing  = Arrays.asList(gson.fromJson(httpResponse.getResultAsString(), Boolean[].class));
+
+                for (int i = 0; i < selectedWeapons.size() ; i++) {
+                    if (firing.get(i)) {
+                        weaponsToFire.add(selectedWeapons.get(i));
+                    }
+                }
+
+                LOG.info("Firing Wepaons: " + weaponsToFire.toString());
+
+                if (!weaponsToFire.isEmpty()) {
+                    makeAShot(weaponsToFire, Net.HttpMethods.POST);
+
+                    for (Weapon w :
+                            weaponsToFire) {
+                        bullets.add(new Bullet(590, yWeaponPos));
+
+                        yWeaponPos -= shotDelta;
+                    }
+                    weaponsToFire.clear();
+                }
             }
 
             public void failed(Throwable t) {
@@ -763,6 +798,14 @@ public class CombatScreen extends BaseScreen {
             labelsection1.setText("\n Usable: " + Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getUsable() + "\n Oxigen: " + Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getOxygen());
             labelsection1.setPosition(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getxPos(), Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getyPos());
             stage.addActor(labelsection1);
+        }
+
+        new Bullet(BaseScreen.WIDTH,BaseScreen.HEIGHT);
+
+        if (Global.currentShipPlayer.getHp() < 1) {
+            LOG.info("You have lost the Game");
+            killTimer = true;
+            // FIXME ADD Screen
         }
 
         //Global.combatSections.get(Global.currentShipPlayer.getId()).get(1);
@@ -800,8 +843,6 @@ public class CombatScreen extends BaseScreen {
                 stage.getBatch().draw(redPinSectionFive.texture, XPlayerShip + Global.section5.getxPos(), YPlayerShip + Global.section5.getyPos());
                 stage.getBatch().draw(redPinSectionSix.texture, XPlayerShip + Global.section6.getxPos(), YPlayerShip + Global.section6.getyPos());
             }
-
-            selectedWeapons = Global.combatWeapons.get(Global.currentShipPlayer.getId());
 
 
             // Spaawn Enemy Ship
@@ -862,28 +903,7 @@ public class CombatScreen extends BaseScreen {
                 List<Section> sizeO = new ArrayList<>();
                 sectionsPlayer = sizeO;
             }
-            /////
-            ////PLAYER SHOT
-            //////
-            if (!validation.isEmpty() && validation.equals("Fire Accepted")) {
-                System.out.println(":::::Player Shot");
-                bullets.add(new Bullet(590, 843));
-                bullets.add(new Bullet(590, 444));
-                canFire = true;
-            } else if (!validation.isEmpty() && validation.equals("Section unusable")) {
-                System.out.println("::::Section not usable Player");
-                validation = "";
-            } else if (Global.currentShipGegner.getHp() <= 0) {
-                System.out.println(":::Defeat gegner");
-                validation = "";
-                mainClient.setScreen(new StationsMap(game));
-            }
-            if (canFire) {
-                makeAShot(Global.combatWeapons.get(Global.currentShipPlayer.getId()), Net.HttpMethods.POST);
-                isFired = true;
-                canFire = false;
-                validation = "";
-            }
+
             //Update Server Response
             if (!sectionsGegner.isEmpty()) {
                 Section sectionResponse = sectionsGegner.get(0);
@@ -953,7 +973,6 @@ public class CombatScreen extends BaseScreen {
                 counterCockpit++;
             }
 
-
             //shield for player
             if (Global.currentShipPlayer.getShield() > 0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
             //shield for enemy
@@ -981,8 +1000,6 @@ public class CombatScreen extends BaseScreen {
                 }
             }
             int p = Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getPowerCurrent();
-            //int u = Global.combatWeapons.get(Global.currentShipPlayer.getId()).get(0).getDamage();
-            //int i = Global.combatCrew.get(Global.currentShipPlayer.getId()).get(0).getHealth();
 
             ArrayList<Bullet> bulletGegnerToRemove = new ArrayList<>();
             for (Bullet bullet : bulletsEnemy) {
@@ -1161,6 +1178,7 @@ public class CombatScreen extends BaseScreen {
                     LOG.info("Reparation");
                     LOG.info(Global.currentShipPlayer.getId().toString());
                     RequestUtils.sectionsByShip(Global.currentShipPlayer);
+                    RequestUtils.getShip(Global.currentShipPlayer);
                 }
             }
 

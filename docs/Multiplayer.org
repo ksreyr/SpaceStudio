@@ -87,3 +87,73 @@ digraph jumping {
 
 #+RESULTS:
 [[file:jumping.png]]
+
+
+
+#+BEGIN_SRC dot :file kampf.png
+
+digraph automaton {
+
+    subgraph cluster_0 {
+        label="Client";
+
+        fightStart -> combatScreen;
+        combatScreen -> {chooseWeapon, selectTarget moveCrewMember};
+        chooseWeapon -> combatScreen [label="choose weapon with W"];
+        selectTarget -> findWeaponByNameAndShip [label="chooses the target"];
+        findWeaponByNameAndShip -> combatScreen;
+        combatScreen -> fireWeapon [label="SPACE"];
+        fireWeapon -> logicOfFirePlayer [label="Target with selected Weapons"];
+        logicOfFirePlayer -> shotValidation [label="List<Weapon> weapons"];
+
+
+
+
+
+        }
+
+    subgraph cluster_1 {
+        label="Shot Validation";
+
+        shotValidation -> canShot [label="can the Weapons shot?"]
+
+        canShot -> checkHP [label="is hp over 0"]
+        checkHP -> noShot
+        checkHP -> outSideRange [label="(currentTime - lastShot) > coolDow"]
+        outSideRange -> noShot [label="false"]
+        noShot -> shotValidation
+        outSideRange -> fireShot [label="true"]
+        fireShot -> shotValidation
+
+
+        }
+
+
+    subgraph cluster_2 {
+        label="Fire Weapon"
+
+        shotValidation -> makeAShot [label="List<Weaons> weaponsToFire"]
+
+        makeAShot -> hasHit [label="% hitRate + % random"]
+
+        hasHit -> miss [label="hasHit < 1"]
+        hasHit -> hitShield[label="Shield < 0"]
+        hitShield -> reduceShield [label="shield - dammage"]
+        reduceShield -> shotAnswer
+
+        hasHit -> removeHealth [label="hp - dammage"]
+        removeHealth -> setUsableFalse
+        setUsableFalse -> removeOxygen [label="oxygen - removeOxygen"]
+        removeOxygen -> shotAnswer
+
+
+
+
+
+    }
+
+}
+#+END_SRC
+
+#+RESULTS:
+[[file:kampf.png]]

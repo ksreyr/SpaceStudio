@@ -28,6 +28,7 @@ public class WeaponControllerImpl implements WeaponController {
     ShipRepository shipRepository;
     @Autowired
     StopAbstractRepository stopAbstractRepository;
+    private float removeOxygen = 20;
 
 
     @Override
@@ -143,7 +144,7 @@ public class WeaponControllerImpl implements WeaponController {
         for (Weapon weapon :
                 weapons) {
             //Search the objective
-            boolean hasHit = (random.nextInt(101) * weapon.getHitRate()) > 50;  // Treffer falls ueber 50%
+            boolean hasHit = (  (float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
             if (hasHit) {  // Dont change anything if no hit
                 ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
                 if (ship.getShield() > 0) {
@@ -152,7 +153,7 @@ public class WeaponControllerImpl implements WeaponController {
                     //Without_Schield
                     ship.setHp(ship.getHp() - weapon.getDamage());
                     weapon.getObjectiv().setUsable(false);
-                    weapon.getObjectiv().setOxygen(  weapon.getObjectiv().getOxygen()-weapon.getDamage());
+                    weapon.getObjectiv().setOxygen(  weapon.getObjectiv().getOxygen()- removeOxygen);
                     sectionRepository.save(weapon.getObjectiv());
                 }
             }
@@ -165,6 +166,7 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
+<<<<<<< HEAD
     public String shotValidation(List<Weapon> weapons) {
 
         for (Weapon w :
@@ -176,8 +178,15 @@ public class WeaponControllerImpl implements WeaponController {
             }
         }
         return "Section unusable";
+=======
+    public List<Boolean> shotValidation(List<Weapon> weapons) {
+        List<Boolean> shots = new ArrayList<>();
+        weapons.forEach(w -> {
+             shots.add(canShoot(w));
+    });
+        return shots;
+>>>>>>> c744f0f... multiplayer
     }
-
 
     private boolean canShoot(Weapon w) {
 

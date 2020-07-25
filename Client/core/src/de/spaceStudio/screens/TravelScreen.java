@@ -135,12 +135,12 @@ public class TravelScreen extends ScreenAdapter {
         if (timePassed > 5 && jumpReady) {
 //            Global.weaponListPlayer = RequestUtils.weaponsByShip(Global.currentShipPlayer); // Load all the Weapons  FIXME make async
             RequestUtils.sectionsByShip(Global.currentShipPlayer);
-            RequestUtils.sectionsByShip(Global.currentShipGegner);
             RequestUtils.weaponsByShip(Global.currentShipGegner);
             RequestUtils.weaponsByShip(Global.currentShipPlayer);
             RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
             if (Global.currentGegner != null) {
                 RequestUtils.crewMemeberByShip(Global.currentShipGegner);
+                RequestUtils.sectionsByShip(Global.currentShipGegner);
             }
             killTimer = true;
             game.setScreen(new StopScreen(game));

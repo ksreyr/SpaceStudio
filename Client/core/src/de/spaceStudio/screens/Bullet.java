@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.spaceStudio.server.model.Weapon;
 
-public class Bullet extends Weapon {
+public class Bullet {
 
     public static final int SPEED = 550;
     public static int DEFAULT_X = 200;
