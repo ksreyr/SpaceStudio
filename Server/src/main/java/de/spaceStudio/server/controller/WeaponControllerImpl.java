@@ -166,26 +166,13 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
-<<<<<<< HEAD
-    public String shotValidation(List<Weapon> weapons) {
 
-        for (Weapon w :
-                 weapons) {
-             if (canShoot(w)) {
-                return "Fire Accepted";
-            } else {
-                return "Ship Defeat";
-            }
-        }
-        return "Section unusable";
-=======
     public List<Boolean> shotValidation(List<Weapon> weapons) {
         List<Boolean> shots = new ArrayList<>();
         weapons.forEach(w -> {
              shots.add(canShoot(w));
     });
         return shots;
->>>>>>> c744f0f... multiplayer
     }
 
     private boolean canShoot(Weapon w) {
