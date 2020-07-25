@@ -417,6 +417,7 @@ public class CombatScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
 
 
+        if(Global.IS_SINGLE_PLAYER) {
         TextButton saveGameButton = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
         saveGameButton.addListener(new ChangeListener() {
             @Override
@@ -458,6 +459,8 @@ public class CombatScreen extends BaseScreen {
             }
         });
         saveGameButton.setPosition(1000, 200);
+        stage.addActor(saveGameButton);
+        }
         for (int i = 0; i < listOfCrewImages.size(); i++) {
             dragAndDrop(listOfCrewImages.get(i));
         }
@@ -482,8 +485,6 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(imageCrewMemberTwo);
         stage.addActor(imageCrewMemberThree);
 
-
-        stage.addActor(saveGameButton);
 
         Gdx.input.setInputProcessor(stage);
     }
