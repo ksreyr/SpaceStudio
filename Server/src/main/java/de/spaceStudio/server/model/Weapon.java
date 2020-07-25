@@ -1,15 +1,11 @@
 package de.spaceStudio.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.voodoodyne.jackson.jsog.JSOGGenerator;
-
 import javax.persistence.*;
 
 @Entity
 @Inheritance(
         strategy = InheritanceType.TABLE_PER_CLASS
 )
-@JsonIdentityInfo(generator= JSOGGenerator.class)
 public class Weapon {
 
     @Id

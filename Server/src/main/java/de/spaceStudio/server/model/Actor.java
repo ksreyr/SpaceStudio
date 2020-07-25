@@ -1,9 +1,6 @@
 package de.spaceStudio.server.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Inheritance(
@@ -18,18 +15,12 @@ public  class Actor {
     @Column
     private String name;
 
+    private String password;
 
     public Actor() {
 
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -40,4 +31,19 @@ public  class Actor {
     }
 
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

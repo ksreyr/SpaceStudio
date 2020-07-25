@@ -1,6 +1,5 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Section;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;

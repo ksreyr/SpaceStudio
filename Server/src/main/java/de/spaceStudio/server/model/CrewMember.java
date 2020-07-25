@@ -1,6 +1,8 @@
 package de.spaceStudio.server.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+
 import javax.persistence.*;
 
 @Entity

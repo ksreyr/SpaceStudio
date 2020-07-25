@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 @Entity
 public class AI extends Actor {
 
-
     /**
      * Empty constructor
      */
@@ -19,7 +18,6 @@ public class AI extends Actor {
      * @param builder
      */
     public AI(AIBuilder builder) {
-        setId(builder.id);
         setName(builder.name);
     }
 
@@ -27,24 +25,22 @@ public class AI extends Actor {
         return new AIBuilder();
     }
 
+
     /**
      * Builder class
      */
     public static class AIBuilder {
 
-        private Integer id;
         private String name;
 
         public AIBuilder() {
         }
 
         public AIBuilder(Integer id, String name) {
-            this.id = id;
             this.name = name;
         }
 
         public AIBuilder id(Integer id) {
-            this.id = id;
             return AIBuilder.this;
         }
 

@@ -1,19 +1,9 @@
 package de.spaceStudio.server.service;
 
-import de.spaceStudio.server.model.Lasser;
-import de.spaceStudio.server.model.Player;
-
 import de.spaceStudio.server.repository.*;
-
-import de.spaceStudio.server.model.*;
-import de.spaceStudio.server.repository.PlayerRepository;
-import de.spaceStudio.server.repository.ShipRessourceRepository;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Miguel Caceres, Santiago Rey

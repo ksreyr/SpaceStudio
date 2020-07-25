@@ -1,16 +1,16 @@
 package de.spaceStudio.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
 /**
  * @author Miguel Caceres, Santiago Rey
  * modified 06.08.2020
  */
 @Entity
-@JsonIdentityInfo(generator= JSOGGenerator.class)
 public class Player extends Actor {
 
     //private String name;
@@ -33,9 +33,9 @@ public class Player extends Actor {
         setPassword(builder.password);
     }
 
-    private String password;
 
     @Column(nullable = true)
+    @JsonIgnore
     private String savedGame;
 
 
@@ -45,14 +45,6 @@ public class Player extends Actor {
 
     public void setSavedGame(String savedGame) {
         this.savedGame = savedGame;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public static PlayerBuilder builderPlayer() {

@@ -91,20 +91,7 @@ public class SectionControllerImpl implements SectionController {
 
     @RequestMapping(value = "/sectiontoadd", method = RequestMethod.POST)
     public String addSections(@RequestBody ArrayList<Section> sections) {
-        Player playerToUpdate;
-        AI ai;
-        Ship ship=sections.get(0).getShip();
-        /*if(playerRepository.findByName(section.getShip().getOwner().getName()).isPresent()){
-            playerToUpdate=playerRepository.findByName(section.getShip().getOwner().getName()).get();
-            Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(),playerToUpdate).get();
-            ship.setOwner(playerToUpdate);
-            section.setShip(ship);
-        }else{
-            ai=aiRepository.findByName(section.getShip().getOwner().getName()).get();
-            Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(),ai).get();
-            ship.setOwner(ai);
-            section.setShip(ship);
-        }*/
+
         List<Section> sectionsadded= new ArrayList<>();
         for (Section s :
                 sections) {
