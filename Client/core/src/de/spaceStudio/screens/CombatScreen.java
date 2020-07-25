@@ -106,6 +106,8 @@ public class CombatScreen extends BaseScreen {
     private Texture shieldSystem;
     private Texture weaponsSystem;
     private Texture driveSystem;
+    private Texture energyWeaponsPanel;
+    private Texture energy;
     //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
     private RedPin redPinSectionOne;
     private RedPin redPinSectionTwo;
@@ -144,7 +146,6 @@ public class CombatScreen extends BaseScreen {
         camera = new OrthographicCamera();
 
         myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
-
 
         int row_height = Gdx.graphics.getWidth() / 12;
         int col_width = Gdx.graphics.getWidth() / 12;
@@ -222,7 +223,6 @@ public class CombatScreen extends BaseScreen {
         crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
         crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-
         imageCrewMemberOne = new Image(crewMemberOne);
         imageCrewMemberTwo = new Image(crewMemberTwo);
         imageCrewMemberThree = new Image(crewMemberThree);
@@ -237,6 +237,8 @@ public class CombatScreen extends BaseScreen {
         listOfCrewImages.add(imageCrewMemberTwo);
         listOfCrewImages.add(imageCrewMemberThree);
 
+        energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/EnergyWeaponsPanel.png"));
+        energy = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()), skin);
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
@@ -792,6 +794,7 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
             stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
             stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
+            stage.getBatch().draw(energyWeaponsPanel,0,0);
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
                 stage.getBatch().draw(redPinSectionTwo.texture, XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
