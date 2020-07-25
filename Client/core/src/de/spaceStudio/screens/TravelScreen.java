@@ -17,6 +17,13 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Logger;
+
+import static de.spaceStudio.client.util.Global.multiPlayerSessionID;
+import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
+
 
 /**
  * Created by julienvillegas on 17/01/2017.
@@ -26,13 +33,14 @@ public class TravelScreen extends ScreenAdapter {
     private final Stage stage;
     private final MainClient game;
     private final OrthographicCamera camera;
+    private boolean killTimer;
     float timePassed = 0;
     String travelText = "Traveling threw Space Time since " + (int) timePassed + " Seconds";
     String playerText = "Waiting for other Player ...";
     Label travelLabel;
     Label playerLabel;
     int dot = 0;
-
+    private final static Logger LOG = Logger.getLogger(TravelScreen.class.getName());
     public TravelScreen(MainClient game) {
         super();
         this.game = game;
@@ -67,12 +75,36 @@ public class TravelScreen extends ScreenAdapter {
         stage.addActor(travelLabel);
 
         if (Global.isOnlineGame) {
+            scheduleLobby();
             playerLabel = new Label(playerText, label1Style);
             playerLabel.setSize(Gdx.graphics.getWidth(), row_height);
             playerLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 2 + 100);
             playerLabel.setAlignment(Align.center);
             stage.addActor(playerLabel);
         }
+    }
+
+    /**
+     * Ask server every 5 seconds
+     */
+    private void scheduleLobby() {
+        Timer schedule = new Timer();
+        schedule.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (killTimer) {
+                    schedule.cancel();
+                    schedule.purge();
+                    LOG.info("Timer killed");
+                } else {
+                    LOG.info("Fetching data from server...");
+                    LOG.info(multiPlayerSessionID);
+
+                    RequestUtils.canJump(Global.currentPlayer);
+
+                }
+            }
+        }, 1000, 5000);
     }
 
     @Override
@@ -110,13 +142,11 @@ public class TravelScreen extends ScreenAdapter {
             if (Global.currentGegner != null) {
                 RequestUtils.crewMemeberByShip(Global.currentShipGegner);
             }
+            killTimer = true;
             game.setScreen(new StopScreen(game));
         }
-
         stage.act();
         stage.draw();
-
-
     }
 
 
