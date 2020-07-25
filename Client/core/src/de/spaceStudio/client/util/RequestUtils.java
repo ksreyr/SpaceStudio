@@ -9,7 +9,6 @@ import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
 
 public final class RequestUtils {
@@ -48,11 +47,11 @@ public final class RequestUtils {
 
                 Gson gson = new Gson();
                 if (url.contains("sections")) {
-                    Global.combatSections.put(id,  Arrays.asList(gson.fromJson(responseString[0], Section[].class)));
+                    Global.combatSections.put(id, Arrays.asList(gson.fromJson(responseString[0], Section[].class)));
                 } else if (url.contains("weapon")) {
-                    Global.combatWeapons.put(id,  Arrays.asList(gson.fromJson(responseString[0], Weapon[].class)));
+                    Global.combatWeapons.put(id, Arrays.asList(gson.fromJson(responseString[0], Weapon[].class)));
                 } else if (url.contains("crewMembers")) {
-                    Global.combatCrew.put(id,  Arrays.asList(gson.fromJson(responseString[0], CrewMember[].class)));
+                    Global.combatCrew.put(id, Arrays.asList(gson.fromJson(responseString[0], CrewMember[].class)));
                 }
 
 
@@ -60,7 +59,7 @@ public final class RequestUtils {
 
             @Override
             public void failed(Throwable t) {
-            LOG.severe("Request Failed");
+                LOG.severe("Request Failed");
             }
 
             @Override
@@ -73,14 +72,15 @@ public final class RequestUtils {
     }
 
     public static void weaponsByShip(Ship ship) {
-        genericGetRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP +"/" + ship.getId() + "/" + Global.WEAPONS, false, ship.getId());
+        genericGetRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.WEAPONS, false, ship.getId());
     }
 
     public static void sectionsByShip(Ship ship) {
-        genericGetRequest( Global.SERVER_URL + Global.ASK_FOR_SHIP +"/" + ship.getId() + "/" + Global.SECTIONS, false, ship.getId());
+        genericGetRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.SECTIONS, false, ship.getId());
     }
+
     public static void crewMemeberByShip(Ship ship) {
-        genericGetRequest( Global.SERVER_URL + Global.ASK_FOR_SHIP +"/" + ship.getId() + "/" + Global.CREWMEMBERS, false, ship.getId());
+        genericGetRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId() + "/" + Global.CREWMEMBERS, false, ship.getId());
     }
 
 }

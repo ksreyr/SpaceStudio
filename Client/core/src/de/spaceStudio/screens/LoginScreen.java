@@ -13,20 +13,21 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.server.model.Player;
 import thirdParties.GifDecoder;
-
 
 import java.util.logging.Logger;
 
@@ -39,38 +40,32 @@ import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 public class LoginScreen extends BaseScreen {
 
     private final static Logger LOG = Logger.getLogger(LoginScreen.class.getName());
-
-    private Stage stage;
-    private Skin skin;
-    private TextField userName, newUserName;
-    private TextField userPassword, newUserPassword, confirmPassword;
-    private TextButton login;
-    private TextButton register;
-    private Label loginConfirmation;
-    private Label registerConfirmation;
-    private TextButton mute, exit;
-    private Viewport viewport;
-
-    Animation<TextureRegion> animation;
-    private Music music;
-    private Sound mouseClick;
-    private Sound keyboard;
-
-    private boolean isPressed = false;
-
     private static final int BUTTON_LOGIN_X = (BaseScreen.WIDTH / 3);
     private static final float BUTTON_REGISTER_X = (BaseScreen.WIDTH / 2) + 100;
-
-
     private static final int TEXTBOX_WIDTH = 200;
     private static final int TEXTBOX_HEIGHT = 35;
     private static final int TEXTBOX_LENGTH = 20;
-
-
+    private final Stage stage;
+    private final Skin skin;
+    private final TextButton login;
+    private final TextButton register;
+    private final Label loginConfirmation;
+    private final Label registerConfirmation;
+    private final TextButton mute;
+    private final TextButton exit;
+    private final Viewport viewport;
+    private final Music music;
+    private final Sound mouseClick;
+    private final Sound keyboard;
+    Animation<TextureRegion> animation;
+    private TextField userName, newUserName;
+    private TextField userPassword, newUserPassword, confirmPassword;
+    private boolean isPressed = false;
     private float state = 0.0f;
 
     /**
      * Constructor
+     *
      * @param game
      * @param assetManager
      */
@@ -321,10 +316,10 @@ public class LoginScreen extends BaseScreen {
                         int statusCode = httpResponse.getStatus().getStatusCode();
 
                         String responseJson = httpResponse.getResultAsString();
-                        LOG.info("statusCode: " + statusCode + " JSON: "  + responseJson);
+                        LOG.info("statusCode: " + statusCode + " JSON: " + responseJson);
                         Player reponseUser = json.fromJson(responseJson, Player.class);
 
-                        if (statusCode != HttpStatus.SC_OK || responseJson.isEmpty() ) {
+                        if (statusCode != HttpStatus.SC_OK || responseJson.isEmpty()) {
                             loginConfirmation.setText("invalid username or password!");
                             loginConfirmation.setColor(Color.RED);
                             LOG.info("Credentials invalid or server down");

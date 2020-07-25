@@ -7,13 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public abstract class AssetDescriptors {
 
 
-
     public static final AssetDescriptor<Skin> SGX_SKIN =
             new AssetDescriptor<>(AssetPaths.SGX_SKIN, Skin.class);
 
     public static final AssetDescriptor<Skin> CHANGE_SHIP =
             new AssetDescriptor<>(AssetPaths.CHANGE_SHIP, Skin.class);
-
 
 
     public static final AssetDescriptor<TextureAtlas> BACKGROUND_AREA =

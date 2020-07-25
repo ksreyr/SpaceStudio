@@ -11,6 +11,7 @@ public class InitialDataGameService {
     String response;
     String valid;
     String responseJson;
+
     public String sendRequestAddShip(Object requestObject, String method) {
         final Json json = new Json();
 
@@ -32,6 +33,7 @@ public class InitialDataGameService {
                 }
                 System.out.println("statusCode sendRequestAddShip: " + statusCode);
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
@@ -68,15 +70,18 @@ public class InitialDataGameService {
                 System.out.println("statusCode sendRequestAddSection: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
             }
         });
     }
+
     public void sendRequestAddPlanet(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -96,15 +101,18 @@ public class InitialDataGameService {
                 System.out.println("statusCode AddPLanet: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
             }
         });
     }
+
     public void sendRequestAddStation(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -124,15 +132,18 @@ public class InitialDataGameService {
                 System.out.println("statusCode AddStation: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
             }
         });
     }
+
     public void sendRequestAddUniverse(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -152,9 +163,11 @@ public class InitialDataGameService {
                 System.out.println("statusCode AddUniverise: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
@@ -181,15 +194,18 @@ public class InitialDataGameService {
                 System.out.println("statusCode sendRequestAddCrew: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
             }
         });
     }
+
     public void sendRequestAddWeapon(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -209,9 +225,11 @@ public class InitialDataGameService {
                 System.out.println("statusCode sendRequestAddWeapon: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
@@ -239,9 +257,11 @@ public class InitialDataGameService {
                 System.out.println("statusCode validatedName: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
@@ -249,6 +269,7 @@ public class InitialDataGameService {
         });
         return valid;
     }
+
     public void sendRequestAddShipRessource(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -268,15 +289,18 @@ public class InitialDataGameService {
                 System.out.println("statusCode AddShipRessource: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
             }
         });
     }
+
     public void sendRequestAddShopRessource(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -296,15 +320,18 @@ public class InitialDataGameService {
                 System.out.println("statusCode AddShopRessource: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
             }
         });
     }
+
     public String aiCreation(Object requestObject, String method) {
 
         final Json json = new Json();
@@ -326,9 +353,11 @@ public class InitialDataGameService {
                 String responseJson = httpResponse.getResultAsString();
 
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");

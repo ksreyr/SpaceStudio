@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.AssetDescriptors;
-import de.spaceStudio.assets.Assets;
 import de.spaceStudio.assets.RegionNames;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
@@ -33,9 +32,7 @@ import de.spaceStudio.util.GdxUtils;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.Global.*;
-import static de.spaceStudio.client.util.Global.singlePlayerGame;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
-
 import static de.spaceStudio.service.LoginService.logout;
 
 
@@ -43,22 +40,18 @@ import static de.spaceStudio.service.LoginService.logout;
 public class MenuScreen extends ScreenAdapter {
 
     private final static Logger LOG = Logger.getLogger(MenuScreen.class.getName());
-
-    private MainClient universeMap;
     private final AssetManager assetManager;
-    private MainClient mainClient;
+    private final MainClient universeMap;
+    private final MainClient mainClient;
+    //
+    PlayerDataService pds = new PlayerDataService();
     private Viewport viewport;
     private Stage stage;
-
     private Skin sgxSkin;
     private TextureAtlas gamePlayAtlas;
-
-
     private Sound click;
     private boolean isLoaded = false;
     private String screenToLoad;
-    //
-    PlayerDataService pds = new PlayerDataService();
     //
 
     public MenuScreen(MainClient mainClient) {
@@ -67,12 +60,13 @@ public class MenuScreen extends ScreenAdapter {
         assetManager = universeMap.getAssetManager();
     }
 
-    private void UpdateGlobalSInglePlayer(SinglePlayerGame singlePlayerGame){
+    private void UpdateGlobalSInglePlayer(SinglePlayerGame singlePlayerGame) {
         Global.singlePlayerGame = singlePlayerGame;
         currentShipPlayer = singlePlayerGame.getPlayerShip();
         screenToLoad = singlePlayerGame.getLastScreen();
         currentShipGegner = singlePlayerGame.getShipGegner();
     }
+
     //Called when this screen becomes the current screen for a Game.
     @Override
     public void show() {
@@ -162,7 +156,7 @@ public class MenuScreen extends ScreenAdapter {
         table.add(label).row();
         table.row();
         // Player does not have saved game
-        if(currentPlayer.getSavedGame() == null){
+        if (currentPlayer.getSavedGame() == null) {
             textButtonContinue.setDisabled(true);
         } else {
             table.add(textButtonContinue).row();

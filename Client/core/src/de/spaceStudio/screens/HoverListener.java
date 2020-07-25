@@ -4,8 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class HoverListener  extends ClickListener {
-
+public class HoverListener extends ClickListener {
 
 
     @Override
@@ -18,7 +17,6 @@ public class HoverListener  extends ClickListener {
     @Override
     public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
         super.exit(event, x, y, pointer, toActor);
-
 
 
     }

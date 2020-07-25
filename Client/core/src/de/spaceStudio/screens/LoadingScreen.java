@@ -24,36 +24,30 @@ public class LoadingScreen extends ScreenAdapter {
 
     private static final float PROGRESS_BAR_WIDTH = 400f;
     private static final float PROGRESS_BAR_HEIGHT = 30f;
-
-    private Stage stage;
-    private Skin skin;
-
     private final MainClient game;
     private final AssetManager assetManager;
-
+    private final Stage stage;
+    private final Skin skin;
+    private final Label loadingText;
+    Animation<TextureRegion> animation;
     private OrthographicCamera camera;
     private Viewport viewport;
     private ShapeRenderer renderer;
-
     private float progress;
     private float waitTime = 1.00f;
     private boolean changeScreen;
 
-    private Label loadingText;
-
-    Animation<TextureRegion> animation;
-
 
     public LoadingScreen(MainClient game) {
         this.game = game;
-        stage = new Stage(new FitViewport(800,600));
+        stage = new Stage(new FitViewport(800, 600));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         assetManager = game.getAssetManager();
         loadingText = new Label("Loading ...", skin);
         animation = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/loading.gif").read());
         loadingText.setAlignment(Align.center);
-        loadingText.setFontScale(2,2);
-        loadingText.setPosition(stage.getWidth()/2f-50,400);
+        loadingText.setFontScale(2, 2);
+        loadingText.setPosition(stage.getWidth() / 2f - 50, 400);
 
         loadingText.setColor(Color.WHITE);
         stage.addActor(loadingText);

@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.spaceStudio.Actors.ParallaxBackground;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.client.util.RequestUtils;
 
 
 /**
@@ -23,16 +22,14 @@ import de.spaceStudio.client.util.RequestUtils;
  */
 public class TravelScreen extends ScreenAdapter {
 
-    private Stage stage;
-    private MainClient game;
-    private OrthographicCamera camera;
-
+    private final Stage stage;
+    private final MainClient game;
+    private final OrthographicCamera camera;
     float timePassed = 0;
     String travelText = "Traveling threw Space Time since " + (int) timePassed + " Seconds";
     String playerText = "Waiting for other Player ...";
     Label travelLabel;
     Label playerLabel;
-
     int dot = 0;
 
     public TravelScreen(MainClient game) {

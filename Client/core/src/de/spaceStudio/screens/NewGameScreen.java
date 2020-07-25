@@ -8,7 +8,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.net.HttpStatus;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -35,10 +36,9 @@ import java.util.logging.Logger;
 public class NewGameScreen extends ScreenAdapter {
 
     private final static Logger LOG = Logger.getLogger(NewGameScreen.class.getName());
-
-    private MainClient universeMap;
     private final AssetManager assetManager;
-    private MainClient mainClient;
+    private final MainClient universeMap;
+    private final MainClient mainClient;
     private Viewport viewport;
     private Stage stage;
 
@@ -93,29 +93,29 @@ public class NewGameScreen extends ScreenAdapter {
                 Net.HttpRequest request = RequestUtils.setupRequest(Global.SERVER_URL + Global.MULTIPLAYER_INIT, payLoad, Net.HttpMethods.POST);
                 Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
 
-                            @Override
-                            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                                int statusCode = httpResponse.getStatus().getStatusCode();
-                                String responseJson = httpResponse.getResultAsString();
-                                LOG.info("User is now online");
-                                System.out.println(statusCode);
-                                LOG.info(responseJson);
-                                if (statusCode == HttpStatus.SC_OK && responseJson.equals("202 ACCEPTED")) {
-                                    LOG.info("User is now online");
-                                    isMultiPayerRequestDone = true;
-                                }
-                            }
+                    @Override
+                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                        int statusCode = httpResponse.getStatus().getStatusCode();
+                        String responseJson = httpResponse.getResultAsString();
+                        LOG.info("User is now online");
+                        System.out.println(statusCode);
+                        LOG.info(responseJson);
+                        if (statusCode == HttpStatus.SC_OK && responseJson.equals("202 ACCEPTED")) {
+                            LOG.info("User is now online");
+                            isMultiPayerRequestDone = true;
+                        }
+                    }
 
-                            @Override
-                            public void failed(Throwable t) {
+                    @Override
+                    public void failed(Throwable t) {
 
-                            }
+                    }
 
-                            @Override
-                            public void cancelled() {
+                    @Override
+                    public void cancelled() {
 
-                            }
-                        });
+                    }
+                });
             }
         });
 
@@ -145,13 +145,14 @@ public class NewGameScreen extends ScreenAdapter {
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
+
     // Called when the screen should render itself.
     @Override
     public void render(float delta) {
         GdxUtils.clearScreen();
         stage.act();
         stage.draw();
-        if(isMultiPayerRequestDone){
+        if (isMultiPayerRequestDone) {
             mainClient.setScreen(new ShipSelectScreen(mainClient));
         }
     }

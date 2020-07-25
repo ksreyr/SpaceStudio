@@ -1,7 +1,6 @@
 package de.spaceStudio.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
@@ -9,8 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
@@ -32,98 +28,76 @@ import de.spaceStudio.service.InitialDataGameService;
 import de.spaceStudio.service.SinglePlayerGameService;
 import thirdParties.GifDecoder;
 
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.Global.*;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
-import static de.spaceStudio.service.MultiPlayerService.*;
+import static de.spaceStudio.service.MultiPlayerService.fetchMultiPlayerSession;
+import static de.spaceStudio.service.MultiPlayerService.joinMultiplayerRoom;
 //“Sound effects obtained from https://www.zapsplat.com“
 
 public class ShipSelectScreen extends BaseScreen {
 
     private final static Logger LOG = Logger.getLogger(ShipSelectScreen.class.getName());
-
-    private Label usernameLabel, playersOnlineLabel, displayOnlinePlayerName;
-
     private static final int X_POSITION = 750;
     private static final int Y_POSITION = 550;
     private static final int SHIP_WIDTH = 500;
     private static final int SHIP_HEIGHT = 500;
-
     private final MainClient mainClient;
-    private SpriteBatch batch;
-    private BitmapFont font;
-
-    private Texture blueShip, redShip, greenship, topdownfighter;
-    private Texture blueShipRoom, redShipRoom, greenshipRoom, topdownfighterRoom;
-
-    private Texture relevantSystems;
-    private Texture shield;
-    private Texture weaponsSystem;
-    private Texture drive;
-    private Texture crewDisplay;
-    private Texture crewMember;
-    private Texture crewMember2;
-    private Texture crewMember3;
-
-    private RedPin redPin;
-    private RedPin redPin2;
-    private RedPin redPin3;
-    private RedPin redPin4;
-    private RedPin redPin5;
-    private RedPin redPin6;
-    private Image imageCrewMemberSektion2;
-    private Image imageCrewMemberSektion4;
-    private Image imageCrewMemberSektion6;
-    private TextField crew_1_name, crew_2_name, crew_3_name;
-
+    private final SpriteBatch batch;
+    private final BitmapFont font;
+    private final Texture blueShip;
+    private final Texture redShip;
+    private final Texture greenship;
+    private final Texture topdownfighter;
+    private final Texture blueShipRoom;
+    private final Texture redShipRoom;
+    private final Texture greenshipRoom;
+    private final Texture topdownfighterRoom;
+    private final Texture relevantSystems;
+    private final Texture shield;
+    private final Texture weaponsSystem;
+    private final Texture drive;
+    private final Texture crewDisplay;
+    private final Texture crewMember;
+    private final Texture crewMember2;
+    private final Texture crewMember3;
+    private final RedPin redPin;
+    private final RedPin redPin2;
+    private final RedPin redPin3;
+    private final RedPin redPin4;
+    private final RedPin redPin5;
+    private final RedPin redPin6;
+    private final Image imageCrewMemberSektion2;
+    private final Image imageCrewMemberSektion4;
+    private final Image imageCrewMemberSektion6;
+    private final TextField crew_1_name;
+    private final TextField crew_2_name;
+    private final TextField crew_3_name;
+    private final Texture background;
+    private final Stage stage;
+    private final Skin skinButton;
+    private final Viewport viewport;
+    private final Sound spaceShipChange;
+    private final Sound mouseClick;
+    private final InitialDataGameService idgs = new InitialDataGameService();
+    private final InputHandler inputHandler;
+    private final int timeoutMultiPlayer = 0;
+    private final OrthographicCamera camera;
     Animation<TextureRegion> crew1;
     Animation<TextureRegion> crew2;
     Animation<TextureRegion> crew3;
-    private Texture background;
     float state = 0f;
-
-
-    private Stage stage;
-    private Skin skinButton;
-    private Viewport viewport;
-    private TextButton next;
-    private TextButton previous;
-    private TextButton showHideRoom;
-    private TextButton startButton;
-    private TextButton backMenuButton;
-    private TextButton easyButton;
-    private TextButton normalButton;
-
     int shipNumber = 0;
     int openNumber = 0;
-    private Sound spaceShipChange, mouseClick;
-
-    private InitialDataGameService idgs = new InitialDataGameService();
-
-    private boolean isOpen;
-    private InputHandler inputHandler;
-    private int levelDifficult = 0;
-    private boolean killTimer;
-    private boolean logoutMultiPlayer;
-    private boolean readyUpTriggered;
-    private boolean deployMultiplayer;
-    private int timeoutMultiPlayer = 0;
-
-
     Ship ship = new Ship();
-
-
     Universe universe1 = Global.universe1;
     Universe universe2 = Global.universe2;
-
-
     int requestcounter = 0;
     String responseJson;
-
     List<Section> sectionList = new ArrayList<>();
     List<CrewMember> crewMemberList = new ArrayList<>();
     List<AI> aiList = new ArrayList<>();
@@ -134,8 +108,21 @@ public class ShipSelectScreen extends BaseScreen {
     List<Station> stations = new ArrayList<>();
     List<ShopRessource> shopRessources = new ArrayList<>();
     List<Weapon> weapons = new ArrayList<>();
+    private Label usernameLabel, playersOnlineLabel, displayOnlinePlayerName;
+    private TextButton next;
+    private TextButton previous;
+    private TextButton showHideRoom;
+    private TextButton startButton;
+    private TextButton backMenuButton;
+    private TextButton easyButton;
+    private TextButton normalButton;
+    private boolean isOpen;
+    private int levelDifficult = 0;
+    private boolean killTimer;
+    private boolean logoutMultiPlayer;
+    private boolean readyUpTriggered;
+    private boolean deployMultiplayer;
 
-    private OrthographicCamera camera;
     //
     public ShipSelectScreen(MainClient game) {
         super(game);
@@ -236,12 +223,12 @@ public class ShipSelectScreen extends BaseScreen {
         imageCrewMemberSektion2 = new Image(crewMember);
         imageCrewMemberSektion4 = new Image(crewMember2);
         imageCrewMemberSektion6 = new Image(crewMember3);
-        imageCrewMemberSektion2.setBounds(30,30,30,30);
-        imageCrewMemberSektion4.setBounds(30,30,30,30);
-        imageCrewMemberSektion6.setBounds(30,30,30,30);
-        imageCrewMemberSektion2.setPosition(990,886);
-        imageCrewMemberSektion4.setPosition((BaseScreen.WIDTH/2f)+110,BaseScreen.HEIGHT-320);
-        imageCrewMemberSektion6.setPosition(840,674);
+        imageCrewMemberSektion2.setBounds(30, 30, 30, 30);
+        imageCrewMemberSektion4.setBounds(30, 30, 30, 30);
+        imageCrewMemberSektion6.setBounds(30, 30, 30, 30);
+        imageCrewMemberSektion2.setPosition(990, 886);
+        imageCrewMemberSektion4.setPosition((BaseScreen.WIDTH / 2f) + 110, BaseScreen.HEIGHT - 320);
+        imageCrewMemberSektion6.setPosition(840, 674);
 
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
@@ -251,14 +238,14 @@ public class ShipSelectScreen extends BaseScreen {
         selectLevelView();
 
         // top left position
-        if(!Global.IS_SINGLE_PLAYER){
+        if (!Global.IS_SINGLE_PLAYER) {
 
             playersOnlineLabel = new Label(null, skinButton);
-            playersOnlineLabel.setPosition(20,950);
+            playersOnlineLabel.setPosition(20, 950);
             playersOnlineLabel.setFontScale(2);
 
             displayOnlinePlayerName = new Label(null, skinButton);
-            displayOnlinePlayerName.setPosition(20,920);
+            displayOnlinePlayerName.setPosition(20, 920);
             displayOnlinePlayerName.setFontScale(1.5F);
 
             drawLobby();
@@ -275,7 +262,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.addActor(startButton);
         stage.addActor(backMenuButton);
         // Don't show online
-        if(IS_SINGLE_PLAYER){
+        if (IS_SINGLE_PLAYER) {
             stage.addActor(easyButton);
             stage.addActor(normalButton);
         }
@@ -387,7 +374,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width,height);
+        viewport.update(width, height);
 
     }
 
@@ -434,7 +421,7 @@ public class ShipSelectScreen extends BaseScreen {
         startButton = new TextButton("START", skinButton, "small");
         startButton.setTransform(true);
         startButton.setColor(Color.GOLDENROD);
-        if(!IS_SINGLE_PLAYER) {
+        if (!IS_SINGLE_PLAYER) {
             startButton.setText("READY UP");
             startButton.setColor(Color.CYAN);
             fetchMultiPlayerSession();
@@ -453,10 +440,10 @@ public class ShipSelectScreen extends BaseScreen {
                 if (IS_SINGLE_PLAYER) {
                     createSinglePlayerGame();
                 } else {
-                    if(!readyUpTriggered) {
+                    if (!readyUpTriggered) {
                         joinMultiplayerRoom();
                         startButton.setColor(Color.GREEN);
-                        readyUpTriggered = true;;
+                        readyUpTriggered = true;
 
                     } else {
                         // send request
@@ -529,7 +516,7 @@ public class ShipSelectScreen extends BaseScreen {
     public void show() {
         super.show();
         StartButton();
-        if(!IS_SINGLE_PLAYER) {
+        if (!IS_SINGLE_PLAYER) {
             scheduleLobby();
         }
     }
@@ -537,12 +524,12 @@ public class ShipSelectScreen extends BaseScreen {
     /**
      * Ask server every 5 seconds
      */
-    private void scheduleLobby(){
+    private void scheduleLobby() {
         Timer schedule = new Timer();
         schedule.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(killTimer){
+                if (killTimer) {
                     schedule.cancel();
                     schedule.purge();
                     LOG.info("Timer killed");
@@ -550,12 +537,12 @@ public class ShipSelectScreen extends BaseScreen {
                     LOG.info("Fetching data from server...");
                     LOG.info(multiPlayerSessionID);
                     fetchLoggedUsers();
-                    if (readyUpTriggered){
+                    if (readyUpTriggered) {
                         checkMultiPlayerToStartSynchro();
-                        }
+                    }
                 }
             }
-        }, 1000,5000);
+        }, 1000, 5000);
     }
 
     public void checkMultiPlayerToStartSynchro() {
@@ -568,7 +555,7 @@ public class ShipSelectScreen extends BaseScreen {
                 LOG.info("Waiting for players...");
                 String response = httpResponse.getResultAsString();
                 LOG.info(response);
-                if (response.equals("true")){
+                if (response.equals("true")) {
                     // SetScreen Station Map
                     LOG.info("Setting up stationStop Screen");
                     deployMultiplayer = true;
@@ -606,40 +593,40 @@ public class ShipSelectScreen extends BaseScreen {
         batch.end();
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(crewDisplay,0,0);
-        stage.getBatch().draw((TextureRegion) crew1.getKeyFrame(state), 45, 220, 70, 70);
-        stage.getBatch().draw((TextureRegion) crew2.getKeyFrame(state), 45, 150, 70, 70);
-        stage.getBatch().draw((TextureRegion) crew3.getKeyFrame(state), 45, 80, 70, 70);
+        stage.getBatch().draw(crewDisplay, 0, 0);
+        stage.getBatch().draw(crew1.getKeyFrame(state), 45, 220, 70, 70);
+        stage.getBatch().draw(crew2.getKeyFrame(state), 45, 150, 70, 70);
+        stage.getBatch().draw(crew3.getKeyFrame(state), 45, 80, 70, 70);
 
-        if (deployMultiplayer){
+        if (deployMultiplayer) {
             killTimer = true;
             mainClient.setScreen(new StationsMap(game));
         }
         // Bock
-        if(IS_SINGLE_PLAYER){
-        /*Added Ship*/
-        if (requestcounter == 1) {
-            if (responseJson != null && !responseJson.isEmpty()) {
-                ship.setId(Integer.valueOf(responseJson));
-                Global.currentShipPlayer = ship;
-                //Ship to Sections
-                for (Section s :
-                        Global.sectionsPlayerList) {
-                    s.setShip(ship);
+        if (IS_SINGLE_PLAYER) {
+            /*Added Ship*/
+            if (requestcounter == 1) {
+                if (responseJson != null && !responseJson.isEmpty()) {
+                    ship.setId(Integer.valueOf(responseJson));
+                    Global.currentShipPlayer = ship;
+                    //Ship to Sections
+                    for (Section s :
+                            Global.sectionsPlayerList) {
+                        s.setShip(ship);
+                    }
                 }
+                //Sent Sections
+                sendRequestAddSections(Global.sectionsPlayerList, Net.HttpMethods.POST);
+                requestcounter = 2;
             }
-            //Sent Sections
-            sendRequestAddSections(Global.sectionsPlayerList, Net.HttpMethods.POST);
-            requestcounter = 2;
-        }
 
-        if(logoutMultiPlayer){
-            logoutMultiPlayer = false;
-            mainClient.setScreen(new NewGameScreen(game));
-        }
-        /*Added sectionList*/
-        if (!sectionList.isEmpty() && requestcounter == 2) {
-            //Section with ID
+            if (logoutMultiPlayer) {
+                logoutMultiPlayer = false;
+                mainClient.setScreen(new NewGameScreen(game));
+            }
+            /*Added sectionList*/
+            if (!sectionList.isEmpty() && requestcounter == 2) {
+                //Section with ID
                                     /*
                         271, 158
                         475, 293
@@ -649,61 +636,61 @@ public class ShipSelectScreen extends BaseScreen {
                         266, 607
                          */
 
-            Global.sectionsPlayerList = sectionList;
+                Global.sectionsPlayerList = sectionList;
 
-            //Update Section variables
-            updateVariableSectionShipPlayer();
-            //Set crewMemebers
-            int counter = 1;
-            for (CrewMember c :
-                    Global.crewMemberList) {
-                switch (counter) {
-                    case 1:
-                        c.setCurrentSection(section2);
-                        c.setName(crew_1_name.getText());
-                        break;
-                    case 2:
-                        c.setCurrentSection(section4);
-                        c.setName(crew_2_name.getText());
-                        break;
-                    case 3:
-                        c.setCurrentSection(section6);
-                        c.setName(crew_3_name.getText());
-                        break;
-                    default:
-                        break;
+                //Update Section variables
+                updateVariableSectionShipPlayer();
+                //Set crewMemebers
+                int counter = 1;
+                for (CrewMember c :
+                        Global.crewMemberList) {
+                    switch (counter) {
+                        case 1:
+                            c.setCurrentSection(section2);
+                            c.setName(crew_1_name.getText());
+                            break;
+                        case 2:
+                            c.setCurrentSection(section4);
+                            c.setName(crew_2_name.getText());
+                            break;
+                        case 3:
+                            c.setCurrentSection(section6);
+                            c.setName(crew_3_name.getText());
+                            break;
+                        default:
+                            break;
+                    }
+                    counter++;
                 }
-                counter++;
+                //CrewMembers sendet
+                sendRequestAddCrewMembers(Global.crewMemberList, Net.HttpMethods.POST);
+                requestcounter = 3;
+                requestcounter = 4;
             }
-            //CrewMembers sendet
-            sendRequestAddCrewMembers(Global.crewMemberList, Net.HttpMethods.POST);
-            requestcounter = 3;
-            requestcounter = 4;
-        }
-        if (!crewMemberList.isEmpty() && requestcounter == 4) {
-            Global.crewMemberList = crewMemberList;
-            Global.updateVariableCrewMembersPlayer();
-            List<CrewMember> sizeO=new ArrayList<>();
-            crewMemberList=sizeO;
-            requestcounter = 5;
-        }
-        //Add Universe
-        if (requestcounter == 5) {
+            if (!crewMemberList.isEmpty() && requestcounter == 4) {
+                Global.crewMemberList = crewMemberList;
+                Global.updateVariableCrewMembersPlayer();
+                List<CrewMember> sizeO = new ArrayList<>();
+                crewMemberList = sizeO;
+                requestcounter = 5;
+            }
+            //Add Universe
+            if (requestcounter == 5) {
                 universe2.setName(universe2.getName() + currentPlayer.getName());
                 Global.universe2.setName(universe2.getName());
                 sendRequestAddUniverse(universe2, Net.HttpMethods.POST);
-            requestcounter = 6;
-        }
-        //updated Universe
-        if (requestcounter == 6 && universeID != 0) {
+                requestcounter = 6;
+            }
+            //updated Universe
+            if (requestcounter == 6 && universeID != 0) {
                 Global.universe2.setId(universeID);
                 currentUniverse = Global.universe2;
                 sendRequestAisCreation(Global.aisU2, Net.HttpMethods.POST);
 
-            requestcounter = 7;
-        }
+                requestcounter = 7;
+            }
 
-        if (requestcounter == 7 && !aiList.isEmpty()) {
+            if (requestcounter == 7 && !aiList.isEmpty()) {
                 Global.aisU2 = aiList;
                 Global.updateVariableaiu2();
                 requestcounter = 8;
@@ -844,10 +831,10 @@ public class ShipSelectScreen extends BaseScreen {
                             p.setShips(Global.shipsP3);
                             break;
                         case "p4":
-                              p.setShips(Global.shipsP4);
+                            p.setShips(Global.shipsP4);
                             break;
                         case "p5":
-                             p.setShips(Global.shipsP5);
+                            p.setShips(Global.shipsP5);
                             break;
                         case "p6":
                             p.setShips(Global.shipsP6);
@@ -902,42 +889,42 @@ public class ShipSelectScreen extends BaseScreen {
             if (requestcounter == 19 && shipRessourceID != 0) {
                 shipRessource.setId(shipRessourceID);
                 requestcounter = 20;
-                shipRessourceID=0;
+                shipRessourceID = 0;
             }
             if (requestcounter == 20) {
-                List<Weapon> weaponsUniver2=new ArrayList<>();
+                List<Weapon> weaponsUniver2 = new ArrayList<>();
                 for (Weapon w :
                         weaponListPlayer) {
                     w.setSection(section2);
                     weaponsUniver2.add(w);
                 }
-                for(Weapon w:
-                        weaponListGegner1){
+                for (Weapon w :
+                        weaponListGegner1) {
                     w.setSection(section3Gegner);
                     weaponsUniver2.add(w);
                 }
-                for(Weapon w:
-                        weaponListGegner2){
+                for (Weapon w :
+                        weaponListGegner2) {
                     w.setSection(section3Gegner2);
                     weaponsUniver2.add(w);
                 }
-                for(Weapon w:
-                        weaponListGegner3){
+                for (Weapon w :
+                        weaponListGegner3) {
                     w.setSection(section3Gegner3);
                     weaponsUniver2.add(w);
                 }
-                for(Weapon w:
-                        weaponListGegner4){
+                for (Weapon w :
+                        weaponListGegner4) {
                     w.setSection(section3Gegner4);
                     weaponsUniver2.add(w);
                 }
-                for(Weapon w:
-                        weaponListGegner5){
+                for (Weapon w :
+                        weaponListGegner5) {
                     w.setSection(section3Gegner5);
                     weaponsUniver2.add(w);
                 }
-                for(Weapon w:
-                        weaponListGegner6){
+                for (Weapon w :
+                        weaponListGegner6) {
                     w.setSection(section3Gegner6);
                     weaponsUniver2.add(w);
                 }
@@ -960,7 +947,7 @@ public class ShipSelectScreen extends BaseScreen {
             if (requestcounter == 22) {
                 for (Section section :
                         sectionsgegner1) {
-                    switch (section.getImg()){
+                    switch (section.getImg()) {
                         case "Section1Gegner1":
                             crewMember1gegner1.setCurrentSection(section);
                             break;
@@ -969,15 +956,15 @@ public class ShipSelectScreen extends BaseScreen {
                             break;
                     }
                 }
-                sendRequestAddCrewMembers(List.of(crewMember1gegner1,crewMember2gegner1),Net.HttpMethods.POST);
+                sendRequestAddCrewMembers(List.of(crewMember1gegner1, crewMember2gegner1), Net.HttpMethods.POST);
                 requestcounter = 23;
             }
-            if(!crewMemberList.isEmpty()&&requestcounter ==23){
+            if (!crewMemberList.isEmpty() && requestcounter == 23) {
 
                 mainClient.setScreen(new StationsMap(game));
-                requestcounter=24;
+                requestcounter = 24;
             }
-        //}
+            //}
         } else {
             // TODO Online game
         }
@@ -987,9 +974,9 @@ public class ShipSelectScreen extends BaseScreen {
                 stage.getBatch().draw(blueShip, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 if (isOpen) {
                     stage.getBatch().draw(blueShipRoom, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
-                    stage.getBatch().draw(shield, BaseScreen.WIDTH/2f,BaseScreen.HEIGHT-240);
-                    stage.getBatch().draw(drive,(BaseScreen.WIDTH/2f)-100,BaseScreen.HEIGHT-450);
-                    stage.getBatch().draw(weaponsSystem,(BaseScreen.WIDTH/2f)+85,BaseScreen.HEIGHT-350);
+                    stage.getBatch().draw(shield, BaseScreen.WIDTH / 2f, BaseScreen.HEIGHT - 240);
+                    stage.getBatch().draw(drive, (BaseScreen.WIDTH / 2f) - 100, BaseScreen.HEIGHT - 450);
+                    stage.getBatch().draw(weaponsSystem, (BaseScreen.WIDTH / 2f) + 85, BaseScreen.HEIGHT - 350);
 
                     //Sektion 1
                     stage.getBatch().draw(redPin.texture, X_POSITION + 90, Y_POSITION + 350);
@@ -1010,7 +997,7 @@ public class ShipSelectScreen extends BaseScreen {
                     stage.addActor(imageCrewMemberSektion4);
                     //Crewmember befindet sich in Sektion 6
                     stage.addActor(imageCrewMemberSektion6);
-                }else {
+                } else {
                     imageCrewMemberSektion2.remove();
                     imageCrewMemberSektion4.remove();
                     imageCrewMemberSektion6.remove();
@@ -1018,25 +1005,25 @@ public class ShipSelectScreen extends BaseScreen {
                 break;
             case 1:
                 stage.getBatch().draw(redShip, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
-                if(isOpen){
-                    stage.getBatch().draw(redShipRoom, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
+                if (isOpen) {
+                    stage.getBatch().draw(redShipRoom, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 }
                 break;
             case 2:
-                stage.getBatch().draw(greenship,X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
-                if(isOpen){
-                    stage.getBatch().draw(greenshipRoom, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
+                stage.getBatch().draw(greenship, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
+                if (isOpen) {
+                    stage.getBatch().draw(greenshipRoom, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 }
                 break;
             case 3:
-                stage.getBatch().draw(topdownfighter,X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
-                if(isOpen){
-                    stage.getBatch().draw(topdownfighterRoom, X_POSITION,Y_POSITION,SHIP_WIDTH,SHIP_HEIGHT);
+                stage.getBatch().draw(topdownfighter, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
+                if (isOpen) {
+                    stage.getBatch().draw(topdownfighterRoom, X_POSITION, Y_POSITION, SHIP_WIDTH, SHIP_HEIGHT);
                 }
                 break;
         }
 
-        stage.getBatch().draw(relevantSystems,(BaseScreen.WIDTH/2f)-185,-140);
+        stage.getBatch().draw(relevantSystems, (BaseScreen.WIDTH / 2f) - 185, -140);
         stage.act();
         stage.getBatch().end();
         stage.draw();
@@ -1045,7 +1032,7 @@ public class ShipSelectScreen extends BaseScreen {
         if (Global.isOnlineGame) {
             drawLobby();
         }
-        if(!Global.IS_SINGLE_PLAYER)  drawLobby();
+        if (!Global.IS_SINGLE_PLAYER) drawLobby();
 
 
     }
@@ -1054,7 +1041,7 @@ public class ShipSelectScreen extends BaseScreen {
      * fill the online players list
      */
     public void drawLobby() {
-        playersOnlineLabel.setText("Players online: " + String.valueOf(playersOnline.size()));
+        playersOnlineLabel.setText("Players online: " + playersOnline.size());
         // Get first position, we support max 2 players in the whole game
         if (playersOnline.size() > 0) {
             displayOnlinePlayerName.setText(playersOnline.get(0));
@@ -1173,6 +1160,7 @@ public class ShipSelectScreen extends BaseScreen {
         });
 
     }
+
     //
     //
     public void sendRequestAddShips(Object requestObject, String method) {
@@ -1253,15 +1241,18 @@ public class ShipSelectScreen extends BaseScreen {
                 System.out.println("statusCode AddUniverise: " + statusCode);
                 universeID = Integer.parseInt(httpResponse.getResultAsString());
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
             }
         });
     }
+
     //
     public void sendRequestAisCreation(Object requestObject, String method) {
         final Json json = new Json();
@@ -1281,15 +1272,18 @@ public class ShipSelectScreen extends BaseScreen {
                 AI[] aiArray = gson.fromJson(listAIS, AI[].class);
                 aiList = Arrays.asList(aiArray);
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
             }
         });
     }
+
     //
     public void sendRequestAddPlanets(Object requestObject, String method) {
         final Json json = new Json();
@@ -1411,6 +1405,7 @@ public class ShipSelectScreen extends BaseScreen {
             }
         });
     }
+
     //
     public void sendRequestAddWeapon(Object requestObject, String method) {
         final Json json = new Json();
@@ -1430,9 +1425,11 @@ public class ShipSelectScreen extends BaseScreen {
                 Weapon[] weaponsArray = gson.fromJson(weaponsList, Weapon[].class);
                 weapons = Arrays.asList(weaponsArray);
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");

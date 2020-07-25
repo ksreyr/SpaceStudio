@@ -9,6 +9,7 @@ import de.spaceStudio.client.util.Global;
 
 public class CombatService {
     String valid;
+
     public String makeAShot(Object requestObject, String method) {
 
         final Json json = new Json();
@@ -30,9 +31,11 @@ public class CombatService {
                 String responseJson = httpResponse.getResultAsString();
 
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
@@ -40,6 +43,7 @@ public class CombatService {
         });
         return valid;
     }
+
     public String shipUser(Object requestObject, String method) {
 
         final Json json = new Json();
@@ -61,9 +65,11 @@ public class CombatService {
                 String responseJson = httpResponse.getResultAsString();
 
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
@@ -71,6 +77,7 @@ public class CombatService {
         });
         return valid;
     }
+
     public String shipGegner(Object requestObject, String method) {
 
         final Json json = new Json();
@@ -92,9 +99,11 @@ public class CombatService {
                 String responseJson = httpResponse.getResultAsString();
 
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");
@@ -102,6 +111,7 @@ public class CombatService {
         });
         return valid;
     }
+
     public String weapon(Object requestObject, String method) {
 
         final Json json = new Json();
@@ -123,9 +133,11 @@ public class CombatService {
                 String responseJson = httpResponse.getResultAsString();
 
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
+
             @Override
             public void cancelled() {
                 System.out.println("request cancelled");

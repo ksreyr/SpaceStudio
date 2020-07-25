@@ -15,35 +15,34 @@ public class Bullet extends Weapon {
     public boolean remove = false;
 
     float x, y;
-    public Bullet(float x,float y){
+
+    public Bullet(float x, float y) {
         this.y = y;
         this.x = x;
-        if(bullet == null){
+        if (bullet == null) {
             bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
         }
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime) {
         x += SPEED * deltaTime;
-        if(x > Gdx.graphics.getWidth()-500 ){
+        if (x > Gdx.graphics.getWidth() - 500) {
             remove = true;
         }
     }
 
-    public void updateTo(float deltaTime){
+    public void updateTo(float deltaTime) {
         x -= SPEED * deltaTime;
-        if(x > Gdx.graphics.getWidth()-500 ){
+        if (x > Gdx.graphics.getWidth() - 500) {
             remove = true;
         }
     }
 
 
+    public void render(SpriteBatch batch) {
 
-    public void render(SpriteBatch batch){
-
-        batch.draw(bullet,x,y);
+        batch.draw(bullet, x, y);
     }
-
 
 
 }

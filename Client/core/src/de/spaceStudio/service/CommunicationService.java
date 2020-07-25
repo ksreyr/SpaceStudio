@@ -2,7 +2,6 @@ package de.spaceStudio.service;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -11,7 +10,7 @@ import de.spaceStudio.client.util.Global;
 public class CommunicationService {
 
 
-    int count=0;
+    int count = 0;
 
     boolean isValid;
 
@@ -49,6 +48,7 @@ public class CommunicationService {
                     exception.printStackTrace();
                 }
             }
+
             public void failed(Throwable t) {
                 System.out.println("Request Failed Completely");
             }
