@@ -156,21 +156,34 @@ public class CrewMemberControllerImpl implements CrewMemberController {
      * @return the Ship with updated Crew Postions if validated
      */
     @Override
-    public Boolean updatePostion(int shipID, Section sectionNew, Section sectionOld) {
-        Optional<CrewMember> crewMember = Optional.empty();
+    public CrewMember updatePostion(CrewMember crewMember) {
+       Section sectionNew = crewMember.getCurrentSection();
+
+       Optional<CrewMember> crewMemberOld =  crewMemberRepository.findById(crewMember.getId());
+
+       if (!crewMemberOld.isPresent()) {
+           return null;
+       }
+
+
+       Optional<Object> sectionOld = Optional.empty();
+       if (crewMemberOld.isPresent()) {
+           sectionOld = Optional.ofNullable(crewMemberOld.get().getCurrentSection());
+       }
+
         if (!sectionOld.equals(sectionNew)) {
-            crewMember = crewMemberRepository.findByCurrentSection(sectionOld);
-            if (crewMember.isEmpty()) {
-                logger.error("Illegal Request made from Client updatePostion(" + crewMember.get().getId() + "to " + sectionNew + ")");
-                return false;
+           ;
+            if (crewMemberOld.isEmpty()) {
+                logger.error("Illegal Request made from Client updatePostion(" + crewMember.getId() + "to " + sectionNew + ")");
+                return crewMemberOld.get();
             }
 
-            if (crewMemberRepository.findByCurrentSection(sectionNew).isEmpty()) {
-                crewMember.get().setCurrentSection(sectionNew);
-                return true;
+            if (crewMemberRepository.findByCurrentSection(sectionNew).isEmpty() && !(sectionNew.equals(sectionOld.get()))) {
+                crewMemberRepository.save(crewMember);
+                return crewMember;
             }
         }
-        return false;
+        return crewMemberOld.get();
     }
 
     @Override
