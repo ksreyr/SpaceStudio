@@ -556,6 +556,8 @@ public class ShipSelectScreen extends BaseScreen {
                             protected void result(Object object) {
                                 if (object.equals("ai")) {
                                     killTimer = true;
+                                    IS_SINGLE_PLAYER = true;
+                                    game.setScreen(new ShipSelectScreen(game));
                                     // make single player here
                                 } else if (object.equals("try")) {
                                     killTimer = false;

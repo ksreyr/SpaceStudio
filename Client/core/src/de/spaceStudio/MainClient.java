@@ -41,6 +41,7 @@ public class MainClient extends Game {
         super.dispose();
         assetManager.dispose();
         batch.dispose();
+        // TODO when user close game screen -> logout(), destroy Single Player session() and if multiplayer destroy session
     }
 
     public SpriteBatch getBatch() {
