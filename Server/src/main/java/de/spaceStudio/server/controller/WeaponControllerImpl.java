@@ -179,7 +179,7 @@ public class WeaponControllerImpl implements WeaponController {
 
     private boolean canShoot(Weapon w) {
 
-        if (w.getObjectiv().getShip().getHp() > 0 && isOutsideRange(w.getLastShot(), w.getCoolDown())) {
+        if (w.getObjectiv() != null && w.getObjectiv().getShip().getHp() > 0 && isOutsideRange(w.getLastShot(), w.getCoolDown())) {
             return w.getSection().getUsable();
         }
         return false;

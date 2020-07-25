@@ -271,7 +271,7 @@ public class Global {
             .img("Section1")
             .oxygen(100)
             .powerCurrent(100)
-            .sectionTyp(SectionTyp.DRIVE)
+            .sectionTyp(SectionTyp.ENGINE)
             .usable(false)
             .connectingTo(null)
             .powerRequired(10)
@@ -399,7 +399,7 @@ public class Global {
     }};
     public static Section section1Gegner = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.NORMAL)
+            .sectionTyp(SectionTyp.COCKPIT)
             .img("Section1Gegner1")
             .oxygen(100)
             .powerCurrent(100)
@@ -409,7 +409,7 @@ public class Global {
             .buildSection();
     public static Section section2Gegner = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.DRIVE)
+            .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner1")
             .oxygen(100)
             .powerCurrent(100)
@@ -434,7 +434,7 @@ public class Global {
     }};
     public static Section section1Gegner2 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.NORMAL)
+            .sectionTyp(SectionTyp.COCKPIT)
             .img("Section1Gegner2")
             .oxygen(100)
             .powerCurrent(100)
@@ -444,7 +444,7 @@ public class Global {
             .buildSection();
     public static Section section2Gegner2 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.DRIVE)
+            .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner2")
             .oxygen(100)
             .powerCurrent(100)
@@ -480,7 +480,7 @@ public class Global {
     }};
     public static Section section1Gegner3 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.NORMAL)
+            .sectionTyp(SectionTyp.COCKPIT)
             .img("Section1Gegner3")
             .oxygen(100)
             .powerCurrent(100)
@@ -490,7 +490,7 @@ public class Global {
             .buildSection();
     public static Section section2Gegner3 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.DRIVE)
+            .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner3")
             .oxygen(100)
             .powerCurrent(100)
@@ -520,7 +520,7 @@ public class Global {
             .buildSection();
     public static Section section5Gegner3 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.HEALT)
+            .sectionTyp(SectionTyp.HEALTH)
             .img("Section5Gegner3")
             .oxygen(100)
             .powerCurrent(100)
@@ -547,7 +547,7 @@ public class Global {
             .buildSection();
     public static Section section2Gegner4 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.DRIVE)
+            .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner4")
             .oxygen(100)
             .powerCurrent(100)
@@ -582,7 +582,7 @@ public class Global {
             .buildSection();
     public static Section section2Gegner5 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.DRIVE)
+            .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner5")
             .oxygen(100)
             .powerCurrent(100)
@@ -617,7 +617,7 @@ public class Global {
             .buildSection();
     public static Section section2Gegner6 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.DRIVE)
+            .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner6")
             .oxygen(100)
             .powerCurrent(100)

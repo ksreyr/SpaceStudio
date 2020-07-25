@@ -162,6 +162,22 @@ public class CombatScreen extends BaseScreen {
 
     }
 
+    private Optional<Section> findSectionByNameAndShip(String name, int id, Boolean currentTarget) {
+        Optional<Section> result = Optional.empty();
+
+        for (Section s :
+                Global.combatSections.get(id)) {
+            if (s.getImg().equals(name)) {
+                result = Optional.of(s);
+                if (currentTarget) {
+                    selectedTarget = s;
+                }
+            }
+
+        }
+        return result;
+    }
+
     //called when the Screen gains focus
     @Override
     public void show() {
@@ -251,19 +267,18 @@ public class CombatScreen extends BaseScreen {
                 switch (Global.currentGegner.getName()) {
 
                     case "gegner2":
-                        selectedTarget = Global.section4Gegner2;
+                        findSectionByNameAndShip("Section4Gegner2", Global.currentShipGegner.getId(), true);
                         break;
 
-
                     case "gegner3":
-                        selectedTarget = Global.section4Gegner3;
+                        selectedTarget = Global.section3Gegner3;
+                        findSectionByNameAndShip("Section4Gegner3", Global.currentShipGegner.getId(), true);
                         break;
 
                     default:
                         break;
 
                 }
-
                 o2.getStyle().imageUp = oxygen_sym_red;
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
@@ -294,9 +309,26 @@ public class CombatScreen extends BaseScreen {
         engine.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectedTarget = Global.section2Gegner;
-                isTargetSelected = true;
+                switch (Global.currentGegner.getName()) {
 
+                    case "gegner1":
+                        findSectionByNameAndShip("Section2Gegner1", Global.currentShipGegner.getId(), true);
+                        break;
+
+                    case "gegner2":
+                        findSectionByNameAndShip("Section2Gegner2", Global.currentShipGegner.getId(), true);
+                        break;
+
+                    case "gegner3":
+                        selectedTarget = Global.section3Gegner3;
+                        findSectionByNameAndShip("Section2Gegner3", Global.currentShipGegner.getId(), true);
+                        break;
+
+                    default:
+                        break;
+
+                }
+                isTargetSelected = true;
                 engine.getStyle().imageUp = engine_red;
                 weaponSection.getStyle().imageUp = weapon_section;
                 cockpit.getStyle().imageUp = cockpit_nat;
@@ -320,16 +352,16 @@ public class CombatScreen extends BaseScreen {
                 switch (Global.currentGegner.getName()) {
 
                     case "gegner1":
-                        selectedTarget = Global.section3Gegner;
+                        findSectionByNameAndShip("Section3Gegner1", Global.currentShipGegner.getId(), true);
                         break;
 
                     case "gegner2":
-                        selectedTarget = Global.section3Gegner2;
+                        findSectionByNameAndShip("Section3Gegner2", Global.currentShipGegner.getId(), true);
                         break;
-
 
                     case "gegner3":
                         selectedTarget = Global.section3Gegner3;
+                        findSectionByNameAndShip("Section3Gegner3", Global.currentShipGegner.getId(), true);
                         break;
 
                     default:
@@ -354,9 +386,24 @@ public class CombatScreen extends BaseScreen {
         cockpit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                isTargetSelected = true;
-                selectedTarget = Global.section2Gegner;
+                switch (Global.currentGegner.getName()) {
 
+                    case "gegner1":
+
+                        findSectionByNameAndShip("Section1Gegner1", Global.currentShipGegner.getId(), true);
+                        break;
+                    case "gegner2":
+
+                        findSectionByNameAndShip("Section1Gegner2", Global.currentShipGegner.getId(), true);
+                        break;
+                    case "gegner3":
+
+                        findSectionByNameAndShip("Section1Gegner3", Global.currentShipGegner.getId(), true);
+                        break;
+                    default:
+                        break;
+                }
+                isTargetSelected = true;
                 cockpit.getStyle().imageUp = cockpit_red;
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
@@ -627,9 +674,9 @@ public class CombatScreen extends BaseScreen {
     }
 
     public void shotValidation(Object requestObject, String method) {
-        final Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
+        final Gson gson = new Gson();
+        final String requestJson = gson.toJson(requestObject);
+        System.out.println("Firing Shots \n" + requestJson);
         final String url = Global.SERVER_URL + Global.SHOT_VALIDATION_VALIDATION;
         final Net.HttpRequest request = setupRequest(url, requestJson, method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
