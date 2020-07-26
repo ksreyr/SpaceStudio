@@ -4,6 +4,7 @@ package de.spaceStudio.server.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class CrewMember {
@@ -85,6 +86,20 @@ public class CrewMember {
 
     public static CrewMemberBuilder crewMemberBuilder(){
         return new CrewMemberBuilder();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CrewMember that = (CrewMember) o;
+        return id.equals(that.id) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 
     public static class CrewMemberBuilder{

@@ -170,7 +170,6 @@ public class CrewMemberControllerImpl implements CrewMemberController {
        }
 
         if (!sectionOld.equals(sectionNew)) {
-           ;
             if (crewMemberOld.isEmpty()) {
                 logger.error("Illegal Request made from Client updatePostion(" + crewMember.getId() + "to " + sectionNew + ")");
                 return crewMemberOld.get();

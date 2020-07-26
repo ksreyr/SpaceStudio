@@ -478,6 +478,9 @@ public class CombatScreen extends BaseScreen {
         saveGameButton.setPosition(1000, 200);
         stage.addActor(saveGameButton);
         }
+        for(int i = 0; i < listOfCrewImages.size(); i++){
+            listOfCrewImages.get(i).setName(myCrew.get(i).getName());
+        }
         for (int i = 0; i < listOfCrewImages.size(); i++) {
             dragAndDrop(listOfCrewImages.get(i));
         }
@@ -510,7 +513,7 @@ public class CombatScreen extends BaseScreen {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
-    private void dragAndDrop(Image imageCrewMember) {
+    private void dragAndDrop(Image  imageCrewMember) {
         imageCrewMember.addListener(new DragListener() {
             float crewX;
             float crewY;
@@ -523,8 +526,6 @@ public class CombatScreen extends BaseScreen {
             public void dragStart(InputEvent event, float x, float y, int pointer) {
                 crewX = imageCrewMember.getX();
                 crewY = imageCrewMember.getY();
-                startSectionCrewMove = findSection(imageCrewMember);
-                System.out.println("Starting with Section: " + startSectionCrewMove.get().getId());
             }
 
             public void dragStop(InputEvent event, float x, float y, int pointer) {
@@ -537,35 +538,30 @@ public class CombatScreen extends BaseScreen {
                 Rectangle sectionFour = getRectOfTextures(Global.section4.getxPos(), Global.section4.getyPos());
                 Rectangle sectionFive = getRectOfTextures(Global.section5.getxPos(), Global.section5.getyPos());
                 Rectangle sectionSix = getRectOfTextures(Global.section6.getxPos(), Global.section6.getyPos());
+                CrewMember draggedCrewMember = getDraggedCrewMember(imageCrewMember);
+                List<Section> sections = Global.combatSections.get(Global.currentShipPlayer.getId());
+
                 if (sectionOne.contains(tmp.x, tmp.y)) {
-                    imageCrewMember.setPosition(XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
+                    draggedCrewMember.setCurrentSection(sections.get(0));
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
                 } else if (sectionTwo.contains(tmp.x, tmp.y)) {
-                    imageCrewMember.setPosition(XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
+                    draggedCrewMember.setCurrentSection(sections.get(1));
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
                 } else if (sectionThree.contains(tmp.x, tmp.y)) {
-                    imageCrewMember.setPosition(XPlayerShip + Global.section3.getxPos(), YPlayerShip + Global.section3.getyPos());
+                    draggedCrewMember.setCurrentSection(sections.get(2));
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
                 } else if (sectionFour.contains(tmp.x, tmp.y)) {
-                    imageCrewMember.setPosition(XPlayerShip + Global.section4.getxPos(), YPlayerShip + Global.section4.getyPos());
+                    draggedCrewMember.setCurrentSection(sections.get(3));
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
                 } else if (sectionFive.contains(tmp.x, tmp.y)) {
-                    imageCrewMember.setPosition(XPlayerShip + Global.section5.getxPos(), YPlayerShip + Global.section5.getyPos());
+                    draggedCrewMember.setCurrentSection(sections.get(4));
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
                 } else if (sectionSix.contains(tmp.x, tmp.y)) {
-                    imageCrewMember.setPosition(XPlayerShip + Global.section6.getxPos(), YPlayerShip + Global.section6.getyPos());
+                    draggedCrewMember.setCurrentSection(sections.get(5));
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
                 } else {
                     imageCrewMember.setPosition(crewX, crewY);
                 }
-                endSectionCrewMove = findSection(imageCrewMember);
-                System.out.println("Going to Section: " + startSectionCrewMove.get().getId());
-                if (startSectionCrewMove.isPresent() && endSectionCrewMove.isPresent()) {
-                    Optional<CrewMember> crewMember = Global.combatCrew.get(Global.currentShipPlayer.getId()).stream()
-                            .filter(cm -> cm.getCurrentSection().equals(startSectionCrewMove.get()))
-                            .findFirst();
-                    if (crewMember.isPresent()) {
-                        System.out.println("Crew Member has is: " + crewMember.get().getName() + " " + crewMember.get().getId());
-                    } else {
-                        System.out.println("I have not found a Crew Member");
-                    }
-                }
-
-                //System.out.println("Hallo " + myCrew.get(0).getImg());
                 // make Move Request c from start to end
                 dragged = false;
             }
@@ -573,73 +569,26 @@ public class CombatScreen extends BaseScreen {
     }
 
     /**
-     * This method gives you the Position of the Ship to which something could belong
+     * Receives an Image and returns the crewMember object of the Image
      *
-     * @param x Coordinates
-     * @param y Coordinates
-     * @return Coordinates of the nearest Ship
+     * @param imageCrewMember Image of Crew Member which CrewMember object to find
+     * @return CrewMember object of image
      */
-    private Pair getShipPos(float x, float y) {
-        return (x < 600 ? new Pair((float) XPlayerShip, (float) YPlayerShip) : new Pair((float) XEnemyShip, (float) YEnemyPos));
-    }
-
-    /**
-     * Recieves an Image and Returns the Section which is nearest to the imagge
-     *
-     * @param image which is where the user Klicks
-     * @return the Section to which this belongs;
-     */
-    private Optional<Section> findSection(Image image) {
-        return findSection(image.getImageX(), image.getImageY());
-    }
-
-
-    /**
-     * Recieves an Image and Returns the Section which is nearest to the imagge
-     *
-     * @param x postion
-     * @param y position
-     * @return the Section to which this belongs;
-     */
-    private Optional<Section> findSection(float x, float y) {
-
-        Pair shipsPos = getShipPos(x, y);
-
-        float xAbs = x + shipsPos.getLeft();
-        float yAbs = y + shipsPos.getRight();
-
-        float delta = Float.MAX_VALUE;
-        Optional<Section> nearest = Optional.empty();
-        for (List<Section> xs :
-                Global.combatSections.values()) {
-            for (Section s :
-                    xs) {
-
-                float diff = distance(xAbs, yAbs, s.getxPos(), s.getyPos());
-                if (diff < delta) {
-                    nearest = Optional.of(s);
-                    delta = diff;
-                }
+    private CrewMember getDraggedCrewMember(Image imageCrewMember){
+        for(int i = 0; i < myCrew.size(); i++){
+            if(myCrew.get(i).getName().equals(imageCrewMember.getName())){
+                return myCrew.get(i);
             }
         }
-        System.out.println("You have Selected" + nearest.get().getId() + " " + nearest.get().getImg());
-        return nearest;
+        return null;
     }
 
     /**
-     * Use the Euclidiean Formular to calculate the Disance of 4 Points in a 2d Pane
-     * https://en.wikipedia.org/wiki/Euclidean_distancek
-     *
-     * @param Ax 1st x
-     * @param Ay 1st y
-     * @param Bx 2nd x
-     * @param By 2nd y
-     * @return the distance as a float
+     * Receives x and y-position  of redPin in a section
+     * @param redPinXPosition of section
+     * @param redPinYPosition of section
+     * @return Rectangle of redPin section
      */
-    private float distance(float Ax, float Ay, float Bx, float By) {
-        return Float.parseFloat(String.valueOf(Math.sqrt(Math.pow((Ax - Bx), 2) + Math.pow((Ay - By), 2))));
-    }
-
     private Rectangle getRectOfTextures(float redPinXPosition, float redPinYPosition) {
         return new Rectangle(XPlayerShip + redPinXPosition, YPlayerShip + redPinYPosition,
                 redPinSectionOne.texture.getWidth(), redPinSectionOne.texture.getHeight());
@@ -665,7 +614,7 @@ public class CombatScreen extends BaseScreen {
     ////sectiones del gegner
     ////set de
 
-    public boolean moveCrewMember(Object requestObject, String method) {
+    public void moveCrewMember(Object requestObject,Image imageCrewMember, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
@@ -679,10 +628,15 @@ public class CombatScreen extends BaseScreen {
                 }
                 System.out.println("statusCode moveCrewMember: " + statusCode);
                 String result = httpResponse.getResultAsString();
-                if(result.equals("true")){
-                    movingAllowed = true;
-                }else{
-                    movingAllowed = false;
+
+                if(result == null){
+                    System.out.println("Requested Crew Member is null");
+                }else {
+                    Gson gson = new Gson();
+                    CrewMember newCrewMember = gson.fromJson(result, CrewMember.class);
+                    myCrew.set( myCrew.indexOf(newCrewMember), newCrewMember);
+                    imageCrewMember.setPosition(XPlayerShip + newCrewMember.getCurrentSection().getxPos(),
+                            YPlayerShip + newCrewMember.getCurrentSection().getyPos());
                 }
             }
 
@@ -695,7 +649,6 @@ public class CombatScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
-        return movingAllowed;
     }
 
     public void makeAShot(Object requestObject, String method) {
