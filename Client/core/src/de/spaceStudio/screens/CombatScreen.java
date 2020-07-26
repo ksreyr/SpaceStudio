@@ -650,7 +650,7 @@ public class CombatScreen extends BaseScreen {
 
                 if (sectionsGegner.get(0).getShip().getHp() <= 0) {
                     LOG.info("You have Won the Fight");
-                    // FIXME Add Loos Screen
+                    // FIXME Add Win Screen
                 }
 
 
@@ -909,7 +909,6 @@ public class CombatScreen extends BaseScreen {
             //A
             //Logic
             //Create and launch missiles
-
 
 
             //shield for player
