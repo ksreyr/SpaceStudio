@@ -91,7 +91,7 @@ public class CombatScreen extends BaseScreen {
     private Skin sgxSkin, sgxSkin2, skin;
     private Sound click;
     private SpriteBatch batch;
-    private Texture playerShip;
+    private Texture playerShip, energy;
     private Texture enemyShip1, enemyShip2, enemyShip3;
     private Texture background;
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
