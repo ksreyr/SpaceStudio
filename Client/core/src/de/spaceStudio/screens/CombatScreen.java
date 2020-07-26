@@ -780,8 +780,14 @@ public class CombatScreen extends BaseScreen {
             //bullets.add(new Bullet(590, yWeaponPos));
             counterCockpit++;
             bullets.add(new Bullet(BaseScreen.WIDTH, 0));
+            for (Pair p :
+                    Global.ExplosionsToRender) {
+                stage.getBatch().begin();
 
+                stage.getBatch().draw(explosion, p.getLeft(), p.getRight());
+                stage.getBatch().end();
 
+            }
 
         }
 
@@ -952,10 +958,17 @@ public class CombatScreen extends BaseScreen {
             if (Global.currentShipGegner.getShield() > 0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
 
             //explosion on enemy's engine
-            if (counterEngine >= 3 && !isEnemyShield) {
-                stage.getBatch().draw(explosion, 1515, 422, 100, 100);
+            for (Bullet bul:bullets
+                 ) {
+                if ( bul.isExploded & !isEnemyShield)
+                {
+
+                    //stage.getBatch().draw(explosion, 1515, 422, 100, 100);
+                }
+
             }
 
+/*
             //explosion on enemy's weapon
             if (counterWeapon >= 3 && !isEnemyShield) {
                 stage.getBatch().draw(explosion, 1450, 500, 100, 100);
@@ -963,7 +976,7 @@ public class CombatScreen extends BaseScreen {
             //explosion on enemy's cockpit
             if (counterCockpit >= 2 && !isEnemyShield) {
                 stage.getBatch().draw(explosion, 1515, 690, 100, 100);
-            }
+            }*/
             //update bullets
             ArrayList<Bullet> bulletToRemove = new ArrayList<>();
             for (Bullet bullet : bullets) {

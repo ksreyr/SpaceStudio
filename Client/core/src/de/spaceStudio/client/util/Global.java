@@ -835,6 +835,7 @@ public class Global {
         add(weapon2Gegner3);
 
     }};
+    public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);
