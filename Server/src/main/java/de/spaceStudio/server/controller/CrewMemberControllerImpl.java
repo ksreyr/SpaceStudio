@@ -192,7 +192,12 @@ public class CrewMemberControllerImpl implements CrewMemberController {
         }
         List<Section> sections = sectionRepository.findAllByShip(ship.get()).get();
         List<CrewMember> crewMembers = new ArrayList<CrewMember>();
-        sections.stream().map(s -> crewMembers.addAll(crewMemberRepository.findAllByCurrentSection(s).get()));
+        for (Section s: sections) {
+            Optional<ArrayList<CrewMember>> crews = crewMemberRepository.findAllByCurrentSection(s);
+            if (crews.isPresent()) {
+                crewMembers.addAll(crews.get());
+            }
+        }
         return crewMembers;
     }
 }

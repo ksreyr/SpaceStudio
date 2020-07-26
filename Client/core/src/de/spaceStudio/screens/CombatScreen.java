@@ -242,7 +242,7 @@ public class CombatScreen extends BaseScreen {
         listOfCrewImages.add(imageCrewMemberTwo);
         listOfCrewImages.add(imageCrewMemberThree);
 
-        energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/EnergyWeaponsPanel.png"));
+        //energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/EnergyWeaponsPanel.png"));
         energy = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()), skin);
@@ -834,7 +834,7 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
             stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
             stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
-            stage.getBatch().draw(energyWeaponsPanel,0,0);
+            //stage.getBatch().draw(energyWeaponsPanel,0,0);
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
                 stage.getBatch().draw(redPinSectionTwo.texture, XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
