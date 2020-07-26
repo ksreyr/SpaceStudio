@@ -363,8 +363,9 @@ public class StationsMap extends BaseScreen {
     }
 
     /**
-     *
-     * @param stopAbstract
+     * Make the Player Jump to abstract Stop
+     * It Places in as the only Ship in set Ships
+     * @param stopAbstract where one Goes
      */
     private void jumpService(StopAbstract stopAbstract) {
         stopAbstract.setShips(List.of(Global.currentShipPlayer));
