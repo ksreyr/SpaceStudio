@@ -174,6 +174,11 @@ public class Global {
     /**
      * Player save game endpoint
      */
+    public static final String BUY_CREWMEMBER = "/buycrewmember";
+
+    /**
+     * Player save game endpoint
+     */
     public static final String SECTION_BY_SHIP_END_POINT = "/ship/{id}/sections";
     /**
      * Server logged player endpoint

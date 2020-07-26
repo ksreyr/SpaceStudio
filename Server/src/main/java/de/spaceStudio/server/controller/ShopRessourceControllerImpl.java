@@ -52,15 +52,6 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
     }
     @RequestMapping(value = "/listressourcen", method = RequestMethod.POST)
     public String addShopRessources(@RequestBody List<ShopRessource> shopRessources) {
-        /*Universe universe=universeRepository.findByName(shopRessource.getStation().getUniverse().getName()).get();
-        List <StopAbstract> stopAbstracts= stopAbstractRepository.findByUniverse(universe).get();
-        for (StopAbstract s :
-                stopAbstracts) {
-            if(s.getName().equals(shopRessource.getStation().getName())){
-                shopRessource.setStation((Station) s);
-            }
-        }
-        shopRessourceRepository.save(shopRessource);*/
         List<ShopRessource> shopRessourceList= new ArrayList<>();
         for (ShopRessource  s:
                 shopRessources ) {

@@ -1,14 +1,8 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.model.CrewMember;
-import de.spaceStudio.server.model.Player;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.repository.CrewMemberRepository;
-import de.spaceStudio.server.repository.PlayerRepository;
-import de.spaceStudio.server.repository.SectionRepository;
-import de.spaceStudio.server.repository.ShipRepository;
+import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +24,10 @@ public class CrewMemberControllerImpl implements CrewMemberController {
     ShipRepository shipRepository;
     @Autowired
     PlayerRepository playerRepository;
+    @Autowired
+    ShipRessourceRepository shipRessourceRepository;
+
+    private int crewMemberCost=50;
 
     /**
      * Get all crewmembers from db
@@ -83,20 +81,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
      */
     @RequestMapping(value = "/crewmemberstoadd", method = RequestMethod.POST)
     public String addCrewMembers(@RequestBody List<CrewMember> crewMembers) {
-        /*String s1 = crewMember.getCurrentSection().getShip().getName();
-        Player p1 = playerRepository.findByName(crewMember.
-                getCurrentSection().getShip().getOwner().getName()).get();
-        Ship ship = shipRepository.findShipByNameAndAndOwner(s1, p1).get();
-        List<Section> sections = sectionRepository.findAllByShip(ship).get();
-        for (Section s :
-                sections) {
-            if (s.getImg().equals(crewMember.getCurrentSection().getImg())) {
-                crewMember.setCurrentSection(s);
-                break;
-            }
-        }
-        crewMemberRepository.save(crewMember);
-        return HttpStatus.ACCEPTED.toString();*/
+
         List<Section> sections=new ArrayList<Section>();
         for (CrewMember c :
                 crewMembers) {
@@ -112,12 +97,54 @@ public class CrewMemberControllerImpl implements CrewMemberController {
         gson.toJson(crewMemberListID);
         return  gson.toJson(crewMemberListID);
     }
-    /**
-     * Update data of the crewmember
-     *
-     * @param crewMember the crewmember to be updated, which is serialised from the POST JSON
-     * @return the updated Crewmember
-     */
+    @RequestMapping(value = "/buycrewmember")
+    public String buyCrewMembers(@RequestBody List<CrewMember> crewMembers) {
+        Gson gson= new Gson();
+        Section section=new Section();
+        for (CrewMember crewMember:
+             crewMembers) {
+            section = sectionRepository.findById(crewMember.getCurrentSection().getId()).get();
+            List<ShipRessource> shipRessources= shipRessourceRepository.findByShip(section.getShip()).get();
+            for (ShipRessource s :
+                    shipRessources) {
+                if(s.getName().equals(RessourceName.GOLD)){
+                    if( s.getAmount()-crewMemberCost>=0){
+                        s.setAmount(s.getAmount()-crewMemberCost);
+                        shipRessourceRepository.save(s);
+                    }else{
+                        return gson.toJson(shipRessources);
+                    }
+
+                }
+            }
+
+            if(crewMemberRepository.findAllByCurrentSection(section).isPresent()){
+                List<Section> sectionList = sectionRepository.findAllByShip(section.getShip()).get();
+                for (Section s :
+                        sectionList) {
+                    if(crewMemberRepository.findAllByCurrentSection(section).isPresent()){
+
+                    }else{
+                        crewMember.setCurrentSection(section);
+                        break;
+                    }
+                }
+            }else {
+                crewMember.setCurrentSection(section);
+            }
+
+            crewMemberRepository.save(crewMember);
+        }
+        List<ShipRessource> shipRessources= shipRessourceRepository.findByShip(section.getShip()).get();
+
+        return  gson.toJson(shipRessources);
+    }
+        /**
+         * Update data of the crewmember
+         *
+         * @param crewMember the crewmember to be updated, which is serialised from the POST JSON
+         * @return the updated Crewmember
+         */
     @Override
     public CrewMember updateCrewMember(CrewMember crewMember) {
         return crewMemberRepository.save(crewMember);

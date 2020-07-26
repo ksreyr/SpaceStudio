@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Role;
 import de.spaceStudio.server.model.ShipRessource;
 import de.spaceStudio.server.model.ShopRessource;
 import de.spaceStudio.util.GdxUtils;
@@ -248,9 +250,9 @@ public class ShopScreen extends ScreenAdapter {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed GegnermakeShot");
+                    System.out.println("Request Failed getShopRessourcen");
                 }
-                System.out.println("statusCode GegnermakeShot: " + statusCode);
+                System.out.println("statusCode getShopRessourcen: " + statusCode);
                 String shopRessource = httpResponse.getResultAsString();
                 Gson gson = new Gson();
                 ShopRessource[] shopRessourceList = gson.fromJson(shopRessource, ShopRessource[].class);
@@ -279,15 +281,46 @@ public class ShopScreen extends ScreenAdapter {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed GegnermakeShot");
+                    System.out.println("Request Failed buyItem");
                 }
-                System.out.println("statusCode GegnermakeShot: " + statusCode);
+                System.out.println("statusCode buyItem: " + statusCode);
                 String shipRessource = httpResponse.getResultAsString();
                 Gson gson = new Gson();
                 ShipRessource[] shipRessourceList = gson.fromJson(shipRessource, ShipRessource[].class);
                 shipRessources = Arrays.asList(shipRessourceList);
                 getShopRessourcen(Global.currentStop, Net.HttpMethods.POST);
                 System.out.println("statusCode makeAShot: " + statusCode);
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+    public void buyCrewMember(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.BUY_CREWMEMBER;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed buyCrewMember");
+                }
+                System.out.println("statusCode buyCrewMember: " + statusCode);
+                String shipRessource = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                ShipRessource[] shipRessourceList = gson.fromJson(shipRessource, ShipRessource[].class);
+                shipRessources = Arrays.asList(shipRessourceList);
+                getShopRessourcen(Global.currentStop, Net.HttpMethods.POST);
+                System.out.println("statusCode buyCrewMember: " + statusCode);
             }
 
             public void failed(Throwable t) {
@@ -427,6 +460,24 @@ public class ShopScreen extends ScreenAdapter {
                     buyItem(List.of(shopRessources.get(0)), Net.HttpMethods.POST);
                 } else if (itemNumber == 1) {
                     buyItem(List.of(shopRessources.get(1)), Net.HttpMethods.POST);
+                }else if (itemNumber == 2) {
+                    if(checkBoxSection1.isChecked()){
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section1).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                    }else if(checkBoxSection2.isChecked()){
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section2).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                    }
+                    else if(checkBoxSection3.isChecked()){
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section3).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                    }
+                    else if(checkBoxSection4.isChecked()){
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section4).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                    }
+                    else if(checkBoxSection5.isChecked()){
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section5).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                    }
+                    else if(checkBoxSection6.isChecked()){
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section6).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                    }
                 }
                 //setAllSectionCheckboxesFalse();
             }
