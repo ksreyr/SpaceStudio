@@ -239,12 +239,21 @@ public class Global {
     public static boolean isOnlineGame = false;
     public static SinglePlayerGame singlePlayerGame;
     /**
-     * Ship Variables
+     * Game Constants
      */
-    public static Ship ship0 = Ship.shipBluider().hp(300).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(1).buildShip();
-    public static Ship ship1 = Ship.shipBluider().hp(100).shipForm(ShipForm.SHIP2).name("ship1").power(100).shield(1).buildShip();
-    public static Ship ship2 = Ship.shipBluider().hp(200).shipForm(ShipForm.SHIP3).name("ship2").power(50).shield(2).buildShip();
-    public static Ship ship3 = Ship.shipBluider().hp(300).shipForm(ShipForm.SHIP4).name("ship3").power(200).shield(1).buildShip();
+    public static final int OXYGEN = 100;
+    public static final int POWER_CURRENT = 100;
+    public static final int POWER_REQUIRED = 10;
+    public static final int HP = 1000;
+    public static final int SHIELD = 10000;
+
+    // FIXME Power ist doppelt
+
+
+    public static Ship ship0 = Ship.shipBluider().hp(3 *HP).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(SHIELD).buildShip();
+    public static Ship ship1 = Ship.shipBluider().hp(HP).shipForm(ShipForm.SHIP2).name("ship1").power(100).shield(SHIELD).buildShip();
+    public static Ship ship2 = Ship.shipBluider().hp(2 * HP).shipForm(ShipForm.SHIP3).name("ship2").power(50).shield(2 * SHIELD).buildShip();
+    public static Ship ship3 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP4).name("ship3").power(200).shield(SHIELD).buildShip();
     /**
      * CrewMember Variables
      */
@@ -293,74 +302,72 @@ public class Global {
     public static HashMap<Integer, List<Section>> combatSections = new HashMap<>();
     public static HashMap<Integer, List<Weapon>> combatWeapons = new HashMap<>();
     public static HashMap<Integer, List<CrewMember>> combatCrew = new HashMap<>();
+
+
     public static Section section1 = Section
             .sectionBuilder()
             .img("Section1")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .sectionTyp(SectionTyp.ENGINE)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .pos(90, 350)
             .buildSection();
     public static Section section2 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
             .img("Section2")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .pos(240, 336)
             .buildSection();
     public static Section section3 = Section
             .sectionBuilder()
             .img("Section3")
             .sectionTyp(SectionTyp.NORMAL)
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .pos(320, 270)
-            .hulleIntegritat(100)
             .buildSection();
     public static Section section4 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
-            .img("Section4").oxygen(100).
+            .img("Section4").oxygen(OXYGEN).
                     powerCurrent(100)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .pos(320, 210)
-            .hulleIntegritat(100)
             .buildSection();
     public static Section section5 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section5")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .pos(240, 135)
-            .hulleIntegritat(100)
             .buildSection();
     public static Section section6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section6")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .pos(90, 124)
-            .hulleIntegritat(100)
             .buildSection();
     public static List<Section> sectionsPlayerList = new ArrayList<Section>() {{
         add(section1);
@@ -390,27 +397,27 @@ public class Global {
     /*
     Gegner Ship
      */
-    public static Ship shipGegner1 = Ship.shipBluider().hp(100).
+    public static Ship shipGegner1 = Ship.shipBluider().hp(HP).
             power(100).shield(1).
             name("Shipgegner1").owner(ai1).
             buildShip();
-    public static Ship shipGegner2 = Ship.shipBluider().hp(100).
+    public static Ship shipGegner2 = Ship.shipBluider().hp(HP).
             power(100).shield(1).
             name("Shipgegner2").owner(ai2).
             buildShip();
-    public static Ship shipGegner3 = Ship.shipBluider().hp(100).
+    public static Ship shipGegner3 = Ship.shipBluider().hp(HP).
             power(100).shield(1).
             name("Shipgegner3").owner(ai3).
             buildShip();
-    public static Ship shipGegner4 = Ship.shipBluider().hp(100).
+    public static Ship shipGegner4 = Ship.shipBluider().hp(HP).
             power(100).shield(1).
             name("Shipgegner4").owner(ai4).
             buildShip();
-    public static Ship shipGegner5 = Ship.shipBluider().hp(100).
+    public static Ship shipGegner5 = Ship.shipBluider().hp(HP).
             power(100).shield(1).
             name("Shipgegner5").owner(ai5).
             buildShip();
-    public static Ship shipGegner6 = Ship.shipBluider().hp(100).
+    public static Ship shipGegner6 = Ship.shipBluider().hp(HP).
             power(1000).shield(5).
             name("Shipgegner6").owner(ai6).
             buildShip();
@@ -428,31 +435,31 @@ public class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.COCKPIT)
             .img("Section1Gegner1")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section2Gegner = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner1")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section3Gegner = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
             .img("Section3Gegner1")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static List<Section> sectionsgegner1 = new ArrayList<Section>() {{
         add(section1Gegner);
@@ -463,41 +470,41 @@ public class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.COCKPIT)
             .img("Section1Gegner2")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section2Gegner2 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner2")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section3Gegner2 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
             .img("Section3Gegner2")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section4Gegner2 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.O2)
             .img("Section4Gegner2")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static List<Section> sectionsgegner2 = new ArrayList<Section>() {{
         add(section1Gegner2);
@@ -509,51 +516,51 @@ public class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.COCKPIT)
             .img("Section1Gegner3")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section2Gegner3 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner3")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section3Gegner3 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
             .img("Section3Gegner3")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section4Gegner3 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.O2)
             .img("Section4Gegner3")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section5Gegner3 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.HEALTH)
             .img("Section5Gegner3")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static List<Section> sectionsgegner3 = new ArrayList<Section>() {{
         add(section1Gegner3);
@@ -566,31 +573,31 @@ public class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section1Gegner4")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section2Gegner4 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner4")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section3Gegner4 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
             .img("Section3Gegner4")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static List<Section> sectionsgegner4 = new ArrayList<Section>() {{
         add(section1Gegner4);
@@ -601,31 +608,31 @@ public class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section1Gegner5")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section2Gegner5 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner5")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section3Gegner5 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
             .img("Section3Gegner5")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static List<Section> sectionsgegner5 = new ArrayList<Section>() {{
         add(section1Gegner5);
@@ -636,31 +643,31 @@ public class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section1Gegner6")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section2Gegner6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.ENGINE)
             .img("Section2Gegner6")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static Section section3Gegner6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
             .img("Section3Gegner6")
-            .oxygen(100)
-            .powerCurrent(100)
+            .oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
-            .powerRequired(10)
+            .powerRequired(POWER_REQUIRED)
             .buildSection();
     public static List<Section> sectionsgegner6 = new ArrayList<Section>() {{
         add(section1Gegner6);
@@ -739,7 +746,7 @@ public class Global {
         add(station3);
         add(station4);
     }};
-    //Sections Gegner
+    //Sections Gegner  // FIXME was ist prive
     public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
     public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
     public static ShopRessource shopRessource3 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();

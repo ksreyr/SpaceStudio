@@ -187,3 +187,22 @@ digraph automaton {
 
 #+RESULTS:
 [[file:fightMechanik.png]]
+
+
+
+#+BEGIN_SRC dot :file kampfRunde.png
+
+digraph automaton {
+
+rankdir=LR
+startFight -> waitForTurn -> makeTurn -> {energieVerteilen, attackWithWeapon, moveCrew} -> makeTurn -> endTurn
+
+endTurn -> waitForTurn
+
+
+}
+
+#+END_SRC
+
+#+RESULTS:
+[[file:kampfRunde.png]]
