@@ -35,6 +35,7 @@ import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.Base;
 import de.spaceStudio.util.GdxUtils;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.*;
@@ -952,7 +953,6 @@ public class CombatScreen extends BaseScreen {
             //A
             //Logic
             //Create and launch missiles
-
 
 
             //shield for player
