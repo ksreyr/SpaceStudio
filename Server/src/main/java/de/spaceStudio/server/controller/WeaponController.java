@@ -90,10 +90,12 @@ public interface WeaponController {
     String deleteAllWeapons();
 
     @RequestMapping(value = "/fire", method = RequestMethod.POST)
-    String fire(@RequestBody List<Weapon> weapons);
+    List<Section> fire(@RequestBody List<Weapon> weapons);
 
     @RequestMapping(value = "/shotvalidation", method = RequestMethod.POST)
     List<Boolean> shotValidation(@RequestBody List<Weapon> weapons);
+
+    boolean canShoot(Weapon w);
 }
 
 

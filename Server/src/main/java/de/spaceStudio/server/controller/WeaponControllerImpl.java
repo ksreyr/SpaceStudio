@@ -135,7 +135,7 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
-    public String fire(@RequestBody List<Weapon> weapons) {
+    public List<Section> fire(@RequestBody List<Weapon> weapons) {
     Random random = new Random();
 
         Ship ship = new Ship();
@@ -157,10 +157,8 @@ public class WeaponControllerImpl implements WeaponController {
             }
             shipRepository.save(ship);
         }
-        List<Section> sectionToSend = sectionRepository.findAllByShip(ship).get();
-        Gson gson = new Gson();
-
-        return gson.toJson(sectionToSend);
+        Optional<List<Section>> sections = sectionRepository.findAllByShip(ship);
+        return sections.orElseGet(ArrayList::new);
     }
 
     @Override
@@ -171,7 +169,8 @@ public class WeaponControllerImpl implements WeaponController {
         return shots;
     }
 
-    private boolean canShoot(Weapon w) {
+    @Override
+    public boolean canShoot(Weapon w) {
 
         Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
         if (w.getObjectiv() != null &&  ship.getHp() > 0 && isOutsideRange(w.getLastShot(), w.getCoolDown())) {

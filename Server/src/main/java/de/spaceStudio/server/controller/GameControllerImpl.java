@@ -34,6 +34,9 @@ import java.util.*;
 @RestController
 public class GameControllerImpl implements GameController {
 
+    @Autowired
+    private WeaponController weaponController;
+
     /**
      * PlayerRepository Data
      */
@@ -338,11 +341,22 @@ public class GameControllerImpl implements GameController {
                     weaponList = weaponRepository.findBySection(s);
                     weaponList.ifPresent(attackWeapon::addAll);
                 }
-//                while (WeaponControlle)
 
+
+                List<Boolean> shots = new ArrayList<>();
+                do {
+                    List<Weapon> weaponCanFire = new ArrayList<>();
+                    for (int i = 0; i < shots.size(); i++) {
+                        if (shots.get(i)) {
+                            weaponCanFire.add(weaponList.get().get(i)); // Get Value then index i
+                        }
+                        weaponController.fire(weaponCanFire);
+                    }
+               shots = weaponController.shotValidation(weaponList.get());
+                }
+                while (shots.contains(true));
             }
         }
-
     }
 
 }
