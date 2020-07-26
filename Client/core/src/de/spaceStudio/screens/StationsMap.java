@@ -21,6 +21,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
@@ -114,7 +117,9 @@ public class StationsMap extends BaseScreen {
         setStartPoint(drawable_station_unvisited);
 
 
-        RequestUtils.hasLanded(Global.currentPlayer);
+        if (!Global.IS_SINGLE_PLAYER) {
+            RequestUtils.hasLanded(Global.currentPlayer);
+        }
 
         stage.addActor(planet1ImgBTN);
         stage.addActor(planet2ImgBTN);
@@ -377,9 +382,14 @@ public class StationsMap extends BaseScreen {
     }
 
     public void makeJumpRequest(Object requestObject, String method) {
-        final Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = null;
+        try {
+            requestJson = objectMapper.writeValueAsString(requestObject);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            LOG.info("failed to serialise json");
+        }
         final String url = Global.SERVER_URL + Global.MAKEJUMP_CREATION_ENDPOINT;
         final Net.HttpRequest request = setupRequest(url, requestJson, method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
@@ -390,9 +400,12 @@ public class StationsMap extends BaseScreen {
                 }
                 LOG.info("statusCode of the Jump: " + statusCode);
                 String shipsList = httpResponse.getResultAsString();
-                Gson gson = new Gson();
-                Ship[] aiArray = gson.fromJson(shipsList, Ship[].class);
-                shipList = Arrays.asList(aiArray);
+                try {
+                    shipList = objectMapper.readValue(shipsList, new TypeReference<List<Ship>>() {
+                    });
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
 
             }
 

@@ -82,8 +82,8 @@ public class StopAbstractControllerImpl implements StopAbstractController {
 //                .getClass().getName().equals("Player")).findFirst().get().getId());
 //                // FIXME TERRIBLE BUG. No one knows who wants to jump, if 2 players at stop
 
-        Optional<Actor> p =  Optional.of(stopStart.getShips().get(0).getOwner());
-        if (stopStart.getShips().size() > 1) {
+        Optional<Actor> p =  Optional.of(stopEnd.getShips().get(0).getOwner());
+        if (stopEnd.getShips().size() > 1) {
             return HttpStatus.EXPECTATION_FAILED.toString();
         }
         Optional<Ship> ship = Optional.of(stopStart.getShips().get(0));
