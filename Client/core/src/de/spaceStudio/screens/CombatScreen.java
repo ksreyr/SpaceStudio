@@ -276,6 +276,7 @@ public class CombatScreen extends BaseScreen {
                         break;
 
                 }
+                isTargetO2 = true;
                 o2.getStyle().imageUp = oxygen_sym_red;
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
@@ -289,6 +290,7 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
+                isTargetMedical = true;
                 selectedTarget = Global.section2Gegner;
 
                 healthPoint.getStyle().imageUp = medical_sym_red;
@@ -326,6 +328,7 @@ public class CombatScreen extends BaseScreen {
 
                 }
                 isTargetSelected = true;
+                isTargetEngine = true;
                 engine.getStyle().imageUp = engine_red;
                 weaponSection.getStyle().imageUp = weapon_section;
                 cockpit.getStyle().imageUp = cockpit_nat;
@@ -367,6 +370,7 @@ public class CombatScreen extends BaseScreen {
                 }
 
                 isTargetSelected = true;
+                isTargetWeapon = true;
                 weaponSection.getStyle().imageUp = weapon_section_red;
                 engine.getStyle().imageUp = engine_sym;
                 cockpit.getStyle().imageUp = cockpit_nat;
@@ -401,6 +405,7 @@ public class CombatScreen extends BaseScreen {
                         break;
                 }
                 isTargetSelected = true;
+                isTargetCockpit = true;
                 cockpit.getStyle().imageUp = cockpit_red;
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
@@ -716,7 +721,26 @@ public class CombatScreen extends BaseScreen {
 
                     for (Weapon w :
                             weaponsToFire) {
-                        bullets.add(new Bullet(590, 793));
+
+                        if(isTargetCockpit){
+                                bullets.add(new Bullet(590, 793));
+                                isTargetCockpit = false;
+                        }else if(isTargetEngine){
+                            bullets.add(new Bullet(590, 500));
+                            isTargetEngine = false;
+                        }else if(isTargetWeapon){
+                            bullets.add(new Bullet(590, 650));
+                            isTargetWeapon=false;
+                        }else if (isTargetMedical) {
+                            bullets.add(new Bullet(590, 650));
+                            isTargetMedical=false;
+                        }
+                        else if (isTargetO2){
+                            bullets.add(new Bullet(590, 650));
+                            isTargetO2 = false;
+                        }
+
+                            //bullets.add(new Bullet(590, 650));
 
                         yWeaponPos -= shotDelta;
                     }
@@ -784,7 +808,7 @@ public class CombatScreen extends BaseScreen {
                     Global.ExplosionsToRender) {
                 stage.getBatch().begin();
 
-                stage.getBatch().draw(explosion, p.getLeft(), p.getRight());
+//                stage.getBatch().draw(explosion, p.getLeft(), p.getRight());
                 stage.getBatch().end();
 
             }
@@ -968,15 +992,7 @@ public class CombatScreen extends BaseScreen {
 
             }
 
-/*
-            //explosion on enemy's weapon
-            if (counterWeapon >= 3 && !isEnemyShield) {
-                stage.getBatch().draw(explosion, 1450, 500, 100, 100);
-            }
-            //explosion on enemy's cockpit
-            if (counterCockpit >= 2 && !isEnemyShield) {
-                stage.getBatch().draw(explosion, 1515, 690, 100, 100);
-            }*/
+
             //update bullets
             ArrayList<Bullet> bulletToRemove = new ArrayList<>();
             for (Bullet bullet : bullets) {

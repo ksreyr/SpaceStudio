@@ -30,7 +30,7 @@ public class Bullet {
 
     public void update(float deltaTime) {
         x += SPEED * deltaTime;
-        if (x > Gdx.graphics.getWidth() - 500) {
+        if (x > Gdx.graphics.getWidth() - 600) {
             // FIXME trigger Explosion
             System.out.println( String.format("Explosion at %s, %s", this.x, this.y ));
             Global.ExplosionsToRender.add(new Pair(x, y));
