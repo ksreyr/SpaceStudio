@@ -1,5 +1,6 @@
 package de.spaceStudio.server.handler;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import de.spaceStudio.server.model.LobbyState;
 import de.spaceStudio.server.model.RoundState;
 
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public class ActorState {
 
     @Id

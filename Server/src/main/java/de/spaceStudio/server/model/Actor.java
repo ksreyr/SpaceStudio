@@ -1,5 +1,6 @@
 package de.spaceStudio.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.spaceStudio.server.handler.ActorState;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public  class Actor {
     private String password;
 
     @OneToOne
+    @JsonIgnore
     private ActorState state;
 
     public Actor() {

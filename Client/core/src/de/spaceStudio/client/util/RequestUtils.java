@@ -55,8 +55,6 @@ public final class RequestUtils {
                 LOG.info("statusCode: " + statusCode);
                 responseString[0] = httpResponse.getResultAsString();
 
-
-
                 if (url.contains("sections")) {
                     try {
                         Global.combatSections.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Section>>() {
