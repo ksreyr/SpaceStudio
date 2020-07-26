@@ -119,7 +119,7 @@ public class CombatScreen extends BaseScreen {
     private Optional<Section> endSectionCrewMove;
     private final List<Weapon> weaponsToFire = new ArrayList<>();
     private final int shotDelta = 400;
-    private int yWeaponPos = 798;
+    private int yWeaponPos = 700;
 
 
     public CombatScreen(MainClient mainClient) {
@@ -773,12 +773,25 @@ public class CombatScreen extends BaseScreen {
             stage.addActor(labelsection1);
         }
 
-        new Bullet(BaseScreen.WIDTH, BaseScreen.HEIGHT);
 
         if (Global.currentShipPlayer.getHp() < 1) {
             LOG.info("You have lost the Game");
             killTimer = true;
             // FIXME ADD Screen
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            randomNumber = (int) ((Math.random() * (5)) + 0);
+            //Set Target->Section of Player and gegner Weapons
+            logicOfFireGegner(randomNumber);
+            //Set Target->Section of  gegner and User Weapons
+            logicOfFirePlayer();
+            //bullets.add(new Bullet(590, yWeaponPos));
+            counterCockpit++;
+            bullets.add(new Bullet(700, 793));
+
+
+
         }
 
         //Global.combatSections.get(Global.currentShipPlayer.getId()).get(1);
@@ -938,14 +951,7 @@ public class CombatScreen extends BaseScreen {
             //Logic
             //Create and launch missiles
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                randomNumber = (int) ((Math.random() * (5)) + 0);
-                //Set Target->Section of Player and gegner Weapons
-                logicOfFireGegner(randomNumber);
-                //Set Target->Section of  gegner and User Weapons
-                logicOfFirePlayer();
-                counterCockpit++;
-            }
+
 
             //shield for player
             if (Global.currentShipPlayer.getShield() > 0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
