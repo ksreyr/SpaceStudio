@@ -32,7 +32,10 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.util.GdxUtils;
 
 import java.util.List;
@@ -460,8 +463,8 @@ public class CombatScreen extends BaseScreen {
         for(int i = 0; i < listOfCrewImages.size(); i++){
             listOfCrewImages.get(i).setName(myCrew.get(i).getName());
         }
-        for (int i = 0; i < listOfCrewImages.size(); i++) {
-            dragAndDrop(listOfCrewImages.get(i));
+        for (Image listOfCrewImage : listOfCrewImages) {
+            dragAndDrop(listOfCrewImage);
         }
 
         lebengegnerShip.setPosition(100, 20);
@@ -573,9 +576,9 @@ public class CombatScreen extends BaseScreen {
      * @return CrewMember object of image
      */
     private CrewMember getDraggedCrewMember(Image imageCrewMember){
-        for(int i = 0; i < myCrew.size(); i++){
-            if(myCrew.get(i).getName().equals(imageCrewMember.getName())){
-                return myCrew.get(i);
+        for (CrewMember crewMember : myCrew) {
+            if (crewMember.getName().equals(imageCrewMember.getName())) {
+                return crewMember;
             }
         }
         return null;
@@ -742,7 +745,7 @@ public class CombatScreen extends BaseScreen {
 
         for (Weapon w :
                 ws) {
-            sb.append(String.format("Weapon: %s%n Damage: %s%n Lastshot: %s%n", w.getName(), w.getDamage(), String.valueOf(System.currentTimeMillis() - w.getLastShot() / 1000)));
+            sb.append(String.format("Weapon: %s%n Damage: %s%n Lastshot: %s%n", w.getName(), w.getDamage(), (System.currentTimeMillis() - w.getLastShot() / 1000)));
         }
         return sb.toString();
     }
@@ -1065,14 +1068,14 @@ public class CombatScreen extends BaseScreen {
     }
 
     private void logicOfFireGegner(int sectionNumber) {
-        List<Weapon> weaponList = new ArrayList<>();
+        List<Weapon> weaponList = new ArrayList<>();  // FIXME was soll diese Liste
         if (Global.currentShipGegner != null) {
             if (Global.currentUniverse.getName().equals("Normal" + Global.currentPlayer.getName())) {
                 switch (Global.currentShipGegner.getName()) {
                     case "Shipgegner1":
                         for (Weapon w :
                                 Global.weaponListGegner1) {
-                            if (w.getSection().getShip().getId() == Global.currentShipGegner.getId()) {
+                            if (Objects.equals(w.getSection().getShip().getId(), Global.currentShipGegner.getId())) {
                                 //Weapons gegner set Weapons Section of Player
                                 if (sectionNumber == 2) {
                                     w.setObjectiv(Global.section2);
@@ -1092,7 +1095,7 @@ public class CombatScreen extends BaseScreen {
                     case "Shipgegner2":
                         for (Weapon w :
                                 Global.weaponListGegner2) {
-                            if (w.getSection().getShip().getId() == Global.currentShipGegner.getId()) {
+                            if (Objects.equals(w.getSection().getShip().getId(), Global.currentShipGegner.getId())) {
                                 //Weapons gegner set Weapons Section of Player
                                 if (sectionNumber == 2) {
                                     w.setObjectiv(Global.section2);
@@ -1112,7 +1115,7 @@ public class CombatScreen extends BaseScreen {
                     case "Shipgegner3":
                         for (Weapon w :
                                 Global.weaponListGegner3) {
-                            if (w.getSection().getShip().getId() == Global.currentShipGegner.getId()) {
+                            if (Objects.equals(w.getSection().getShip().getId(), Global.currentShipGegner.getId())) {
                                 //Weapons gegner set Weapons Section of Player
                                 if (sectionNumber == 2) {
                                     w.setObjectiv(Global.section2);

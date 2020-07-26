@@ -48,11 +48,13 @@ public class Universe  {
         public UniverseBuilder id(Integer id){
             this.id=id;
             return UniverseBuilder.this;
-        };
+        }
+
         public UniverseBuilder name(String name){
             this.name=name;
             return UniverseBuilder.this;
-        };
+        }
+
         public Universe build(){
             return new Universe(this);
         }

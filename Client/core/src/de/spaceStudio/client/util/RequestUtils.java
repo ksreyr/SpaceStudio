@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 

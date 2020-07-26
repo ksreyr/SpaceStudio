@@ -35,6 +35,7 @@ import thirdParties.GifDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
@@ -62,7 +63,7 @@ public class StationsMap extends BaseScreen {
     private final boolean isGameSaved = false;
     Animation<TextureRegion> start_ship;
     boolean isLast, test;
-    List<Pair> coord = new ArrayList<Pair>();
+    List<Pair> coord = new ArrayList<>();
     private ImageButton planet1ImgBTN, planet2ImgBTN, planet3ImgBTN, planet4ImgBTN, planet5ImageBTN;
     private ImageButton startPoint;
     private ImageButton shopImg;
@@ -73,7 +74,7 @@ public class StationsMap extends BaseScreen {
     //
     private Boolean control = false;
     private TextButton saveGameButton;
-    private List<Ship> shipList = new ArrayList<Ship>();
+    private List<Ship> shipList = new ArrayList<>();
     private Sound click;
     private float xShip = 240;
     private float yShip = 150;
@@ -142,7 +143,7 @@ public class StationsMap extends BaseScreen {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(shopImg, textAreaShop);
                             jumpService(Global.station1);
@@ -169,7 +170,7 @@ public class StationsMap extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Start Point", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") ;
+                        if (Objects.equals(obj.toString(), "true")) ;
 
                     }
                 };
@@ -198,7 +199,7 @@ public class StationsMap extends BaseScreen {
                 Global.currentStop = Global.planet1;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(planet1ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 1;
@@ -229,7 +230,7 @@ public class StationsMap extends BaseScreen {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(planet2ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 2;
@@ -263,7 +264,7 @@ public class StationsMap extends BaseScreen {
                 Global.currentStop = Global.planet3;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(planet3ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 3;
@@ -300,7 +301,7 @@ public class StationsMap extends BaseScreen {
                 Global.currentStop = Global.planet4;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(planet4ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 4;
@@ -333,7 +334,7 @@ public class StationsMap extends BaseScreen {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             isLast = true;
                         }
 
@@ -362,7 +363,7 @@ public class StationsMap extends BaseScreen {
     }
 
     private void jumpService(StopAbstract stopAbstract) {
-        ArrayList<StopAbstract> toChange = new ArrayList<StopAbstract>();
+        ArrayList<StopAbstract> toChange = new ArrayList<>();
         toChange.add(currentStop);
         toChange.add(stopAbstract);
         if (shipList.isEmpty()) {

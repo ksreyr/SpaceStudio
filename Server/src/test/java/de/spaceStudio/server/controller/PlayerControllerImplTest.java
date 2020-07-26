@@ -52,12 +52,12 @@ public class PlayerControllerImplTest {
 
     public void testGetAllPlayers() throws Exception {
         List<Player> result = playerControllerImpl.getAllPlayers();
-        Assert.assertEquals(Arrays.<Player>asList(new Player(new Player.PlayerBuilder("name", "password"))), result);
+        Assert.assertEquals(Arrays.asList(new Player(new Player.PlayerBuilder("name", "password"))), result);
     }
 
 
     public void testGetPlayer() throws Exception {
-        Player result = playerControllerImpl.getPlayer(Integer.valueOf(0));
+        Player result = playerControllerImpl.getPlayer(0);
         Assert.assertEquals(new Player(new Player.PlayerBuilder("name", "password")), result);
     }
 
@@ -75,7 +75,7 @@ public class PlayerControllerImplTest {
 
 
     public void testDeletePlayerById() throws Exception {
-        String result = playerControllerImpl.deletePlayerById(Integer.valueOf(0));
+        String result = playerControllerImpl.deletePlayerById(0);
         Assert.assertEquals("replaceMeWithExpectedResult", result);
     }
 
@@ -88,7 +88,7 @@ public class PlayerControllerImplTest {
 
     public void testGetLoggedPlayers() throws Exception {
         Set<String> result = playerControllerImpl.getLoggedPlayers();
-        Assert.assertEquals(Arrays.<String>asList("String"), result);
+        Assert.assertEquals(Arrays.asList("String"), result);
     }
 
 

@@ -22,7 +22,6 @@ import java.util.TimerTask;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.Global.multiPlayerSessionID;
-import static de.spaceStudio.service.LoginService.fetchLoggedUsers;
 
 
 /**
@@ -48,7 +47,7 @@ public class TravelScreen extends ScreenAdapter {
         camera = (OrthographicCamera) stage.getViewport().getCamera();
 
 
-        Array<Texture> textures = new Array<Texture>();
+        Array<Texture> textures = new Array<>();
         for (int i = 1; i <= 6; i++) {
             textures.add(new Texture(Gdx.files.internal("parallax/img" + i + ".png")));
             textures.get(textures.size - 1).setWrap(Texture.TextureWrap.MirroredRepeat, Texture.TextureWrap.MirroredRepeat);

@@ -213,7 +213,7 @@
                 if (frameCount <= 0)
                     return null;
                 n = n % frameCount;
-                return ((GifFrame) frames.elementAt(n)).image;
+                return frames.elementAt(n).image;
             }
 
             /**
@@ -363,7 +363,7 @@
             protected void init() {
                 status = STATUS_OK;
                 frameCount = 0;
-                frames = new Vector<GifFrame>();
+                frames = new Vector<>();
                 gct = null;
                 lct = null;
             }
@@ -649,7 +649,7 @@
                 Pixmap frame = getFrame(0);
                 int width = frame.getWidth();
                 int height = frame.getHeight();
-                int vzones = (int) Math.sqrt((double) nrFrames);
+                int vzones = (int) Math.sqrt(nrFrames);
                 int hzones = vzones;
 
                 while (vzones * hzones < nrFrames) vzones++;
@@ -669,7 +669,7 @@
                 }
 
                 Texture texture = new Texture(target);
-                Array<TextureRegion> texReg = new Array<TextureRegion>();
+                Array<TextureRegion> texReg = new Array<>();
 
                 for (h = 0; h < hzones; h++) {
                     for (v = 0; v < vzones; v++) {
@@ -682,7 +682,7 @@
                 }
                 float frameDuration = (float) getDelay(0);
                 frameDuration /= 1000; // convert milliseconds into seconds
-                Animation<TextureRegion> result = new Animation<TextureRegion>(frameDuration, texReg, playMode);
+                Animation<TextureRegion> result = new Animation<>(frameDuration, texReg, playMode);
 
                 return result;
             }

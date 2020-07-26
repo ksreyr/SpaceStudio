@@ -5,9 +5,7 @@ import de.spaceStudio.server.model.Ship;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
     public class MultiPlayerGame implements Serializable {
 

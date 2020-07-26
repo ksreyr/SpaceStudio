@@ -770,12 +770,12 @@ public class Global {
      */
     public static Universe universe1 = Universe.universeBuilder().name("Easy").build();
     public static Universe universe2 = Universe.universeBuilder().name("Normal").build();
-    public static List<Ship> shipsP1 = new ArrayList<Ship>();
-    public static List<Ship> shipsP2 = new ArrayList<Ship>();
-    public static List<Ship> shipsP3 = new ArrayList<Ship>();
-    public static List<Ship> shipsP4 = new ArrayList<Ship>();
-    public static List<Ship> shipsP5 = new ArrayList<Ship>();
-    public static List<Ship> shipsP6 = new ArrayList<Ship>();
+    public static List<Ship> shipsP1 = new ArrayList<>();
+    public static List<Ship> shipsP2 = new ArrayList<>();
+    public static List<Ship> shipsP3 = new ArrayList<>();
+    public static List<Ship> shipsP4 = new ArrayList<>();
+    public static List<Ship> shipsP5 = new ArrayList<>();
+    public static List<Ship> shipsP6 = new ArrayList<>();
     /*
      * Weapon
      * */

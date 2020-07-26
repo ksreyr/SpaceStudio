@@ -772,7 +772,7 @@ public class ShipSelectScreen extends BaseScreen {
             }
 
             if (requestcounter == 10) {
-                List<Section> sectionsforU2 = new ArrayList<Section>();
+                List<Section> sectionsforU2 = new ArrayList<>();
                 for (Section s :
                         Global.sectionsgegner1) {
                     s.setShip(shipGegner1);
@@ -819,18 +819,25 @@ public class ShipSelectScreen extends BaseScreen {
                 List<Section> sectionsgegner6 = new ArrayList<>();
                 for (Section s :
                         sectionList) {
-                    if (s.getShip().getName().equals("Shipgegner1")) {
-                        sectionsgegner1.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner2")) {
-                        sectionsgegner2.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner3")) {
-                        sectionsgegner3.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner4")) {
-                        sectionsgegner4.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner5")) {
-                        sectionsgegner5.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner6")) {
-                        sectionsgegner6.add(s);
+                    switch (s.getShip().getName()) {
+                        case "Shipgegner1":
+                            sectionsgegner1.add(s);
+                            break;
+                        case "Shipgegner2":
+                            sectionsgegner2.add(s);
+                            break;
+                        case "Shipgegner3":
+                            sectionsgegner3.add(s);
+                            break;
+                        case "Shipgegner4":
+                            sectionsgegner4.add(s);
+                            break;
+                        case "Shipgegner5":
+                            sectionsgegner5.add(s);
+                            break;
+                        case "Shipgegner6":
+                            sectionsgegner6.add(s);
+                            break;
                     }
 
                 }

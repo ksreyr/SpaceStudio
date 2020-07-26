@@ -468,7 +468,7 @@ public class LoginScreen extends BaseScreen {
         changeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Global.SERVER_URL = (String) serverUrlTextField.getText();
+                Global.SERVER_URL = serverUrlTextField.getText();
             }
         });
     }

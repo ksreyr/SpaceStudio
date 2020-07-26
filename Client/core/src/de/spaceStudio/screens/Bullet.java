@@ -3,7 +3,6 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.spaceStudio.server.model.Weapon;
 
 public class Bullet {
 
