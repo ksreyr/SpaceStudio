@@ -1,6 +1,10 @@
 package de.spaceStudio.server.model;
 
+import de.spaceStudio.server.handler.ActorState;
+
 import javax.persistence.*;
+
+
 
 @Entity
 @Inheritance(
@@ -16,6 +20,9 @@ public  class Actor {
     private String name;
 
     private String password;
+
+    @OneToOne
+    private ActorState state;
 
     public Actor() {
 
@@ -45,5 +52,13 @@ public  class Actor {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public ActorState getState() {
+        return state;
+    }
+
+    public void setState(ActorState state) {
+        this.state = state;
     }
 }
