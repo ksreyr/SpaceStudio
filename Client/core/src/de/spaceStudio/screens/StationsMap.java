@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.Pair;
 import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Ship;
@@ -110,6 +111,9 @@ public class StationsMap extends BaseScreen {
         planet5(drawable_station_unvisited);
         shopStation(shopStationIcon);
         setStartPoint(drawable_station_unvisited);
+
+
+        RequestUtils.hasLanded(Global.currentPlayer);
 
         stage.addActor(planet1ImgBTN);
         stage.addActor(planet2ImgBTN);

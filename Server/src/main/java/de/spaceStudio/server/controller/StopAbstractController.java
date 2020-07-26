@@ -1,5 +1,7 @@
 package de.spaceStudio.server.controller;
 
+import com.google.gson.internal.$Gson$Preconditions;
+import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.StopAbstract;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,4 +68,18 @@ public interface StopAbstractController {
 
     @RequestMapping(value = "/makejump", method = RequestMethod.POST)
     String makeJump(@RequestBody List<StopAbstract> stops);
+
+    /**
+     * Is is possible to Land?
+     * It is possible to Land when booth Players have select a new Station to Jump to
+     * @param  player which wants to land
+     * @return if they can Land
+     */
+    @RequestMapping(value = "/canLand", method = RequestMethod.GET)
+    Boolean canLand(@RequestBody Player player);
+
+
+    @PostMapping(value="/hasLanded" )
+    String hasLanded(@RequestBody Player player);
+
 }

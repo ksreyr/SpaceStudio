@@ -1,5 +1,6 @@
 package de.spaceStudio.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class Ship {
     private String name;
 
     @NonNull
+    @JsonIgnore
     private ShipForm shipForm;
 
     @ManyToOne

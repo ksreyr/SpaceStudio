@@ -93,7 +93,7 @@ public interface WeaponController {
     String fire(@RequestBody List<Weapon> weapons);
 
     @RequestMapping(value = "/shotvalidation", method = RequestMethod.POST)
-    String shotValidation(@RequestBody List<Weapon> weapons);
+    List<Boolean> shotValidation(@RequestBody List<Weapon> weapons);
 }
 
 

@@ -1,18 +1,24 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
+import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
 import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
+import de.spaceStudio.server.utils.Global;
+import org.apache.juli.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @RestController
 public class StopAbstractControllerImpl implements StopAbstractController {
@@ -22,6 +28,8 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     ShipRepository shipRepository;
     @Autowired
     PlayerRepository playerRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StopAbstractControllerImpl.class);
 
     @Override
     @RequestMapping(value = "/stopAbstracts", method = RequestMethod.GET)
@@ -68,6 +76,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
 
         StopAbstract stopStart = stops.get(0);
         stops.remove(stopStart);
+
         StopAbstract stopEnd = stops.get(0);
         Player player=new Player();
         Ship ship= new Ship();
@@ -77,9 +86,16 @@ public class StopAbstractControllerImpl implements StopAbstractController {
             if(s.getOwner()!=null){
                 player= playerRepository.findByName(s.getOwner().getName()).get();
                 ship=s;
+
+                for (MultiPlayerGame xs :
+                        Global.MultiPlayerGameSessions.values()) {
+                    if (xs.players.containsKey(player)) {
+                        xs.players.put(player, true);
+                    }
+                }
             }
         }
-        
+
         ship= shipRepository.findShipByNameAndAndOwner(ship.getName(),player).get();
         stopStart= stopAbstractRepository.findByShips(ship).get();
         List<StopAbstract> stopAbstracts = new ArrayList<>();
@@ -99,6 +115,8 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                 break;
             }
         }
+
+
         stopStart.setShips(ships);
         stopAbstractRepository.save(stopStart);
         List<Ship> shipJump= new ArrayList<>();
@@ -109,5 +127,50 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         Gson gson= new Gson();
 
         return gson.toJson(shipJump);
+    }
+
+
+    @Override
+    public Boolean canLand(Player player) {
+        boolean playersJumping = false;  // Assume no one is jumping
+        for (MultiPlayerGame multiPlayerGame :
+                Global.MultiPlayerGameSessions.values()) {
+
+            // Suche nach dem aktuellen Spieler
+            Player[] playerSet = multiPlayerGame.players.keySet().toArray(new Player[0]);
+
+            // Gucke für jeden Spieler
+            for (int i = 0; i < multiPlayerGame.players.size(); i++) {
+                Player p = playerSet[i];
+
+                if (p.equals(player)) {
+                    for (Boolean b :
+                        // Gucke für jeden Boolean Wert aus dem Game
+                            multiPlayerGame.players.values()) {
+                        if (b) {  // Falls jemand am Springen ist
+                            playersJumping = true;
+                        }
+                    }
+                }
+            }
+        }
+        return !playersJumping; // If there are Still Players who are Jumping
+    }
+
+    @Override
+    public String hasLanded(Player player) {
+        try {
+
+        for (MultiPlayerGame xs :
+                Global.MultiPlayerGameSessions.values()) {
+            if (xs.players.containsKey(player)) {
+                xs.players.put(player, false);
+            }
+        }
+        } catch (Exception e) {
+            LOGGER.error("Player has not been Found");
+            return HttpStatus.INTERNAL_SERVER_ERROR.toString();
+        }
+        return HttpStatus.ACCEPTED.toString();
     }
 }
