@@ -28,8 +28,8 @@ public class Bullet {
         x += SPEED * deltaTime;
         if (x > Gdx.graphics.getWidth() - 500) {
             // FIXME trigger Explosion
+            System.out.println( String.format("Explosion at %s, %s", this.x, this.y ));
             remove = true;
-
         }
     }
 

@@ -24,10 +24,7 @@ import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.server.model.CrewMember;
-import de.spaceStudio.server.model.Role;
-import de.spaceStudio.server.model.ShipRessource;
-import de.spaceStudio.server.model.ShopRessource;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
 
 import java.util.ArrayList;
@@ -57,7 +54,7 @@ public class ShopScreen extends ScreenAdapter {
     private final Texture rocket2;
     private final Texture crewMemberMTexture;
     private final Texture crewMemberFTexture;
-    private final Texture securityTexture;
+    private final Texture weaponTexture;
     private final Texture oxygenTexture;
     private final Texture driveTexture;
     private final Skin skin;
@@ -101,7 +98,7 @@ public class ShopScreen extends ScreenAdapter {
         rocket2 = new Texture("data/ships/attack_small.png");
         crewMemberMTexture = new Texture("Client/core/assets/combatAssets/MaleHuman-3.png");
         crewMemberFTexture = new Texture("Client/core/assets/combatAssets/female_human.png");
-        securityTexture = new Texture("data/ships/securitySmall.png");
+        weaponTexture = new Texture("Client/core/assets/combatAssets/missille_out.png");
         oxygenTexture = new Texture("Client/core/assets/OxygenSymbol_large.png");
         driveTexture = new Texture("data/ships/batterie.png");
         //if secure or drive is too low
@@ -334,6 +331,38 @@ public class ShopScreen extends ScreenAdapter {
         });
     }
 
+    public void buyWeapons(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + Global.BUY_WEAPONS;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed buyWeapons");
+                }
+                System.out.println("statusCode buyWeapons: " + statusCode);
+                String shipRessource = httpResponse.getResultAsString();
+                Gson gson = new Gson();
+                ShipRessource[] shipRessourceList = gson.fromJson(shipRessource, ShipRessource[].class);
+                shipRessources = Arrays.asList(shipRessourceList);
+                getShopRessourcen(Global.currentStop, Net.HttpMethods.POST);
+                System.out.println("statusCode buyWeapons: " + statusCode);
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+
     @Override
     public void render(float delta) {
 
@@ -374,7 +403,7 @@ public class ShopScreen extends ScreenAdapter {
                 stage.getBatch().draw(crewMemberMTexture, positionX, positionY);
                 break;
             case 4:
-                stage.getBatch().draw(securityTexture, positionX, positionY);
+                stage.getBatch().draw(weaponTexture, positionX, positionY);
                 break;
             case 5:
                 stage.getBatch().draw(oxygenTexture, positionX, positionY);
@@ -426,7 +455,7 @@ public class ShopScreen extends ScreenAdapter {
         rocket2.dispose();
         crewMemberMTexture.dispose();
         crewMemberFTexture.dispose();
-        securityTexture.dispose();
+        weaponTexture.dispose();
         oxygenTexture.dispose();
         driveTexture.dispose();
         skin.dispose();
@@ -462,24 +491,37 @@ public class ShopScreen extends ScreenAdapter {
                     buyItem(List.of(shopRessources.get(1)), Net.HttpMethods.POST);
                 }else if (itemNumber == 2) {
                     if(checkBoxSection1.isChecked()){
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section1).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section1).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     }else if(checkBoxSection2.isChecked()){
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section2).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section2).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     }
                     else if(checkBoxSection3.isChecked()){
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section3).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section3).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                    } else if (checkBoxSection4.isChecked()) {
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section4).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                    } else if (checkBoxSection5.isChecked()) {
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section5).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                    } else if (checkBoxSection6.isChecked()) {
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section6).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     }
-                    else if(checkBoxSection4.isChecked()){
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section4).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                } else if (itemNumber == 3) {
+                    if (checkBoxSection1.isChecked()) {
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section1).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                    } else if (checkBoxSection2.isChecked()) {
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section2).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                    } else if (checkBoxSection3.isChecked()) {
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section3).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                    } else if (checkBoxSection4.isChecked()) {
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section4).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                    } else if (checkBoxSection5.isChecked()) {
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section5).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                    } else if (checkBoxSection6.isChecked()) {
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section6).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     }
-                    else if(checkBoxSection5.isChecked()){
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section5).health(100).buildCrewMember()), Net.HttpMethods.POST);
-                    }
-                    else if(checkBoxSection6.isChecked()){
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Name1").role(Role.FIGHTER).currentSection(Global.section6).health(100).buildCrewMember()), Net.HttpMethods.POST);
-                    }
+                } else if (itemNumber == 4) {
+                    buyWeapons(List.of(Weapon.WeaponBuilder().damage(50).name("LasserGekauft").hitRate(5).coolDown(1000).section(Global.section2).img("Lasser").build()), Net.HttpMethods.POST);
                 }
-                //setAllSectionCheckboxesFalse();
+                setAllSectionCheckboxesFalse();
             }
         });
     }
@@ -638,16 +680,15 @@ public class ShopScreen extends ScreenAdapter {
                 textArea.setHeight(200);
                 stage.addActor(textArea);
 
-            }
-        }/*else if (itemNumber == 2) {
+            } else if (itemNumber == 2) {
 
-            TextArea textArea = new TextArea("Name: Male CrewMember\nRepairs: 50% per round\nCosts: 100 $", skin);
-            textArea.setPosition(1400,450);
+            TextArea textArea = new TextArea("Name: Name1\nRepairs: 50% per round\nCosts: 50 $", skin);
+            textArea.setPosition(1400, 450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
 
-        } else if (itemNumber == 3){
+        } else if (itemNumber == 3) {
 
             TextArea textArea = new TextArea("Name: Female CrewMember\nRepairs: 60% per round\nCosts: 100 $", skin);
             textArea.setPosition(1400,450);
@@ -657,13 +698,14 @@ public class ShopScreen extends ScreenAdapter {
 
         } else if (itemNumber == 4) {
 
-            TextArea textArea = new TextArea("Name: Security\nAmount: + 10 %\nCosts: 10 $\nInfo: for the whole ship", skin);
+            TextArea textArea = new TextArea("Name: WEAPONLASSER\nAmount: 50  \nCost:30 ", skin);
             textArea.setPosition(1400,450);
             textArea.setWidth(400);
             textArea.setHeight(200);
             stage.addActor(textArea);
         }
-        else if (itemNumber == 5) {
+        }
+        /*else if (itemNumber == 5) {
 
             TextArea textArea = new TextArea("Name: Oxygen\nCosts: 10 $\nInfo: for the whole ship", skin);
             textArea.setPosition(1400,450);
@@ -707,7 +749,7 @@ public class ShopScreen extends ScreenAdapter {
 
         //if(!secureIconS1){ stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 520); }
         if (secureIconS1) {
-            stage.getBatch().draw(securityTexture, playershipX + 150, playershipY + 520);
+            stage.getBatch().draw(weaponTexture, playershipX + 150, playershipY + 520);
         }
         //if(!driveIconS1){ stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 520); }
         if (driveIconS1) {
@@ -715,7 +757,7 @@ public class ShopScreen extends ScreenAdapter {
         }
         //if(!secureIconS2){ stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 140); }
         if (secureIconS2) {
-            stage.getBatch().draw(securityTexture, playershipX + 150, playershipY + 140);
+            stage.getBatch().draw(weaponTexture, playershipX + 150, playershipY + 140);
         }
         ///if(!driveIconS2){ stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 140); }
         if (driveIconS2) {

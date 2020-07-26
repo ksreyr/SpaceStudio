@@ -1,14 +1,8 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.SectionTyp;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
-import de.spaceStudio.server.repository.SectionRepository;
-import de.spaceStudio.server.repository.ShipRepository;
-import de.spaceStudio.server.repository.StopAbstractRepository;
-import de.spaceStudio.server.repository.WeaponRepository;
+import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +22,11 @@ public class WeaponControllerImpl implements WeaponController {
     ShipRepository shipRepository;
     @Autowired
     StopAbstractRepository stopAbstractRepository;
+    @Autowired
+    ShipRessourceRepository shipRessourceRepository;
+
     private float removeOxygen = 20;
+    private int priceWeapon = 30;
 
 
     @Override
@@ -195,6 +193,32 @@ public class WeaponControllerImpl implements WeaponController {
     boolean isOutsideRange(long lastShot, long coolDown) {
         long now = System.currentTimeMillis();
         long timeElapsed = now - lastShot;
-        return ( timeElapsed > coolDown);  // Convert to Milliseconds
+        return (timeElapsed > coolDown);  // Convert to Milliseconds
+    }
+
+    @RequestMapping(value = "/buyweapon", method = RequestMethod.POST)
+    public String buyWeapon(@RequestBody List<Weapon> weapons) {
+        Gson gson = new Gson();
+        Section section = new Section();
+        for (Weapon weapon :
+                weapons) {
+            List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(weapon.getSection().getShip()).get();
+            for (ShipRessource sr : shipRessources) {
+                if (sr.getName().equals(RessourceName.GOLD)) {
+                    if (sr.getAmount() - priceWeapon > 0) {
+                        sr.setAmount(sr.getAmount() - priceWeapon);
+                        shipRessourceRepository.save(sr);
+                    } else {
+                        return gson.toJson(shipRessources);
+                    }
+                }
+            }
+            section = sectionRepository.findById(weapon.getSection().getId()).get();
+            weapon.setSection(section);
+            weaponRepository.save(weapon);
+        }
+        List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(section.getShip()).get();
+
+        return gson.toJson(shipRessources);
     }
 }

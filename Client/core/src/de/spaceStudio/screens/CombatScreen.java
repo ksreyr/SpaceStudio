@@ -33,9 +33,7 @@ import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.*;
-import de.spaceStudio.util.Base;
 import de.spaceStudio.util.GdxUtils;
-import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.*;
@@ -121,6 +119,8 @@ public class CombatScreen extends BaseScreen {
     private final List<Weapon> weaponsToFire = new ArrayList<>();
     private final int shotDelta = 400;
     private int yWeaponPos = 700;
+
+    private Label weaponsLabel;
 
 
     public CombatScreen(MainClient mainClient) {
@@ -467,6 +467,22 @@ public class CombatScreen extends BaseScreen {
         lebengegnerShip.setPosition(100, 20);
         lebenplayerShip.setPosition(20, 20);
 
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
+
+        int row_height = Gdx.graphics.getWidth() / 12;
+        int col_width = Gdx.graphics.getWidth() / 12;
+        Label.LabelStyle label1Style = new Label.LabelStyle();
+
+        BitmapFont myFont = new BitmapFont(Gdx.files.internal("bitmap/amble.fnt"));
+        label1Style.font = myFont;
+        label1Style.fontColor = Color.RED;
+
+        weaponsLabel = new Label("", label1Style);
+        weaponsLabel.setSize(Gdx.graphics.getWidth(), row_height);
+        weaponsLabel.setPosition(50, Gdx.graphics.getHeight() - row_height * 6);
+        weaponsLabel.setAlignment(Align.topLeft);
+
         stage.addActor(lebenplayerShip);
         if (Global.currentShipGegner.getName().equals("Shipgegner2")) {
             stage.addActor(o2);
@@ -483,9 +499,12 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(imageCrewMemberOne);
         stage.addActor(imageCrewMemberTwo);
         stage.addActor(imageCrewMemberThree);
+        stage.addActor(weaponsLabel);
 
 
         Gdx.input.setInputProcessor(stage);
+
+
     }
 
     public int getRandomNumber(int min, int max) {
@@ -716,6 +735,19 @@ public class CombatScreen extends BaseScreen {
         });
     }
 
+    private String getWeaponsStats(List<Weapon> ws) {
+        StringBuilder sb = new StringBuilder();
+
+
+
+        for (Weapon w :
+                ws) {
+            sb.append(String.format("Weapon: %s%n Damage: %s%n Lastshot: %s%n", w.getName(), w.getDamage(), String.valueOf(System.currentTimeMillis() - w.getLastShot() / 1000)));
+        }
+        return sb.toString();
+    }
+
+
 
     // Called when the screen should render itself.
     @Override
@@ -752,6 +784,9 @@ public class CombatScreen extends BaseScreen {
 
 
         }
+
+
+        weaponLabel.setText(getWeaponsStats(Global.combatWeapons.get(Global.currentShipPlayer.getId())));
 
         //Global.combatSections.get(Global.currentShipPlayer.getId()).get(1);
         //Global.combatSections.get(Global.currentShipPlayer.getId()).get(2);
@@ -937,6 +972,10 @@ public class CombatScreen extends BaseScreen {
                     bulletToRemove.add(bullet);
                 }
             }
+
+            bullets.removeAll(bulletToRemove);
+
+
             int p = Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getPowerCurrent();
 
             ArrayList<Bullet> bulletGegnerToRemove = new ArrayList<>();
@@ -947,14 +986,13 @@ public class CombatScreen extends BaseScreen {
                 }
             }
 
-            bulletToRemove.removeAll(bulletToRemove);
             stage.getBatch().end();
             mainClient.getBatch().begin();
             for (Bullet bullet : bullets) {
                 bullet.render(mainClient.getBatch());
             }
 
-            bulletToRemove.removeAll(bulletGegnerToRemove);
+            bulletsEnemy.removeAll(bulletGegnerToRemove);
             stage.getBatch().end();
             mainClient.getBatch().begin();
             for (Bullet bullet : bulletsEnemy) {
