@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import de.spaceStudio.server.handler.ActorState;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -57,6 +58,9 @@ public class PlayerControllerImpl implements PlayerController {
     ShopRessourceRepository shopRessourceRepository;
     @Autowired
     StationRepository stationRepository;
+
+    @Autowired
+    ActorStateRepository actorStateRepository;
     /**
      * This function is temporal in use to test client to Server connection
      * Login user if exists
@@ -108,6 +112,9 @@ public class PlayerControllerImpl implements PlayerController {
         if (fetchPlayer != null && fetchPlayer.isPresent()) {
             return "Name already registered, try another one :)";
         } else {
+            ActorState as = new ActorState();
+            actorStateRepository.save(as);
+            player.setState(as);
             Player savedPlayer = playerRepository.save(player);
             return HttpStatus.CREATED.toString();
         }

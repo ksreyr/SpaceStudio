@@ -191,16 +191,14 @@ digraph automaton {
 
 
 #+BEGIN_SRC dot :file kampfRunde.png
-
 digraph automaton {
-
-rankdir=LR
-startFight -> waitForTurn -> makeTurn -> {energieVerteilen, attackWithWeapon, moveCrew} -> makeTurn -> endTurn
-
-endTurn -> waitForTurn
-
-
-}
+#rankdir=LR
+startFight -> waitForTurn [label="Button Start Fight"]
+           waitForTurn -> makeTurn [label="Text: waiting ..."]
+           makeTurn ->{energieVerteilen, attackWithWeapon, moveCrew} -> makeTurn
+           makeTurn -> endTurn [label="Button: End Turn"]
+           endTurn -> waitForTurn [label="Server nextPlayer"]
+           }
 
 #+END_SRC
 

@@ -1,15 +1,13 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
+import de.spaceStudio.server.handler.ActorState;
 import de.spaceStudio.server.handler.MultiPlayerGame;
-import de.spaceStudio.server.model.Player;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.StopAbstract;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
 import de.spaceStudio.server.utils.Global;
-import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -28,6 +27,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     ShipRepository shipRepository;
     @Autowired
     PlayerRepository playerRepository;
+
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StopAbstractControllerImpl.class);
 
@@ -53,7 +53,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     @Override
     @RequestMapping(value = "/stopAbstract", method = RequestMethod.PUT)
     public StopAbstract updateStopAbstract(@RequestBody StopAbstract stopAbstract) {
-        StopAbstract stopAbstractToUpdate= stopAbstractRepository.save(stopAbstract);
+        StopAbstract stopAbstractToUpdate = stopAbstractRepository.save(stopAbstract);
         return stopAbstractToUpdate;
     }
 
@@ -78,95 +78,123 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         stops.remove(stopStart);
 
         StopAbstract stopEnd = stops.get(0);
-        Player player=new Player();
-        Ship ship= new Ship();
-        ArrayList<Ship> ships= (ArrayList<Ship>) stopStart.getShips();
+//        Optional<Player> p = playerRepository.findById(stopStart.getShips().stream().filter(s -> s.getOwner()
+//                .getClass().getName().equals("Player")).findFirst().get().getId());
+//                // FIXME TERRIBLE BUG. No one knows who wants to jump, if 2 players at stop
+        Optional<Player> p = playerRepository.findById(stopStart.getShips().get(0).getOwner().getId());
+        Optional<Ship> ship = Optional.of(new Ship());
+        ArrayList<Ship> ships = (ArrayList<Ship>) stopStart.getShips();
         for (Ship s :
                 ships) {
-            if(s.getOwner()!=null){
-                player= playerRepository.findByName(s.getOwner().getName()).get();
-                ship=s;
-
+            if (s.getOwner() != null) {
+                ship = Optional.of(s);
                 for (MultiPlayerGame xs :
                         Global.MultiPlayerGameSessions.values()) {
-                    if (xs.players.containsKey(player)) {
-                        xs.players.put(player, true);
-                    }
-                }
-            }
-        }
+                    if (xs.players.contains(p)) {
 
-        ship= shipRepository.findShipByNameAndAndOwner(ship.getName(),player).get();
-        stopStart= stopAbstractRepository.findByShips(ship).get();
-        List<StopAbstract> stopAbstracts = new ArrayList<>();
-        stopAbstracts= stopAbstractRepository.findByUniverse(stopStart.getUniverse()).get();
-        for (StopAbstract s:
-                stopAbstracts) {
-            if(s.getName().equals(stopEnd.getName())){
-                stopEnd=s;
-            }
-
-        }
-        //Delete proces
-        for (Ship s :
-                ships) {
-            if(ship.getName().equals(s.getName())){
-                ships.remove(s);
-                break;
-            }
-        }
-
-
-        stopStart.setShips(ships);
-        stopAbstractRepository.save(stopStart);
-        List<Ship> shipJump= new ArrayList<>();
-        shipJump= stopEnd.getShips();
-        shipJump.add(ship);
-        stopEnd.setShips(shipJump);
-        stopAbstractRepository.save(stopEnd);
-        Gson gson= new Gson();
-
-        return gson.toJson(shipJump);
-    }
-
-
-    @Override
-    public Boolean canLand(Player player) {
-        boolean playersJumping = false;  // Assume no one is jumping
-        for (MultiPlayerGame multiPlayerGame :
-                Global.MultiPlayerGameSessions.values()) {
-
-            // Suche nach dem aktuellen Spieler
-            Player[] playerSet = multiPlayerGame.players.keySet().toArray(new Player[0]);
-
-            // Gucke für jeden Spieler
-            for (int i = 0; i < multiPlayerGame.players.size(); i++) {
-                Player p = playerSet[i];
-
-                if (p.equals(player)) {
-                    for (Boolean b :
-                        // Gucke für jeden Boolean Wert aus dem Game
-                            multiPlayerGame.players.values()) {
-                        if (b) {  // Falls jemand am Springen ist
-                            playersJumping = true;
+                        if (p.isPresent()) {
+                            ActorState state = p.get().getState();
+                            xs.players.remove(p.get());
+                            state.setLobbyState(LobbyState.READY);
+                            xs.players.add(p.get());
+                            LOGGER.info(String.format("Player %s is ready", p.get().getId()));
                         }
                     }
                 }
             }
         }
-        return !playersJumping; // If there are Still Players who are Jumping
+
+        if (p.isPresent()) {
+            ship = shipRepository.findShipByNameAndAndOwner(ship.get().getName(), p.get());
+            if (ship.isPresent()) {
+                stopStart = stopAbstractRepository.findByShips(ship.get()).get();
+
+                List<StopAbstract> stopAbstracts = new ArrayList<>();
+                stopAbstracts = stopAbstractRepository.findByUniverse(stopStart.getUniverse()).get();
+                for (StopAbstract s :
+                        stopAbstracts) {
+                    if (s.getName().equals(stopEnd.getName())) {
+                        stopEnd = s;
+                    }
+
+                }
+                //Delete proces
+                for (Ship s :
+                        ships) {
+                    if (ship.get().getName().equals(s.getName())) {
+                        ships.remove(s);
+                        break;
+                    }
+                }
+
+
+                stopStart.setShips(ships);
+                stopAbstractRepository.save(stopStart);
+                List<Ship> shipJump = new ArrayList<>();
+                shipJump = stopEnd.getShips();
+                shipJump.add(ship.get());
+                stopEnd.setShips(shipJump);
+                stopAbstractRepository.save(stopEnd);
+
+                Gson gson = new Gson();
+
+                return gson.toJson(shipJump);
+            }
+        }
+
+        Gson gson = new Gson();
+
+        return gson.toJson(new ArrayList<Ship>());
+    }
+
+
+    @Override
+    public Boolean canLand(Player player) {
+        boolean canLand = false;  // Assume no one is jumping
+        for (MultiPlayerGame multiPlayerGame :
+                Global.MultiPlayerGameSessions.values()) {
+
+            // Suche nach dem aktuellen Spieler
+            List<Player> playerSet = multiPlayerGame.players;
+
+            // Gucke für jeden Spieler aus dem Spiel
+            for (int i = 0; i < multiPlayerGame.players.size(); i++) {
+                Player p = playerSet.get(i);
+
+                if (p.equals(player)) {  // Dies ist das Spiel des Spielers
+
+                    boolean isWaiting = false;
+                    for (Player p1 :
+                        // Gucke für jeden Boolean Wert aus dem Game
+                            multiPlayerGame.players) {
+                        if (p1.getState().getLobbyState().equals(LobbyState.WAITING)) {  // Falls jemand am Springen ist
+                            isWaiting = true;
+                            break;
+                        }
+                    }
+                    canLand = !isWaiting;
+                }
+            }
+        }
+        return canLand; // If there are Still Players who are Jumping
     }
 
     @Override
     public String hasLanded(Player player) {
         try {
 
-        for (MultiPlayerGame xs :
-                Global.MultiPlayerGameSessions.values()) {
-            if (xs.players.containsKey(player)) {
-                xs.players.put(player, false);
+            for (MultiPlayerGame xs :
+                    Global.MultiPlayerGameSessions.values()) {
+                if (xs.players.contains(player)) {
+                    Optional<Player> p = playerRepository.findById(player.getId());
+                    if (p.isPresent()) {
+                        xs.players.remove(p.get());
+                        ActorState state = p.get().getState();
+                        state.setRoundState(RoundState.EXPLORING);
+                        xs.players.add(player);
+                    }
+                }
             }
-        }
         } catch (Exception e) {
             LOGGER.error("Player has not been Found");
             return HttpStatus.INTERNAL_SERVER_ERROR.toString();
