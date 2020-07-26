@@ -33,6 +33,7 @@ import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.*;
+import de.spaceStudio.util.Base;
 import de.spaceStudio.util.GdxUtils;
 
 import java.util.List;
@@ -739,7 +740,7 @@ public class CombatScreen extends BaseScreen {
 
                     for (Weapon w :
                             weaponsToFire) {
-                        bullets.add(new Bullet(590, yWeaponPos));
+                        bullets.add(new Bullet(590, 793));
 
                         yWeaponPos -= shotDelta;
                     }
@@ -780,15 +781,16 @@ public class CombatScreen extends BaseScreen {
             // FIXME ADD Screen
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)  ) {
             randomNumber = (int) ((Math.random() * (5)) + 0);
             //Set Target->Section of Player and gegner Weapons
             logicOfFireGegner(randomNumber);
+
             //Set Target->Section of  gegner and User Weapons
             logicOfFirePlayer();
             //bullets.add(new Bullet(590, yWeaponPos));
             counterCockpit++;
-            bullets.add(new Bullet(700, 793));
+            bullets.add(new Bullet(BaseScreen.WIDTH, 0));
 
 
 
