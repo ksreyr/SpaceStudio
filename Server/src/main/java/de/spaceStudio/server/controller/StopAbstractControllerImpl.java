@@ -81,8 +81,12 @@ public class StopAbstractControllerImpl implements StopAbstractController {
 //        Optional<Player> p = playerRepository.findById(stopStart.getShips().stream().filter(s -> s.getOwner()
 //                .getClass().getName().equals("Player")).findFirst().get().getId());
 //                // FIXME TERRIBLE BUG. No one knows who wants to jump, if 2 players at stop
-        Optional<Player> p = playerRepository.findById(stopStart.getShips().get(0).getOwner().getId());
-        Optional<Ship> ship = Optional.of(new Ship());
+
+        Optional<Actor> p =  Optional.of(stopStart.getShips().get(0).getOwner());
+        if (stopStart.getShips().size() > 1) {
+            return HttpStatus.EXPECTATION_FAILED.toString();
+        }
+        Optional<Ship> ship = Optional.of(stopStart.getShips().get(0));
         ArrayList<Ship> ships = (ArrayList<Ship>) stopStart.getShips();
         for (Ship s :
                 ships) {
@@ -155,16 +159,16 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                 Global.MultiPlayerGameSessions.values()) {
 
             // Suche nach dem aktuellen Spieler
-            List<Player> playerSet = multiPlayerGame.players;
+            List<Actor> playerSet = multiPlayerGame.players;
 
             // Gucke für jeden Spieler aus dem Spiel
             for (int i = 0; i < multiPlayerGame.players.size(); i++) {
-                Player p = playerSet.get(i);
+                Actor p = playerSet.get(i);
 
                 if (p.equals(player)) {  // Dies ist das Spiel des Spielers
 
                     boolean isWaiting = false;
-                    for (Player p1 :
+                    for (Actor p1 :
                         // Gucke für jeden Boolean Wert aus dem Game
                             multiPlayerGame.players) {
                         if (p1.getState().getLobbyState().equals(LobbyState.WAITING)) {  // Falls jemand am Springen ist

@@ -362,7 +362,12 @@ public class StationsMap extends BaseScreen {
 
     }
 
+    /**
+     *
+     * @param stopAbstract
+     */
     private void jumpService(StopAbstract stopAbstract) {
+        stopAbstract.setShips(List.of(Global.currentShipPlayer));
         ArrayList<StopAbstract> toChange = new ArrayList<>();
         toChange.add(currentStop);
         toChange.add(stopAbstract);

@@ -1,5 +1,6 @@
 package de.spaceStudio.server.handler;
 
+import de.spaceStudio.server.model.Actor;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Ship;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
     public class MultiPlayerGame implements Serializable {
 
-    public List<Player> players;  // Is the Player jumping??
+    public List<Actor> players;  // Is the Player jumping??
     private String universe;
     private Player playerOne;
     private Player playerTwo;
@@ -23,7 +24,7 @@ import java.util.List;
 
         public void setUniverse(String universe) {
             this.universe = universe;
-            this.players = new ArrayList<>();
+            this.players = new ArrayList<de.spaceStudio.server.model.Actor>();
         }
 
     public Player getPlayerOne() {
