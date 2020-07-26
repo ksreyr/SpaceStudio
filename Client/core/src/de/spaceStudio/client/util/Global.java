@@ -23,7 +23,7 @@ public class Global {
     /**
      * Hardcoded server URL
      */
-    public static final String SERVER_URL = "http://localhost:8080";
+    public static String SERVER_URL = "http://localhost:8080";
     /**
      * Server player endpoint
      */
