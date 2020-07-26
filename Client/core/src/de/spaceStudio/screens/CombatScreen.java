@@ -437,9 +437,6 @@ public class CombatScreen extends BaseScreen {
         saveGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Global.IS_SINGLE_PLAYER = false;
-                killTimer = true;
-                mainClient.setScreen(new StationsMap(mainClient));
                 LOG.info("Button CLicked");
                 click.play();
                 Gson gson = new Gson();
