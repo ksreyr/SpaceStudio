@@ -27,7 +27,9 @@ public class Bullet {
     public void update(float deltaTime) {
         x += SPEED * deltaTime;
         if (x > Gdx.graphics.getWidth() - 500) {
+            // FIXME trigger Explosion
             remove = true;
+
         }
     }
 
