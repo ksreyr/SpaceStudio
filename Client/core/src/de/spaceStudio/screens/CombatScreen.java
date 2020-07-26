@@ -92,7 +92,7 @@ public class CombatScreen extends BaseScreen {
     private SpriteBatch batch;
     private Texture playerShip, energy;
     private Texture enemyShip1, enemyShip2, enemyShip3;
-    private Texture background;
+    private Texture background, laser;
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
     private Texture shieldSystem, weaponsSystem, driveSystem;
     //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
@@ -102,7 +102,7 @@ public class CombatScreen extends BaseScreen {
     private List<CrewMember> myCrew;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
-    private boolean isExploied;
+    private boolean isExploied, isLaserActivated;
     private Texture missilleRight, explosion, missilleLeft, weaponSystem;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
     private Skin skinButton;
@@ -208,6 +208,7 @@ public class CombatScreen extends BaseScreen {
         crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
         crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        laser= new Texture("Client/core/assets/combatAssets/laser.jpg");
         imageCrewMemberOne = new Image(crewMemberOne);
         imageCrewMemberTwo = new Image(crewMemberTwo);
         imageCrewMemberThree = new Image(crewMemberThree);
@@ -723,22 +724,18 @@ public class CombatScreen extends BaseScreen {
                             weaponsToFire) {
 
                         if(isTargetCockpit){
-                                bullets.add(new Bullet(590, 793));
+                                bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + 445));
                                 isTargetCockpit = false;
                         }else if(isTargetEngine){
-                            bullets.add(new Bullet(590, 500));
+                            bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + 42));
                             isTargetEngine = false;
-                        }else if(isTargetWeapon){
+                        }else if(isTargetWeapon || isTargetMedical || isTargetO2){
                             bullets.add(new Bullet(590, 650));
                             isTargetWeapon=false;
-                        }else if (isTargetMedical) {
-                            bullets.add(new Bullet(590, 650));
                             isTargetMedical=false;
-                        }
-                        else if (isTargetO2){
-                            bullets.add(new Bullet(590, 650));
                             isTargetO2 = false;
                         }
+
 
                             //bullets.add(new Bullet(590, 650));
 
@@ -793,6 +790,11 @@ public class CombatScreen extends BaseScreen {
             killTimer = true;
             // FIXME ADD Screen
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            stage.getBatch().begin();
+
+            stage.getBatch().end();
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)  ) {
             randomNumber = (int) ((Math.random() * (5)) + 0);
@@ -803,11 +805,11 @@ public class CombatScreen extends BaseScreen {
             logicOfFirePlayer();
             //bullets.add(new Bullet(590, yWeaponPos));
             counterCockpit++;
+
             bullets.add(new Bullet(BaseScreen.WIDTH, 0));
             for (Pair p :
                     Global.ExplosionsToRender) {
                 stage.getBatch().begin();
-
 //                stage.getBatch().draw(explosion, p.getLeft(), p.getRight());
                 stage.getBatch().end();
 

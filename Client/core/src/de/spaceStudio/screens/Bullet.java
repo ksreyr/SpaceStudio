@@ -33,7 +33,7 @@ public class Bullet {
         if (x > Gdx.graphics.getWidth() - 600) {
             // FIXME trigger Explosion
             System.out.println( String.format("Explosion at %s, %s", this.x, this.y ));
-            Global.ExplosionsToRender.add(new Pair(x, y));
+            if(x >Gdx.graphics.getWidth() - 300) Global.ExplosionsToRender.add(new Pair(x, y));
             remove = true;
         }
     }
