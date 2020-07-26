@@ -34,7 +34,6 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
-import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.*;
@@ -65,8 +64,6 @@ public class CombatScreen extends BaseScreen {
     private final Label labelsection4;
     private final Label labelsection5;
     private final Label labelsection6;
-    private final int disappearRight = 570;
-    private final int disappearLeft = 570;
     private final int counterEngine = 0;
     private final int counterWeapon = 0;
     private final OrthographicCamera camera;
@@ -82,45 +79,28 @@ public class CombatScreen extends BaseScreen {
     Sound rocketLaunch;
     ArrayList<Bullet> bullets;
     ArrayList<Bullet> bulletsEnemy;
-    ShipSelectScreen shipSelectScreen;
     //
-    String validation = "";
     String validationGegner = "";
     List<Section> sectionsGegner = Global.combatSections.get(Global.currentShipGegner.getId());
     List<Section> sectionsPlayer = Global.combatSections.get(Global.currentShipPlayer.getId());
-    List<Section> sectionsPlayerTimer = Global.combatSections.get(Global.currentShipPlayer.getId());
     Label lebengegnerShip;
     Label lebenplayerShip;
+    boolean movingAllowed = false;
     private Viewport viewport;
     private Stage stage;
-    private Skin sgxSkin, sgxSkin2;
+    private Skin sgxSkin, sgxSkin2, skin;
     private Sound click;
-    private Skin skin;
     private SpriteBatch batch;
     private Texture playerShip;
     private Texture enemyShip1, enemyShip2, enemyShip3;
-    private Texture hull;
     private Texture background;
-    private Texture crewMemberOne;
-    private Texture crewMemberTwo;
-    private Texture crewMemberThree;
-    private Texture shieldSystem;
-    private Texture weaponsSystem;
-    private Texture driveSystem;
-    private Texture energyWeaponsPanel;
-    private Texture energy;
+    private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
+    private Texture shieldSystem, weaponsSystem, driveSystem;
     //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
-    private RedPin redPinSectionOne;
-    private RedPin redPinSectionTwo;
-    private RedPin redPinSectionThree;
-    private RedPin redPinSectionFour;
-    private RedPin redPinSectionFive;
-    private RedPin redPinSectionSix;
-    private Image imageCrewMemberOne;
-    private Image imageCrewMemberTwo;
-    private Image imageCrewMemberThree;
+    private RedPin redPinSectionOne, redPinSectionTwo, redPinSectionThree, redPinSectionFour, redPinSectionFive, redPinSectionSix;
+    private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
-    private List<CrewMember> myCrew;
+    private final List<CrewMember> myCrew;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
     private boolean isExploied;
@@ -137,10 +117,9 @@ public class CombatScreen extends BaseScreen {
     private Section selectedTarget;
     private Optional<Section> startSectionCrewMove;
     private Optional<Section> endSectionCrewMove;
-    boolean movingAllowed = false;
-    private List<Weapon> weaponsToFire = new ArrayList<>();
-    private int shotDelta = 400;
-    private int yWeaponPos = 798 ;
+    private final List<Weapon> weaponsToFire = new ArrayList<>();
+    private final int shotDelta = 400;
+    private int yWeaponPos = 798;
 
 
     public CombatScreen(MainClient mainClient) {
@@ -434,46 +413,48 @@ public class CombatScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
 
 
-        if(Global.IS_SINGLE_PLAYER) {
-        TextButton saveGameButton = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
-        saveGameButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                LOG.info("Button CLicked");
-                click.play();
-                Gson gson = new Gson();
-                Global.singlePlayerGame.setLastScreen("COMBAT");
-                Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
-                Global.singlePlayerGame.setShipGegner(Global.currentShipGegner);
-                String requestBody = gson.toJson(Global.singlePlayerGame);
-                final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
-                Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
-                Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-                    public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                        final Dialog dialog = new Dialog("Save game", skin, "dialog");
-                        int statusCode = httpResponse.getStatus().getStatusCode();
-                        String responseJson = httpResponse.getResultAsString();
-                        if (responseJson.equals("202 ACCEPTED")) {
-                            LOG.info("Success save game " + statusCode);
-                            saveMessageDialog(dialog, " Saving Game was Successful ");
-                        } else {
-                            LOG.info("Error saving game");
-                            saveMessageDialog(dialog, " Saving Game was not Successful ");
+        if (Global.IS_SINGLE_PLAYER) {
+            TextButton saveGameButton = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
+            saveGameButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Global.IS_SINGLE_PLAYER = false;
+                    killTimer = true;
+                    LOG.info("Button CLicked");
+                    click.play();
+                    Gson gson = new Gson();
+                    Global.singlePlayerGame.setLastScreen("COMBAT");
+                    Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
+                    Global.singlePlayerGame.setShipGegner(Global.currentShipGegner);
+                    String requestBody = gson.toJson(Global.singlePlayerGame);
+                    final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
+                    Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
+                    Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+                        public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                            final Dialog dialog = new Dialog("Save game", skin, "dialog");
+                            int statusCode = httpResponse.getStatus().getStatusCode();
+                            String responseJson = httpResponse.getResultAsString();
+                            if (responseJson.equals("202 ACCEPTED")) {
+                                LOG.info("Success save game " + statusCode);
+                                saveMessageDialog(dialog, " Saving Game was Successful ");
+                            } else {
+                                LOG.info("Error saving game");
+                                saveMessageDialog(dialog, " Saving Game was not Successful ");
+                            }
                         }
-                    }
 
-                    public void failed(Throwable t) {
+                        public void failed(Throwable t) {
 
-                    }
+                        }
 
-                    @Override
-                    public void cancelled() {
-                    }
-                });
-            }
-        });
-        saveGameButton.setPosition(1000, 200);
-        stage.addActor(saveGameButton);
+                        @Override
+                        public void cancelled() {
+                        }
+                    });
+                }
+            });
+            saveGameButton.setPosition(1000, 200);
+            stage.addActor(saveGameButton);
         }
         for (int i = 0; i < listOfCrewImages.size(); i++) {
             dragAndDrop(listOfCrewImages.get(i));
@@ -646,7 +627,7 @@ public class CombatScreen extends BaseScreen {
         for (Weapon w : selectedWeapons) {
             w.setObjectiv(selectedTarget);
         }
-        if(!sectionsPlayer.isEmpty()){
+        if (!sectionsPlayer.isEmpty()) {
             for (Weapon w :
                     selectedWeapons) {
                 w.setSection(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1));
@@ -676,11 +657,7 @@ public class CombatScreen extends BaseScreen {
                 }
                 System.out.println("statusCode moveCrewMember: " + statusCode);
                 String result = httpResponse.getResultAsString();
-                if(result.equals("true")){
-                    movingAllowed = true;
-                }else{
-                    movingAllowed = false;
-                }
+                movingAllowed = result.equals("true");
             }
 
             public void failed(Throwable t) {
@@ -747,9 +724,9 @@ public class CombatScreen extends BaseScreen {
                 }
                 System.out.println("statusCode PlayershotValidation: " + statusCode);
 
-                List<Boolean> firing  = Arrays.asList(gson.fromJson(httpResponse.getResultAsString(), Boolean[].class));
+                List<Boolean> firing = Arrays.asList(gson.fromJson(httpResponse.getResultAsString(), Boolean[].class));
 
-                for (int i = 0; i < selectedWeapons.size() ; i++) {
+                for (int i = 0; i < selectedWeapons.size(); i++) {
                     if (firing.get(i)) {
                         weaponsToFire.add(selectedWeapons.get(i));
                     }
@@ -796,7 +773,7 @@ public class CombatScreen extends BaseScreen {
             stage.addActor(labelsection1);
         }
 
-        new Bullet(BaseScreen.WIDTH,BaseScreen.HEIGHT);
+        new Bullet(BaseScreen.WIDTH, BaseScreen.HEIGHT);
 
         if (Global.currentShipPlayer.getHp() < 1) {
             LOG.info("You have lost the Game");
