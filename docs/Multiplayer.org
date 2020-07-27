@@ -204,3 +204,26 @@ startFight -> waitForTurn [label="Button Start Fight"]
 
 #+RESULTS:
 [[file:kampfRunde.png]]
+
+
+
+#+BEGIN_SRC dot :file actorFight.png
+
+digraph automaton {
+
+        playerEndsTurn -> actorFight [label="GET /game/fight/{session}"]
+        actorFight -> loadValues [label="require section, weapon, ship"]
+        loadValues-> loadValues  -> selectedTarget -> setObjectiv -> setObjectiv -> loadAttackWeapons -> loadAttackWeapons
+        loadAttackWeapons -> shotValidation [label="select all legal Weapons"]
+        shotValidation -> weaponsWhichCanFire [label="validate"]
+        weaponsWhichCanFire -> fireWeapon [label="fire Shot"]
+        fireWeapon -> shotValidation [label="check if can fire again"]
+        fireWeapon -> returnShip [label="when no wepaon can fire"]
+
+
+        }
+
+#+END_SRC
+
+#+RESULTS:
+[[file:actorFight.png]]
