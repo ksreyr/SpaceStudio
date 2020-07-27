@@ -69,6 +69,7 @@ public class CombatScreen extends BaseScreen {
     private final Label labelsection6;
     private final int counterEngine = 0;
     private final int counterWeapon = 0;
+
     private final OrthographicCamera camera;
     boolean isNewExpo, isNewExpo2, isNewExpo3;
     boolean isFired = false;
@@ -122,9 +123,10 @@ public class CombatScreen extends BaseScreen {
     private final List<Weapon> weaponsToFire = new ArrayList<>();
     private final int shotDelta = 400;
     private int yWeaponPos = 700;
-
+    private Boolean gedruck = false;
+    //
     private Label weaponsLabel;
-
+    private TextButton liamButton;
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -150,12 +152,33 @@ public class CombatScreen extends BaseScreen {
         labelsection5 = new Label("Section5", label1Style);
         labelsection6 = new Label("Section6", label1Style);
 
+
+
         weaponLabel = new Label(weaponText[0], label1Style);
         weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
         weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
         weaponLabel.setAlignment(Align.bottomRight);
 
 
+
+    }
+    private void liamButtonFuntion(){
+        liamButton = new TextButton("End Round", skin);
+        liamButton.setPosition(400,100);
+        stage.addActor(liamButton);
+        liamButton.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(gedruck){
+                    liamButton.setText("end Round");
+                    gedruck=false;
+                }else{
+                    liamButton.setText("Waitting");
+                    gedruck=true;
+                }
+
+            }
+        });
     }
 
     private Optional<Section> findSectionByNameAndShip(String name, int id, Boolean currentTarget) {
@@ -182,6 +205,7 @@ public class CombatScreen extends BaseScreen {
         stage = new Stage(viewport, universeMap.getBatch());
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
         scheduleLobby();
+
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         listOfCrewImages = new ArrayList<>();
         redPinSectionOne = new RedPin();
@@ -190,7 +214,6 @@ public class CombatScreen extends BaseScreen {
         redPinSectionFour = new RedPin();
         redPinSectionFive = new RedPin();
         redPinSectionSix = new RedPin();
-
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
@@ -249,6 +272,8 @@ public class CombatScreen extends BaseScreen {
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
 
+
+        liamButtonFuntion();
 
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
