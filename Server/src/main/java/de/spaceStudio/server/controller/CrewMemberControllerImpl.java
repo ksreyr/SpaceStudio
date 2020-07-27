@@ -61,7 +61,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
         String s1 = crewMember.getCurrentSection().getShip().getName();
         Player p1 = playerRepository.findByName(crewMember.
                 getCurrentSection().getShip().getOwner().getName()).get();
-        Ship ship = shipRepository.findShipByNameAndAndOwner(s1, p1).get();
+        Ship ship = shipRepository.findShipByNameAndOwner(s1, p1).get();
         List<Section> sections = sectionRepository.findAllByShip(ship).get();
         for (Section s :
                 sections) {

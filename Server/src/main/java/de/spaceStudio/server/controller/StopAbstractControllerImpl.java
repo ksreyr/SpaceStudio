@@ -109,7 +109,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         }
 
         if (p.isPresent()) {
-            ship = shipRepository.findShipByNameAndAndOwner(ship.get().getName(), p.get());
+            ship = shipRepository.findShipByNameAndOwner(ship.get().getName(), p.get());
             if (ship.isPresent()) {
                 stopStart = stopAbstractRepository.findByShips(ship.get()).get();
 

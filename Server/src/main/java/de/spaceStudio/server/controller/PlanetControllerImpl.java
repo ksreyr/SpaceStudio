@@ -54,12 +54,12 @@ public class PlanetControllerImpl implements PlanetController {
                     p1 = playerRepository.findByName(ship.getOwner().getName()).get();
                     shipReal = ship;
                     shipReal = shipRepository.
-                            findShipByNameAndAndOwner(shipReal.getName(), p1).get();
+                            findShipByNameAndOwner(shipReal.getName(), p1).get();
                 }else{
                     ai = aiRepository.findByName(ship.getOwner().getName()).get();
                     shipReal = ship;
                     shipReal = shipRepository.
-                            findShipByNameAndAndOwner(shipReal.getName(), ai).get();
+                            findShipByNameAndOwner(shipReal.getName(), ai).get();
                 }
                 shipList.add(shipReal);
                 shipList.remove(ship);
