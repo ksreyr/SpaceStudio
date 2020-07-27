@@ -741,17 +741,19 @@ public class CombatScreen extends BaseScreen {
 
                 LOG.info("Firing Wepaons: " + weaponsToFire.toString());
 
+
                 if (!weaponsToFire.isEmpty()) {
                     makeAShot(weaponsToFire, Net.HttpMethods.POST);
 
+                    int y = 42;
                     for (Weapon w :
                             weaponsToFire) {
 
-                            bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + 445));
+                            bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + y));
 
-                            bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + 42));
+                            y = y + shotDelta;
 
-                            bullets.add(new Bullet(590, 650));
+//                            bullets.add(new Bullet(590, 650));
 
 
 

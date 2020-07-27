@@ -21,7 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
-import static de.spaceStudio.client.util.Global.multiPlayerSessionID;
+import static de.spaceStudio.client.util.Global.*;
 
 
 /**
@@ -123,9 +123,7 @@ public class TravelScreen extends ScreenAdapter {
             dot++;
             String dots = "";
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < dot % 5; i++) {
-                sb.append('.');
-            }
+            sb.append(".".repeat(Math.max(0, dot % 5)));
             dots = sb.toString();
             playerLabel.setText(playerText + dots);
         }
@@ -143,6 +141,7 @@ public class TravelScreen extends ScreenAdapter {
                 RequestUtils.weaponsByShip(Global.currentShipGegner);
             }
             killTimer = true;
+            if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0)
             game.setScreen(new StopScreen(game));
         }
         stage.act();
