@@ -107,7 +107,7 @@ public class CombatScreen extends BaseScreen {
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
     private boolean isExploied, isLaserActivated;
-    private Texture missilleRight, explosion, missilleLeft, weaponSystem;
+    private Texture  explosion, missille, weaponSystem;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
     private Skin skinButton;
     private boolean isShieldEnabled, isEnemyShield, isTargetO2, isTargetMedical;
@@ -223,8 +223,7 @@ public class CombatScreen extends BaseScreen {
         enemyShip1 = new Texture("Client/core/assets/combatAssets/enemy1.png");
         enemyShip2 = new Texture("Client/core/assets/combatAssets/enemy_2.png");
         enemyShip3 = new Texture("Client/core/assets/combatAssets/enemy_3.png");
-        missilleRight = new Texture("Client/core/assets/combatAssets/missille_out.png");
-        missilleLeft = new Texture("Client/core/assets/combatAssets/missille_out.png");
+        missille = new Texture("Client/core/assets/combatAssets/missille_out.png");
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
@@ -897,8 +896,19 @@ public class CombatScreen extends BaseScreen {
                 // FIXME Brutal Online
 
             }
-            stage.getBatch().draw(missilleRight, XPlayerShip + 170, YPlayerShip + 22, 400, 50);
-            stage.getBatch().draw(missilleLeft, XPlayerShip + 170, YPlayerShip + 425, 400, 50);
+             // FIXME use Global.combatWeapons
+
+            int y = 22;
+            for (Weapon w :
+                    Global.combatWeapons.get(Global.currentShipPlayer.getId())) {
+                if (w.getName().contains("Rocket")) {
+                    stage.getBatch().draw(missille, XPlayerShip + 170, YPlayerShip + y, 400, 50);
+                    y += 223;
+                } else if (w.getName().contains("Laser")) {
+                   // No Laser Texture FIXME Team Front End
+                }
+            }
+
             //Gegner
             //Shot
             if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {

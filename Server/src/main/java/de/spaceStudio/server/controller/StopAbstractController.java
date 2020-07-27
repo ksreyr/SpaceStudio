@@ -77,8 +77,8 @@ public interface StopAbstractController {
     @RequestMapping(value = "/canLand", method = RequestMethod.GET)
     Boolean canLand(@RequestBody Player player);
 
-
-    @PostMapping(value="/hasLanded" )
-    String hasLanded(@RequestBody Player player);
+//
+//    @PostMapping(value="/hasLanded" )
+//    String hasLanded(@RequestBody Player player);
 
 }

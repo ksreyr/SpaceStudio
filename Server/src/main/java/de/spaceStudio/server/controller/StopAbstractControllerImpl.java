@@ -1,9 +1,10 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.handler.ActorState;
+import de.spaceStudio.server.model.ActorState;
 import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.ActorStateRepository;
 import de.spaceStudio.server.repository.PlayerRepository;
 import de.spaceStudio.server.repository.ShipRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -28,6 +30,8 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     @Autowired
     PlayerRepository playerRepository;
 
+    @Autowired
+    ActorStateRepository actorStateRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StopAbstractControllerImpl.class);
 
@@ -99,7 +103,8 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                         if (p.isPresent()) {
                             ActorState state = p.get().getState();
                             xs.players.remove(p.get());
-                            state.setLobbyState(LobbyState.READY);
+                            state.setStopState(StopState.JUMPING);
+                            actorStateRepository.save(state);
                             xs.players.add(p.get());
                             LOGGER.info(String.format("Player %s is ready", p.get().getId()));
                         }
@@ -167,42 +172,53 @@ public class StopAbstractControllerImpl implements StopAbstractController {
 
                 if (p.equals(player)) {  // Dies ist das Spiel des Spielers
 
-                    boolean isWaiting = false;
+                    boolean needsToWait = false;
                     for (Actor p1 :
                         // Gucke für jeden Boolean Wert aus dem Game
                             multiPlayerGame.players) {
-                        if (p1.getState().getLobbyState().equals(LobbyState.WAITING)) {  // Falls jemand am Springen ist
-                            isWaiting = true;
+                        if (!p1.getState().getStopState().equals(StopState.JUMPING)) {  // Falls jemand am Springen ist
+                            needsToWait = true;
                             break;
                         }
                     }
-                    canLand = !isWaiting;
+                    canLand = !needsToWait;
                 }
+
+                List<Actor> landing = multiPlayerGame.players.stream().filter(u -> u.getState().getStopState().equals(StopState.JUMPING)).collect(Collectors.toList());
+               if (canLand && landing.size() == 2) {
+                   for (Actor actor:
+                        multiPlayerGame.players) {
+                       actor.getState().setStopState(StopState.EXPLORING);
+                       actorStateRepository.save(actor.getState());
+                       LOGGER.info(String.format("Player %s can now Land", player.getId()));
+                   }
+               }
+
             }
         }
         return canLand; // If there are Still Players who are Jumping
     }
 
-    @Override
-    public String hasLanded(Player player) {
-        try {
-
-            for (MultiPlayerGame xs :
-                    Global.MultiPlayerGameSessions.values()) {
-                if (xs.players.contains(player)) {
-                    Optional<Player> p = playerRepository.findById(player.getId());
-                    if (p.isPresent()) {
-                        xs.players.remove(p.get());
-                        ActorState state = p.get().getState();
-                        state.setRoundState(RoundState.EXPLORING);
-                        xs.players.add(player);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error("Player has not been Found");
-            return HttpStatus.INTERNAL_SERVER_ERROR.toString();
-        }
-        return HttpStatus.ACCEPTED.toString();
-    }
+//    @Override
+//    public String hasLanded(Player player) {
+//        try {
+//
+//            for (MultiPlayerGame xs :
+//                    Global.MultiPlayerGameSessions.values()) {
+//                if (xs.players.contains(player)) {
+//                    Optional<Player> p = playerRepository.findById(player.getId());
+//                    if (p.isPresent()) {
+//                        xs.players.remove(p.get());
+//                        ActorState state = p.get().getState();
+//                        state.setStopState(StopState.EXPLORING);
+//                        xs.players.add(player);
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            LOGGER.error("Player has not been Found");
+//            return HttpStatus.INTERNAL_SERVER_ERROR.toString();
+//        }
+//        return HttpStatus.ACCEPTED.toString();
+//    }
 }

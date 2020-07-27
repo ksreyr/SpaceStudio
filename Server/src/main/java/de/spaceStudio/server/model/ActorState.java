@@ -1,8 +1,6 @@
-package de.spaceStudio.server.handler;
+package de.spaceStudio.server.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import de.spaceStudio.server.model.LobbyState;
-import de.spaceStudio.server.model.RoundState;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,11 +16,14 @@ public class ActorState {
     private Integer id;
 
     private LobbyState lobbyState;
-    private RoundState roundState;
+    private StopState stopState;
+    private FightState fightState;
+
 
     public ActorState() {
-        this.roundState = RoundState.EXPLORING;
+        this.stopState = StopState.EXPLORING;
         this.lobbyState = LobbyState.WAITING;
+        this.fightState = FightState.WAITING_FOR_TURN;
     }
 
     public LobbyState getLobbyState() {
@@ -33,11 +34,28 @@ public class ActorState {
         this.lobbyState = lobbyState;
     }
 
-    public RoundState getRoundState() {
-        return roundState;
+    public StopState getStopState() {
+        return stopState;
     }
 
-    public void setRoundState(RoundState roundState) {
-        this.roundState = roundState;
+    public void setStopState(StopState stopState) {
+        this.stopState = stopState;
+
+    }
+
+    public FightState getFightState() {
+        return fightState;
+    }
+
+    public void setFightState(FightState fightState) {
+        this.fightState = fightState;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

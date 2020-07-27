@@ -19,12 +19,6 @@ public class InitializingBeanExampleBean implements InitializingBean {
     private AIRepository aiRepository;
 
     @Autowired
-    private LasserRepository lasserRepository;
-
-    @Autowired
-    private MissileRepository missileRepository;
-
-    @Autowired
     public BeamRepository beamRepository;
 
     @Autowired

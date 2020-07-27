@@ -308,6 +308,8 @@ public class Global {
     }};
     public static boolean allReady = false;  // FIXME change to true when all Player will jump
     public static int currentStopNumber = 0;
+
+    // These Maps use the Ship id
     public static HashMap<Integer, List<Section>> combatSections = new HashMap<>();
     public static HashMap<Integer, List<Weapon>> combatWeapons = new HashMap<>();
     public static HashMap<Integer, List<CrewMember>> combatCrew = new HashMap<>();
