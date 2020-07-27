@@ -174,7 +174,7 @@ public class WeaponControllerImpl implements WeaponController {
     private boolean canShoot(Weapon w) {
 
         Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-        if (w.getObjectiv() != null &&  ship.getHp() > 0 && isOutsideRange(w.getLastShot(), w.getCoolDown())) {
+        if (w.getObjectiv() != null &&  ship.getHp() > 0 && isOutsideRange(w.getLastShot(), w.getWarmUp())) {
              return w.getSection().getUsable();
         }
         return false;
@@ -182,16 +182,18 @@ public class WeaponControllerImpl implements WeaponController {
 
 
     /**
-     * Has the last shot been within coolDown Time
+     * Has last shot been after the coolDown time
      *
      * @param lastShot happend at this time
      * @param coolDown lasts this long
      * @return if the weapon can shot
      */
     boolean isOutsideRange(long lastShot, long coolDown) {
-        long now = System.currentTimeMillis();
-        long timeElapsed = now - lastShot;
-        return (timeElapsed > coolDown);  // Convert to Milliseconds
+        return coolDown <= lastShot;
+
+//        long now = System.currentTimeMillis();
+//        long timeElapsed = now - lastShot;
+//        return (timeElapsed > coolDown);  // Convert to Milliseconds
     }
 
     @RequestMapping(value = "/buyweapon", method = RequestMethod.POST)
