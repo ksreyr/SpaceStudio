@@ -106,8 +106,8 @@ public class CombatScreen extends BaseScreen {
     private List<CrewMember> myCrew;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
-    private boolean isExploied, isLaserActivated;
     private Texture  explosion, missille, weaponSystem;
+    private boolean isExploied, isLaserActivated;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
     private Skin skinButton;
     private boolean isShieldEnabled, isEnemyShield, isTargetO2, isTargetMedical;
@@ -304,7 +304,6 @@ public class CombatScreen extends BaseScreen {
                         break;
 
                 }
-                isTargetO2 = true;
                 o2.getStyle().imageUp = oxygen_sym_red;
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
@@ -318,7 +317,6 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
-                isTargetMedical = true;
                 selectedTarget = Global.section2Gegner;
 
                 healthPoint.getStyle().imageUp = medical_sym_red;
@@ -356,7 +354,6 @@ public class CombatScreen extends BaseScreen {
 
                 }
                 isTargetSelected = true;
-                isTargetEngine = true;
                 engine.getStyle().imageUp = engine_red;
                 weaponSection.getStyle().imageUp = weapon_section;
                 cockpit.getStyle().imageUp = cockpit_nat;
@@ -398,7 +395,6 @@ public class CombatScreen extends BaseScreen {
                 }
 
                 isTargetSelected = true;
-                isTargetWeapon = true;
                 weaponSection.getStyle().imageUp = weapon_section_red;
                 engine.getStyle().imageUp = engine_sym;
                 cockpit.getStyle().imageUp = cockpit_nat;
@@ -433,7 +429,6 @@ public class CombatScreen extends BaseScreen {
                         break;
                 }
                 isTargetSelected = true;
-                isTargetCockpit = true;
                 cockpit.getStyle().imageUp = cockpit_red;
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
@@ -443,11 +438,6 @@ public class CombatScreen extends BaseScreen {
 
             }
         });
-
-
-
-
-
 
         Gdx.input.setInputProcessor(stage);
 
@@ -710,6 +700,8 @@ public class CombatScreen extends BaseScreen {
                     // FIXME Add Win Screen
                 }
 
+                RequestUtils.weaponsByShip(Global.currentShipPlayer);
+
 
                 System.out.println("statusCode playerMakeAShot: " + statusCode);
             }
@@ -785,11 +777,9 @@ public class CombatScreen extends BaseScreen {
     private String getWeaponsStats(List<Weapon> ws) {
         StringBuilder sb = new StringBuilder();
 
-
-
         for (Weapon w :
                 ws) {
-            sb.append(String.format("Weapon: %s%n Damage: %s%n Bullets: %s%n Warmup: %s", w.getName(), w.getDamage(),  w.getCurrentBullets() , w.getWarmUp() ));
+             sb.append(String.format("Weapon: %s%n Damage: %s%n Bullets: %s%n Warmup: %s%n", w.getName(), w.getDamage(),  w.getCurrentBullets() , w.getWarmUp() ));
         }
         return sb.toString();
     }
@@ -816,11 +806,6 @@ public class CombatScreen extends BaseScreen {
             killTimer = true;
             // FIXME ADD Screen
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
-            stage.getBatch().begin();
-
-            stage.getBatch().end();
-        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)  ) {
             randomNumber = (int) ((Math.random() * (5)) + 0);
@@ -830,11 +815,11 @@ public class CombatScreen extends BaseScreen {
             logicOfFirePlayer();
             //bullets.add(new Bullet(590, yWeaponPos));
             counterCockpit++;
-
             bullets.add(new Bullet(BaseScreen.WIDTH, 0));
 
-        }
 
+
+        }
 
 
         weaponLabel.setText(getWeaponsStats(Global.combatWeapons.get(Global.currentShipPlayer.getId())));
@@ -856,25 +841,12 @@ public class CombatScreen extends BaseScreen {
 
             stage.getBatch().begin();
             stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-
-
-
-
             // Render the Ship of the current Player
-
             stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
             stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
             stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
             stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
             //stage.getBatch().draw(energyWeaponsPanel,0,0);
-
-
-            //explososion on enemy weapon
-            //if(!selectedTarget.getUsable()){
-                stage.getBatch().draw(explosion,1400, 500, 100, 100);
-            //}
-
-
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
                 stage.getBatch().draw(redPinSectionTwo.texture, XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
@@ -1016,13 +988,8 @@ public class CombatScreen extends BaseScreen {
             for (Bullet bullet : bullets) {
                 bullet.update(delta);
                 if (bullet.remove) {
-                    System.out.println("Remove from Combat :::::::+ "+bullet.remove);
-
-                    if (isTargetCockpit && bullet.remove) stage.getBatch().draw(explosion,1540, 550, 100, 100);
                     bulletToRemove.add(bullet);
                 }
-
-
             }
 
             bullets.removeAll(bulletToRemove);
@@ -1034,11 +1001,9 @@ public class CombatScreen extends BaseScreen {
             for (Bullet bullet : bulletsEnemy) {
                 bullet.updateTo(delta);
                 if (bullet.remove) {
-
                     bulletGegnerToRemove.add(bullet);
                 }
-
-                           }
+            }
 
             stage.getBatch().end();
             mainClient.getBatch().begin();

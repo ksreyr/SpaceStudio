@@ -135,16 +135,19 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
-    public List<Section> fire(@RequestBody List<Weapon> weapons) {
+    public List<Section> fire(@RequestBody List<Weapon> pWeapons) {
     Random random = new Random();
 
         Ship ship = new Ship();
+
+        List<Weapon> weapons = getWeapons(pWeapons);
+
         for (Weapon weapon :
                 weapons) {
             //Search the objective
             boolean hasHit = (  (float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
+            weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
             if (hasHit) {  // Dont change anything if no hit
-                weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
                 ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
                 if (ship.getShield() > 0) {
                     ship.setShield(ship.getShield() - weapon.getDamage());
@@ -155,28 +158,39 @@ public class WeaponControllerImpl implements WeaponController {
                     weapon.getObjectiv().setOxygen(  weapon.getObjectiv().getOxygen()- removeOxygen);
                     sectionRepository.save(weapon.getObjectiv());
                 }
-                weaponRepository.save(weapon);
             }
             shipRepository.save(ship);
+            weaponRepository.save(weapon);
         }
         Optional<List<Section>> sections = sectionRepository.findAllByShip(ship);
         return sections.orElseGet(ArrayList::new);
     }
 
     @Override
-    public List<Boolean> shotValidation(List<Weapon> weapons) {
+    public List<Boolean> shotValidation(List<Weapon> pWeapons) {
         List<Boolean> shots = new ArrayList<>();
+
+        List<Weapon> weapons = getWeapons(pWeapons);
         weapons.forEach(w -> shots.add(canShoot(w)));
         return shots;
+    }
+
+    private List<Weapon> getWeapons(List<Weapon> pWeapons) {
+        List<Integer> ids = new ArrayList<>();
+        pWeapons.forEach(e -> ids.add(e.getId()));
+        List<Weapon> weapons = weaponRepository.findAllById(ids);
+
+        weapons.forEach(w -> w.setObjectiv(pWeapons.get(0).getObjectiv()));
+        return weapons;
     }
 
     @Override
     public boolean canShoot(Weapon w) {
         Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-        if (w.getObjectiv() != null &&  ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0 ) {
+        if (w.getObjectiv() != null &&  ship.getHp() > 0 && w.getWarmUp () == 0 && w.getCurrentBullets() > 0 ) {
              return w.getSection().getUsable();
         }
-        return false;
+         return false;
     }
 
     @RequestMapping(value = "/buyweapon", method = RequestMethod.POST)
