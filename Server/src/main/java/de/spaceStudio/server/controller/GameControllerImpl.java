@@ -325,7 +325,7 @@ public class GameControllerImpl implements GameController {
     public Ship endRound(Player pPlayer, String session) {
 
         // TODO add Online
-        Optional player = playerRepository.findById(pPlayer.getId());
+        Optional<Player> player = playerRepository.findById(pPlayer.getId());
         if (player.isPresent()) {
 
             Optional<Ship> ship = shipRepository.findByOwner(pPlayer);
@@ -375,9 +375,9 @@ public class GameControllerImpl implements GameController {
             section.get().setPowerCurrent(section.get().getPowerCurrent() + amount);
             sectionRepository.save(section.get());
 
-        }
 
         return section.get();
+        } else return pSection;
     }
 
     /**
@@ -394,8 +394,8 @@ public class GameControllerImpl implements GameController {
 
     /**
      * Sum the required Power for the Ship
-     * @param s
-     * @return
+     * @param s is the Ship
+     * @return the sum of the required Power
      */
     public int sumRequiredPower(Ship s) {
         Optional<List<Section>> sections = sectionRepository.findAllByShip(s);
@@ -406,18 +406,19 @@ public class GameControllerImpl implements GameController {
 
 
     @Override
+    @GetMapping(value = "/game/fight/{session}")
     public Optional<Ship> actorFight(@RequestBody Ship playerShip, @PathVariable String session) {
 
         // Get the AI Ship, Section and Weapons
         AI ai = Global.SinglePlayerGameSessions.get(session).getAi();
+        Optional<Ship> ship = shipRepository.findById(playerShip.getId());
         Optional<Ship> aiShip = shipRepository.findByOwner(ai);
+        if (ship.isPresent() && aiShip.isPresent()) {
         Optional<List<Section>> aiSection = sectionRepository.findAllByShip(aiShip.get());
 
         // Player Ship from DB
-        Optional<Ship> ship = shipRepository.findById(playerShip.getId());
 
 
-        if (ship.isPresent()) {
             Optional<List<Section>> sectionList = sectionRepository.findAllByShip(ship.get());
             if (sectionList.isPresent() && aiSection.isPresent()) {
                 // Figure out which Sections to attack

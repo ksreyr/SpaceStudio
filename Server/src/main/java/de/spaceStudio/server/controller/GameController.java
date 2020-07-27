@@ -80,5 +80,6 @@ public interface GameController {
      * @return the changed Ship
      */
 
+    @GetMapping(value = "/game/fight/{session}")
     Optional<Ship> actorFight(@RequestBody Ship playerShip, @PathVariable String session);
 }
