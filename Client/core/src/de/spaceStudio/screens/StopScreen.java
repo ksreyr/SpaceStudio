@@ -337,12 +337,12 @@ public class StopScreen extends ScreenAdapter {
                                         } else if (object.equals(2l)) {
                                             for (Weapon w :
                                                     Global.weaponListPlayer) {
-                                                w.setCoolDown((int) (w.getCoolDown() + w.getCoolDown() * 0.1)); // FIXME if dammage is below 10 this will fail
+                                                w.setWarmUp((int) (w.getWarmUp() + w.getWarmUp() * 0.1)); // FIXME if dammage is below 10 this will fail
                                             }
                                         } else if (object.equals(3l)) {
                                             for (Weapon w :
                                                     Global.weaponListPlayer) {
-                                                w.setCoolDown((int) (w.getCoolDown() + w.getCoolDown() * 0.1)); // FIXME if dammage is below 10 this will fail
+                                                w.setWarmUp((int) (w.getWarmUp() + w.getWarmUp() * 0.1)); // FIXME if dammage is below 10 this will fail
                                             }
                                         } else if (object.equals(4l)) {
                                             Global.currentShipPlayer.setHp(Global.currentShipPlayer.getHp() + (int) (Global.currentShipPlayer.getHp() * 0.1f));

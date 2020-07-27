@@ -21,8 +21,8 @@ public class Weapon {
 
     private int damage;
 
-    private long coolDown;
-    private long lastShot;
+    private int warmUp;
+    private int lastShot;
 
     private String img;
 
@@ -97,30 +97,30 @@ public class Weapon {
        setName(weaponBuilder.name);
        setSection(weaponBuilder.section);
        setObjectiv(weaponBuilder.objectiv);
-       setCoolDown(weaponBuilder.coolDown);
+       setWarmUp(weaponBuilder.coolDown);
     }
     public static WeaponBuilder WeaponBuilder(){
         return new WeaponBuilder();
     }
 
-    public long getCoolDown() {
-        return coolDown;
+    public int getWarmUp() {
+        return warmUp;
     }
 
-    public void setCoolDown(long coolDown) {
-        this.coolDown = coolDown;
+    public void setWarmUp(int coolDown) {
+        this.warmUp = coolDown;
     }
 
-    public long  getLastShot() {
+    public int getLastShot() {
         return lastShot;
     }
 
-    public void setLastShot(long lastShot) {
+    public void setLastShot(int lastShot) {
         this.lastShot = lastShot;
     }
 
     public  static class WeaponBuilder{
-        public long coolDown;
+        public int coolDown;
         private Integer id;
         private String name;
         private int hitRate;
@@ -139,7 +139,7 @@ public class Weapon {
                              String img,
                              Section section,
                              Section objectiv,
-                             long coolDown)
+                             int coolDown)
         {
             this.id = id;
             this.name = name;
@@ -180,7 +180,7 @@ public class Weapon {
             return WeaponBuilder.this;
         }
 
-        public WeaponBuilder coolDown(long coolDown){
+        public WeaponBuilder coolDown(int coolDown){
             this.coolDown= coolDown;
             return WeaponBuilder.this;
         }
