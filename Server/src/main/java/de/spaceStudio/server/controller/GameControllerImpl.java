@@ -324,7 +324,6 @@ public class GameControllerImpl implements GameController {
     @Override
     public Ship endRound(Player pPlayer, String session) {
 
-
         // TODO add Online
         Optional player = playerRepository.findById(pPlayer.getId());
         if (player.isPresent()) {
@@ -333,6 +332,7 @@ public class GameControllerImpl implements GameController {
             if (ship.isPresent()) {
                 actorFight(ship.get(), session);
                 actorChangePower(ship.get());
+                // FIXME update Round Count to updating the warmUp of weapons
 
                 return shipRepository.findById(ship.get().getId()).get();
             }
