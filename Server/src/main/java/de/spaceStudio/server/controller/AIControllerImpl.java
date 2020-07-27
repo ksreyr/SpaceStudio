@@ -1,8 +1,10 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
+import de.spaceStudio.server.handler.ActorState;
 import de.spaceStudio.server.model.AI;
 import de.spaceStudio.server.repository.AIRepository;
+import de.spaceStudio.server.repository.ActorStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,10 @@ import java.util.List;
 public class AIControllerImpl implements AIController {
     @Autowired
     AIRepository aiRepository;
+
+    @Autowired
+    ActorStateRepository actorStateRepository;
+
     /**
      * Get all AIs from db
      *
@@ -45,13 +51,16 @@ public class AIControllerImpl implements AIController {
      */
     @Override
     public String addAI(AI ai) {
+        ActorState as = new ActorState();
+        actorStateRepository.save(as);
+        ai.setState(as);
         aiRepository.save(ai);
         return HttpStatus.CREATED.toString();
     }
 
     @RequestMapping(value = "/AIs", method = RequestMethod.POST)
     public String addAI(@RequestBody List<AI> ais) {
-        List<AI> aisSaved= new ArrayList<AI>();
+        List<AI> aisSaved= new ArrayList<>();
         for (AI ai :
                 ais) {
             AI aisaved=aiRepository.save(ai);

@@ -21,6 +21,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
@@ -35,6 +38,7 @@ import thirdParties.GifDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
@@ -62,7 +66,7 @@ public class StationsMap extends BaseScreen {
     private final boolean isGameSaved = false;
     Animation<TextureRegion> start_ship;
     boolean isLast, test;
-    List<Pair> coord = new ArrayList<Pair>();
+    List<Pair> coord = new ArrayList<>();
     private ImageButton planet1ImgBTN, planet2ImgBTN, planet3ImgBTN, planet4ImgBTN, planet5ImageBTN;
     private ImageButton startPoint;
     private ImageButton shopImg;
@@ -73,7 +77,7 @@ public class StationsMap extends BaseScreen {
     //
     private Boolean control = false;
     private TextButton saveGameButton;
-    private List<Ship> shipList = new ArrayList<Ship>();
+    private List<Ship> shipList = new ArrayList<>();
     private Sound click;
     private float xShip = 240;
     private float yShip = 150;
@@ -113,7 +117,9 @@ public class StationsMap extends BaseScreen {
         setStartPoint(drawable_station_unvisited);
 
 
-        RequestUtils.hasLanded(Global.currentPlayer);
+        if (!Global.IS_SINGLE_PLAYER) {
+            RequestUtils.hasLanded(Global.currentPlayer);
+        }
 
         stage.addActor(planet1ImgBTN);
         stage.addActor(planet2ImgBTN);
@@ -142,7 +148,7 @@ public class StationsMap extends BaseScreen {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(shopImg, textAreaShop);
                             jumpService(Global.station1);
@@ -169,7 +175,7 @@ public class StationsMap extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 final Dialog dialog = new Dialog("Start Point", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") ;
+                        if (Objects.equals(obj.toString(), "true")) ;
 
                     }
                 };
@@ -198,7 +204,7 @@ public class StationsMap extends BaseScreen {
                 Global.currentStop = Global.planet1;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(planet1ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 1;
@@ -229,7 +235,7 @@ public class StationsMap extends BaseScreen {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(planet2ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 2;
@@ -263,7 +269,7 @@ public class StationsMap extends BaseScreen {
                 Global.currentStop = Global.planet3;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(planet3ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 3;
@@ -300,7 +306,7 @@ public class StationsMap extends BaseScreen {
                 Global.currentStop = Global.planet4;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             counter++;
                             hoverListener(planet4ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 4;
@@ -333,7 +339,7 @@ public class StationsMap extends BaseScreen {
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
 
-                        if (obj.toString() == "true") {
+                        if (Objects.equals(obj.toString(), "true")) {
                             isLast = true;
                         }
 
@@ -361,8 +367,13 @@ public class StationsMap extends BaseScreen {
 
     }
 
+    /**
+     *
+     * @param stopAbstract
+     */
     private void jumpService(StopAbstract stopAbstract) {
-        ArrayList<StopAbstract> toChange = new ArrayList<StopAbstract>();
+        stopAbstract.setShips(List.of(Global.currentShipPlayer));
+        ArrayList<StopAbstract> toChange = new ArrayList<>();
         toChange.add(currentStop);
         toChange.add(stopAbstract);
         if (shipList.isEmpty()) {
@@ -371,9 +382,14 @@ public class StationsMap extends BaseScreen {
     }
 
     public void makeJumpRequest(Object requestObject, String method) {
-        final Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestJson = null;
+        try {
+            requestJson = objectMapper.writeValueAsString(requestObject);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            LOG.info("failed to serialise json");
+        }
         final String url = Global.SERVER_URL + Global.MAKEJUMP_CREATION_ENDPOINT;
         final Net.HttpRequest request = setupRequest(url, requestJson, method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
@@ -384,9 +400,12 @@ public class StationsMap extends BaseScreen {
                 }
                 LOG.info("statusCode of the Jump: " + statusCode);
                 String shipsList = httpResponse.getResultAsString();
-                Gson gson = new Gson();
-                Ship[] aiArray = gson.fromJson(shipsList, Ship[].class);
-                shipList = Arrays.asList(aiArray);
+                try {
+                    shipList = objectMapper.readValue(shipsList, new TypeReference<List<Ship>>() {
+                    });
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
 
             }
 

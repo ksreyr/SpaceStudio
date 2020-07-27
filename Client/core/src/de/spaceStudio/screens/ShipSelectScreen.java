@@ -120,6 +120,7 @@ public class ShipSelectScreen extends BaseScreen {
     private TextButton backMenuButton;
     private TextButton easyButton;
     private TextButton normalButton;
+
     private boolean isOpen;
     private int levelDifficult = 0;
     private boolean killTimer;
@@ -128,7 +129,6 @@ public class ShipSelectScreen extends BaseScreen {
     private boolean deployMultiplayer;
     private int counter = 0;
 
-    //
     public ShipSelectScreen(MainClient game) {
         super(game);
         this.mainClient = game;
@@ -160,6 +160,7 @@ public class ShipSelectScreen extends BaseScreen {
             // top left position
             drawLobby();
         }
+
 
         crew1 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew1.gif").read());
         crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
@@ -270,9 +271,11 @@ public class ShipSelectScreen extends BaseScreen {
             stage.addActor(easyButton);
             stage.addActor(normalButton);
         }
+
         stage.addActor(crew_1_name);
         stage.addActor(crew_2_name);
         stage.addActor(crew_3_name);
+
     }
 
 
@@ -521,6 +524,7 @@ public class ShipSelectScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
+
         if (!IS_SINGLE_PLAYER) {
             scheduleLobby();
         } else {
@@ -772,7 +776,7 @@ public class ShipSelectScreen extends BaseScreen {
             }
 
             if (requestcounter == 10) {
-                List<Section> sectionsforU2 = new ArrayList<Section>();
+                List<Section> sectionsforU2 = new ArrayList<>();
                 for (Section s :
                         Global.sectionsgegner1) {
                     s.setShip(shipGegner1);
@@ -819,18 +823,25 @@ public class ShipSelectScreen extends BaseScreen {
                 List<Section> sectionsgegner6 = new ArrayList<>();
                 for (Section s :
                         sectionList) {
-                    if (s.getShip().getName().equals("Shipgegner1")) {
-                        sectionsgegner1.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner2")) {
-                        sectionsgegner2.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner3")) {
-                        sectionsgegner3.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner4")) {
-                        sectionsgegner4.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner5")) {
-                        sectionsgegner5.add(s);
-                    } else if (s.getShip().getName().equals("Shipgegner6")) {
-                        sectionsgegner6.add(s);
+                    switch (s.getShip().getName()) {
+                        case "Shipgegner1":
+                            sectionsgegner1.add(s);
+                            break;
+                        case "Shipgegner2":
+                            sectionsgegner2.add(s);
+                            break;
+                        case "Shipgegner3":
+                            sectionsgegner3.add(s);
+                            break;
+                        case "Shipgegner4":
+                            sectionsgegner4.add(s);
+                            break;
+                        case "Shipgegner5":
+                            sectionsgegner5.add(s);
+                            break;
+                        case "Shipgegner6":
+                            sectionsgegner6.add(s);
+                            break;
                     }
 
                 }

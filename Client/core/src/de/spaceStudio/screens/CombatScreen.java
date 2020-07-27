@@ -32,7 +32,10 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.model.CrewMember;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.Weapon;
 import de.spaceStudio.util.GdxUtils;
 
 import java.util.List;
@@ -66,6 +69,7 @@ public class CombatScreen extends BaseScreen {
     private final Label labelsection6;
     private final int counterEngine = 0;
     private final int counterWeapon = 0;
+
     private final OrthographicCamera camera;
     boolean isNewExpo, isNewExpo2, isNewExpo3;
     boolean isFired = false;
@@ -119,9 +123,10 @@ public class CombatScreen extends BaseScreen {
     private final List<Weapon> weaponsToFire = new ArrayList<>();
     private final int shotDelta = 400;
     private int yWeaponPos = 700;
-
+    private Boolean gedruck = false;
+    //
     private Label weaponsLabel;
-
+    private TextButton liamButton;
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -147,12 +152,33 @@ public class CombatScreen extends BaseScreen {
         labelsection5 = new Label("Section5", label1Style);
         labelsection6 = new Label("Section6", label1Style);
 
+
+
         weaponLabel = new Label(weaponText[0], label1Style);
         weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
         weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
         weaponLabel.setAlignment(Align.bottomRight);
 
 
+
+    }
+    private void liamButtonFuntion(){
+        liamButton = new TextButton("End Round", skin);
+        liamButton.setPosition(400,100);
+        stage.addActor(liamButton);
+        liamButton.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(gedruck){
+                    liamButton.setText("end Round");
+                    gedruck=false;
+                }else{
+                    liamButton.setText("Waitting");
+                    gedruck=true;
+                }
+
+            }
+        });
     }
 
     private Optional<Section> findSectionByNameAndShip(String name, int id, Boolean currentTarget) {
@@ -179,6 +205,7 @@ public class CombatScreen extends BaseScreen {
         stage = new Stage(viewport, universeMap.getBatch());
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
         scheduleLobby();
+
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         listOfCrewImages = new ArrayList<>();
         redPinSectionOne = new RedPin();
@@ -187,7 +214,6 @@ public class CombatScreen extends BaseScreen {
         redPinSectionFour = new RedPin();
         redPinSectionFive = new RedPin();
         redPinSectionSix = new RedPin();
-
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
@@ -247,6 +273,8 @@ public class CombatScreen extends BaseScreen {
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
 
+
+        liamButtonFuntion();
 
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
@@ -471,8 +499,8 @@ public class CombatScreen extends BaseScreen {
         for(int i = 0; i < listOfCrewImages.size(); i++){
             listOfCrewImages.get(i).setName(myCrew.get(i).getName());
         }
-        for (int i = 0; i < listOfCrewImages.size(); i++) {
-            dragAndDrop(listOfCrewImages.get(i));
+        for (Image listOfCrewImage : listOfCrewImages) {
+            dragAndDrop(listOfCrewImage);
         }
 
         lebengegnerShip.setPosition(100, 20);
@@ -584,9 +612,9 @@ public class CombatScreen extends BaseScreen {
      * @return CrewMember object of image
      */
     private CrewMember getDraggedCrewMember(Image imageCrewMember){
-        for(int i = 0; i < myCrew.size(); i++){
-            if(myCrew.get(i).getName().equals(imageCrewMember.getName())){
-                return myCrew.get(i);
+        for (CrewMember crewMember : myCrew) {
+            if (crewMember.getName().equals(imageCrewMember.getName())) {
+                return crewMember;
             }
         }
         return null;
@@ -762,7 +790,7 @@ public class CombatScreen extends BaseScreen {
 
         for (Weapon w :
                 ws) {
-            sb.append(String.format("Weapon: %s%n Damage: %s%n Lastshot: %s%n", w.getName(), w.getDamage(), String.valueOf(System.currentTimeMillis() - w.getLastShot() / 1000)));
+            sb.append(String.format("Weapon: %s%n Damage: %s%n Lastshot: %s%n", w.getName(), w.getDamage(), (System.currentTimeMillis() - w.getLastShot() / 1000)));
         }
         return sb.toString();
     }
@@ -1081,14 +1109,14 @@ public class CombatScreen extends BaseScreen {
     }
 
     private void logicOfFireGegner(int sectionNumber) {
-        List<Weapon> weaponList = new ArrayList<>();
+        List<Weapon> weaponList = new ArrayList<>();  // FIXME was soll diese Liste
         if (Global.currentShipGegner != null) {
             if (Global.currentUniverse.getName().equals("Normal" + Global.currentPlayer.getName())) {
                 switch (Global.currentShipGegner.getName()) {
                     case "Shipgegner1":
                         for (Weapon w :
                                 Global.weaponListGegner1) {
-                            if (w.getSection().getShip().getId() == Global.currentShipGegner.getId()) {
+                            if (Objects.equals(w.getSection().getShip().getId(), Global.currentShipGegner.getId())) {
                                 //Weapons gegner set Weapons Section of Player
                                 if (sectionNumber == 2) {
                                     w.setObjectiv(Global.section2);
@@ -1108,7 +1136,7 @@ public class CombatScreen extends BaseScreen {
                     case "Shipgegner2":
                         for (Weapon w :
                                 Global.weaponListGegner2) {
-                            if (w.getSection().getShip().getId() == Global.currentShipGegner.getId()) {
+                            if (Objects.equals(w.getSection().getShip().getId(), Global.currentShipGegner.getId())) {
                                 //Weapons gegner set Weapons Section of Player
                                 if (sectionNumber == 2) {
                                     w.setObjectiv(Global.section2);
@@ -1128,7 +1156,7 @@ public class CombatScreen extends BaseScreen {
                     case "Shipgegner3":
                         for (Weapon w :
                                 Global.weaponListGegner3) {
-                            if (w.getSection().getShip().getId() == Global.currentShipGegner.getId()) {
+                            if (Objects.equals(w.getSection().getShip().getId(), Global.currentShipGegner.getId())) {
                                 //Weapons gegner set Weapons Section of Player
                                 if (sectionNumber == 2) {
                                     w.setObjectiv(Global.section2);

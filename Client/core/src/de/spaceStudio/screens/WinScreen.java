@@ -21,6 +21,8 @@ import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.util.GdxUtils;
 
+import java.util.Objects;
+
 public class WinScreen extends BaseScreen {
 
     private final AssetManager assetManager;
@@ -62,7 +64,7 @@ public class WinScreen extends BaseScreen {
 
         final Dialog dialog = new Dialog("Information", skin) {
             public void result(Object obj) {
-                if (obj.toString() == "true") {
+                if (Objects.equals(obj.toString(), "true")) {
                     //hoverListener(planet3ImgBTN,textAreaVIS);
 
                 }

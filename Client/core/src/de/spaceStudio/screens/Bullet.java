@@ -34,9 +34,7 @@ public class Bullet {
             // FIXME trigger Explosion
               remove = true;
             System.out.println( String.format("Explosion at %s, %s", this.x, this.y ));
-            //if(x >Gdx.graphics.getWidth() - 300) Global.ExplosionsToRender.add(new Pair(x-300, y-300));
-            //isExploded = true;
-
+            remove = true;
         }
     }
 
@@ -45,15 +43,6 @@ public class Bullet {
         if (x > Gdx.graphics.getWidth() - 500) {
             remove = true;
         }
-
-
-    }
-
-    public void renderExpo(SpriteBatch batch) {
-
-        batch.draw(explosion, x, y);
-
-
     }
 
 

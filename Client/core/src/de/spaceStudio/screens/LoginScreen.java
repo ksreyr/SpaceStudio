@@ -49,6 +49,7 @@ public class LoginScreen extends BaseScreen {
     private final Skin skin;
     private final TextButton login;
     private final TextButton register;
+    private final TextButton changeButton;
     private final Label loginConfirmation;
     private final Label registerConfirmation;
     private final TextButton mute;
@@ -60,6 +61,7 @@ public class LoginScreen extends BaseScreen {
     Animation<TextureRegion> animation;
     private TextField userName, newUserName;
     private TextField userPassword, newUserPassword, confirmPassword;
+    private TextField serverUrlTextField;
     private boolean isPressed = false;
     private float state = 0.0f;
 
@@ -86,7 +88,7 @@ public class LoginScreen extends BaseScreen {
         stage = new Stage(viewport);
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-
+        serverUrlTextField();
         existedUserName();
         existedUserPassword();
 
@@ -107,7 +109,11 @@ public class LoginScreen extends BaseScreen {
         registerConfirmation.setSize(110, 50);
         registerConfirmation.setPosition(BUTTON_REGISTER_X, 360);
 
+        changeButton = new TextButton("Change", skin);
         register = new TextButton("Register", skin);
+        setTextButton(changeButton, TEXTBOX_WIDTH,70,
+                (int) ((BaseScreen.WIDTH/2f) - (serverUrlTextField.getWidth()/2f-220)), 680);
+        changeButton.getLabel().setColor(Color.BLACK);
         setTextButton(register, TEXTBOX_WIDTH, 70, (int) BUTTON_REGISTER_X, 300);
         register.getLabel().setColor(Color.BLACK);
 
@@ -141,6 +147,7 @@ public class LoginScreen extends BaseScreen {
 
 
         stage.addActor(loginConfirmation);
+        stage.addActor(serverUrlTextField);
         stage.addActor(userName);
         stage.addActor(newUserName);
         stage.addActor(userPassword);
@@ -149,9 +156,24 @@ public class LoginScreen extends BaseScreen {
         stage.addActor(registerConfirmation);
         stage.addActor(login);
         stage.addActor(register);
+        stage.addActor(changeButton);
         stage.addActor(mute);
         stage.addActor(exit);
+    }
 
+    private void serverUrlTextField() {
+        serverUrlTextField = new TextField("Server Url", skin);
+        serverUrlTextField.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
+        serverUrlTextField.setPosition(((BaseScreen.WIDTH/2f) - serverUrlTextField.getWidth()/2f), 700);
+        serverUrlTextField.setMaxLength(TEXTBOX_LENGTH+20); //max chars for username
+
+        serverUrlTextField.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                serverUrlTextField.setText("");
+            }
+        });
     }
 
     @Override
@@ -442,11 +464,21 @@ public class LoginScreen extends BaseScreen {
         return userPassword.getText();
     }
 
+    private void changeServerUrl() {
+        changeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Global.SERVER_URL = serverUrlTextField.getText();
+            }
+        });
+    }
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
         loginUser();
         createNewUser();
+        changeServerUrl();
     }
 
     @Override
@@ -463,7 +495,6 @@ public class LoginScreen extends BaseScreen {
         keyboard.dispose();
         stage.dispose();
         mouseClick.dispose();
-
     }
 
 

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -55,8 +54,6 @@ public final class RequestUtils {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 LOG.info("statusCode: " + statusCode);
                 responseString[0] = httpResponse.getResultAsString();
-
-
 
                 if (url.contains("sections")) {
                     try {

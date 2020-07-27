@@ -82,7 +82,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
     @RequestMapping(value = "/crewmemberstoadd", method = RequestMethod.POST)
     public String addCrewMembers(@RequestBody List<CrewMember> crewMembers) {
 
-        List<Section> sections=new ArrayList<Section>();
+        List<Section> sections= new ArrayList<>();
         for (CrewMember c :
                 crewMembers) {
             crewMemberRepository.save(c);
@@ -196,7 +196,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
            sectionOld = Optional.ofNullable(crewMemberOld.get().getCurrentSection());
        }
 
-        if (!sectionOld.equals(sectionNew)) {
+        if (!sectionOld.get().equals(sectionNew)) {
             if (crewMemberOld.isEmpty()) {
                 logger.error("Illegal Request made from Client updatePostion(" + crewMember.getId() + "to " + sectionNew + ")");
                 return crewMemberOld.get();
@@ -217,7 +217,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
             return null;
         }
         List<Section> sections = sectionRepository.findAllByShip(ship.get()).get();
-        List<CrewMember> crewMembers = new ArrayList<CrewMember>();
+        List<CrewMember> crewMembers = new ArrayList<>();
         for (Section s: sections) {
             Optional<ArrayList<CrewMember>> crews = crewMemberRepository.findAllByCurrentSection(s);
             if (crews.isPresent()) {

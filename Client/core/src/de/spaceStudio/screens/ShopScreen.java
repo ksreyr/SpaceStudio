@@ -24,7 +24,9 @@ import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.*;
+import de.spaceStudio.util.Base;
 import de.spaceStudio.util.GdxUtils;
 
 import java.util.ArrayList;
@@ -172,6 +174,8 @@ public class ShopScreen extends ScreenAdapter {
         backToMap.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                RequestUtils.weaponsByShip(Global.currentShipPlayer);
+                RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
                 mainClient.setScreen(new StationsMap(mainClient));
             }
         });
@@ -240,7 +244,10 @@ public class ShopScreen extends ScreenAdapter {
     public void getShopRessourcen(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
+        Gson gson = new Gson();
+        gson.toJson(requestObject);
+        String requestJson = json.toJson(requestObject);
+        requestJson=gson.toJson(requestObject);
         final String url = Global.SERVER_URL + Global.GET_RESSOURCE_BY_STOP;
         final Net.HttpRequest request = setupRequest(url, requestJson, method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
@@ -254,7 +261,7 @@ public class ShopScreen extends ScreenAdapter {
                 Gson gson = new Gson();
                 ShopRessource[] shopRessourceList = gson.fromJson(shopRessource, ShopRessource[].class);
                 shopRessources = Arrays.asList(shopRessourceList);
-                System.out.println("statusCode makeAShot: " + statusCode);
+                System.out.println("statusCode getShopRessourcen: " + statusCode);
             }
 
             public void failed(Throwable t) {

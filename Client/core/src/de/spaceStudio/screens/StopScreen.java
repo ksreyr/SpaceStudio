@@ -13,11 +13,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
-import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.Weapon;
 
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -197,7 +197,7 @@ public class StopScreen extends ScreenAdapter {
 
             @Override
             protected void result(final Object object) {
-                if (object.toString() == "true") {
+                if (Objects.equals(object.toString(), "true")) {
                     final int event_number = getRandomNumberInRange(0, 3);
                     new Dialog("After a while:", skin) {
 
@@ -372,7 +372,7 @@ public class StopScreen extends ScreenAdapter {
 
                         }
                     }.show(stage);
-                } else if (object.toString() == "false") {
+                } else if (Objects.equals(object.toString(), "false")) {
                     new Dialog("Go back to Map", skin) {
 
                         {

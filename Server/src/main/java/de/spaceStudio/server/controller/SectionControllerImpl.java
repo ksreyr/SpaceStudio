@@ -47,7 +47,7 @@ public class SectionControllerImpl implements SectionController {
      */
     @Override
     public List<Section> getAllSections() {
-        return (List<Section>) repository.findAll();
+        return repository.findAll();
     }
 
     /**

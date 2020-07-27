@@ -3,7 +3,10 @@ package de.spaceStudio;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.spaceStudio.screens.*;
+import de.spaceStudio.screens.CombatScreen;
+import de.spaceStudio.screens.LoginScreen;
+import de.spaceStudio.screens.StopScreen;
+import de.spaceStudio.screens.WinScreen;
 
 public class MainClient extends Game {
 

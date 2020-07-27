@@ -1,20 +1,22 @@
 package de.spaceStudio.server.handler;
 
+import de.spaceStudio.server.model.Actor;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.Ship;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
     public class MultiPlayerGame implements Serializable {
 
-    public Map<Player, Boolean> players;  // Is the Player jumping??
+    public List<Actor> players;  // Is the Player jumping??
     private String universe;
     private Player playerOne;
     private Player playerTwo;
     private Ship shipPlayerOne;
     private Ship shipPlayerTwo;
+
 
     public String getUniverse() {
         return universe;
@@ -22,7 +24,7 @@ import java.util.Map;
 
         public void setUniverse(String universe) {
             this.universe = universe;
-            this.players = new HashMap<>();
+            this.players = new ArrayList<de.spaceStudio.server.model.Actor>();
         }
 
     public Player getPlayerOne() {

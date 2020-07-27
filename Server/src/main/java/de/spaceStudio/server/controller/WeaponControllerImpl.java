@@ -51,7 +51,7 @@ public class WeaponControllerImpl implements WeaponController {
     public List<Weapon> getWeapons(@PathVariable Integer id) {
         Optional<Ship> ship = shipRepository.findById(id);
         if (ship.isEmpty()) {
-            return new ArrayList<Weapon>();
+            return new ArrayList<>();
         }
         List<Section> sections = sectionRepository.findAllByShip(ship.get()).get();
         List<Weapon> weapons = new ArrayList<>();
@@ -83,7 +83,7 @@ public class WeaponControllerImpl implements WeaponController {
 
     @RequestMapping(value = "/listweapons", method = RequestMethod.POST)
     public String addWeapons(@RequestBody List<Weapon> weapons) {
-        List<Weapon> weaponList = new ArrayList<Weapon>();
+        List<Weapon> weaponList = new ArrayList<>();
         for (Weapon w :
                 weapons) {
             Weapon weapon = weaponRepository.save(w);
@@ -167,9 +167,7 @@ public class WeaponControllerImpl implements WeaponController {
 
     public List<Boolean> shotValidation(List<Weapon> weapons) {
         List<Boolean> shots = new ArrayList<>();
-        weapons.forEach(w -> {
-             shots.add(canShoot(w));
-    });
+        weapons.forEach(w -> shots.add(canShoot(w)));
         return shots;
     }
 

@@ -80,7 +80,7 @@ public class PlanetControllerImpl implements PlanetController {
 
     @RequestMapping(value = "/listplanet", method = RequestMethod.POST)
     public String addPlanets(@RequestBody List<Planet> planets) {
-        List<Planet> planetadded= new ArrayList<Planet>();
+        List<Planet> planetadded= new ArrayList<>();
         for (Planet p :
                 planets) {
            Planet planet= planetRepository.save(p);
