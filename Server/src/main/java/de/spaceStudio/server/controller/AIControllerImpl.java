@@ -1,7 +1,7 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.handler.ActorState;
+import de.spaceStudio.server.model.ActorState;
 import de.spaceStudio.server.model.AI;
 import de.spaceStudio.server.repository.AIRepository;
 import de.spaceStudio.server.repository.ActorStateRepository;

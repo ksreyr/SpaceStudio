@@ -1,7 +1,6 @@
 package de.spaceStudio.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.spaceStudio.server.handler.ActorState;
 
 import javax.persistence.*;
 import java.util.List;

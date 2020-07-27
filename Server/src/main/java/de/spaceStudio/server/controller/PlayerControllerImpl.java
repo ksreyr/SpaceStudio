@@ -1,6 +1,6 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.handler.ActorState;
+import de.spaceStudio.server.model.ActorState;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;

@@ -1,11 +1,10 @@
 package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.handler.SinglePlayerGame;
-import de.spaceStudio.server.model.Player;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import java.util.Optional;
 
 public interface GameController {
@@ -22,7 +21,7 @@ public interface GameController {
     String destroyMultiPlayerGameSession(@PathVariable("sessionID") String sessionID);
 
     @RequestMapping(value = "/game/sessions/single-player", method = RequestMethod.GET)
-@ResponseBody
+    @ResponseBody
     String getAllSinglePlayerSessions();
 
     @RequestMapping(value = "/game/multiplayer/synchronize/{gameSession}", method = RequestMethod.GET)
@@ -63,7 +62,7 @@ public interface GameController {
     void unjoinMultiPlayerUser(@RequestBody Player player);
 
     @GetMapping(value = "/game/endRound/{session}")
-    Ship endRound(@RequestBody Player pPlayer, @PathVariable String session);
+    Ship endFightRound(@RequestBody Player pPlayer, @PathVariable String session);
 
     /**
      * Increse Power by a Specified amount
@@ -74,12 +73,19 @@ public interface GameController {
     @GetMapping(value = "/section/increasePower/{amount}")
     Section increasePower(@RequestBody Section pSection, @PathVariable int amount);
 
+
+    @GetMapping(value = "/game/canFight/{session}")
+    FightState canFight(@RequestBody Actor actor, @PathVariable String session);
+
+
+    @GetMapping(value = "/game/startFight/{session}")
+    String startFight(@RequestBody Actor actor, @PathVariable String session);
+
     /**
      * Fight Against the Player
      * @param playerShip who will be attacked
      * @return the changed Ship
      */
-
     @GetMapping(value = "/game/fight/{session}")
     Optional<Ship> actorFight(@RequestBody Ship playerShip, @PathVariable String session);
 }
