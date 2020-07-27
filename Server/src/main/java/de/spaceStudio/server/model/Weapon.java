@@ -1,6 +1,7 @@
 package de.spaceStudio.server.model;
 
 import javax.persistence.*;
+import java.security.PublicKey;
 
 @Entity
 @Inheritance(
@@ -22,7 +23,11 @@ public class Weapon {
     private int damage;
 
     private int warmUp;
-    private int lastShot;
+    private int warmUpTime;
+
+    private int magazineSize;
+    private int currentBullets;
+
 
     private String img;
 
@@ -97,8 +102,12 @@ public class Weapon {
        setName(weaponBuilder.name);
        setSection(weaponBuilder.section);
        setObjectiv(weaponBuilder.objectiv);
-       setWarmUp(weaponBuilder.coolDown);
+       setWarmUpTime(weaponBuilder.warmUp);
+       setWarmUp(weaponBuilder.warmUp);
+       setMagazineSize(weaponBuilder.magazinSize);
+       setCurrentBullets(weaponBuilder.magazinSize);
     }
+
     public static WeaponBuilder WeaponBuilder(){
         return new WeaponBuilder();
     }
@@ -111,16 +120,32 @@ public class Weapon {
         this.warmUp = coolDown;
     }
 
-    public int getLastShot() {
-        return lastShot;
+    public int getCurrentBullets() {
+        return currentBullets;
     }
 
-    public void setLastShot(int lastShot) {
-        this.lastShot = lastShot;
+    public void setCurrentBullets(int lastShot) {
+        this.currentBullets = lastShot;
+    }
+
+    public int getMagazineSize() {
+        return magazineSize;
+    }
+
+    public void setMagazineSize(int magazineSize) {
+        this.magazineSize = magazineSize;
+    }
+
+    public int getWarmUpTime() {
+        return warmUpTime;
+    }
+
+    public void setWarmUpTime(int warmUpTime) {
+        this.warmUpTime = warmUpTime;
     }
 
     public  static class WeaponBuilder{
-        public int coolDown;
+        public int warmUp;
         private Integer id;
         private String name;
         private int hitRate;
@@ -128,6 +153,7 @@ public class Weapon {
         private String img;
         private Section section;
         private  Section objectiv;
+        public int magazinSize;
 
         public WeaponBuilder() {
         }
@@ -139,7 +165,8 @@ public class Weapon {
                              String img,
                              Section section,
                              Section objectiv,
-                             int coolDown)
+                             int warmUp,
+                             int magazinSize)
         {
             this.id = id;
             this.name = name;
@@ -148,7 +175,8 @@ public class Weapon {
             this.img = img;
             this.section = section;
             this.objectiv=objectiv;
-            this.coolDown = coolDown;
+            this.warmUp = warmUp;
+            this.magazinSize = magazinSize;
 
         }
         public WeaponBuilder id(int id){
@@ -180,10 +208,17 @@ public class Weapon {
             return WeaponBuilder.this;
         }
 
-        public WeaponBuilder coolDown(int coolDown){
-            this.coolDown= coolDown;
+        public WeaponBuilder warmUp(int coolDown){
+            this.warmUp = coolDown;
             return WeaponBuilder.this;
         }
+
+        public WeaponBuilder magazinSize(int magazinSize) {
+            this.magazinSize = magazinSize;
+            return WeaponBuilder.this;
+        }
+
+
         public Weapon build(){
             return new Weapon(this);
         }

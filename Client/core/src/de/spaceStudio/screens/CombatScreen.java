@@ -744,7 +744,7 @@ public class CombatScreen extends BaseScreen {
 
         for (Weapon w :
                 ws) {
-            sb.append(String.format("Weapon: %s%n Damage: %s%n Lastshot: %s%n", w.getName(), w.getDamage(), (System.currentTimeMillis() - w.getLastShot() / 1000)));
+            sb.append(String.format("Weapon: %s%n Damage: %s%n Bullets: %s%n Warmup: %s", w.getName(), w.getDamage(),  w.getCurrentBullets() , w.getWarmUp() ));
         }
         return sb.toString();
     }
