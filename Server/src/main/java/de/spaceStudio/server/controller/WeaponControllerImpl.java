@@ -144,6 +144,7 @@ public class WeaponControllerImpl implements WeaponController {
             //Search the objective
             boolean hasHit = (  (float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
             if (hasHit) {  // Dont change anything if no hit
+                weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
                 ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
                 if (ship.getShield() > 0) {
                     ship.setShield(ship.getShield() - weapon.getDamage());
@@ -154,6 +155,7 @@ public class WeaponControllerImpl implements WeaponController {
                     weapon.getObjectiv().setOxygen(  weapon.getObjectiv().getOxygen()- removeOxygen);
                     sectionRepository.save(weapon.getObjectiv());
                 }
+                weaponRepository.save(weapon);
             }
             shipRepository.save(ship);
         }
@@ -162,7 +164,6 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
-
     public List<Boolean> shotValidation(List<Weapon> weapons) {
         List<Boolean> shots = new ArrayList<>();
         weapons.forEach(w -> shots.add(canShoot(w)));
@@ -171,28 +172,11 @@ public class WeaponControllerImpl implements WeaponController {
 
     @Override
     public boolean canShoot(Weapon w) {
-
         Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-        if (w.getObjectiv() != null &&  ship.getHp() > 0 && isOutsideRange(w.getLastShot(), w.getWarmUp())) {
+        if (w.getObjectiv() != null &&  ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0 ) {
              return w.getSection().getUsable();
         }
         return false;
-    }
-
-
-    /**
-     * Has last shot been after the coolDown time
-     *
-     * @param lastShot happend at this time
-     * @param coolDown lasts this long
-     * @return if the weapon can shot
-     */
-    boolean isOutsideRange(long lastShot, long coolDown) {
-        return coolDown <= lastShot;
-
-//        long now = System.currentTimeMillis();
-//        long timeElapsed = now - lastShot;
-//        return (timeElapsed > coolDown);  // Convert to Milliseconds
     }
 
     @RequestMapping(value = "/buyweapon", method = RequestMethod.POST)
@@ -217,7 +201,6 @@ public class WeaponControllerImpl implements WeaponController {
             weaponRepository.save(weapon);
         }
         List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(section.getShip()).get();
-
         return gson.toJson(shipRessources);
     }
 }

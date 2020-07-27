@@ -52,6 +52,9 @@ public class GameControllerImpl implements GameController {
 
     @Autowired
     private ActorRepository actorRepository;
+
+    @Autowired
+    private  SectionController sectionController;
     /**
      * Logger object
      */
@@ -335,18 +338,25 @@ public class GameControllerImpl implements GameController {
     public Ship endFightRound(Player pPlayer, String session) {
 
 
-
         // TODO add Online
         Optional<Player> player = playerRepository.findById(pPlayer.getId());
         if (player.isPresent()  && player.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
 
                 Optional<Ship> ship = shipRepository.findByOwner(pPlayer);
                 if (ship.isPresent()) {
+
+                    // TODO if is online
                     actorFight(ship.get(), session);
                     actorChangePower(ship.get());
-                    // FIXME update Round Count to updating the warmUp of weapons
 
-                    roundStateNext(); // FIXME here?
+                    List<Section> sectionsOfPlayer = sectionController.sectionsByShip(ship.get().getId());
+                    List<Weapon> playerOfWeapons = new ArrayList<>();
+                    for (Section s :
+                            sectionsOfPlayer) {
+                        playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
+                    }
+
+                    lowerWarmUpTime(playerOfWeapons);
                     return shipRepository.findById(ship.get().getId()).get();
                 }
 
@@ -419,6 +429,21 @@ public class GameControllerImpl implements GameController {
         }
 
     }
+
+  public void lowerWarmUpTime(List<Weapon> weapons) {
+       for (Weapon w :
+               weapons) {
+           if (w.getWarmUp() != 0) {
+               w.setWarmUp(w.getWarmUp() - 1);
+           } else {
+               if (w.getWarmUp() == 0 && w.getCurrentBullets() != w.getMagazineSize()) {
+                   w.setWarmUp(w.getWarmUpTime());
+               }
+           }
+           weaponRepository.save(w);
+       }
+   }
+
 
     /**
      * Can the Actor Fight

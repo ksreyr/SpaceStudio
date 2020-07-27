@@ -255,6 +255,8 @@ public class Global {
     public static final int POWER_REQUIRED = 10;
     public static final int HP = 1000;
     public static final int SHIELD = 10000;
+    public static final int MAGAZIN_SIZE = 10;
+    private static final int magazinSizeLaser = 2;
 
     // FIXME Power ist doppelt
 
@@ -781,15 +783,15 @@ public class Global {
     /*
      * Weapon
      * */
-    public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Player").name("Rocket Left").coolDown(rocketWarmUp).build();
-    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(30).hitRate(300).img("Player").name("Lasser Right").coolDown(lasserWarmUp).build();
+    public static Weapon weapon1Player = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Player").name("Rocket Left").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
+    public static Weapon weapon2Player = Weapon.WeaponBuilder().damage(30).hitRate(300).img("Player").name("Lasser Right").warmUp(lasserWarmUp).magazinSize(magazinSizeLaser).build();
 
     /*
      * Weapon Gegner1
      * */
-    public static Weapon weapon1Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy1").name("Rocket Left").coolDown(rocketWarmUp).build();
-    public static Weapon weapon2Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy1").name("Rocket Right").coolDown(rocketWarmUp).build();
-    public static Weapon weapon3Gegner1 = Weapon.WeaponBuilder().damage(30).hitRate(300).img("Enemy1").name("Lasser Right").coolDown(lasserWarmUp).build();
+    public static Weapon weapon1Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy1").name("Rocket Left").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
+    public static Weapon weapon2Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy1").name("Rocket Right").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
+    public static Weapon weapon3Gegner1 = Weapon.WeaponBuilder().damage(30).hitRate(300).img("Enemy1").name("Lasser Right").warmUp(lasserWarmUp).magazinSize(magazinSizeLaser).build();
 
     public static List<Weapon> weaponListGegner1 = new ArrayList<Weapon>() {{
         add(weapon1Gegner1);
@@ -799,9 +801,9 @@ public class Global {
     /*
      * Weapons Gegner2
      * */
-    public static Weapon weapon1Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy2").name("Rocket Left").coolDown(rocketWarmUp).build();
-    public static Weapon weapon2Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy2").name("Rocket Right").coolDown(rocketWarmUp).build();
-    public static Weapon weapon3Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy2").name("DRONE").coolDown(droneWarmUp).build();
+    public static Weapon weapon1Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy2").name("Rocket Left").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
+    public static Weapon weapon2Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy2").name("Rocket Right").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
+    public static Weapon weapon3Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy2").name("DRONE").warmUp(droneWarmUp).build();
 
     public static List<Weapon> weaponListGegner2 = new ArrayList<Weapon>() {{
         add(weapon1Gegner2);
@@ -811,9 +813,9 @@ public class Global {
     /*
      * Weapons Gegner3
      * */
-    public static Weapon weapon1Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy3").name("Rocket Left").coolDown(rocketWarmUp).build();
-    public static Weapon weapon2Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy3").name("Rocket Right").coolDown(rocketWarmUp).build();
-    public static Weapon weapon3Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy3").name("Laser").coolDown(lasserWarmUp).build();
+    public static Weapon weapon1Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy3").name("Rocket Left").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
+    public static Weapon weapon2Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy3").name("Rocket Right").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
+    public static Weapon weapon3Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(100).img("Enemy3").name("Laser").warmUp(lasserWarmUp).magazinSize(magazinSizeLaser).build();
 
     public static List<Weapon> weaponListGegner3 = new ArrayList<Weapon>() {{
         add(weapon1Gegner3);
