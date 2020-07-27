@@ -699,6 +699,8 @@ public class CombatScreen extends BaseScreen {
                     // FIXME Add Win Screen
                 }
 
+                RequestUtils.weaponsByShip(Global.currentShipPlayer);
+
 
                 System.out.println("statusCode playerMakeAShot: " + statusCode);
             }
@@ -765,11 +767,9 @@ public class CombatScreen extends BaseScreen {
     private String getWeaponsStats(List<Weapon> ws) {
         StringBuilder sb = new StringBuilder();
 
-
-
         for (Weapon w :
                 ws) {
-            sb.append(String.format("Weapon: %s%n Damage: %s%n Bullets: %s%n Warmup: %s", w.getName(), w.getDamage(),  w.getCurrentBullets() , w.getWarmUp() ));
+             sb.append(String.format("Weapon: %s%n Damage: %s%n Bullets: %s%n Warmup: %s%n", w.getName(), w.getDamage(),  w.getCurrentBullets() , w.getWarmUp() ));
         }
         return sb.toString();
     }
