@@ -3,17 +3,10 @@ package de.spaceStudio.server.controller;
 import com.google.gson.Gson;
 import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.handler.SinglePlayerGame;
-import de.spaceStudio.server.model.Player;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
-import de.spaceStudio.server.repository.PlayerRepository;
-import de.spaceStudio.server.repository.SectionRepository;
-import de.spaceStudio.server.repository.ShipRepository;
-import de.spaceStudio.server.repository.WeaponRepository;
+import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
 import de.spaceStudio.server.utils.JSONFile;
-import org.hibernate.internal.build.AllowSysOut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +38,9 @@ public class GameControllerImpl implements GameController {
 
     @Autowired
     private WeaponRepository weaponRepository;
+
+    @Autowired
+    private StopAbstractRepository stopAbstractRepository;
 
     /**
      * Logger object
@@ -114,11 +110,11 @@ public class GameControllerImpl implements GameController {
         }
     }
 
-        /**
-         * Show all active single player game sessions
-         *
-         * @return JSON
-         */
+    /**
+     * Show all active single player game sessions
+     *
+     * @return JSON
+     */
     @Override
     @RequestMapping(value = "/game/sessions/single-player", method = RequestMethod.GET)
     @ResponseBody
@@ -132,14 +128,14 @@ public class GameControllerImpl implements GameController {
     @Override
     @RequestMapping(value = "/game/multiplayer/synchronize/{gameSession}", method = RequestMethod.GET)
     @ResponseBody
-    public String synchroMultiPlayer(@PathVariable("gameSession") String gameSession){
+    public String synchroMultiPlayer(@PathVariable("gameSession") String gameSession) {
         LOG.info("Ready up");
         MultiPlayerGame multiPlayerGame = Global.MultiPlayerGameSessions.get(gameSession);
-        if(multiPlayerGame.getPlayerOne() != null && multiPlayerGame.getPlayerTwo() != null){
+        if (multiPlayerGame.getPlayerOne() != null && multiPlayerGame.getPlayerTwo() != null) {
             LOG.info("true");
             return "true";
         }
-    return "false";
+        return "false";
     }
 
     /**
@@ -320,43 +316,152 @@ public class GameControllerImpl implements GameController {
         Global.usersMultiPlayer.remove(player.getName());
     }
 
+    /**
+     * Player wants to end Round
+     * @param pPlayer who wants to end his round
+     * @return the Ship of the Player who has ended the Round
+     */
+    @Override
+    public Ship endRound(Player pPlayer, String session) {
 
-    public void actorFight(Ship playerShip) {
 
+        // TODO add Online
+        Optional player = playerRepository.findById(pPlayer.getId());
+        if (player.isPresent()) {
+
+            Optional<Ship> ship = shipRepository.findByOwner(pPlayer);
+            if (ship.isPresent()) {
+                actorFight(ship.get(), session);
+                actorChangePower(ship.get());
+
+                return shipRepository.findById(ship.get().getId()).get();
+            }
+        }
+        return shipRepository.findByOwner(pPlayer).get();
+
+    }
+
+    /**
+     * If the Weapon Section is dammaged. Divert Energy to the Weapon Section
+     * @param ship where the Actor is chaning Power
+     */
+    private void actorChangePower(Ship ship) {
+        Optional<List<Section>> sections = sectionRepository.findAllByShip(ship);
+        if (sections.isPresent()) {
+            for (Section s :
+                    sections.get()) {
+                if (s.getSectionTyp().equals(SectionTyp.WEAPONS)) {
+                    if (s.getPowerCurrent() * 2 <= s.getPowerRequired()) {
+                        increasePower(s, (int) (s.getPowerRequired() * 0.2));  // Increase by 20%
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public Section increasePower(Section pSection, int amount) {
+
+        Optional<Section> section = sectionRepository.findById(pSection.getId());
+        if (section.isPresent()) {
+            Optional<List<Section>> sections = sectionRepository.findAllByShip(section.get().getShip());
+            Ship ship = section.get().getShip();
+            if (sections.isPresent() && sumCurrentPower(ship) + amount > sumRequiredPower(ship)) {
+                sections.get().remove(section.get());
+                Optional<Section> removePowerSection = Optional.ofNullable(sections.get().get(0));
+                removePowerSection.ifPresent(value -> value.setPowerCurrent(value.getPowerCurrent() - amount));
+            }
+
+            section.get().setPowerCurrent(section.get().getPowerCurrent() + amount);
+            sectionRepository.save(section.get());
+
+        }
+
+        return section.get();
+    }
+
+    /**
+     * Sum the current Energy of the Ship
+     * @param s is the Ship
+     * @return current energy required
+     */
+    public int sumCurrentPower(Ship s) {
+        Optional<List<Section>> sections = sectionRepository.findAllByShip(s);
+        return sections.map(sectionList -> sectionList.stream()
+                .mapToInt(Section::getPowerCurrent)
+                .sum()).orElse(0);
+    }
+
+    /**
+     * Sum the required Power for the Ship
+     * @param s
+     * @return
+     */
+    public int sumRequiredPower(Ship s) {
+        Optional<List<Section>> sections = sectionRepository.findAllByShip(s);
+        return sections.map(sectionList -> sectionList.stream()
+                .mapToInt(Section::getPowerRequired)
+                .sum()).orElse(0);
+    }
+
+
+    @Override
+    public Optional<Ship> actorFight(@RequestBody Ship playerShip, @PathVariable String session) {
+
+        // Get the AI Ship, Section and Weapons
+        AI ai = Global.SinglePlayerGameSessions.get(session).getAi();
+        Optional<Ship> aiShip = shipRepository.findByOwner(ai);
+        Optional<List<Section>> aiSection = sectionRepository.findAllByShip(aiShip.get());
+
+        // Player Ship from DB
         Optional<Ship> ship = shipRepository.findById(playerShip.getId());
+
+
         if (ship.isPresent()) {
             Optional<List<Section>> sectionList = sectionRepository.findAllByShip(ship.get());
-            if (sectionList.isPresent()) {
+            if (sectionList.isPresent() && aiSection.isPresent()) {
+                // Figure out which Sections to attack
                 List<Section> xs = new ArrayList<>();
                 for (Section s :
                         sectionList.get()) {
-                    if (s.isUsable() )
+                    if (s.isUsable())
                         xs.add(s);
                 }
+
+                // Attack a random section of the ones working
                 int random = (int) (Math.random() * xs.size());
                 Section attackSection = xs.get(random);
-                List<Weapon> attackWeapon = new ArrayList<>();
-                for (Section s:
-                    sectionList.get() ) {
+
+                // Add all AI Weapons to attackWeapons
+                List<Weapon> attackWeapons = new ArrayList<>();
+                for (Section s :
+                        aiSection.get()) {
                     weaponList = weaponRepository.findBySection(s);
-                    weaponList.ifPresent(attackWeapon::addAll);
+                    weaponList.ifPresent(attackWeapons::addAll);
                 }
 
+                // Select Target for all Weapons
+                attackWeapons.forEach(w -> w.setObjectiv(attackSection));
 
-                List<Boolean> shots = new ArrayList<>();
+                // Test if it is possible to fire the each Weapon
+                List<Boolean> shots;
+                // Shot at the Player as long as it is possible to fire
                 do {
-                    List<Weapon> weaponCanFire = new ArrayList<>();
+                    shots = weaponController.shotValidation(attackWeapons);
+                    List<Weapon> weaponsWhichCanFire = new ArrayList<>();
+                    // Fire each Weapon which can Shot
                     for (int i = 0; i < shots.size(); i++) {
                         if (shots.get(i)) {
-                            weaponCanFire.add(weaponList.get().get(i)); // Get Value then index i
+                            weaponsWhichCanFire.add(attackWeapons.get(i)); // Get Value then index i
                         }
-                        weaponController.fire(weaponCanFire);
+                        // Fire
+                        weaponController.fire(weaponsWhichCanFire);
                     }
-               shots = weaponController.shotValidation(weaponList.get());
                 }
                 while (shots.contains(true));
             }
         }
+        return shipRepository.findById(playerShip.getId());
     }
 
 }

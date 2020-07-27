@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface ShipRepository extends JpaRepository<Ship, Integer> {
     Optional<Ship> findShipByName(String name);
-    Optional<Ship> findShipByNameAndAndOwner(String name, Actor actor);
-    Optional<Ship> findByOwner(Player player);
+    Optional<Ship> findShipByNameAndOwner(String name, Actor actor);
+    Optional<Ship> findByOwner(Actor player);
 }
