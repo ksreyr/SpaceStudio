@@ -32,9 +32,11 @@ public class Bullet {
         x += SPEED * deltaTime;
         if (x > Gdx.graphics.getWidth() - 600) {
             // FIXME trigger Explosion
+              remove = true;
             System.out.println( String.format("Explosion at %s, %s", this.x, this.y ));
-            if(x >Gdx.graphics.getWidth() - 300) Global.ExplosionsToRender.add(new Pair(x, y));
-            remove = true;
+            //if(x >Gdx.graphics.getWidth() - 300) Global.ExplosionsToRender.add(new Pair(x-300, y-300));
+            //isExploded = true;
+
         }
     }
 
@@ -47,13 +49,19 @@ public class Bullet {
 
     }
 
+    public void renderExpo(SpriteBatch batch) {
+
+        batch.draw(explosion, x, y);
+
+
+    }
+
 
     public void render(SpriteBatch batch) {
 
         batch.draw(bullet, x, y);
 
-        if(isExploded)
-        batch.draw(explosion,x,y);
+
     }
 
 

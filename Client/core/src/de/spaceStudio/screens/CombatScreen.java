@@ -417,6 +417,11 @@ public class CombatScreen extends BaseScreen {
             }
         });
 
+
+
+
+
+
         Gdx.input.setInputProcessor(stage);
 
 
@@ -723,18 +728,12 @@ public class CombatScreen extends BaseScreen {
                     for (Weapon w :
                             weaponsToFire) {
 
-                        if(isTargetCockpit){
-                                bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + 445));
-                                isTargetCockpit = false;
-                        }else if(isTargetEngine){
+                            bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + 445));
+
                             bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + 42));
-                            isTargetEngine = false;
-                        }else if(isTargetWeapon || isTargetMedical || isTargetO2){
+
                             bullets.add(new Bullet(590, 650));
-                            isTargetWeapon=false;
-                            isTargetMedical=false;
-                            isTargetO2 = false;
-                        }
+
 
 
                             //bullets.add(new Bullet(590, 650));
@@ -800,31 +799,19 @@ public class CombatScreen extends BaseScreen {
             randomNumber = (int) ((Math.random() * (5)) + 0);
             //Set Target->Section of Player and gegner Weapons
             logicOfFireGegner(randomNumber);
-
             //Set Target->Section of  gegner and User Weapons
             logicOfFirePlayer();
             //bullets.add(new Bullet(590, yWeaponPos));
             counterCockpit++;
 
             bullets.add(new Bullet(BaseScreen.WIDTH, 0));
-            for (Pair p :
-                    Global.ExplosionsToRender) {
-                stage.getBatch().begin();
-//                stage.getBatch().draw(explosion, p.getLeft(), p.getRight());
-                stage.getBatch().end();
-
-            }
 
         }
 
 
+
         weaponLabel.setText(getWeaponsStats(Global.combatWeapons.get(Global.currentShipPlayer.getId())));
 
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(1);
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(2);
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(3);
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(4);
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(5);
 
         if (Global.combatWeapons.size() >= 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
@@ -842,12 +829,25 @@ public class CombatScreen extends BaseScreen {
 
             stage.getBatch().begin();
             stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
+
+
+
+
             // Render the Ship of the current Player
+
             stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
             stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
             stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
             stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
             //stage.getBatch().draw(energyWeaponsPanel,0,0);
+
+
+            //explososion on enemy weapon
+            //if(!selectedTarget.getUsable()){
+                stage.getBatch().draw(explosion,1400, 500, 100, 100);
+            //}
+
+
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
                 stage.getBatch().draw(redPinSectionTwo.texture, XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
@@ -893,19 +893,6 @@ public class CombatScreen extends BaseScreen {
 
                 canFireGegner = false;
                 validationGegner = "";
-            }
-            //on weapon system Explosion
-            if ((!sectionsPlayer.isEmpty() && sectionsPlayer.get(1).getUsable() == false) || isNewExpo) {
-                isNewExpo = true;
-                stage.getBatch().draw(explosion, 555, 520, 100, 100);
-            }
-            if ((!sectionsPlayer.isEmpty() && sectionsPlayer.get(1).getUsable() == false) || isNewExpo2) {
-                isNewExpo2 = true;
-                stage.getBatch().draw(explosion, 700, 520, 100, 100);
-            }
-            if ((!sectionsPlayer.isEmpty() && sectionsPlayer.get(1).getUsable() == false) || isNewExpo3) {
-                isNewExpo3 = true;
-                stage.getBatch().draw(explosion, 710, 670, 100, 100);
             }
 
             if (!sectionsPlayer.isEmpty()) {
@@ -984,15 +971,6 @@ public class CombatScreen extends BaseScreen {
             if (Global.currentShipGegner.getShield() > 0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
 
             //explosion on enemy's engine
-            for (Bullet bul:bullets
-                 ) {
-                if ( bul.isExploded & !isEnemyShield)
-                {
-
-                    //stage.getBatch().draw(explosion, 1515, 422, 100, 100);
-                }
-
-            }
 
 
             //update bullets
@@ -1000,8 +978,13 @@ public class CombatScreen extends BaseScreen {
             for (Bullet bullet : bullets) {
                 bullet.update(delta);
                 if (bullet.remove) {
+                    System.out.println("Remove from Combat :::::::+ "+bullet.remove);
+
+                    if (isTargetCockpit && bullet.remove) stage.getBatch().draw(explosion,1540, 550, 100, 100);
                     bulletToRemove.add(bullet);
                 }
+
+
             }
 
             bullets.removeAll(bulletToRemove);
@@ -1013,9 +996,11 @@ public class CombatScreen extends BaseScreen {
             for (Bullet bullet : bulletsEnemy) {
                 bullet.updateTo(delta);
                 if (bullet.remove) {
+
                     bulletGegnerToRemove.add(bullet);
                 }
-            }
+
+                           }
 
             stage.getBatch().end();
             mainClient.getBatch().begin();
