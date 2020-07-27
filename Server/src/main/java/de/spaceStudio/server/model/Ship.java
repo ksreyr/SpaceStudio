@@ -30,7 +30,7 @@ public class Ship {
     private int shield;
 
     @NonNull
-    private int power;
+    private int power;  // FIXME keep updated
 
     @NonNull
     private int money;

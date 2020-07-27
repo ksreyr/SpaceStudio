@@ -2,7 +2,11 @@ package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.Player;
+import de.spaceStudio.server.model.Section;
+import de.spaceStudio.server.model.Ship;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 public interface GameController {
     @RequestMapping(value = "/game/start/single-player/{playerName}", method = RequestMethod.POST)
@@ -57,4 +61,24 @@ public interface GameController {
 
     @RequestMapping(value = "/game/multiplayer/unjoin", method = RequestMethod.POST)
     void unjoinMultiPlayerUser(@RequestBody Player player);
+
+    @GetMapping(value = "/game/endRound/{session}")
+    Ship endRound(@RequestBody Player pPlayer, @PathVariable String session);
+
+    /**
+     * Increse Power by a Specified amount
+     * @param pSection asWished
+     * @param amount amount of power to be added
+     * @return section with new Values
+     */
+    @GetMapping(value = "/section/increasePower/{amount}")
+    Section increasePower(@RequestBody Section pSection, @PathVariable int amount);
+
+    /**
+     * Fight Against the Player
+     * @param playerShip who will be attacked
+     * @return the changed Ship
+     */
+
+    Optional<Ship> actorFight(@RequestBody Ship playerShip, @PathVariable String session);
 }
