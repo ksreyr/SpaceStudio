@@ -417,8 +417,6 @@ public class GameControllerImpl implements GameController {
         Optional<List<Section>> aiSection = sectionRepository.findAllByShip(aiShip.get());
 
         // Player Ship from DB
-
-
             Optional<List<Section>> sectionList = sectionRepository.findAllByShip(ship.get());
             if (sectionList.isPresent() && aiSection.isPresent()) {
                 // Figure out which Sections to attack

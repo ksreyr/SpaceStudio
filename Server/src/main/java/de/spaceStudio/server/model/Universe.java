@@ -1,9 +1,7 @@
 package de.spaceStudio.server.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Universe  {
@@ -13,6 +11,10 @@ public class Universe  {
     private Integer id;
 
     private String name;
+
+
+    @OneToMany
+    private List<GameRound> rounds;
 
     public Universe(UniverseBuilder universeBuilder) {
         this.id=universeBuilder.id;
@@ -39,6 +41,14 @@ public class Universe  {
     }
     public static UniverseBuilder universeBuilder(){
         return new UniverseBuilder();
+    }
+
+    public List<GameRound> getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(List<GameRound> rounds) {
+        this.rounds = rounds;
     }
 
     public static class UniverseBuilder{
