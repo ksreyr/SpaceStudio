@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static de.spaceStudio.client.util.RequestUtils.getFightState;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
@@ -865,8 +864,8 @@ public class CombatScreen extends BaseScreen {
 
 
         // FIXME LIAM
-        Global.fightState.get(Global.currentGegner.getId());
-        System.out.println("Current Enemy State ::::::"+ Global.fightState.get(Global.currentGegner.getId()));
+        Global.combatActors.get(Global.currentGegner.getId());
+        System.out.println("Current Enemy State ::::::"+ Global.combatActors.get(Global.currentGegner.getId()));
 
              // FIXME use Global.combatWeapons
             int x = 500;
@@ -1164,6 +1163,8 @@ public class CombatScreen extends BaseScreen {
                     LOG.info(Global.currentShipPlayer.getId().toString());
                     RequestUtils.sectionsByShip(Global.currentShipPlayer);
                     RequestUtils.getShip(Global.currentShipPlayer);
+                    RequestUtils.getActor(Global.currentPlayer);
+                    RequestUtils.getActor(Global.currentGegner);
                 }
             }
 

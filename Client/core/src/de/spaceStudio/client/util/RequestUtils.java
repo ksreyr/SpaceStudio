@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -89,9 +88,9 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                } else if (url.contains("fightState")) {
+                } else if (url.contains("player")) {
                     try {
-                        Global.fightState.put(id,  objectMapper.readValue(responseString[0], new TypeReference<FightState>() {}));
+                        Global.combatActors.put(id,  objectMapper.readValue(responseString[0], new TypeReference<Actor>() {}));
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -144,11 +143,11 @@ public final class RequestUtils {
                 true, ship.getId(), Net.HttpMethods.GET, "");
     }
 
-    public static void getFightState(Actor actor) {
-        genericRequest(Global.SERVER_URL + Global.GAME + Global.FIGHT_STATE, false, actor.getId(), Net.HttpMethods.GET, actor);
+    public static void getActor(Actor actor) {
+        genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT + "/" + actor.getId(), false, actor.getId(), Net.HttpMethods.GET, actor);
     }
 
-    public static void setFightState(Actor actor) {
-        genericRequest(Global.SERVER_URL + Global.GAME + Global.FIGHT_STATE, false, actor.getId(), Net.HttpMethods.POST, actor);
+    public static void setActor(Actor actor) {
+        genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT, false, actor.getId(), Net.HttpMethods.POST, actor);
     }
 }

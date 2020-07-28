@@ -46,6 +46,9 @@ public class PlayerControllerImpl implements PlayerController {
     ActorRepository actorRepository;
 
     @Autowired
+    GameController gameController;
+
+    @Autowired
     CrewMemberRepository crewMemberRepository;
 
     @Autowired
@@ -115,7 +118,8 @@ public class PlayerControllerImpl implements PlayerController {
             ActorState as = new ActorState();
             actorStateRepository.save(as);
             player.setState(as);
-            Player savedPlayer = playerRepository.save(player);
+            gameController.setFightState(player);
+            playerRepository.save(player);
             return HttpStatus.CREATED.toString();
         }
     }
