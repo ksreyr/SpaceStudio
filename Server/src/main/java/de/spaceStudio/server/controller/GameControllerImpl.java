@@ -431,27 +431,24 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public String getFightState(Actor pActor) {
+    public FightState getFightState(Actor pActor) {
        Optional<Actor> actor = actorRepository.findById(pActor.getId());
-       if (actor.isPresent()) {
-           return actor.get().getState().getFightState().toString();
-       } else return HttpStatus.NOT_FOUND.toString();
+        return actor.map(value -> value.getState().getFightState()).orElse(null);
     }
 
     @Override
-    public String setFightState(Actor pActor) {
+    public FightState setFightState(Actor pActor) {
         Optional<Actor> actor = actorRepository.findById(pActor.getId());
-        if (actor.isPresent()) {
-            if (!actor.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
+        if (actor.isPresent() && !pActor.getState().getFightState().equals(actor.get().getState().getFightState())) {
+            if (actor.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
                 actor.get().getState().setFightState(FightState.PLAYING);
             } else {
                 actor.get().getState().setFightState(FightState.WAITING_FOR_TURN);
             }
             // FIXME set the other to to the oppsite State
             actorStateRepository.save(actor.get().getState());
-            return actor.get().getState().getFightState().toString();
-        }
-        return HttpStatus.NOT_FOUND.toString();
+            return actor.get().getState().getFightState();
+        } else throw new IllegalStateException(String.format("The state (%s) is identical with the Server", pActor.getState().getFightState()));
     }
 
     public void lowerWarmUpTime(List<Weapon> weapons) {
