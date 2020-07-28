@@ -18,7 +18,7 @@ public interface ActorController {
      * @param id of the Actor
      * @return the Actor
      */
-    @RequestMapping(value = "/Actor/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/actor/{id}", method = RequestMethod.GET)
     Actor getActor(@PathVariable Integer id);
 
 
