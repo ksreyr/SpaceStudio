@@ -93,11 +93,13 @@ digraph jumping {
 #+BEGIN_SRC dot :file kampf.png
 
 digraph automaton {
+rankdir=LR
 
     subgraph cluster_0 {
         label="Client";
 
-        fightStart -> combatScreen;
+
+
         combatScreen -> {chooseWeapon, selectTarget moveCrewMember};
         chooseWeapon -> combatScreen [label="choose weapon with W"];
         selectTarget -> findWeaponByNameAndShip [label="chooses the target"];
@@ -107,7 +109,8 @@ digraph automaton {
         logicOfFirePlayer -> shotValidation [label="List<Weapon> weapons"];
 
 
-        handleShot -> {drawBullet, removeShield}
+        handleShot -> {drawBullet, removeShield, drawExplosion}
+
 
 
 
@@ -128,6 +131,7 @@ digraph automaton {
         fireShot -> shotValidation  [label="List<Boolean> bullets"]
 
         }
+
 
 
     subgraph cluster_2 {
@@ -154,6 +158,18 @@ digraph automaton {
 
         shotAnswer -> handleShot
 
+    }
+
+
+    subgraph cluster_3 {
+             label="Turn Manger"
+
+
+        combatScreen -> WAITING [label="END TURN"]
+        fightStart -> FightState;
+         FightState -> {WAITING, PLAYING} [label="GET"]
+        WAITING -> FightState [label="Wait for Turn"]
+        PLAYING -> combatScreen [label="SET PLAYING"]
 
     }
 
@@ -204,3 +220,26 @@ startFight -> waitForTurn [label="Button Start Fight"]
 
 #+RESULTS:
 [[file:kampfRunde.png]]
+
+
+
+#+BEGIN_SRC dot :file actorFight.png
+
+digraph automaton {
+
+        playerEndsTurn -> actorFight [label="GET /game/fight/{session}"]
+        actorFight -> loadValues [label="require section, weapon, ship"]
+        loadValues-> loadValues  -> selectedTarget -> setObjectiv -> setObjectiv -> loadAttackWeapons -> loadAttackWeapons
+        loadAttackWeapons -> shotValidation [label="select all legal Weapons"]
+        shotValidation -> weaponsWhichCanFire [label="validate"]
+        weaponsWhichCanFire -> fireWeapon [label="fire Shot"]
+        fireWeapon -> shotValidation [label="check if can fire again"]
+        fireWeapon -> returnShip [label="when no wepaon can fire"]
+
+
+        }
+
+#+END_SRC
+
+#+RESULTS:
+[[file:actorFight.png]]

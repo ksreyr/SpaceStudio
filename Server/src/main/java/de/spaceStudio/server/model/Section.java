@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.function.Supplier;
 //TODO: @MAPPING_SUPER_CLASS
 //or it is not created a table in the DB
 //Link to reference Sprint Documentation:
@@ -182,6 +183,8 @@ public class Section {
     public boolean isUsable() {
         return usable;
     }
+
+
 
     public static class SectionBuilder{
         private Integer id;

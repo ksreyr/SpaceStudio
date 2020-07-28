@@ -75,12 +75,12 @@ public class SectionControllerImpl implements SectionController {
 
         if (playerRepository.findByName(section.getShip().getOwner().getName()).isPresent()) {
             playerToUpdate = playerRepository.findByName(section.getShip().getOwner().getName()).get();
-            Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(), playerToUpdate).get();
+            Ship ship = shipRepository.findShipByNameAndOwner(section.getShip().getName(), playerToUpdate).get();
             ship.setOwner(playerToUpdate);
             section.setShip(ship);
         } else {
             ai = aiRepository.findByName(section.getShip().getOwner().getName()).get();
-            Ship ship = shipRepository.findShipByNameAndAndOwner(section.getShip().getName(), ai).get();
+            Ship ship = shipRepository.findShipByNameAndOwner(section.getShip().getName(), ai).get();
             ship.setOwner(ai);
             section.setShip(ship);
         }
@@ -160,12 +160,10 @@ public class SectionControllerImpl implements SectionController {
                         if (weapons.isPresent()) { // More Power is Crew is in Sections
                             int powerBuffFighter = s.getPowerCurrent() + 1;
                             s.setPowerCurrent(powerBuffFighter);
-                            if (weapons.isPresent()) {
-                                for (Weapon w :
-                                        weapons.get()) {
-                                    int damage = w.getDamage() + 10;
-                                    w.setDamage(damage);
-                                }
+                            for (Weapon w :
+                                    weapons.get()) {
+                                int damage = w.getDamage() + 10;
+                                w.setDamage(damage);
                             }
                         }
                     case TECHNICIAN:
@@ -175,10 +173,10 @@ public class SectionControllerImpl implements SectionController {
 
             }
             if (crew.isPresent()) {
-                s.setUsable(true);
+                s.setUsable(true); // Reapir if Broken
             }
             if (crew.isPresent() && s.getOxygen() < 30) {
-                crewMemberRepository.delete(crew.get());
+                crewMemberRepository.delete(crew.get()); // Die if to little Oxygen
             }
             sectionRepository.save(s);
         }

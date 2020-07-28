@@ -1,6 +1,6 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.handler.ActorState;
+import de.spaceStudio.server.model.ActorState;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -108,8 +108,8 @@ public class PlayerControllerImpl implements PlayerController {
         // For the future hash password
         // player.setPassword(hashPassword(player.getPassword()));
 
-        Optional<Player> fetchPlayer = (playerRepository.findByName(player.getName()));
-        if (fetchPlayer != null && fetchPlayer.isPresent()) {
+        Optional<Player> fetchPlayer = playerRepository.findByName(player.getName());
+        if (fetchPlayer.isPresent()) {
             return "Name already registered, try another one :)";
         } else {
             ActorState as = new ActorState();

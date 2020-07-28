@@ -21,7 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
-import static de.spaceStudio.client.util.Global.multiPlayerSessionID;
+import static de.spaceStudio.client.util.Global.*;
 
 
 /**
@@ -40,6 +40,7 @@ public class TravelScreen extends ScreenAdapter {
     Label playerLabel;
     int dot = 0;
     private final static Logger LOG = Logger.getLogger(TravelScreen.class.getName());
+
     public TravelScreen(MainClient game) {
         super();
         this.game = game;
@@ -122,9 +123,7 @@ public class TravelScreen extends ScreenAdapter {
             dot++;
             String dots = "";
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < dot % 5; i++) {
-                sb.append('.');
-            }
+            sb.append(".".repeat(Math.max(0, dot % 5)));
             dots = sb.toString();
             playerLabel.setText(playerText + dots);
         }
@@ -134,14 +133,15 @@ public class TravelScreen extends ScreenAdapter {
         if (timePassed > 5 && jumpReady) {
 //            Global.weaponListPlayer = RequestUtils.weaponsByShip(Global.currentShipPlayer); // Load all the Weapons  FIXME make async
             RequestUtils.sectionsByShip(Global.currentShipPlayer);
-            RequestUtils.weaponsByShip(Global.currentShipGegner);
             RequestUtils.weaponsByShip(Global.currentShipPlayer);
             RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
             if (Global.currentGegner != null) {
                 RequestUtils.crewMemeberByShip(Global.currentShipGegner);
                 RequestUtils.sectionsByShip(Global.currentShipGegner);
+                RequestUtils.weaponsByShip(Global.currentShipGegner);
             }
             killTimer = true;
+            if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0)
             game.setScreen(new StopScreen(game));
         }
         stage.act();

@@ -92,7 +92,7 @@ public class CombatScreen extends BaseScreen {
     private SpriteBatch batch;
     private Texture playerShip, energy;
     private Texture enemyShip1, enemyShip2, enemyShip3;
-    private Texture background;
+    private Texture background, laser;
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
     private Texture shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel;
     private ImageButton shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
@@ -103,8 +103,8 @@ public class CombatScreen extends BaseScreen {
     private List<CrewMember> myCrew;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
-    private boolean isExploied;
-    private Texture missilleRight, explosion, missilleLeft, weaponSystem;
+    private Texture  explosion, missille, weaponSystem;
+    private boolean isExploied, isLaserActivated;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
     private Skin skinButton;
     private boolean isShieldEnabled, isEnemyShield, isTargetO2, isTargetMedical;
@@ -120,11 +120,14 @@ public class CombatScreen extends BaseScreen {
     private final List<Weapon> weaponsToFire = new ArrayList<>();
     private final int shotDelta = 400;
     private int yWeaponPos = 700;
+    private Boolean gedruck = false;
+    //
     private int energyInsgesamtVerfügbar = 3;
     private int anzahlEnergyShieldSystem, anzahlEnergyWeaponsSystem, anzahlEnergyDriveSystem = 1;
     int energy_Y_Position = 13;
 
     private Label weaponsLabel;
+    private TextButton liamButton;
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -156,6 +159,25 @@ public class CombatScreen extends BaseScreen {
         weaponLabel.setAlignment(Align.bottomRight);
 
 
+
+    }
+    private void liamButtonFuntion(){
+        liamButton = new TextButton("End Round", skin);
+        liamButton.setPosition(400,100);
+        stage.addActor(liamButton);
+        liamButton.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(gedruck){
+                    liamButton.setText("end Round");
+                    gedruck=false;
+                }else{
+                    liamButton.setText("Waitting");
+                    gedruck=true;
+                }
+
+            }
+        });
     }
 
     private Optional<Section> findSectionByNameAndShip(String name, int id, Boolean currentTarget) {
@@ -182,6 +204,7 @@ public class CombatScreen extends BaseScreen {
         stage = new Stage(viewport, universeMap.getBatch());
         click = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/mouseclick.wav"));
         scheduleLobby();
+
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         listOfCrewImages = new ArrayList<>();
         redPinSectionOne = new RedPin();
@@ -190,7 +213,6 @@ public class CombatScreen extends BaseScreen {
         redPinSectionFour = new RedPin();
         redPinSectionFive = new RedPin();
         redPinSectionSix = new RedPin();
-
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
@@ -200,8 +222,7 @@ public class CombatScreen extends BaseScreen {
         enemyShip1 = new Texture("Client/core/assets/combatAssets/enemy1.png");
         enemyShip2 = new Texture("Client/core/assets/combatAssets/enemy_2.png");
         enemyShip3 = new Texture("Client/core/assets/combatAssets/enemy_3.png");
-        missilleRight = new Texture("Client/core/assets/combatAssets/missille_out.png");
-        missilleLeft = new Texture("Client/core/assets/combatAssets/missille_out.png");
+        missille = new Texture("Client/core/assets/combatAssets/missille_out.png");
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
@@ -211,6 +232,7 @@ public class CombatScreen extends BaseScreen {
         crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
         crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        laser= new Texture("Client/core/assets/combatAssets/laser.jpg");
         imageCrewMemberOne = new Image(crewMemberOne);
         imageCrewMemberTwo = new Image(crewMemberTwo);
         imageCrewMemberThree = new Image(crewMemberThree);
@@ -252,6 +274,8 @@ public class CombatScreen extends BaseScreen {
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
 
+
+        liamButtonFuntion();
 
         fuzeOffsetright = 570;
         fuzeOffsetLeft = 570;
@@ -726,6 +750,8 @@ public class CombatScreen extends BaseScreen {
                     // FIXME Add Win Screen
                 }
 
+                RequestUtils.weaponsByShip(Global.currentShipPlayer);
+
 
                 System.out.println("statusCode playerMakeAShot: " + statusCode);
             }
@@ -768,9 +794,19 @@ public class CombatScreen extends BaseScreen {
                 if (!weaponsToFire.isEmpty()) {
                     makeAShot(weaponsToFire, Net.HttpMethods.POST);
 
+                    int y = 42;
                     for (Weapon w :
                             weaponsToFire) {
-                        bullets.add(new Bullet(590, 793));
+
+                            bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + y));
+
+                            y = y + shotDelta;
+
+//                            bullets.add(new Bullet(590, 650));
+
+
+
+                            //bullets.add(new Bullet(590, 650));
 
                         yWeaponPos -= shotDelta;
                     }
@@ -792,11 +828,9 @@ public class CombatScreen extends BaseScreen {
     private String getWeaponsStats(List<Weapon> ws) {
         StringBuilder sb = new StringBuilder();
 
-
-
         for (Weapon w :
                 ws) {
-            sb.append(String.format("Weapon: %s%n Damage: %s%n Lastshot: %s%n", w.getName(), w.getDamage(), (System.currentTimeMillis() - w.getLastShot() / 1000)));
+             sb.append(String.format("Weapon: %s%n Damage: %s%n Bullets: %s%n Warmup: %s%n", w.getName(), w.getDamage(),  w.getCurrentBullets() , w.getWarmUp() ));
         }
         return sb.toString();
     }
@@ -828,7 +862,6 @@ public class CombatScreen extends BaseScreen {
             randomNumber = (int) ((Math.random() * (5)) + 0);
             //Set Target->Section of Player and gegner Weapons
             logicOfFireGegner(randomNumber);
-
             //Set Target->Section of  gegner and User Weapons
             logicOfFirePlayer();
             //bullets.add(new Bullet(590, yWeaponPos));
@@ -842,11 +875,6 @@ public class CombatScreen extends BaseScreen {
 
         weaponLabel.setText(getWeaponsStats(Global.combatWeapons.get(Global.currentShipPlayer.getId())));
 
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(1);
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(2);
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(3);
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(4);
-        //Global.combatSections.get(Global.currentShipPlayer.getId()).get(5);
 
         if (Global.combatWeapons.size() >= 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
@@ -920,8 +948,19 @@ public class CombatScreen extends BaseScreen {
                 // FIXME Brutal Online
 
             }
-            stage.getBatch().draw(missilleRight, XPlayerShip + 170, YPlayerShip + 22, 400, 50);
-            stage.getBatch().draw(missilleLeft, XPlayerShip + 170, YPlayerShip + 425, 400, 50);
+             // FIXME use Global.combatWeapons
+
+            int y = 22;
+            for (Weapon w :
+                    Global.combatWeapons.get(Global.currentShipPlayer.getId())) {
+                if (w.getName().contains("Rocket")) {
+                    stage.getBatch().draw(missille, XPlayerShip + 170, YPlayerShip + y, 400, 50);
+                    y += 223;
+                } else if (w.getName().contains("Laser")) {
+                   // No Laser Texture FIXME Team Front End
+                }
+            }
+
             //Gegner
             //Shot
             if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
@@ -944,19 +983,6 @@ public class CombatScreen extends BaseScreen {
 
                 canFireGegner = false;
                 validationGegner = "";
-            }
-            //on weapon system Explosion
-            if ((!sectionsPlayer.isEmpty() && sectionsPlayer.get(1).getUsable() == false) || isNewExpo) {
-                isNewExpo = true;
-                stage.getBatch().draw(explosion, 555, 520, 100, 100);
-            }
-            if ((!sectionsPlayer.isEmpty() && sectionsPlayer.get(1).getUsable() == false) || isNewExpo2) {
-                isNewExpo2 = true;
-                stage.getBatch().draw(explosion, 700, 520, 100, 100);
-            }
-            if ((!sectionsPlayer.isEmpty() && sectionsPlayer.get(1).getUsable() == false) || isNewExpo3) {
-                isNewExpo3 = true;
-                stage.getBatch().draw(explosion, 710, 670, 100, 100);
             }
 
             if (!sectionsPlayer.isEmpty()) {
@@ -1035,18 +1061,8 @@ public class CombatScreen extends BaseScreen {
             if (Global.currentShipGegner.getShield() > 0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
 
             //explosion on enemy's engine
-            if (counterEngine >= 3 && !isEnemyShield) {
-                stage.getBatch().draw(explosion, 1515, 422, 100, 100);
-            }
 
-            //explosion on enemy's weapon
-            if (counterWeapon >= 3 && !isEnemyShield) {
-                stage.getBatch().draw(explosion, 1450, 500, 100, 100);
-            }
-            //explosion on enemy's cockpit
-            if (counterCockpit >= 2 && !isEnemyShield) {
-                stage.getBatch().draw(explosion, 1515, 690, 100, 100);
-            }
+
             //update bullets
             ArrayList<Bullet> bulletToRemove = new ArrayList<>();
             for (Bullet bullet : bullets) {

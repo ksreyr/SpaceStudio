@@ -135,14 +135,18 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
-    public String fire(@RequestBody List<Weapon> weapons) {
+    public List<Section> fire(@RequestBody List<Weapon> pWeapons) {
     Random random = new Random();
 
         Ship ship = new Ship();
+
+        List<Weapon> weapons = getWeapons(pWeapons);
+
         for (Weapon weapon :
                 weapons) {
             //Search the objective
             boolean hasHit = (  (float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
+            weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
             if (hasHit) {  // Dont change anything if no hit
                 ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
                 if (ship.getShield() > 0) {
@@ -156,42 +160,37 @@ public class WeaponControllerImpl implements WeaponController {
                 }
             }
             shipRepository.save(ship);
+            weaponRepository.save(weapon);
         }
-        List<Section> sectionToSend = sectionRepository.findAllByShip(ship).get();
-        Gson gson = new Gson();
-
-        return gson.toJson(sectionToSend);
+        Optional<List<Section>> sections = sectionRepository.findAllByShip(ship);
+        return sections.orElseGet(ArrayList::new);
     }
 
     @Override
-
-    public List<Boolean> shotValidation(List<Weapon> weapons) {
+    public List<Boolean> shotValidation(List<Weapon> pWeapons) {
         List<Boolean> shots = new ArrayList<>();
+
+        List<Weapon> weapons = getWeapons(pWeapons);
         weapons.forEach(w -> shots.add(canShoot(w)));
         return shots;
     }
 
-    private boolean canShoot(Weapon w) {
+    private List<Weapon> getWeapons(List<Weapon> pWeapons) {
+        List<Integer> ids = new ArrayList<>();
+        pWeapons.forEach(e -> ids.add(e.getId()));
+        List<Weapon> weapons = weaponRepository.findAllById(ids);
 
-        Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-        if (w.getObjectiv() != null &&  ship.getHp() > 0 && isOutsideRange(w.getLastShot(), w.getCoolDown())) {
-             return w.getSection().getUsable();
-        }
-        return false;
+        weapons.forEach(w -> w.setObjectiv(pWeapons.get(0).getObjectiv()));
+        return weapons;
     }
 
-
-    /**
-     * Has the last shot been within coolDown Time
-     *
-     * @param lastShot happend at this time
-     * @param coolDown lasts this long
-     * @return if the weapon can shot
-     */
-    boolean isOutsideRange(long lastShot, long coolDown) {
-        long now = System.currentTimeMillis();
-        long timeElapsed = now - lastShot;
-        return (timeElapsed > coolDown);  // Convert to Milliseconds
+    @Override
+    public boolean canShoot(Weapon w) {
+        Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
+        if (w.getObjectiv() != null &&  ship.getHp() > 0 && w.getWarmUp () == 0 && w.getCurrentBullets() > 0 ) {
+             return w.getSection().getUsable();
+        }
+         return false;
     }
 
     @RequestMapping(value = "/buyweapon", method = RequestMethod.POST)
@@ -216,7 +215,6 @@ public class WeaponControllerImpl implements WeaponController {
             weaponRepository.save(weapon);
         }
         List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(section.getShip()).get();
-
         return gson.toJson(shipRessources);
     }
 }

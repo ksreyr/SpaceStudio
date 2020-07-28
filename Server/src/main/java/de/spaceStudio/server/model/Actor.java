@@ -1,10 +1,9 @@
 package de.spaceStudio.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.spaceStudio.server.handler.ActorState;
 
 import javax.persistence.*;
-
+import java.util.List;
 
 
 @Entity
@@ -25,6 +24,10 @@ public  class Actor {
     @OneToOne
     @JsonIgnore
     private ActorState state;
+
+
+    @ManyToMany
+    private List<StopAbstract> visitedStops;
 
     public Actor() {
 
@@ -62,5 +65,13 @@ public  class Actor {
 
     public void setState(ActorState state) {
         this.state = state;
+    }
+
+    public List<StopAbstract> getVisitedStops() {
+        return visitedStops;
+    }
+
+    public void setVisitedStops(List<StopAbstract> visitedStops) {
+        this.visitedStops = visitedStops;
     }
 }
