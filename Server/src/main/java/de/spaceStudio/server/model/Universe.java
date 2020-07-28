@@ -13,8 +13,8 @@ public class Universe  {
     private String name;
 
 
-    @OneToMany
-    private List<GameRound> rounds;
+//    @OneToMany
+//    private List<GameRound> rounds;
 
     public Universe(UniverseBuilder universeBuilder) {
         this.id=universeBuilder.id;
@@ -43,13 +43,13 @@ public class Universe  {
         return new UniverseBuilder();
     }
 
-    public List<GameRound> getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(List<GameRound> rounds) {
-        this.rounds = rounds;
-    }
+//    public List<GameRound> getRounds() {
+//        return rounds;
+//    }
+//
+//    public void setRounds(List<GameRound> rounds) {
+//        this.rounds = rounds;
+//    }
 
     public static class UniverseBuilder{
         private Integer id;

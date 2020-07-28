@@ -88,6 +88,8 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
+                } else if (url.contains("fightState")) {
+                    Global.fightState.put(id, responseString[0]);
                 }
 
 
@@ -135,5 +137,13 @@ public final class RequestUtils {
     public static void getShip(Ship ship) {
         genericRequest(Global.SERVER_URL + Global.ASK_FOR_SHIP + "/" + ship.getId(),
                 true, ship.getId(), Net.HttpMethods.GET, "");
+    }
+
+    public static void getFightState(Actor actor) {
+        genericRequest(Global.SERVER_URL + Global.GAME + Global.FIGHT_STATE, false, actor.getId(), Net.HttpMethods.GET, actor);
+    }
+
+    public static void setFightState(Actor actor) {
+        genericRequest(Global.SERVER_URL + Global.GAME + Global.FIGHT_STATE, false, actor.getId(), Net.HttpMethods.POST, actor);
     }
 }
