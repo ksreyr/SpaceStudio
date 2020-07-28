@@ -543,7 +543,7 @@ public class GameControllerImpl implements GameController {
 
 
                 // Attack a random section of the ones working
-                int random = (int) (Math.random() * xs.size());
+                int random = (int) (Math.random() * (xs.size() - 1));
                 Section attackSection = xs.get(random);
 
                 // Add all AI Weapons to attackWeapons
@@ -562,14 +562,16 @@ public class GameControllerImpl implements GameController {
                 // Shot at the Player as long as it is possible to fire
                 do {
                     shots = weaponController.shotValidation(attackWeapons);
-                    List<Weapon> weaponsWhichCanFire = new ArrayList<>();
-                    // Fire each Weapon which can Shot
-                    for (int i = 0; i < shots.size(); i++) {
-                        if (shots.get(i)) {
-                            weaponsWhichCanFire.add(attackWeapons.get(i)); // Get Value then index i
-                        }
-                        // Fire
-                        weaponController.fire(weaponsWhichCanFire); // fire saves the dammaged Sections
+                    if (shots.size() > 0) {
+                      List<Weapon> weaponsWhichCanFire = new ArrayList<>();
+                      // Fire each Weapon which can Shot
+                      for (int i = 0; i < shots.size(); i++) {
+                          if (shots.get(i)) {
+                              weaponsWhichCanFire.add(attackWeapons.get(i)); // Get Value then index i
+                          }
+                          // Fire
+                          weaponController.fire(weaponsWhichCanFire); // fire saves the dammaged Sections
+                      }
                     }
                 }
                 while (shots.contains(true));
