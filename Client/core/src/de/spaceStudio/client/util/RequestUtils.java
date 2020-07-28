@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -89,7 +90,11 @@ public final class RequestUtils {
                         e.printStackTrace();
                     }
                 } else if (url.contains("fightState")) {
-                    Global.fightState.put(id, responseString[0]);
+                    try {
+                        Global.fightState.put(id,  objectMapper.readValue(responseString[0], new TypeReference<FightState>() {}));
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 
