@@ -49,7 +49,7 @@ public class ActorControllerImpl implements ActorController {
         Optional<Actor> fetchActor = actorRepository.findById(actor.getId());
         if (fetchActor.isPresent()) {
             if (!actor.getState().equals(fetchActor.get().getState()))
-            gameController.setFightState(fetchActor.get());
+            gameController.setFightState(actor);
 
             if (fetchActor.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
                 Optional<Ship> ship = shipRepository.findByOwner(actor);

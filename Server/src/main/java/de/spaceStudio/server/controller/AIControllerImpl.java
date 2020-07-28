@@ -67,6 +67,12 @@ public class AIControllerImpl implements AIController {
         List<AI> aisSaved= new ArrayList<>();
         for (AI ai :
                 ais) {
+            ActorState aa = new ActorState();
+            if (ai.getState() == null) {
+                actorStateRepository.save(aa);
+                ai.setState(aa);
+            }
+            ai.setState(aa);
             AI aisaved=aiRepository.save(ai);
             aisSaved.add(aisaved);
         }
