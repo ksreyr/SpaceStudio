@@ -3,10 +3,7 @@ package de.spaceStudio.client.util;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class contains global variables, they can be access in the whole project
@@ -1087,6 +1084,32 @@ public class Global {
         shopRessource2 = shopRessourceList.get(1);
         shopRessource3 = shopRessourceList.get(2);
     }
+
+
+    /**
+     * Sum the current Energy of the Ship
+     * @param sections to to be comptued
+     * @return current energy required
+     */
+    public static int sumCurrentPower(List<Section> sections) {
+        return sections.stream()
+                .mapToInt(Section::getPowerCurrent)
+                .sum();
+    }
+
+    /**
+     * Sum the required Power for the Ship
+     * @param sections to compute the Power Required
+     * @return the sum of the required Power
+     */
+    public static int sumRequiredPower(List<Section> sections) {
+        return sections.stream()
+                .mapToInt(Section::getPowerRequired)
+                .sum();
+    }
+
+
+
 
 
 }
