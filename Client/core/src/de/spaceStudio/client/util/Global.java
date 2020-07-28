@@ -22,6 +22,7 @@ public class Global {
     public static final String CREWMEMBERS = "crewMembers";
     public static final String FIGHT_STATE = "/fightState";
     public static final String GAME = "/game";
+    public static final String ENERGY = "/energy";
     /**
      * Hardcoded server URL
      */

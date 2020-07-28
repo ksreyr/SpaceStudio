@@ -503,6 +503,7 @@ public class GameControllerImpl implements GameController {
      * @param s is the Ship
      * @return current energy required
      */
+    @Override
     public int sumCurrentPower(Ship s) {
         Optional<List<Section>> sections = sectionRepository.findAllByShip(s);
         return sections.map(sectionList -> sectionList.stream()
@@ -515,6 +516,7 @@ public class GameControllerImpl implements GameController {
      * @param s is the Ship
      * @return the sum of the required Power
      */
+    @Override
     public int sumRequiredPower(Ship s) {
         Optional<List<Section>> sections = sectionRepository.findAllByShip(s);
         return sections.map(sectionList -> sectionList.stream()

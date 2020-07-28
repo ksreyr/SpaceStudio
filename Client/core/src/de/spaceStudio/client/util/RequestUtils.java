@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -33,7 +32,7 @@ public final class RequestUtils {
         return request;
     }
 
-    public static String genericRequest(String url, boolean shipRequest, Integer id, String method, Object payload) {
+    public static void genericRequest(String url, boolean shipRequest, Integer id, String method, Object payload) {
                 ObjectMapper objectMapper = new ObjectMapper();
         Net.HttpRequest r = null;
         try {
@@ -111,7 +110,6 @@ public final class RequestUtils {
             }
         });
 
-        return responseString[0];
     }
 
     public static void weaponsByShip(Ship ship) {
@@ -150,5 +148,11 @@ public final class RequestUtils {
 
     public static void setFightState(Actor actor) {
         genericRequest(Global.SERVER_URL + Global.GAME + Global.FIGHT_STATE, false, actor.getId(), Net.HttpMethods.POST, actor);
+    }
+
+
+    public static void updateEnergie(List<Section> sectionsToUpdate) {
+        genericRequest(Global.SERVER_URL  + "/" + Global.SECTIONS + Global.ENERGY, false, Global.currentShipPlayer.getId(),
+                Net.HttpMethods.POST, sectionsToUpdate);
     }
 }
