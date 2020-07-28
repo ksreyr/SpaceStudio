@@ -81,7 +81,7 @@ public class LoginScreen extends BaseScreen {
         keyboard = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/keyboard0.mp3"));
         music = Gdx.audio.newMusic(Gdx.files.internal("Client/core/assets/data/music/through_space.mp3"));
         music.setLooping(true);
-        music.setVolume(0.09f);
+        music.setVolume(0.01f);
         music.play();
 
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
@@ -187,7 +187,7 @@ public class LoginScreen extends BaseScreen {
         userName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                keyboard.play();
+               // keyboard.play();
             }
         });
         userName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
@@ -211,7 +211,7 @@ public class LoginScreen extends BaseScreen {
         userPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                keyboard.play();
+               // keyboard.play();
             }
         });
 
@@ -252,7 +252,7 @@ public class LoginScreen extends BaseScreen {
         newUserName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                keyboard.play();
+                //keyboard.play();
             }
         });
     }

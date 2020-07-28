@@ -844,7 +844,7 @@ public class Global {
 
     }};
     public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
-    public static Map<Integer, FightState> fightState = new HashMap<>();
+    public static Map<Integer, Actor> combatActors = new HashMap<>();
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);
@@ -863,8 +863,8 @@ public class Global {
 
         List<Pair> pairs = new ArrayList<>();
         pairs.add(new Pair(124f, 90f));
-        pairs.add(new Pair(0f, 293f));  // Fehlt
-        pairs.add(new Pair(647f, 307f)); // Fehlt
+        pairs.add(new Pair(0f, 293f));
+        pairs.add(new Pair(647f, 307f));
         pairs.add(new Pair(320f, 210f));
         pairs.add(new Pair(646f, 461f)); // Fehlt
         pairs.add(new Pair(336f, 240f));

@@ -809,16 +809,8 @@ public class CombatScreen extends BaseScreen {
                     int y = 42;
                     for (Weapon w :
                             weaponsToFire) {
-
                             bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + y));
-
                             y = y + shotDelta;
-
-//                            bullets.add(new Bullet(590, 650));
-
-
-
-                            //bullets.add(new Bullet(590, 650));
 
                         yWeaponPos -= shotDelta;
                     }
@@ -953,38 +945,48 @@ public class CombatScreen extends BaseScreen {
             }
 
 
-            // Spaawn Enemy Ship
-            if (Global.currentShipGegner != null) {
+            // Spaawn Enemy Ship if (Global.currentShipGegner != null) {
                 if (Global.currentStop == Global.planet2)
                     stage.getBatch().draw(enemyShip1, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
                 else if (Global.currentStop == Global.planet3)
                     stage.getBatch().draw(enemyShip2, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
                 else stage.getBatch().draw(enemyShip3, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
-
                 // FIXME Brutal Online
 
             }
-             // FIXME use Global.combatWeapons
 
+
+
+        // FIXME LIAM
+        if (!Global.combatActors.isEmpty()) {
+            Global.combatActors.get(Global.currentGegner.getId());
+            System.out.println("Current Enemy State ::::::" + Global.combatActors.get(Global.currentGegner.getId()));
+        }
+
+             // FIXME use Global.combatWeapons
+            int x = 500;
+            bulletsEnemy.add(new Bullet(x, 743));
+            x+=5;
             int y = 22;
             for (Weapon w :
                     Global.combatWeapons.get(Global.currentShipPlayer.getId())) {
+
                 if (w.getName().contains("Rocket")) {
                     stage.getBatch().draw(missille, XPlayerShip + 170, YPlayerShip + y, 400, 50);
                     y += 223;
                 } else if (w.getName().contains("Laser")) {
                    // No Laser Texture FIXME Team Front End
+                    stage.getBatch().draw(laser, XPlayerShip + 170, YPlayerShip + y, 400, 50);
                 }
             }
 
-            //Gegner
-            //Shot
+
+            //Enemy shooting
+
+            canFireGegner = true;
             if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
                 System.out.println("::Gegner Shot now");
-                bulletsEnemy.add(new Bullet(1600, 743));
-                bulletsEnemy.add(new Bullet(1600, 544));
                 rocketLaunch.play();
-                canFireGegner = true;
             } else if (!validationGegner.isEmpty() && validationGegner.equals("Section unusable")) {
                 System.out.println(":::::Section unusable Gegner");
                 validationGegner = "";
@@ -1071,7 +1073,9 @@ public class CombatScreen extends BaseScreen {
             //Create and launch missiles
 
 
-            //shield for player
+
+            //shield
+            // for player
             if (Global.currentShipPlayer.getShield() > 0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
             //shield for enemy
             if (Global.currentShipGegner.getShield() > 0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
@@ -1099,7 +1103,7 @@ public class CombatScreen extends BaseScreen {
                 bullet.render(mainClient.getBatch());
             }
             mainClient.getBatch().end();
-        }
+
 
         stage.act();
         stage.draw();
@@ -1270,6 +1274,8 @@ public class CombatScreen extends BaseScreen {
                     LOG.info(Global.currentShipPlayer.getId().toString());
                     RequestUtils.sectionsByShip(Global.currentShipPlayer);
                     RequestUtils.getShip(Global.currentShipPlayer);
+                    RequestUtils.getActor(Global.currentPlayer);
+                    RequestUtils.getActor(Global.currentGegner);
                 }
             }
 

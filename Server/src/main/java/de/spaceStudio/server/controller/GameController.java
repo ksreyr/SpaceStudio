@@ -82,10 +82,10 @@ public interface GameController {
     String startFight(@RequestBody Actor actor, @PathVariable String session);
 
     @GetMapping(value = "/game/fightState")
-    String getFightState(@RequestBody Actor pActor);
+    FightState  getFightState(@RequestBody Actor pActor);
 
     @PutMapping(value =  "/game/fightState")
-    String setFightState(@RequestBody Actor pActor);
+    FightState setFightState(@RequestBody Actor pActor);
 
     int sumCurrentPower(Ship s);
 
