@@ -244,7 +244,7 @@ public class CombatScreen extends BaseScreen {
         listOfCrewImages.add(imageCrewMemberTwo);
         listOfCrewImages.add(imageCrewMemberThree);
 
-        energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/EnergyWeaponsPanel.png"));
+        energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/energyWeaponsPanel.png"));
         energy = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()), skin);
@@ -279,7 +279,7 @@ public class CombatScreen extends BaseScreen {
         shieldIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/2.png"));
         driveIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/1.png"));
         weaponsIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/3.png"));
-
+        
         shieldIconForEnergyPanel.setPosition(185,12);
         shieldIconForEnergyPanel.addListener(new ClickListener() {
             @Override
