@@ -115,10 +115,13 @@ public class PlayerControllerImpl implements PlayerController {
         if (fetchPlayer.isPresent()) {
             return "Name already registered, try another one :)";
         } else {
+            if (player.getState() == null) {
             ActorState as = new ActorState();
             actorStateRepository.save(as);
             player.setState(as);
+            } else {
             gameController.setFightState(player);
+            }
             playerRepository.save(player);
             return HttpStatus.CREATED.toString();
         }
