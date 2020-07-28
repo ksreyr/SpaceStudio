@@ -864,8 +864,10 @@ public class CombatScreen extends BaseScreen {
 
 
         // FIXME LIAM
-        Global.combatActors.get(Global.currentGegner.getId());
-        System.out.println("Current Enemy State ::::::"+ Global.combatActors.get(Global.currentGegner.getId()));
+        if (!Global.combatActors.isEmpty()) {
+            Global.combatActors.get(Global.currentGegner.getId());
+            System.out.println("Current Enemy State ::::::" + Global.combatActors.get(Global.currentGegner.getId()));
+        }
 
              // FIXME use Global.combatWeapons
             int x = 500;
