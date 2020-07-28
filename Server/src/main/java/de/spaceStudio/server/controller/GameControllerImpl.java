@@ -589,7 +589,7 @@ public class GameControllerImpl implements GameController {
         Optional<AI> ai = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
         Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
 
-        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent()) {
+        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent() && weapon != null) {
 
             // TODO if is online
 
