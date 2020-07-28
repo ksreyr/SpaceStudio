@@ -865,15 +865,10 @@ public class CombatScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)  ) {
             randomNumber = (int) ((Math.random() * (5)) + 0);
             //Set Target->Section of Player and gegner Weapons
-            logicOfFireGegner(randomNumber);
-            //Set Target->Section of  gegner and User Weapons
             logicOfFirePlayer();
             //bullets.add(new Bullet(590, yWeaponPos));
             counterCockpit++;
             bullets.add(new Bullet(BaseScreen.WIDTH, 0));
-
-
-
         }
 
 
@@ -963,7 +958,6 @@ public class CombatScreen extends BaseScreen {
             System.out.println("Current Enemy State ::::::" + Global.combatActors.get(Global.currentGegner.getId()));
         }
 
-             // FIXME use Global.combatWeapons
             int x = 500;
             bulletsEnemy.add(new Bullet(x, 743));
             x+=5;
@@ -975,7 +969,6 @@ public class CombatScreen extends BaseScreen {
                     stage.getBatch().draw(missille, XPlayerShip + 170, YPlayerShip + y, 400, 50);
                     y += 223;
                 } else if (w.getName().contains("Laser")) {
-                   // No Laser Texture FIXME Team Front End
                     stage.getBatch().draw(laser, XPlayerShip + 170, YPlayerShip + y, 400, 50);
                 }
             }
@@ -996,12 +989,6 @@ public class CombatScreen extends BaseScreen {
 
                 mainClient.setScreen(new MenuScreen(game));
             }
-            if (canFireGegner) {
-                makeAShotGegner(Global.currentShipGegner, Net.HttpMethods.POST);
-
-                canFireGegner = false;
-                validationGegner = "";
-            }
 
             if (!sectionsPlayer.isEmpty()) {
                 Global.sectionsPlayerList = sectionsPlayer;
@@ -1013,59 +1000,59 @@ public class CombatScreen extends BaseScreen {
             }
 
             //Update Server Response
-            if (!sectionsGegner.isEmpty()) {
-                Section sectionResponse = sectionsGegner.get(0);
-                Ship shiptoUpdate = sectionResponse.getShip();
-                Global.currentShipGegner = shiptoUpdate;
-                switch (sectionResponse.getShip().getName()) {
-                    case "Shipgegner1":
-                        Global.sectionsgegner1 = sectionsGegner;
-                        Global.updateVariblesSectionsGegner1();
-                        Global.shipGegner1 = shiptoUpdate;
-                        Global.currentShipGegner = shiptoUpdate;
-                        Global.aktualizierenweaponListUniverse2();
-                        break;
-                    case "Shipgegner2":
-                        Global.sectionsgegner2 = sectionsGegner;
-                        Global.updateVariblesSectionsGegner2();
-                        Global.shipGegner2 = shiptoUpdate;
-                        Global.currentShipGegner = shiptoUpdate;
-                        Global.aktualizierenweaponListUniverse2();
-                        break;
-                    case "Shipgegner3":
-                        Global.sectionsgegner3 = sectionsGegner;
-                        Global.updateVariblesSectionsGegner3();
-                        Global.shipGegner3 = shiptoUpdate;
-                        Global.currentShipGegner = shiptoUpdate;
-                        Global.aktualizierenweaponListUniverse2();
-                        break;
-                    case "Shipgegner4":
-                        Global.sectionsgegner4 = sectionsGegner;
-                        Global.updateVariblesSectionsGegner4();
-                        Global.shipGegner4 = shiptoUpdate;
-                        Global.currentShipGegner = shiptoUpdate;
-                        Global.aktualizierenweaponListUniverse2();
-                        break;
-                    case "Shipgegner5":
-                        Global.sectionsgegner5 = sectionsGegner;
-                        Global.updateVariblesSectionsGegner5();
-                        Global.shipGegner5 = shiptoUpdate;
-                        Global.currentShipGegner = shiptoUpdate;
-                        Global.aktualizierenweaponListUniverse2();
-                        break;
-                    case "Shipgegner6":
-                        Global.sectionsgegner6 = sectionsGegner;
-                        Global.updateVariblesSectionsGegner6();
-                        Global.shipGegner6 = shiptoUpdate;
-                        Global.currentShipGegner = shiptoUpdate;
-                        Global.aktualizierenweaponListUniverse2();
-                        break;
-                }
-                Global.updateShipsListgegneru2();
-                List<Section> sizeO = new ArrayList<>();
-                sectionsGegner = sizeO;
-                //GEGNER FIRE
-            }
+//            if (!sectionsGegner.isEmpty()) {
+//                Section sectionResponse = sectionsGegner.get(0);
+//                Ship shiptoUpdate = sectionResponse.getShip();
+//                Global.currentShipGegner = shiptoUpdate;
+//                switch (sectionResponse.getShip().getName()) {
+//                    case "Shipgegner1":
+//                        Global.sectionsgegner1 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner1();
+//                        Global.shipGegner1 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner2":
+//                        Global.sectionsgegner2 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner2();
+//                        Global.shipGegner2 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner3":
+//                        Global.sectionsgegner3 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner3();
+//                        Global.shipGegner3 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner4":
+//                        Global.sectionsgegner4 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner4();
+//                        Global.shipGegner4 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner5":
+//                        Global.sectionsgegner5 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner5();
+//                        Global.shipGegner5 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner6":
+//                        Global.sectionsgegner6 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner6();
+//                        Global.shipGegner6 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                }
+//                Global.updateShipsListgegneru2();
+//                List<Section> sizeO = new ArrayList<>();
+//                sectionsGegner = sizeO;
+//                //GEGNER FIRE
+//            }
             lebengegnerShip.setText(String.valueOf(Global.currentShipGegner.getHp()));
             lebenplayerShip.setText(String.valueOf(Global.currentShipPlayer.getHp()));
             //A

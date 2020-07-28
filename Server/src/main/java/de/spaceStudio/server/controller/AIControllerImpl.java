@@ -51,9 +51,13 @@ public class AIControllerImpl implements AIController {
      */
     @Override
     public String addAI(AI ai) {
-        ActorState as = new ActorState();
-        actorStateRepository.save(as);
-        ai.setState(as);
+
+        ActorState aa = new ActorState();
+        if (ai.getState() == null) {
+            actorStateRepository.save(aa);
+            ai.setState(aa);
+        }
+        ai.setState(aa);
         aiRepository.save(ai);
         return HttpStatus.CREATED.toString();
     }
