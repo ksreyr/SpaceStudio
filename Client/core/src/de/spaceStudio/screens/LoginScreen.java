@@ -167,7 +167,7 @@ public class LoginScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //serverUrlTextField.setText("");
+                serverUrlTextField.setText("");
             }
         });
     }
@@ -175,7 +175,6 @@ public class LoginScreen extends BaseScreen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-
     }
 
     private void existedUserName() {
@@ -222,7 +221,6 @@ public class LoginScreen extends BaseScreen {
                 userPassword.setText("");
                 userPassword.setPasswordCharacter('*');
                 loginConfirmation.setText("");
-
             }
         });
     }
