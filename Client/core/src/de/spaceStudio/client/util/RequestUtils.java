@@ -90,10 +90,22 @@ public final class RequestUtils {
                     }
                 } else if (url.contains("actor")) {
                     try {
-                        Global.combatActors.put(id,  objectMapper.readValue(responseString[0], new TypeReference<Player>() {}));
+                        Actor actor = objectMapper.readValue(responseString[0], new TypeReference<Player>() {});
+                        if (actor.getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
+                            if (Global.combatWeapons.size()  == 2 && Global.combatSections.size() == 2 &&
+                                    Global.combatWeapons.get(Global.currentShipGegner.getId()).size() > 0
+                                    && Global.combatSections.get(Global.currentShipPlayer.getId()).size() > 0) { // Es muss gegner mit Waffne geben
+                                Weapon w = Global.combatWeapons.get(Global.currentShipGegner.getId()).get(0);
+                                w.setObjectiv(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0));
+                                endTurnRequestSinglePlayer(w);
+                            }
+                        }
+                        Global.combatActors.put(id, actor);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
+                } else if (url.contains(Global.END_ROUND_SINGLE)) {
+                    // TODO load weapons which have attacked
                 }
 
 
@@ -156,8 +168,8 @@ public final class RequestUtils {
                 Net.HttpMethods.POST, sectionsToUpdate);
     }
 
-    public static void endTurnRequestSinglePlayer() {
+    public static void endTurnRequestSinglePlayer(Weapon w) {
         genericRequest(Global.SERVER_URL  + "/" + Global.GAME + Global.END_ROUND_SINGLE, false, Global.currentShipPlayer.getId(),
-                Net.HttpMethods.POST, "");
+                Net.HttpMethods.POST, w);
     }
 }

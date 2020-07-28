@@ -171,7 +171,6 @@ public class CombatScreen extends BaseScreen {
                         actor1.getState().setFightState(FightState.WAITING_FOR_TURN);
                         if (Global.IS_SINGLE_PLAYER) {
                             liamButton.setText("Waiting for AI");
-                          RequestUtils.endTurnRequestSinglePlayer();
                         } else {
                             liamButton.setText("Waiting for other Player");
 //                          endTurnRequestMultiplayer() TODO add this
