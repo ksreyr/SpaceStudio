@@ -16,6 +16,7 @@ import java.util.Optional;
 @RestController
 public class CrewMemberControllerImpl implements CrewMemberController {
     private static final Logger logger = LoggerFactory.getLogger(CrewMemberControllerImpl.class);
+    private static final int ROUNDS_TO_TRAVEL = 1;
     @Autowired
     CrewMemberRepository crewMemberRepository;
     @Autowired
@@ -203,6 +204,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
             }
 
             if (crewMemberRepository.findByCurrentSection(sectionNew).isEmpty() && !(sectionNew.equals(sectionOld.get()))) {
+                crewMember.setRoundsToDestination(ROUNDS_TO_TRAVEL);
                 crewMemberRepository.save(crewMember);
                 return crewMember;
             }

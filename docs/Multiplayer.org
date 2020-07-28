@@ -321,16 +321,18 @@ WeaponController -> CombatScreen: List<boolean> succesfullShots
 
 [*] -right-> PENDING
 PENDING -right-> ROUND
-ROUND -down-> STARTED
-STARTED -right-> FAILURE: <b> Not Accepted </b>\n by Server
-STARTED -left-> SUCCESSFULL_VALIDATION
+ROUND -down-> PLAYING
+PLAYING -right-> FAILURE: <b> Not Accepted </b>\n by Server
+PLAYING -left-> SUCCESSFULL_VALIDATION
+PLAYING -> END_ROUND
+END_ROUND -> changeState
+changeState -> GEGNER_ANTWORT
+
+
 
 
 SUCCESSFULL_VALIDATION: List<Boolean> shots
 SUCCESSFULL_VALIDATION: [true, true]
-
-STARTED -> END_ROUND
-END_ROUND -> GEGNER_ANTWORT
 
 GEGNER_ANTWORT:  "<List> Weapons, String Event"
 

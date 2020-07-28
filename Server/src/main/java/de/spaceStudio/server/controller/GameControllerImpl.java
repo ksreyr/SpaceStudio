@@ -337,17 +337,12 @@ public class GameControllerImpl implements GameController {
     @Override
     public Ship endFightRound(Player pPlayer, String session) {
 
-
         // TODO add Online
         Optional<Player> player = playerRepository.findById(pPlayer.getId());
         if (player.isPresent()  && player.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
 
                 Optional<Ship> ship = shipRepository.findByOwner(pPlayer);
                 if (ship.isPresent()) {
-
-                    // TODO if is online
-                    actorFight(ship.get(), session);
-                    actorChangePower(ship.get());
 
                     List<Section> sectionsOfPlayer = sectionController.sectionsByShip(ship.get().getId());
                     List<Weapon> playerOfWeapons = new ArrayList<>();
@@ -365,8 +360,7 @@ public class GameControllerImpl implements GameController {
 
     }
 
-    private void roundStateNext() {
-    }
+
 
     /**
      * If the Weapon Section is dammaged. Divert Energy to the Weapon Section
@@ -427,7 +421,6 @@ public class GameControllerImpl implements GameController {
         } else {
             return HttpStatus.BAD_REQUEST.toString();
         }
-
     }
 
     @Override
@@ -523,18 +516,20 @@ public class GameControllerImpl implements GameController {
 
 
     @Override
-    @GetMapping(value = "/game/fight/{session}")
-    public Optional<Ship> actorFight(@RequestBody Ship playerShip, @PathVariable String session) {
+    public Optional<Ship> actorFight(@RequestBody Weapon weapon) {
 
         // Get the AI Ship, Section and Weapons
-        AI ai =  aiRepository.findById(Global.SinglePlayerGameSessions.get(session).getAi().getId()).get();
-        Optional<Ship> ship = shipRepository.findById(playerShip.getId());
-        Optional<Ship> aiShip = shipRepository.findByOwner(ai);
-        if (ship.isPresent() && aiShip.isPresent()  && ai.getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {  // AI and Player are Waiting
+
+        Optional<Ship> playerShip = shipRepository.findById(weapon.getObjectiv().getShip().getId());
+        Optional<Ship> aiShip = shipRepository.findById(weapon.getSection().getShip().getId());
+        Optional<AI> ai = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
+
+
+        if (playerShip.isPresent() && aiShip.isPresent() && ai.isPresent()   && ai.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {  // AI and Player are Waiting
         Optional<List<Section>> aiSection = sectionRepository.findAllByShip(aiShip.get());
 
         // Player Ship from DB
-            Optional<List<Section>> sectionList = sectionRepository.findAllByShip(ship.get());
+            Optional<List<Section>> sectionList = sectionRepository.findAllByShip(playerShip.get());
             if (sectionList.isPresent() && aiSection.isPresent()) {
                 // Figure out which Sections to attack
                 List<Section> xs = new ArrayList<>();
@@ -544,7 +539,7 @@ public class GameControllerImpl implements GameController {
                         xs.add(s);
                 }
 
-                ai.getState().setFightState(FightState.PLAYING);
+                ai.get().getState().setFightState(FightState.PLAYING);
 
 
                 // Attack a random section of the ones working
@@ -578,13 +573,40 @@ public class GameControllerImpl implements GameController {
                     }
                 }
                 while (shots.contains(true));
-                ai.getState().setFightState(FightState.WAITING_FOR_TURN);
-                aiRepository.save(ai);
+                ai.get().getState().setFightState(FightState.WAITING_FOR_TURN);
+                aiRepository.save(ai.get());
             }
         } else {
             LOG.error("Could not exceute AI Fight");
         }
-        return shipRepository.findById(playerShip.getId());
+        return shipRepository.findById(playerShip.get().getId());
     }
+
+    @Override
+    public List<Weapon> endSingleRound(Weapon weapon) {
+        Optional<Ship> playerShip = shipRepository.findById(weapon.getObjectiv().getShip().getId());
+        Optional<Ship> aiShip = shipRepository.findById(weapon.getSection().getShip().getId());
+        Optional<AI> ai = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
+        Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
+
+        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent()) {
+
+            // TODO if is online
+
+            actorFight(weapon);
+            actorChangePower(aiShip.get());
+
+            List<Section> sectionsOfPlayer = sectionController.sectionsByShip(aiShip.get().getId());
+            List<Weapon> playerOfWeapons = new ArrayList<>();
+            for (Section s :
+                    sectionsOfPlayer) {
+                playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
+            }
+
+            lowerWarmUpTime(playerOfWeapons);
+        }
+        return null;
+    }
+
 
 }

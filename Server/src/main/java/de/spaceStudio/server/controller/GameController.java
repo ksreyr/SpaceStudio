@@ -5,6 +5,7 @@ import de.spaceStudio.server.model.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
+import java.util.List;
 import java.util.Optional;
 
 public interface GameController {
@@ -96,6 +97,11 @@ public interface GameController {
      * @param playerShip who will be attacked
      * @return the changed Ship
      */
-    @GetMapping(value = "/game/fight/{session}")
-    Optional<Ship> actorFight(@RequestBody Ship playerShip, @PathVariable String session);
+    @GetMapping(value = "/game/fight/")
+    Optional<Ship> actorFight(@RequestBody Weapon weapon);
+
+    @PostMapping(value = "/game/endSingleRound")
+    List<Weapon> endSingleRound(@RequestBody Weapon weapon);
+
+
 }
