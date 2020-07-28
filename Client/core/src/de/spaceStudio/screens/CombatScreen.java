@@ -95,7 +95,7 @@ public class CombatScreen extends BaseScreen {
     private Texture background, laser;
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
     private Texture shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel;
-    private ImageButton shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
+    private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
     //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
     private RedPin redPinSectionOne, redPinSectionTwo, redPinSectionThree, redPinSectionFour, redPinSectionFive, redPinSectionSix;
     private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
@@ -280,10 +280,11 @@ public class CombatScreen extends BaseScreen {
         bullets = new ArrayList<>();
         bulletsEnemy = new ArrayList<>();
 
-        shieldIconForEnergyPanel = new ImageButton(shield_Icon);
-        driveIconForEnergyPanel = new ImageButton(drive_Icon);
-        weaponsIconForEnergyPanel = new ImageButton(weapon_Icon);
+        shieldIconForEnergyPanel = new Image(new Texture("Client/core/assets/data/ships/shield.png"));
+        driveIconForEnergyPanel = new Image(new Texture("Client/core/assets/data/ships/drive.png"));
+        weaponsIconForEnergyPanel = new Image(new Texture("Client/core/assets/data/ships/weapons.png"));
 
+        shieldIconForEnergyPanel
         shieldIconForEnergyPanel.setPosition(185,12);
         shieldIconForEnergyPanel.addListener(new ClickListener() {
             @Override
