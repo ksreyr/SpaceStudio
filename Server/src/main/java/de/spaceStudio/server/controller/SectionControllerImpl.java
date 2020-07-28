@@ -166,8 +166,7 @@ public class SectionControllerImpl implements SectionController {
             int sumCurrent = sectionsToUpdate.stream().mapToInt(Section::getPowerCurrent).sum();
             int sumRequired = sectionsToUpdate.stream().mapToInt(Section::getPowerRequired).sum();
 
-            if (sumCurrent == gameController.sumCurrentPower(sectionsToUpdate.get(0).getShip())
-                    && sumRequired == gameController.sumRequiredPower(sectionsToUpdate.get(0).getShip())
+            if (sumRequired == gameController.sumRequiredPower(sectionsToUpdate.get(0).getShip())
                     && sumCurrent <= sectionsToUpdate.get(0).getShip().getPower() && allEqual) {
                     sectionRepository.saveAll(sectionsToUpdate);
                     LOGGER.info("Updating Energy of Sections");
