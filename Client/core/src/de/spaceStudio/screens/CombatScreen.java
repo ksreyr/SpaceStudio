@@ -122,9 +122,8 @@ public class CombatScreen extends BaseScreen {
     private int yWeaponPos = 700;
     private Boolean gedruck = false;
     //
-    private int energyInsgesamtVerfügbar = 3;
-    private int anzahlEnergyShieldSystem, anzahlEnergyWeaponsSystem, anzahlEnergyDriveSystem = 1;
-    int energy_Y_Position = 13;
+    private int availableEnergy = 3;
+    private int anzahlEnergyShieldSystem = 0, anzahlEnergyWeaponsSystem = 0, anzahlEnergyDriveSystem = 0;
 
     private Label weaponsLabel;
     private TextButton liamButton;
@@ -157,8 +156,6 @@ public class CombatScreen extends BaseScreen {
         weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
         weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
         weaponLabel.setAlignment(Align.bottomRight);
-
-
 
     }
     private void liamButtonFuntion(){
@@ -283,6 +280,71 @@ public class CombatScreen extends BaseScreen {
         bullets = new ArrayList<>();
         bulletsEnemy = new ArrayList<>();
 
+        shieldIconForEnergyPanel = new ImageButton(shield_Icon);
+        driveIconForEnergyPanel = new ImageButton(drive_Icon);
+        weaponsIconForEnergyPanel = new ImageButton(weapon_Icon);
+
+        shieldIconForEnergyPanel.setPosition(185,12);
+        shieldIconForEnergyPanel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if(availableEnergy > 0){
+                    availableEnergy--;
+                    anzahlEnergyShieldSystem++;
+                }
+                System.out.println("Energy added to shield");
+            }
+        });
+        shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(anzahlEnergyShieldSystem > 0){
+                    availableEnergy++;
+                    anzahlEnergyShieldSystem--;
+                }
+            }
+        });
+
+        driveIconForEnergyPanel.setPosition(345,12);
+        driveIconForEnergyPanel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if(availableEnergy > 0){
+                    availableEnergy--;
+                    anzahlEnergyDriveSystem++;
+                }
+            }
+        });
+        driveIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(anzahlEnergyDriveSystem > 0){
+                    availableEnergy++;
+                    anzahlEnergyDriveSystem--;
+                }
+            }
+        });
+
+        weaponsIconForEnergyPanel.setPosition(495,16);
+        weaponsIconForEnergyPanel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                if(availableEnergy > 0){
+                    availableEnergy--;
+                    anzahlEnergyWeaponsSystem++;
+                }
+            }
+        });
+        weaponsIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(anzahlEnergyWeaponsSystem > 0){
+                    availableEnergy++;
+                    anzahlEnergyWeaponsSystem--;
+                }
+            }
+        });
+
         o2 = new ImageButton(oxygen_sym);
         o2.setPosition(1560, 510);
         o2.addListener(new ChangeListener() {
@@ -362,52 +424,6 @@ public class CombatScreen extends BaseScreen {
                 o2.getStyle().imageUp = oxygen_sym;
                 healthPoint.getStyle().imageUp = medical_sym;
 
-
-            }
-        });
-
-        shieldIconForEnergyPanel = new ImageButton(shield_Icon);
-        driveIconForEnergyPanel = new ImageButton(drive_Icon);
-        weaponsIconForEnergyPanel = new ImageButton(weapon_Icon);
-
-        shieldIconForEnergyPanel.setPosition(185,12);
-        shieldIconForEnergyPanel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-
-            }
-        });
-        shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        driveIconForEnergyPanel.setPosition(345,12);
-        driveIconForEnergyPanel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-
-            }
-        });
-        driveIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
-
-        weaponsIconForEnergyPanel.setPosition(495,16);
-        weaponsIconForEnergyPanel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y){
-
-            }
-        });
-        weaponsIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
 
             }
         });
@@ -900,9 +916,10 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(energyWeaponsPanel,0,0);
 
             //insgesamt Energy
-            stage.getBatch().draw(energy,25,13,80,110);
+            /*stage.getBatch().draw(energy,25,13,80,110);
             stage.getBatch().draw(energy,25,35,80,110);
-            stage.getBatch().draw(energy,25,57,80,110);
+            stage.getBatch().draw(energy,25,57,80,110);*/
+            drawAvailableEnergy(availableEnergy,25);
             /*
             stage.getBatch().draw(energy,25,79,80,110);
             stage.getBatch().draw(energy,25,101,80,110);
@@ -912,20 +929,23 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(energy,25,189,80,110);*/
 
             //shield Energy
-            stage.getBatch().draw(energy,165,13,80,110);
+            drawAvailableEnergy(anzahlEnergyShieldSystem,165);
+            /*stage.getBatch().draw(energy,165,13,80,110);
             stage.getBatch().draw(energy,165,35,80,110);
             stage.getBatch().draw(energy,165,57,80,110);
-            stage.getBatch().draw(energy,165,79,80,110);
+            stage.getBatch().draw(energy,165,79,80,110);*/
             //drive Energy
-            stage.getBatch().draw(energy,320,13,80,110);
+            drawAvailableEnergy(anzahlEnergyDriveSystem,320);
+            /*stage.getBatch().draw(energy,320,13,80,110);
             stage.getBatch().draw(energy,320,35,80,110);
             stage.getBatch().draw(energy,320,57,80,110);
-            stage.getBatch().draw(energy,320,79,80,110);
+            stage.getBatch().draw(energy,320,79,80,110);*/
             //weapons Energy
-            stage.getBatch().draw(energy,320+147,13,80,110);
+            drawAvailableEnergy(anzahlEnergyWeaponsSystem,467);
+            /*stage.getBatch().draw(energy,320+147,13,80,110);
             stage.getBatch().draw(energy,320+147,35,80,110);
             stage.getBatch().draw(energy,320+147,57,80,110);
-            stage.getBatch().draw(energy,320+147,79,80,110);
+            stage.getBatch().draw(energy,320+147,79,80,110);*/
 
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
@@ -1104,10 +1124,11 @@ public class CombatScreen extends BaseScreen {
         stage.draw();
     }
 
-   public void drawAddEnergy() {
-       for (int i = 0; i < energyInsgesamtVerfügbar; i++) {
-           stage.getBatch().draw(energy,25, energy_Y_Position,80,110);
-           energy_Y_Position += 13;
+   public void drawAvailableEnergy(int energyCounter, int xPosition) {
+       int energyYPosition = 13;
+       for (int i = 0; i < energyCounter; i++) {
+           stage.getBatch().draw(energy, xPosition, energyYPosition, 80, 110);
+           energyYPosition += 22;
        }
    }
 
@@ -1247,8 +1268,11 @@ public class CombatScreen extends BaseScreen {
 
     }
 
-    private void addEnergy(){
-
+    private void drawEnergyShieldSystem(){
+        int energyYPosition = 13;
+        for (int i = 0; i < anzahlEnergyShieldSystem; i++){
+            stage.getBatch().draw(energy,25,energyYPosition,80,110);
+        }
     }
 
     private void scheduleLobby() {
