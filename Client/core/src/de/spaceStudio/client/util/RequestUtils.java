@@ -89,10 +89,10 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                } else if (url.contains("actor")) {
+                } else if (url.contains("actor") ) {
                     try {
                         Actor actor = objectMapper.readValue(responseString[0], new TypeReference<Player>() {});
-                        if (actor.getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
+                        if (actor.getState().getFightState().equals(FightState.WAITING_FOR_TURN)&& method.equals("PUT")) {
                             if (Global.combatWeapons.size()  == 2 && Global.combatSections.size() == 2 &&
                                     Global.combatWeapons.get(Global.currentShipGegner.getId()).size() > 0
                                     && Global.combatSections.get(Global.currentShipPlayer.getId()).size() > 0) { // Es muss gegner mit Waffne geben
@@ -170,7 +170,7 @@ public final class RequestUtils {
     }
 
     public static void endTurnRequestSinglePlayer(Weapon w) {
-        genericRequest(Global.SERVER_URL  + "/" + Global.GAME + Global.END_ROUND_SINGLE, false, Global.currentShipPlayer.getId(),
+        genericRequest(Global.SERVER_URL  + Global.GAME + Global.END_ROUND_SINGLE, false, Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, w);
     }
 }

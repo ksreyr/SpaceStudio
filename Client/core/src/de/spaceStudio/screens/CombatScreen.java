@@ -173,7 +173,6 @@ public class CombatScreen extends BaseScreen {
                             liamButton.setText("Waiting for AI");
                         } else {
                             liamButton.setText("Waiting for other Player");
-//                          endTurnRequestMultiplayer() TODO add this
                         }
                     } else {
                         actor1.getState().setFightState(FightState.PLAYING);
