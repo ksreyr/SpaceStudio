@@ -986,26 +986,12 @@ public class CombatScreen extends BaseScreen {
 
 
             //update bullets
-            ArrayList<Bullet> bulletToRemove = new ArrayList<>();
-            for (Bullet bullet : bullets) {
-                bullet.update(delta);
-                if (bullet.remove) {
-                    bulletToRemove.add(bullet);
-                }
-            }
-
-            bullets.removeAll(bulletToRemove);
+            bullets.removeIf(b -> b.remove);
+            bulletsEnemy.removeIf(b -> b.remove);
 
 
             int p = Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getPowerCurrent();
 
-            ArrayList<Bullet> bulletGegnerToRemove = new ArrayList<>();
-            for (Bullet bullet : bulletsEnemy) {
-                bullet.updateTo(delta);
-                if (bullet.remove) {
-                    bulletGegnerToRemove.add(bullet);
-                }
-            }
 
             stage.getBatch().end();
             mainClient.getBatch().begin();
@@ -1013,7 +999,6 @@ public class CombatScreen extends BaseScreen {
                 bullet.render(mainClient.getBatch());
             }
 
-            bulletsEnemy.removeAll(bulletGegnerToRemove);
             stage.getBatch().end();
             mainClient.getBatch().begin();
             for (Bullet bullet : bulletsEnemy) {

@@ -253,8 +253,8 @@ public class Global {
      * Game Constants
      */
     public static final int OXYGEN = 100;
-    public static final int POWER_CURRENT = 100;
-    public static final int POWER_REQUIRED = 10;
+    public static final int POWER_CURRENT = 2;
+    public static final int POWER_REQUIRED = 1;
     public static final int HP = 1000;
     public static final int SHIELD = 10000;
     public static final int MAGAZIN_SIZE = 10;

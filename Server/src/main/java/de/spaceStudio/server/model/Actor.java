@@ -22,7 +22,6 @@ public  class Actor {
     private String password;
 
     @OneToOne
-    @JsonIgnore
     private ActorState state;
 
 
