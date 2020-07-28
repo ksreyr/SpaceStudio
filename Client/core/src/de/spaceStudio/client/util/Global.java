@@ -23,6 +23,7 @@ public class Global {
     public static final String FIGHT_STATE = "/fightState";
     public static final String GAME = "/game";
     public static final String ENERGY = "/energy";
+    public static final String ACTOR_ENDPOINT = "/actor";
     /**
      * Hardcoded server URL
      */

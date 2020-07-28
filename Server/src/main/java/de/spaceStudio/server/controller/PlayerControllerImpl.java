@@ -133,8 +133,7 @@ public class PlayerControllerImpl implements PlayerController {
         Optional<Player> fetchPlayer = playerRepository.findById(player.getId());
         if (fetchPlayer.isPresent()) {
             gameController.setFightState(player);
-            Player updatedPlayer = playerRepository.save(player);
-            return updatedPlayer;
+            return playerRepository.save(player);
         } else throw new IllegalStateException(String.format("The Player %s to update does not exist", player.getName()));
     }
 

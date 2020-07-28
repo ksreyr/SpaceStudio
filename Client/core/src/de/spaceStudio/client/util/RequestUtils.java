@@ -143,11 +143,11 @@ public final class RequestUtils {
     }
 
     public static void getActor(Actor actor) {
-        genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT + "/" + actor.getId(), false, actor.getId(), Net.HttpMethods.GET, "");
+        genericRequest(Global.SERVER_URL + Global.ACTOR_ENDPOINT + "/" + actor.getId(), false, actor.getId(), Net.HttpMethods.GET, "");
     }
 
     public static void setActor(Actor actor) {
-        genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT, false, actor.getId(), Net.HttpMethods.PUT, actor);
+        genericRequest(Global.SERVER_URL + Global.ACTOR_ENDPOINT, false, actor.getId(), Net.HttpMethods.PUT, actor);
     }
 
 
