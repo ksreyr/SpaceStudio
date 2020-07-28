@@ -1,6 +1,5 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.model.ActorState;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -116,11 +115,9 @@ public class PlayerControllerImpl implements PlayerController {
             return "Name already registered, try another one :)";
         } else {
             if (player.getState() == null) {
-            ActorState as = new ActorState();
-            actorStateRepository.save(as);
-            player.setState(as);
-            } else {
-            gameController.setFightState(player);
+                ActorState as = new ActorState();
+                actorStateRepository.save(as);
+                player.setState(as);
             }
             playerRepository.save(player);
             return HttpStatus.CREATED.toString();
@@ -133,8 +130,12 @@ public class PlayerControllerImpl implements PlayerController {
     @Override
     @RequestMapping(value = "/player", method = RequestMethod.PUT)
     public Player updatePlayer(@RequestBody Player player) {
-        Player updatedPlayer = playerRepository.save(player);
-        return updatedPlayer;
+        Optional<Player> fetchPlayer = playerRepository.findById(player.getId());
+        if (fetchPlayer.isPresent()) {
+            gameController.setFightState(player);
+            Player updatedPlayer = playerRepository.save(player);
+            return updatedPlayer;
+        } else throw new IllegalStateException(String.format("The Player %s to update does not exist", player.getName()));
     }
 
     /**
