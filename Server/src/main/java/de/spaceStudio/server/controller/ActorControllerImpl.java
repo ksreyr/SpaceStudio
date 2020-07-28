@@ -4,9 +4,11 @@ import de.spaceStudio.server.model.Actor;
 import de.spaceStudio.server.repository.ActorRepository;
 import de.spaceStudio.server.repository.ActorStateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+@RestController
 public class ActorControllerImpl implements ActorController {
 
 
