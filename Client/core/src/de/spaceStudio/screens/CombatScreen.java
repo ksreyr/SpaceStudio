@@ -244,7 +244,7 @@ public class CombatScreen extends BaseScreen {
         listOfCrewImages.add(imageCrewMemberTwo);
         listOfCrewImages.add(imageCrewMemberThree);
 
-        energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/EnergyWeaponsPanel.png"));
+        energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/energyWeaponsPanel.png"));
         energy = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()), skin);
