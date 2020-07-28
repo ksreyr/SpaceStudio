@@ -28,7 +28,7 @@ public interface ActorController {
      * @param Actor the Actor to be updated, which is serialised from the POST JSON
      * @return the updated Actor
      */
-    @RequestMapping(value = "/Actor", method = RequestMethod.PUT)
+    @RequestMapping(value = "/actor", method = RequestMethod.PUT)
     Actor updateActor(@RequestBody Actor Actor);
 
 }
