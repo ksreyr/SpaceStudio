@@ -24,6 +24,7 @@ public class Global {
      * Hardcoded server URL
      */
     public static String SERVER_URL = "http://localhost:8080";
+    //public static String SERVER_URL = "http://192.168.178.106:8080";
     /**
      * Server player endpoint
      */

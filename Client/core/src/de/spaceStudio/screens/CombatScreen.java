@@ -18,10 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -97,7 +94,8 @@ public class CombatScreen extends BaseScreen {
     private Texture enemyShip1, enemyShip2, enemyShip3;
     private Texture background;
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
-    private Texture shieldSystem, weaponsSystem, driveSystem;
+    private Texture shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel;
+    private ImageButton shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
     //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
     private RedPin redPinSectionOne, redPinSectionTwo, redPinSectionThree, redPinSectionFour, redPinSectionFive, redPinSectionSix;
     private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
@@ -122,9 +120,11 @@ public class CombatScreen extends BaseScreen {
     private final List<Weapon> weaponsToFire = new ArrayList<>();
     private final int shotDelta = 400;
     private int yWeaponPos = 700;
+    private int energyInsgesamtVerfügbar = 3;
+    private int anzahlEnergyShieldSystem, anzahlEnergyWeaponsSystem, anzahlEnergyDriveSystem = 1;
+    int energy_Y_Position = 13;
 
     private Label weaponsLabel;
-
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -225,7 +225,7 @@ public class CombatScreen extends BaseScreen {
         listOfCrewImages.add(imageCrewMemberTwo);
         listOfCrewImages.add(imageCrewMemberThree);
 
-        //energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/EnergyWeaponsPanel.png"));
+        energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/EnergyWeaponsPanel.png"));
         energy = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
         lebenplayerShip = new Label(String.valueOf(Global.currentShipPlayer.getHp()), skin);
@@ -237,6 +237,9 @@ public class CombatScreen extends BaseScreen {
         final Drawable cockpit_nat = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/PilotingSymbol.png"));
         final Drawable cockpit_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/PilotingRed.png"));
 
+        final Drawable shield_Icon = new TextureRegionDrawable(new Texture("Client/core/assets/data/ships/shield.png"));
+        final Drawable weapon_Icon = new TextureRegionDrawable(new Texture("Client/core/assets/data/ships/weapons.png"));
+        final Drawable drive_Icon = new TextureRegionDrawable(new Texture("Client/core/assets/data/ships/drive.png"));
         final Drawable weapon_section = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weaponEnemy.png"));
         final Drawable weapon_section_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/weapon_red.png"));
         final Drawable oxygen_sym = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/oxygen_sym.png"));
@@ -339,6 +342,51 @@ public class CombatScreen extends BaseScreen {
             }
         });
 
+        shieldIconForEnergyPanel = new ImageButton(shield_Icon);
+        driveIconForEnergyPanel = new ImageButton(drive_Icon);
+        weaponsIconForEnergyPanel = new ImageButton(weapon_Icon);
+
+        shieldIconForEnergyPanel.setPosition(185,12);
+        shieldIconForEnergyPanel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+
+            }
+        });
+        shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
+        driveIconForEnergyPanel.setPosition(345,12);
+        driveIconForEnergyPanel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+
+            }
+        });
+        driveIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
+        weaponsIconForEnergyPanel.setPosition(495,16);
+        weaponsIconForEnergyPanel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+
+            }
+        });
+        weaponsIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
 
         weaponSection = new ImageButton(weapon_section);
         weaponSection.setPosition(1450, 500);
@@ -498,6 +546,9 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(engine);
         stage.addActor(cockpit);
         stage.addActor(weaponSection);
+        stage.addActor(weaponsIconForEnergyPanel);
+        stage.addActor(driveIconForEnergyPanel);
+        stage.addActor(shieldIconForEnergyPanel);
         stage.addActor(weaponLabel);
         stage.addActor(imageCrewMemberOne);
         stage.addActor(imageCrewMemberTwo);
@@ -818,7 +869,36 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
             stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
             stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
-            //stage.getBatch().draw(energyWeaponsPanel,0,0);
+            stage.getBatch().draw(energyWeaponsPanel,0,0);
+
+            //insgesamt Energy
+            stage.getBatch().draw(energy,25,13,80,110);
+            stage.getBatch().draw(energy,25,35,80,110);
+            stage.getBatch().draw(energy,25,57,80,110);
+            /*
+            stage.getBatch().draw(energy,25,79,80,110);
+            stage.getBatch().draw(energy,25,101,80,110);
+            stage.getBatch().draw(energy,25,123,80,110);
+            stage.getBatch().draw(energy,25,145,80,110);
+            stage.getBatch().draw(energy,25,167,80,110);
+            stage.getBatch().draw(energy,25,189,80,110);*/
+
+            //shield Energy
+            stage.getBatch().draw(energy,165,13,80,110);
+            stage.getBatch().draw(energy,165,35,80,110);
+            stage.getBatch().draw(energy,165,57,80,110);
+            stage.getBatch().draw(energy,165,79,80,110);
+            //drive Energy
+            stage.getBatch().draw(energy,320,13,80,110);
+            stage.getBatch().draw(energy,320,35,80,110);
+            stage.getBatch().draw(energy,320,57,80,110);
+            stage.getBatch().draw(energy,320,79,80,110);
+            //weapons Energy
+            stage.getBatch().draw(energy,320+147,13,80,110);
+            stage.getBatch().draw(energy,320+147,35,80,110);
+            stage.getBatch().draw(energy,320+147,57,80,110);
+            stage.getBatch().draw(energy,320+147,79,80,110);
+
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
                 stage.getBatch().draw(redPinSectionTwo.texture, XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
@@ -1008,6 +1088,13 @@ public class CombatScreen extends BaseScreen {
         stage.draw();
     }
 
+   public void drawAddEnergy() {
+       for (int i = 0; i < energyInsgesamtVerfügbar; i++) {
+           stage.getBatch().draw(energy,25, energy_Y_Position,80,110);
+           energy_Y_Position += 13;
+       }
+   }
+
     public void shotValidationGegner(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -1141,6 +1228,10 @@ public class CombatScreen extends BaseScreen {
 
             }
         }
+
+    }
+
+    private void addEnergy(){
 
     }
 
