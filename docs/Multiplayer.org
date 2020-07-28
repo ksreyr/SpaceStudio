@@ -218,6 +218,11 @@ startFight -> waitForTurn [label="Button Start Fight"]
 
 #+END_SRC
 
+
+
+
+
+
 #+RESULTS:
 [[file:kampfRunde.png]]
 
@@ -243,3 +248,94 @@ digraph automaton {
 
 #+RESULTS:
 [[file:actorFight.png]]
+
+
+
+#+BEGIN_SRC scala
+trait FullTummy
+trait Bird
+trait Catch
+trait Cat
+def catch(hunter: Cat, prey: Bird): Cat with Catch
+def eat(consumer: Cat with Catch): Cat with FullTummy
+val story = (catch _) andThen (eat _)
+story(new Cat, new Bird)
+#+END_SRC
+
+
+
+#+BEGIN_SRC scala
+case class Player(name: String, score: Int)
+def declareWinner(p: Player): Unit =
+  println(p.name + “ is the winner!”)
+def winner(p1: Player, p2: Player): Unit =
+  if (p1.score > p2.score) declareWinner(p1) else declareWinner(p2)
+#+END_SRC
+
+Seite 27, 40
+
+
+
+#+BEGIN_SRC plantuml :file kommunikation.png
+
+skinparam state {
+    FontColor          white
+    AttributeFontColor white
+    FontSize           17
+    AttributeFontSize  15
+    AttributeFontname  Droid Sans Mono
+    BackgroundColor    #527BC6
+    BorderColor        black
+    ArrowColor         #222266
+}
+
+node Client {
+     interface RequestUtills
+     interface CombatScreen
+
+}
+
+node Server {
+     interface GameController
+     interface WeaponController
+     interface ShipController
+     interface SectionController
+     interface CrewMemberController
+
+
+
+CombatScreen -> WeaponController: List<Weapon> validation
+WeaponController -> CombatScreen: List<boolean> succesfullShots
+
+}
+
+#+END_SRC
+
+#+RESULTS:
+[[file:kommunikation.png]]
+
+
+
+#+BEGIN_SRC plantuml :file combatSequence.png
+
+
+[*] -right-> PENDING
+PENDING -right-> ROUND
+ROUND -down-> STARTED
+STARTED -right-> FAILURE: <b> Not Accepted </b>\n by Server
+STARTED -left-> SUCCESSFULL_VALIDATION
+
+
+SUCCESSFULL_VALIDATION: List<Boolean> shots
+SUCCESSFULL_VALIDATION: [true, true]
+
+STARTED -> END_ROUND
+END_ROUND -> GEGNER_ANTWORT
+
+GEGNER_ANTWORT:  "<List> Weapons, String Event"
+
+
+#+END_SRC
+
+#+RESULTS:
+[[file:combatSequence.png]]

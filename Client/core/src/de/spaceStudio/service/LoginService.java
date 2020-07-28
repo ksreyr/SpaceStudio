@@ -11,13 +11,17 @@ import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.Global.currentPlayer;
 import static de.spaceStudio.client.util.Global.playersOnline;
 
 public class LoginService {
 
+    private final static Logger LOG = Logger.getLogger(LoginService.class.getName());
+
     public static void logout(Object requestObject) {
+
 
         Json json = new Json();
 
@@ -39,6 +43,7 @@ public class LoginService {
                 if (statusCode != HttpStatus.SC_OK) {
                     System.out.println("Request Failed");
                 }
+                LOG.info("Player success logout");
                 System.out.println("statusCode: " + statusCode);
                 String responseJson = httpResponse.getResultAsString();
                 System.out.println(responseJson);

@@ -81,6 +81,12 @@ public interface GameController {
     @GetMapping(value = "/game/startFight/{session}")
     String startFight(@RequestBody Actor actor, @PathVariable String session);
 
+    @GetMapping(value = "/game/fightState")
+    String getFightState(@RequestBody Actor pActor);
+
+    @PutMapping(value =  "/game/fightState")
+    String setFightState(@RequestBody Actor pActor);
+
     /**
      * Fight Against the Player
      * @param playerShip who will be attacked

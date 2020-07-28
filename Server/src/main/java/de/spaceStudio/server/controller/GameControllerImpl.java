@@ -430,7 +430,31 @@ public class GameControllerImpl implements GameController {
 
     }
 
-  public void lowerWarmUpTime(List<Weapon> weapons) {
+    @Override
+    public String getFightState(Actor pActor) {
+       Optional<Actor> actor = actorRepository.findById(pActor.getId());
+       if (actor.isPresent()) {
+           return actor.get().getState().getFightState().toString();
+       } else return HttpStatus.NOT_FOUND.toString();
+    }
+
+    @Override
+    public String setFightState(Actor pActor) {
+        Optional<Actor> actor = actorRepository.findById(pActor.getId());
+        if (actor.isPresent()) {
+            if (!actor.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
+                actor.get().getState().setFightState(FightState.PLAYING);
+            } else {
+                actor.get().getState().setFightState(FightState.WAITING_FOR_TURN);
+            }
+            // FIXME set the other to to the oppsite State
+            actorStateRepository.save(actor.get().getState());
+            return actor.get().getState().getFightState().toString();
+        }
+        return HttpStatus.NOT_FOUND.toString();
+    }
+
+    public void lowerWarmUpTime(List<Weapon> weapons) {
        for (Weapon w :
                weapons) {
            if (w.getWarmUp() != 0) {

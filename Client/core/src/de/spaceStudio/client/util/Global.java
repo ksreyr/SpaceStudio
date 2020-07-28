@@ -20,6 +20,8 @@ public class Global {
     public static final String WEAPONS = "weapons";
     public static final String SECTIONS = "sections";
     public static final String CREWMEMBERS = "crewMembers";
+    public static final String FIGHT_STATE = "/fightState";
+    public static final String GAME = "/game";
     /**
      * Hardcoded server URL
      */
@@ -841,6 +843,7 @@ public class Global {
 
     }};
     public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
+    public static Map<Integer, String> fightState = new HashMap<>();
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);

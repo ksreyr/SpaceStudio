@@ -3,10 +3,12 @@ package de.spaceStudio;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.spaceStudio.client.util.Global;
 import de.spaceStudio.screens.CombatScreen;
 import de.spaceStudio.screens.LoginScreen;
 import de.spaceStudio.screens.StopScreen;
 import de.spaceStudio.screens.WinScreen;
+import de.spaceStudio.service.LoginService;
 
 public class MainClient extends Game {
 
@@ -44,7 +46,10 @@ public class MainClient extends Game {
         super.dispose();
         assetManager.dispose();
         batch.dispose();
-        // TODO when user close game screen -> logout(), destroy Single Player session() and if multiplayer destroy session
+        // TODO when user close game screen => destroy Single Player session() and if multiplayer destroy session
+        if(Global.currentPlayer != null){
+            LoginService.logout(Global.currentPlayer);
+        }
     }
 
     public SpriteBatch getBatch() {
