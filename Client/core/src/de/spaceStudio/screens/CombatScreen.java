@@ -29,10 +29,7 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.CrewMember;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
 
 import java.util.List;
@@ -912,7 +909,7 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(energy,25,189,80,110);*/
 
             //shield Energy
-            drawAvailableEnergy(anzahlEnergyShieldSystem,165);
+            //drawShieldEnergy();
             /*stage.getBatch().draw(energy,165,13,80,110);
             stage.getBatch().draw(energy,165,35,80,110);
             stage.getBatch().draw(energy,165,57,80,110);
@@ -1096,13 +1093,28 @@ public class CombatScreen extends BaseScreen {
         stage.draw();
     }
 
-   public void drawAvailableEnergy(int energyCounter, int xPosition) {
-       int energyYPosition = 13;
-       for (int i = 0; i < energyCounter; i++) {
-           stage.getBatch().draw(energy, xPosition, energyYPosition, 80, 110);
-           energyYPosition += 22;
-       }
-   }
+    public void drawShieldEnergy(int energyCounter, int xPosition){
+        int shieldEnergyCounter = 0;
+        for (Section s : Global.combatSections.get(Global.currentShipPlayer.getId())) {
+            if (s.getSectionTyp().equals(SectionTyp.HEALTH)) {
+                shieldEnergyCounter += s.getPowerCurrent();
+            }
+        }
+
+        int energyYPosition = 13;
+        for(int i = 0; i < energyCounter; i++){
+            stage.getBatch().draw(energy,xPosition,energyYPosition,80,110);
+            energyYPosition += 22;
+        }
+    }
+    public void drawAvailableEnergy(int energyCounter, int xPosition) {
+        int sum =  Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer));
+        int energyYPosition = 13;
+        for (int i = 0; i < energyCounter; i++) {
+            stage.getBatch().draw(energy, xPosition, energyYPosition, 80, 110);
+            energyYPosition += 22;
+        }
+    }
 
     public void shotValidationGegner(Object requestObject, String method) {
         final Json json = new Json();
