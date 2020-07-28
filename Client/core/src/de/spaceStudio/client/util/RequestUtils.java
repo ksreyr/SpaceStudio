@@ -32,7 +32,7 @@ public final class RequestUtils {
         return request;
     }
 
-    public static String genericRequest(String url, boolean shipRequest, Integer id, String method, Object payload) {
+    public static void genericRequest(String url, boolean shipRequest, Integer id, String method, Object payload) {
                 ObjectMapper objectMapper = new ObjectMapper();
         Net.HttpRequest r = null;
         try {
@@ -110,7 +110,6 @@ public final class RequestUtils {
             }
         });
 
-        return responseString[0];
     }
 
     public static void weaponsByShip(Ship ship) {
@@ -144,10 +143,10 @@ public final class RequestUtils {
     }
 
     public static void getActor(Actor actor) {
-        genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT + "/" + actor.getId(), false, actor.getId(), Net.HttpMethods.GET, actor);
+        genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT + "/" + actor.getId(), false, actor.getId(), Net.HttpMethods.GET, "");
     }
 
     public static void setActor(Actor actor) {
-        genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT, false, actor.getId(), Net.HttpMethods.POST, actor);
+        genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT, false, actor.getId(), Net.HttpMethods.PUT, actor);
     }
 }
