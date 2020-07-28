@@ -22,6 +22,7 @@ public class Global {
     public static final String CREWMEMBERS = "crewMembers";
     public static final String FIGHT_STATE = "/fightState";
     public static final String GAME = "/game";
+    public static final String ENERGY = "/energy";
     /**
      * Hardcoded server URL
      */
@@ -254,8 +255,8 @@ public class Global {
      * Game Constants
      */
     public static final int OXYGEN = 100;
-    public static final int POWER_CURRENT = 100;
-    public static final int POWER_REQUIRED = 10;
+    public static final int POWER_CURRENT = 2;
+    public static final int POWER_REQUIRED = 1;
     public static final int HP = 1000;
     public static final int SHIELD = 10000;
     public static final int MAGAZIN_SIZE = 10;
@@ -843,7 +844,7 @@ public class Global {
 
     }};
     public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
-    public static Map<Integer, String> fightState = new HashMap<>();
+    public static Map<Integer, FightState> fightState = new HashMap<>();
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);

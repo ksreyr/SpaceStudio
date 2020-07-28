@@ -87,6 +87,10 @@ public interface GameController {
     @PutMapping(value =  "/game/fightState")
     String setFightState(@RequestBody Actor pActor);
 
+    int sumCurrentPower(Ship s);
+
+    int sumRequiredPower(Ship s);
+
     /**
      * Fight Against the Player
      * @param playerShip who will be attacked

@@ -40,7 +40,6 @@ public class ActorState {
 
     public void setStopState(StopState stopState) {
         this.stopState = stopState;
-
     }
 
     public FightState getFightState() {

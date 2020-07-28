@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class SectionControllerImpl implements SectionController {
@@ -36,6 +37,9 @@ public class SectionControllerImpl implements SectionController {
 
     @Autowired
     SectionRepository sectionRepository;
+
+    @Autowired
+    GameController gameController;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
 
@@ -146,6 +150,29 @@ public class SectionControllerImpl implements SectionController {
         secs = makeChanges(secs);
 
         return secs;
+    }
+
+    @Override
+    public List<Section> updateEnergy(List<Section> sectionsToUpdate) {
+        if (sectionsToUpdate.size() > 0) {
+
+            boolean allEqual = true;
+            for (Section s : sectionsToUpdate) {
+                if (!s.getShip().getId().equals(sectionsToUpdate.get(0).getShip().getId())) {
+                    allEqual = false;
+                    break;
+                }
+            }
+            int sumCurrent = sectionsToUpdate.stream().mapToInt(Section::getPowerCurrent).sum();
+            int sumRequired = sectionsToUpdate.stream().mapToInt(Section::getPowerRequired).sum();
+
+            if (sumRequired == gameController.sumRequiredPower(sectionsToUpdate.get(0).getShip())
+                    && sumCurrent <= sectionsToUpdate.get(0).getShip().getPower() && allEqual) {
+                    sectionRepository.saveAll(sectionsToUpdate);
+                    LOGGER.info("Updating Energy of Sections");
+            }
+        }
+        return sectionRepository.findAllById(sectionsToUpdate.stream().map(Section::getId).collect(Collectors.toList()));
     }
 
     private List<Section> makeChanges(List<Section> sections) {

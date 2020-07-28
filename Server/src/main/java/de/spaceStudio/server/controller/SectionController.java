@@ -1,10 +1,7 @@
 package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.Section;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -71,5 +68,15 @@ public interface SectionController {
      */
     @RequestMapping(value =  "/ship/{id}/sections", method = RequestMethod.GET)
     List<Section> sectionsByShip(@PathVariable Integer id);
+
+
+    /**
+     * Check if all the sections belong to the same ship. If the amount is under the max power of the Ship
+     * then update the Database
+     * @param sectionsToUpdate
+     * @return
+     */
+    @PostMapping(value = "/sections/energy")
+    List<Section> updateEnergy(@RequestBody List<Section> sectionsToUpdate);
 }
 

@@ -32,7 +32,7 @@ public final class RequestUtils {
         return request;
     }
 
-    public static String genericRequest(String url, boolean shipRequest, Integer id, String method, Object payload) {
+    public static void genericRequest(String url, boolean shipRequest, Integer id, String method, Object payload) {
                 ObjectMapper objectMapper = new ObjectMapper();
         Net.HttpRequest r = null;
         try {
@@ -89,7 +89,11 @@ public final class RequestUtils {
                         e.printStackTrace();
                     }
                 } else if (url.contains("fightState")) {
-                    Global.fightState.put(id, responseString[0]);
+                    try {
+                        Global.fightState.put(id,  objectMapper.readValue(responseString[0], new TypeReference<FightState>() {}));
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 
@@ -106,7 +110,6 @@ public final class RequestUtils {
             }
         });
 
-        return responseString[0];
     }
 
     public static void weaponsByShip(Ship ship) {
@@ -145,5 +148,11 @@ public final class RequestUtils {
 
     public static void setFightState(Actor actor) {
         genericRequest(Global.SERVER_URL + Global.GAME + Global.FIGHT_STATE, false, actor.getId(), Net.HttpMethods.POST, actor);
+    }
+
+
+    public static void updateEnergie(List<Section> sectionsToUpdate) {
+        genericRequest(Global.SERVER_URL  + "/" + Global.SECTIONS + Global.ENERGY, false, Global.currentShipPlayer.getId(),
+                Net.HttpMethods.POST, sectionsToUpdate);
     }
 }
