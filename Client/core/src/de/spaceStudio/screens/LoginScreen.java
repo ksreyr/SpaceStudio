@@ -162,7 +162,7 @@ public class LoginScreen extends BaseScreen {
     }
 
     private void serverUrlTextField() {
-        serverUrlTextField = new TextField("Server Url", skin);
+        serverUrlTextField = new TextField(Global.SERVER_URL, skin);
         serverUrlTextField.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
         serverUrlTextField.setPosition(((BaseScreen.WIDTH/2f) - serverUrlTextField.getWidth()/2f), 700);
         serverUrlTextField.setMaxLength(TEXTBOX_LENGTH+20); //max chars for username
