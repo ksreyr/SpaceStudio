@@ -135,7 +135,7 @@ public class TravelScreen extends ScreenAdapter {
             RequestUtils.sectionsByShip(Global.currentShipPlayer);
             RequestUtils.weaponsByShip(Global.currentShipPlayer);
             RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
-            if (Global.currentGegner != null) {
+            if (Global.currentGegner != null && currentShipGegner != null) {
                 RequestUtils.crewMemeberByShip(Global.currentShipGegner);
                 RequestUtils.sectionsByShip(Global.currentShipGegner);
                 RequestUtils.weaponsByShip(Global.currentShipGegner);

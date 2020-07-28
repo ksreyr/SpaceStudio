@@ -145,11 +145,8 @@ public class SectionControllerImpl implements SectionController {
         if (ship.isEmpty()) {
             return null;
         }
-        List<Section> secs = repository.findAllByShip(ship.get()).get();
 
-        secs = makeChanges(secs);
-
-        return secs;
+        return repository.findAllByShip(ship.get()).get();
     }
 
     @Override
@@ -175,28 +172,35 @@ public class SectionControllerImpl implements SectionController {
         return sectionRepository.findAllById(sectionsToUpdate.stream().map(Section::getId).collect(Collectors.toList()));
     }
 
-    private List<Section> makeChanges(List<Section> sections) {
+    @Override
+    public List<Section> makeChanges(List<Section> sections) {
 
         for (Section s :
                 sections) {
             Optional<CrewMember> crew = crewMemberRepository.findByCurrentSection(s);
             if (crew.isPresent() && crew.get().getRole().equals(s.getRole())) {
-                switch (crew.get().getRole()) {
-                    case FIGHTER:
-                        Optional<List<Weapon>> weapons = weaponRepository.findBySection(s);
-                        if (weapons.isPresent()) { // More Power is Crew is in Sections
-                            int powerBuffFighter = s.getPowerCurrent() + 1;
-                            s.setPowerCurrent(powerBuffFighter);
-                            for (Weapon w :
-                                    weapons.get()) {
-                                int damage = w.getDamage() + 10;
-                                w.setDamage(damage);
+                crew.get().setSkillCounter(crew.get().getSkillCounter() + 1);
+                if (crew.get().getRoundsToDestination() >= 0) { // is not Traveling
+                    switch (crew.get().getRole()) {
+                        case FIGHTER:
+                            Optional<List<Weapon>> weapons = weaponRepository.findBySection(s);
+                            if (weapons.isPresent()) { // More Power is Crew is in Sections
+                                int powerBuffFighter = s.getPowerCurrent() + 1;
+                                s.setPowerCurrent(powerBuffFighter);
+                                for (Weapon w :
+                                        weapons.get()) {
+                                    int damage = w.getDamage() + (10 + crew.get().getSkillCounter());
+                                    w.setDamage(damage);
+                                }
                             }
-                        }
-                    case TECHNICIAN:
-                        int powerBuffTechnician = s.getPowerCurrent() + 10;
-                        s.setPowerCurrent(powerBuffTechnician);
+                        case TECHNICIAN:
+                            int powerBuffTechnician = s.getPowerCurrent() + (10 + crew.get().getSkillCounter());
+                            s.setPowerCurrent(powerBuffTechnician);
+                    }
+                } else {
+                    crew.get().setRoundsToDestination(crew.get().getRoundsToDestination() - 1);
                 }
+                crewMemberRepository.save(crew.get());
 
             }
             if (crew.isPresent()) {

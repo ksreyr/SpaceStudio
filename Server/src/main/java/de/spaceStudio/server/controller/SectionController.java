@@ -78,5 +78,7 @@ public interface SectionController {
      */
     @PostMapping(value = "/sections/energy")
     List<Section> updateEnergy(@RequestBody List<Section> sectionsToUpdate);
+
+    List<Section> makeChanges(List<Section> sections);
 }
 

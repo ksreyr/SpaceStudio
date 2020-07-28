@@ -88,9 +88,9 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                } else if (url.contains("player")) {
+                } else if (url.contains("actor")) {
                     try {
-                        Global.combatActors.put(id,  objectMapper.readValue(responseString[0], new TypeReference<Actor>() {}));
+                        Global.combatActors.put(id,  objectMapper.readValue(responseString[0], new TypeReference<Player>() {}));
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -154,5 +154,10 @@ public final class RequestUtils {
     public static void updateEnergie(List<Section> sectionsToUpdate) {
         genericRequest(Global.SERVER_URL  + "/" + Global.SECTIONS + Global.ENERGY, false, Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, sectionsToUpdate);
+    }
+
+    public static void endTurnRequestSinglePlayer() {
+        genericRequest(Global.SERVER_URL  + "/" + Global.GAME + Global.END_ROUND_SINGLE, false, Global.currentShipPlayer.getId(),
+                Net.HttpMethods.POST, "");
     }
 }
