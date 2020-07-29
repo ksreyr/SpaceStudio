@@ -1108,7 +1108,8 @@ public class CombatScreen extends BaseScreen {
         }
     }
     public void drawAvailableEnergy(int energyCounter, int xPosition) {
-        int sum =  Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer));
+        //int sum =  Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer));
+        //System.out.println(sum);
         int energyYPosition = 13;
         for (int i = 0; i < energyCounter; i++) {
             stage.getBatch().draw(energy, xPosition, energyYPosition, 80, 110);
