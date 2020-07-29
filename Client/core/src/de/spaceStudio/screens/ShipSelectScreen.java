@@ -67,12 +67,6 @@ public class ShipSelectScreen extends BaseScreen {
     private final Texture crewMember;
     private final Texture crewMember2;
     private final Texture crewMember3;
-    private final RedPin redPin;
-    private final RedPin redPin2;
-    private final RedPin redPin3;
-    private final RedPin redPin4;
-    private final RedPin redPin5;
-    private final RedPin redPin6;
     private final Image imageCrewMemberSektion2;
     private final Image imageCrewMemberSektion4;
     private final Image imageCrewMemberSektion6;
@@ -218,12 +212,6 @@ public class ShipSelectScreen extends BaseScreen {
         crewMember = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
         crewMember2 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewMember3 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        redPin = new RedPin();
-        redPin2 = new RedPin();
-        redPin3 = new RedPin();
-        redPin4 = new RedPin();
-        redPin5 = new RedPin();
-        redPin6 = new RedPin();
 
         imageCrewMemberSektion2 = new Image(crewMember);
         imageCrewMemberSektion4 = new Image(crewMember2);
@@ -1039,19 +1027,6 @@ public class ShipSelectScreen extends BaseScreen {
                     stage.getBatch().draw(shield, X_POSITION + 210, Y_POSITION + 290);
                     stage.getBatch().draw(drive, X_POSITION + 110, Y_POSITION + 80);
                     stage.getBatch().draw(weaponsSystem, X_POSITION + 295, Y_POSITION + 180);
-
-                    //Sektion 1
-                    stage.getBatch().draw(redPin.texture, X_POSITION + section1.getxPos(), Y_POSITION + section1.getyPos());
-                    //Sektion 2
-                    stage.getBatch().draw(redPin2.texture, X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
-                    //Sektion 3
-                    stage.getBatch().draw(redPin3.texture, X_POSITION + section3.getxPos(), Y_POSITION + section3.getyPos());
-                    //Sektion 4
-                    stage.getBatch().draw(redPin4.texture, X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());
-                    //Sektion 5
-                    stage.getBatch().draw(redPin5.texture, X_POSITION + section5.getxPos(), Y_POSITION + section5.getyPos());
-                    //Sektion 6
-                    stage.getBatch().draw(redPin6.texture, X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());
 
                     //Crewmember befindet sich in Sektion 2
                     stage.addActor(imageCrewMemberSektion2);
