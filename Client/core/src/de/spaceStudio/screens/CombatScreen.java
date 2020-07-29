@@ -1093,6 +1093,7 @@ public class CombatScreen extends BaseScreen {
             }
             mainClient.getBatch().end();
 
+        proofCrewMemberisAvailable();
 
         stage.act();
         stage.draw();
@@ -1314,5 +1315,25 @@ public class CombatScreen extends BaseScreen {
         dialog.key(Input.Keys.ESCAPE, false);
         click.play();
         dialog.show(stage);
+    }
+
+    public void proofCrewMemberisAvailable() {
+        for (int i = 0; i < myCrew.size(); i++) {
+
+            if (myCrew.get(i).getRoundsToDestination() == 1) {
+
+                stage.addActor(listOfCrewImages.get(i));
+                if(i == 0)
+                    imageCrewMemberOne.remove();
+                if (i == 1)
+                    imageCrewMemberTwo.remove();
+                if (i == 2)
+                    imageCrewMemberThree.remove();
+            }
+
+            if (myCrew.get(i).getRoundsToDestination() == 0) {
+                stage.addActor(listOfCrewImages.get(i));
+            }
+        }
     }
 }

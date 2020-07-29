@@ -122,6 +122,7 @@ public class CrewMember {
         this.roundsToDestination = roundsToDestination;
     }
 
+
     public static class CrewMemberBuilder{
 
         private Integer id;
