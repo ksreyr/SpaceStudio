@@ -770,7 +770,7 @@ public class CombatScreen extends BaseScreen {
                     System.out.println("Enemys hp :::::::::::::::::::::"+sectionsGegner.get(0).getShip().getHp());
                 if (sectionsGegner.get(0).getShip().getHp() <= 0) {
                         LOG.info("You have Won the Fight");
-                    final Dialog dialog = new Dialog("Information", skin, "dialog") {
+                    final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
                         public void result(Object obj) {
                             if (Objects.equals(obj.toString(), "true")) {
                                // jumpService(Global.station1);
@@ -1278,18 +1278,13 @@ public class CombatScreen extends BaseScreen {
 
     private void winMessageDialog(Dialog dialog, String action) {
         dialog.text(action);
-        dialog.button("Move", true).addListener(new ChangeListener() {
+        dialog.button("Move 2 Map", true).addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new StationsMap(game));
             }
         });
-        dialog.button("Exit", true).addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-               // Gdx.app.exit();
-            }
-        });
+
         //dialog.button("", false);
         dialog.key(Input.Keys.ENTER, true);
         dialog.key(Input.Keys.ESCAPE, false);
