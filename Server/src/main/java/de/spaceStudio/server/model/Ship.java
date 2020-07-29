@@ -48,6 +48,10 @@ public class Ship {
         setPower(builder.power);
     }
 
+    public static ShipBluider shipBluider() {
+        return new ShipBluider();
+    }
+
     @NonNull
     public ShipForm getShipForm() {
         return shipForm;
@@ -105,10 +109,6 @@ public class Ship {
         this.power = power;
     }
 
-    public static ShipBluider shipBluider(){
-        return new ShipBluider();
-    }
-
     public int getMoney() {
         return money;
     }
@@ -132,20 +132,21 @@ public class Ship {
 
         public ShipBluider(Integer id, String name,
                            Actor owner, int hp,
-                           int shield, int power, ShipForm shipForm)
-        {
+                           int shield, int power, ShipForm shipForm) {
             this.id = id;
             this.name = name;
             this.owner = owner;
             this.hp = hp;
-            this.shipForm=shipForm;
+            this.shipForm = shipForm;
             this.shield = shield;
             this.power = power;
         }
-        public ShipBluider shipForm(ShipForm shipForm){
-            this.shipForm=shipForm;
+
+        public ShipBluider shipForm(ShipForm shipForm) {
+            this.shipForm = shipForm;
             return ShipBluider.this;
         }
+
         public ShipBluider id(int id) {
             this.id = id;
             return ShipBluider.this;

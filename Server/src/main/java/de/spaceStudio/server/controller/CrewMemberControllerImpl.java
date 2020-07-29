@@ -28,7 +28,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
     @Autowired
     ShipRessourceRepository shipRessourceRepository;
 
-    private int crewMemberCost=50;
+    private int crewMemberCost = 50;
 
     /**
      * Get all crewmembers from db
@@ -74,6 +74,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
         crewMemberRepository.save(crewMember);
         return HttpStatus.ACCEPTED.toString();
     }
+
     /**
      * Creates a new crewmember from JSON crewmember object
      *
@@ -83,69 +84,71 @@ public class CrewMemberControllerImpl implements CrewMemberController {
     @RequestMapping(value = "/crewmemberstoadd", method = RequestMethod.POST)
     public String addCrewMembers(@RequestBody List<CrewMember> crewMembers) {
 
-        List<Section> sections= new ArrayList<>();
+        List<Section> sections = new ArrayList<>();
         for (CrewMember c :
                 crewMembers) {
             crewMemberRepository.save(c);
             sections.add(c.getCurrentSection());
         }
-        List<CrewMember> crewMemberListID=new ArrayList<>();
+        List<CrewMember> crewMemberListID = new ArrayList<>();
         for (Section s :
                 sections) {
             crewMemberListID.add(crewMemberRepository.findByCurrentSection(s).get());
         }
         Gson gson = new Gson();
         gson.toJson(crewMemberListID);
-        return  gson.toJson(crewMemberListID);
+        return gson.toJson(crewMemberListID);
     }
+
     @RequestMapping(value = "/buycrewmember")
     public String buyCrewMembers(@RequestBody List<CrewMember> crewMembers) {
-        Gson gson= new Gson();
-        Section section=new Section();
-        for (CrewMember crewMember:
-             crewMembers) {
+        Gson gson = new Gson();
+        Section section = new Section();
+        for (CrewMember crewMember :
+                crewMembers) {
             section = sectionRepository.findById(crewMember.getCurrentSection().getId()).get();
-            List<ShipRessource> shipRessources= shipRessourceRepository.findByShip(section.getShip()).get();
+            List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(section.getShip()).get();
             for (ShipRessource s :
                     shipRessources) {
-                if(s.getName().equals(RessourceName.GOLD)){
-                    if( s.getAmount()-crewMemberCost>=0){
-                        s.setAmount(s.getAmount()-crewMemberCost);
+                if (s.getName().equals(RessourceName.GOLD)) {
+                    if (s.getAmount() - crewMemberCost >= 0) {
+                        s.setAmount(s.getAmount() - crewMemberCost);
                         shipRessourceRepository.save(s);
-                    }else{
+                    } else {
                         return gson.toJson(shipRessources);
                     }
 
                 }
             }
 
-            if(crewMemberRepository.findAllByCurrentSection(section).isPresent()){
+            if (crewMemberRepository.findAllByCurrentSection(section).isPresent()) {
                 List<Section> sectionList = sectionRepository.findAllByShip(section.getShip()).get();
                 for (Section s :
                         sectionList) {
-                    if(crewMemberRepository.findAllByCurrentSection(section).isPresent()){
+                    if (crewMemberRepository.findAllByCurrentSection(section).isPresent()) {
 
-                    }else{
+                    } else {
                         crewMember.setCurrentSection(section);
                         break;
                     }
                 }
-            }else {
+            } else {
                 crewMember.setCurrentSection(section);
             }
 
             crewMemberRepository.save(crewMember);
         }
-        List<ShipRessource> shipRessources= shipRessourceRepository.findByShip(section.getShip()).get();
+        List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(section.getShip()).get();
 
-        return  gson.toJson(shipRessources);
+        return gson.toJson(shipRessources);
     }
-        /**
-         * Update data of the crewmember
-         *
-         * @param crewMember the crewmember to be updated, which is serialised from the POST JSON
-         * @return the updated Crewmember
-         */
+
+    /**
+     * Update data of the crewmember
+     *
+     * @param crewMember the crewmember to be updated, which is serialised from the POST JSON
+     * @return the updated Crewmember
+     */
     @Override
     public CrewMember updateCrewMember(CrewMember crewMember) {
         return crewMemberRepository.save(crewMember);
@@ -183,28 +186,28 @@ public class CrewMemberControllerImpl implements CrewMemberController {
      */
     @Override
     public CrewMember updatePostion(CrewMember crewMember) {
-       Section sectionNew = crewMember.getCurrentSection();
+        Section sectionNew = crewMember.getCurrentSection();
 
-       Optional<CrewMember> crewMemberOld =  crewMemberRepository.findById(crewMember.getId());
+        Optional<CrewMember> crewMemberOld = crewMemberRepository.findById(crewMember.getId());
 
-       if (!crewMemberOld.isPresent()) {
-          throw new IllegalArgumentException("Crew Member was not in a Section");
-       }
+        if (!crewMemberOld.isPresent()) {
+            throw new IllegalArgumentException("Crew Member was not in a Section");
+        }
 
 
-       Optional<Object> sectionOld = Optional.empty();
-       if (crewMemberOld.isPresent()) {
-           sectionOld = Optional.ofNullable(crewMemberOld.get().getCurrentSection());
+        Optional<Object> sectionOld = Optional.empty();
+        if (crewMemberOld.isPresent()) {
+            sectionOld = Optional.ofNullable(crewMemberOld.get().getCurrentSection());
 
-        if (!sectionOld.get().equals(sectionNew)) {
+            if (!sectionOld.get().equals(sectionNew)) {
 
-            if (crewMemberRepository.findByCurrentSection(sectionNew).isEmpty() && !(sectionNew.equals(sectionOld.get()))) {
-                crewMember.setRoundsToDestination(ROUNDS_TO_TRAVEL);
-                crewMemberRepository.save(crewMember);
-                return crewMember;
+                if (crewMemberRepository.findByCurrentSection(sectionNew).isEmpty() && !(sectionNew.equals(sectionOld.get()))) {
+                    crewMember.setRoundsToDestination(ROUNDS_TO_TRAVEL);
+                    crewMemberRepository.save(crewMember);
+                    return crewMember;
+                }
             }
         }
-       }
         return crewMemberOld.get();
     }
 
@@ -216,7 +219,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
         }
         List<Section> sections = sectionRepository.findAllByShip(ship.get()).get();
         List<CrewMember> crewMembers = new ArrayList<>();
-        for (Section s: sections) {
+        for (Section s : sections) {
             Optional<ArrayList<CrewMember>> crews = crewMemberRepository.findAllByCurrentSection(s);
             if (crews.isPresent()) {
                 crewMembers.addAll(crews.get());

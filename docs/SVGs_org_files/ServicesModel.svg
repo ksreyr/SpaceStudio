@@ -2,4 +2,711 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" style="background-color: rgb(255, 255, 255);" version="1.1" width="1556px"
      height="644px" viewBox="-0.5 -0.5 1556 644"
-     content="&lt;mxfile host=&quot;app.diagrams.net&quot; modified=&quot;2020-05-22T14:09:11.080Z&quot; agent=&quot;5.0 (X11)&quot; etag=&quot;D4UZFd_EX1GN3uJ9DUL0&quot; version=&quot;13.1.3&quot;&gt;&lt;diagram id=&quot;1hvCgBS2UhZ0Prny1uiO&quot; name=&quot;Page-1&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;"><defs><clipPath id="mx-clip-4-251-192-26-0"><rect x="4" y="251" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-285-192-26-0"><rect x="4" y="285" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-311-192-26-0"><rect x="4" y="311" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-337-192-26-0"><rect x="4" y="337" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-363-192-26-0"><rect x="4" y="363" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-389-192-26-0"><rect x="4" y="389" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-415-192-26-0"><rect x="4" y="415" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-31-192-26-0"><rect x="4" y="31" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-65-192-26-0"><rect x="4" y="65" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-91-192-26-0"><rect x="4" y="91" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-117-192-26-0"><rect x="4" y="117" width="192" height="26"/></clipPath><clipPath id="mx-clip-4-143-192-26-0"><rect x="4" y="143" width="192" height="26"/></clipPath><clipPath id="mx-clip-524-31-222-26-0"><rect x="524" y="31" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-65-222-26-0"><rect x="524" y="65" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-91-222-26-0"><rect x="524" y="91" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-117-222-26-0"><rect x="524" y="117" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-143-222-26-0"><rect x="524" y="143" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-169-222-26-0"><rect x="524" y="169" width="222" height="26"/></clipPath><clipPath id="mx-clip-4-501-212-26-0"><rect x="4" y="501" width="212" height="26"/></clipPath><clipPath id="mx-clip-4-535-212-26-0"><rect x="4" y="535" width="212" height="26"/></clipPath><clipPath id="mx-clip-4-561-212-26-0"><rect x="4" y="561" width="212" height="26"/></clipPath><clipPath id="mx-clip-4-587-212-26-0"><rect x="4" y="587" width="212" height="26"/></clipPath><clipPath id="mx-clip-4-613-212-26-0"><rect x="4" y="613" width="212" height="26"/></clipPath><clipPath id="mx-clip-244-31-202-26-0"><rect x="244" y="31" width="202" height="26"/></clipPath><clipPath id="mx-clip-244-65-202-26-0"><rect x="244" y="65" width="202" height="26"/></clipPath><clipPath id="mx-clip-244-91-202-26-0"><rect x="244" y="91" width="202" height="26"/></clipPath><clipPath id="mx-clip-244-117-202-26-0"><rect x="244" y="117" width="202" height="26"/></clipPath><clipPath id="mx-clip-244-143-202-26-0"><rect x="244" y="143" width="202" height="26"/></clipPath><clipPath id="mx-clip-244-169-202-26-0"><rect x="244" y="169" width="202" height="26"/></clipPath><clipPath id="mx-clip-244-251-192-26-0"><rect x="244" y="251" width="192" height="26"/></clipPath><clipPath id="mx-clip-244-285-192-26-0"><rect x="244" y="285" width="192" height="26"/></clipPath><clipPath id="mx-clip-244-311-192-26-0"><rect x="244" y="311" width="192" height="26"/></clipPath><clipPath id="mx-clip-244-337-192-26-0"><rect x="244" y="337" width="192" height="26"/></clipPath><clipPath id="mx-clip-244-363-192-26-0"><rect x="244" y="363" width="192" height="26"/></clipPath><clipPath id="mx-clip-244-389-192-26-0"><rect x="244" y="389" width="192" height="26"/></clipPath><clipPath id="mx-clip-524-251-222-26-0"><rect x="524" y="251" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-285-222-26-0"><rect x="524" y="285" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-311-222-26-0"><rect x="524" y="311" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-337-222-26-0"><rect x="524" y="337" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-363-222-26-0"><rect x="524" y="363" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-389-222-26-0"><rect x="524" y="389" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-251-222-26-0"><rect x="794" y="251" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-285-222-26-0"><rect x="794" y="285" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-311-222-26-0"><rect x="794" y="311" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-337-222-26-0"><rect x="794" y="337" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-363-222-26-0"><rect x="794" y="363" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-389-222-26-0"><rect x="794" y="389" width="222" height="26"/></clipPath><clipPath id="mx-clip-791-31-352-26-0"><rect x="791" y="31" width="352" height="26"/></clipPath><clipPath id="mx-clip-791-65-352-26-0"><rect x="791" y="65" width="352" height="26"/></clipPath><clipPath id="mx-clip-791-91-352-26-0"><rect x="791" y="91" width="352" height="26"/></clipPath><clipPath id="mx-clip-791-117-352-26-0"><rect x="791" y="117" width="352" height="26"/></clipPath><clipPath id="mx-clip-791-143-352-26-0"><rect x="791" y="143" width="352" height="26"/></clipPath><clipPath id="mx-clip-791-169-352-26-0"><rect x="791" y="169" width="352" height="26"/></clipPath><clipPath id="mx-clip-1205-31-222-26-0"><rect x="1205" y="31" width="222" height="26"/></clipPath><clipPath id="mx-clip-1205-65-222-26-0"><rect x="1205" y="65" width="222" height="26"/></clipPath><clipPath id="mx-clip-1205-91-222-26-0"><rect x="1205" y="91" width="222" height="26"/></clipPath><clipPath id="mx-clip-1205-117-222-26-0"><rect x="1205" y="117" width="222" height="26"/></clipPath><clipPath id="mx-clip-1205-143-222-26-0"><rect x="1205" y="143" width="222" height="26"/></clipPath><clipPath id="mx-clip-1205-169-222-26-0"><rect x="1205" y="169" width="222" height="26"/></clipPath><clipPath id="mx-clip-1084-251-222-26-0"><rect x="1084" y="251" width="222" height="26"/></clipPath><clipPath id="mx-clip-1084-285-222-26-0"><rect x="1084" y="285" width="222" height="26"/></clipPath><clipPath id="mx-clip-1084-311-222-26-0"><rect x="1084" y="311" width="222" height="26"/></clipPath><clipPath id="mx-clip-1084-337-222-26-0"><rect x="1084" y="337" width="222" height="26"/></clipPath><clipPath id="mx-clip-1084-363-222-26-0"><rect x="1084" y="363" width="222" height="26"/></clipPath><clipPath id="mx-clip-1084-389-222-26-0"><rect x="1084" y="389" width="222" height="26"/></clipPath><clipPath id="mx-clip-1359-251-192-26-0"><rect x="1359" y="251" width="192" height="26"/></clipPath><clipPath id="mx-clip-1359-285-192-26-0"><rect x="1359" y="285" width="192" height="26"/></clipPath><clipPath id="mx-clip-1359-311-192-26-0"><rect x="1359" y="311" width="192" height="26"/></clipPath><clipPath id="mx-clip-1359-337-192-26-0"><rect x="1359" y="337" width="192" height="26"/></clipPath><clipPath id="mx-clip-1359-363-192-26-0"><rect x="1359" y="363" width="192" height="26"/></clipPath><clipPath id="mx-clip-794-481-222-26-0"><rect x="794" y="481" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-515-222-26-0"><rect x="794" y="515" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-541-222-26-0"><rect x="794" y="541" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-567-222-26-0"><rect x="794" y="567" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-593-222-26-0"><rect x="794" y="593" width="222" height="26"/></clipPath><clipPath id="mx-clip-794-619-222-26-0"><rect x="794" y="619" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-481-222-26-0"><rect x="524" y="481" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-515-222-26-0"><rect x="524" y="515" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-541-222-26-0"><rect x="524" y="541" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-567-222-26-0"><rect x="524" y="567" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-593-222-26-0"><rect x="524" y="593" width="222" height="26"/></clipPath><clipPath id="mx-clip-524-619-222-26-0"><rect x="524" y="619" width="222" height="26"/></clipPath><clipPath id="mx-clip-244-481-222-26-0"><rect x="244" y="481" width="222" height="26"/></clipPath><clipPath id="mx-clip-244-515-222-26-0"><rect x="244" y="515" width="222" height="26"/></clipPath><clipPath id="mx-clip-244-541-222-26-0"><rect x="244" y="541" width="222" height="26"/></clipPath><clipPath id="mx-clip-244-567-222-26-0"><rect x="244" y="567" width="222" height="26"/></clipPath><clipPath id="mx-clip-244-593-222-26-0"><rect x="244" y="593" width="222" height="26"/></clipPath><clipPath id="mx-clip-244-619-222-26-0"><rect x="244" y="619" width="222" height="26"/></clipPath><clipPath id="mx-clip-1084-481-262-26-0"><rect x="1084" y="481" width="262" height="26"/></clipPath><clipPath id="mx-clip-1084-515-262-26-0"><rect x="1084" y="515" width="262" height="26"/></clipPath><clipPath id="mx-clip-1084-541-262-26-0"><rect x="1084" y="541" width="262" height="26"/></clipPath><clipPath id="mx-clip-1084-567-262-26-0"><rect x="1084" y="567" width="262" height="26"/></clipPath><clipPath id="mx-clip-1084-593-262-26-0"><rect x="1084" y="593" width="262" height="26"/></clipPath></defs><g><path d="M 0 246 L 0 220 L 200 220 L 200 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="all"/><path d="M 0 246 L 0 436 L 200 436 L 200 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 0 246 L 200 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="99.5" y="237.5">SchiffService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-251-192-26-0)" font-size="12px"><text x="5.5" y="263.5">- schiff: Schiff</text></g><path d="M 0 276 L 200 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-285-192-26-0)" font-size="12px"><text x="5.5" y="297.5">+ setSchiff(Schiff Schiff): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-311-192-26-0)" font-size="12px"><text x="5.5" y="323.5">+ getSchiff: Schiff</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-337-192-26-0)" font-size="12px"><text x="5.5" y="349.5">+ findByID(int id): Schiff</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-363-192-26-0)" font-size="12px"><text x="5.5" y="375.5">+ findByName(String name): Schiff</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-389-192-26-0)" font-size="12px"><text x="5.5" y="401.5">+ findByUser(User user): Schiff</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-415-192-26-0)" font-size="12px"><text x="5.5" y="427.5">+ updateSchiff(User user): void  </text></g><path d="M 0 26 L 0 0 L 200 0 L 200 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 0 26 L 0 164 L 200 164 L 200 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 0 26 L 200 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="99.5" y="17.5">AFK</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-31-192-26-0)" font-size="12px"><text x="5.5" y="43.5">- Afk: AFK</text></g><path d="M 0 56 L 200 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-65-192-26-0)" font-size="12px"><text x="5.5" y="77.5">+ setAFK(User user): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-91-192-26-0)" font-size="12px"><text x="5.5" y="103.5">+ getAFK: AFK</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-117-192-26-0)" font-size="12px"><text x="5.5" y="129.5">+ findByID(int id): AFK  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-143-192-26-0)" font-size="12px"><text x="5.5" y="155.5">+ updateUser(AFK afk): void  </text></g><path d="M 520 26 L 520 0 L 750 0 L 750 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 520 26 L 520 190 L 750 190 L 750 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 520 26 L 750 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="634.5" y="17.5">SchildeService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-31-222-26-0)" font-size="12px"><text x="525.5" y="43.5">- schild: Schild</text></g><path d="M 520 56 L 750 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-65-222-26-0)" font-size="12px"><text x="525.5" y="77.5">+ setSchild(Schild schild): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-91-222-26-0)" font-size="12px"><text x="525.5" y="103.5">+ getSchild: Schild</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-117-222-26-0)" font-size="12px"><text x="525.5" y="129.5">+ findByID(int id): Schild  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-143-222-26-0)" font-size="12px"><text x="525.5" y="155.5">+ findByName(String name): Schild  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-169-222-26-0)" font-size="12px"><text x="525.5" y="181.5">+ updateAntrieb(Schild schild): void  </text></g><path d="M 0 496 L 0 470 L 220 470 L 220 496" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 0 496 L 0 634 L 220 634 L 220 496" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 0 496 L 220 496" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="109.5" y="487.5">UniverseService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-501-212-26-0)" font-size="12px"><text x="5.5" y="513.5">- universe: Universe </text></g><path d="M 0 526 L 220 526" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-535-212-26-0)" font-size="12px"><text x="5.5" y="547.5">+ setUniverse(Universe universe): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-561-212-26-0)" font-size="12px"><text x="5.5" y="573.5">+ getUniverse(): Universe</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-587-212-26-0)" font-size="12px"><text x="5.5" y="599.5">+ getUniverseByID(int id): Universe </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-613-212-26-0)" font-size="12px"><text x="5.5" y="625.5">+ updateUniverse(User user): void  </text></g><path d="M 240 26 L 240 0 L 450 0 L 450 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 240 26 L 240 190 L 450 190 L 450 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 240 26 L 450 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="344.5" y="17.5">StationService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-31-202-26-0)" font-size="12px"><text x="245.5" y="43.5">+ planet: Station </text></g><path d="M 240 56 L 450 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-65-202-26-0)" font-size="12px"><text x="245.5" y="77.5">+ getSation(): Station</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-91-202-26-0)" font-size="12px"><text x="245.5" y="103.5">+ setStation(Station station): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-117-202-26-0)" font-size="12px"><text x="245.5" y="129.5">+ findByID(int id): Station</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-143-202-26-0)" font-size="12px"><text x="245.5" y="155.5">+ findByName(String station): Station</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-169-202-26-0)" font-size="12px"><text x="245.5" y="181.5">+ updateStation(Station station): void</text></g><path d="M 240 246 L 240 220 L 440 220 L 440 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 240 246 L 240 410 L 440 410 L 440 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 240 246 L 440 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="339.5" y="237.5">UserService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-251-192-26-0)" font-size="12px"><text x="245.5" y="263.5">- user: User</text></g><path d="M 240 276 L 440 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-285-192-26-0)" font-size="12px"><text x="245.5" y="297.5">+ setUser(User user): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-311-192-26-0)" font-size="12px"><text x="245.5" y="323.5">+ getUser: User</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-337-192-26-0)" font-size="12px"><text x="245.5" y="349.5">+ findByID(int id): User  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-363-192-26-0)" font-size="12px"><text x="245.5" y="375.5">+ findByName(String name): User  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-389-192-26-0)" font-size="12px"><text x="245.5" y="401.5">+ updateUser(User user): void  </text></g><path d="M 520 246 L 520 220 L 750 220 L 750 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 520 246 L 520 410 L 750 410 L 750 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 520 246 L 750 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="634.5" y="237.5">WaffenService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-251-222-26-0)" font-size="12px"><text x="525.5" y="263.5">- schild: Schild</text></g><path d="M 520 276 L 750 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-285-222-26-0)" font-size="12px"><text x="525.5" y="297.5">+ setSchild(Schild schild): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-311-222-26-0)" font-size="12px"><text x="525.5" y="323.5">+ getSchild: Schild</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-337-222-26-0)" font-size="12px"><text x="525.5" y="349.5">+ findByID(int id): Schild  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-363-222-26-0)" font-size="12px"><text x="525.5" y="375.5">+ findByName(String name): Schild  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-389-222-26-0)" font-size="12px"><text x="525.5" y="401.5">+ updateAntrieb(Schild schild): void  </text></g><path d="M 790 246 L 790 220 L 1020 220 L 1020 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 790 246 L 790 410 L 1020 410 L 1020 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 790 246 L 1020 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="904.5" y="237.5">Rocket</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-251-222-26-0)" font-size="12px"><text x="795.5" y="263.5">- rocket: Rocket</text></g><path d="M 790 276 L 1020 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-285-222-26-0)" font-size="12px"><text x="795.5" y="297.5">+ setRocket(Rocket rocket): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-311-222-26-0)" font-size="12px"><text x="795.5" y="323.5">+ getRocket: Rocket</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-337-222-26-0)" font-size="12px"><text x="795.5" y="349.5">+ findByID(int id): Rocket  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-363-222-26-0)" font-size="12px"><text x="795.5" y="375.5">+ findByName(String name): Rocket  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-389-222-26-0)" font-size="12px"><text x="795.5" y="401.5">+ updateRocket(Rocket rocket): void  </text></g><path d="M 787 26 L 787 0 L 1147 0 L 1147 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 787 26 L 787 190 L 1147 190 L 1147 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 787 26 L 1147 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="966.5" y="17.5">WaffenSystemService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-31-352-26-0)" font-size="12px"><text x="792.5" y="43.5">- waffenSysteme: WaffenSysteme</text></g><path d="M 787 56 L 1147 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-65-352-26-0)" font-size="12px"><text x="792.5" y="77.5">+ setWaffenSysteme(WaffenSysteme waffenSysteme): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-91-352-26-0)" font-size="12px"><text x="792.5" y="103.5">+ get WaffenSysteme: WaffenSysteme</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-117-352-26-0)" font-size="12px"><text x="792.5" y="129.5">+ findByID(int id): WaffenSysteme  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-143-352-26-0)" font-size="12px"><text x="792.5" y="155.5">+ findByName(String name): WaffenSysteme  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-169-352-26-0)" font-size="12px"><text x="792.5" y="181.5">+ updateWaffenSysteme(WaffenSysteme waffenSysteme): void  </text></g><path d="M 1201 26 L 1201 0 L 1431 0 L 1431 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 1201 26 L 1201 190 L 1431 190 L 1431 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 1201 26 L 1431 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="1315.5" y="17.5">Lasser</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-31-222-26-0)" font-size="12px"><text x="1206.5" y="43.5">- lasser: Lasser</text></g><path d="M 1201 56 L 1431 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-65-222-26-0)" font-size="12px"><text x="1206.5" y="77.5">+ setLasser(Lasser lasser): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-91-222-26-0)" font-size="12px"><text x="1206.5" y="103.5">+ getLasser: Lasser</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-117-222-26-0)" font-size="12px"><text x="1206.5" y="129.5">+ findByID(int id): Lasser  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-143-222-26-0)" font-size="12px"><text x="1206.5" y="155.5">+ findByName(String name): Lasser  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-169-222-26-0)" font-size="12px"><text x="1206.5" y="181.5">+ updateLasser(Lasser lasser): void  </text></g><path d="M 1080 246 L 1080 220 L 1310 220 L 1310 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 1080 246 L 1080 410 L 1310 410 L 1310 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 1080 246 L 1310 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="1194.5" y="237.5">AntriebService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-251-222-26-0)" font-size="12px"><text x="1085.5" y="263.5">- antrieb: Antrieb</text></g><path d="M 1080 276 L 1310 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-285-222-26-0)" font-size="12px"><text x="1085.5" y="297.5">+ setAntrieb(Section section): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-311-222-26-0)" font-size="12px"><text x="1085.5" y="323.5">+ getAntrieb: Antrieb</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-337-222-26-0)" font-size="12px"><text x="1085.5" y="349.5">+ findByID(int id): Antrieb  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-363-222-26-0)" font-size="12px"><text x="1085.5" y="375.5">+ findByName(String name): Antrieb  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-389-222-26-0)" font-size="12px"><text x="1085.5" y="401.5">+ updateAntrieb(Antrieb antrieb): void  </text></g><path d="M 1355 246 L 1355 220 L 1555 220 L 1555 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 1355 246 L 1355 384 L 1555 384 L 1555 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 1355 246 L 1555 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="1454.5" y="237.5">PlanetService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-251-192-26-0)" font-size="12px"><text x="1360.5" y="263.5">- planet: Planet </text></g><path d="M 1355 276 L 1555 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-285-192-26-0)" font-size="12px"><text x="1360.5" y="297.5">+ setPlanet(Planet planet): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-311-192-26-0)" font-size="12px"><text x="1360.5" y="323.5">+ getPlanet(): Universe</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-337-192-26-0)" font-size="12px"><text x="1360.5" y="349.5">+ getPlanetByID(int id): Universe </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-363-192-26-0)" font-size="12px"><text x="1360.5" y="375.5">+ updatePlanet(User user): void  </text></g><path d="M 790 476 L 790 450 L 1020 450 L 1020 476" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 790 476 L 790 640 L 1020 640 L 1020 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 790 476 L 1020 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="904.5" y="467.5">Beam</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-481-222-26-0)" font-size="12px"><text x="795.5" y="493.5">- beam: Beam</text></g><path d="M 790 506 L 1020 506" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-515-222-26-0)" font-size="12px"><text x="795.5" y="527.5">+ set Beam(Beam beam): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-541-222-26-0)" font-size="12px"><text x="795.5" y="553.5">+ getBeam: Rocket</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-567-222-26-0)" font-size="12px"><text x="795.5" y="579.5">+ findByID(int id): Beam  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-593-222-26-0)" font-size="12px"><text x="795.5" y="605.5">+ findByName(Beam beam): Beam  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-619-222-26-0)" font-size="12px"><text x="795.5" y="631.5">+ updateBeam(Beam beam): void  </text></g><path d="M 520 476 L 520 450 L 750 450 L 750 476" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 520 476 L 520 640 L 750 640 L 750 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 520 476 L 750 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="634.5" y="467.5">BeamService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-481-222-26-0)" font-size="12px"><text x="525.5" y="493.5">- beam: Beam</text></g><path d="M 520 506 L 750 506" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-515-222-26-0)" font-size="12px"><text x="525.5" y="527.5">+ setBeam(Schild schild): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-541-222-26-0)" font-size="12px"><text x="525.5" y="553.5">+ getBeam: Beam</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-567-222-26-0)" font-size="12px"><text x="525.5" y="579.5">+ findByID(int id): Beam  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-593-222-26-0)" font-size="12px"><text x="525.5" y="605.5">+ findByName(String name): Beam  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-619-222-26-0)" font-size="12px"><text x="525.5" y="631.5">+ updateAntrieb(Beam beam): void  </text></g><path d="M 240 476 L 240 450 L 470 450 L 470 476" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 240 476 L 240 640 L 470 640 L 470 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 240 476 L 470 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="354.5" y="467.5">SectionService</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-481-222-26-0)" font-size="12px"><text x="245.5" y="493.5">- section: Section</text></g><path d="M 240 506 L 470 506" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-515-222-26-0)" font-size="12px"><text x="245.5" y="527.5">+ setSection(Section section): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-541-222-26-0)" font-size="12px"><text x="245.5" y="553.5">+ getSection: Section</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-567-222-26-0)" font-size="12px"><text x="245.5" y="579.5">+ findByID(int id): Section  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-593-222-26-0)" font-size="12px"><text x="245.5" y="605.5">+ findByName(String name): Section  </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-619-222-26-0)" font-size="12px"><text x="245.5" y="631.5">+ updateSection(Section section): void  </text></g><path d="M 1080 476 L 1080 450 L 1350 450 L 1350 476" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 1080 476 L 1080 614 L 1350 614 L 1350 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 1080 476 L 1350 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px"><text x="1214.5" y="467.5">Mitglieder</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-481-262-26-0)" font-size="12px"><text x="1085.5" y="493.5">- mitglieder: Mitglieder </text></g><path d="M 1080 506 L 1350 506" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-515-262-26-0)" font-size="12px"><text x="1085.5" y="527.5">+ setMitglieder(Mitglieder mitglieder): void</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-541-262-26-0)" font-size="12px"><text x="1085.5" y="553.5">+ getMitglieder(): Mitglieder</text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-567-262-26-0)" font-size="12px"><text x="1085.5" y="579.5">+ getByID(int id): Mitglieder </text></g><g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-593-262-26-0)" font-size="12px"><text x="1085.5" y="605.5">+ updateMitglieder(Mitglieder mitglieder): void  </text></g></g></svg>
+     content="&lt;mxfile host=&quot;app.diagrams.net&quot; modified=&quot;2020-05-22T14:09:11.080Z&quot; agent=&quot;5.0 (X11)&quot; etag=&quot;D4UZFd_EX1GN3uJ9DUL0&quot; version=&quot;13.1.3&quot;&gt;&lt;diagram id=&quot;1hvCgBS2UhZ0Prny1uiO&quot; name=&quot;Page-1&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs>
+        <clipPath id="mx-clip-4-251-192-26-0">
+            <rect x="4" y="251" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-285-192-26-0">
+            <rect x="4" y="285" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-311-192-26-0">
+            <rect x="4" y="311" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-337-192-26-0">
+            <rect x="4" y="337" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-363-192-26-0">
+            <rect x="4" y="363" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-389-192-26-0">
+            <rect x="4" y="389" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-415-192-26-0">
+            <rect x="4" y="415" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-31-192-26-0">
+            <rect x="4" y="31" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-65-192-26-0">
+            <rect x="4" y="65" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-91-192-26-0">
+            <rect x="4" y="91" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-117-192-26-0">
+            <rect x="4" y="117" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-143-192-26-0">
+            <rect x="4" y="143" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-31-222-26-0">
+            <rect x="524" y="31" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-65-222-26-0">
+            <rect x="524" y="65" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-91-222-26-0">
+            <rect x="524" y="91" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-117-222-26-0">
+            <rect x="524" y="117" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-143-222-26-0">
+            <rect x="524" y="143" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-169-222-26-0">
+            <rect x="524" y="169" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-501-212-26-0">
+            <rect x="4" y="501" width="212" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-535-212-26-0">
+            <rect x="4" y="535" width="212" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-561-212-26-0">
+            <rect x="4" y="561" width="212" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-587-212-26-0">
+            <rect x="4" y="587" width="212" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-4-613-212-26-0">
+            <rect x="4" y="613" width="212" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-31-202-26-0">
+            <rect x="244" y="31" width="202" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-65-202-26-0">
+            <rect x="244" y="65" width="202" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-91-202-26-0">
+            <rect x="244" y="91" width="202" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-117-202-26-0">
+            <rect x="244" y="117" width="202" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-143-202-26-0">
+            <rect x="244" y="143" width="202" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-169-202-26-0">
+            <rect x="244" y="169" width="202" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-251-192-26-0">
+            <rect x="244" y="251" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-285-192-26-0">
+            <rect x="244" y="285" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-311-192-26-0">
+            <rect x="244" y="311" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-337-192-26-0">
+            <rect x="244" y="337" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-363-192-26-0">
+            <rect x="244" y="363" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-389-192-26-0">
+            <rect x="244" y="389" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-251-222-26-0">
+            <rect x="524" y="251" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-285-222-26-0">
+            <rect x="524" y="285" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-311-222-26-0">
+            <rect x="524" y="311" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-337-222-26-0">
+            <rect x="524" y="337" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-363-222-26-0">
+            <rect x="524" y="363" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-389-222-26-0">
+            <rect x="524" y="389" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-251-222-26-0">
+            <rect x="794" y="251" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-285-222-26-0">
+            <rect x="794" y="285" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-311-222-26-0">
+            <rect x="794" y="311" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-337-222-26-0">
+            <rect x="794" y="337" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-363-222-26-0">
+            <rect x="794" y="363" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-389-222-26-0">
+            <rect x="794" y="389" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-791-31-352-26-0">
+            <rect x="791" y="31" width="352" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-791-65-352-26-0">
+            <rect x="791" y="65" width="352" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-791-91-352-26-0">
+            <rect x="791" y="91" width="352" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-791-117-352-26-0">
+            <rect x="791" y="117" width="352" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-791-143-352-26-0">
+            <rect x="791" y="143" width="352" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-791-169-352-26-0">
+            <rect x="791" y="169" width="352" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1205-31-222-26-0">
+            <rect x="1205" y="31" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1205-65-222-26-0">
+            <rect x="1205" y="65" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1205-91-222-26-0">
+            <rect x="1205" y="91" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1205-117-222-26-0">
+            <rect x="1205" y="117" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1205-143-222-26-0">
+            <rect x="1205" y="143" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1205-169-222-26-0">
+            <rect x="1205" y="169" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-251-222-26-0">
+            <rect x="1084" y="251" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-285-222-26-0">
+            <rect x="1084" y="285" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-311-222-26-0">
+            <rect x="1084" y="311" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-337-222-26-0">
+            <rect x="1084" y="337" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-363-222-26-0">
+            <rect x="1084" y="363" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-389-222-26-0">
+            <rect x="1084" y="389" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1359-251-192-26-0">
+            <rect x="1359" y="251" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1359-285-192-26-0">
+            <rect x="1359" y="285" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1359-311-192-26-0">
+            <rect x="1359" y="311" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1359-337-192-26-0">
+            <rect x="1359" y="337" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1359-363-192-26-0">
+            <rect x="1359" y="363" width="192" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-481-222-26-0">
+            <rect x="794" y="481" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-515-222-26-0">
+            <rect x="794" y="515" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-541-222-26-0">
+            <rect x="794" y="541" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-567-222-26-0">
+            <rect x="794" y="567" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-593-222-26-0">
+            <rect x="794" y="593" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-794-619-222-26-0">
+            <rect x="794" y="619" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-481-222-26-0">
+            <rect x="524" y="481" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-515-222-26-0">
+            <rect x="524" y="515" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-541-222-26-0">
+            <rect x="524" y="541" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-567-222-26-0">
+            <rect x="524" y="567" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-593-222-26-0">
+            <rect x="524" y="593" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-524-619-222-26-0">
+            <rect x="524" y="619" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-481-222-26-0">
+            <rect x="244" y="481" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-515-222-26-0">
+            <rect x="244" y="515" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-541-222-26-0">
+            <rect x="244" y="541" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-567-222-26-0">
+            <rect x="244" y="567" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-593-222-26-0">
+            <rect x="244" y="593" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-244-619-222-26-0">
+            <rect x="244" y="619" width="222" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-481-262-26-0">
+            <rect x="1084" y="481" width="262" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-515-262-26-0">
+            <rect x="1084" y="515" width="262" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-541-262-26-0">
+            <rect x="1084" y="541" width="262" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-567-262-26-0">
+            <rect x="1084" y="567" width="262" height="26"/>
+        </clipPath>
+        <clipPath id="mx-clip-1084-593-262-26-0">
+            <rect x="1084" y="593" width="262" height="26"/>
+        </clipPath>
+    </defs>
+    <g>
+        <path d="M 0 246 L 0 220 L 200 220 L 200 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="all"/>
+        <path d="M 0 246 L 0 436 L 200 436 L 200 246" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 0 246 L 200 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="99.5" y="237.5">SchiffService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-251-192-26-0)" font-size="12px">
+            <text x="5.5" y="263.5">- schiff: Schiff</text>
+        </g>
+        <path d="M 0 276 L 200 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-285-192-26-0)" font-size="12px">
+            <text x="5.5" y="297.5">+ setSchiff(Schiff Schiff): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-311-192-26-0)" font-size="12px">
+            <text x="5.5" y="323.5">+ getSchiff: Schiff</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-337-192-26-0)" font-size="12px">
+            <text x="5.5" y="349.5">+ findByID(int id): Schiff</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-363-192-26-0)" font-size="12px">
+            <text x="5.5" y="375.5">+ findByName(String name): Schiff</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-389-192-26-0)" font-size="12px">
+            <text x="5.5" y="401.5">+ findByUser(User user): Schiff</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-415-192-26-0)" font-size="12px">
+            <text x="5.5" y="427.5">+ updateSchiff(User user): void  </text>
+        </g>
+        <path d="M 0 26 L 0 0 L 200 0 L 200 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 0 26 L 0 164 L 200 164 L 200 26" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 0 26 L 200 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="99.5" y="17.5">AFK</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-31-192-26-0)" font-size="12px">
+            <text x="5.5" y="43.5">- Afk: AFK</text>
+        </g>
+        <path d="M 0 56 L 200 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-65-192-26-0)" font-size="12px">
+            <text x="5.5" y="77.5">+ setAFK(User user): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-91-192-26-0)" font-size="12px">
+            <text x="5.5" y="103.5">+ getAFK: AFK</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-117-192-26-0)" font-size="12px">
+            <text x="5.5" y="129.5">+ findByID(int id): AFK  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-143-192-26-0)" font-size="12px">
+            <text x="5.5" y="155.5">+ updateUser(AFK afk): void  </text>
+        </g>
+        <path d="M 520 26 L 520 0 L 750 0 L 750 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 520 26 L 520 190 L 750 190 L 750 26" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 520 26 L 750 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="634.5" y="17.5">SchildeService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-31-222-26-0)" font-size="12px">
+            <text x="525.5" y="43.5">- schild: Schild</text>
+        </g>
+        <path d="M 520 56 L 750 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-65-222-26-0)" font-size="12px">
+            <text x="525.5" y="77.5">+ setSchild(Schild schild): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-91-222-26-0)" font-size="12px">
+            <text x="525.5" y="103.5">+ getSchild: Schild</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-117-222-26-0)" font-size="12px">
+            <text x="525.5" y="129.5">+ findByID(int id): Schild  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-143-222-26-0)" font-size="12px">
+            <text x="525.5" y="155.5">+ findByName(String name): Schild  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-169-222-26-0)" font-size="12px">
+            <text x="525.5" y="181.5">+ updateAntrieb(Schild schild): void  </text>
+        </g>
+        <path d="M 0 496 L 0 470 L 220 470 L 220 496" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 0 496 L 0 634 L 220 634 L 220 496" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 0 496 L 220 496" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="109.5" y="487.5">UniverseService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-501-212-26-0)" font-size="12px">
+            <text x="5.5" y="513.5">- universe: Universe </text>
+        </g>
+        <path d="M 0 526 L 220 526" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-535-212-26-0)" font-size="12px">
+            <text x="5.5" y="547.5">+ setUniverse(Universe universe): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-561-212-26-0)" font-size="12px">
+            <text x="5.5" y="573.5">+ getUniverse(): Universe</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-587-212-26-0)" font-size="12px">
+            <text x="5.5" y="599.5">+ getUniverseByID(int id): Universe </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-4-613-212-26-0)" font-size="12px">
+            <text x="5.5" y="625.5">+ updateUniverse(User user): void  </text>
+        </g>
+        <path d="M 240 26 L 240 0 L 450 0 L 450 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 240 26 L 240 190 L 450 190 L 450 26" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 240 26 L 450 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="344.5" y="17.5">StationService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-31-202-26-0)" font-size="12px">
+            <text x="245.5" y="43.5">+ planet: Station </text>
+        </g>
+        <path d="M 240 56 L 450 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-65-202-26-0)" font-size="12px">
+            <text x="245.5" y="77.5">+ getSation(): Station</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-91-202-26-0)" font-size="12px">
+            <text x="245.5" y="103.5">+ setStation(Station station): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-117-202-26-0)" font-size="12px">
+            <text x="245.5" y="129.5">+ findByID(int id): Station</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-143-202-26-0)" font-size="12px">
+            <text x="245.5" y="155.5">+ findByName(String station): Station</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-169-202-26-0)" font-size="12px">
+            <text x="245.5" y="181.5">+ updateStation(Station station): void</text>
+        </g>
+        <path d="M 240 246 L 240 220 L 440 220 L 440 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 240 246 L 240 410 L 440 410 L 440 246" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 240 246 L 440 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="339.5" y="237.5">UserService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-251-192-26-0)" font-size="12px">
+            <text x="245.5" y="263.5">- user: User</text>
+        </g>
+        <path d="M 240 276 L 440 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-285-192-26-0)" font-size="12px">
+            <text x="245.5" y="297.5">+ setUser(User user): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-311-192-26-0)" font-size="12px">
+            <text x="245.5" y="323.5">+ getUser: User</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-337-192-26-0)" font-size="12px">
+            <text x="245.5" y="349.5">+ findByID(int id): User  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-363-192-26-0)" font-size="12px">
+            <text x="245.5" y="375.5">+ findByName(String name): User  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-389-192-26-0)" font-size="12px">
+            <text x="245.5" y="401.5">+ updateUser(User user): void  </text>
+        </g>
+        <path d="M 520 246 L 520 220 L 750 220 L 750 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 520 246 L 520 410 L 750 410 L 750 246" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 520 246 L 750 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="634.5" y="237.5">WaffenService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-251-222-26-0)" font-size="12px">
+            <text x="525.5" y="263.5">- schild: Schild</text>
+        </g>
+        <path d="M 520 276 L 750 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-285-222-26-0)" font-size="12px">
+            <text x="525.5" y="297.5">+ setSchild(Schild schild): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-311-222-26-0)" font-size="12px">
+            <text x="525.5" y="323.5">+ getSchild: Schild</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-337-222-26-0)" font-size="12px">
+            <text x="525.5" y="349.5">+ findByID(int id): Schild  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-363-222-26-0)" font-size="12px">
+            <text x="525.5" y="375.5">+ findByName(String name): Schild  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-389-222-26-0)" font-size="12px">
+            <text x="525.5" y="401.5">+ updateAntrieb(Schild schild): void  </text>
+        </g>
+        <path d="M 790 246 L 790 220 L 1020 220 L 1020 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 790 246 L 790 410 L 1020 410 L 1020 246" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 790 246 L 1020 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="904.5" y="237.5">Rocket</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-251-222-26-0)" font-size="12px">
+            <text x="795.5" y="263.5">- rocket: Rocket</text>
+        </g>
+        <path d="M 790 276 L 1020 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-285-222-26-0)" font-size="12px">
+            <text x="795.5" y="297.5">+ setRocket(Rocket rocket): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-311-222-26-0)" font-size="12px">
+            <text x="795.5" y="323.5">+ getRocket: Rocket</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-337-222-26-0)" font-size="12px">
+            <text x="795.5" y="349.5">+ findByID(int id): Rocket  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-363-222-26-0)" font-size="12px">
+            <text x="795.5" y="375.5">+ findByName(String name): Rocket  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-389-222-26-0)" font-size="12px">
+            <text x="795.5" y="401.5">+ updateRocket(Rocket rocket): void  </text>
+        </g>
+        <path d="M 787 26 L 787 0 L 1147 0 L 1147 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 787 26 L 787 190 L 1147 190 L 1147 26" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 787 26 L 1147 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="966.5" y="17.5">WaffenSystemService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-31-352-26-0)" font-size="12px">
+            <text x="792.5" y="43.5">- waffenSysteme: WaffenSysteme</text>
+        </g>
+        <path d="M 787 56 L 1147 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-65-352-26-0)" font-size="12px">
+            <text x="792.5" y="77.5">+ setWaffenSysteme(WaffenSysteme waffenSysteme): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-91-352-26-0)" font-size="12px">
+            <text x="792.5" y="103.5">+ get WaffenSysteme: WaffenSysteme</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-117-352-26-0)" font-size="12px">
+            <text x="792.5" y="129.5">+ findByID(int id): WaffenSysteme  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-143-352-26-0)" font-size="12px">
+            <text x="792.5" y="155.5">+ findByName(String name): WaffenSysteme  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-791-169-352-26-0)" font-size="12px">
+            <text x="792.5" y="181.5">+ updateWaffenSysteme(WaffenSysteme waffenSysteme): void  </text>
+        </g>
+        <path d="M 1201 26 L 1201 0 L 1431 0 L 1431 26" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 1201 26 L 1201 190 L 1431 190 L 1431 26" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 1201 26 L 1431 26" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="1315.5" y="17.5">Lasser</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-31-222-26-0)" font-size="12px">
+            <text x="1206.5" y="43.5">- lasser: Lasser</text>
+        </g>
+        <path d="M 1201 56 L 1431 56" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-65-222-26-0)" font-size="12px">
+            <text x="1206.5" y="77.5">+ setLasser(Lasser lasser): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-91-222-26-0)" font-size="12px">
+            <text x="1206.5" y="103.5">+ getLasser: Lasser</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-117-222-26-0)" font-size="12px">
+            <text x="1206.5" y="129.5">+ findByID(int id): Lasser  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-143-222-26-0)" font-size="12px">
+            <text x="1206.5" y="155.5">+ findByName(String name): Lasser  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1205-169-222-26-0)" font-size="12px">
+            <text x="1206.5" y="181.5">+ updateLasser(Lasser lasser): void  </text>
+        </g>
+        <path d="M 1080 246 L 1080 220 L 1310 220 L 1310 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 1080 246 L 1080 410 L 1310 410 L 1310 246" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 1080 246 L 1310 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="1194.5" y="237.5">AntriebService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-251-222-26-0)" font-size="12px">
+            <text x="1085.5" y="263.5">- antrieb: Antrieb</text>
+        </g>
+        <path d="M 1080 276 L 1310 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-285-222-26-0)" font-size="12px">
+            <text x="1085.5" y="297.5">+ setAntrieb(Section section): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-311-222-26-0)" font-size="12px">
+            <text x="1085.5" y="323.5">+ getAntrieb: Antrieb</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-337-222-26-0)" font-size="12px">
+            <text x="1085.5" y="349.5">+ findByID(int id): Antrieb  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-363-222-26-0)" font-size="12px">
+            <text x="1085.5" y="375.5">+ findByName(String name): Antrieb  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-389-222-26-0)" font-size="12px">
+            <text x="1085.5" y="401.5">+ updateAntrieb(Antrieb antrieb): void  </text>
+        </g>
+        <path d="M 1355 246 L 1355 220 L 1555 220 L 1555 246" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 1355 246 L 1355 384 L 1555 384 L 1555 246" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 1355 246 L 1555 246" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="1454.5" y="237.5">PlanetService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-251-192-26-0)" font-size="12px">
+            <text x="1360.5" y="263.5">- planet: Planet </text>
+        </g>
+        <path d="M 1355 276 L 1555 276" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-285-192-26-0)" font-size="12px">
+            <text x="1360.5" y="297.5">+ setPlanet(Planet planet): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-311-192-26-0)" font-size="12px">
+            <text x="1360.5" y="323.5">+ getPlanet(): Universe</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-337-192-26-0)" font-size="12px">
+            <text x="1360.5" y="349.5">+ getPlanetByID(int id): Universe </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1359-363-192-26-0)" font-size="12px">
+            <text x="1360.5" y="375.5">+ updatePlanet(User user): void  </text>
+        </g>
+        <path d="M 790 476 L 790 450 L 1020 450 L 1020 476" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 790 476 L 790 640 L 1020 640 L 1020 476" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 790 476 L 1020 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="904.5" y="467.5">Beam</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-481-222-26-0)" font-size="12px">
+            <text x="795.5" y="493.5">- beam: Beam</text>
+        </g>
+        <path d="M 790 506 L 1020 506" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-515-222-26-0)" font-size="12px">
+            <text x="795.5" y="527.5">+ set Beam(Beam beam): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-541-222-26-0)" font-size="12px">
+            <text x="795.5" y="553.5">+ getBeam: Rocket</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-567-222-26-0)" font-size="12px">
+            <text x="795.5" y="579.5">+ findByID(int id): Beam  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-593-222-26-0)" font-size="12px">
+            <text x="795.5" y="605.5">+ findByName(Beam beam): Beam  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-794-619-222-26-0)" font-size="12px">
+            <text x="795.5" y="631.5">+ updateBeam(Beam beam): void  </text>
+        </g>
+        <path d="M 520 476 L 520 450 L 750 450 L 750 476" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 520 476 L 520 640 L 750 640 L 750 476" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 520 476 L 750 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="634.5" y="467.5">BeamService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-481-222-26-0)" font-size="12px">
+            <text x="525.5" y="493.5">- beam: Beam</text>
+        </g>
+        <path d="M 520 506 L 750 506" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-515-222-26-0)" font-size="12px">
+            <text x="525.5" y="527.5">+ setBeam(Schild schild): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-541-222-26-0)" font-size="12px">
+            <text x="525.5" y="553.5">+ getBeam: Beam</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-567-222-26-0)" font-size="12px">
+            <text x="525.5" y="579.5">+ findByID(int id): Beam  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-593-222-26-0)" font-size="12px">
+            <text x="525.5" y="605.5">+ findByName(String name): Beam  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-524-619-222-26-0)" font-size="12px">
+            <text x="525.5" y="631.5">+ updateAntrieb(Beam beam): void  </text>
+        </g>
+        <path d="M 240 476 L 240 450 L 470 450 L 470 476" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 240 476 L 240 640 L 470 640 L 470 476" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 240 476 L 470 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="354.5" y="467.5">SectionService</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-481-222-26-0)" font-size="12px">
+            <text x="245.5" y="493.5">- section: Section</text>
+        </g>
+        <path d="M 240 506 L 470 506" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-515-222-26-0)" font-size="12px">
+            <text x="245.5" y="527.5">+ setSection(Section section): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-541-222-26-0)" font-size="12px">
+            <text x="245.5" y="553.5">+ getSection: Section</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-567-222-26-0)" font-size="12px">
+            <text x="245.5" y="579.5">+ findByID(int id): Section  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-593-222-26-0)" font-size="12px">
+            <text x="245.5" y="605.5">+ findByName(String name): Section  </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-244-619-222-26-0)" font-size="12px">
+            <text x="245.5" y="631.5">+ updateSection(Section section): void  </text>
+        </g>
+        <path d="M 1080 476 L 1080 450 L 1350 450 L 1350 476" fill="#ffffff" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 1080 476 L 1080 614 L 1350 614 L 1350 476" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 1080 476 L 1350 476" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" font-weight="bold" text-anchor="middle" font-size="12px">
+            <text x="1214.5" y="467.5">Mitglieder</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-481-262-26-0)" font-size="12px">
+            <text x="1085.5" y="493.5">- mitglieder: Mitglieder </text>
+        </g>
+        <path d="M 1080 506 L 1350 506" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-515-262-26-0)" font-size="12px">
+            <text x="1085.5" y="527.5">+ setMitglieder(Mitglieder mitglieder): void</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-541-262-26-0)" font-size="12px">
+            <text x="1085.5" y="553.5">+ getMitglieder(): Mitglieder</text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-567-262-26-0)" font-size="12px">
+            <text x="1085.5" y="579.5">+ getByID(int id): Mitglieder </text>
+        </g>
+        <g fill="#000000" font-family="Helvetica" clip-path="url(#mx-clip-1084-593-262-26-0)" font-size="12px">
+            <text x="1085.5" y="605.5">+ updateMitglieder(Mitglieder mitglieder): void  </text>
+        </g>
+    </g>
+</svg>

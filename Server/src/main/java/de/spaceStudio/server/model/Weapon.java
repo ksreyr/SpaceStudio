@@ -1,7 +1,6 @@
 package de.spaceStudio.server.model;
 
 import javax.persistence.*;
-import java.security.PublicKey;
 
 @Entity
 @Inheritance(
@@ -35,6 +34,26 @@ public class Weapon {
     private Section section;
 
 
+    public Weapon() {
+    }
+
+    public Weapon(WeaponBuilder weaponBuilder) {
+        setId(weaponBuilder.id);
+        setHitRate(weaponBuilder.hitRate);
+        setDamage(weaponBuilder.damage);
+        setImg(weaponBuilder.img);
+        setName(weaponBuilder.name);
+        setSection(weaponBuilder.section);
+        setObjectiv(weaponBuilder.objectiv);
+        setWarmUpTime(weaponBuilder.warmUp);
+        setWarmUp(weaponBuilder.warmUp);
+        setMagazineSize(weaponBuilder.magazinSize);
+        setCurrentBullets(weaponBuilder.magazinSize);
+    }
+
+    public static WeaponBuilder WeaponBuilder() {
+        return new WeaponBuilder();
+    }
 
     public Section getObjectiv() {
         return objectiv;
@@ -92,26 +111,6 @@ public class Weapon {
         this.damage = damage;
     }
 
-    public Weapon() {
-    }
-    public Weapon(WeaponBuilder weaponBuilder){
-       setId(weaponBuilder.id);
-       setHitRate(weaponBuilder.hitRate);
-       setDamage(weaponBuilder.damage);
-       setImg(weaponBuilder.img);
-       setName(weaponBuilder.name);
-       setSection(weaponBuilder.section);
-       setObjectiv(weaponBuilder.objectiv);
-       setWarmUpTime(weaponBuilder.warmUp);
-       setWarmUp(weaponBuilder.warmUp);
-       setMagazineSize(weaponBuilder.magazinSize);
-       setCurrentBullets(weaponBuilder.magazinSize);
-    }
-
-    public static WeaponBuilder WeaponBuilder(){
-        return new WeaponBuilder();
-    }
-
     public int getWarmUp() {
         return warmUp;
     }
@@ -144,16 +143,16 @@ public class Weapon {
         this.warmUpTime = warmUpTime;
     }
 
-    public  static class WeaponBuilder{
+    public static class WeaponBuilder {
         public int warmUp;
+        public int magazinSize;
         private Integer id;
         private String name;
         private int hitRate;
         private int damage;
         private String img;
         private Section section;
-        private  Section objectiv;
-        public int magazinSize;
+        private Section objectiv;
 
         public WeaponBuilder() {
         }
@@ -166,49 +165,55 @@ public class Weapon {
                              Section section,
                              Section objectiv,
                              int warmUp,
-                             int magazinSize)
-        {
+                             int magazinSize) {
             this.id = id;
             this.name = name;
             this.hitRate = hitRate;
             this.damage = damage;
             this.img = img;
             this.section = section;
-            this.objectiv=objectiv;
+            this.objectiv = objectiv;
             this.warmUp = warmUp;
             this.magazinSize = magazinSize;
 
         }
-        public WeaponBuilder id(int id){
-            this.id= id;
-            return WeaponBuilder.this;
-        }
-        public WeaponBuilder name(String name){
-            this.name= name;
-            return WeaponBuilder.this;
-        }
-        public WeaponBuilder hitRate(int hitRate){
-            this.hitRate= hitRate;
-            return WeaponBuilder.this;
-        }
-        public WeaponBuilder damage(int damage){
-            this.damage= damage;
-            return WeaponBuilder.this;
-        }
-        public WeaponBuilder img(String img){
-            this.img= img;
-            return WeaponBuilder.this;
-        }
-        public WeaponBuilder section(Section section){
-            this.section= section;
-            return WeaponBuilder.this;
-        }
-        public WeaponBuilder objectiv(Section objectiv){
-            this.objectiv= objectiv;
+
+        public WeaponBuilder id(int id) {
+            this.id = id;
             return WeaponBuilder.this;
         }
 
-        public WeaponBuilder warmUp(int coolDown){
+        public WeaponBuilder name(String name) {
+            this.name = name;
+            return WeaponBuilder.this;
+        }
+
+        public WeaponBuilder hitRate(int hitRate) {
+            this.hitRate = hitRate;
+            return WeaponBuilder.this;
+        }
+
+        public WeaponBuilder damage(int damage) {
+            this.damage = damage;
+            return WeaponBuilder.this;
+        }
+
+        public WeaponBuilder img(String img) {
+            this.img = img;
+            return WeaponBuilder.this;
+        }
+
+        public WeaponBuilder section(Section section) {
+            this.section = section;
+            return WeaponBuilder.this;
+        }
+
+        public WeaponBuilder objectiv(Section objectiv) {
+            this.objectiv = objectiv;
+            return WeaponBuilder.this;
+        }
+
+        public WeaponBuilder warmUp(int coolDown) {
             this.warmUp = coolDown;
             return WeaponBuilder.this;
         }
@@ -219,7 +224,7 @@ public class Weapon {
         }
 
 
-        public Weapon build(){
+        public Weapon build() {
             return new Weapon(this);
         }
     }

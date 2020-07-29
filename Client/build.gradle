@@ -1,5 +1,5 @@
 buildscript {
-    
+
 
     repositories {
         mavenLocal()
@@ -11,7 +11,7 @@ buildscript {
         google()
     }
     dependencies {
-        
+
 
     }
 }
@@ -52,7 +52,7 @@ project(":Client:desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-        
+
     }
 }
 

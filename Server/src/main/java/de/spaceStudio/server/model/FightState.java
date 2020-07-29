@@ -1,6 +1,6 @@
 package de.spaceStudio.server.model;
 
-public enum  FightState {
+public enum FightState {
     WAITING_FOR_TURN("Waiting"), PLAYING("Playing");
 
     private String state;

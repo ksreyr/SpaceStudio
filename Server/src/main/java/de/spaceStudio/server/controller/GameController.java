@@ -4,7 +4,6 @@ import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,8 +66,9 @@ public interface GameController {
 
     /**
      * Increse Power by a Specified amount
+     *
      * @param pSection asWished
-     * @param amount amount of power to be added
+     * @param amount   amount of power to be added
      * @return section with new Values
      */
     @GetMapping(value = "/section/increasePower/{amount}")
@@ -83,9 +83,9 @@ public interface GameController {
     String startFight(@RequestBody Actor actor, @PathVariable String session);
 
     @GetMapping(value = "/game/fightState")
-    FightState  getFightState(@RequestBody Actor pActor);
+    FightState getFightState(@RequestBody Actor pActor);
 
-    @PutMapping(value =  "/game/fightState")
+    @PutMapping(value = "/game/fightState")
     FightState setFightState(@RequestBody Actor pActor);
 
     int sumCurrentPower(Ship s);
@@ -94,6 +94,7 @@ public interface GameController {
 
     /**
      * Fight Against the Player
+     *
      * @param playerShip who will be attacked
      * @return the changed Ship
      */

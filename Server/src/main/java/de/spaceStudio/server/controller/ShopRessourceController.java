@@ -70,6 +70,7 @@ public interface ShopRessourceController {
      */
     @RequestMapping(value = "/getshopressourcebystop", method = RequestMethod.POST)
     String getShopRessourceByStop(@RequestBody StopAbstract stopAbstract);
+
     /**
      * Delete all players
      *

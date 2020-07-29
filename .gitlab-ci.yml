@@ -1,7 +1,7 @@
 image: gradle:6.4.0-jdk11
 stages:
   - build
-  - test  
+  - test
   - deploy
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
@@ -12,9 +12,9 @@ before_script:
 buildClient:
   stage: build
   script:
-      - |
-          echo "Start the build of Client"
-          gradle :Client:build
+    - |
+      echo "Start the build of Client"
+      gradle :Client:build
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
@@ -27,16 +27,16 @@ buildClient:
     expire_in: 1 week
 
 buildServer:
-    stage: build
-    script:
-        - |
-            echo "Start the build of Server"
-            cd Server
-            gradle --build-cache assemble
-    artifacts:
-      paths:
-        - build/libs/*.jar
-      expire_in: 1 week
+  stage: build
+  script:
+    - |
+      echo "Start the build of Server"
+      cd Server
+      gradle --build-cache assemble
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 week
 testServer:
   stage: test
   script:
