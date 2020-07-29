@@ -77,6 +77,7 @@ public class CombatScreen extends BaseScreen {
     Sound rocketLaunch;
     ArrayList<Bullet> bullets;
     ArrayList<Bullet> bulletsEnemy;
+    String test;
     //
     String validationGegner = "";
     List<Section> sectionsGegner = Global.combatSections.get(Global.currentShipGegner.getId());
@@ -100,12 +101,9 @@ public class CombatScreen extends BaseScreen {
     private List<Image> listOfCrewImages;
     private List<CrewMember> myCrew;
     private Boolean killTimer = false;
-    private TextButton enableShield, enableEnemyShield;
     private Texture  explosion, missille, weaponSystem;
-    private boolean isExploied, isLaserActivated;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
     private Skin skinButton;
-    private boolean isShieldEnabled, isEnemyShield, isTargetO2, isTargetMedical;
     private ImageButton engine, weaponSection, cockpit, o2, healthPoint;
     private int counterCockpit = 0;
     private int randomNumber;
