@@ -89,7 +89,6 @@ public class ShipSelectScreen extends BaseScreen {
     private final Sound mouseClick;
     private final InitialDataGameService idgs = new InitialDataGameService();
     private final InputHandler inputHandler;
-    private final int timeoutMultiPlayer = 0;
     private final OrthographicCamera camera;
     Animation<TextureRegion> crew1;
     Animation<TextureRegion> crew2;
