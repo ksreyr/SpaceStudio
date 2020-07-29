@@ -120,8 +120,8 @@ public class CombatScreen extends BaseScreen {
     private Section selectedTarget;
     private Optional<Section> startSectionCrewMove;
     private Optional<Section> endSectionCrewMove;
-    private final List<Weapon> weaponsToFire = new ArrayList<>();
-    private final int shotDelta = 400;
+//    private final List<Weapon> weaponsToFire = new ArrayList<>();
+    //private final int shotDelta = 400;
     private int yWeaponPos = 700;
     //
     private int availableEnergy = 3;
@@ -787,7 +787,7 @@ public class CombatScreen extends BaseScreen {
                 if (Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1) {
                         LOG.info("You have killed the enemy crew");
                     }
-                }
+
 
                 // TODO wenn alle Sektionen kaputt sind, wird auch verlore
                 // If der Player lose
@@ -798,7 +798,7 @@ public class CombatScreen extends BaseScreen {
                             if (Objects.equals(obj.toString(), "true")) {
                             }
                         }
-                    };
+                         };
                     loseMessageDialog(dialog, " You have lost the game!");
                 }
 
@@ -1295,4 +1295,34 @@ public class CombatScreen extends BaseScreen {
         click.play();
         dialog.show(stage);
     }
+
+
+    private void winMessageDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("See Map", true).addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new StationsMap(game));
+            }
+        });
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        click.play();
+        dialog.show(stage);
+    }
+
+    private void loseMessageDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("See Menu", true).addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new MenuScreen(game));
+            }
+        });
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        click.play();
+        dialog.show(stage);
+    }
+
 }
