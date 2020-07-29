@@ -68,6 +68,8 @@ public class Section {
         setSectionTyp(builder.sectionTyp);
         setxPos(builder.xPos);
         setyPos(builder.yPos);
+
+
     }
 
     @NonNull
