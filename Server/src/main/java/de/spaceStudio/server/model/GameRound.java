@@ -1,6 +1,10 @@
 package de.spaceStudio.server.model;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
+import javax.websocket.OnMessage;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,19 +15,11 @@ public class GameRound {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToMany
-    private List<Player> fighters;
-
     @OneToMany
-    private List<CombatRound> combatRounds;
+    private List<CombatRound> combatRounds = new ArrayList<>();
 
-    public List<Player> getFighters() {
-        return fighters;
-    }
-
-    public void setFighters(List<Player> fighters) {
-        this.fighters = fighters;
-    }
+    @ManyToOne
+    private StopAbstract currentStop;
 
     public Integer getId() {
         return id;
@@ -39,5 +35,13 @@ public class GameRound {
 
     public void setCombatRounds(List<CombatRound> combatRounds) {
         this.combatRounds = combatRounds;
+    }
+
+    public StopAbstract getCurrentStop() {
+        return currentStop;
+    }
+
+    public void setCurrentStop(StopAbstract currentStop) {
+        this.currentStop = currentStop;
     }
 }

@@ -1,6 +1,7 @@
 package de.spaceStudio.server.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -12,12 +13,32 @@ public class CombatRound {
     private Integer id;
 
 
-    @ManyToMany List<Weapon> attackPlayer1;
+    @ManyToMany private List<Weapon> weaponsWhichHaveAttacked = new ArrayList<>();
 
-    @ManyToMany List<Weapon> attackPlayer2;
+    @ManyToMany private List<CrewMember> crewMembers = new ArrayList<>();
 
-    @ManyToMany List<CrewMember> crewMemberPlayer1;
 
-    @ManyToMany List<CrewMember> crewMemberPlayer2;
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<Weapon> getWeaponsWhichHaveAttacked() {
+        return weaponsWhichHaveAttacked;
+    }
+
+    public void setWeaponsWhichHaveAttacked(List<Weapon> weaponsWhichHaveAttacked) {
+        this.weaponsWhichHaveAttacked = weaponsWhichHaveAttacked;
+    }
+
+    public List<CrewMember> getCrewMembers() {
+        return crewMembers;
+    }
+
+    public void setCrewMembers(List<CrewMember> crewMembers) {
+        this.crewMembers = crewMembers;
+    }
 }

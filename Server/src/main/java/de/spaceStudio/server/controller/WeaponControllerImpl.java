@@ -26,6 +26,9 @@ public class WeaponControllerImpl implements WeaponController {
     @Autowired
     ShipRessourceRepository shipRessourceRepository;
 
+    @Autowired
+    CombatRoundRepository combatRoundRepository;
+
     private float removeOxygen = 20;
     private int priceWeapon = 30;
 
@@ -150,6 +153,12 @@ public class WeaponControllerImpl implements WeaponController {
                 boolean hasHit = ((float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
                 weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
                 if (hasHit) {  // Dont change anything if no hit
+                    // Find the last combat Round and add the weapon because it has attacked
+                    List<GameRound> gameRounds = ship.get().getOwner().getGameRounds();
+                    GameRound curentGameRound = gameRounds.get(gameRounds.size() - 1);
+                    CombatRound currentCombatRound = curentGameRound.getCombatRounds().get(curentGameRound.getCombatRounds().size() - 1);
+                    currentCombatRound.getWeaponsWhichHaveAttacked().add(weapon);
+                    combatRoundRepository.save(currentCombatRound);
                     if (ship.get().getShield() > 0) {
                         ship.get().setShield(ship.get().getShield() - weapon.getDamage());
                     } else {

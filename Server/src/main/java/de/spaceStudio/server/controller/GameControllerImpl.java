@@ -54,7 +54,17 @@ public class GameControllerImpl implements GameController {
     private ActorRepository actorRepository;
     @Autowired
     private SectionController sectionController;
+
+    @Autowired GameRoundRepository gameRoundRepository;
+
+    @Autowired CombatRoundRepository combatRoundRepository;
+
+
     private Optional<List<Weapon>> weaponList;
+
+    @Autowired
+    CrewMemberController crewMemberController;
+
 
     /**
      * Init single game session in Server
@@ -425,6 +435,13 @@ public class GameControllerImpl implements GameController {
         if (actor.isPresent() && !pActor.getState().getFightState().equals(actor.get().getState().getFightState())) {
             if (actor.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
                 actor.get().getState().setFightState(FightState.PLAYING);
+
+                CombatRound combatRound = new CombatRound();
+                GameRound gameRound = actor.get().getGameRounds().get(actor.get().getGameRounds().size() - 1);
+                combatRoundRepository.save(combatRound);
+                gameRound.getCombatRounds().add(combatRound); // New Combat Round
+                gameRoundRepository.save(gameRound);
+
             } else {
                 actor.get().getState().setFightState(FightState.WAITING_FOR_TURN);
             }
@@ -592,6 +609,10 @@ public class GameControllerImpl implements GameController {
             actorFight(weapon);
             actorChangePower(aiShip.get());
 
+            List<CombatRound> combatRounds = ai.get().getGameRounds().get(ai.get().getGameRounds().size() - 1).getCombatRounds();
+            // Add the Crew Members of the Ship into the combat Round
+            combatRounds.get(combatRounds.size() - 1).setCrewMembers(crewMemberController.getMembers(aiShip.get().getId()));
+
             List<Section> sectionsOfPlayer = sectionController.sectionsByShip(aiShip.get().getId());
             List<Weapon> playerOfWeapons = new ArrayList<>();
             for (Section s :
@@ -600,9 +621,14 @@ public class GameControllerImpl implements GameController {
             }
 
             lowerWarmUpTime(playerOfWeapons);
-        }
-        return null;
+        return getLastCombatRoundUsedWeapons(ai.get());
+        } else throw new IllegalArgumentException("The Weapon does not have the needed Paramters" + weapon);
     }
 
+    private List<Weapon> getLastCombatRoundUsedWeapons(Actor actor) {
+        List<CombatRound> combatRounds = actor.getGameRounds().get(actor.getGameRounds().size() - 1).getCombatRounds();
+        // Add the Crew Members of the Ship into the combat Round
+        return combatRounds.get(combatRounds.size() - 1).getWeaponsWhichHaveAttacked();
+    }
 
 }

@@ -24,9 +24,10 @@ public  class Actor {
     @OneToOne
     private ActorState state;
 
+    @OneToMany
+    private List<GameRound> gameRounds;
 
-    @ManyToMany
-    private List<StopAbstract> visitedStops;
+
     @Column(nullable = true)
     @JsonIgnore
     private String savedGame;
@@ -69,19 +70,19 @@ public  class Actor {
         this.state = state;
     }
 
-    public List<StopAbstract> getVisitedStops() {
-        return visitedStops;
-    }
-
-    public void setVisitedStops(List<StopAbstract> visitedStops) {
-        this.visitedStops = visitedStops;
-    }
-
     public String getSavedGame() {
         return savedGame;
     }
 
     public void setSavedGame(String savedGame) {
         this.savedGame = savedGame;
+    }
+
+    public List<GameRound> getGameRounds() {
+        return gameRounds;
+    }
+
+    public void setGameRounds(List<GameRound> gameRounds) {
+        this.gameRounds = gameRounds;
     }
 }
