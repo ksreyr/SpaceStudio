@@ -478,6 +478,7 @@ public class GameControllerImpl implements GameController {
             } else {
                 if (w.getWarmUp() == 0 && w.getCurrentBullets() != w.getMagazineSize()) {
                     w.setWarmUp(w.getWarmUpTime());
+                    w.setCurrentBullets(w.getMagazineSize());
                 }
             }
             weaponRepository.save(w);
@@ -560,6 +561,12 @@ public class GameControllerImpl implements GameController {
             CombatRound combatRound = new CombatRound();
             combatRound =  combatRoundRepository.save(combatRound);
             List<GameRound> byActor = gameRoundRepository.findByActor(ai.get());
+            if (byActor.isEmpty()) {
+                GameRound gameRound =  new GameRound();
+                gameRound.setActor(ai.get());
+                gameRoundRepository.save(gameRound);
+                byActor = gameRoundRepository.findByActor(ai.get());
+            }
             GameRound gameRound = byActor.get(byActor.size() - 1);
             gameRound.getCombatRounds().add(combatRound);
             gameRoundRepository.save(gameRound);
@@ -627,9 +634,19 @@ public class GameControllerImpl implements GameController {
         Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
 
         if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent() && weapon != null) {
+            // Compute Changes for Player
+            List<Section> sectionsOfPlayer = sectionController.sectionsByShip(playerShip.get().getId());
+            List<Weapon> playerOfWeapons = new ArrayList<>();
+            for (Section s :
+                    sectionsOfPlayer) {
+                playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
+            }
+            lowerWarmUpTime(playerOfWeapons);
+            Optional<List<Section>> sectionsPlayer = sectionRepository.findAllByShip(playerShip.get());
+            sectionsPlayer.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
 
-            // TODO if is online
 
+            // Now Compute for AI
             actorFight(weapon);
             actorChangePower(aiShip.get());
 
@@ -639,14 +656,17 @@ public class GameControllerImpl implements GameController {
             // Add the Crew Members of the Ship into the combat Round
             combatRounds.get(combatRounds.size() - 1).setCrewMembers(crewMemberController.getMembers(aiShip.get().getId()));
 
-            List<Section> sectionsOfPlayer = sectionController.sectionsByShip(aiShip.get().getId());
-            List<Weapon> playerOfWeapons = new ArrayList<>();
+            List<Section> sectionsOfAI = sectionController.sectionsByShip(aiShip.get().getId());
+            List<Weapon> AIOfWeapons = new ArrayList<>();
             for (Section s :
-                    sectionsOfPlayer) {
-                playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
+                    sectionsOfAI) {
+                AIOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
             }
 
-            lowerWarmUpTime(playerOfWeapons);
+            // Compute changes
+            lowerWarmUpTime(AIOfWeapons);
+            Optional<List<Section>> sections = sectionRepository.findAllByShip(aiShip.get());
+            sections.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
         return getLastCombatRoundUsedWeapons(ai.get());
         } else throw new IllegalArgumentException("The Weapon does not have the needed Paramters" + weapon);
     }

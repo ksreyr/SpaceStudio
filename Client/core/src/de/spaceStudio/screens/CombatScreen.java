@@ -1263,6 +1263,7 @@ public class CombatScreen extends BaseScreen {
                     LOG.info(Global.currentShipPlayer.getId().toString());
                     RequestUtils.sectionsByShip(Global.currentShipPlayer);
                     RequestUtils.getShip(Global.currentShipPlayer);
+                    RequestUtils.weaponsByShip(Global.currentShipPlayer);
                     RequestUtils.getActor(Global.currentPlayer);
                     RequestUtils.getActor(Global.currentGegner);
                 }

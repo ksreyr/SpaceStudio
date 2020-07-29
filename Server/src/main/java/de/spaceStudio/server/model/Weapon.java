@@ -103,7 +103,7 @@ public class Weapon {
        setSection(weaponBuilder.section);
        setObjectiv(weaponBuilder.objectiv);
        setWarmUpTime(weaponBuilder.warmUp);
-       setWarmUp(0);  // FIXME beacuse no rounds
+       setWarmUp(weaponBuilder.warmUp);
        setMagazineSize(weaponBuilder.magazinSize);
        setCurrentBullets(weaponBuilder.magazinSize);
     }
