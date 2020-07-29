@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import java.util.List;
 
 @Entity
-public class Station extends StopAbstract{
+public class Station extends StopAbstract {
 
     private int energyPrice;
 
@@ -17,6 +17,13 @@ public class Station extends StopAbstract{
         setEnergyPrice(stationBuilder.energyPrice);
     }
 
+    public Station() {
+    }
+
+    public static StationBuilder stationBuilder() {
+        return new StationBuilder();
+    }
+
     public int getEnergyPrice() {
         return energyPrice;
     }
@@ -25,40 +32,39 @@ public class Station extends StopAbstract{
         this.energyPrice = energyPrice;
     }
 
-    public Station() {
-    }
-
-    public static StationBuilder stationBuilder(){
-        return new StationBuilder();
-    }
-    public static class StationBuilder{
+    public static class StationBuilder {
         private int energyPrice;
         private Integer id;
         private List<Ship> ships;
         private Universe universe;
-        private  String name;
+        private String name;
 
-        public StationBuilder energyPrice(int energyPrice){
-            this.energyPrice=energyPrice;
+        public StationBuilder energyPrice(int energyPrice) {
+            this.energyPrice = energyPrice;
             return StationBuilder.this;
         }
-        public StationBuilder name(String name){
-            this.name=name;
+
+        public StationBuilder name(String name) {
+            this.name = name;
             return StationBuilder.this;
         }
-        public StationBuilder id(Integer id){
-            this.id=id;
+
+        public StationBuilder id(Integer id) {
+            this.id = id;
             return StationBuilder.this;
         }
-        public StationBuilder ships(List<Ship> ships){
-            this.ships =ships;
+
+        public StationBuilder ships(List<Ship> ships) {
+            this.ships = ships;
             return StationBuilder.this;
         }
-        public StationBuilder universe(Universe universe){
-            this.universe=universe;
+
+        public StationBuilder universe(Universe universe) {
+            this.universe = universe;
             return StationBuilder.this;
         }
-        public Station buildStation(){
+
+        public Station buildStation() {
             return new Station(this);
         }
 

@@ -99,6 +99,7 @@ public interface PlayerController {
 
     /**
      * This function is temporal in use to logout user from game
+     *
      * @return
      */
     @RequestMapping(value = "/cleanuser", method = RequestMethod.POST)

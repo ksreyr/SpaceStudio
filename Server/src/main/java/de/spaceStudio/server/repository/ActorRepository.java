@@ -1,7 +1,6 @@
 package de.spaceStudio.server.repository;
 
 import de.spaceStudio.server.model.Actor;
-import de.spaceStudio.server.model.GameRound;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -6,6 +6,17 @@ import java.io.Serializable;
 
 public class SinglePlayerGame implements Serializable {
 
+    private Ship shipGegner;
+    private String difficult;
+    private Ship playerShip;
+    private StopAbstract stopAbstractShip;
+    private Section shipSection;
+    private Weapon weapon;
+    private ShipRessource shipRessource;
+    private CrewMember crewMember;
+    private AI ai;
+    private String lastScreen;
+
     public String getDifficult() {
         return difficult;
     }
@@ -85,27 +96,6 @@ public class SinglePlayerGame implements Serializable {
     public void setShipGegner(Ship shipGegner) {
         this.shipGegner = shipGegner;
     }
-
-    private Ship shipGegner;
-
-    private String difficult;
-
-    private Ship playerShip;
-
-
-    private StopAbstract stopAbstractShip;
-
-    private Section shipSection;
-
-    private Weapon weapon;
-
-    private ShipRessource shipRessource;
-
-    private CrewMember crewMember;
-
-    private AI ai;
-
-    private String lastScreen;
 
 
 }

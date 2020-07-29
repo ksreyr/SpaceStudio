@@ -8,6 +8,8 @@ import de.spaceStudio.client.util.RequestUtils;
 
 import java.util.logging.Logger;
 
+import static de.spaceStudio.client.util.Global.killMultiPlayerTimeoutTimer;
+
 public class MultiPlayerService {
 
     /**
@@ -62,6 +64,39 @@ public class MultiPlayerService {
 
             }
         });
+    }
+
+    public static void checkMultiPlayerStatus() {
+        String url = Global.SERVER_URL + Global.MULTIPLAYER_GET_PLAYERS;
+        Net.HttpRequest request = RequestUtils.setupRequest(url, "", Net.HttpMethods.GET);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                LOG.info("Waiting for players...");
+                String response = httpResponse.getResultAsString();
+                LOG.info(response);
+                if (response.equals("true")) {
+                    // SetScreen Station Map
+                    killMultiPlayerTimeoutTimer = false;
+                } else {
+                    LOG.info("False var");
+                    // Notify Player try again or play single player
+                    killMultiPlayerTimeoutTimer = true;
+                }
+            }
+
+            @Override
+            public void failed(Throwable t) {
+
+            }
+
+            @Override
+            public void cancelled() {
+
+            }
+        });
+
     }
 
 }

@@ -3,7 +3,7 @@ package de.spaceStudio.server.model;
 import javax.persistence.*;
 
 @Entity
-public class Drive{
+public class Drive {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,6 +22,10 @@ public class Drive{
         setSection(driveBuilder.section);
     }
 
+    public static DriveBuilder driveBuilder() {
+        return new DriveBuilder();
+    }
+
     public int getSpeed() {
         return speed;
     }
@@ -36,10 +40,6 @@ public class Drive{
 
     public void setSection(Section section) {
         this.section = section;
-    }
-
-    public static DriveBuilder driveBuilder() {
-        return new DriveBuilder();
     }
 
     public static class DriveBuilder {

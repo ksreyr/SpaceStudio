@@ -9,11 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class ServerCoreTests {
 
-	/**
-	 * Tests if server runs
-	 */
-	@Test
-	void contextLoads() {
-	}
+    /**
+     * Tests if server runs
+     */
+    @Test
+    void contextLoads() {
+    }
 
 }

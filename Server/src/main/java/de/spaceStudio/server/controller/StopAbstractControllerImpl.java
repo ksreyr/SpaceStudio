@@ -19,23 +19,19 @@ import java.util.stream.Collectors;
 
 @RestController
 public class StopAbstractControllerImpl implements StopAbstractController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StopAbstractControllerImpl.class);
     @Autowired
     StopAbstractRepository stopAbstractRepository;
     @Autowired
     ShipRepository shipRepository;
     @Autowired
     PlayerRepository playerRepository;
-
     @Autowired
     ActorRepository actorRepository;
-
     @Autowired
     GameRoundRepository gameRoundRepository;
-
     @Autowired
     ActorStateRepository actorStateRepository;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(StopAbstractControllerImpl.class);
 
     @Override
     @RequestMapping(value = "/stopAbstracts", method = RequestMethod.GET)
@@ -84,8 +80,8 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         stops.remove(stopStart);
 
         StopAbstract stopEnd = stops.get(0);
-        Optional<Actor> p =  actorRepository.findById(stopEnd.getShips().get(0).getOwner().getId());
-        
+        Optional<Actor> p = actorRepository.findById(stopEnd.getShips().get(0).getOwner().getId());
+
         if (stopEnd.getShips().size() > 1) {
             return HttpStatus.EXPECTATION_FAILED.toString();
         }
@@ -96,17 +92,17 @@ public class StopAbstractControllerImpl implements StopAbstractController {
             if (s.getOwner() != null) {
                 ship = Optional.of(s);
 
-                        if (p.isPresent()) {
-                            ActorState state = p.get().getState();
-                            state.setStopState(StopState.JUMPING);
-                            actorStateRepository.save(state);
-                            // Start a new Game Round for the Player
-                            GameRound gameRound = new GameRound();
-                            gameRound.setCurrentStop(stopStart);
-                            gameRound.setActor(p.get());
-                            gameRoundRepository.save(gameRound);
-                            LOGGER.info(String.format("Player %s is ready", p.get().getId()));
-                        }
+                if (p.isPresent()) {
+                    ActorState state = p.get().getState();
+                    state.setStopState(StopState.JUMPING);
+                    actorStateRepository.save(state);
+                    // Start a new Game Round for the Player
+                    GameRound gameRound = new GameRound();
+                    gameRound.setCurrentStop(stopStart);
+                    gameRound.setActor(p.get());
+                    gameRoundRepository.save(gameRound);
+                    LOGGER.info(String.format("Player %s is ready", p.get().getId()));
+                }
 
             }
         }

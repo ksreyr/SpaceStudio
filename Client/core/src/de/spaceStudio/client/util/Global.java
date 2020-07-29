@@ -3,7 +3,10 @@ package de.spaceStudio.client.util;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class contains global variables, they can be access in the whole project
@@ -22,16 +25,12 @@ public class Global {
     public static final String ENERGY = "/energy";
     public static final String ACTOR_ENDPOINT = "/actor";
     public static final String END_ROUND_SINGLE = "/endSingleRound";
-    public static final String FIGHT_ENDPOINT =  "/game";
-    /**
-     * Hardcoded server URL
-     */
-    public static String SERVER_URL = "http://localhost:8080";
-    //public static String SERVER_URL = "http://192.168.178.106:8080";
+    public static final String FIGHT_ENDPOINT = "/game";
     /**
      * Server player endpoint
      */
     public static final String PLAYER_ENDPOINT = "/player";
+    //public static String SERVER_URL = "http://192.168.178.106:8080";
     /**
      * Server logged player endpoint
      */
@@ -196,11 +195,25 @@ public class Global {
      * Server logged player endpoint
      */
     public static final String PLAYER_CLEAN_ENDPOINT = "/cleanuser";
-    public static final String CAN_LAND =  "/canLand";
-    public static final String HAS_LANDED = "/hasLanded" ;
+    public static final String CAN_LAND = "/canLand";
+    public static final String HAS_LANDED = "/hasLanded";
+    /**
+     * Game Constants
+     */
+    public static final int OXYGEN = 100;
+    public static final int POWER_CURRENT = 2;
+    public static final int POWER_REQUIRED = 1;
+    public static final int HP = 1000;
+    public static final int SHIELD = 10000;
+    public static final int MAGAZIN_SIZE = 10;
     private static final int rocketWarmUp = 1;
     private static final int lasserWarmUp = 3;
     private static final int droneWarmUp = 1;
+    private static final int magazinSizeLaser = 2;
+    /**
+     * Hardcoded server URL
+     */
+    public static String SERVER_URL = "http://localhost:8080";
     /**
      * boolean value for single player disable lobby
      */
@@ -250,10 +263,18 @@ public class Global {
      * Default is onlineGame false
      */
     public static boolean isOnlineGame = false;
+
+    public static boolean killMultiPlayerTimeoutTimer = false;
+
     public static SinglePlayerGame singlePlayerGame;
+
+    public static int seedTimer = 0;
+
+    public static boolean multiPlayerGameStarted = false;
     /**
      * Game Constants
      */
+/*
     public static final int OXYGEN = 100;
     public static final int POWER_CURRENT = 2;
     public static final int POWER_REQUIRED = 1;
@@ -261,11 +282,11 @@ public class Global {
     public static final int SHIELD = 10000;
     public static final int MAGAZIN_SIZE = 50;
     private static final int magazinSizeLaser = 2;
+*/
+
 
     // FIXME Power ist doppelt
-
-
-    public static Ship ship0 = Ship.shipBluider().hp(3 *HP).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(SHIELD).buildShip();
+    public static Ship ship0 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(SHIELD).buildShip();
     public static Ship ship1 = Ship.shipBluider().hp(HP).shipForm(ShipForm.SHIP2).name("ship1").power(100).shield(SHIELD).buildShip();
     public static Ship ship2 = Ship.shipBluider().hp(2 * HP).shipForm(ShipForm.SHIP3).name("ship2").power(50).shield(2 * SHIELD).buildShip();
     public static Ship ship3 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP4).name("ship3").power(200).shield(SHIELD).buildShip();
@@ -845,7 +866,7 @@ public class Global {
     }};
     public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
     public static Map<Integer, Actor> combatActors = new HashMap<>();
-    public static List<Weapon> weaponsToProcess;
+    public static List<Weapon> weaponsToProcess = new ArrayList<>();
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);

@@ -7,21 +7,24 @@ import javax.persistence.ManyToOne;
 public class ShopRessource extends Ressource {
 
 
-
     private int price;
 
     @ManyToOne
     private Station station;
 
-    public ShopRessource(){
+    public ShopRessource() {
     }
 
-    public ShopRessource(ShopRessourceBuilder builder){
+    public ShopRessource(ShopRessourceBuilder builder) {
         setPrice(builder.price);
         setStation(builder.station);
         setAmount(builder.amount);
         setId(builder.id);
         setName(builder.name);
+    }
+
+    public static ShopRessourceBuilder shopRessourceBuilder() {
+        return new ShopRessourceBuilder();
     }
 
     public int getPrice() {
@@ -40,11 +43,7 @@ public class ShopRessource extends Ressource {
         this.station = station;
     }
 
-    public static ShopRessourceBuilder shopRessourceBuilder(){
-        return new ShopRessourceBuilder();
-    }
-
-    public static class ShopRessourceBuilder{
+    public static class ShopRessourceBuilder {
 
         private int price;
         private Station station;
@@ -52,27 +51,32 @@ public class ShopRessource extends Ressource {
         private RessourceName name;
         private int amount;
 
-        public ShopRessourceBuilder id( Integer id){
-            this.id=id;
+        public ShopRessourceBuilder id(Integer id) {
+            this.id = id;
             return ShopRessourceBuilder.this;
         }
-        public ShopRessourceBuilder name( RessourceName name){
-            this.name=name;
+
+        public ShopRessourceBuilder name(RessourceName name) {
+            this.name = name;
             return ShopRessourceBuilder.this;
         }
-        public ShopRessourceBuilder amount(int amount){
-            this.amount=amount;
+
+        public ShopRessourceBuilder amount(int amount) {
+            this.amount = amount;
             return ShopRessourceBuilder.this;
         }
-        public ShopRessourceBuilder prive( int price){
-            this.price=price;
+
+        public ShopRessourceBuilder prive(int price) {
+            this.price = price;
             return ShopRessourceBuilder.this;
         }
-        public ShopRessourceBuilder station(Station station){
-            this.station=station;
+
+        public ShopRessourceBuilder station(Station station) {
+            this.station = station;
             return ShopRessourceBuilder.this;
         }
-        public ShopRessource build(){
+
+        public ShopRessource build() {
             return new ShopRessource(this);
         }
     }

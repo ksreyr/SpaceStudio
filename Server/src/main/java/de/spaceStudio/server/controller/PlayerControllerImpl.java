@@ -22,47 +22,35 @@ import java.util.*;
 public class PlayerControllerImpl implements PlayerController {
 
     private static final Logger LOG = LoggerFactory.getLogger(PlayerControllerImpl.class);
-
-    @Autowired
-    private PlayerRepository playerRepository;
-
-    @Autowired
-    private ShipRepository shipRepository;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
-    @Autowired
-    private UniverseRepository universeRepository;
-
-    @Autowired
-    private StopAbstractRepository stopAbstractRepository;
-
-    @Autowired
-    private AIRepository aiRepository;
-
     @Autowired
     ActorRepository actorRepository;
-
     @Autowired
     GameController gameController;
-
     @Autowired
     CrewMemberRepository crewMemberRepository;
-
     @Autowired
     WeaponRepository weaponRepository;
-
     @Autowired
     ShipRessourceRepository shipRessourceRepository;
-
     @Autowired
     ShopRessourceRepository shopRessourceRepository;
     @Autowired
     StationRepository stationRepository;
-
     @Autowired
     ActorStateRepository actorStateRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
+    @Autowired
+    private ShipRepository shipRepository;
+    @Autowired
+    private SectionRepository sectionRepository;
+    @Autowired
+    private UniverseRepository universeRepository;
+    @Autowired
+    private StopAbstractRepository stopAbstractRepository;
+    @Autowired
+    private AIRepository aiRepository;
+
     /**
      * This function is temporal in use to test client to Server connection
      * Login user if exists
@@ -134,7 +122,8 @@ public class PlayerControllerImpl implements PlayerController {
         if (fetchPlayer.isPresent()) {
             gameController.setFightState(player);
             return playerRepository.save(player);
-        } else throw new IllegalStateException(String.format("The Player %s to update does not exist", player.getName()));
+        } else
+            throw new IllegalStateException(String.format("The Player %s to update does not exist", player.getName()));
     }
 
     /**
@@ -169,7 +158,7 @@ public class PlayerControllerImpl implements PlayerController {
     }
 
     @RequestMapping(value = "/player/multiplayer-list", method = RequestMethod.GET)
-    public Set<String> getMutiplayers(){
+    public Set<String> getMutiplayers() {
         return Global.usersMultiPlayer;
     }
 
@@ -194,7 +183,6 @@ public class PlayerControllerImpl implements PlayerController {
         Global.usersMultiPlayer.remove(player.getName());
         LOG.info("User :" + player.getName() + " removed from multiplayer");
     }
-
 
 
     /**
@@ -263,13 +251,13 @@ public class PlayerControllerImpl implements PlayerController {
                             } else {
                                 System.out.println("not CrewMember to erase");
                             }
-                            if(weaponRepository.findBySection(section).isPresent()){
-                                List<Weapon> weapons=weaponRepository.findBySection(section).get();
+                            if (weaponRepository.findBySection(section).isPresent()) {
+                                List<Weapon> weapons = weaponRepository.findBySection(section).get();
                                 for (Weapon w :
                                         weapons) {
                                     weaponRepository.delete(w);
                                 }
-                            }else {
+                            } else {
                                 System.out.println("not Weapon to erase");
                             }
                             sectionRepository.delete(section);
@@ -282,9 +270,9 @@ public class PlayerControllerImpl implements PlayerController {
                         AI ai = aiRepository.findByName(s.getOwner().getName()).get();
                         aiRepository.delete(ai);
                     }
-                    if(stopAbstractRepository.findById(sa.getId()).isPresent()){
-                        if(stationRepository.existsById(sa.getId())){
-                                Station station=stationRepository.findById(sa.getId()).get();
+                    if (stopAbstractRepository.findById(sa.getId()).isPresent()) {
+                        if (stationRepository.existsById(sa.getId())) {
+                            Station station = stationRepository.findById(sa.getId()).get();
                             if (shopRessourceRepository.findByStation(station).isPresent()) {
                                 List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station).get();
                                 for (ShopRessource sr :
@@ -293,14 +281,14 @@ public class PlayerControllerImpl implements PlayerController {
                                 }
                             }
                             stopAbstractRepository.delete(sa);
-                        }else {
+                        } else {
                             stopAbstractRepository.delete(sa);
                         }
 
                     }
-                    if(shipRessourceRepository.findByShip(s).isPresent()){
-                        List<ShipRessource> shipRessources=shipRessourceRepository.findByShip(s).get();
-                        for (ShipRessource sr:
+                    if (shipRessourceRepository.findByShip(s).isPresent()) {
+                        List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(s).get();
+                        for (ShipRessource sr :
                                 shipRessources) {
                             shipRessourceRepository.delete(sr);
                         }

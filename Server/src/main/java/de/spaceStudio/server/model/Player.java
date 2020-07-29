@@ -1,9 +1,6 @@
 package de.spaceStudio.server.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**

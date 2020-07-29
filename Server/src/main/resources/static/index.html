@@ -7,19 +7,20 @@
             padding: 1em;
             border: 1px solid black;
         }
+
     </style>
     <title>Sample WebSocket Client</title>
 </head>
 <body>
 <div class="container">
-    <div id="messages" class="messages"></div>
+    <div class="messages" id="messages"></div>
     <div class="input-fields">
         <p>Type a message and hit send:</p>
         <input id="message"/>
         <button id="send">Send</button>
 
         <p>Select an image and hit send:</p>
-        <input type="file" id="file" accept="image/*"/>
+        <input accept="image/*" id="file" type="file"/>
 
         <button id="sendImage">Send Image</button>
     </div>
@@ -74,5 +75,6 @@
         let url = URL.createObjectURL(new Blob([image]));
         messageWindow.innerHTML += `<img src="${url}"/>`
     }
+
 </script>
 </html>

@@ -19,6 +19,13 @@ import java.util.stream.Collectors;
 
 @RestController
 public class SectionControllerImpl implements SectionController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
+    @Autowired
+    WeaponRepository weaponRepository;
+    @Autowired
+    SectionRepository sectionRepository;
+    @Autowired
+    GameController gameController;
     @Autowired
     private SectionRepository repository;
     @Autowired
@@ -27,22 +34,8 @@ public class SectionControllerImpl implements SectionController {
     private ShipRepository shipRepository;
     @Autowired
     private AIRepository aiRepository;
-
     @Autowired
     private CrewMemberRepository crewMemberRepository;
-
-    @Autowired
-    WeaponRepository weaponRepository;
-
-
-    @Autowired
-    SectionRepository sectionRepository;
-
-    @Autowired
-    GameController gameController;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
-
 
     /**
      * Get all sections from db
@@ -165,8 +158,8 @@ public class SectionControllerImpl implements SectionController {
 
             if (sumRequired == gameController.sumRequiredPower(sectionsToUpdate.get(0).getShip())
                     && sumCurrent <= sectionsToUpdate.get(0).getShip().getPower() && allEqual) {
-                    sectionRepository.saveAll(sectionsToUpdate);
-                    LOGGER.info("Updating Energy of Sections");
+                sectionRepository.saveAll(sectionsToUpdate);
+                LOGGER.info("Updating Energy of Sections");
             }
         }
         return sectionRepository.findAllById(sectionsToUpdate.stream().map(Section::getId).collect(Collectors.toList()));
@@ -180,7 +173,7 @@ public class SectionControllerImpl implements SectionController {
             Optional<CrewMember> crew = crewMemberRepository.findByCurrentSection(s);
             if (crew.isPresent() && crew.get().getRole().equals(s.getRole())) {
                 crew.get().setSkillCounter(crew.get().getSkillCounter() + 1);
-                if (crew.get().getRoundsToDestination() >= 0) { // is not Traveling
+                if (crew.get().getRoundsToDestination() <= 0) { // is not Traveling
                     switch (crew.get().getRole()) {
                         case FIGHTER:
                             Optional<List<Weapon>> weapons = weaponRepository.findBySection(s);

@@ -69,7 +69,7 @@ public interface CrewMemberController {
     @RequestMapping(value = "/crew", method = RequestMethod.PUT)
     CrewMember updatePostion(@RequestBody CrewMember crewMember);
 
-    @GetMapping(value = "/ship/{id}/crewMembers" )
+    @GetMapping(value = "/ship/{id}/crewMembers")
     List<CrewMember> getMembers(@PathVariable Integer id);
 }
 

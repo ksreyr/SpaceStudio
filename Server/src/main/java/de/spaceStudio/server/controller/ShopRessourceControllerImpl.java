@@ -27,6 +27,7 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
     ShipRepository shipRepository;
     @Autowired
     ShipRessourceRepository shipRessourceRepository;
+
     @Override
     public List<ShopRessource> getAllShopRessources() {
         return null;
@@ -39,28 +40,30 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
 
     @Override
     public String addShopRessource(ShopRessource shopRessource) {
-        Universe universe=universeRepository.findByName(shopRessource.getStation().getUniverse().getName()).get();
-        List <StopAbstract> stopAbstracts= stopAbstractRepository.findByUniverse(universe).get();
+        Universe universe = universeRepository.findByName(shopRessource.getStation().getUniverse().getName()).get();
+        List<StopAbstract> stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
         for (StopAbstract s :
                 stopAbstracts) {
-            if(s.getName().equals(shopRessource.getStation().getName())){
+            if (s.getName().equals(shopRessource.getStation().getName())) {
                 shopRessource.setStation((Station) s);
             }
         }
         shopRessourceRepository.save(shopRessource);
         return HttpStatus.CREATED.toString();
     }
+
     @RequestMapping(value = "/listressourcen", method = RequestMethod.POST)
     public String addShopRessources(@RequestBody List<ShopRessource> shopRessources) {
-        List<ShopRessource> shopRessourceList= new ArrayList<>();
-        for (ShopRessource  s:
-                shopRessources ) {
-            ShopRessource shopRessource=shopRessourceRepository.save(s);
+        List<ShopRessource> shopRessourceList = new ArrayList<>();
+        for (ShopRessource s :
+                shopRessources) {
+            ShopRessource shopRessource = shopRessourceRepository.save(s);
             shopRessourceList.add(shopRessource);
         }
-        Gson gson=new Gson();
+        Gson gson = new Gson();
         return gson.toJson(shopRessourceList);
     }
+
     @Override
     public ShopRessource updateShopRessource(ShopRessource shopRessource) {
         return null;
@@ -88,22 +91,22 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
     public String buyItem(List<ShopRessource> ressourceList) {
 
         ShopRessource shopRessource = ressourceList.get(0);
-        Station station=shopRessource.getStation();
-        Ship ship= station.getShips().get(0);
-        List<ShipRessource> shipRessources= shipRessourceRepository.findByShip(ship).get();
-        Boolean control=false;
+        Station station = shopRessource.getStation();
+        Ship ship = station.getShips().get(0);
+        List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(ship).get();
+        Boolean control = false;
         for (ShipRessource sr :
                 shipRessources) {
-            if(shopRessource.getName().equals(sr.getName())){
-                sr.setAmount(shopRessource.getAmount()+sr.getAmount());
-                control=true;
+            if (shopRessource.getName().equals(sr.getName())) {
+                sr.setAmount(shopRessource.getAmount() + sr.getAmount());
+                control = true;
             }
-            if(sr.getName().toString().equals("GOLD")){
-                sr.setAmount(sr.getAmount()-shopRessource.getPrice());
+            if (sr.getName().toString().equals("GOLD")) {
+                sr.setAmount(sr.getAmount() - shopRessource.getPrice());
             }
         }
-        if(!control){
-            ShipRessource shipRessource=ShipRessource
+        if (!control) {
+            ShipRessource shipRessource = ShipRessource
                     .builderShipRessource()
                     .name(shopRessource.getName())
                     .amount(shopRessource.getAmount())
@@ -115,8 +118,8 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
         shopRessource.setAmount(0);
         shopRessource.setPrice(0);
         shopRessourceRepository.save(shopRessource);
-        Gson gson= new Gson();
-        shipRessources= shipRessourceRepository.findByShip(ship).get();
+        Gson gson = new Gson();
+        shipRessources = shipRessourceRepository.findByShip(ship).get();
         return gson.toJson(shipRessources);
     }
 }

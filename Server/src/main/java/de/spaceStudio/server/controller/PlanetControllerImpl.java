@@ -41,34 +41,35 @@ public class PlanetControllerImpl implements PlanetController {
 
     @Override
     public String addPlanet(@RequestBody Planet planet) {
-        Universe universe= universeRepository.findByName(planet.getUniverse().getName()).get();
+        Universe universe = universeRepository.findByName(planet.getUniverse().getName()).get();
         Player p1 = new Player();
         AI ai = new AI();
         Ship shipReal = new Ship();
-        try{
-        ArrayList<Ship> shipList= (ArrayList<Ship>) planet.getShips();
-        for (Ship ship :
-                shipList) {
-            if(ship.getOwner()!=null){
-                if (playerRepository.findByName(ship.getOwner().getName()).isPresent()) {
-                    p1 = playerRepository.findByName(ship.getOwner().getName()).get();
-                    shipReal = ship;
-                    shipReal = shipRepository.
-                            findShipByNameAndOwner(shipReal.getName(), p1).get();
-                }else{
-                    ai = aiRepository.findByName(ship.getOwner().getName()).get();
-                    shipReal = ship;
-                    shipReal = shipRepository.
-                            findShipByNameAndOwner(shipReal.getName(), ai).get();
+        try {
+            ArrayList<Ship> shipList = (ArrayList<Ship>) planet.getShips();
+            for (Ship ship :
+                    shipList) {
+                if (ship.getOwner() != null) {
+                    if (playerRepository.findByName(ship.getOwner().getName()).isPresent()) {
+                        p1 = playerRepository.findByName(ship.getOwner().getName()).get();
+                        shipReal = ship;
+                        shipReal = shipRepository.
+                                findShipByNameAndOwner(shipReal.getName(), p1).get();
+                    } else {
+                        ai = aiRepository.findByName(ship.getOwner().getName()).get();
+                        shipReal = ship;
+                        shipReal = shipRepository.
+                                findShipByNameAndOwner(shipReal.getName(), ai).get();
+                    }
+                    shipList.add(shipReal);
+                    shipList.remove(ship);
                 }
-                shipList.add(shipReal);
-                shipList.remove(ship);
+                planet.setShips(shipList);
+                planet.setUniverse(universe);
+                planetRepository.save(planet);
+                return HttpStatus.OK.toString();
             }
-            planet.setShips(shipList);
-            planet.setUniverse(universe);
-            planetRepository.save(planet);
-            return HttpStatus.OK.toString();
-        }}catch (Exception e){
+        } catch (Exception e) {
             planet.setShips(null);
             planet.setUniverse(universe);
             planetRepository.save(planet);
@@ -80,14 +81,14 @@ public class PlanetControllerImpl implements PlanetController {
 
     @RequestMapping(value = "/listplanet", method = RequestMethod.POST)
     public String addPlanets(@RequestBody List<Planet> planets) {
-        List<Planet> planetadded= new ArrayList<>();
+        List<Planet> planetadded = new ArrayList<>();
         for (Planet p :
                 planets) {
-           Planet planet= planetRepository.save(p);
+            Planet planet = planetRepository.save(p);
             planetadded.add(p);
         }
-        Gson gson= new Gson();
-        return gson.toJson(planetadded) ;
+        Gson gson = new Gson();
+        return gson.toJson(planetadded);
     }
 
     @Override
