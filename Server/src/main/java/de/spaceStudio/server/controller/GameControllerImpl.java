@@ -426,6 +426,22 @@ public class GameControllerImpl implements GameController {
     @Override
     public FightState getFightState(Actor pActor) {
         Optional<Actor> actor = actorRepository.findById(pActor.getId());
+
+        if (actor.isPresent()) {
+            List<GameRound> byActor = gameRoundRepository.findByActor(actor.get());
+            if (byActor.size() > 0) {
+                GameRound gameRound = byActor.get(byActor.size() - 1);
+                if (gameRound.getCombatRounds().isEmpty()) {
+                    CombatRound combatRound = new CombatRound();
+                    combatRound = combatRoundRepository.save(combatRound);
+                    gameRound.getCombatRounds().add(combatRound);
+                    gameRoundRepository.save(gameRound);
+                    LOG.info(String.format("Started a new combat Round %s  for Player %s",
+                            combatRound,
+                            actor.get().getId()));
+                }
+            }
+        }
         return actor.map(value -> value.getState().getFightState()).orElse(null);
     }
 
@@ -437,7 +453,8 @@ public class GameControllerImpl implements GameController {
                 actor.get().getState().setFightState(FightState.PLAYING);
 
                 CombatRound combatRound = new CombatRound();
-                GameRound gameRound = actor.get().getGameRounds().get(actor.get().getGameRounds().size() - 1);
+                List<GameRound> byActor = gameRoundRepository.findByActor(actor.get());
+                GameRound gameRound = byActor.get(byActor.size() - 1);
                 combatRoundRepository.save(combatRound);
                 gameRound.getCombatRounds().add(combatRound); // New Combat Round
                 gameRoundRepository.save(gameRound);
@@ -540,6 +557,13 @@ public class GameControllerImpl implements GameController {
         if (playerShip.isPresent() && aiShip.isPresent() && ai.isPresent() && ai.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {  // AI and Player are Waiting
             Optional<List<Section>> aiSection = sectionRepository.findAllByShip(aiShip.get());
 
+            CombatRound combatRound = new CombatRound();
+            combatRound =  combatRoundRepository.save(combatRound);
+            List<GameRound> byActor = gameRoundRepository.findByActor(ai.get());
+            GameRound gameRound = byActor.get(byActor.size() - 1);
+            gameRound.getCombatRounds().add(combatRound);
+            gameRoundRepository.save(gameRound);
+
             // Player Ship from DB
             Optional<List<Section>> sectionList = sectionRepository.findAllByShip(playerShip.get());
             if (sectionList.isPresent() && aiSection.isPresent()) {
@@ -609,7 +633,9 @@ public class GameControllerImpl implements GameController {
             actorFight(weapon);
             actorChangePower(aiShip.get());
 
-            List<CombatRound> combatRounds = ai.get().getGameRounds().get(ai.get().getGameRounds().size() - 1).getCombatRounds();
+            List<GameRound> byActor = gameRoundRepository.findByActor(ai.get());
+            List<CombatRound> combatRounds = byActor.get(byActor.size() - 1).getCombatRounds();
+
             // Add the Crew Members of the Ship into the combat Round
             combatRounds.get(combatRounds.size() - 1).setCrewMembers(crewMemberController.getMembers(aiShip.get().getId()));
 
@@ -626,7 +652,8 @@ public class GameControllerImpl implements GameController {
     }
 
     private List<Weapon> getLastCombatRoundUsedWeapons(Actor actor) {
-        List<CombatRound> combatRounds = actor.getGameRounds().get(actor.getGameRounds().size() - 1).getCombatRounds();
+        List<GameRound> byActor = gameRoundRepository.findByActor(actor);
+        List<CombatRound> combatRounds = byActor.get(byActor.size() - 1).getCombatRounds();
         // Add the Crew Members of the Ship into the combat Round
         return combatRounds.get(combatRounds.size() - 1).getWeaponsWhichHaveAttacked();
     }

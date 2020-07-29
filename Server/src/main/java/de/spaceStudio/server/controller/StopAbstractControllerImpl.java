@@ -27,6 +27,9 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     PlayerRepository playerRepository;
 
     @Autowired
+    ActorRepository actorRepository;
+
+    @Autowired
     GameRoundRepository gameRoundRepository;
 
     @Autowired
@@ -81,11 +84,8 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         stops.remove(stopStart);
 
         StopAbstract stopEnd = stops.get(0);
-//        Optional<Player> p = playerRepository.findById(stopStart.getShips().stream().filter(s -> s.getOwner()
-//                .getClass().getName().equals("Player")).findFirst().get().getId());
-//                // FIXME TERRIBLE BUG. No one knows who wants to jump, if 2 players at stop
-
-        Optional<Actor> p = Optional.of(stopEnd.getShips().get(0).getOwner());
+        Optional<Actor> p =  actorRepository.findById(stopEnd.getShips().get(0).getOwner().getId());
+        
         if (stopEnd.getShips().size() > 1) {
             return HttpStatus.EXPECTATION_FAILED.toString();
         }
@@ -95,25 +95,19 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                 ships) {
             if (s.getOwner() != null) {
                 ship = Optional.of(s);
-                for (MultiPlayerGame xs :
-                        Global.MultiPlayerGameSessions.values()) {
-                    if (xs.players.contains(p)) {
 
                         if (p.isPresent()) {
                             ActorState state = p.get().getState();
-                            xs.players.remove(p.get());
                             state.setStopState(StopState.JUMPING);
                             actorStateRepository.save(state);
                             // Start a new Game Round for the Player
                             GameRound gameRound = new GameRound();
                             gameRound.setCurrentStop(stopStart);
+                            gameRound.setActor(p.get());
                             gameRoundRepository.save(gameRound);
-                            p.get().getGameRounds().add(gameRound);
-                            xs.players.add(p.get());
                             LOGGER.info(String.format("Player %s is ready", p.get().getId()));
                         }
-                    }
-                }
+
             }
         }
 

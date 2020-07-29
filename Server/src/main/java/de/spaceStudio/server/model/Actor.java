@@ -1,8 +1,11 @@
 package de.spaceStudio.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,16 +27,10 @@ public  class Actor {
     @OneToOne
     private ActorState state;
 
-    @OneToMany
-    private List<GameRound> gameRounds;
-
-
     @Column(nullable = true)
-    @JsonIgnore
     private String savedGame;
 
     public Actor() {
-
     }
 
 
@@ -78,11 +75,4 @@ public  class Actor {
         this.savedGame = savedGame;
     }
 
-    public List<GameRound> getGameRounds() {
-        return gameRounds;
-    }
-
-    public void setGameRounds(List<GameRound> gameRounds) {
-        this.gameRounds = gameRounds;
-    }
 }

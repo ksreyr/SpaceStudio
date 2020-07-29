@@ -27,6 +27,13 @@ public class WeaponControllerImpl implements WeaponController {
     ShipRessourceRepository shipRessourceRepository;
 
     @Autowired
+    ActorRepository actorRepository;
+
+    @Autowired
+    GameRoundRepository gameRoundRepository;
+
+
+    @Autowired
     CombatRoundRepository combatRoundRepository;
 
     private float removeOxygen = 20;
@@ -152,10 +159,19 @@ public class WeaponControllerImpl implements WeaponController {
             if (ship.isPresent()) {
                 boolean hasHit = ((float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
                 weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
-                if (hasHit) {  // Dont change anything if no hit
+                    Optional<Actor> actor = actorRepository.findById(pWeapons.get(0).getSection().getShip().getOwner().getId());
+                if (hasHit && actor.isPresent()) {  // Dont change anything if no hit
                     // Find the last combat Round and add the weapon because it has attacked
-                    List<GameRound> gameRounds = ship.get().getOwner().getGameRounds();
+                    List<GameRound> gameRounds = gameRoundRepository.findByActor(actor.get());
                     GameRound curentGameRound = gameRounds.get(gameRounds.size() - 1);
+
+                    if (curentGameRound.getCombatRounds().size() == 0) {
+                        CombatRound combatRound = new CombatRound();
+                        combatRoundRepository.save(combatRound);
+                        curentGameRound.getCombatRounds().add(combatRound);
+                        gameRoundRepository.save(curentGameRound);
+                    }
+
                     CombatRound currentCombatRound = curentGameRound.getCombatRounds().get(curentGameRound.getCombatRounds().size() - 1);
                     currentCombatRound.getWeaponsWhichHaveAttacked().add(weapon);
                     combatRoundRepository.save(currentCombatRound);

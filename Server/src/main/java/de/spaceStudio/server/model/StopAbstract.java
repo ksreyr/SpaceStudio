@@ -1,6 +1,7 @@
 package de.spaceStudio.server.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -20,6 +21,8 @@ public class StopAbstract {
     private Universe universe;
 
     private String name;
+    @Column
+    private String img;
 
     public String getName() {
         return name;
@@ -55,7 +58,16 @@ public class StopAbstract {
     public void setUniverse(Universe universe) {
         this.universe = universe;
     }
-     public static class StopAbstractBuilder{
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public static class StopAbstractBuilder{
 
      }
 }

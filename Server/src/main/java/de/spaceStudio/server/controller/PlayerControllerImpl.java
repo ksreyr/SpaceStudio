@@ -116,7 +116,7 @@ public class PlayerControllerImpl implements PlayerController {
         } else {
             if (player.getState() == null) {
                 ActorState as = new ActorState();
-                actorStateRepository.save(as);
+                as = actorStateRepository.save(as);
                 player.setState(as);
             }
             playerRepository.save(player);

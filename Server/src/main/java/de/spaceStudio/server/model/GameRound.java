@@ -15,6 +15,10 @@ public class GameRound {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+
+    @ManyToOne
+    private Actor actor;
+
     @OneToMany
     private List<CombatRound> combatRounds = new ArrayList<>();
 
@@ -43,5 +47,13 @@ public class GameRound {
 
     public void setCurrentStop(StopAbstract currentStop) {
         this.currentStop = currentStop;
+    }
+
+    public Actor getActor() {
+        return actor;
+    }
+
+    public void setActor(Actor actor) {
+        this.actor = actor;
     }
 }
