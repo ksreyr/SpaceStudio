@@ -188,20 +188,15 @@ public class CrewMemberControllerImpl implements CrewMemberController {
        Optional<CrewMember> crewMemberOld =  crewMemberRepository.findById(crewMember.getId());
 
        if (!crewMemberOld.isPresent()) {
-           return null;
+          throw new IllegalArgumentException("Crew Member was not in a Section");
        }
 
 
        Optional<Object> sectionOld = Optional.empty();
        if (crewMemberOld.isPresent()) {
            sectionOld = Optional.ofNullable(crewMemberOld.get().getCurrentSection());
-       }
 
         if (!sectionOld.get().equals(sectionNew)) {
-            if (crewMemberOld.isEmpty()) {
-                logger.error("Illegal Request made from Client updatePostion(" + crewMember.getId() + "to " + sectionNew + ")");
-                return crewMemberOld.get();
-            }
 
             if (crewMemberRepository.findByCurrentSection(sectionNew).isEmpty() && !(sectionNew.equals(sectionOld.get()))) {
                 crewMember.setRoundsToDestination(ROUNDS_TO_TRAVEL);
@@ -209,6 +204,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
                 return crewMember;
             }
         }
+       }
         return crewMemberOld.get();
     }
 
