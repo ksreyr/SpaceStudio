@@ -122,10 +122,12 @@ public class WeaponControllerImpl implements WeaponController {
 
     @Override
     @RequestMapping(value = "/weapon", method = RequestMethod.PUT)
-
-    public Weapon updateWeapon(@RequestBody Weapon weapon) {
-        Weapon weapon1 = weaponRepository.save(weapon);
-        return weapon1;
+    public List<Weapon> updateWeapon(@RequestBody List<Weapon> weapons) {
+        for (Weapon e :
+                weapons) {
+            weaponRepository.save(e);
+        }
+        return weapons;
     }
 
     @Override

@@ -108,9 +108,9 @@ public class CombatScreen extends BaseScreen {
     private TextButton enableShield, enableEnemyShield;
     private Texture explosion, missille, weaponSystem;
     private boolean isExploied, isLaserActivated;
-    private Texture  explosion, missille, weaponSystem;
     private boolean isTargetSelected, isTargetEngine, isTargetCockpit, isTargetWeapon;
     private Skin skinButton;
+    private boolean isShieldEnabled, isEnemyShield, isTargetO2, isTargetMedical;
     private ImageButton engine, weaponSection, cockpit, o2, healthPoint;
     private int counterCockpit = 0;
     private int randomNumber;
@@ -171,7 +171,6 @@ public class CombatScreen extends BaseScreen {
                 if (Global.combatActors.isEmpty())
                 {
                     liamButton.setText("Connecting. Try Again");
-
                 } else {
                     de.spaceStudio.server.model.Actor actor1 = Global.combatActors.get(Global.currentPlayer.getId());
                     if ((actor1.getState().getFightState().equals(FightState.PLAYING))) {
@@ -296,7 +295,7 @@ public class CombatScreen extends BaseScreen {
         shieldIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/2.png"));
         driveIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/1.png"));
         weaponsIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/3.png"));
-        
+
         shieldIconForEnergyPanel.setPosition(185,12);
         shieldIconForEnergyPanel.addListener(new ClickListener() {
             @Override
@@ -400,6 +399,8 @@ public class CombatScreen extends BaseScreen {
                 weaponSection.getStyle().imageUp = weapon_section;
                 cockpit.getStyle().imageUp = cockpit_nat;
                 o2.getStyle().imageUp = oxygen_sym;
+
+
             }
         });
 
@@ -461,8 +462,10 @@ public class CombatScreen extends BaseScreen {
                         selectedTarget = Global.section3Gegner3;
                         findSectionByNameAndShip("Section3Gegner3", Global.currentShipGegner.getId(), true);
                         break;
+
                     default:
                         break;
+
                 }
 
                 isTargetSelected = true;
@@ -476,6 +479,7 @@ public class CombatScreen extends BaseScreen {
             }
         });
         // isNewExpo = !sectionsToPlayerResponse.isEmpty();
+
         cockpit = new ImageButton(cockpit_nat);
         cockpit.setPosition(1560, 650);
         cockpit.addListener(new ChangeListener() {
@@ -684,6 +688,7 @@ public class CombatScreen extends BaseScreen {
 
     /**
      * Receives x and y-position  of redPin in a section
+     *
      * @param redPinXPosition of section
      * @param redPinYPosition of section
      * @return Rectangle of redPin section
@@ -881,6 +886,7 @@ public class CombatScreen extends BaseScreen {
         return sb.toString();
     }
 
+
     // Called when the screen should render itself.
     @Override
     public void render(float delta) {
@@ -1020,6 +1026,9 @@ public class CombatScreen extends BaseScreen {
             if (Global.currentShipPlayer.getShield() > 0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
             //shield for enemy
             if (Global.currentShipGegner.getShield() > 0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
+
+        //explosion on enemy's engine
+
 
         //update bullets
         ArrayList<Bullet> bulletToRemove = new ArrayList<>();
