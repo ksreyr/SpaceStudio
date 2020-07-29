@@ -763,9 +763,18 @@ public class CombatScreen extends BaseScreen {
                 Section[] aiArray = gson.fromJson(SectionsGegner, Section[].class);
                 sectionsGegner = Arrays.asList(aiArray);
 
-                if (sectionsGegner.get(0).getShip().getHp() <= 0) {
-                    LOG.info("You have Won the Fight");
-                    // FIXME Add Win Screen
+                if (sectionsGegner.size() > 0) {
+                    Global.currentShipGegner = sectionsGegner.get(0).getShip();
+
+                    // :::::::::::::::::::
+                    if (sectionsGegner.get(0).getShip().getHp() <= 0) {
+                        LOG.info("You have Won the Fight");
+                        mainClient.setScreen(new WinScreen(game));
+                    }
+                }
+
+                if (Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1) {
+                    LOG.info("You have killed the enemy crew");
                 }
 
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);
