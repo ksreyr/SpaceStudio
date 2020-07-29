@@ -601,6 +601,34 @@ public class ShipSelectScreen extends BaseScreen {
                 if (response.equals("true")) {
                     // SetScreen Station Map
                     LOG.info("Setting up stationStop Screen");
+                    switch (shipNumber) {
+                        case 0:
+                            ship = Global.ship0;
+                        /*
+                        271, 158
+                        475, 293
+                        647, 307
+                        479, 469
+                        646, 461
+                        266, 607
+                         */
+
+                            break;
+                        case 1:
+                            ship = Global.ship1;
+                            break;
+                        case 2:
+                            ship = Global.ship2;
+                            break;
+                        default:
+                            ship = Global.ship3;
+                            break;
+                    }
+
+                    ship.setOwner(Global.currentPlayer);
+                    ship.setMoney(40); // TODO FIXME change later
+                    sendRequestAddShip(ship, Net.HttpMethods.POST);
+
                     deployMultiplayer = true;
                 } else {
                     LOG.info("False var");
@@ -643,10 +671,11 @@ public class ShipSelectScreen extends BaseScreen {
 
         if (deployMultiplayer) {
             killTimer = true;
-            mainClient.setScreen(new StationsMap(game));
+            LOG.info("Added");
+            //mainClient.setScreen(new StationsMap(game));
         }
         // Bock
-        if (IS_SINGLE_PLAYER) {
+        if (IS_SINGLE_PLAYER || deployMultiplayer) {
             /*Added Ship*/
             if (requestcounter == 1) {
                 if (responseJson != null && !responseJson.isEmpty()) {
