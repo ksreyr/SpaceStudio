@@ -130,7 +130,6 @@ public class ShipSelectScreen extends BaseScreen {
         playersOnline.clear();
         // download data
         fetchLoggedUsers();
-
         camera = new OrthographicCamera();
         viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT, camera);
         stage = new Stage(viewport);
@@ -648,7 +647,9 @@ public class ShipSelectScreen extends BaseScreen {
                     }
                 }
                 //Sent Sections
+                System.out.println("Current Power Nr.1: " + Global.sectionsPlayerList.get(0).getPowerCurrent());
                 sendRequestAddSections(Global.sectionsPlayerList, Net.HttpMethods.POST);
+                System.out.println("Current Power Nr.2: " + Global.sectionsPlayerList.get(0).getPowerCurrent());
                 requestcounter = 2;
             }
 

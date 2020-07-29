@@ -59,7 +59,6 @@ public class Section {
         setId(builder.id);
         setImg(builder.img);
         setOxygen(builder.oxygen);
-        setPowerCurrent(builder.powerCurrent);
         setRole(builder.role);
         setPowerCurrent(builder.powerCurrent);
         setPowerRequired(builder.powerRequired);
@@ -92,6 +91,12 @@ public class Section {
         return powerCurrent;
     }
 
+    public void incrementPowerCurrent(){
+        this.powerCurrent++;
+    }
+    public void decrementPowerCurrent(){
+        this.powerCurrent--;
+    }
     public void setPowerCurrent(int powerCurrent) {
         this.powerCurrent = powerCurrent;
     }
@@ -230,7 +235,7 @@ public class Section {
             return SectionBuilder.this;
         }
         public SectionBuilder powerRequired(int powerRequired){
-            this.powerCurrent=powerRequired;
+            this.powerRequired = powerRequired;
             return SectionBuilder.this;
         }
         public SectionBuilder powerCurrent(int powerCurrent){

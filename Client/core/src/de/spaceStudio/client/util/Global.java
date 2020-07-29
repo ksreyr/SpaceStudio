@@ -257,7 +257,7 @@ public class Global {
      * Game Constants
      */
     public static final int OXYGEN = 100;
-    public static final int POWER_CURRENT = 5;
+    public static final int POWER_CURRENT = 0;
     public static final int POWER_REQUIRED = 1;
     public static final int HP = 1000;
     public static final int SHIELD = 10000;
@@ -359,8 +359,8 @@ public class Global {
     public static Section section4 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
-            .img("Section4").oxygen(OXYGEN).
-                    powerCurrent(100)
+            .img("Section4").oxygen(OXYGEN)
+            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
