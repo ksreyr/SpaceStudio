@@ -286,17 +286,18 @@ public class CombatScreen extends BaseScreen {
                     Global.currentShipPlayer.setPower(Global.currentShipPlayer.getPower()-1);
                     Global.section2.setPowerCurrent(Global.section2.getPowerCurrent()+1);
                     updateShipEnergy(Global.currentShipPlayer, Net.HttpMethods.PUT);
-                    //anzahlEnergyShieldSystem++;
+                    updateSectionEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()), Net.HttpMethods.PUT);
                 }
             }
         });
         shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(anzahlEnergyShieldSystem > 0){
+                if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(2).getPowerCurrent() > 0){
                     Global.currentShipPlayer.setPower(Global.currentShipPlayer.getPower()+1);
                     Global.section2.setPowerCurrent(Global.section2.getPowerCurrent()-1);
                     updateShipEnergy(Global.currentShipPlayer, Net.HttpMethods.PUT);
+                    updateSectionEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()), Net.HttpMethods.PUT);
                     //anzahlEnergyShieldSystem--;
                 }
             }
@@ -310,6 +311,7 @@ public class CombatScreen extends BaseScreen {
                     Global.currentShipPlayer.setPower(Global.currentShipPlayer.getPower()-1);
                     Global.section6.setPowerCurrent(Global.section6.getPowerCurrent()+1);
                     updateShipEnergy(Global.currentShipPlayer, Net.HttpMethods.PUT);
+                    updateSectionEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()), Net.HttpMethods.PUT);
                     //anzahlEnergyDriveSystem++;
                 }
             }
@@ -317,10 +319,11 @@ public class CombatScreen extends BaseScreen {
         driveIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(anzahlEnergyDriveSystem > 0){
+                if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(6).getPowerCurrent() > 0){
                     Global.currentShipPlayer.setPower(Global.currentShipPlayer.getPower()+1);
                     Global.section6.setPowerCurrent(Global.section6.getPowerCurrent()-1);
                     updateShipEnergy(Global.currentShipPlayer, Net.HttpMethods.PUT);
+                    updateSectionEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()), Net.HttpMethods.PUT);
                     //anzahlEnergyDriveSystem--;
                 }
             }
@@ -334,6 +337,7 @@ public class CombatScreen extends BaseScreen {
                     Global.currentShipPlayer.setPower(Global.currentShipPlayer.getPower()-1);
                     Global.section4.setPowerCurrent(Global.section4.getPowerCurrent()+1);
                     updateShipEnergy(Global.currentShipPlayer, Net.HttpMethods.PUT);
+                    updateSectionEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()), Net.HttpMethods.PUT);
                     //anzahlEnergyWeaponsSystem++;
                 }
             }
@@ -341,11 +345,12 @@ public class CombatScreen extends BaseScreen {
         weaponsIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(anzahlEnergyWeaponsSystem > 0){
+                if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(4).getPowerCurrent() > 0){
                     Global.currentShipPlayer.setPower(Global.currentShipPlayer.getPower()+1);
                     Global.section4.setPowerCurrent(Global.section4.getPowerCurrent()-1);
                     updateShipEnergy(Global.currentShipPlayer, Net.HttpMethods.PUT);
-                    anzahlEnergyWeaponsSystem--;
+                    updateSectionEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()), Net.HttpMethods.PUT);
+                    //anzahlEnergyWeaponsSystem--;
                 }
             }
         });
@@ -719,7 +724,7 @@ public class CombatScreen extends BaseScreen {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
-        final String url = Global.SERVER_URL + Global.SHIP_UPDATE;
+        final String url = Global.SERVER_URL + Global.SECTIONS + Global.ENERGY;
         final Net.HttpRequest request = setupRequest(url,requestJson,method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -794,7 +799,7 @@ public class CombatScreen extends BaseScreen {
                 }else {
                     Gson gson = new Gson();
                     CrewMember newCrewMember = gson.fromJson(result, CrewMember.class);
-                    myCrew.set( myCrew.indexOf(newCrewMember), newCrewMember);
+                    myCrew.set(myCrew.indexOf(newCrewMember), newCrewMember);
                     imageCrewMember.setPosition(XPlayerShip + newCrewMember.getCurrentSection().getxPos(),
                             YPlayerShip + newCrewMember.getCurrentSection().getyPos());
                 }
@@ -973,11 +978,11 @@ public class CombatScreen extends BaseScreen {
             //insgesamt Energy
             drawAvailableEnergy(Global.currentShipPlayer.getPower(),25);
             //shield Energy
-            drawAvailableEnergy(Global.section2.getPowerCurrent(),165);
+            drawAvailableEnergy(sectionsPlayer.get(2).getPowerCurrent(),165);
             //weapons Energy
-            drawAvailableEnergy(Global.section4.getPowerCurrent(),467);
+            drawAvailableEnergy(sectionsPlayer.get(4).getPowerCurrent(),467);
             //drive Energy
-            drawAvailableEnergy(Global.section6.getPowerCurrent(),320);
+            drawAvailableEnergy(sectionsPlayer.get(6).getPowerCurrent(),320);
 
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
@@ -1145,20 +1150,6 @@ public class CombatScreen extends BaseScreen {
         stage.draw();
     }
 
-    public void drawShieldEnergy(int energyCounter, int xPosition){
-        int shieldEnergyCounter = 0;
-        for (Section s : Global.combatSections.get(Global.currentShipPlayer.getId())) {
-            if (s.getSectionTyp().equals(SectionTyp.HEALTH)) {
-                shieldEnergyCounter += s.getPowerCurrent();
-            }
-        }
-
-        int energyYPosition = 13;
-        for(int i = 0; i < energyCounter; i++){
-            stage.getBatch().draw(energy,xPosition,energyYPosition,80,110);
-            energyYPosition += 22;
-        }
-    }
     public void drawAvailableEnergy(int energyCounter, int xPosition) {
         //int sum = Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer));
         //System.out.println(sum);
