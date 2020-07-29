@@ -71,8 +71,9 @@ public final class RequestUtils {
                     }
                 } else if (url.contains("crewMembers")) {
                     try {
-                        Global.combatCrew.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<CrewMember>>() {
-                        }));
+                        List<CrewMember> crewMembers = objectMapper.readValue(responseString[0], new TypeReference<List<CrewMember>>() {
+                        });
+                        Global.combatCrew.put(id, crewMembers);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
