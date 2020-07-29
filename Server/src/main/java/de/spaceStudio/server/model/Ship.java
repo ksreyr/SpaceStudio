@@ -167,8 +167,7 @@ public class Ship {
         }
 
         public Ship buildShip() {
-            Ship ship = new Ship(this);
-            return ship;
+            return new Ship(this);
         }
     }
 }

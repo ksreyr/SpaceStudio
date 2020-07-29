@@ -286,14 +286,6 @@ public class ShipSelectScreen extends BaseScreen {
                 switch (shipNumber) {
                     case 0:
                         ship = Global.ship0;
-                        /*
-                        271, 158
-                        475, 293
-                        647, 307
-                        479, 469
-                        646, 461
-                        266, 607
-                         */
 
                         break;
                     case 1:
