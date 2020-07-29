@@ -3,10 +3,7 @@ package de.spaceStudio.client.util;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class contains global variables, they can be access in the whole project
@@ -854,7 +851,7 @@ public class Global {
     }};
     public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
     public static Map<Integer, Actor> combatActors = new HashMap<>();
-    public static List<Weapon> weaponsToProcess = new ArrayList<>();
+    public static List<Weapon> weaponsToProcess = new LinkedList<>();
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);

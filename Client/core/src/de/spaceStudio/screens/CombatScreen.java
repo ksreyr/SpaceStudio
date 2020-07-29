@@ -866,6 +866,11 @@ public class CombatScreen extends BaseScreen {
         }
 
 
+        if (!Global.weaponsToProcess.isEmpty()) {
+            Global.weaponsToProcess.remove(0);
+            bullets.add(new Bullet(1500, 500));
+        }
+
         if (Global.currentShipPlayer.getHp() < 1) {
             LOG.info("You have lost the Game");
             killTimer = true;
