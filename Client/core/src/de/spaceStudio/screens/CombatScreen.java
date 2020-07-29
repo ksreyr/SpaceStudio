@@ -124,6 +124,7 @@ public class CombatScreen extends BaseScreen {
 
     private Label weaponsLabel;
     private TextButton liamButton;
+    private boolean crewMemberMoved = false;
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -604,6 +605,9 @@ public class CombatScreen extends BaseScreen {
             float crewY;
 
             public void drag(InputEvent event, float x, float y, int pointer) {
+                if(crewMemberMoved){
+                    return;
+                }
                 dragged = true;
                 imageCrewMember.moveBy(x - imageCrewMember.getWidth() / 2, y - imageCrewMember.getHeight() / 2);
             }
@@ -649,6 +653,7 @@ public class CombatScreen extends BaseScreen {
                 }
                 // make Move Request c from start to end
                 dragged = false;
+                crewMemberMoved = true;
             }
         });
     }
