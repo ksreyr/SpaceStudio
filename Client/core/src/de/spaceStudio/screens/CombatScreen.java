@@ -777,7 +777,7 @@ public class CombatScreen extends BaseScreen {
                             }
                         }
                     };
-
+                    System.out.println("Test git");
                         winMessageDialog(dialog, " You won the game ");
 
 
