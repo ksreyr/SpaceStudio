@@ -250,7 +250,14 @@ public class Global {
      * Default is onlineGame false
      */
     public static boolean isOnlineGame = false;
+
+    public static boolean killMultiPlayerTimeoutTimer = false;
+
     public static SinglePlayerGame singlePlayerGame;
+
+    public static int seedTimer = 0;
+
+    public static boolean multiPlayerGameStarted = false;
     /**
      * Game Constants
      */

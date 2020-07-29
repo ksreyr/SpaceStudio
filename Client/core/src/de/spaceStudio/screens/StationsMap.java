@@ -119,6 +119,7 @@ public class StationsMap extends BaseScreen {
 
         if (!Global.IS_SINGLE_PLAYER) {
             RequestUtils.hasLanded(Global.currentPlayer);
+            Global.multiPlayerGameStarted = true;
         }
 
         stage.addActor(planet1ImgBTN);
