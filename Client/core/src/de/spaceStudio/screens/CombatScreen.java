@@ -847,8 +847,6 @@ public class CombatScreen extends BaseScreen {
         return sb.toString();
     }
 
-
-
     // Called when the screen should render itself.
     @Override
     public void render(float delta) {
@@ -881,10 +879,7 @@ public class CombatScreen extends BaseScreen {
 
 
         }
-
-
         weaponLabel.setText(getWeaponsStats(Global.combatWeapons.get(Global.currentShipPlayer.getId())));
-
 
         if (Global.combatWeapons.size() >= 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
@@ -898,8 +893,6 @@ public class CombatScreen extends BaseScreen {
                     weaponLabel.setText(weaponText[1] + selectedWeapons.get(0).getName());
                 }
             }
-
-
             stage.getBatch().begin();
             stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
             // Render the Ship of the current Player
@@ -909,37 +902,19 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
             stage.getBatch().draw(energyWeaponsPanel,0,0);
 
-            //insgesamt Energy
-            /*stage.getBatch().draw(energy,25,13,80,110);
-            stage.getBatch().draw(energy,25,35,80,110);
-            stage.getBatch().draw(energy,25,57,80,110);*/
+
             drawAvailableEnergy(availableEnergy,25);
-            /*
-            stage.getBatch().draw(energy,25,79,80,110);
-            stage.getBatch().draw(energy,25,101,80,110);
-            stage.getBatch().draw(energy,25,123,80,110);
-            stage.getBatch().draw(energy,25,145,80,110);
-            stage.getBatch().draw(energy,25,167,80,110);
-            stage.getBatch().draw(energy,25,189,80,110);*/
+
 
             //shield Energy
             drawAvailableEnergy(anzahlEnergyShieldSystem,165);
-            /*stage.getBatch().draw(energy,165,13,80,110);
-            stage.getBatch().draw(energy,165,35,80,110);
-            stage.getBatch().draw(energy,165,57,80,110);
-            stage.getBatch().draw(energy,165,79,80,110);*/
+
             //drive Energy
             drawAvailableEnergy(anzahlEnergyDriveSystem,320);
-            /*stage.getBatch().draw(energy,320,13,80,110);
-            stage.getBatch().draw(energy,320,35,80,110);
-            stage.getBatch().draw(energy,320,57,80,110);
-            stage.getBatch().draw(energy,320,79,80,110);*/
+
             //weapons Energy
             drawAvailableEnergy(anzahlEnergyWeaponsSystem,467);
-            /*stage.getBatch().draw(energy,320+147,13,80,110);
-            stage.getBatch().draw(energy,320+147,35,80,110);
-            stage.getBatch().draw(energy,320+147,57,80,110);
-            stage.getBatch().draw(energy,320+147,79,80,110);*/
+
 
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
@@ -961,16 +936,11 @@ public class CombatScreen extends BaseScreen {
 
             }
 
-
-
         // FIXME LIAM
         if (!Global.combatActors.isEmpty()) {
             Global.combatActors.get(Global.currentGegner.getId());
             System.out.println("Current Enemy State ::::::" + Global.combatActors.get(Global.currentGegner.getId()));
         }
-
-
-
 
             int y = 22;
             for (Weapon w :
@@ -1016,11 +986,6 @@ public class CombatScreen extends BaseScreen {
             lebenplayerShip.setText(String.valueOf(Global.currentShipPlayer.getHp()));
             //A
             //Logic
-            //Create and launch missiles
-
-
-
-            //shield
             // for player
             if (Global.currentShipPlayer.getShield() > 0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
             //shield for enemy
