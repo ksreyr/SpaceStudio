@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 public interface WeaponController {
@@ -90,7 +91,7 @@ public interface WeaponController {
     String deleteAllWeapons();
 
     @RequestMapping(value = "/fire", method = RequestMethod.POST)
-    List<Section> fire(@RequestBody List<Weapon> weapons);
+    List<Section> fire(@RequestBody @NotEmpty List<Weapon> weapons);
 
     @RequestMapping(value = "/shotvalidation", method = RequestMethod.POST)
     List<Boolean> shotValidation(@RequestBody List<Weapon> weapons);

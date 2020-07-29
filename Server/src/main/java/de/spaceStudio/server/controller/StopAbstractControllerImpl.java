@@ -1,13 +1,9 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.model.ActorState;
 import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.model.*;
-import de.spaceStudio.server.repository.ActorStateRepository;
-import de.spaceStudio.server.repository.PlayerRepository;
-import de.spaceStudio.server.repository.ShipRepository;
-import de.spaceStudio.server.repository.StopAbstractRepository;
+import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +25,12 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     ShipRepository shipRepository;
     @Autowired
     PlayerRepository playerRepository;
+
+    @Autowired
+    ActorRepository actorRepository;
+
+    @Autowired
+    GameRoundRepository gameRoundRepository;
 
     @Autowired
     ActorStateRepository actorStateRepository;
@@ -82,11 +84,8 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         stops.remove(stopStart);
 
         StopAbstract stopEnd = stops.get(0);
-//        Optional<Player> p = playerRepository.findById(stopStart.getShips().stream().filter(s -> s.getOwner()
-//                .getClass().getName().equals("Player")).findFirst().get().getId());
-//                // FIXME TERRIBLE BUG. No one knows who wants to jump, if 2 players at stop
-
-        Optional<Actor> p =  Optional.of(stopEnd.getShips().get(0).getOwner());
+        Optional<Actor> p =  actorRepository.findById(stopEnd.getShips().get(0).getOwner().getId());
+        
         if (stopEnd.getShips().size() > 1) {
             return HttpStatus.EXPECTATION_FAILED.toString();
         }
@@ -96,20 +95,19 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                 ships) {
             if (s.getOwner() != null) {
                 ship = Optional.of(s);
-                for (MultiPlayerGame xs :
-                        Global.MultiPlayerGameSessions.values()) {
-                    if (xs.players.contains(p)) {
 
                         if (p.isPresent()) {
                             ActorState state = p.get().getState();
-                            xs.players.remove(p.get());
                             state.setStopState(StopState.JUMPING);
                             actorStateRepository.save(state);
-                            xs.players.add(p.get());
+                            // Start a new Game Round for the Player
+                            GameRound gameRound = new GameRound();
+                            gameRound.setCurrentStop(stopStart);
+                            gameRound.setActor(p.get());
+                            gameRoundRepository.save(gameRound);
                             LOGGER.info(String.format("Player %s is ready", p.get().getId()));
                         }
-                    }
-                }
+
             }
         }
 
@@ -144,6 +142,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                 shipJump.add(ship.get());
                 stopEnd.setShips(shipJump);
                 stopAbstractRepository.save(stopEnd);
+
 
                 Gson gson = new Gson();
 
@@ -185,14 +184,14 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                 }
 
                 List<Actor> landing = multiPlayerGame.players.stream().filter(u -> u.getState().getStopState().equals(StopState.JUMPING)).collect(Collectors.toList());
-               if (canLand && landing.size() == 2) {
-                   for (Actor actor:
-                        multiPlayerGame.players) {
-                       actor.getState().setStopState(StopState.EXPLORING);
-                       actorStateRepository.save(actor.getState());
-                       LOGGER.info(String.format("Player %s can now Land", player.getId()));
-                   }
-               }
+                if (canLand && landing.size() == 2) {
+                    for (Actor actor :
+                            multiPlayerGame.players) {
+                        actor.getState().setStopState(StopState.EXPLORING);
+                        actorStateRepository.save(actor.getState());
+                        LOGGER.info(String.format("Player %s can now Land", player.getId()));
+                    }
+                }
 
             }
         }

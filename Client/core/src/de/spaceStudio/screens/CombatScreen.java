@@ -124,7 +124,6 @@ public class CombatScreen extends BaseScreen {
 
     private Label weaponsLabel;
     private TextButton liamButton;
-    private boolean isRound;
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -157,8 +156,8 @@ public class CombatScreen extends BaseScreen {
 
     }
     private void liamButtonFuntion(){
-        liamButton = new TextButton("End Round", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
-        liamButton.setPosition(850,50);
+        liamButton = new TextButton("End Round", skin);
+        liamButton.setPosition(600,50);
         stage.addActor(liamButton);
         liamButton.addCaptureListener(new ChangeListener() {
             @Override
@@ -166,21 +165,18 @@ public class CombatScreen extends BaseScreen {
                 if (Global.combatActors.isEmpty())
                 {
                     liamButton.setText("Connecting. Try Again");
-
                 } else {
                     de.spaceStudio.server.model.Actor actor1 = Global.combatActors.get(Global.currentPlayer.getId());
                     if ((actor1.getState().getFightState().equals(FightState.PLAYING))) {
                         actor1.getState().setFightState(FightState.WAITING_FOR_TURN);
                         if (Global.IS_SINGLE_PLAYER) {
                             liamButton.setText("Waiting for AI");
-                            isRound=true;
                         } else {
                             liamButton.setText("Waiting for other Player");
                         }
                     } else {
                         actor1.getState().setFightState(FightState.PLAYING);
                         liamButton.setText("End Round");
-                        isRound=false;
                     }
                         RequestUtils.setActor(actor1);
                 }
@@ -390,11 +386,14 @@ public class CombatScreen extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 isTargetSelected = true;
                 selectedTarget = Global.section2Gegner;
+
                 healthPoint.getStyle().imageUp = medical_sym_red;
                 engine.getStyle().imageUp = engine_sym;
                 weaponSection.getStyle().imageUp = weapon_section;
                 cockpit.getStyle().imageUp = cockpit_nat;
                 o2.getStyle().imageUp = oxygen_sym;
+
+
             }
         });
 
@@ -456,8 +455,10 @@ public class CombatScreen extends BaseScreen {
                         selectedTarget = Global.section3Gegner3;
                         findSectionByNameAndShip("Section3Gegner3", Global.currentShipGegner.getId(), true);
                         break;
+
                     default:
                         break;
+
                 }
 
                 isTargetSelected = true;
@@ -471,6 +472,7 @@ public class CombatScreen extends BaseScreen {
             }
         });
         // isNewExpo = !sectionsToPlayerResponse.isEmpty();
+
         cockpit = new ImageButton(cockpit_nat);
         cockpit.setPosition(1560, 650);
         cockpit.addListener(new ChangeListener() {
@@ -547,7 +549,7 @@ public class CombatScreen extends BaseScreen {
                     });
                 }
             });
-            saveGameButton.setPosition(1000, 50);
+            saveGameButton.setPosition(1000, 200);
             stage.addActor(saveGameButton);
         }
         for(int i = 0; i < listOfCrewImages.size(); i++){
@@ -763,38 +765,10 @@ public class CombatScreen extends BaseScreen {
                 Section[] aiArray = gson.fromJson(SectionsGegner, Section[].class);
                 sectionsGegner = Arrays.asList(aiArray);
 
-                if (sectionsGegner.size() > 0) {
-                    Global.currentShipGegner = sectionsGegner.get(0).getShip();
-
-                    // :::::::::::::::::::
-                    System.out.println("Enemys hp :::::::::::::::::::::"+sectionsGegner.get(0).getShip().getHp());
                 if (sectionsGegner.get(0).getShip().getHp() <= 0) {
-                        LOG.info("You have Won the Fight");
-                    final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
-                        public void result(Object obj) {
-                            if (Objects.equals(obj.toString(), "true")) {
-                            }
-                        }
-                    };
-                        winMessageDialog(dialog, " You won the game ");
-                    }
-
-                if (Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1) {
-                        LOG.info("You have killed the enemy crew");
-                    }
+                    LOG.info("You have Won the Fight");
+                    // FIXME Add Win Screen
                 }
-                else {
-
-                    final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
-                        public void result(Object obj) {
-                            if (Objects.equals(obj.toString(), "true")) {
-                            }
-                        }
-                    };
-                    loseMessageDialog(dialog, " You have lost the game!");
-
-                }
-
 
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);
 
@@ -843,12 +817,10 @@ public class CombatScreen extends BaseScreen {
                     int y = 42;
                     for (Weapon w :
                             weaponsToFire) {
-                          if(!isRound)  bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + y));
+                            bullets.add(new Bullet(XPlayerShip + 170, YPlayerShip + y));
                             y = y + shotDelta;
-                            isWin = true;
-                        yWeaponPos -= shotDelta;
 
-                        if(isWin && weaponsToFire.isEmpty()) mainClient.setScreen(new WinScreen(game));
+                        yWeaponPos -= shotDelta;
                     }
                     weaponsToFire.clear();
                 }
@@ -874,6 +846,8 @@ public class CombatScreen extends BaseScreen {
         }
         return sb.toString();
     }
+
+
 
     // Called when the screen should render itself.
     @Override
@@ -902,12 +876,12 @@ public class CombatScreen extends BaseScreen {
             logicOfFirePlayer();
             //bullets.add(new Bullet(590, yWeaponPos));
             counterCockpit++;
-            if(isRound) bulletsEnemy.add(new Bullet(1500, 600));
-            else bullets.add(new Bullet(BaseScreen.WIDTH, 0));
-
-
+            bullets.add(new Bullet(BaseScreen.WIDTH, 0));
         }
+
+
         weaponLabel.setText(getWeaponsStats(Global.combatWeapons.get(Global.currentShipPlayer.getId())));
+
 
         if (Global.combatWeapons.size() >= 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
@@ -921,6 +895,8 @@ public class CombatScreen extends BaseScreen {
                     weaponLabel.setText(weaponText[1] + selectedWeapons.get(0).getName());
                 }
             }
+
+
             stage.getBatch().begin();
             stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
             // Render the Ship of the current Player
@@ -930,19 +906,37 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
             stage.getBatch().draw(energyWeaponsPanel,0,0);
 
-
+            //insgesamt Energy
+            /*stage.getBatch().draw(energy,25,13,80,110);
+            stage.getBatch().draw(energy,25,35,80,110);
+            stage.getBatch().draw(energy,25,57,80,110);*/
             drawAvailableEnergy(availableEnergy,25);
-
+            /*
+            stage.getBatch().draw(energy,25,79,80,110);
+            stage.getBatch().draw(energy,25,101,80,110);
+            stage.getBatch().draw(energy,25,123,80,110);
+            stage.getBatch().draw(energy,25,145,80,110);
+            stage.getBatch().draw(energy,25,167,80,110);
+            stage.getBatch().draw(energy,25,189,80,110);*/
 
             //shield Energy
             drawAvailableEnergy(anzahlEnergyShieldSystem,165);
-
+            /*stage.getBatch().draw(energy,165,13,80,110);
+            stage.getBatch().draw(energy,165,35,80,110);
+            stage.getBatch().draw(energy,165,57,80,110);
+            stage.getBatch().draw(energy,165,79,80,110);*/
             //drive Energy
             drawAvailableEnergy(anzahlEnergyDriveSystem,320);
-
+            /*stage.getBatch().draw(energy,320,13,80,110);
+            stage.getBatch().draw(energy,320,35,80,110);
+            stage.getBatch().draw(energy,320,57,80,110);
+            stage.getBatch().draw(energy,320,79,80,110);*/
             //weapons Energy
             drawAvailableEnergy(anzahlEnergyWeaponsSystem,467);
-
+            /*stage.getBatch().draw(energy,320+147,13,80,110);
+            stage.getBatch().draw(energy,320+147,35,80,110);
+            stage.getBatch().draw(energy,320+147,57,80,110);
+            stage.getBatch().draw(energy,320+147,79,80,110);*/
 
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
@@ -964,25 +958,23 @@ public class CombatScreen extends BaseScreen {
 
             }
 
-        // FIXME LIAM
-        if (!Global.combatActors.isEmpty()) {
-            Global.combatActors.get(Global.currentGegner.getId());
-            System.out.println("Current Enemy State ::::::" + Global.combatActors.get(Global.currentGegner.getId()));
-        }
 
+
+            int x = 500;
+            bulletsEnemy.add(new Bullet(x, 743));
+            x+=5;
             int y = 22;
             for (Weapon w :
                     Global.combatWeapons.get(Global.currentShipPlayer.getId())) {
 
                 if (w.getName().contains("Rocket")) {
                     stage.getBatch().draw(missille, XPlayerShip + 170, YPlayerShip + y, 400, 50);
-                   // stage.getBatch().draw(missille, XPlayerShip + 170, YPlayerShip + y, 400, 50);
                     y += 223;
                 } else if (w.getName().contains("Laser")) {
                     stage.getBatch().draw(laser, XPlayerShip + 170, YPlayerShip + y, 400, 50);
                 }
             }
-           stage.getBatch().draw(missille, XPlayerShip + 170, 820, 400, 50);
+
 
             //Enemy shooting
 
@@ -1009,47 +1001,86 @@ public class CombatScreen extends BaseScreen {
                 sectionsPlayer = sizeO;
             }
 
-
+            //Update Server Response
+//            if (!sectionsGegner.isEmpty()) {
+//                Section sectionResponse = sectionsGegner.get(0);
+//                Ship shiptoUpdate = sectionResponse.getShip();
+//                Global.currentShipGegner = shiptoUpdate;
+//                switch (sectionResponse.getShip().getName()) {
+//                    case "Shipgegner1":
+//                        Global.sectionsgegner1 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner1();
+//                        Global.shipGegner1 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner2":
+//                        Global.sectionsgegner2 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner2();
+//                        Global.shipGegner2 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner3":
+//                        Global.sectionsgegner3 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner3();
+//                        Global.shipGegner3 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner4":
+//                        Global.sectionsgegner4 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner4();
+//                        Global.shipGegner4 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner5":
+//                        Global.sectionsgegner5 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner5();
+//                        Global.shipGegner5 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                    case "Shipgegner6":
+//                        Global.sectionsgegner6 = sectionsGegner;
+//                        Global.updateVariblesSectionsGegner6();
+//                        Global.shipGegner6 = shiptoUpdate;
+//                        Global.currentShipGegner = shiptoUpdate;
+//                        Global.aktualizierenweaponListUniverse2();
+//                        break;
+//                }
+//                Global.updateShipsListgegneru2();
+//                List<Section> sizeO = new ArrayList<>();
+//                sectionsGegner = sizeO;
+//                //GEGNER FIRE
+//            }
             lebengegnerShip.setText(String.valueOf(Global.currentShipGegner.getHp()));
             lebenplayerShip.setText(String.valueOf(Global.currentShipPlayer.getHp()));
             //A
             //Logic
+            //Create and launch missiles
+
+
+
+            //shield
             // for player
             if (Global.currentShipPlayer.getShield() > 0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
             //shield for enemy
             if (Global.currentShipGegner.getShield() > 0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
 
-        //update bullets
-        ArrayList<Bullet> bulletToRemove = new ArrayList<>();
-        for (Bullet bullet : bullets) {
-            bullet.update(delta);
-            if (bullet.remove) {
-                System.out.println("Remove from Combat :::::::+ "+bullet.remove);
-
-                if (isTargetCockpit && bullet.remove) stage.getBatch().draw(explosion,1540, 550, 100, 100);
-                bulletToRemove.add(bullet);
-            }
+            //explosion on enemy's engine
 
 
-        }
-
-        bullets.removeAll(bulletToRemove);
-
-
-        int p = Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getPowerCurrent();
-
-        ArrayList<Bullet> bulletGegnerToRemove = new ArrayList<>();
-        for (Bullet bullet : bulletsEnemy) {
-            bullet.updateTo(delta);
-            if (bullet.remove) {
-
-                bulletGegnerToRemove.add(bullet);
-            }
-
-        }
+            //update bullets
+            bullets.removeIf(b -> b.remove);
+            bulletsEnemy.removeIf(b -> b.remove);
 
 
-        stage.getBatch().end();
+            int p = Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getPowerCurrent();
+
+
+            stage.getBatch().end();
             mainClient.getBatch().begin();
             for (Bullet bullet : bullets) {
                 bullet.render(mainClient.getBatch());
@@ -1232,6 +1263,7 @@ public class CombatScreen extends BaseScreen {
                     LOG.info(Global.currentShipPlayer.getId().toString());
                     RequestUtils.sectionsByShip(Global.currentShipPlayer);
                     RequestUtils.getShip(Global.currentShipPlayer);
+                    RequestUtils.weaponsByShip(Global.currentShipPlayer);
                     RequestUtils.getActor(Global.currentPlayer);
                     RequestUtils.getActor(Global.currentGegner);
                 }
@@ -1278,34 +1310,6 @@ public class CombatScreen extends BaseScreen {
     private void saveMessageDialog(Dialog dialog, String action) {
         dialog.text(action);
         dialog.button("OK", false);
-        dialog.key(Input.Keys.ENTER, true);
-        dialog.key(Input.Keys.ESCAPE, false);
-        click.play();
-        dialog.show(stage);
-    }
-
-    private void winMessageDialog(Dialog dialog, String action) {
-        dialog.text(action);
-        dialog.button("See Map", true).addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new StationsMap(game));
-            }
-        });
-        dialog.key(Input.Keys.ENTER, true);
-        dialog.key(Input.Keys.ESCAPE, false);
-        click.play();
-        dialog.show(stage);
-    }
-
-    private void loseMessageDialog(Dialog dialog, String action) {
-        dialog.text(action);
-        dialog.button("See Menu", true).addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MenuScreen(game));
-            }
-        });
         dialog.key(Input.Keys.ENTER, true);
         dialog.key(Input.Keys.ESCAPE, false);
         click.play();

@@ -3,8 +3,10 @@ package de.spaceStudio.server.controller;
 import com.google.gson.Gson;
 import de.spaceStudio.server.model.ActorState;
 import de.spaceStudio.server.model.AI;
+import de.spaceStudio.server.model.GameRound;
 import de.spaceStudio.server.repository.AIRepository;
 import de.spaceStudio.server.repository.ActorStateRepository;
+import de.spaceStudio.server.repository.GameRoundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +24,9 @@ public class AIControllerImpl implements AIController {
     @Autowired
     ActorStateRepository actorStateRepository;
 
+
+    @Autowired
+    GameRoundRepository gameRoundRepository;
     /**
      * Get all AIs from db
      *
@@ -56,6 +61,12 @@ public class AIControllerImpl implements AIController {
         if (ai.getState() == null) {
             actorStateRepository.save(aa);
             ai.setState(aa);
+        }
+        GameRound gameRound = new GameRound();
+        List<GameRound> gameRounds = gameRoundRepository.findByActor(ai);
+        if (gameRounds.isEmpty()) {
+            gameRound.setActor(ai);
+            gameRoundRepository.save(gameRound);
         }
         ai.setState(aa);
         aiRepository.save(ai);

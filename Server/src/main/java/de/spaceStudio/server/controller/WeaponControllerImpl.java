@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,16 @@ public class WeaponControllerImpl implements WeaponController {
     StopAbstractRepository stopAbstractRepository;
     @Autowired
     ShipRessourceRepository shipRessourceRepository;
+
+    @Autowired
+    ActorRepository actorRepository;
+
+    @Autowired
+    GameRoundRepository gameRoundRepository;
+
+
+    @Autowired
+    CombatRoundRepository combatRoundRepository;
 
     private float removeOxygen = 20;
     private int priceWeapon = 30;
@@ -135,86 +146,103 @@ public class WeaponControllerImpl implements WeaponController {
     }
 
     @Override
-    public List<Section> fire(@RequestBody List<Weapon> pWeapons) {
-    Random random = new Random();
+    public List<Section> fire(@RequestBody @NotEmpty List<Weapon> pWeapons) {
+        Random random = new Random();
 
-        Ship ship = new Ship();
 
         List<Weapon> weapons = getWeapons(pWeapons);
 
         for (Weapon weapon :
                 weapons) {
             //Search the objective
-            boolean hasHit = (  (float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
-            weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
-            if (hasHit) {  // Dont change anything if no hit
-                ship = shipRepository.findById(weapon.getObjectiv().getShip().getId()).get();
-                if (ship.getShield() > 0) {
-                    ship.setShield(ship.getShield() - weapon.getDamage());
-                } else {
-                    //Without_Schield
-                    ship.setHp(ship.getHp() - weapon.getDamage());
-                    weapon.getObjectiv().setUsable(false);
-                    weapon.getObjectiv().setOxygen(  weapon.getObjectiv().getOxygen()- removeOxygen);
-                    sectionRepository.save(weapon.getObjectiv());
-                }
-            }
-            shipRepository.save(ship);
-            weaponRepository.save(weapon);
-        }
-        Optional<List<Section>> sections = sectionRepository.findAllByShip(ship);
-        return sections.orElseGet(ArrayList::new);
-    }
+            Optional<Ship> ship = shipRepository.findById(weapon.getObjectiv().getShip().getId());
+            if (ship.isPresent()) {
+                boolean hasHit = ((float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
+                weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
+                    Optional<Actor> actor = actorRepository.findById(pWeapons.get(0).getSection().getShip().getOwner().getId());
+                if (hasHit && actor.isPresent()) {  // Dont change anything if no hit
+                    // Find the last combat Round and add the weapon because it has attacked
+                    List<GameRound> gameRounds = gameRoundRepository.findByActor(actor.get());
+                    GameRound curentGameRound = gameRounds.get(gameRounds.size() - 1);
 
-    @Override
-    public List<Boolean> shotValidation(List<Weapon> pWeapons) {
-        List<Boolean> shots = new ArrayList<>();
+                    if (curentGameRound.getCombatRounds().size() == 0) {
+                        CombatRound combatRound = new CombatRound();
+                        combatRoundRepository.save(combatRound);
+                        curentGameRound.getCombatRounds().add(combatRound);
+                        gameRoundRepository.save(curentGameRound);
+                    }
 
-        List<Weapon> weapons = getWeapons(pWeapons);
-        weapons.forEach(w -> shots.add(canShoot(w)));
-        return shots;
-    }
-
-    private List<Weapon> getWeapons(List<Weapon> pWeapons) {
-        List<Integer> ids = new ArrayList<>();
-        pWeapons.forEach(e -> ids.add(e.getId()));
-        List<Weapon> weapons = weaponRepository.findAllById(ids);
-
-        weapons.forEach(w -> w.setObjectiv(pWeapons.get(0).getObjectiv()));
-        return weapons;
-    }
-
-    @Override
-    public boolean canShoot(Weapon w) {
-        Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-        if (w.getObjectiv() != null &&  ship.getHp() > 0 && w.getWarmUp () == 0 && w.getCurrentBullets() > 0 ) {
-             return w.getSection().getUsable();
-        }
-         return false;
-    }
-
-    @RequestMapping(value = "/buyweapon", method = RequestMethod.POST)
-    public String buyWeapon(@RequestBody List<Weapon> weapons) {
-        Gson gson = new Gson();
-        Section section = new Section();
-        for (Weapon weapon :
-                weapons) {
-            List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(weapon.getSection().getShip()).get();
-            for (ShipRessource sr : shipRessources) {
-                if (sr.getName().equals(RessourceName.GOLD)) {
-                    if (sr.getAmount() - priceWeapon > 0) {
-                        sr.setAmount(sr.getAmount() - priceWeapon);
-                        shipRessourceRepository.save(sr);
+                    CombatRound currentCombatRound = curentGameRound.getCombatRounds().get(curentGameRound.getCombatRounds().size() - 1);
+                    currentCombatRound.getWeaponsWhichHaveAttacked().add(weapon);
+                    combatRoundRepository.save(currentCombatRound);
+                    if (ship.get().getShield() > 0) {
+                        ship.get().setShield(ship.get().getShield() - weapon.getDamage());
                     } else {
-                        return gson.toJson(shipRessources);
+                        //Without_Schield
+                        ship.get().setHp(ship.get().getHp() - weapon.getDamage());
+                        weapon.getObjectiv().setUsable(false);
+                        weapon.getObjectiv().setOxygen(weapon.getObjectiv().getOxygen() - removeOxygen);
                     }
                 }
+                sectionRepository.save(weapon.getObjectiv());
+                shipRepository.save(ship.get());
+                weaponRepository.save(weapon);
             }
-            section = sectionRepository.findById(weapon.getSection().getId()).get();
-            weapon.setSection(section);
-            weaponRepository.save(weapon);
         }
-        List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(section.getShip()).get();
-        return gson.toJson(shipRessources);
+                Optional<List<Section>> sections = sectionRepository.findAllByShip(pWeapons.get(0).getObjectiv().getShip());
+                return sections.orElseGet(ArrayList::new);
+//            throw new IllegalStateException(String.format("There is no Ship %s to take Dammage", pWeapons.get(0).getObjectiv().getShip().getId()));
     }
-}
+
+        @Override
+        public List<Boolean> shotValidation (List < Weapon > pWeapons) {
+            List<Boolean> shots = new ArrayList<>();
+
+            List<Weapon> weapons = getWeapons(pWeapons);
+            weapons.forEach(w -> shots.add(canShoot(w)));
+            return shots;
+        }
+
+        private List<Weapon> getWeapons (List < Weapon > pWeapons) {
+            List<Integer> ids = new ArrayList<>();
+            pWeapons.forEach(e -> ids.add(e.getId()));
+            List<Weapon> weapons = weaponRepository.findAllById(ids);
+
+            weapons.forEach(w -> w.setObjectiv(pWeapons.get(0).getObjectiv()));
+            return weapons;
+        }
+
+        @Override
+        public boolean canShoot (Weapon w){
+            Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
+            if (w.getObjectiv() != null && ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0) {
+                return w.getSection().getUsable();
+            }
+            return false;
+        }
+
+        @RequestMapping(value = "/buyweapon", method = RequestMethod.POST)
+        public String buyWeapon (@RequestBody List < Weapon > weapons) {
+            Gson gson = new Gson();
+            Section section = new Section();
+            for (Weapon weapon :
+                    weapons) {
+                List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(weapon.getSection().getShip()).get();
+                for (ShipRessource sr : shipRessources) {
+                    if (sr.getName().equals(RessourceName.GOLD)) {
+                        if (sr.getAmount() - priceWeapon > 0) {
+                            sr.setAmount(sr.getAmount() - priceWeapon);
+                            shipRessourceRepository.save(sr);
+                        } else {
+                            return gson.toJson(shipRessources);
+                        }
+                    }
+                }
+                section = sectionRepository.findById(weapon.getSection().getId()).get();
+                weapon.setSection(section);
+                weaponRepository.save(weapon);
+            }
+            List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(section.getShip()).get();
+            return gson.toJson(shipRessources);
+        }
+    }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -106,10 +107,14 @@ public final class RequestUtils {
                         e.printStackTrace();
                     }
                 } else if (url.contains(Global.END_ROUND_SINGLE)) {
-                    // TODO load weapons which have attacked
+                    try {
+                        List<Weapon> weaponsWhichHaveShot = objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>() {
+                        });
+                        Global.weaponsToProcess.addAll(weaponsWhichHaveShot);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
-
-
             }
 
             @Override
