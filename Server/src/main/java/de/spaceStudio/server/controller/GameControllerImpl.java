@@ -1,7 +1,6 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.model.FightState;
 import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
@@ -28,44 +27,44 @@ import java.util.*;
 @RestController
 public class GameControllerImpl implements GameController {
 
+    /**
+     * Logger object
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(GameControllerImpl.class);
+    @Autowired
+    ShipRepository shipRepository;
+    @Autowired
+    SectionRepository sectionRepository;
     @Autowired
     private WeaponController weaponController;
-
     /**
      * PlayerRepository Data
      */
     @Autowired
     private PlayerRepository playerRepository;
-
     @Autowired
     private WeaponRepository weaponRepository;
-
     @Autowired
     private StopAbstractRepository stopAbstractRepository;
-
     @Autowired
     private ActorStateRepository actorStateRepository;
-
-
     @Autowired
     private AIRepository aiRepository;
-
     @Autowired
     private ActorRepository actorRepository;
-
     @Autowired
-    private  SectionController sectionController;
-    /**
-     * Logger object
-     */
-    private static final Logger LOG = LoggerFactory.getLogger(GameControllerImpl.class);
+    private SectionController sectionController;
 
-    @Autowired
-    ShipRepository shipRepository;
+    @Autowired GameRoundRepository gameRoundRepository;
 
-    @Autowired
-    SectionRepository sectionRepository;
+    @Autowired CombatRoundRepository combatRoundRepository;
+
+
     private Optional<List<Weapon>> weaponList;
+
+    @Autowired
+    CrewMemberController crewMemberController;
+
 
     /**
      * Init single game session in Server
@@ -331,45 +330,40 @@ public class GameControllerImpl implements GameController {
 
     /**
      * Player wants to end Round
+     *
      * @param pPlayer who wants to end his round
      * @return the Ship of the Player who has ended the Round
      */
     @Override
     public Ship endFightRound(Player pPlayer, String session) {
 
-
         // TODO add Online
         Optional<Player> player = playerRepository.findById(pPlayer.getId());
-        if (player.isPresent()  && player.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
+        if (player.isPresent() && player.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
 
-                Optional<Ship> ship = shipRepository.findByOwner(pPlayer);
-                if (ship.isPresent()) {
+            Optional<Ship> ship = shipRepository.findByOwner(pPlayer);
+            if (ship.isPresent()) {
 
-                    // TODO if is online
-                    actorFight(ship.get(), session);
-                    actorChangePower(ship.get());
-
-                    List<Section> sectionsOfPlayer = sectionController.sectionsByShip(ship.get().getId());
-                    List<Weapon> playerOfWeapons = new ArrayList<>();
-                    for (Section s :
-                            sectionsOfPlayer) {
-                        playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
-                    }
-
-                    lowerWarmUpTime(playerOfWeapons);
-                    return shipRepository.findById(ship.get().getId()).get();
+                List<Section> sectionsOfPlayer = sectionController.sectionsByShip(ship.get().getId());
+                List<Weapon> playerOfWeapons = new ArrayList<>();
+                for (Section s :
+                        sectionsOfPlayer) {
+                    playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
                 }
+
+                lowerWarmUpTime(playerOfWeapons);
+                return shipRepository.findById(ship.get().getId()).get();
+            }
 
         }
         return shipRepository.findByOwner(pPlayer).get();
 
     }
 
-    private void roundStateNext() {
-    }
 
     /**
      * If the Weapon Section is dammaged. Divert Energy to the Weapon Section
+     *
      * @param ship where the Actor is chaning Power
      */
     private void actorChangePower(Ship ship) {
@@ -403,16 +397,16 @@ public class GameControllerImpl implements GameController {
             sectionRepository.save(section.get());
 
 
-        return section.get();
+            return section.get();
         } else return pSection;
     }
 
     @Override
     @GetMapping(value = "/game/canFight/{session}")
-    public FightState canFight(@RequestBody Actor pActor , @PathVariable String session) {
+    public FightState canFight(@RequestBody Actor pActor, @PathVariable String session) {
         boolean canFight = isCanFight(pActor, session);
 
-        return (canFight ?  FightState.PLAYING : FightState.WAITING_FOR_TURN);
+        return (canFight ? FightState.PLAYING : FightState.WAITING_FOR_TURN);
     }
 
     @Override
@@ -427,12 +421,27 @@ public class GameControllerImpl implements GameController {
         } else {
             return HttpStatus.BAD_REQUEST.toString();
         }
-
     }
 
     @Override
     public FightState getFightState(Actor pActor) {
-       Optional<Actor> actor = actorRepository.findById(pActor.getId());
+        Optional<Actor> actor = actorRepository.findById(pActor.getId());
+
+        if (actor.isPresent()) {
+            List<GameRound> byActor = gameRoundRepository.findByActor(actor.get());
+            if (byActor.size() > 0) {
+                GameRound gameRound = byActor.get(byActor.size() - 1);
+                if (gameRound.getCombatRounds().isEmpty()) {
+                    CombatRound combatRound = new CombatRound();
+                    combatRound = combatRoundRepository.save(combatRound);
+                    gameRound.getCombatRounds().add(combatRound);
+                    gameRoundRepository.save(gameRound);
+                    LOG.info(String.format("Started a new combat Round %s  for Player %s",
+                            combatRound,
+                            actor.get().getId()));
+                }
+            }
+        }
         return actor.map(value -> value.getState().getFightState()).orElse(null);
     }
 
@@ -442,33 +451,45 @@ public class GameControllerImpl implements GameController {
         if (actor.isPresent() && !pActor.getState().getFightState().equals(actor.get().getState().getFightState())) {
             if (actor.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
                 actor.get().getState().setFightState(FightState.PLAYING);
+
+                CombatRound combatRound = new CombatRound();
+                List<GameRound> byActor = gameRoundRepository.findByActor(actor.get());
+                GameRound gameRound = byActor.get(byActor.size() - 1);
+                combatRoundRepository.save(combatRound);
+                gameRound.getCombatRounds().add(combatRound); // New Combat Round
+                gameRoundRepository.save(gameRound);
+
             } else {
                 actor.get().getState().setFightState(FightState.WAITING_FOR_TURN);
             }
             // FIXME set the other to to the oppsite State
             actorStateRepository.save(actor.get().getState());
             return actor.get().getState().getFightState();
-        } else throw new IllegalStateException(String.format("The state (%s) is identical with the Server", pActor.getState().getFightState()));
+        } else
+            throw new IllegalStateException(String.format("The state (%s) is identical with the Server", pActor.getState().getFightState()));
     }
 
     public void lowerWarmUpTime(List<Weapon> weapons) {
-       for (Weapon w :
-               weapons) {
-           if (w.getWarmUp() != 0) {
-               w.setWarmUp(w.getWarmUp() - 1);
-           } else {
-               if (w.getWarmUp() == 0 && w.getCurrentBullets() != w.getMagazineSize()) {
-                   w.setWarmUp(w.getWarmUpTime());
-               }
-           }
-           weaponRepository.save(w);
-       }
-   }
+        for (Weapon w :
+                weapons) {
+            if (w.getWarmUp() != 0) {
+                w.setWarmUp(w.getWarmUp() - 1);
+                w.setCurrentBullets(w.getMagazineSize());
+            } else {
+                if (w.getWarmUp() == 0 && w.getCurrentBullets() != w.getMagazineSize()) {
+                    w.setWarmUp(w.getWarmUpTime());
+                    w.setCurrentBullets(w.getMagazineSize());
+                }
+            }
+            weaponRepository.save(w);
+        }
+    }
 
 
     /**
      * Can the Actor Fight
-     * @param pActor who wants to fight
+     *
+     * @param pActor  who wants to fight
      * @param session of pActor
      * @return if the actor can Fight
      */
@@ -497,6 +518,7 @@ public class GameControllerImpl implements GameController {
 
     /**
      * Sum the current Energy of the Ship
+     *
      * @param s is the Ship
      * @return current energy required
      */
@@ -510,6 +532,7 @@ public class GameControllerImpl implements GameController {
 
     /**
      * Sum the required Power for the Ship
+     *
      * @param s is the Ship
      * @return the sum of the required Power
      */
@@ -523,32 +546,47 @@ public class GameControllerImpl implements GameController {
 
 
     @Override
-    @GetMapping(value = "/game/fight/{session}")
-    public Optional<Ship> actorFight(@RequestBody Ship playerShip, @PathVariable String session) {
+    public Optional<Ship> actorFight(@RequestBody Weapon weapon) {
 
         // Get the AI Ship, Section and Weapons
-        AI ai =  aiRepository.findById(Global.SinglePlayerGameSessions.get(session).getAi().getId()).get();
-        Optional<Ship> ship = shipRepository.findById(playerShip.getId());
-        Optional<Ship> aiShip = shipRepository.findByOwner(ai);
-        if (ship.isPresent() && aiShip.isPresent()  && ai.getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {  // AI and Player are Waiting
-        Optional<List<Section>> aiSection = sectionRepository.findAllByShip(aiShip.get());
 
-        // Player Ship from DB
-            Optional<List<Section>> sectionList = sectionRepository.findAllByShip(ship.get());
+        Optional<Ship> playerShip = shipRepository.findById(weapon.getObjectiv().getShip().getId());
+        Optional<Ship> aiShip = shipRepository.findById(weapon.getSection().getShip().getId());
+        Optional<AI> ai = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
+
+
+        if (playerShip.isPresent() && aiShip.isPresent() && ai.isPresent() && ai.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {  // AI and Player are Waiting
+            Optional<List<Section>> aiSection = sectionRepository.findAllByShip(aiShip.get());
+
+            CombatRound combatRound = new CombatRound();
+            combatRound =  combatRoundRepository.save(combatRound);
+            List<GameRound> byActor = gameRoundRepository.findByActor(ai.get());
+            if (byActor.isEmpty()) {
+                GameRound gameRound =  new GameRound();
+                gameRound.setActor(ai.get());
+                gameRoundRepository.save(gameRound);
+                byActor = gameRoundRepository.findByActor(ai.get());
+            }
+            GameRound gameRound = byActor.get(byActor.size() - 1);
+            gameRound.getCombatRounds().add(combatRound);
+            gameRoundRepository.save(gameRound);
+
+            // Player Ship from DB
+            Optional<List<Section>> sectionList = sectionRepository.findAllByShip(playerShip.get());
             if (sectionList.isPresent() && aiSection.isPresent()) {
                 // Figure out which Sections to attack
                 List<Section> xs = new ArrayList<>();
                 for (Section s :
-                        sectionList.get ()) {
+                        sectionList.get()) {
                     if (s.isUsable())
                         xs.add(s);
                 }
 
-                ai.getState().setFightState(FightState.PLAYING);
+                ai.get().getState().setFightState(FightState.PLAYING);
 
 
                 // Attack a random section of the ones working
-                int random = (int) (Math.random() * xs.size());
+                int random = (int) (Math.random() * (xs.size() - 1));
                 Section attackSection = xs.get(random);
 
                 // Add all AI Weapons to attackWeapons
@@ -563,10 +601,9 @@ public class GameControllerImpl implements GameController {
                 attackWeapons.forEach(w -> w.setObjectiv(attackSection));
 
                 // Test if it is possible to fire the each Weapon
-                List<Boolean> shots;
+                List<Boolean> shots = weaponController.shotValidation(attackWeapons);
                 // Shot at the Player as long as it is possible to fire
-                do {
-                    shots = weaponController.shotValidation(attackWeapons);
+                while (shots.contains(true)) {
                     List<Weapon> weaponsWhichCanFire = new ArrayList<>();
                     // Fire each Weapon which can Shot
                     for (int i = 0; i < shots.size(); i++) {
@@ -574,17 +611,71 @@ public class GameControllerImpl implements GameController {
                             weaponsWhichCanFire.add(attackWeapons.get(i)); // Get Value then index i
                         }
                         // Fire
-                        weaponController.fire(weaponsWhichCanFire); // fire saves the dammaged Sections
+                        if (!weaponsWhichCanFire.isEmpty()) {
+                            weaponController.fire(weaponsWhichCanFire); // fire saves the dammaged Sections
+                        }
                     }
+                    shots = weaponController.shotValidation(attackWeapons);
                 }
-                while (shots.contains(true));
-                ai.getState().setFightState(FightState.WAITING_FOR_TURN);
-                aiRepository.save(ai);
+                ai.get().getState().setFightState(FightState.WAITING_FOR_TURN);
+                aiRepository.save(ai.get());
             }
         } else {
             LOG.error("Could not exceute AI Fight");
         }
-        return shipRepository.findById(playerShip.getId());
+        return shipRepository.findById(playerShip.get().getId());
+    }
+
+    @Override
+    public List<Weapon> endSingleRound(Weapon weapon) {
+        Optional<Ship> playerShip = shipRepository.findById(weapon.getObjectiv().getShip().getId());
+        Optional<Ship> aiShip = shipRepository.findById(weapon.getSection().getShip().getId());
+        Optional<AI> ai = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
+        Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
+
+        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent() && weapon != null) {
+            // Compute Changes for Player
+            List<Section> sectionsOfPlayer = sectionController.sectionsByShip(playerShip.get().getId());
+            List<Weapon> playerOfWeapons = new ArrayList<>();
+            for (Section s :
+                    sectionsOfPlayer) {
+                playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
+            }
+            lowerWarmUpTime(playerOfWeapons);
+            Optional<List<Section>> sectionsPlayer = sectionRepository.findAllByShip(playerShip.get());
+            sectionsPlayer.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
+
+
+            // Now Compute for AI
+            actorFight(weapon);
+            actorChangePower(aiShip.get());
+
+            List<GameRound> byActor = gameRoundRepository.findByActor(ai.get());
+            List<CombatRound> combatRounds = byActor.get(byActor.size() - 1).getCombatRounds();
+
+            // Add the Crew Members of the Ship into the combat Round
+            combatRounds.get(combatRounds.size() - 1).setCrewMembers(crewMemberController.getMembers(aiShip.get().getId()));
+
+            List<Section> sectionsOfAI = sectionController.sectionsByShip(aiShip.get().getId());
+            List<Weapon> AIOfWeapons = new ArrayList<>();
+            for (Section s :
+                    sectionsOfAI) {
+                AIOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
+            }
+
+            // Compute changes
+            lowerWarmUpTime(AIOfWeapons);
+            Optional<List<Section>> sections = sectionRepository.findAllByShip(aiShip.get());
+            sections.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
+        return getLastCombatRoundUsedWeapons(ai.get());
+        } else throw new IllegalArgumentException("The Weapon does not have the needed Paramters" + weapon);
+    }
+
+    private List<Weapon> getLastCombatRoundUsedWeapons(Actor actor) {
+        List<GameRound> byActor = gameRoundRepository.findByActor(actor);
+        List<CombatRound> combatRounds = byActor.get(byActor.size() - 1).getCombatRounds();
+        // Add the Crew Members of the Ship into the combat Round
+        return combatRounds.get(combatRounds.size() - 1).getWeaponsWhichHaveAttacked();
     }
 
 }

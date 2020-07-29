@@ -22,6 +22,10 @@ public class CrewMember {
 
     private Role role;
 
+    private int skillCounter;
+
+    private int roundsToDestination;
+
     public CrewMember() {
     }
 
@@ -32,6 +36,8 @@ public class CrewMember {
         setName(builder.name);
         setCurrentSection(builder.currentSection);
         setRole(builder.role);
+        this.skillCounter = 0;
+        this.roundsToDestination  = 0;
     }
 
     public String getName() {
@@ -98,6 +104,22 @@ public class CrewMember {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    public int getSkillCounter() {
+        return skillCounter;
+    }
+
+    public void setSkillCounter(int skillCounter) {
+        this.skillCounter = skillCounter;
+    }
+
+    public int getRoundsToDestination() {
+        return roundsToDestination;
+    }
+
+    public void setRoundsToDestination(int roundsToDestination) {
+        this.roundsToDestination = roundsToDestination;
     }
 
     public static class CrewMemberBuilder{

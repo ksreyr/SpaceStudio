@@ -34,19 +34,6 @@ public class Player extends Actor {
     }
 
 
-    @Column(nullable = true)
-    @JsonIgnore
-    private String savedGame;
-
-
-    public String getSavedGame() {
-        return savedGame;
-    }
-
-    public void setSavedGame(String savedGame) {
-        this.savedGame = savedGame;
-    }
-
     public static PlayerBuilder builderPlayer() {
         return new PlayerBuilder();
     }

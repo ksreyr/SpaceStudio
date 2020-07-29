@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -89,15 +90,31 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                } else if (url.contains("player")) {
+                } else if (url.contains("actor") ) {
                     try {
-                        Global.combatActors.put(id,  objectMapper.readValue(responseString[0], new TypeReference<Actor>() {}));
+                        Actor actor = objectMapper.readValue(responseString[0], new TypeReference<Player>() {});
+                        if (actor.getState().getFightState().equals(FightState.WAITING_FOR_TURN)&& method.equals("PUT")) {
+                            if (Global.combatWeapons.size()  == 2 && Global.combatSections.size() == 2 &&
+                                    Global.combatWeapons.get(Global.currentShipGegner.getId()).size() > 0
+                                    && Global.combatSections.get(Global.currentShipPlayer.getId()).size() > 0) { // Es muss gegner mit Waffne geben
+                                Weapon w = Global.combatWeapons.get(Global.currentShipGegner.getId()).get(0);
+                                w.setObjectiv(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0));
+                                endTurnRequestSinglePlayer(w);
+                            }
+                        }
+                        Global.combatActors.put(id, actor);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                } else if (url.contains(Global.END_ROUND_SINGLE)) {
+                    try {
+                        List<Weapon> weaponsWhichHaveShot = objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>() {
+                        });
+                        Global.weaponsToProcess.addAll(weaponsWhichHaveShot);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
                 }
-
-
             }
 
             @Override
@@ -154,5 +171,10 @@ public final class RequestUtils {
     public static void updateEnergie(List<Section> sectionsToUpdate) {
         genericRequest(Global.SERVER_URL  + "/" + Global.SECTIONS + Global.ENERGY, false, Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, sectionsToUpdate);
+    }
+
+    public static void endTurnRequestSinglePlayer(Weapon w) {
+        genericRequest(Global.SERVER_URL  + Global.GAME + Global.END_ROUND_SINGLE, false, Global.currentShipPlayer.getId(),
+                Net.HttpMethods.POST, w);
     }
 }

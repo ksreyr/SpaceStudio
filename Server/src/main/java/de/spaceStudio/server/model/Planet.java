@@ -8,11 +8,6 @@ import java.util.List;
 @Entity
 public class Planet extends StopAbstract {
 
-    @NotNull
-    @Column
-    private String img;
-
-
 
     /**
      * Empty constructor
@@ -28,15 +23,6 @@ public class Planet extends StopAbstract {
         setImg(builder.img);
     }
 
-
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
 
     public static PlanetBuilder builder() {
         return new PlanetBuilder();

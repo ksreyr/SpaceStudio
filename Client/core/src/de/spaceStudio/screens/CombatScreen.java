@@ -17,6 +17,7 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.AddListenerAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
@@ -117,7 +118,6 @@ public class CombatScreen extends BaseScreen {
     private final List<Weapon> weaponsToFire = new ArrayList<>();
     private final int shotDelta = 400;
     private int yWeaponPos = 700;
-    private Boolean gedruck = false;
     //
     private int availableEnergy;
     private int anzahlEnergyShieldSystem = 0, anzahlEnergyWeaponsSystem = 0, anzahlEnergyDriveSystem = 0;
@@ -158,17 +158,28 @@ public class CombatScreen extends BaseScreen {
     }
     private void liamButtonFuntion(){
         liamButton = new TextButton("End Round", skin);
-        liamButton.setPosition(400,100);
+        liamButton.setPosition(600,50);
         stage.addActor(liamButton);
         liamButton.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(gedruck){
-                    liamButton.setText("end Round");
-                    gedruck=false;
-                }else{
-                    liamButton.setText("Waitting");
-                    gedruck=true;
+                if (Global.combatActors.isEmpty())
+                {
+                    liamButton.setText("Connecting. Try Again");
+                } else {
+                    de.spaceStudio.server.model.Actor actor1 = Global.combatActors.get(Global.currentPlayer.getId());
+                    if ((actor1.getState().getFightState().equals(FightState.PLAYING))) {
+                        actor1.getState().setFightState(FightState.WAITING_FOR_TURN);
+                        if (Global.IS_SINGLE_PLAYER) {
+                            liamButton.setText("Waiting for AI");
+                        } else {
+                            liamButton.setText("Waiting for other Player");
+                        }
+                    } else {
+                        actor1.getState().setFightState(FightState.PLAYING);
+                        liamButton.setText("End Round");
+                    }
+                        RequestUtils.setActor(actor1);
                 }
 
             }
@@ -1005,12 +1016,6 @@ public class CombatScreen extends BaseScreen {
 
 
 
-        // FIXME LIAM
-        if (!Global.combatActors.isEmpty()) {
-            Global.combatActors.get(Global.currentGegner.getId());
-            System.out.println("Current Enemy State ::::::" + Global.combatActors.get(Global.currentGegner.getId()));
-        }
-
             int x = 500;
             bulletsEnemy.add(new Bullet(x, 743));
             x+=5;
@@ -1307,6 +1312,7 @@ public class CombatScreen extends BaseScreen {
                     LOG.info(Global.currentShipPlayer.getId().toString());
                     RequestUtils.sectionsByShip(Global.currentShipPlayer);
                     RequestUtils.getShip(Global.currentShipPlayer);
+                    RequestUtils.weaponsByShip(Global.currentShipPlayer);
                     RequestUtils.getActor(Global.currentPlayer);
                     RequestUtils.getActor(Global.currentGegner);
                 }

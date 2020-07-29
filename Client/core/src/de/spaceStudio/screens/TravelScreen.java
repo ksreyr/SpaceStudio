@@ -40,6 +40,7 @@ public class TravelScreen extends ScreenAdapter {
     Label playerLabel;
     int dot = 0;
     private final static Logger LOG = Logger.getLogger(TravelScreen.class.getName());
+    private boolean requestSend = false;
 
     public TravelScreen(MainClient game) {
         super();
@@ -131,18 +132,21 @@ public class TravelScreen extends ScreenAdapter {
         // Switch Screen after 10 Seconds or when all Players are ready
         boolean jumpReady = !Global.isOnlineGame || Global.allReady;
         if (timePassed > 5 && jumpReady) {
+                if (!requestSend) {
 //            Global.weaponListPlayer = RequestUtils.weaponsByShip(Global.currentShipPlayer); // Load all the Weapons  FIXME make async
-            RequestUtils.sectionsByShip(Global.currentShipPlayer);
-            RequestUtils.weaponsByShip(Global.currentShipPlayer);
-            RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
-            if (Global.currentGegner != null) {
-                RequestUtils.crewMemeberByShip(Global.currentShipGegner);
-                RequestUtils.sectionsByShip(Global.currentShipGegner);
-                RequestUtils.weaponsByShip(Global.currentShipGegner);
-            }
-            if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0)
+                    RequestUtils.sectionsByShip(Global.currentShipPlayer);
+                    RequestUtils.weaponsByShip(Global.currentShipPlayer);
+                    RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
+                    if (Global.currentGegner != null && currentShipGegner != null) {
+                        RequestUtils.crewMemeberByShip(Global.currentShipGegner);
+                        RequestUtils.sectionsByShip(Global.currentShipGegner);
+                        RequestUtils.weaponsByShip(Global.currentShipGegner);
+                    }
+                    requestSend = true;
+                }
             killTimer = true;
-            game.setScreen(new StopScreen(game));
+            if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0)
+                game.setScreen(new StopScreen(game));
         }
         stage.act();
         stage.draw();

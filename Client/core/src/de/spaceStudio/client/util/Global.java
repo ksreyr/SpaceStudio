@@ -21,6 +21,8 @@ public class Global {
     public static final String GAME = "/game";
     public static final String ENERGY = "/energy";
     public static final String ACTOR_ENDPOINT = "/actor";
+    public static final String END_ROUND_SINGLE = "/endSingleRound";
+    public static final String FIGHT_ENDPOINT =  "/game";
     /**
      * Hardcoded server URL
      */
@@ -252,7 +254,14 @@ public class Global {
      * Default is onlineGame false
      */
     public static boolean isOnlineGame = false;
+
+    public static boolean killMultiPlayerTimeoutTimer = false;
+
     public static SinglePlayerGame singlePlayerGame;
+
+    public static int seedTimer = 0;
+
+    public static boolean multiPlayerGameStarted = false;
     /**
      * Game Constants
      */
@@ -847,6 +856,7 @@ public class Global {
     }};
     public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
     public static Map<Integer, Actor> combatActors = new HashMap<>();
+    public static List<Weapon> weaponsToProcess;
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);
