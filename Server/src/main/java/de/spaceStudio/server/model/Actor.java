@@ -27,6 +27,9 @@ public  class Actor {
 
     @ManyToMany
     private List<StopAbstract> visitedStops;
+    @Column(nullable = true)
+    @JsonIgnore
+    private String savedGame;
 
     public Actor() {
 
@@ -72,5 +75,13 @@ public  class Actor {
 
     public void setVisitedStops(List<StopAbstract> visitedStops) {
         this.visitedStops = visitedStops;
+    }
+
+    public String getSavedGame() {
+        return savedGame;
+    }
+
+    public void setSavedGame(String savedGame) {
+        this.savedGame = savedGame;
     }
 }

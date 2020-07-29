@@ -960,12 +960,6 @@ public class CombatScreen extends BaseScreen {
 
 
 
-        // FIXME LIAM
-        if (!Global.combatActors.isEmpty()) {
-            Global.combatActors.get(Global.currentGegner.getId());
-            System.out.println("Current Enemy State ::::::" + Global.combatActors.get(Global.currentGegner.getId()));
-        }
-
             int x = 500;
             bulletsEnemy.add(new Bullet(x, 743));
             x+=5;
