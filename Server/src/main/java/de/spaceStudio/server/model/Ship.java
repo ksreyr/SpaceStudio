@@ -32,9 +32,6 @@ public class Ship {
     @NonNull
     private int power;  // FIXME keep updated
 
-    @NonNull
-    private int money;
-
     public Ship() {
     }
 
@@ -109,14 +106,6 @@ public class Ship {
         this.power = power;
     }
 
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
-    }
-
     public static class ShipBluider {
 
         private Integer id;
@@ -179,7 +168,6 @@ public class Ship {
 
         public Ship buildShip() {
             Ship ship = new Ship(this);
-            ship.setMoney(30);
             return ship;
         }
     }

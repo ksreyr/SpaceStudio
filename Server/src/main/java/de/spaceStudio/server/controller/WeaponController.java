@@ -69,7 +69,7 @@ public interface WeaponController {
      * @return the updated Weapon
      */
     @RequestMapping(value = "/weapon", method = RequestMethod.PUT)
-    Weapon updateWeapon(@RequestBody Weapon weapon);
+    List<Weapon> updateWeapon(@RequestBody List<Weapon> weapon);
 
 
     /**

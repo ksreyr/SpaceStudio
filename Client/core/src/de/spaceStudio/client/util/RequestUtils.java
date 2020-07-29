@@ -179,4 +179,12 @@ public final class RequestUtils {
         genericRequest(Global.SERVER_URL + Global.GAME + Global.END_ROUND_SINGLE, false, Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, w);
     }
+
+    public static void upgradeWeapon(List<Weapon> weapons) {
+        genericRequest(Global.SERVER_URL + Global.WEAPON_CREATION_ENDPOINT, false, 0, Net.HttpMethods.PUT, weapons);
+    }
+    public static void updateShip(Ship ship) {
+        genericRequest(Global.SERVER_URL + Global.SHIP_ENDPOINT, true, ship.getId(), Net.HttpMethods.PUT, ship);
+    }
+
 }

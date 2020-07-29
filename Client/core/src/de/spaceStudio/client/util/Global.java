@@ -24,7 +24,7 @@ public class Global {
     public static final String END_ROUND_SINGLE = "/endSingleRound";
     public static final String FIGHT_ENDPOINT = "/game";
     /**
-     * Server player endpoint
+      Server player endpoint
      */
     public static final String PLAYER_ENDPOINT = "/player";
     //public static String SERVER_URL = "http://192.168.178.106:8080";
