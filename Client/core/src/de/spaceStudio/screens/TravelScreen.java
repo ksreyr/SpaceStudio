@@ -140,8 +140,8 @@ public class TravelScreen extends ScreenAdapter {
                 RequestUtils.sectionsByShip(Global.currentShipGegner);
                 RequestUtils.weaponsByShip(Global.currentShipGegner);
             }
-            killTimer = true;
             if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0)
+            killTimer = true;
             game.setScreen(new StopScreen(game));
         }
         stage.act();
