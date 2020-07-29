@@ -850,6 +850,16 @@ public class CombatScreen extends BaseScreen {
         return sb.toString();
     }
 
+    private String getSectionStats(List<Section> xs) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (Section s :
+                xs) {
+            stringBuilder.append(String.format("%s, usable: %s, oxygen: %s, Role: %s", s.getImg(), s.isUsable(), s.getOxygen(), s.getSectionTyp()));
+        }
+        return stringBuilder.toString();
+    }
+
 
     // Called when the screen should render itself.
     @Override
