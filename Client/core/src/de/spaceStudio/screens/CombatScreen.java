@@ -767,7 +767,7 @@ public class CombatScreen extends BaseScreen {
                     Global.currentShipGegner = sectionsGegner.get(0).getShip();
 
                     // :::::::::::::::::::
-                    System.out.println("Enemys hp :::::::::::::::::::::"+sectionsGegner.get(0).getShip().getHp());
+
                 if (sectionsGegner.get(0).getShip().getHp() <= 0) {
                         LOG.info("You have Won the Fight");
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
@@ -783,8 +783,11 @@ public class CombatScreen extends BaseScreen {
                         LOG.info("You have killed the enemy crew");
                     }
                 }
-                else {
 
+                // TODO wenn alle Sektionen kaputt sind, wird auch verlore
+                // If der Player lose
+                if (Global.currentShipPlayer.getHp() < 1) {
+                    LOG.info("You have lost the Game");
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
                         public void result(Object obj) {
                             if (Objects.equals(obj.toString(), "true")) {
@@ -792,8 +795,11 @@ public class CombatScreen extends BaseScreen {
                         }
                     };
                     loseMessageDialog(dialog, " You have lost the game!");
-
                 }
+
+
+
+
 
 
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);
@@ -890,11 +896,7 @@ public class CombatScreen extends BaseScreen {
         }
 
 
-        if (Global.currentShipPlayer.getHp() < 1) {
-            LOG.info("You have lost the Game");
-            killTimer = true;
-            // FIXME ADD Screen
-        }
+
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)  ) {
             randomNumber = (int) ((Math.random() * (5)) + 0);
