@@ -903,7 +903,7 @@ public class CombatScreen extends BaseScreen {
             //insgesamt Energy
             drawAvailableEnergy(availableEnergy,25);
             //shield Energy
-            drawAvailableEnergy(anzahlEnergyDriveSystem,165);
+            drawAvailableEnergy(anzahlEnergyShieldSystem,165);
             //drive Energy
             drawAvailableEnergy(anzahlEnergyDriveSystem,320);
             //weapons Energy
