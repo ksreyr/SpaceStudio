@@ -767,9 +767,20 @@ public class CombatScreen extends BaseScreen {
                     Global.currentShipGegner = sectionsGegner.get(0).getShip();
 
                     // :::::::::::::::::::
-                    if (sectionsGegner.get(0).getShip().getHp() <= 0) {
+                    System.out.println("Enemys hp :::::::::::::::::::::"+sectionsGegner.get(0).getShip().getHp());
+                if (sectionsGegner.get(0).getShip().getHp() <= 0) {
                         LOG.info("You have Won the Fight");
-                        mainClient.setScreen(new WinScreen(game));
+                    final Dialog dialog = new Dialog("Information", skin, "dialog") {
+                        public void result(Object obj) {
+                            if (Objects.equals(obj.toString(), "true")) {
+                               // jumpService(Global.station1);
+                            }
+                        }
+                    };
+
+                        winMessageDialog(dialog, " You won the game ");
+
+
                     }
                 }
 
@@ -1259,6 +1270,27 @@ public class CombatScreen extends BaseScreen {
     private void saveMessageDialog(Dialog dialog, String action) {
         dialog.text(action);
         dialog.button("OK", false);
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        click.play();
+        dialog.show(stage);
+    }
+
+    private void winMessageDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("Move", true).addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new StationsMap(game));
+            }
+        });
+        dialog.button("Exit", true).addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+               // Gdx.app.exit();
+            }
+        });
+        //dialog.button("", false);
         dialog.key(Input.Keys.ENTER, true);
         dialog.key(Input.Keys.ESCAPE, false);
         click.play();

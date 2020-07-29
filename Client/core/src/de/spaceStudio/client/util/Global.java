@@ -257,9 +257,9 @@ public class Global {
     public static final int OXYGEN = 100;
     public static final int POWER_CURRENT = 2;
     public static final int POWER_REQUIRED = 1;
-    public static final int HP = 1000;
+    public static final int HP = 100;
     public static final int SHIELD = 10000;
-    public static final int MAGAZIN_SIZE = 10;
+    public static final int MAGAZIN_SIZE = 50;
     private static final int magazinSizeLaser = 2;
 
     // FIXME Power ist doppelt
@@ -435,7 +435,7 @@ public class Global {
             name("Shipgegner5").owner(ai5).
             buildShip();
     public static Ship shipGegner6 = Ship.shipBluider().hp(HP).
-            power(1000).shield(5).
+            power(100).shield(5).
             name("Shipgegner6").owner(ai6).
             buildShip();
     // Ship Universe 2
