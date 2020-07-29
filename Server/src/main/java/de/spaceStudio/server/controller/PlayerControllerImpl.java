@@ -51,6 +51,12 @@ public class PlayerControllerImpl implements PlayerController {
     @Autowired
     private AIRepository aiRepository;
 
+    @Autowired
+    GameRoundRepository gameRoundRepository;
+
+    @Autowired
+    CombatRoundRepository combatRoundRepository;
+
     /**
      * This function is temporal in use to test client to Server connection
      * Login user if exists
@@ -217,6 +223,13 @@ public class PlayerControllerImpl implements PlayerController {
     @Override
     public String clean(Player player) {
         Player player1 = playerRepository.findByName(player.getName()).get();
+
+
+        for (GameRound g :
+                gameRoundRepository.findByActor(player)) {
+            combatRoundRepository.deleteAll(g.getCombatRounds());
+            gameRoundRepository.delete(g);
+        }
 
         boolean fileClosed = JSONFile.cleanJSONSinglePlayerGame(player1.getSavedGame());
         if (fileClosed) {
