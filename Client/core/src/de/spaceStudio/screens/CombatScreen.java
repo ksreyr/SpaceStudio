@@ -901,36 +901,13 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(energyWeaponsPanel,0,0);
 
             //insgesamt Energy
-            /*stage.getBatch().draw(energy,25,13,80,110);
-            stage.getBatch().draw(energy,25,35,80,110);
-            stage.getBatch().draw(energy,25,57,80,110);*/
             drawAvailableEnergy(availableEnergy,25);
-            /*
-            stage.getBatch().draw(energy,25,79,80,110);
-            stage.getBatch().draw(energy,25,101,80,110);
-            stage.getBatch().draw(energy,25,123,80,110);
-            stage.getBatch().draw(energy,25,145,80,110);
-            stage.getBatch().draw(energy,25,167,80,110);
-            stage.getBatch().draw(energy,25,189,80,110);*/
-
             //shield Energy
-            //drawShieldEnergy();
-            /*stage.getBatch().draw(energy,165,13,80,110);
-            stage.getBatch().draw(energy,165,35,80,110);
-            stage.getBatch().draw(energy,165,57,80,110);
-            stage.getBatch().draw(energy,165,79,80,110);*/
+            drawAvailableEnergy(anzahlEnergyDriveSystem,165);
             //drive Energy
             drawAvailableEnergy(anzahlEnergyDriveSystem,320);
-            /*stage.getBatch().draw(energy,320,13,80,110);
-            stage.getBatch().draw(energy,320,35,80,110);
-            stage.getBatch().draw(energy,320,57,80,110);
-            stage.getBatch().draw(energy,320,79,80,110);*/
             //weapons Energy
             drawAvailableEnergy(anzahlEnergyWeaponsSystem,467);
-            /*stage.getBatch().draw(energy,320+147,13,80,110);
-            stage.getBatch().draw(energy,320+147,35,80,110);
-            stage.getBatch().draw(energy,320+147,57,80,110);
-            stage.getBatch().draw(energy,320+147,79,80,110);*/
 
             if (dragged) {
                 stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
@@ -942,7 +919,7 @@ public class CombatScreen extends BaseScreen {
             }
 
 
-            // Spaawn Enemy Ship if (Global.currentShipGegner != null) {
+            // Spawn Enemy Ship if (Global.currentShipGegner != null) {
                 if (Global.currentStop == Global.planet2)
                     stage.getBatch().draw(enemyShip1, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
                 else if (Global.currentStop == Global.planet3)
@@ -1256,13 +1233,6 @@ public class CombatScreen extends BaseScreen {
             }
         }
 
-    }
-
-    private void drawEnergyShieldSystem(){
-        int energyYPosition = 13;
-        for (int i = 0; i < anzahlEnergyShieldSystem; i++){
-            stage.getBatch().draw(energy,25,energyYPosition,80,110);
-        }
     }
 
     private void scheduleLobby() {
