@@ -13,8 +13,8 @@ import de.spaceStudio.client.util.RequestUtils;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static de.spaceStudio.client.util.Global.currentPlayer;
-import static de.spaceStudio.client.util.Global.playersOnline;
+import static de.spaceStudio.client.util.Global.*;
+import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 public class LoginService {
 
@@ -28,20 +28,15 @@ public class LoginService {
         json.setOutputType(JsonWriter.OutputType.json);
 
         final String requestJson = json.toJson(requestObject);
+        String url = Global.SERVER_URL + Global.PLAYER_LOGOUT_ENDPOINT;
+        Net.HttpRequest request = setupRequest(url, requestJson, Net.HttpMethods.POST);
 
-        Net.HttpRequest request = new Net.HttpRequest("POST");
-        request.setUrl(Global.SERVER_URL + Global.PLAYER_LOGOUT_ENDPOINT);
-
-        request.setContent(requestJson);
-
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Accept", "application/json");
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
 
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed");
+                    LOG.info("Request Failed");
                 }
                 LOG.info("Player success logout");
                 System.out.println("statusCode: " + statusCode);
@@ -58,6 +53,36 @@ public class LoginService {
                 System.out.println("request cancelled");
             }
         });
+    }
+
+    public static void multiplayerLogout(Object requestObject){
+        if(!IS_SINGLE_PLAYER) {
+        Gson gson = new Gson();
+        String url = SERVER_URL + MULTIPLAYER_LOGOUT;
+        String payLoad = gson.toJson(currentPlayer);
+        Net.HttpRequest request = setupRequest(url, payLoad, Net.HttpMethods.POST);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+            @Override
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    LOG.info("Request Failed");
+                }
+                LOG.info("Multiplayer logout from sessions");
+            }
+
+            @Override
+            public void failed(Throwable t) {
+
+            }
+
+            @Override
+            public void cancelled() {
+
+            }
+        });
+        }
     }
 
     public static void fetchLoggedUsers() {
@@ -89,12 +114,12 @@ public class LoginService {
             }
 
             public void failed(Throwable t) {
-                System.out.println("Request Failed Completely");
+              LOG.info("Request Failed Completely");
             }
 
             @Override
             public void cancelled() {
-                System.out.println("request cancelled");
+                LOG.info("request cancelled");
             }
         });
     }
