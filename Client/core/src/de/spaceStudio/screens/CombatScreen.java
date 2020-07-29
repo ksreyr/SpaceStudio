@@ -773,20 +773,28 @@ public class CombatScreen extends BaseScreen {
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
                         public void result(Object obj) {
                             if (Objects.equals(obj.toString(), "true")) {
-                               // jumpService(Global.station1);
                             }
                         }
                     };
-                    System.out.println("Test git");
                         winMessageDialog(dialog, " You won the game ");
-
-
                     }
-                }
 
                 if (Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1) {
-                    LOG.info("You have killed the enemy crew");
+                        LOG.info("You have killed the enemy crew");
+                    }
                 }
+                else {
+
+                    final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
+                        public void result(Object obj) {
+                            if (Objects.equals(obj.toString(), "true")) {
+                            }
+                        }
+                    };
+                    loseMessageDialog(dialog, " You have lost the game!");
+
+                }
+
 
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);
 
@@ -1278,14 +1286,26 @@ public class CombatScreen extends BaseScreen {
 
     private void winMessageDialog(Dialog dialog, String action) {
         dialog.text(action);
-        dialog.button("Move 2 Map", true).addListener(new ChangeListener() {
+        dialog.button("See Map", true).addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new StationsMap(game));
             }
         });
+        dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        click.play();
+        dialog.show(stage);
+    }
 
-        //dialog.button("", false);
+    private void loseMessageDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("See Menu", true).addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new MenuScreen(game));
+            }
+        });
         dialog.key(Input.Keys.ENTER, true);
         dialog.key(Input.Keys.ESCAPE, false);
         click.play();
