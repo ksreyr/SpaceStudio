@@ -150,7 +150,6 @@ public final class RequestUtils {
         genericRequest(Global.SERVER_URL + Global.ACTOR_ENDPOINT, false, actor.getId(), Net.HttpMethods.PUT, actor);
     }
 
-
     public static void updateEnergie(List<Section> sectionsToUpdate) {
         genericRequest(Global.SERVER_URL  + "/" + Global.SECTIONS + Global.ENERGY, false, Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, sectionsToUpdate);
