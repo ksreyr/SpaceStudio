@@ -587,6 +587,7 @@ public class CombatScreen extends BaseScreen {
             stage.addActor(o2);
             stage.addActor(healthPoint);
         }
+        stage.addActor(sectionLabel);
         stage.addActor(lebengegnerShip);
         stage.addActor(engine);
         stage.addActor(cockpit);
@@ -598,12 +599,8 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(imageCrewMemberOne);
         stage.addActor(imageCrewMemberTwo);
         stage.addActor(imageCrewMemberThree);
-        stage.addActor(sectionLabel);
-
 
         Gdx.input.setInputProcessor(stage);
-
-
     }
 
     /**

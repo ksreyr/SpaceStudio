@@ -341,7 +341,6 @@ public class Global {
             .powerCurrent(0)
             .sectionTyp(SectionTyp.NORMAL)
             .role(Role.TECHNICIAN)
-            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
