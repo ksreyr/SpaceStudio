@@ -34,7 +34,7 @@ public class MainClient extends Game {
         batch = new SpriteBatch();
 
         // 5 Minutes Timeout
-        Timer schedule = new Timer();
+        final Timer schedule = new Timer();
         schedule.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

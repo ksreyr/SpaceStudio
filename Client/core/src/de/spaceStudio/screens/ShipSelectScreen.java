@@ -513,7 +513,7 @@ public class ShipSelectScreen extends BaseScreen {
      * Ask server every 5 seconds
      */
     private void scheduleLobby() {
-        Timer schedule = new Timer();
+        final Timer schedule = new Timer();
         schedule.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
