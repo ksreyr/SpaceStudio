@@ -17,7 +17,6 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.AddListenerAction;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.utils.Align;
@@ -92,6 +91,11 @@ public class CombatScreen extends BaseScreen {
     private Texture enemyShip1, enemyShip2, enemyShip3;
     private Texture background, laser;
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
+    //CrewMember break
+    private Texture hourglass;
+    private boolean hourglass1, hourglass2, hourglass3, hourglass4, hourglass5, hourglass6;
+    private float hourX1, hourY1, hourX2, hourY2, hourX3, hourX4;
+
     private Texture shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel;
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
     //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
@@ -150,6 +154,13 @@ public class CombatScreen extends BaseScreen {
         labelsection4 = new Label("Section4", label1Style);
         labelsection5 = new Label("Section5", label1Style);
         labelsection6 = new Label("Section6", label1Style);
+
+        hourglass1 = false;
+        hourglass2 = false;
+        hourglass3 = false;
+        hourglass4 = false;
+        hourglass5 = false;
+        hourglass6 = false;
 
         weaponLabel = new Label(weaponText[0], label1Style);
         weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
@@ -242,6 +253,7 @@ public class CombatScreen extends BaseScreen {
         crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         laser= new Texture("Client/core/assets/combatAssets/laser.jpg");
+        this.hourglass = new Texture("Client/core/assets/combatAssets/hourglass.png");
         imageCrewMemberOne = new Image(crewMemberOne);
         imageCrewMemberTwo = new Image(crewMemberTwo);
         imageCrewMemberThree = new Image(crewMemberThree);
@@ -644,27 +656,48 @@ public class CombatScreen extends BaseScreen {
                 CrewMember draggedCrewMember = getDraggedCrewMember(imageCrewMember);
                 List<Section> sections = Global.combatSections.get(Global.currentShipPlayer.getId());
 
+
+
                 if (sectionOne.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(0));
                     moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionTwo.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(1));
                     moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionThree.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(2));
                     moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionFour.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(3));
                     moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionFive.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(4));
                     moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionSix.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(5));
                     moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else {
                     imageCrewMember.setPosition(crewX, crewY);
                 }
+
                 // make Move Request c from start to end
                 dragged = false;
             }
@@ -859,6 +892,7 @@ public class CombatScreen extends BaseScreen {
     // Called when the screen should render itself.
     @Override
     public void render(float delta) {
+
 
         GdxUtils.clearScreen();
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -1093,6 +1127,15 @@ public class CombatScreen extends BaseScreen {
                 bullet.render(mainClient.getBatch());
             }
 
+            //stage.getBatch().draw(hourglass, 20,20, 300,300); //w
+            if(hourglass1){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
+            if(hourglass2){ stage.getBatch().draw(hourglass,getHourX2(),getHourY2()); }
+            if(hourglass3){ stage.getBatch().draw(hourglass,getHourX3(),getHourY3()); }
+
+            //if(hourglass4){ stage.getBatch().draw(hourglass,getHourX3(),getHourY3()); }
+            //if(hourglass5){ stage.getBatch().draw(hourglass,getHourX3(),getHourY3()); }
+            //if(hourglass6){ stage.getBatch().draw(hourglass,getHourX3(),getHourY3()); }
+
             stage.getBatch().end();
             mainClient.getBatch().begin();
             for (Bullet bullet : bulletsEnemy) {
@@ -1101,6 +1144,8 @@ public class CombatScreen extends BaseScreen {
             mainClient.getBatch().end();
 
         proofCrewMemberisAvailable();
+
+
 
         stage.act();
         stage.draw();
@@ -1333,19 +1378,22 @@ public class CombatScreen extends BaseScreen {
                 breakCrewMember.remove();
 
                 if(i == 0) {
-                    imageCrewMemberOne.remove();
+                    //imageCrewMemberOne.remove();
+                    setHourglass1(true);
                     setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
                     this.breakCrewMember = new Label(breakinfo, skin);
                     stage.addActor(breakCrewMember);
                 }
                 if (i == 1) {
-                    imageCrewMemberTwo.remove();
+                    //imageCrewMemberTwo.remove();
+                    setHourglass2(true);
                     setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
                     this.breakCrewMember = new Label(breakinfo, skin);
                     stage.addActor(breakCrewMember);
                 }
                 if (i == 2) {
-                    imageCrewMemberThree.remove();
+                    //imageCrewMemberThree.remove();
+                    setHourglass3(true);
                     setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
                     this.breakCrewMember = new Label(breakinfo, skin);
                     stage.addActor(breakCrewMember);
@@ -1355,12 +1403,89 @@ public class CombatScreen extends BaseScreen {
 
             if (myCrew.get(i).getRoundsToDestination() == 0) {
                 stage.addActor(listOfCrewImages.get(i));
+                if(i==0) setHourglass1(false);
+                if(i==1) setHourglass2(false);
+                if(i==2) setHourglass3(false);
+
             }
         }
     }
 
 
+
     public void setBreakinfo(String breakinfo) {
         this.breakinfo = breakinfo;
+    }
+
+    public boolean isHourglass1() {
+        return hourglass1;
+    }
+
+    public void setHourglass1(boolean hourglass1) {
+        this.hourglass1 = hourglass1;
+    }
+
+    public boolean isHourglass2() {
+        return hourglass2;
+    }
+
+    public void setHourglass2(boolean hourglass2) {
+        this.hourglass2 = hourglass2;
+    }
+
+    public boolean isHourglass3() {
+        return hourglass3;
+    }
+
+    public void setHourglass3(boolean hourglass3) {
+        this.hourglass3 = hourglass3;
+    }
+
+    public float getHourX1() {
+        return hourX1;
+    }
+
+    public void setHourX1(float hourX1) {
+        this.hourX1 = hourX1;
+    }
+
+    public float getHourY1() {
+        return hourY1;
+    }
+
+    public void setHourY1(float hourY1) {
+        this.hourY1 = hourY1;
+    }
+
+    public float getHourX2() {
+        return hourX2;
+    }
+
+    public void setHourX2(float hourX2) {
+        this.hourX2 = hourX2;
+    }
+
+    public float getHourY2() {
+        return hourY2;
+    }
+
+    public void setHourY2(float hourY2) {
+        this.hourY2 = hourY2;
+    }
+
+    public float getHourX3() {
+        return hourX3;
+    }
+
+    public void setHourX3(float hourX3) {
+        this.hourX3 = hourX3;
+    }
+
+    public float getHourY3() {
+        return hourX4;
+    }
+
+    public void setHourX4(float hourX4) {
+        this.hourX4 = hourX4;
     }
 }
