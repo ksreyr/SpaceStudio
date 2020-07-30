@@ -115,6 +115,7 @@ public final class RequestUtils {
                         });
                         Global.weaponsToProcess.addAll(weaponsWhichHaveShot);
                         getActor(Global.currentPlayer);
+                        getShip(Global.currentShipPlayer);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
