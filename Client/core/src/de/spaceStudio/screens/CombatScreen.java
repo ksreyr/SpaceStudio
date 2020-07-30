@@ -606,6 +606,11 @@ public class CombatScreen extends BaseScreen {
 
     }
 
+    /**
+     * Receives an Image and changes the section of the Crew Member
+     *
+     * @param imageCrewMember Image of Crew Member to move
+     */
     private void dragAndDrop(Image imageCrewMember) {
         imageCrewMember.addListener(new DragListener() {
             float crewX;
@@ -708,65 +713,13 @@ public class CombatScreen extends BaseScreen {
     ////sectiones del gegner
     ////set de
 
-    public void updateSectionEnergy(Object requestObject, String method){
-        final Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
-        final String url = Global.SERVER_URL + "/" + Global.SECTIONS + Global.ENERGY;
-        final Net.HttpRequest request = setupRequest(url,requestJson,method);
-        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                int statusCode = httpResponse.getStatus().getStatusCode();
-                if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed updateSectionEnergy");
-                }
-                System.out.println("statusCode updateSectionEnergy: " + statusCode);
-                String result = httpResponse.getResultAsString();
-                if(result == null){
-                    System.out.println("Requested List of Sections is null");
-                }
-            }
-
-            public void failed(Throwable t) {
-                System.out.println("Request Failed Completely");
-            }
-
-            @Override
-            public void cancelled() {
-                System.out.println("request cancelled");
-            }
-        });
-    }
-    public void updateShipEnergy(Object requestObject, String method) {
-        final Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
-        final String url = Global.SERVER_URL + Global.SHIP_UPDATE;
-        final Net.HttpRequest request = setupRequest(url,requestJson,method);
-        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                int statusCode = httpResponse.getStatus().getStatusCode();
-                if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed updateShipEnergy");
-                }
-                System.out.println("statusCode updateShipEnergy: " + statusCode);
-                String result = httpResponse.getResultAsString();
-                if(result == null){
-                    System.out.println("Requested Ship is null");
-                }
-            }
-
-            public void failed(Throwable t) {
-                System.out.println("Request Failed Completely");
-            }
-
-            @Override
-            public void cancelled() {
-                System.out.println("request cancelled");
-            }
-        });
-    }
-
+    /**
+     * Receives an Crew Member, the image of the Crew Member and the HTTP-method
+     *
+     * @param requestObject Crew Member object
+     * @param imageCrewMember Image of Crew Member which CrewMember object to find
+     * @param method HTTP-method to send to server
+     */
     public void moveCrewMember(Object requestObject,Image imageCrewMember, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
