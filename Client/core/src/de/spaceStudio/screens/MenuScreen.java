@@ -71,6 +71,7 @@ public class MenuScreen extends ScreenAdapter {
         section4 = singlePlayerGame.getShipSection4();
         section5 = singlePlayerGame.getShipSection5();
         section6 = singlePlayerGame.getShipSection6();
+        stationListU2 = singlePlayerGame.getStationListU2();
     }
 
     //Called when this screen becomes the current screen for a Game.
