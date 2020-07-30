@@ -52,7 +52,7 @@ public interface ShipController {
      * Delete ship by Id
      *
      * @param id of the ship
-     * @return JSON of the delted Ship
+     * @return JSON of the deleted Ship
      */
     @RequestMapping(value = "/ship/{id}", method = RequestMethod.DELETE)
     String deleteShipById(@PathVariable Integer id);
@@ -67,7 +67,7 @@ public interface ShipController {
 
 
     /**
-     * Recieve a Ship with the new Power Distribution
+     * Receive a Ship with the new Power Distribution
      * Return the Ship from the client if changes are accepted
      * Other wise it return the ship as it is stored on the Server
      *
