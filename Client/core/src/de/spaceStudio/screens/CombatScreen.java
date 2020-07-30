@@ -50,7 +50,7 @@ public class CombatScreen extends BaseScreen {
     public static final int WidthPlayerShip = 500;
     public static final int HeightPlayerShip = 500;
     private final static Logger LOG = Logger.getLogger(CombatScreen.class.getName());
-    private final Label weaponLabel;
+    private final Label weaponLabel, sectionLabel;
     private final String[] weaponText = {"All Weapons", "You have selected Weapon: "};
     private final AssetManager assetManager;
     private final MainClient universeMap;
@@ -122,7 +122,6 @@ public class CombatScreen extends BaseScreen {
     private int availableEnergy;
     private int anzahlEnergyShieldSystem = 0, anzahlEnergyWeaponsSystem = 0, anzahlEnergyDriveSystem = 0;
 
-    private Label weaponsLabel;
     private TextButton liamButton;
     private boolean isRound;
     private Section sectionTwo;
@@ -160,6 +159,12 @@ public class CombatScreen extends BaseScreen {
         weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
         weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 8);
         weaponLabel.setAlignment(Align.bottomRight);
+
+
+        sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
+        sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
+        sectionLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
+        sectionLabel.setAlignment(Align.bottomRight);
     }
 
     private void liamButtonFuntion() {
@@ -193,7 +198,7 @@ public class CombatScreen extends BaseScreen {
         });
     }
 
-    private Optional<Section> findSectionByNameAndShip(String name, int id, Boolean currentTarget) {
+    private void findSectionByNameAndShip(String name, int id, Boolean currentTarget) {
         Optional<Section> result = Optional.empty();
 
         for (Section s :
@@ -206,7 +211,6 @@ public class CombatScreen extends BaseScreen {
             }
 
         }
-        return result;
     }
 
     //called when the Screen gains focus
@@ -597,10 +601,6 @@ public class CombatScreen extends BaseScreen {
         label1Style.font = myFont;
         label1Style.fontColor = Color.RED;
 
-        weaponsLabel = new Label("", label1Style);
-        weaponsLabel.setSize(Gdx.graphics.getWidth(), row_height);
-        weaponsLabel.setPosition(50, Gdx.graphics.getHeight() - row_height * 6);
-        weaponsLabel.setAlignment(Align.topLeft);
 
         stage.addActor(lebenplayerShip);
         if (Global.currentShipGegner.getName().equals("Shipgegner2")) {
@@ -621,16 +621,12 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(imageCrewMemberOne);
         stage.addActor(imageCrewMemberTwo);
         stage.addActor(imageCrewMemberThree);
-        stage.addActor(weaponsLabel);
+        stage.addActor(sectionLabel);
 
 
         Gdx.input.setInputProcessor(stage);
 
 
-    }
-
-    public int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
     }
 
     private void dragAndDrop(Image imageCrewMember) {
@@ -852,7 +848,7 @@ public class CombatScreen extends BaseScreen {
                 if (sectionsGegner.get(0).getShip().getHp() <= 0) {
                     Global.combatWeapons.remove(Global.currentShipGegner.getId());
                     Global.combatSections.remove(Global.currentShipGegner.getId());
-                    Global.combatActors.remove(Global.currentShipGegner.getId());
+                    Global.combatActors.remove(Global.currentGegner.getId());
                     Global.combatCrew.remove(Global.currentShipGegner.getId());
                     LOG.info("You have Won the Fight");
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
@@ -875,7 +871,7 @@ public class CombatScreen extends BaseScreen {
                     LOG.info("You have lost the Game");
                     Global.combatWeapons.remove(Global.currentShipGegner.getId());
                     Global.combatSections.remove(Global.currentShipGegner.getId());
-                    Global.combatActors.remove(Global.currentShipGegner.getId());
+                    Global.combatActors.remove(Global.currentGegner.getId());
                     Global.combatCrew.remove(Global.currentShipGegner.getId());
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
                         public void result(Object obj) {
@@ -969,7 +965,14 @@ public class CombatScreen extends BaseScreen {
 
         for (Section s :
                 xs) {
-            stringBuilder.append(String.format("%s, usable: %s, oxygen: %s, Role: %s", s.getImg(), s.isUsable(), s.getOxygen(), s.getSectionTyp()));
+            String crewName = "None";
+            for (CrewMember c :
+                    myCrew) {
+                if (c.getCurrentSection().equals(s)) {
+                    crewName = c.getName();
+                }
+                }
+            stringBuilder.append(String.format("%s, usable: %s, oxygen: %s, Role: %s, Crew: %s%n", s.getImg(), s.isUsable(), s.getOxygen(), s.getSectionTyp(), crewName));
         }
         return stringBuilder.toString();
     }
@@ -995,6 +998,11 @@ public class CombatScreen extends BaseScreen {
             Global.weaponsToProcess.remove(0);
         }
 
+        if (Global.combatActors.containsKey(Global.currentPlayer.getId())) {
+            ActorState state = Global.combatActors.get(Global.currentPlayer.getId()).getState();
+            liamButton.setText(state.getFightState().getState());
+        }
+
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             randomNumber = (int) ((Math.random() * (5)) + 0);
@@ -1007,6 +1015,7 @@ public class CombatScreen extends BaseScreen {
             bullets.add(new Bullet(BaseScreen.WIDTH, 0));
         }
         weaponLabel.setText(getWeaponsStats(Global.combatWeapons.get(Global.currentShipPlayer.getId())));
+        sectionLabel.setText(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())));
 
         if (Global.combatWeapons.size() >= 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
@@ -1105,7 +1114,11 @@ public class CombatScreen extends BaseScreen {
         // for player
         if (Global.currentShipPlayer.getShield() > 0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
         //shield for enemy
-        if (Global.currentShipGegner.getShield() > 0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
+        //TODO LIAM
+        System.out.println(Global.combatSections.get(Global.currentShipGegner.getId()).get(0).getShip().getShield());
+
+        if (Global.combatSections.get(Global.currentShipGegner.getId()).get(0).getShip().getShield() > 0)stage.getBatch().draw(shield, 1120, 150, 900, 1000);
+
 
         //explosion on enemy's engine
 
@@ -1322,7 +1335,7 @@ public class CombatScreen extends BaseScreen {
                 }
             }
 
-        }, 1000, 5000);
+        }, 1000, 3000);
     }
 
     // Called when the Application is resized.

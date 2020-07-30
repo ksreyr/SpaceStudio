@@ -7,6 +7,7 @@ import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
 import de.spaceStudio.server.utils.JSONFile;
+import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -663,6 +664,9 @@ public class GameControllerImpl implements GameController {
             lowerWarmUpTime(AIOfWeapons);
             Optional<List<Section>> sections = sectionRepository.findAllByShip(aiShip.get());
             sections.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
+            player.get().getState().setFightState(FightState.PLAYING);
+            actorStateRepository.save(player.get().getState());
+            LOG.info(String.format("Ai %s has finished. It it is Player %s Turn", ai.get().getId(), player.get().getId()));
             return getLastCombatRoundUsedWeapons(ai.get());
         } else throw new IllegalArgumentException("The Weapon does not have the needed Paramters" + weapon);
     }

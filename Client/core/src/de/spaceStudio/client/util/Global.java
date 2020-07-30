@@ -205,7 +205,7 @@ public class Global {
     public static final int POWER_CURRENT = 0;
     public static final int POWER_REQUIRED = 1;
     public static final int HP = 1000;
-    public static final int SHIELD = 10000;
+    public static final int SHIELD = 1000;
     public static final int MAGAZIN_SIZE = 10;
     private static final int rocketWarmUp = 1;
     private static final int lasserWarmUp = 3;
@@ -866,6 +866,7 @@ public class Global {
 
     }};
     public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
+    // Id is the Player
     public static Map<Integer, Actor> combatActors = new HashMap<>();
     public static List<Weapon> weaponsToProcess = new LinkedList<>();
 

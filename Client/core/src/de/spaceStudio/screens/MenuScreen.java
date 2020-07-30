@@ -65,6 +65,7 @@ public class MenuScreen extends ScreenAdapter {
         currentShipPlayer = singlePlayerGame.getPlayerShip();
         screenToLoad = singlePlayerGame.getLastScreen();
         currentShipGegner = singlePlayerGame.getShipGegner();
+        section1 = singlePlayerGame.getShipSection1();
     }
 
     //Called when this screen becomes the current screen for a Game.

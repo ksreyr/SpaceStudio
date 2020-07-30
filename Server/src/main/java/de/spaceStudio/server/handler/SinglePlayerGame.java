@@ -10,12 +10,67 @@ public class SinglePlayerGame implements Serializable {
     private String difficult;
     private Ship playerShip;
     private StopAbstract stopAbstractShip;
-    private Section shipSection;
+    private Section shipSection1;
+    private Section shipSection2;
+    private Section shipSection3;
+    private Section shipSection4;
+    private Section shipSection5;
+    private Section shipSection6;
+    
     private Weapon weapon;
     private ShipRessource shipRessource;
     private CrewMember crewMember;
     private AI ai;
     private String lastScreen;
+
+    public Section getShipSection1() {
+        return shipSection1;
+    }
+
+    public void setShipSection1(Section shipSection1) {
+        this.shipSection1 = shipSection1;
+    }
+
+
+    public Section getShipSection2() {
+        return shipSection2;
+    }
+
+    public void setShipSection2(Section shipSection2) {
+        this.shipSection2 = shipSection2;
+    }
+
+    public Section getShipSection3() {
+        return shipSection3;
+    }
+
+    public void setShipSection3(Section shipSection3) {
+        this.shipSection3 = shipSection3;
+    }
+
+    public Section getShipSection4() {
+        return shipSection4;
+    }
+
+    public void setShipSection4(Section shipSection4) {
+        this.shipSection4 = shipSection4;
+    }
+
+    public Section getShipSection5() {
+        return shipSection5;
+    }
+
+    public void setShipSection5(Section shipSection5) {
+        this.shipSection5 = shipSection5;
+    }
+
+    public Section getShipSection6() {
+        return shipSection6;
+    }
+
+    public void setShipSection6(Section shipSection6) {
+        this.shipSection6 = shipSection6;
+    }
 
     public String getDifficult() {
         return difficult;
@@ -33,13 +88,6 @@ public class SinglePlayerGame implements Serializable {
         this.stopAbstractShip = stopAbstractShip;
     }
 
-    public Section getShipSection() {
-        return shipSection;
-    }
-
-    public void setShipSection(Section shipSection) {
-        this.shipSection = shipSection;
-    }
 
     public Weapon getWeapon() {
         return weapon;

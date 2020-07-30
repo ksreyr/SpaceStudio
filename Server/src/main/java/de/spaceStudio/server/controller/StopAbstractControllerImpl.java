@@ -103,7 +103,6 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                     gameRoundRepository.save(gameRound);
                     LOGGER.info(String.format("Player %s is ready", p.get().getId()));
                 }
-
             }
         }
 

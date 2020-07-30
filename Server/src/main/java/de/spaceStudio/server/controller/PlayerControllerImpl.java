@@ -281,7 +281,13 @@ public class PlayerControllerImpl implements PlayerController {
 
                     if (aiRepository.findByName(s.getOwner().getName()).isPresent()) {
                         AI ai = aiRepository.findByName(s.getOwner().getName()).get();
+                        for (GameRound g :
+                                gameRoundRepository.findByActor(ai)) {
+                            combatRoundRepository.deleteAll(g.getCombatRounds());
+                            gameRoundRepository.delete(g);
+                        }
                         aiRepository.delete(ai);
+
                     }
                     if (stopAbstractRepository.findById(sa.getId()).isPresent()) {
                         if (stationRepository.existsById(sa.getId())) {
