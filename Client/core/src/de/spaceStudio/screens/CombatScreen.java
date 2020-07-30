@@ -88,14 +88,12 @@ public class CombatScreen extends BaseScreen {
     private Skin sgxSkin, sgxSkin2, skin;
     private Sound click;
     private SpriteBatch batch;
-    private Texture playerShip, energy;
+    private Texture playerShip;
     private Texture enemyShip1, enemyShip2, enemyShip3;
     private Texture background, laser;
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
-    private Texture shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel;
+    private Texture energy, shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel, redPin;
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
-    //    private boolean isSectionw, sectiond, sectionOthers,    isSectiono2 ,isSectionOthers,  isSectiond , isSectionhealth ;
-    private RedPin redPinSectionOne, redPinSectionTwo, redPinSectionThree, redPinSectionFour, redPinSectionFive, redPinSectionSix;
     private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
     private List<CrewMember> myCrew;
@@ -113,8 +111,6 @@ public class CombatScreen extends BaseScreen {
     private List<Weapon> selectedWeapons = Global.combatWeapons.get(Global.currentShipPlayer.getId());
     private boolean dragged = false;
     private Section selectedTarget;
-    private Optional<Section> startSectionCrewMove;
-    private Optional<Section> endSectionCrewMove;
     //    private final List<Weapon> weaponsToFire = new ArrayList<>();
     //private final int shotDelta = 400;
     private int yWeaponPos = 700;
@@ -214,12 +210,6 @@ public class CombatScreen extends BaseScreen {
 
         sgxSkin2 = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         listOfCrewImages = new ArrayList<>();
-        redPinSectionOne = new RedPin();
-        redPinSectionTwo = new RedPin();
-        redPinSectionThree = new RedPin();
-        redPinSectionFour = new RedPin();
-        redPinSectionFive = new RedPin();
-        redPinSectionSix = new RedPin();
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
 
@@ -239,6 +229,7 @@ public class CombatScreen extends BaseScreen {
         crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
         laser = new Texture("Client/core/assets/combatAssets/laser.jpg");
+        redPin = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/pin.png"));
         imageCrewMemberOne = new Image(crewMemberOne);
         imageCrewMemberTwo = new Image(crewMemberTwo);
         imageCrewMemberThree = new Image(crewMemberThree);
@@ -630,7 +621,9 @@ public class CombatScreen extends BaseScreen {
                 CrewMember draggedCrewMember = getDraggedCrewMember(imageCrewMember);
                 List<Section> sections = Global.combatSections.get(Global.currentShipPlayer.getId());
 
-                if (sectionOne.contains(tmp.x, tmp.y)) {
+                if(draggedCrewMember == null){
+                    System.out.println("draggedCrewMember is null");
+                } else if (sectionOne.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(0));
                     moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                 } else if (sectionTwo.contains(tmp.x, tmp.y)) {
@@ -680,7 +673,7 @@ public class CombatScreen extends BaseScreen {
      */
     private Rectangle getRectOfTextures(float redPinXPosition, float redPinYPosition) {
         return new Rectangle(XPlayerShip + redPinXPosition, YPlayerShip + redPinYPosition,
-                redPinSectionOne.texture.getWidth(), redPinSectionOne.texture.getHeight());
+                redPin.getWidth(), redPin.getHeight());
     }
 
     private void logicOfFirePlayer() {
@@ -969,12 +962,16 @@ public class CombatScreen extends BaseScreen {
             drawAvailableEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()).get(5).getPowerCurrent(),320);
 
             if (dragged) {
-                stage.getBatch().draw(redPinSectionOne.texture, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
-                stage.getBatch().draw(redPinSectionTwo.texture, XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
-                stage.getBatch().draw(redPinSectionThree.texture, XPlayerShip + Global.section3.getxPos(), YPlayerShip + Global.section3.getyPos());
-                stage.getBatch().draw(redPinSectionFour.texture, XPlayerShip + Global.section4.getxPos(), YPlayerShip + Global.section4.getyPos());
-                stage.getBatch().draw(redPinSectionFive.texture, XPlayerShip + Global.section5.getxPos(), YPlayerShip + Global.section5.getyPos());
-                stage.getBatch().draw(redPinSectionSix.texture, XPlayerShip + Global.section6.getxPos(), YPlayerShip + Global.section6.getyPos());
+                for(int i = 0; i < Global.sectionsPlayerList.size(); i++){
+                    stage.getBatch().draw(redPin, XPlayerShip + Global.sectionsPlayerList.get(i).getxPos(),
+                            YPlayerShip + Global.sectionsPlayerList.get(i).getyPos());
+                }
+                /*stage.getBatch().draw(redPin, XPlayerShip + Global.section1.getxPos(), YPlayerShip + Global.section1.getyPos());
+                stage.getBatch().draw(redPin, XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
+                stage.getBatch().draw(redPin, XPlayerShip + Global.section3.getxPos(), YPlayerShip + Global.section3.getyPos());
+                stage.getBatch().draw(redPin, XPlayerShip + Global.section4.getxPos(), YPlayerShip + Global.section4.getyPos());
+                stage.getBatch().draw(redPin, XPlayerShip + Global.section5.getxPos(), YPlayerShip + Global.section5.getyPos());
+                stage.getBatch().draw(redPin, XPlayerShip + Global.section6.getxPos(), YPlayerShip + Global.section6.getyPos());*/
             }
 
 

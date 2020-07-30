@@ -200,7 +200,6 @@ public class CrewMemberControllerImpl implements CrewMemberController {
             sectionOld = Optional.ofNullable(crewMemberOld.get().getCurrentSection());
 
             if (!sectionOld.get().equals(sectionNew)) {
-
                 if (crewMemberRepository.findByCurrentSection(sectionNew).isEmpty() && !(sectionNew.equals(sectionOld.get()))) {
                     crewMember.setRoundsToDestination(ROUNDS_TO_TRAVEL);
                     crewMemberRepository.save(crewMember);
