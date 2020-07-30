@@ -50,7 +50,7 @@ public class CombatScreen extends BaseScreen {
     public static final int WidthPlayerShip = 500;
     public static final int HeightPlayerShip = 500;
     private final static Logger LOG = Logger.getLogger(CombatScreen.class.getName());
-    private final Label weaponLabel;
+    private final Label weaponLabel, sectionLabel;
     private final String[] weaponText = {"All Weapons", "You have selected Weapon: "};
     private final AssetManager assetManager;
     private final MainClient universeMap;
@@ -122,7 +122,6 @@ public class CombatScreen extends BaseScreen {
     private int availableEnergy = 3;
     private int anzahlEnergyShieldSystem = 0, anzahlEnergyWeaponsSystem = 0, anzahlEnergyDriveSystem = 0;
 
-    private Label weaponsLabel;
     private TextButton liamButton;
     private boolean isRound;
 
@@ -156,7 +155,7 @@ public class CombatScreen extends BaseScreen {
         weaponLabel.setAlignment(Align.bottomRight);
 
 
-        Label sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
+        sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
         sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
         sectionLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
         sectionLabel.setAlignment(Align.bottomRight);
@@ -579,10 +578,6 @@ public class CombatScreen extends BaseScreen {
         label1Style.font = myFont;
         label1Style.fontColor = Color.RED;
 
-        weaponsLabel = new Label("", label1Style);
-        weaponsLabel.setSize(Gdx.graphics.getWidth(), row_height);
-        weaponsLabel.setPosition(50, Gdx.graphics.getHeight() - row_height * 6);
-        weaponsLabel.setAlignment(Align.topLeft);
 
         stage.addActor(lebenplayerShip);
         if (Global.currentShipGegner.getName().equals("Shipgegner2")) {
@@ -603,7 +598,7 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(imageCrewMemberOne);
         stage.addActor(imageCrewMemberTwo);
         stage.addActor(imageCrewMemberThree);
-        stage.addActor(weaponsLabel);
+        stage.addActor(sectionLabel);
 
 
         Gdx.input.setInputProcessor(stage);
@@ -938,6 +933,7 @@ public class CombatScreen extends BaseScreen {
             bullets.add(new Bullet(BaseScreen.WIDTH, 0));
         }
         weaponLabel.setText(getWeaponsStats(Global.combatWeapons.get(Global.currentShipPlayer.getId())));
+        sectionLabel.setText(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())));
 
         if (Global.combatWeapons.size() >= 1) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
