@@ -943,3 +943,5 @@ gradle-app.setting
 database.mv.db
 database.trace.db
 database.lock.db
+
+Server/memory/*.json
