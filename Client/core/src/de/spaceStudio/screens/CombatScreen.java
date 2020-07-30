@@ -118,10 +118,6 @@ public class CombatScreen extends BaseScreen {
     //    private final List<Weapon> weaponsToFire = new ArrayList<>();
     //private final int shotDelta = 400;
     private int yWeaponPos = 700;
-    //
-    private int availableEnergy;
-    private int anzahlEnergyShieldSystem = 0, anzahlEnergyWeaponsSystem = 0, anzahlEnergyDriveSystem = 0;
-
     private TextButton liamButton;
     private boolean isRound;
 
@@ -229,7 +225,6 @@ public class CombatScreen extends BaseScreen {
 
         background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
         playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
-        // playerShip = new Texture("Client/core/assets/combatAssets/blueships_fulled.png");
         enemyShip1 = new Texture("Client/core/assets/combatAssets/enemy1.png");
         enemyShip2 = new Texture("Client/core/assets/combatAssets/enemy_2.png");
         enemyShip3 = new Texture("Client/core/assets/combatAssets/enemy_3.png");
@@ -298,7 +293,6 @@ public class CombatScreen extends BaseScreen {
         shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.LEFT) {
             @Override
             public void clicked(InputEvent event, float x, float y){
-                //hier
                 if(Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())) > 0){
                     Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).incrementPowerCurrent();
                     RequestUtils.updateEnergie(Global.combatSections.get(Global.currentShipPlayer.getId()));
@@ -657,7 +651,6 @@ public class CombatScreen extends BaseScreen {
                 } else {
                     imageCrewMember.setPosition(crewX, crewY);
                 }
-                // make Move Request c from start to end
                 dragged = false;
             }
         });
@@ -1192,6 +1185,9 @@ public class CombatScreen extends BaseScreen {
         shieldSystem.dispose();
         weaponsSystem.dispose();
         driveSystem.dispose();
+        crewMemberOne.dispose();
+        crewMemberTwo.dispose();
+        crewMemberThree.dispose();
         stage.dispose();
     }
 
