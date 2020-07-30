@@ -862,6 +862,7 @@ public class Global {
 
     }};
     public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
+    // Id is the Player
     public static Map<Integer, Actor> combatActors = new HashMap<>();
     public static List<Weapon> weaponsToProcess = new LinkedList<>();
 

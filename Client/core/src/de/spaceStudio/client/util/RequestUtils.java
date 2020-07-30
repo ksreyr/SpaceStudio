@@ -114,6 +114,7 @@ public final class RequestUtils {
                         List<Weapon> weaponsWhichHaveShot = objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>() {
                         });
                         Global.weaponsToProcess.addAll(weaponsWhichHaveShot);
+                        getActor(Global.currentPlayer);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }

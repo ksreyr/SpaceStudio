@@ -29,10 +29,7 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.CrewMember;
-import de.spaceStudio.server.model.FightState;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Weapon;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
 
 import java.util.List;
@@ -157,6 +154,12 @@ public class CombatScreen extends BaseScreen {
         weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
         weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 8);
         weaponLabel.setAlignment(Align.bottomRight);
+
+
+        Label sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
+        sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
+        sectionLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
+        sectionLabel.setAlignment(Align.bottomRight);
     }
 
     private void liamButtonFuntion() {
@@ -190,7 +193,7 @@ public class CombatScreen extends BaseScreen {
         });
     }
 
-    private Optional<Section> findSectionByNameAndShip(String name, int id, Boolean currentTarget) {
+    private void findSectionByNameAndShip(String name, int id, Boolean currentTarget) {
         Optional<Section> result = Optional.empty();
 
         for (Section s :
@@ -203,7 +206,6 @@ public class CombatScreen extends BaseScreen {
             }
 
         }
-        return result;
     }
 
     //called when the Screen gains focus
@@ -609,10 +611,6 @@ public class CombatScreen extends BaseScreen {
 
     }
 
-    public int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
-    }
-
     private void dragAndDrop(Image imageCrewMember) {
         imageCrewMember.addListener(new DragListener() {
             float crewX;
@@ -773,7 +771,7 @@ public class CombatScreen extends BaseScreen {
                 if (sectionsGegner.get(0).getShip().getHp() <= 0) {
                     Global.combatWeapons.remove(Global.currentShipGegner.getId());
                     Global.combatSections.remove(Global.currentShipGegner.getId());
-                    Global.combatActors.remove(Global.currentShipGegner.getId());
+                    Global.combatActors.remove(Global.currentGegner.getId());
                     Global.combatCrew.remove(Global.currentShipGegner.getId());
                     LOG.info("You have Won the Fight");
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
@@ -796,7 +794,7 @@ public class CombatScreen extends BaseScreen {
                     LOG.info("You have lost the Game");
                     Global.combatWeapons.remove(Global.currentShipGegner.getId());
                     Global.combatSections.remove(Global.currentShipGegner.getId());
-                    Global.combatActors.remove(Global.currentShipGegner.getId());
+                    Global.combatActors.remove(Global.currentGegner.getId());
                     Global.combatCrew.remove(Global.currentShipGegner.getId());
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
                         public void result(Object obj) {
@@ -914,6 +912,11 @@ public class CombatScreen extends BaseScreen {
         if (!Global.weaponsToProcess.isEmpty()) {
             bulletsEnemy.add(new Bullet(1500, 500));
             Global.weaponsToProcess.remove(0);
+        }
+
+        if (Global.combatActors.containsKey(Global.currentPlayer.getId())) {
+            ActorState state = Global.combatActors.get(Global.currentPlayer.getId()).getState();
+            liamButton.setText(state.getFightState().getState());
         }
 
 
