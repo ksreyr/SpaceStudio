@@ -697,15 +697,15 @@ public class ShipSelectScreen extends BaseScreen {
                         Global.crewMemberList) {
                     switch (counter) {
                         case 1:
-                            c.setCurrentSection(section2);
+                            c.setCurrentSection(section4);
                             c.setName(crew_1_name.getText());
                             break;
                         case 2:
-                            c.setCurrentSection(section4);
+                            c.setCurrentSection(section6);
                             c.setName(crew_2_name.getText());
                             break;
                         case 3:
-                            c.setCurrentSection(section6);
+                            c.setCurrentSection(section2);
                             c.setName(crew_3_name.getText());
                             break;
                         default:

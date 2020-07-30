@@ -290,7 +290,7 @@ public class Global {
     public static CrewMember crewMember1 = CrewMember.crewMemberBuilder().health(200).
             img("Male").role(Role.TECHNICIAN).buildCrewMember();
     public static CrewMember crewMember2 = CrewMember.crewMemberBuilder().health(300).
-            img("Male").role(Role.FIGHTER).buildCrewMember();
+            img("Male").role(Role.TECHNICIAN).buildCrewMember();
     public static List<CrewMember> crewMemberList = new ArrayList<CrewMember>() {{
         add(crewMember0);
         add(crewMember1);
@@ -339,7 +339,7 @@ public class Global {
             .img("Section1")
             .oxygen(OXYGEN)
             .powerCurrent(0)
-            .sectionTyp(SectionTyp.ENGINE)
+            .sectionTyp(SectionTyp.NORMAL)
             .role(Role.TECHNICIAN)
             .powerCurrent(POWER_CURRENT)
             .usable(true)
@@ -349,7 +349,7 @@ public class Global {
             .buildSection();
     public static Section section2 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.WEAPONS)
+            .sectionTyp(SectionTyp.HEALTH)
             .role(Role.FIGHTER)
             .img("Section2")
             .oxygen(OXYGEN)
@@ -372,7 +372,7 @@ public class Global {
             .buildSection();
     public static Section section4 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.NORMAL)
+            .sectionTyp(SectionTyp.WEAPONS)
             .img("Section4").oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
             .usable(true)
@@ -393,7 +393,7 @@ public class Global {
             .buildSection();
     public static Section section6 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.NORMAL)
+            .sectionTyp(SectionTyp.ENGINE)
             .img("Section6")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
