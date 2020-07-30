@@ -150,15 +150,13 @@ public class CombatScreen extends BaseScreen {
         labelsection6 = new Label("Section6", label1Style);
 
         weaponLabel = new Label(weaponText[0], label1Style);
-        weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
-        weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 8);
-        weaponLabel.setAlignment(Align.bottomRight);
+        weaponLabel.setSize(Gdx.graphics.getWidth(), 20);
+        weaponLabel.setPosition(0, BaseScreen.HEIGHT-250);
 
 
         sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
         sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
-        sectionLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
-        sectionLabel.setAlignment(Align.bottomRight);
+        sectionLabel.setPosition(BaseScreen.WIDTH-800, 100);
     }
 
     private void liamButtonFuntion() {
