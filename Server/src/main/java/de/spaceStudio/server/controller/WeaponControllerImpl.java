@@ -158,7 +158,7 @@ public class WeaponControllerImpl implements WeaponController {
             //Search the objective
             Optional<Ship> ship = shipRepository.findById(weapon.getObjectiv().getShip().getId());
             if (ship.isPresent()) {
-                boolean hasHit = ((float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
+                boolean hasHit = ((float)  random.nextDouble() + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
                 weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
                 Optional<Actor> actor = actorRepository.findById(pWeapons.get(0).getSection().getShip().getOwner().getId());
                 if (hasHit && actor.isPresent()) {  // Dont change anything if no hit
@@ -178,11 +178,16 @@ public class WeaponControllerImpl implements WeaponController {
                     combatRoundRepository.save(currentCombatRound);
                     if (ship.get().getShield() > 0) {
                         ship.get().setShield(ship.get().getShield() - weapon.getDamage());
+                        if (weapon.getObjectiv().getPowerCurrent() > 0) {
+                            weapon.getObjectiv().setPowerCurrent(weapon.getObjectiv().getPowerCurrent() - 1);
+                        }
                     } else {
                         //Without_Schield
                         ship.get().setHp(ship.get().getHp() - weapon.getDamage());
                         weapon.getObjectiv().setUsable(false);
-                        weapon.getObjectiv().setOxygen(weapon.getObjectiv().getOxygen() - removeOxygen);
+                        if (weapon.getObjectiv().getOxygen() > 0) {
+                            weapon.getObjectiv().setOxygen(weapon.getObjectiv().getOxygen() - removeOxygen);
+                        }
                     }
                 }
                 sectionRepository.save(weapon.getObjectiv());
@@ -216,7 +221,8 @@ public class WeaponControllerImpl implements WeaponController {
     @Override
     public boolean canShoot(Weapon w) {
         Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-        if (w.getObjectiv() != null && ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0) {
+        if (w.getObjectiv() != null && ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0
+                && w.getSection().getPowerCurrent() >= w.getSection().getPowerRequired()) {
             return w.getSection().getUsable();
         }
         return false;

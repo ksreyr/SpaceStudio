@@ -822,7 +822,9 @@ public class CombatScreen extends BaseScreen {
                 Section[] aiArray = gson.fromJson(SectionsGegner, Section[].class);
                 sectionsGegner = Arrays.asList(aiArray);
 
-                if (sectionsGegner.get(0).getShip().getHp() <= 0) {
+                if (sectionsGegner.size() > 0)
+                Global.currentShipGegner= sectionsGegner.get(0).getShip();
+                if (Global.currentShipGegner.getHp() <= 0) {
                     Global.combatWeapons.remove(Global.currentShipGegner.getId());
                     Global.combatSections.remove(Global.currentShipGegner.getId());
                     Global.combatActors.remove(Global.currentGegner.getId());
@@ -839,6 +841,7 @@ public class CombatScreen extends BaseScreen {
 
                 if (Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1) {
                     LOG.info("You have killed the enemy crew");
+                    // TODO Mehmet loose
                 }
 
 
@@ -859,10 +862,7 @@ public class CombatScreen extends BaseScreen {
                     loseMessageDialog(dialog, " You have lost the game!");
                 }
 
-
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);
-
-
                 System.out.println("statusCode playerMakeAShot: " + statusCode);
             }
 
@@ -1090,12 +1090,14 @@ public class CombatScreen extends BaseScreen {
         //A
         //Logic
         // for player
-        if (Global.currentShipPlayer.getShield() > 0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
+        if (Global.currentShipPlayer.getShield() > 0) {
+            stage.getBatch().draw(shield, 70, 150, 1100, 1000);
+        }
         //shield for enemy
-        //TODO LIAM
-        System.out.println(Global.combatSections.get(Global.currentShipGegner.getId()).get(0).getShip().getShield());
 
-        if (Global.combatSections.get(Global.currentShipGegner.getId()).get(0).getShip().getShield() > 0)stage.getBatch().draw(shield, 1120, 150, 900, 1000);
+        if (Global.currentShipGegner.getShield() > 0) {
+            stage.getBatch().draw(shield, 1120, 150, 900, 1000);
+        }
 
 
         //explosion on enemy's engine
@@ -1116,9 +1118,6 @@ public class CombatScreen extends BaseScreen {
         }
 
         bullets.removeAll(bulletToRemove);
-
-
-        int p = Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getPowerCurrent();
 
         ArrayList<Bullet> bulletGegnerToRemove = new ArrayList<>();
         for (Bullet bullet : bulletsEnemy) {

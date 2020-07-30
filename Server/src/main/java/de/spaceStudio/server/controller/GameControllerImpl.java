@@ -630,7 +630,7 @@ public class GameControllerImpl implements GameController {
         Optional<AI> ai = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
         Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
 
-        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent() && weapon != null) {
+        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent()) {
             // Compute Changes for Player
             List<Section> sectionsOfPlayer = sectionController.sectionsByShip(playerShip.get().getId());
             List<Weapon> playerOfWeapons = new ArrayList<>();

@@ -30,6 +30,9 @@ public class Ship {
     private int shield;
 
     @NonNull
+    private int maxShield;
+
+    @NonNull
     private int power;  // FIXME keep updated
 
     public Ship() {
@@ -43,6 +46,7 @@ public class Ship {
         setHp(builder.hp);
         setShield(builder.shield);
         setPower(builder.power);
+        setMaxShield(shield);
     }
 
     public static ShipBluider shipBluider() {
@@ -104,6 +108,14 @@ public class Ship {
 
     public void setPower(int power) {
         this.power = power;
+    }
+
+    public int getMaxShield() {
+        return maxShield;
+    }
+
+    public void setMaxShield(int maxShield) {
+        this.maxShield = maxShield;
     }
 
     public void incrementPower(){

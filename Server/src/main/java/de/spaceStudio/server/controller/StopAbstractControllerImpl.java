@@ -86,6 +86,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
             return HttpStatus.EXPECTATION_FAILED.toString();
         }
         Optional<Ship> ship = Optional.of(stopStart.getShips().get(0));
+        ship.ifPresent(s -> s.setShield(s.getMaxShield()));  // Reset Shield to max Shield
         ArrayList<Ship> ships = (ArrayList<Ship>) stopStart.getShips();
         for (Ship s :
                 ships) {
