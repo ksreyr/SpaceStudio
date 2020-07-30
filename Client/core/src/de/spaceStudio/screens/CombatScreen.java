@@ -71,13 +71,11 @@ public class CombatScreen extends BaseScreen {
     boolean canFire = false;
     boolean canFireGegner = false;
     int fuzeOffsetright, fuzeOffsetLeft;
-    //private TextureAtlas gamePlayAtlas;
     Texture bullet, shield;
     float x = 0;
     Sound rocketLaunch;
     ArrayList<Bullet> bullets;
     ArrayList<Bullet> bulletsEnemy;
-    //
     String validationGegner = "";
     List<Section> sectionsGegner = Global.combatSections.get(Global.currentShipGegner.getId());
     List<Section> sectionsPlayer = Global.combatSections.get(Global.currentShipPlayer.getId());
@@ -226,8 +224,8 @@ public class CombatScreen extends BaseScreen {
         driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
-        crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/male_human.png"));
+        crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/male_human.png"));
         laser = new Texture("Client/core/assets/combatAssets/laser.jpg");
         redPin = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/pin.png"));
         imageCrewMemberOne = new Image(crewMemberOne);

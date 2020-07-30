@@ -97,7 +97,7 @@ public class ShopScreen extends ScreenAdapter {
         playerShip = new Texture("Client/core/assets/data/ships/blueships2.png");
         rocket1 = new Texture("data/ships/rocketSmall.png");
         rocket2 = new Texture("data/ships/attack_small.png");
-        crewMemberMTexture = new Texture("Client/core/assets/combatAssets/MaleHuman-3.png");
+        crewMemberMTexture = new Texture("Client/core/assets/combatAssets/male_human.png");
         crewMemberFTexture = new Texture("Client/core/assets/combatAssets/female_human.png");
         weaponTexture = new Texture("Client/core/assets/combatAssets/missille_out.png");
         oxygenTexture = new Texture("Client/core/assets/OxygenSymbol_large.png");

@@ -212,8 +212,8 @@ public class ShipSelectScreen extends BaseScreen {
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         crewDisplay = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shipPanel.png"));
         crewMember = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
-        crewMember2 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        crewMember3 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        crewMember2 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/male_human.png"));
+        crewMember3 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/male_human.png"));
 
         imageCrewMemberSektion2 = new Image(crewMember);
         imageCrewMemberSektion4 = new Image(crewMember2);
