@@ -202,7 +202,7 @@ public class Global {
      * Game Constants
      */
     public static final int OXYGEN = 100;
-    public static final int POWER_CURRENT = 0;
+    public static final int POWER_CURRENT = 1;
     public static final int POWER_REQUIRED = 1;
     public static final int HP = 1000;
     public static final int SHIELD = 1000;
@@ -287,10 +287,10 @@ public class Global {
 
 
     // FIXME Power ist doppelt
-    public static Ship ship0 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP1).name("ship0").power(3).shield(SHIELD).buildShip();
-    public static Ship ship1 = Ship.shipBluider().hp(HP).shipForm(ShipForm.SHIP2).name("ship1").power(3).shield(SHIELD).buildShip();
-    public static Ship ship2 = Ship.shipBluider().hp(2 * HP).shipForm(ShipForm.SHIP3).name("ship2").power(3).shield(2 * SHIELD).buildShip();
-    public static Ship ship3 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP4).name("ship3").power(3).shield(SHIELD).buildShip();
+    public static Ship ship0 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP1).name("ship0").power(9).shield(SHIELD).buildShip();
+    public static Ship ship1 = Ship.shipBluider().hp(HP).shipForm(ShipForm.SHIP2).name("ship1").power(9).shield(SHIELD).buildShip();
+    public static Ship ship2 = Ship.shipBluider().hp(2 * HP).shipForm(ShipForm.SHIP3).name("ship2").power(9).shield(2 * SHIELD).buildShip();
+    public static Ship ship3 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP4).name("ship3").power(9).shield(SHIELD).buildShip();
     /**
      * CrewMember Variables
      */
@@ -347,7 +347,7 @@ public class Global {
             .sectionBuilder()
             .img("Section1")
             .oxygen(OXYGEN)
-            .powerCurrent(POWER_CURRENT)
+            .powerCurrent(0)
             .sectionTyp(SectionTyp.ENGINE)
             .usable(true)
             .connectingTo(null)
@@ -370,7 +370,7 @@ public class Global {
             .img("Section3")
             .sectionTyp(SectionTyp.NORMAL)
             .oxygen(OXYGEN)
-            .powerCurrent(POWER_CURRENT)
+            .powerCurrent(0)
             .usable(true)
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
@@ -391,7 +391,7 @@ public class Global {
             .sectionTyp(SectionTyp.NORMAL)
             .img("Section5")
             .oxygen(OXYGEN)
-            .powerCurrent(POWER_CURRENT)
+            .powerCurrent(0)
             .usable(true)
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
