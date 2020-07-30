@@ -437,27 +437,27 @@ public class Global {
     Gegner Ship
      */
     public static Ship shipGegner1 = Ship.shipBluider().hp(HP).
-            power(100).shield(1).
+            power(9).shield(1).
             name("Shipgegner1").owner(ai1).
             buildShip();
     public static Ship shipGegner2 = Ship.shipBluider().hp(HP).
-            power(100).shield(1).
+            power(9).shield(1).
             name("Shipgegner2").owner(ai2).
             buildShip();
     public static Ship shipGegner3 = Ship.shipBluider().hp(HP).
-            power(100).shield(1).
+            power(9).shield(1).
             name("Shipgegner3").owner(ai3).
             buildShip();
     public static Ship shipGegner4 = Ship.shipBluider().hp(HP).
-            power(100).shield(1).
+            power(9).shield(1).
             name("Shipgegner4").owner(ai4).
             buildShip();
     public static Ship shipGegner5 = Ship.shipBluider().hp(HP).
-            power(100).shield(1).
+            power(9).shield(1).
             name("Shipgegner5").owner(ai5).
             buildShip();
     public static Ship shipGegner6 = Ship.shipBluider().hp(HP).
-            power(100).shield(5).
+            power(9).shield(5).
             name("Shipgegner6").owner(ai6).
             buildShip();
     // Ship Universe 2
