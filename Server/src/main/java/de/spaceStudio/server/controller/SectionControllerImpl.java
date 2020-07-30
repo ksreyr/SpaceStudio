@@ -150,7 +150,6 @@ public class SectionControllerImpl implements SectionController {
             for (Section s : sectionsToUpdate) {
                 if (!s.getShip().getId().equals(sectionsToUpdate.get(0).getShip().getId())) {
                     allEqual = false;
-                    System.out.println("Hier wurde break ausgeführt! Zeile 153");
                     break;
                 }
             }
