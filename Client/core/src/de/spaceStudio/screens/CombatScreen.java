@@ -125,6 +125,9 @@ public class CombatScreen extends BaseScreen {
     private Label weaponsLabel;
     private TextButton liamButton;
     private boolean isRound;
+    private Section sectionTwo;
+    private Section sectionFour;
+    private Section sectionSix;
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -134,6 +137,9 @@ public class CombatScreen extends BaseScreen {
         camera = new OrthographicCamera();
 
         myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
+        sectionTwo = Global.combatSections.get(Global.currentShipPlayer.getId()).get(1);
+        sectionFour = Global.combatSections.get(Global.currentShipPlayer.getId()).get(3);
+        sectionSix = Global.combatSections.get(Global.currentShipPlayer.getId()).get(5);
 
         int row_height = Gdx.graphics.getWidth() / 12;
         int col_width = Gdx.graphics.getWidth() / 12;
@@ -294,12 +300,12 @@ public class CombatScreen extends BaseScreen {
         shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.LEFT) {
             @Override
             public void clicked(InputEvent event, float x, float y){
+                //hier
                 if(Global.currentShipPlayer.getPower() > 0){
-                    Global.currentShipPlayer.setPower(Global.currentShipPlayer.getPower()-1);
+                    Global.currentShipPlayer.decrementPower();
                     Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).incrementPowerCurrent();
                     updateShipEnergy(Global.currentShipPlayer, Net.HttpMethods.PUT);
                     updateSectionEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()), Net.HttpMethods.POST);
-                    System.out.println("CurrentPower: " + Global.currentShipPlayer.getPower());
                 }
             }
         });
@@ -307,10 +313,11 @@ public class CombatScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getPowerCurrent() > 0){
-                    Global.currentShipPlayer.setPower(Global.currentShipPlayer.getPower()+1);
+                    Global.currentShipPlayer.incrementPower();
                     Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).decrementPowerCurrent();
                     updateShipEnergy(Global.currentShipPlayer, Net.HttpMethods.PUT);
                     updateSectionEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()), Net.HttpMethods.POST);
+                    System.out.println("Zeile 320: " + Global.combatSections.get(Global.currentShipPlayer.getId()));
                 }
             }
         });
@@ -773,8 +780,6 @@ public class CombatScreen extends BaseScreen {
                 String result = httpResponse.getResultAsString();
                 if(result == null){
                     System.out.println("Requested Ship is null");
-                }else{
-
                 }
             }
 

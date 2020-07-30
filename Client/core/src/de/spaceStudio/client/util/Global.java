@@ -202,7 +202,7 @@ public class Global {
      * Game Constants
      */
     public static final int OXYGEN = 100;
-    public static final int POWER_CURRENT = 2;
+    public static final int POWER_CURRENT = 0;
     public static final int POWER_REQUIRED = 1;
     public static final int HP = 1000;
     public static final int SHIELD = 10000;
@@ -287,10 +287,10 @@ public class Global {
 
 
     // FIXME Power ist doppelt
-    public static Ship ship0 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP1).name("ship0").power(10).shield(SHIELD).buildShip();
-    public static Ship ship1 = Ship.shipBluider().hp(HP).shipForm(ShipForm.SHIP2).name("ship1").power(100).shield(SHIELD).buildShip();
-    public static Ship ship2 = Ship.shipBluider().hp(2 * HP).shipForm(ShipForm.SHIP3).name("ship2").power(50).shield(2 * SHIELD).buildShip();
-    public static Ship ship3 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP4).name("ship3").power(200).shield(SHIELD).buildShip();
+    public static Ship ship0 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP1).name("ship0").power(3).shield(SHIELD).buildShip();
+    public static Ship ship1 = Ship.shipBluider().hp(HP).shipForm(ShipForm.SHIP2).name("ship1").power(3).shield(SHIELD).buildShip();
+    public static Ship ship2 = Ship.shipBluider().hp(2 * HP).shipForm(ShipForm.SHIP3).name("ship2").power(3).shield(2 * SHIELD).buildShip();
+    public static Ship ship3 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP4).name("ship3").power(3).shield(SHIELD).buildShip();
     /**
      * CrewMember Variables
      */

@@ -106,6 +106,14 @@ public class Ship {
         this.power = power;
     }
 
+    public void incrementPower(){
+        this.power++;
+    }
+
+    public void decrementPower(){
+        this.power--;
+    }
+
     public static class ShipBluider {
 
         private Integer id;
