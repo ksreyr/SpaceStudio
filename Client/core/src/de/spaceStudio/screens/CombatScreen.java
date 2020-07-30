@@ -941,6 +941,7 @@ public class CombatScreen extends BaseScreen {
     @Override
     public void render(float delta) {
 
+        stage.getBatch().begin();
 
         GdxUtils.clearScreen();
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -951,8 +952,6 @@ public class CombatScreen extends BaseScreen {
             labelsection1.setPosition(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getxPos(), Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getyPos());
             stage.addActor(labelsection1);
         }
-
-
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)  ) {
@@ -980,7 +979,7 @@ public class CombatScreen extends BaseScreen {
                     weaponLabel.setText(weaponText[1] + selectedWeapons.get(0).getName());
                 }
             }
-            stage.getBatch().begin();
+
             stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
             // Render the Ship of the current Player
             stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
@@ -1109,30 +1108,29 @@ public class CombatScreen extends BaseScreen {
             }
 
         }
-
-
         stage.getBatch().end();
+
         mainClient.getBatch().begin();
         for (Bullet bullet : bullets) {
             bullet.render(mainClient.getBatch());
         }
+        mainClient.getBatch().end();
 
-        stage.getBatch().end();
+
         mainClient.getBatch().begin();
         for (Bullet bullet : bulletsEnemy) {
             bullet.render(mainClient.getBatch());
         }
         mainClient.getBatch().end();
-            //stage.getBatch().draw(hourglass, 20,20, 300,300); //w
+
+        stage.getBatch().begin();
+
             if(hourglass1){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
             if(hourglass2){ stage.getBatch().draw(hourglass,getHourX2(),getHourY2()); }
             if(hourglass3){ stage.getBatch().draw(hourglass,getHourX3(),getHourY3()); }
 
-            //if(hourglass4){ stage.getBatch().draw(hourglass,getHourX3(),getHourY3()); }
-            //if(hourglass5){ stage.getBatch().draw(hourglass,getHourX3(),getHourY3()); }
-            //if(hourglass6){ stage.getBatch().draw(hourglass,getHourX3(),getHourY3()); }
+         stage.getBatch().end();
 
-            stage.getBatch().end();
             mainClient.getBatch().begin();
             for (Bullet bullet : bulletsEnemy) {
                 bullet.render(mainClient.getBatch());
@@ -1140,8 +1138,6 @@ public class CombatScreen extends BaseScreen {
             mainClient.getBatch().end();
 
         proofCrewMemberisAvailable();
-
-
 
         stage.act();
         stage.draw();
