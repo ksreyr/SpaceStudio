@@ -1,4 +1,3 @@
-% Created 2020-07-18 Sa 16:59
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -27,94 +26,125 @@
 \begin{document}
 
 \maketitle
+\newpage
 \tableofcontents
 
+\newpage
+\section{Anleitung}
+Diese Test Protocoll basiert sich an der C4 test Abdekung, dann versuchen wir jedes Varientes an unsere Software zu testen.
+
+\section{Login Screen}
+
+\label{sec:orgc5dc561}
+\subsection{Registrierung}
+Auf diesem Bildschirm kann sich der Benutzer anmelden, dazu ist es notwendig, dass der User eine Passwort und Name gibt.\\
+\includegraphics[scale=0.2]{TestProtocolBilder/startScreen.png}
+\newpage
+\subsubsection{falsche  Registrierung}
+Wenn der Benutzer die Felder korrekt eingegeben hat, erhält er eine grüne Nachricht, in der sich die Bestätigungsnachricht des Servers für die Erstellung seiner Instanz befindet.\\
+\includegraphics[scale=0.2]{TestProtocolBilder/erfolgAnmelden.png}
+
+Wenn der Benutzer fehlerhafte, wiederholte oder unvollständige Daten in den Registrierungsteil schreibt, erhält er eine negative Bestätigungsmeldung, in der das Problem erläutert wird, auf das der Server beim Speichern der Daten gestoßen ist.\\
+\includegraphics[scale=0.2]{TestProtocolBilder/doesnotMatchPassword.png}
+
+\subsubsection{erfolgreiche  Registrierung}
+Wenn sich der Benutzer mit dem richtigen Namen und Passwort registriert hat, überprüft der Server die Daten und der Benutzer wird zum Menübildschirm gesendet.\\
+\includegraphics[scale=0.2]{TestProtocolBilder/erfolgLogin.png}
+
+
+\subsection{Anmeldung}
+\subsubsection{ falsche Anmeldung}
+Wenn sich der Benutzer mit falschen Daten angemeldet hat, kann der Server den Benutzer nicht validieren, sodass er nicht zum nächsten Bildschirm gesendet werden kann.\\
+\includegraphics[scale=0.2]{TestProtocolBilder/invalidCredentials.png}
+
+Wenn sich der Benutzer mit den richtigen Anmeldeinformationen anmeldet, wird der Benutzer zum Menübildschirm weitergeleitet.
+
+
+\section{Menu Screen}
+Auf dem Menübildschirm sind die Optionen:
+\begin{itemize}
+\item New Game: Mit dieser Option kann der Benutzer ein neues Spiel starten
+\item About: In dieser Option können Informationen zu den Entwicklern gefunden werden.
+\item Exit: Mit dieser Option kann der Benutzer das Spiel beenden.
+\end{itemize}
+
+\includegraphics[scale=0.2]{TestProtocolBilder/menuScreen.png}
+\section{Game options}
+Im zweiten Menübildschirm können Sie die Optionen sehen, die der Benutzer spielen muss.
+\begin{itemize}
+\item Single Player: Mit dieser Option kann der Benutzer individuell im Universum spielen.
+\item Multiplayer: Diese Option ermöglicht es dem Benutzer, mit einem anderen Spieler im Universum zu spielen und gegeneinander zu kämpfen.
+\item Back to Menu: Diese Option ermöglicht es Ihnen, zum vorherigen Bildschirm zurückzukehren.
+\end{itemize}
+\includegraphics[scale=0.2]{TestProtocolBilder/menuScreenTwo.png}
 
 \section{Testfall Single Player}
-\label{sec:orgc5dc561}
-\begin{enumerate}
-\item Login Screen
-\begin{enumerate}
-\item Register
-\begin{itemize}
-\item Test if name exists
-\item Test if one can register
-\item Does the Client alert if the Server is offline?
-\end{itemize}
-\item Login
-\end{enumerate}
-\item Menu Screen
-\begin{enumerate}
-\item New Game
-\begin{itemize}
-\item Single Player
-\begin{itemize}
-\item Goes back to Fight Screen
-\item Goes back to Station Map
-\item Goes back to Shop
-\end{itemize}
-\end{itemize}
-\item Single Player (Ship Select Screen)
-\begin{itemize}
-\item Are the Stats Updated for the Ship?
-\item Can I spawn into the Map?
-\item Are there Any Exceptions?
-\end{itemize}
-\end{enumerate}
-\end{enumerate}
+Auf diesem Bildschirm wurde jede Schaltfläche getestet, beginnend mit der Taste Single Palyer.\\
+\includegraphics[scale=0.2]{TestProtocolBilder/selecShipScreen.png}
+
+\subsection{rooms test}
+Mit dieser Taste wurde getestet, ob die Abschnitte des Bootes sichtbar sind. Wenn Sie erneut drücken, verschwinden die Abschnitte\\
+\includegraphics[scale=0.2]{TestProtocolBilder/shipRooms.png}
+\subsection{andere Ships}
+\includegraphics[scale=0.2]{TestProtocolBilder/next.png}
+\subsection{andere Ships}
+\includegraphics[scale=0.2]{TestProtocolBilder/map.png}
+\subsubsection{Goes back to Fight Screen}
+\subsubsection{Goes back to Station Map}
+\subsubsection{Goes back to Shop}
+
+
+\subsubsection{Single Player (Ship Select Screen)}
+
+\subsubsection{Are the Stats Updated for the Ship?}
+\subsubsection{Can I spawn into the Map?}
+\subsubsection{Are there Any Exceptions?}
+
+
 
 \section{Station Screen}
 \label{sec:orga891bce}
-\begin{enumerate}
-\item StationMap
-\begin{enumerate}
-\item Select Planet
-\begin{itemize}
-\item Can I select every Planet?
-\item Does the Dialog Appear?
-\end{itemize}
-\item Jump
-\begin{itemize}
-\item Jump can I jump to every Planet?
-\item Do I see if I have visited the Planet?
-\item Does the Back Button work?
-\end{itemize}
-\end{enumerate}
-\end{enumerate}
+
+\subsection{StationMap}
+
+\subsubsection{Select Planet}
+
+\subsubsection{Can I select every Planet?}
+\subsubsection{Does the Dialog Appear?}
+\subsubsection{ Jump}
+\subsubsection{Jump can I jump to every Planet?}
+\subsubsection{Do I see if I have visited the Planet?}
+\subsubsection{ Does the Back Button work?}
+
 
 \section{Stop Abstract}
 \label{sec:org3bde3ec}
-\begin{enumerate}
-\item StopScreen
-\begin{enumerate}
-\item Leave
-\begin{enumerate}
-\item Leave
-\item View Map -> Station Map
-\end{enumerate}
-\item Explore
-\begin{enumerate}
-\item Flee -> Station Screen
-\item Fight -> CombatScreen
-\item Shop -> Station Mao
-\end{enumerate}
-\item Back to Map -> Station Map
-\end{enumerate}
-\end{enumerate}
+
+\subsection{StopScreen}
+
+\subsubsection{Leave}
+
+\subsubsection{Leave}
+\subsubsection{View Map -> Station Map}
+
+\subsection{Explore}
+\subsubsection{Flee -> Station Screen}
+\subsubsection{Fight -> CombatScreen}
+\subsubsection{Shop -> Station Mao}
+\subsubsection{Back to Map -> Station Map}
+
 
 \section{Combat Screen}
 \label{sec:org9c941a6}
-
-
+\subsection{Options}
 
 
 
 \section{Strangenes}
 \label{sec:org4b85c14}
-\begin{itemize}
-\item Rainbow Line
-\item Pruebe Kopf in ShipSelectScreen
-\item Bug Ship is not add at Stop
-\item Jump to same Planet
-\end{itemize}
+\subsection{Rainbow Line}
+\subsection{Pruebe Kopf in ShipSelectScreen}
+\subsection{Bug Ship is not add at Stop}
+\subsection{Jump to same Planet}
+
 \end{document}

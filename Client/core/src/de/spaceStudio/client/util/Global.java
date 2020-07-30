@@ -291,7 +291,7 @@ public class Global {
             img("Male").role(Role.TECHNICIAN).buildCrewMember();
     public static CrewMember crewMember2 = CrewMember.crewMemberBuilder().health(300).
             img("Male").role(Role.TECHNICIAN).buildCrewMember();
-    public static List<CrewMember> crewMemberList = new ArrayList<CrewMember>() {{
+    public static List<CrewMember> crewMemberList = new ArrayList<>() {{
         add(crewMember0);
         add(crewMember1);
         add(crewMember2);
@@ -303,7 +303,7 @@ public class Global {
             .img("Robot").role(Role.FIGHTER).buildCrewMember();
     public static CrewMember crewMember2gegner1 = CrewMember.crewMemberBuilder().health(200).
             img("Human").role(Role.TECHNICIAN).buildCrewMember();
-    public static List<CrewMember> crewMemberListGegner1 = new ArrayList<CrewMember>() {{
+    public static List<CrewMember> crewMemberListGegner1 = new ArrayList<>() {{
         add(crewMember1gegner1);
         add(crewMember2gegner1);
     }};
@@ -312,7 +312,7 @@ public class Global {
             .img("Robot").role(Role.FIGHTER).buildCrewMember();
     public static CrewMember crewMember2gegner2 = CrewMember.crewMemberBuilder().health(200).
             img("Human").role(Role.TECHNICIAN).buildCrewMember();
-    public static List<CrewMember> crewMemberListGegner2 = new ArrayList<CrewMember>() {{
+    public static List<CrewMember> crewMemberListGegner2 = new ArrayList<>() {{
         add(crewMember1gegner2);
         add(crewMember2gegner2);
     }};
@@ -321,7 +321,7 @@ public class Global {
             .img("Robot").role(Role.FIGHTER).buildCrewMember();
     public static CrewMember crewMember2gegner3 = CrewMember.crewMemberBuilder().health(200).
             img("Human").role(Role.TECHNICIAN).buildCrewMember();
-    public static List<CrewMember> crewMemberListGegner3 = new ArrayList<CrewMember>() {{
+    public static List<CrewMember> crewMemberListGegner3 = new ArrayList<>() {{
         add(crewMember1gegner3);
         add(crewMember2gegner3);
     }};
@@ -341,7 +341,6 @@ public class Global {
             .powerCurrent(0)
             .sectionTyp(SectionTyp.NORMAL)
             .role(Role.TECHNICIAN)
-            .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
@@ -402,7 +401,7 @@ public class Global {
             .powerRequired(POWER_REQUIRED)
             .pos(90, 124)
             .buildSection();
-    public static List<Section> sectionsPlayerList = new ArrayList<Section>() {{
+    public static List<Section> sectionsPlayerList = new ArrayList<>() {{
         add(section1);
         add(section2);
         add(section3);
@@ -419,7 +418,7 @@ public class Global {
     public static AI ai4 = AI.builderAI().name("gegner4").buildAI();
     public static AI ai5 = AI.builderAI().name("gegner5").buildAI();
     public static AI ai6 = AI.builderAI().name("gegner6").buildAI();
-    public static List<AI> aisU2 = new ArrayList<AI>() {{
+    public static List<AI> aisU2 = new ArrayList<>() {{
         add(ai1);
         add(ai2);
         add(ai3);
@@ -455,7 +454,7 @@ public class Global {
             name("Shipgegner6").owner(ai6).
             buildShip();
     // Ship Universe 2
-    public static List<Ship> shipsgegneru2 = new ArrayList<Ship>() {{
+    public static List<Ship> shipsgegneru2 = new ArrayList<>() {{
         add(shipGegner1);
         add(shipGegner2);
         add(shipGegner3);
@@ -496,7 +495,7 @@ public class Global {
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
             .buildSection();
-    public static List<Section> sectionsgegner1 = new ArrayList<Section>() {{
+    public static List<Section> sectionsgegner1 = new ArrayList<>() {{
         add(section1Gegner);
         add(section2Gegner);
         add(section3Gegner);
@@ -543,7 +542,7 @@ public class Global {
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
             .buildSection();
-    public static List<Section> sectionsgegner2 = new ArrayList<Section>() {{
+    public static List<Section> sectionsgegner2 = new ArrayList<>() {{
         add(section1Gegner2);
         add(section2Gegner2);
         add(section3Gegner2);
@@ -601,7 +600,7 @@ public class Global {
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
             .buildSection();
-    public static List<Section> sectionsgegner3 = new ArrayList<Section>() {{
+    public static List<Section> sectionsgegner3 = new ArrayList<>() {{
         add(section1Gegner3);
         add(section2Gegner3);
         add(section3Gegner3);
@@ -640,7 +639,7 @@ public class Global {
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
             .buildSection();
-    public static List<Section> sectionsgegner4 = new ArrayList<Section>() {{
+    public static List<Section> sectionsgegner4 = new ArrayList<>() {{
         add(section1Gegner4);
         add(section2Gegner4);
         add(section3Gegner4);
@@ -677,7 +676,7 @@ public class Global {
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
             .buildSection();
-    public static List<Section> sectionsgegner5 = new ArrayList<Section>() {{
+    public static List<Section> sectionsgegner5 = new ArrayList<>() {{
         add(section1Gegner5);
         add(section2Gegner5);
         add(section3Gegner5);
@@ -714,7 +713,7 @@ public class Global {
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
             .buildSection();
-    public static List<Section> sectionsgegner6 = new ArrayList<Section>() {{
+    public static List<Section> sectionsgegner6 = new ArrayList<>() {{
         add(section1Gegner6);
         add(section2Gegner6);
         add(section3Gegner6);
@@ -755,14 +754,14 @@ public class Global {
     }*/
     //**Weapons Universe **//
     public static Planet planet10 = Planet.builder().name("p10").img("null").build();
-    public static List<Planet> planetListU1 = new ArrayList<Planet>() {{
+    public static List<Planet> planetListU1 = new ArrayList<>() {{
         add(planet1);
         add(planet2);
         add(planet3);
         add(planet4);
         add(planet5);
     }};
-    public static List<Planet> planetListU2 = new ArrayList<Planet>() {{
+    public static List<Planet> planetListU2 = new ArrayList<>() {{
         add(planet1);
         add(planet2);
         add(planet3);
@@ -781,11 +780,8 @@ public class Global {
     public static Station station2 = Station.stationBuilder().name("station2").energyPrice(1).buildStation();
     public static Station station3 = Station.stationBuilder().name("station3").energyPrice(0).buildStation();
     public static Station station4 = Station.stationBuilder().name("station4").energyPrice(1).buildStation();
-    public static List<Station> stationListU1 = new ArrayList<Station>() {{
-        add(station1);
-        add(station2);
-    }};
-    public static List<Station> stationListU2 = new ArrayList<Station>() {{
+
+    public static List<Station> stationListU2 = new ArrayList<>() {{
         add(station1);
         add(station2);
         add(station3);
@@ -795,7 +791,7 @@ public class Global {
     public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
     public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
     public static ShopRessource shopRessource3 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
-    public static List<ShopRessource> shopRessourceList = new ArrayList<ShopRessource>() {{
+    public static List<ShopRessource> shopRessourceList = new ArrayList<>() {{
         add(shopRessource1);
         add(shopRessource2);
         add(shopRessource3);
@@ -826,7 +822,7 @@ public class Global {
     public static Weapon weapon2Gegner1 = Weapon.WeaponBuilder().damage(10).hitRate(HIT_RATE).img("Enemy1").name("Rocket Right").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
     public static Weapon weapon3Gegner1 = Weapon.WeaponBuilder().damage(30).hitRate(HIT_RATE_LASER).img("Enemy1").name("Lasser Right").warmUp(lasserWarmUp).magazinSize(magazinSizeLaser).build();
 
-    public static List<Weapon> weaponListGegner1 = new ArrayList<Weapon>() {{
+    public static List<Weapon> weaponListGegner1 = new ArrayList<>() {{
         add(weapon1Gegner1);
         add(weapon2Gegner1);
         add(weapon3Gegner1);
@@ -838,7 +834,7 @@ public class Global {
     public static Weapon weapon2Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(HIT_RATE).img("Enemy2").name("Rocket Right").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
     public static Weapon weapon3Gegner2 = Weapon.WeaponBuilder().damage(10).hitRate(HIT_RATE).img("Enemy2").name("DRONE").warmUp(droneWarmUp).build();
 
-    public static List<Weapon> weaponListGegner2 = new ArrayList<Weapon>() {{
+    public static List<Weapon> weaponListGegner2 = new ArrayList<>() {{
         add(weapon1Gegner2);
         add(weapon2Gegner2);
         add(weapon3Gegner2);
@@ -850,18 +846,18 @@ public class Global {
     public static Weapon weapon2Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(HIT_RATE).img("Enemy3").name("Rocket Right").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
     public static Weapon weapon3Gegner3 = Weapon.WeaponBuilder().damage(10).hitRate(HIT_RATE).img("Enemy3").name("Laser").warmUp(lasserWarmUp).magazinSize(magazinSizeLaser).build();
 
-    public static List<Weapon> weaponListGegner3 = new ArrayList<Weapon>() {{
+    public static List<Weapon> weaponListGegner3 = new ArrayList<>() {{
         add(weapon1Gegner3);
         add(weapon2Gegner3);
         add(weapon3Gegner3);
     }};
 
 
-    public static List<Weapon> weaponListPlayer = new ArrayList<Weapon>() {{
+    public static List<Weapon> weaponListPlayer = new ArrayList<>() {{
         add(weapon1Player);
         add(weapon2Player);
     }};
-    public static List<Weapon> weaponListUniverse2 = new ArrayList<Weapon>() {{
+    public static List<Weapon> weaponListUniverse2 = new ArrayList<>() {{
         add(weapon1Player);
         add(weapon2Player);
         add(weapon1Gegner1);
@@ -872,7 +868,7 @@ public class Global {
         add(weapon2Gegner3);
 
     }};
-    public static List<Pair> ExplosionsToRender = new ArrayList<Pair>();
+    public static List<Pair> ExplosionsToRender = new ArrayList<>();
     // Id is the Player
     public static Map<Integer, Actor> combatActors = new HashMap<>();
     public static List<Weapon> weaponsToProcess = new LinkedList<>();
@@ -929,16 +925,15 @@ public class Global {
     }
 
     public static void actualiziertweaponListPlayer() {
-        List<Weapon> newWeaponListPlayer = new ArrayList<Weapon>() {{
+        weaponListPlayer = new ArrayList<>() {{
             add(weapon1Player);
             add(weapon2Player);
         }};
-        weaponListPlayer = newWeaponListPlayer;
     }
 
     public static void actualizierungSectionInWeapons() {
-        weapon1Player.setSection(section2);
-        weapon2Player.setSection(section2);
+        weapon1Player.setSection(section4);
+        weapon2Player.setSection(section4);
         actualiziertweaponListPlayer();
     }
 
@@ -948,11 +943,10 @@ public class Global {
     }
 
     public static void actualiziertweaponListGegner1() {
-        List<Weapon> newweaponListGegner1 = new ArrayList<Weapon>() {{
+        weaponListGegner1 = new ArrayList<>() {{
             add(weapon1Gegner1);
             add(weapon2Gegner1);
         }};
-        weaponListGegner1 = newweaponListGegner1;
     }
 
     public static void updateweaponGegner2Variabel() {
@@ -961,11 +955,10 @@ public class Global {
     }
 
     public static void actualiziertweaponListGegner2() {
-        List<Weapon> newweaponListGegner2 = new ArrayList<Weapon>() {{
+        weaponListGegner2 = new ArrayList<>() {{
             add(weapon1Gegner2);
             add(weapon2Gegner2);
         }};
-        weaponListGegner2 = newweaponListGegner2;
     }
 
     public static void updateweaponGegner3Variabel() {
@@ -974,11 +967,10 @@ public class Global {
     }
 
     public static void actualiziertweaponListGegner3() {
-        List<Weapon> newweaponListGegner3 = new ArrayList<Weapon>() {{
+        weaponListGegner3 = new ArrayList<>() {{
             add(weapon1Gegner3);
             add(weapon2Gegner3);
         }};
-        weaponListGegner3 = newweaponListGegner3;
     }
 
 
@@ -995,8 +987,8 @@ public class Global {
     }
 
     public static void aktualizierenweaponListUniverse2() {
-        weapon1Player.setSection(section2);
-        weapon2Player.setSection(section2);
+        weapon1Player.setSection(section4);
+        weapon2Player.setSection(section4);
         weapon1Gegner1.setSection(section3Gegner);
         weapon2Gegner1.setSection(section3Gegner);
         weapon1Gegner2.setSection(section3Gegner2);
@@ -1004,7 +996,7 @@ public class Global {
         weapon1Gegner3.setSection(section3Gegner3);
         weapon2Gegner3.setSection(section3Gegner3);
 
-        List<Weapon> newweaponListUniverse2 = new ArrayList<Weapon>() {{
+        weaponListUniverse2 = new ArrayList<>() {{
             add(weapon1Player);
             add(weapon2Player);
             add(weapon1Gegner1);
@@ -1015,7 +1007,6 @@ public class Global {
             add(weapon2Gegner3);
 
         }};
-        weaponListUniverse2 = newweaponListUniverse2;
     }
 
     public static void updateShipsVariabelgegneru2() {
@@ -1028,7 +1019,7 @@ public class Global {
     }
 
     public static void updateShipsListgegneru2() {
-        List<Ship> shipsgegneru2new = new ArrayList<Ship>() {{
+        shipsgegneru2 = new ArrayList<>() {{
             add(shipGegner1);
             add(shipGegner2);
             add(shipGegner3);
@@ -1036,7 +1027,6 @@ public class Global {
             add(shipGegner5);
             add(shipGegner6);
         }};
-        shipsgegneru2 = shipsgegneru2new;
     }
 
     public static void updateVariblesSectionsGegner1() {
@@ -1099,10 +1089,7 @@ public class Global {
         planet10 = planetListU2.get(9);
     }
 
-    public static void updateVariblesStationsU1() {
-        station1 = stationListU1.get(0);
-        station2 = stationListU1.get(1);
-    }
+
 
     public static void updateVariblesStationsU2() {
         station1 = stationListU2.get(0);

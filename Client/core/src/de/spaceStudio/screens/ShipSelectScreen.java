@@ -953,7 +953,7 @@ public class ShipSelectScreen extends BaseScreen {
                 List<Weapon> weaponsUniver2 = new ArrayList<>();
                 for (Weapon w :
                         weaponListPlayer) {
-                    w.setSection(section2);
+                    w.setSection(section4);
                     weaponsUniver2.add(w);
                 }
                 for (Weapon w :
