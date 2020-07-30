@@ -37,7 +37,11 @@ public class CrewMember {
         setCurrentSection(builder.currentSection);
         setRole(builder.role);
         this.skillCounter = 0;
-        this.roundsToDestination  = 0;
+        this.roundsToDestination = 0;
+    }
+
+    public static CrewMemberBuilder crewMemberBuilder() {
+        return new CrewMemberBuilder();
     }
 
     public String getName() {
@@ -88,10 +92,6 @@ public class CrewMember {
         this.role = role;
     }
 
-    public static CrewMemberBuilder crewMemberBuilder(){
-        return new CrewMemberBuilder();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -122,8 +122,7 @@ public class CrewMember {
         this.roundsToDestination = roundsToDestination;
     }
 
-
-    public static class CrewMemberBuilder{
+    public static class CrewMemberBuilder {
 
         private Integer id;
         private Section currentSection;
@@ -142,36 +141,41 @@ public class CrewMember {
             this.health = health;
             this.img = img;
             this.role = role;
-            this.name=name;
+            this.name = name;
         }
 
 
-        public CrewMemberBuilder id(Integer id){
-            this.id=id;
+        public CrewMemberBuilder id(Integer id) {
+            this.id = id;
             return CrewMemberBuilder.this;
         }
 
-        public CrewMemberBuilder currentSection(Section currentSection){
-            this.currentSection=currentSection;
+        public CrewMemberBuilder currentSection(Section currentSection) {
+            this.currentSection = currentSection;
             return CrewMemberBuilder.this;
         }
-        public CrewMemberBuilder name(String name){
-            this.name=name;
+
+        public CrewMemberBuilder name(String name) {
+            this.name = name;
             return CrewMemberBuilder.this;
         }
-        public CrewMemberBuilder health(int health){
-            this.health=health;
+
+        public CrewMemberBuilder health(int health) {
+            this.health = health;
             return CrewMemberBuilder.this;
         }
-        public CrewMemberBuilder img(String img){
-            this.img=img;
+
+        public CrewMemberBuilder img(String img) {
+            this.img = img;
             return CrewMemberBuilder.this;
         }
-        public CrewMemberBuilder role(Role role){
-            this.role=role;
+
+        public CrewMemberBuilder role(Role role) {
+            this.role = role;
             return CrewMemberBuilder.this;
         }
-        public CrewMember buildCrewMember(){
+
+        public CrewMember buildCrewMember() {
             return new CrewMember(this);
         }
 

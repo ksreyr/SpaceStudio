@@ -89,7 +89,6 @@ public class ShipSelectScreen extends BaseScreen {
     private final Sound mouseClick;
     private final InitialDataGameService idgs = new InitialDataGameService();
     private final InputHandler inputHandler;
-    private final int timeoutMultiPlayer = 0;
     private final OrthographicCamera camera;
     Animation<TextureRegion> crew1;
     Animation<TextureRegion> crew2;
@@ -100,7 +99,6 @@ public class ShipSelectScreen extends BaseScreen {
     Ship ship = new Ship();
     Universe universe1 = Global.universe1;
     Universe universe2 = Global.universe2;
-    private int requestcounter;
     String responseJson;
     List<Section> sectionList = new ArrayList<>();
     List<CrewMember> crewMemberList = new ArrayList<>();
@@ -112,6 +110,7 @@ public class ShipSelectScreen extends BaseScreen {
     List<Station> stations = new ArrayList<>();
     List<ShopRessource> shopRessources = new ArrayList<>();
     List<Weapon> weapons = new ArrayList<>();
+    private int requestcounter;
     private Label usernameLabel, playersOnlineLabel, displayOnlinePlayerName;
     private TextButton next;
     private TextButton previous;
@@ -145,7 +144,7 @@ public class ShipSelectScreen extends BaseScreen {
         Gdx.input.setInputProcessor(stage);
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        
+
         if (Global.isOnlineGame) {
             fetchLoggedUsers();
             playersOnlineLabel = new Label(null, skin);
@@ -287,14 +286,6 @@ public class ShipSelectScreen extends BaseScreen {
                 switch (shipNumber) {
                     case 0:
                         ship = Global.ship0;
-                        /*
-                        271, 158
-                        475, 293
-                        647, 307
-                        479, 469
-                        646, 461
-                        266, 607
-                         */
 
                         break;
                     case 1:
@@ -309,7 +300,6 @@ public class ShipSelectScreen extends BaseScreen {
                 }
 
                 ship.setOwner(Global.currentPlayer);
-                ship.setMoney(40); // TODO FIXME change later
                 sendRequestAddShip(ship, Net.HttpMethods.POST);
 
             }
@@ -546,35 +536,35 @@ public class ShipSelectScreen extends BaseScreen {
                     counter = 0;
                     LOG.info("Timer killed");
                 } else {
-                    if(playersOnline.size() == 0){
-                    counter += 1;
-                    if (counter % 2 == 0) {
-                        LOG.info("::::::::::::::::::: DIALOG:::::::::::::::::::::::");
-                        killTimer = true;
-                        new Dialog("No players found", skinButton) {
+                    if (playersOnline.size() == 0) {
+                        counter += 1;
+                        if (counter % 2 == 0) {
+                            LOG.info("::::::::::::::::::: DIALOG:::::::::::::::::::::::");
+                            killTimer = true;
+                            new Dialog("No players found", skinButton) {
 
-                            {
-                                text("There is no player");
-                                button("Try again", "try").getButtonTable().row();
-                                button("Play with AI", "ai").getButtonTable().row();
-                            }
-
-                            @Override
-                            protected void result(Object object) {
-                                if (object.equals("ai")) {
-                                    killTimer = true;
-                                    IS_SINGLE_PLAYER = true;
-                                    game.setScreen(new ShipSelectScreen(game));
-                                    // make single player here
-                                } else if (object.equals("try")) {
-                                    killTimer = true;
-                                    // reload all here
-                                    game.setScreen(new ShipSelectScreen(game));
+                                {
+                                    text("There is no player");
+                                    button("Try again", "try").getButtonTable().row();
+                                    button("Play with AI", "ai").getButtonTable().row();
                                 }
-                            }
 
-                        }.show(stage);
-                    }
+                                @Override
+                                protected void result(Object object) {
+                                    if (object.equals("ai")) {
+                                        killTimer = true;
+                                        IS_SINGLE_PLAYER = true;
+                                        game.setScreen(new ShipSelectScreen(game));
+                                        // make single player here
+                                    } else if (object.equals("try")) {
+                                        killTimer = true;
+                                        // reload all here
+                                        game.setScreen(new ShipSelectScreen(game));
+                                    }
+                                }
+
+                            }.show(stage);
+                        }
                     }
 
 
@@ -602,6 +592,33 @@ public class ShipSelectScreen extends BaseScreen {
                 if (response.equals("true")) {
                     // SetScreen Station Map
                     LOG.info("Setting up stationStop Screen");
+                    switch (shipNumber) {
+                        case 0:
+                            ship = Global.ship0;
+                        /*
+                        271, 158
+                        475, 293
+                        647, 307
+                        479, 469
+                        646, 461
+                        266, 607
+                         */
+
+                            break;
+                        case 1:
+                            ship = Global.ship1;
+                            break;
+                        case 2:
+                            ship = Global.ship2;
+                            break;
+                        default:
+                            ship = Global.ship3;
+                            break;
+                    }
+
+                    ship.setOwner(Global.currentPlayer);
+                    sendRequestAddShip(ship, Net.HttpMethods.POST);
+
                     deployMultiplayer = true;
                 } else {
                     LOG.info("False var");
@@ -644,10 +661,11 @@ public class ShipSelectScreen extends BaseScreen {
 
         if (deployMultiplayer) {
             killTimer = true;
-            mainClient.setScreen(new StationsMap(game));
+            LOG.info("Added");
+            //mainClient.setScreen(new StationsMap(game));
         }
         // Bock
-        if (IS_SINGLE_PLAYER) {
+        if (IS_SINGLE_PLAYER || deployMultiplayer) {
             /*Added Ship*/
             if (requestcounter == 1) {
                 if (responseJson != null && !responseJson.isEmpty()) {

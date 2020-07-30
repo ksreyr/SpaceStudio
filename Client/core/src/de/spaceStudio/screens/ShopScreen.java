@@ -26,7 +26,6 @@ import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
 import de.spaceStudio.server.model.*;
-import de.spaceStudio.util.Base;
 import de.spaceStudio.util.GdxUtils;
 
 import java.util.ArrayList;
@@ -247,7 +246,7 @@ public class ShopScreen extends ScreenAdapter {
         Gson gson = new Gson();
         gson.toJson(requestObject);
         String requestJson = json.toJson(requestObject);
-        requestJson=gson.toJson(requestObject);
+        requestJson = gson.toJson(requestObject);
         final String url = Global.SERVER_URL + Global.GET_RESSOURCE_BY_STOP;
         final Net.HttpRequest request = setupRequest(url, requestJson, method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
@@ -306,6 +305,7 @@ public class ShopScreen extends ScreenAdapter {
             }
         });
     }
+
     public void buyCrewMember(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -496,13 +496,12 @@ public class ShopScreen extends ScreenAdapter {
                     buyItem(List.of(shopRessources.get(0)), Net.HttpMethods.POST);
                 } else if (itemNumber == 1) {
                     buyItem(List.of(shopRessources.get(1)), Net.HttpMethods.POST);
-                }else if (itemNumber == 2) {
-                    if(checkBoxSection1.isChecked()){
+                } else if (itemNumber == 2) {
+                    if (checkBoxSection1.isChecked()) {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section1).health(100).buildCrewMember()), Net.HttpMethods.POST);
-                    }else if(checkBoxSection2.isChecked()){
+                    } else if (checkBoxSection2.isChecked()) {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section2).health(100).buildCrewMember()), Net.HttpMethods.POST);
-                    }
-                    else if(checkBoxSection3.isChecked()){
+                    } else if (checkBoxSection3.isChecked()) {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section3).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection4.isChecked()) {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section4).health(100).buildCrewMember()), Net.HttpMethods.POST);
@@ -689,28 +688,28 @@ public class ShopScreen extends ScreenAdapter {
 
             } else if (itemNumber == 2) {
 
-            TextArea textArea = new TextArea("Name: Name1\nRepairs: 50% per round\nCosts: 50 $", skin);
-            textArea.setPosition(1400, 450);
-            textArea.setWidth(400);
-            textArea.setHeight(200);
-            stage.addActor(textArea);
+                TextArea textArea = new TextArea("Name: Name1\nRepairs: 50% per round\nCosts: 50 $", skin);
+                textArea.setPosition(1400, 450);
+                textArea.setWidth(400);
+                textArea.setHeight(200);
+                stage.addActor(textArea);
 
-        } else if (itemNumber == 3) {
+            } else if (itemNumber == 3) {
 
-            TextArea textArea = new TextArea("Name: Female CrewMember\nRepairs: 60% per round\nCosts: 100 $", skin);
-            textArea.setPosition(1400,450);
-            textArea.setWidth(400);
-            textArea.setHeight(200);
-            stage.addActor(textArea);
+                TextArea textArea = new TextArea("Name: Female CrewMember\nRepairs: 60% per round\nCosts: 100 $", skin);
+                textArea.setPosition(1400, 450);
+                textArea.setWidth(400);
+                textArea.setHeight(200);
+                stage.addActor(textArea);
 
-        } else if (itemNumber == 4) {
+            } else if (itemNumber == 4) {
 
-            TextArea textArea = new TextArea("Name: WEAPONLASSER\nAmount: 50  \nCost:30 ", skin);
-            textArea.setPosition(1400,450);
-            textArea.setWidth(400);
-            textArea.setHeight(200);
-            stage.addActor(textArea);
-        }
+                TextArea textArea = new TextArea("Name: WEAPONLASSER\nAmount: 50  \nCost:30 ", skin);
+                textArea.setPosition(1400, 450);
+                textArea.setWidth(400);
+                textArea.setHeight(200);
+                stage.addActor(textArea);
+            }
         }
         /*else if (itemNumber == 5) {
 

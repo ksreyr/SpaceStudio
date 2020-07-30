@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AIRepository extends JpaRepository<AI, Integer>{
+public interface AIRepository extends JpaRepository<AI, Integer> {
     Optional<AI> findByName(String name);
 }

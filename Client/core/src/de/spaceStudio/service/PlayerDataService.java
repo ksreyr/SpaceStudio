@@ -6,22 +6,18 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import de.spaceStudio.client.util.Global;
+import de.spaceStudio.client.util.RequestUtils;
 
 public class PlayerDataService {
-    String response;
 
-    public String cleaningData(Object requestObject, String method) {
+    public void cleaningData(Object requestObject, String method) {
         final Json json = new Json();
 
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
 
-        final Net.HttpRequest request = new Net.HttpRequest(method);
-        final String url = Global.SERVER_URL + Global.PLAYER_CLEAN_ENDPOINT;
-        request.setUrl(url);
-        request.setContent(requestJson);
-        request.setHeader("Content-Type", "application/json");
-        request.setHeader("Accept", "application/json");
+        String url = Global.SERVER_URL + Global.PLAYER_CLEAN_ENDPOINT;
+        final Net.HttpRequest request = RequestUtils.setupRequest(url, requestJson ,method);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
@@ -32,7 +28,6 @@ public class PlayerDataService {
                 String responseJson = httpResponse.getResultAsString();
                 try {
                     System.out.println("Response: " + responseJson);
-                    response = responseJson;
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -47,6 +42,5 @@ public class PlayerDataService {
                 System.out.println("request cancelled");
             }
         });
-        return response;
     }
 }

@@ -13,14 +13,11 @@ import org.springframework.stereotype.Component;
 public class InitializingBeanExampleBean implements InitializingBean {
 
     @Autowired
+    public BeamRepository beamRepository;
+    @Autowired
     private PlayerRepository playerRepository;
-
     @Autowired
     private AIRepository aiRepository;
-
-    @Autowired
-    public BeamRepository beamRepository;
-
     @Autowired
     private ShipRepository shipRepository;
 

@@ -1,9 +1,6 @@
 package de.spaceStudio.server.model;
 
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
-import javax.websocket.OnMessage;
 import java.util.ArrayList;
 import java.util.List;
 

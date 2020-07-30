@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-    public class MultiPlayerGame implements Serializable {
+public class MultiPlayerGame implements Serializable {
 
     public List<Actor> players;  // Is the Player jumping??
     private String universe;
@@ -22,10 +22,10 @@ import java.util.List;
         return universe;
     }
 
-        public void setUniverse(String universe) {
-            this.universe = universe;
-            this.players = new ArrayList<de.spaceStudio.server.model.Actor>();
-        }
+    public void setUniverse(String universe) {
+        this.universe = universe;
+        this.players = new ArrayList<de.spaceStudio.server.model.Actor>();
+    }
 
     public Player getPlayerOne() {
         return playerOne;

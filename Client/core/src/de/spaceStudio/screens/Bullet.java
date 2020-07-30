@@ -3,8 +3,6 @@ package de.spaceStudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.spaceStudio.client.util.Global;
-import de.spaceStudio.server.model.Pair;
 
 public class Bullet {
 
@@ -13,11 +11,9 @@ public class Bullet {
     public static int DEFAULT_Y = 200;
     private static Texture bullet;
     private static Texture explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
-            ;
-    protected   boolean isExploded;
-
+    ;
     public boolean remove = false;
-
+    protected boolean isExploded;
     float x, y;
 
     public Bullet(float x, float y) {
@@ -32,8 +28,8 @@ public class Bullet {
         x += SPEED * deltaTime;
         if (x > Gdx.graphics.getWidth() - 600) {
             // FIXME trigger Explosion
-              remove = true;
-            System.out.println( String.format("Explosion at %s, %s", this.x, this.y ));
+            remove = true;
+            System.out.println(String.format("Explosion at %s, %s", this.x, this.y));
             remove = true;
         }
     }

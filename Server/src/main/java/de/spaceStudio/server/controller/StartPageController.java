@@ -9,7 +9,7 @@ import static de.spaceStudio.server.utils.ServerUrlsPath.HOME;
 public class StartPageController {
 
     @RequestMapping(HOME)
-    public String startPage(){
+    public String startPage() {
         return "Spacestudio Server is running...";
     }
 

@@ -1,19 +1,13 @@
 package de.spaceStudio.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
 @Inheritance(
         strategy = InheritanceType.TABLE_PER_CLASS
 )
-public  class Actor {
+public class Actor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

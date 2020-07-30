@@ -90,6 +90,7 @@ public class MenuScreen extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 click.play();
+                IS_SINGLE_PLAYER = true;
                 String url = Global.SERVER_URL + Global.PLAYER_CONTINUE_ENDPOINT + currentPlayer.getName();
                 final Net.HttpRequest request = setupRequest(url, "", Net.HttpMethods.GET);
 

@@ -29,17 +29,17 @@ import static de.spaceStudio.client.util.Global.*;
  */
 public class TravelScreen extends ScreenAdapter {
 
+    private final static Logger LOG = Logger.getLogger(TravelScreen.class.getName());
     private final Stage stage;
     private final MainClient game;
     private final OrthographicCamera camera;
-    private boolean killTimer;
     float timePassed = 0;
     String travelText = "Traveling threw Space Time since " + (int) timePassed + " Seconds";
     String playerText = "Waiting for other Player ...";
     Label travelLabel;
     Label playerLabel;
     int dot = 0;
-    private final static Logger LOG = Logger.getLogger(TravelScreen.class.getName());
+    private boolean killTimer;
     private boolean requestSend = false;
 
     public TravelScreen(MainClient game) {
@@ -132,18 +132,18 @@ public class TravelScreen extends ScreenAdapter {
         // Switch Screen after 10 Seconds or when all Players are ready
         boolean jumpReady = !Global.isOnlineGame || Global.allReady;
         if (timePassed > 5 && jumpReady) {
-                if (!requestSend) {
+            if (!requestSend) {
 //            Global.weaponListPlayer = RequestUtils.weaponsByShip(Global.currentShipPlayer); // Load all the Weapons  FIXME make async
-                    RequestUtils.sectionsByShip(Global.currentShipPlayer);
-                    RequestUtils.weaponsByShip(Global.currentShipPlayer);
-                    RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
-                    if (Global.currentGegner != null && currentShipGegner != null) {
-                        RequestUtils.crewMemeberByShip(Global.currentShipGegner);
-                        RequestUtils.sectionsByShip(Global.currentShipGegner);
-                        RequestUtils.weaponsByShip(Global.currentShipGegner);
-                    }
-                    requestSend = true;
+                RequestUtils.sectionsByShip(Global.currentShipPlayer);
+                RequestUtils.weaponsByShip(Global.currentShipPlayer);
+                RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
+                if (Global.currentGegner != null && currentShipGegner != null) {
+                    RequestUtils.crewMemeberByShip(Global.currentShipGegner);
+                    RequestUtils.sectionsByShip(Global.currentShipGegner);
+                    RequestUtils.weaponsByShip(Global.currentShipGegner);
                 }
+                requestSend = true;
+            }
             killTimer = true;
             if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0)
                 game.setScreen(new StopScreen(game));

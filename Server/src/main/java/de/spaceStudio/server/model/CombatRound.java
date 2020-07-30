@@ -1,7 +1,5 @@
 package de.spaceStudio.server.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +13,11 @@ public class CombatRound {
     private Integer id;
 
 
-    @ManyToMany private List<Weapon> weaponsWhichHaveAttacked = new ArrayList<>();
+    @ManyToMany
+    private List<Weapon> weaponsWhichHaveAttacked = new ArrayList<>();
 
-    @ManyToMany private List<CrewMember> crewMembers = new ArrayList<>();
+    @ManyToMany
+    private List<CrewMember> crewMembers = new ArrayList<>();
 
 
     public Integer getId() {

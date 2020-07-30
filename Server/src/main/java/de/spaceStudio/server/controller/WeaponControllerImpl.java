@@ -39,6 +39,22 @@ public class WeaponControllerImpl implements WeaponController {
     private float removeOxygen = 20;
     private int priceWeapon = 30;
 
+    /**
+     * Generate a random Number
+     *
+     * @param min lowest
+     * @param max highest
+     * @return a number inside the bounds
+     */
+    private static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
 
     @Override
     public Ship calculateDammage(Weapon w, Section sec, Ship s) {
@@ -106,10 +122,12 @@ public class WeaponControllerImpl implements WeaponController {
 
     @Override
     @RequestMapping(value = "/weapon", method = RequestMethod.PUT)
-
-    public Weapon updateWeapon(@RequestBody Weapon weapon) {
-        Weapon weapon1 = weaponRepository.save(weapon);
-        return weapon1;
+    public List<Weapon> updateWeapon(@RequestBody List<Weapon> weapons) {
+        for (Weapon e :
+                weapons) {
+            weaponRepository.save(e);
+        }
+        return weapons;
     }
 
     @Override
@@ -128,23 +146,6 @@ public class WeaponControllerImpl implements WeaponController {
         return HttpStatus.OK.toString();
     }
 
-    /**
-     * Generate a random Number
-     *
-     * @param min lowest
-     * @param max highest
-     * @return a number inside the bounds
-     */
-    private static int getRandomNumberInRange(int min, int max) {
-
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
-
-        Random r = new Random();
-        return r.nextInt((max - min) + 1) + min;
-    }
-
     @Override
     public List<Section> fire(@RequestBody @NotEmpty List<Weapon> pWeapons) {
         Random random = new Random();
@@ -159,7 +160,7 @@ public class WeaponControllerImpl implements WeaponController {
             if (ship.isPresent()) {
                 boolean hasHit = ((float) (random.nextInt(100) / 100) + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
                 weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
-                    Optional<Actor> actor = actorRepository.findById(pWeapons.get(0).getSection().getShip().getOwner().getId());
+                Optional<Actor> actor = actorRepository.findById(pWeapons.get(0).getSection().getShip().getOwner().getId());
                 if (hasHit && actor.isPresent()) {  // Dont change anything if no hit
                     // Find the last combat Round and add the weapon because it has attacked
                     List<GameRound> gameRounds = gameRoundRepository.findByActor(actor.get());
@@ -189,60 +190,60 @@ public class WeaponControllerImpl implements WeaponController {
                 weaponRepository.save(weapon);
             }
         }
-                Optional<List<Section>> sections = sectionRepository.findAllByShip(pWeapons.get(0).getObjectiv().getShip());
-                return sections.orElseGet(ArrayList::new);
+        Optional<List<Section>> sections = sectionRepository.findAllByShip(pWeapons.get(0).getObjectiv().getShip());
+        return sections.orElseGet(ArrayList::new);
 //            throw new IllegalStateException(String.format("There is no Ship %s to take Dammage", pWeapons.get(0).getObjectiv().getShip().getId()));
     }
 
-        @Override
-        public List<Boolean> shotValidation (List < Weapon > pWeapons) {
-            List<Boolean> shots = new ArrayList<>();
+    @Override
+    public List<Boolean> shotValidation(List<Weapon> pWeapons) {
+        List<Boolean> shots = new ArrayList<>();
 
-            List<Weapon> weapons = getWeapons(pWeapons);
-            weapons.forEach(w -> shots.add(canShoot(w)));
-            return shots;
+        List<Weapon> weapons = getWeapons(pWeapons);
+        weapons.forEach(w -> shots.add(canShoot(w)));
+        return shots;
+    }
+
+    private List<Weapon> getWeapons(List<Weapon> pWeapons) {
+        List<Integer> ids = new ArrayList<>();
+        pWeapons.forEach(e -> ids.add(e.getId()));
+        List<Weapon> weapons = weaponRepository.findAllById(ids);
+
+        weapons.forEach(w -> w.setObjectiv(pWeapons.get(0).getObjectiv()));
+        return weapons;
+    }
+
+    @Override
+    public boolean canShoot(Weapon w) {
+        Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
+        if (w.getObjectiv() != null && ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0) {
+            return w.getSection().getUsable();
         }
+        return false;
+    }
 
-        private List<Weapon> getWeapons (List < Weapon > pWeapons) {
-            List<Integer> ids = new ArrayList<>();
-            pWeapons.forEach(e -> ids.add(e.getId()));
-            List<Weapon> weapons = weaponRepository.findAllById(ids);
-
-            weapons.forEach(w -> w.setObjectiv(pWeapons.get(0).getObjectiv()));
-            return weapons;
-        }
-
-        @Override
-        public boolean canShoot (Weapon w){
-            Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-            if (w.getObjectiv() != null && ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0) {
-                return w.getSection().getUsable();
-            }
-            return false;
-        }
-
-        @RequestMapping(value = "/buyweapon", method = RequestMethod.POST)
-        public String buyWeapon (@RequestBody List < Weapon > weapons) {
-            Gson gson = new Gson();
-            Section section = new Section();
-            for (Weapon weapon :
-                    weapons) {
-                List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(weapon.getSection().getShip()).get();
-                for (ShipRessource sr : shipRessources) {
-                    if (sr.getName().equals(RessourceName.GOLD)) {
-                        if (sr.getAmount() - priceWeapon > 0) {
-                            sr.setAmount(sr.getAmount() - priceWeapon);
-                            shipRessourceRepository.save(sr);
-                        } else {
-                            return gson.toJson(shipRessources);
-                        }
+    @RequestMapping(value = "/buyweapon", method = RequestMethod.POST)
+    public String buyWeapon(@RequestBody List<Weapon> weapons) {
+        Gson gson = new Gson();
+        Section section = new Section();
+        for (Weapon weapon :
+                weapons) {
+            List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(weapon.getSection().getShip()).get();
+            for (ShipRessource sr : shipRessources) {
+                if (sr.getName().equals(RessourceName.GOLD)) {
+                    if (sr.getAmount() - priceWeapon > 0) {
+                        sr.setAmount(sr.getAmount() - priceWeapon);
+                        shipRessourceRepository.save(sr);
+                    } else {
+                        return gson.toJson(shipRessources);
                     }
                 }
-                section = sectionRepository.findById(weapon.getSection().getId()).get();
-                weapon.setSection(section);
-                weaponRepository.save(weapon);
             }
-            List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(section.getShip()).get();
-            return gson.toJson(shipRessources);
+            section = sectionRepository.findById(weapon.getSection().getId()).get();
+            weapon.setSection(section);
+            weaponRepository.save(weapon);
         }
+        List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(section.getShip()).get();
+        return gson.toJson(shipRessources);
     }
+}

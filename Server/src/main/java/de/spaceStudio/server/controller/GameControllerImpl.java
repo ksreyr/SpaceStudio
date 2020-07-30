@@ -36,6 +36,12 @@ public class GameControllerImpl implements GameController {
     @Autowired
     SectionRepository sectionRepository;
     @Autowired
+    GameRoundRepository gameRoundRepository;
+    @Autowired
+    CombatRoundRepository combatRoundRepository;
+    @Autowired
+    CrewMemberController crewMemberController;
+    @Autowired
     private WeaponController weaponController;
     /**
      * PlayerRepository Data
@@ -54,17 +60,7 @@ public class GameControllerImpl implements GameController {
     private ActorRepository actorRepository;
     @Autowired
     private SectionController sectionController;
-
-    @Autowired GameRoundRepository gameRoundRepository;
-
-    @Autowired CombatRoundRepository combatRoundRepository;
-
-
     private Optional<List<Weapon>> weaponList;
-
-    @Autowired
-    CrewMemberController crewMemberController;
-
 
     /**
      * Init single game session in Server
@@ -559,10 +555,10 @@ public class GameControllerImpl implements GameController {
             Optional<List<Section>> aiSection = sectionRepository.findAllByShip(aiShip.get());
 
             CombatRound combatRound = new CombatRound();
-            combatRound =  combatRoundRepository.save(combatRound);
+            combatRound = combatRoundRepository.save(combatRound);
             List<GameRound> byActor = gameRoundRepository.findByActor(ai.get());
             if (byActor.isEmpty()) {
-                GameRound gameRound =  new GameRound();
+                GameRound gameRound = new GameRound();
                 gameRound.setActor(ai.get());
                 gameRoundRepository.save(gameRound);
                 byActor = gameRoundRepository.findByActor(ai.get());
@@ -667,7 +663,7 @@ public class GameControllerImpl implements GameController {
             lowerWarmUpTime(AIOfWeapons);
             Optional<List<Section>> sections = sectionRepository.findAllByShip(aiShip.get());
             sections.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
-        return getLastCombatRoundUsedWeapons(ai.get());
+            return getLastCombatRoundUsedWeapons(ai.get());
         } else throw new IllegalArgumentException("The Weapon does not have the needed Paramters" + weapon);
     }
 

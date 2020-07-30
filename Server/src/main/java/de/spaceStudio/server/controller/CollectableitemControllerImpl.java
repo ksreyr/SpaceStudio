@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-public class CollectableitemControllerImpl implements CollectableItemController{
+public class CollectableitemControllerImpl implements CollectableItemController {
     @Autowired
     private CollectableItemsRepository collectableItemsRepository;
 

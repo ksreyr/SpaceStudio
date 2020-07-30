@@ -20,6 +20,7 @@ public class ShipRessourceControllerImpl implements ShipRessourceController {
     ShipRepository shipRepository;
     @Autowired
     PlayerRepository playerRepository;
+
     @Override
     public List<ShipRessource> getAllShipRessources() {
         return null;
@@ -32,12 +33,12 @@ public class ShipRessourceControllerImpl implements ShipRessourceController {
 
     @Override
     public String addShipRessource(ShipRessource shipRessource) {
-        Player player= playerRepository.findByName(shipRessource.getShip().getOwner().getName()).get();
-        Ship ship= shipRepository.findByOwner(player).get();
+        Player player = playerRepository.findByName(shipRessource.getShip().getOwner().getName()).get();
+        Ship ship = shipRepository.findByOwner(player).get();
         shipRessource.setShip(ship);
-        ShipRessource shipRessource1=shipRessourceRepository.save(shipRessource);
-        Gson gson=new Gson();
-        return  gson.toJson(shipRessource1.getId());
+        ShipRessource shipRessource1 = shipRessourceRepository.save(shipRessource);
+        Gson gson = new Gson();
+        return gson.toJson(shipRessource1.getId());
     }
 
     @Override

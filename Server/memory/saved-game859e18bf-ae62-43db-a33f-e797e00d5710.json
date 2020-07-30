@@ -1,0 +1,1 @@
+{"difficult":"easy","playerShip":{"id":786,"name":"ship0","owner":{"id":785,"name":"wq","password":"q","state":{"id":784,"lobbyState":"WAITING","stopState":"EXPLORING","fightState":"WAITING_FOR_TURN"},"visitedStops":[]},"hp":300,"shield":10000,"power":10,"money":40},"lastScreen":"MAP"}

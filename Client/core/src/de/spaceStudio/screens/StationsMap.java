@@ -17,8 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,7 +34,6 @@ import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -119,6 +116,7 @@ public class StationsMap extends BaseScreen {
 
         if (!Global.IS_SINGLE_PLAYER) {
             RequestUtils.hasLanded(Global.currentPlayer);
+            Global.multiPlayerGameStarted = true;
         }
 
         stage.addActor(planet1ImgBTN);
@@ -370,6 +368,7 @@ public class StationsMap extends BaseScreen {
     /**
      * Make the Player Jump to abstract Stop
      * It Places in as the only Ship in set Ships
+     *
      * @param stopAbstract where one Goes
      */
     private void jumpService(StopAbstract stopAbstract) {

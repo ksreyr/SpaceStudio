@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -34,13 +33,12 @@ public final class RequestUtils {
     }
 
     public static void genericRequest(String url, boolean shipRequest, Integer id, String method, Object payload) {
-                ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
         Net.HttpRequest r = null;
         try {
             if (!payload.equals("")) {
                 r = setupRequest(url, objectMapper.writeValueAsString(payload), method);
-            }
-            else {
+            } else {
                 r = setupRequest(url, "", method);
             }
         } catch (JsonProcessingException e) {
@@ -78,28 +76,33 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                } else  if (url.contains("canLand")) {
+                } else if (url.contains("canLand")) {
                     try {
-                        Global.allReady = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {});
+                        Global.allReady = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
+                        });
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
                 } else if (shipRequest) {
                     try {
-                        Global.currentShipPlayer = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {});
+                        Global.currentShipPlayer = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {
+                        });
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                } else if (url.contains("actor") ) {
+                } else if (url.contains("actor")) {
                     try {
-                        Actor actor = objectMapper.readValue(responseString[0], new TypeReference<Player>() {});
-                        if (actor.getState().getFightState().equals(FightState.WAITING_FOR_TURN)&& method.equals("PUT")) {
-                            if (Global.combatWeapons.size()  == 2 && Global.combatSections.size() == 2 &&
+                        Actor actor = objectMapper.readValue(responseString[0], new TypeReference<Player>() {
+                        });
+                        if (actor.getState().getFightState().equals(FightState.WAITING_FOR_TURN) && method.equals("PUT")) {
+                            if (Global.combatWeapons.size() == 2 && Global.combatSections.size() == 2 &&
                                     Global.combatWeapons.get(Global.currentShipGegner.getId()).size() > 0
                                     && Global.combatSections.get(Global.currentShipPlayer.getId()).size() > 0) { // Es muss gegner mit Waffne geben
                                 Weapon w = Global.combatWeapons.get(Global.currentShipGegner.getId()).get(0);
                                 w.setObjectiv(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0));
                                 endTurnRequestSinglePlayer(w);
+                            } else {
+                                LOG.warning("There apears to be a problem with the global Maps. Please check if you always use the correct id");
                             }
                         }
                         Global.combatActors.put(id, actor);
@@ -147,7 +150,7 @@ public final class RequestUtils {
 
     public static void hasLanded(Player player) {
         genericRequest(Global.SERVER_URL + Global.HAS_LANDED,
-                false,0,   Net.HttpMethods.POST, player);
+                false, 0, Net.HttpMethods.POST, player);
     }
 
     public static void canJump(Player player) {
@@ -170,12 +173,20 @@ public final class RequestUtils {
 
 
     public static void updateEnergie(List<Section> sectionsToUpdate) {
-        genericRequest(Global.SERVER_URL  + "/" + Global.SECTIONS + Global.ENERGY, false, Global.currentShipPlayer.getId(),
+        genericRequest(Global.SERVER_URL + "/" + Global.SECTIONS + Global.ENERGY, false, Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, sectionsToUpdate);
     }
 
     public static void endTurnRequestSinglePlayer(Weapon w) {
-        genericRequest(Global.SERVER_URL  + Global.GAME + Global.END_ROUND_SINGLE, false, Global.currentShipPlayer.getId(),
+        genericRequest(Global.SERVER_URL + Global.GAME + Global.END_ROUND_SINGLE, false, Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, w);
     }
+
+    public static void upgradeWeapon(List<Weapon> weapons) {
+        genericRequest(Global.SERVER_URL + Global.WEAPON_CREATION_ENDPOINT, false, Global.currentShipPlayer.getId(), Net.HttpMethods.PUT, weapons);
+    }
+    public static void updateShip(Ship ship) {
+        genericRequest(Global.SERVER_URL + Global.SHIP_ENDPOINT, true, ship.getId(), Net.HttpMethods.PUT, ship);
+    }
+
 }
