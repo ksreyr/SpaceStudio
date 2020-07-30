@@ -888,7 +888,14 @@ public class CombatScreen extends BaseScreen {
 
         for (Section s :
                 xs) {
-            stringBuilder.append(String.format("%s, usable: %s, oxygen: %s, Role: %s", s.getImg(), s.isUsable(), s.getOxygen(), s.getSectionTyp()));
+            String crewName = "None";
+            for (CrewMember c :
+                    myCrew) {
+                if (c.getCurrentSection().equals(s)) {
+                    crewName = c.getName();
+                }
+                }
+            stringBuilder.append(String.format("%s, usable: %s, oxygen: %s, Role: %s, Crew: %s", s.getImg(), s.isUsable(), s.getOxygen(), s.getSectionTyp(), crewName));
         }
         return stringBuilder.toString();
     }
