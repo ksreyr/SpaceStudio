@@ -1156,34 +1156,6 @@ public class CombatScreen extends BaseScreen {
         }
     }
 
-    public void shotValidationGegner(Object requestObject, String method) {
-        final Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
-        final String url = Global.SERVER_URL + Global.SHOT_VALIDATION_VALIDATION;
-        final Net.HttpRequest request = setupRequest(url, requestJson, method);
-        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                int statusCode = httpResponse.getStatus().getStatusCode();
-                if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed shotValidation");
-                }
-                System.out.println("statusCode GegnerShot: " + statusCode);
-                validationGegner = httpResponse.getResultAsString();
-                System.out.println("GegnerShot: " + validationGegner);
-            }
-
-            public void failed(Throwable t) {
-                System.out.println("Request Failed shotValidation Completely");
-            }
-
-            @Override
-            public void cancelled() {
-                System.out.println("request cancelled");
-            }
-        });
-    }
-
     public void makeAShotGegner(Object requestObject, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -1213,83 +1185,6 @@ public class CombatScreen extends BaseScreen {
                 System.out.println("request cancelled");
             }
         });
-    }
-
-    private void logicOfFireGegner(int sectionNumber) {
-        List<Weapon> weaponList = new ArrayList<>();  // FIXME was soll diese Liste
-        if (Global.currentShipGegner != null) {
-            if (Global.currentUniverse.getName().equals("Normal" + Global.currentPlayer.getName())) {
-                switch (Global.currentShipGegner.getName()) {
-                    case "Shipgegner1":
-                        for (Weapon w :
-                                Global.weaponListGegner1) {
-                            if (Objects.equals(w.getSection().getShip().getId(), Global.currentShipGegner.getId())) {
-                                //Weapons gegner set Weapons Section of Player
-                                if (sectionNumber == 2) {
-                                    w.setObjectiv(Global.section2);
-                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
-                                    weaponList.add(w);
-                                } else if (sectionNumber == 4) {
-                                    w.setObjectiv(Global.section1);
-                                    weaponList.add(w);
-                                } else {
-                                    w.setObjectiv(Global.section3);
-                                    weaponList.add(w);
-                                }
-                            }
-                        }
-                        shotValidationGegner(Global.weaponListGegner1, Net.HttpMethods.POST);
-                        break;
-                    case "Shipgegner2":
-                        for (Weapon w :
-                                Global.weaponListGegner2) {
-                            if (Objects.equals(w.getSection().getShip().getId(), Global.currentShipGegner.getId())) {
-                                //Weapons gegner set Weapons Section of Player
-                                if (sectionNumber == 2) {
-                                    w.setObjectiv(Global.section2);
-                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
-                                    weaponList.add(w);
-                                } else if (sectionNumber == 4) {
-                                    w.setObjectiv(Global.section1);
-                                    weaponList.add(w);
-                                } else {
-                                    w.setObjectiv(Global.section3);
-                                    weaponList.add(w);
-                                }
-                            }
-                        }
-                        shotValidationGegner(Global.weaponListGegner2, Net.HttpMethods.POST);
-                        break;
-                    case "Shipgegner3":
-                        for (Weapon w :
-                                Global.weaponListGegner3) {
-                            if (Objects.equals(w.getSection().getShip().getId(), Global.currentShipGegner.getId())) {
-                                //Weapons gegner set Weapons Section of Player
-                                if (sectionNumber == 2) {
-                                    w.setObjectiv(Global.section2);
-                                    System.out.println("::::::::::::::::::::.WEAPONS FOR PLAYER UNUSABLE:::::::::::::::");
-                                    weaponList.add(w);
-                                } else if (sectionNumber == 4) {
-                                    w.setObjectiv(Global.section1);
-                                    weaponList.add(w);
-                                } else {
-                                    w.setObjectiv(Global.section3);
-                                    weaponList.add(w);
-                                }
-                            }
-                        }
-                        shotValidationGegner(Global.weaponListGegner3, Net.HttpMethods.POST);
-                        break;
-                }
-
-                Global.updateweaponVariabelUniverse2();
-                Global.actualiziertweaponListGegner1();
-                Global.actualiziertweaponListGegner2();
-                Global.actualiziertweaponListGegner3();
-
-            }
-        }
-
     }
 
     private void scheduleLobby() {
