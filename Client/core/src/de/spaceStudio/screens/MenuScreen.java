@@ -60,12 +60,17 @@ public class MenuScreen extends ScreenAdapter {
         assetManager = universeMap.getAssetManager();
     }
 
-    private void UpdateGlobalSInglePlayer(SinglePlayerGame singlePlayerGame) {
+    private void UpdateGlobalSinglePlayer(SinglePlayerGame singlePlayerGame) {
         Global.singlePlayerGame = singlePlayerGame;
         currentShipPlayer = singlePlayerGame.getPlayerShip();
         screenToLoad = singlePlayerGame.getLastScreen();
         currentShipGegner = singlePlayerGame.getShipGegner();
         section1 = singlePlayerGame.getShipSection1();
+        section2 = singlePlayerGame.getShipSection2();
+        section3 = singlePlayerGame.getShipSection3();
+        section4 = singlePlayerGame.getShipSection4();
+        section5 = singlePlayerGame.getShipSection5();
+        section6 = singlePlayerGame.getShipSection6();
     }
 
     //Called when this screen becomes the current screen for a Game.
@@ -93,6 +98,7 @@ public class MenuScreen extends ScreenAdapter {
                 click.play();
                 IS_SINGLE_PLAYER = true;
                 String url = Global.SERVER_URL + Global.PLAYER_CONTINUE_ENDPOINT + currentPlayer.getName();
+
                 final Net.HttpRequest request = setupRequest(url, "", Net.HttpMethods.GET);
 
                 Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
@@ -105,7 +111,7 @@ public class MenuScreen extends ScreenAdapter {
                             Gson gson = new Gson();
                             LOG.info("Game load success for player: " + currentPlayer.getName());
                             singlePlayerGame = gson.fromJson(responseJson, SinglePlayerGame.class);
-                            UpdateGlobalSInglePlayer(singlePlayerGame);
+                            UpdateGlobalSinglePlayer(singlePlayerGame);
                             LOG.info(singlePlayerGame.getDifficult());
                             LOG.info(singlePlayerGame.getPlayerShip().toString());
                             isLoaded = true;
