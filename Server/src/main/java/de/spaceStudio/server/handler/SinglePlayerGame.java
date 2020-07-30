@@ -3,6 +3,7 @@ package de.spaceStudio.server.handler;
 import de.spaceStudio.server.model.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SinglePlayerGame implements Serializable {
 
@@ -22,6 +23,15 @@ public class SinglePlayerGame implements Serializable {
     private CrewMember crewMember;
     private AI ai;
     private String lastScreen;
+    private List<Station> stationListU2;
+
+    public List<Station> getStationListU2() {
+        return stationListU2;
+    }
+
+    public void setStationListU2(List<Station> stationListU2) {
+        this.stationListU2 = stationListU2;
+    }
 
     public Section getShipSection1() {
         return shipSection1;

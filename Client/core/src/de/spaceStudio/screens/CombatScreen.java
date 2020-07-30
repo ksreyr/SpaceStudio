@@ -140,15 +140,13 @@ public class CombatScreen extends BaseScreen {
         labelsection6 = new Label("Section6", label1Style);
 
         weaponLabel = new Label(weaponText[0], label1Style);
-        weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
-        weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 8);
-        weaponLabel.setAlignment(Align.bottomRight);
+        weaponLabel.setSize(Gdx.graphics.getWidth(), 20);
+        weaponLabel.setPosition(0, BaseScreen.HEIGHT-250);
 
 
         sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
         sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
-        sectionLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
-        sectionLabel.setAlignment(Align.bottomRight);
+        sectionLabel.setPosition(BaseScreen.WIDTH-800, 100);
     }
 
     private void liamButtonFuntion() {
@@ -972,7 +970,6 @@ public class CombatScreen extends BaseScreen {
                 stage.getBatch().draw(redPin, XPlayerShip + Global.section6.getxPos(), YPlayerShip + Global.section6.getyPos());*/
             }
 
-
             // Spaawn Enemy Ship if (Global.currentShipGegner != null) {
             if (Global.currentStop == Global.planet2)
                 stage.getBatch().draw(enemyShip1, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
@@ -1037,17 +1034,11 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(shield, 1120, 150, 900, 1000);
         }
 
-
-        //explosion on enemy's engine
-
-
         //update bullets
         ArrayList<Bullet> bulletToRemove = new ArrayList<>();
         for (Bullet bullet : bullets) {
             bullet.update(delta);
             if (bullet.remove) {
-                System.out.println("Remove from Combat :::::::+ " + bullet.remove);
-
                 if (isTargetCockpit && bullet.remove) stage.getBatch().draw(explosion, 1540, 550, 100, 100);
                 bulletToRemove.add(bullet);
             }
@@ -1067,6 +1058,18 @@ public class CombatScreen extends BaseScreen {
 
         }
 
+        if (Global.currentShipGegner != null && !Global.combatSections.isEmpty()) {
+            for (Section s :
+                    Global.combatSections.get(Global.currentShipGegner.getId())) {
+                if (!s.getUsable() && s.getImg()=="Section1Gegner1")   stage.getBatch().draw(explosion, 1530, 635, 100, 70);
+                if (!s.getUsable() && s.getImg() == "Section3Gegner1") stage.getBatch().draw(explosion, 1410, 485, 100, 70);
+                if (!s.getUsable() && s.getImg() == "Section2Gegner1")  stage.getBatch().draw(explosion, 1530, 450, 100, 70);
+                if (!s.getUsable() && s.getImg() == "Section5Gegner3")  stage.getBatch().draw(explosion, 1610, 485, 100, 70);
+                if (!s.getUsable() && s.getImg() == "Section4Gegner2")  stage.getBatch().draw(explosion, 1530, 510, 100, 70);
+
+
+            }
+        }
 
         stage.getBatch().end();
         mainClient.getBatch().begin();

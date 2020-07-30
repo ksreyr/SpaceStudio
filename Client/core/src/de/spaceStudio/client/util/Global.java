@@ -336,7 +336,7 @@ public class Global {
 
     public static Section section1 = Section
             .sectionBuilder()
-            .img("Section1")
+            .img("S-1")
             .oxygen(OXYGEN)
             .powerCurrent(0)
             .sectionTyp(SectionTyp.NORMAL)
@@ -350,7 +350,7 @@ public class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.HEALTH)
             .role(Role.FIGHTER)
-            .img("Section2")
+            .img("S-2")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
             .usable(true)
@@ -360,7 +360,7 @@ public class Global {
             .buildSection();
     public static Section section3 = Section
             .sectionBuilder()
-            .img("Section3")
+            .img("S-3")
             .sectionTyp(SectionTyp.NORMAL)
             .oxygen(OXYGEN)
             .powerCurrent(0)
@@ -372,7 +372,7 @@ public class Global {
     public static Section section4 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
-            .img("Section4").oxygen(OXYGEN)
+            .img("S-4").oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
@@ -382,7 +382,7 @@ public class Global {
     public static Section section5 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
-            .img("Section5")
+            .img("S-5")
             .oxygen(OXYGEN)
             .powerCurrent(0)
             .usable(true)
@@ -393,7 +393,7 @@ public class Global {
     public static Section section6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.ENGINE)
-            .img("Section6")
+            .img("S-6")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
             .usable(true)
@@ -754,13 +754,7 @@ public class Global {
     }*/
     //**Weapons Universe **//
     public static Planet planet10 = Planet.builder().name("p10").img("null").build();
-    public static List<Planet> planetListU1 = new ArrayList<>() {{
-        add(planet1);
-        add(planet2);
-        add(planet3);
-        add(planet4);
-        add(planet5);
-    }};
+
     public static List<Planet> planetListU2 = new ArrayList<>() {{
         add(planet1);
         add(planet2);
@@ -1066,14 +1060,6 @@ public class Global {
         section1Gegner6 = sectionsgegner6.get(0);
         section2Gegner6 = sectionsgegner6.get(1);
         section3Gegner6 = sectionsgegner6.get(2);
-    }
-
-    public static void updateVariblesPlanetsU1() {
-        planet1 = planetListU1.get(0);
-        planet2 = planetListU1.get(1);
-        planet3 = planetListU1.get(2);
-        planet4 = planetListU1.get(3);
-        planet5 = planetListU1.get(4);
     }
 
     public static void updateVariblesPlanetsU2() {
