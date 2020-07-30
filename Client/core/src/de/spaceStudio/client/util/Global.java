@@ -336,7 +336,7 @@ public class Global {
 
     public static Section section1 = Section
             .sectionBuilder()
-            .img("Section1")
+            .img("S-1")
             .oxygen(OXYGEN)
             .powerCurrent(0)
             .sectionTyp(SectionTyp.NORMAL)
@@ -350,7 +350,7 @@ public class Global {
             .sectionBuilder()
             .sectionTyp(SectionTyp.HEALTH)
             .role(Role.FIGHTER)
-            .img("Section2")
+            .img("S-2")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
             .usable(true)
@@ -360,7 +360,7 @@ public class Global {
             .buildSection();
     public static Section section3 = Section
             .sectionBuilder()
-            .img("Section3")
+            .img("S-3")
             .sectionTyp(SectionTyp.NORMAL)
             .oxygen(OXYGEN)
             .powerCurrent(0)
@@ -372,7 +372,7 @@ public class Global {
     public static Section section4 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.WEAPONS)
-            .img("Section4").oxygen(OXYGEN)
+            .img("S-4").oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
             .usable(true)
             .connectingTo(null)
@@ -382,7 +382,7 @@ public class Global {
     public static Section section5 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.NORMAL)
-            .img("Section5")
+            .img("S-5")
             .oxygen(OXYGEN)
             .powerCurrent(0)
             .usable(true)
@@ -393,7 +393,7 @@ public class Global {
     public static Section section6 = Section
             .sectionBuilder()
             .sectionTyp(SectionTyp.ENGINE)
-            .img("Section6")
+            .img("S-6")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
             .usable(true)

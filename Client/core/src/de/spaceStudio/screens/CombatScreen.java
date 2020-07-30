@@ -1073,16 +1073,15 @@ public class CombatScreen extends BaseScreen {
         if (Global.currentShipGegner != null && !Global.combatSections.isEmpty()) {
             for (Section s :
                     Global.combatSections.get(Global.currentShipGegner.getId())) {
-                if (!s.getUsable()) {
-                    System.out.println("::::::: Enemy ::::::::" + s.getUsable());
-                    stage.getBatch().begin();
-                    stage.getBatch().draw(explosion, 1300, 500, 50, 50);
-                    stage.getBatch().end();
-                }
+                if (!s.getUsable() && s.getImg()=="Section1Gegner1")   stage.getBatch().draw(explosion, 1530, 635, 100, 70);
+                if (!s.getUsable() && s.getImg() == "Section3Gegner1") stage.getBatch().draw(explosion, 1410, 485, 100, 70);
+                if (!s.getUsable() && s.getImg() == "Section2Gegner1")  stage.getBatch().draw(explosion, 1530, 450, 100, 70);
+                if (!s.getUsable() && s.getImg() == "Section5Gegner3")  stage.getBatch().draw(explosion, 1610, 485, 100, 70);
+                if (!s.getUsable() && s.getImg() == "Section4Gegner2")  stage.getBatch().draw(explosion, 1530, 510, 100, 70);
+
+
             }
         }
-
-
 
         stage.getBatch().end();
         mainClient.getBatch().begin();
