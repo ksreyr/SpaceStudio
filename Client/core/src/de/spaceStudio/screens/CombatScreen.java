@@ -99,6 +99,8 @@ public class CombatScreen extends BaseScreen {
     private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
     private List<CrewMember> myCrew;
+    private Label breakCrewMember;
+    private String breakinfo;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
     private Texture  explosion, missille, weaponSystem;
@@ -153,6 +155,8 @@ public class CombatScreen extends BaseScreen {
         weaponLabel.setSize(Gdx.graphics.getWidth(), row_height);
         weaponLabel.setPosition(0, Gdx.graphics.getHeight() - row_height * 6);
         weaponLabel.setAlignment(Align.bottomRight);
+
+        this.breakinfo = "All crewMember in action";
 
     }
     private void liamButtonFuntion(){
@@ -599,6 +603,9 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(imageCrewMemberThree);
         stage.addActor(weaponsLabel);
 
+        breakCrewMember = new Label(breakinfo, skin);
+        breakCrewMember.setPosition(200,900);
+        stage.addActor(breakCrewMember);
 
         Gdx.input.setInputProcessor(stage);
 
@@ -1318,22 +1325,42 @@ public class CombatScreen extends BaseScreen {
     }
 
     public void proofCrewMemberisAvailable() {
+
         for (int i = 0; i < myCrew.size(); i++) {
 
             if (myCrew.get(i).getRoundsToDestination() == 1) {
-
                 stage.addActor(listOfCrewImages.get(i));
-                if(i == 0)
+                breakCrewMember.remove();
+
+                if(i == 0) {
                     imageCrewMemberOne.remove();
-                if (i == 1)
+                    setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
+                    this.breakCrewMember = new Label(breakinfo, skin);
+                    stage.addActor(breakCrewMember);
+                }
+                if (i == 1) {
                     imageCrewMemberTwo.remove();
-                if (i == 2)
+                    setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
+                    this.breakCrewMember = new Label(breakinfo, skin);
+                    stage.addActor(breakCrewMember);
+                }
+                if (i == 2) {
                     imageCrewMemberThree.remove();
+                    setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
+                    this.breakCrewMember = new Label(breakinfo, skin);
+                    stage.addActor(breakCrewMember);
+                }
+                breakCrewMember.setPosition(200,900);
             }
 
             if (myCrew.get(i).getRoundsToDestination() == 0) {
                 stage.addActor(listOfCrewImages.get(i));
             }
         }
+    }
+
+
+    public void setBreakinfo(String breakinfo) {
+        this.breakinfo = breakinfo;
     }
 }
