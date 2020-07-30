@@ -639,8 +639,8 @@ public class GameControllerImpl implements GameController {
                 playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
             }
             lowerWarmUpTime(playerOfWeapons);
-            Optional<List<Section>> sectionsPlayer = sectionRepository.findAllByShip(playerShip.get());
-            sectionsPlayer.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
+//            Optional<List<Section>> sectionsPlayer = sectionRepository.findAllByShip(playerShip.get());
+//            sectionsPlayer.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
 
 
             // Now Compute for AI
