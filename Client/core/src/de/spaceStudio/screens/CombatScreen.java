@@ -1041,7 +1041,11 @@ public class CombatScreen extends BaseScreen {
         // for player
         if (Global.currentShipPlayer.getShield() > 0) stage.getBatch().draw(shield, 70, 150, 1100, 1000);
         //shield for enemy
-        if (Global.currentShipGegner.getShield() > 0) stage.getBatch().draw(shield, 1120, 150, 900, 1000);
+        //TODO LIAM
+        System.out.println(Global.combatSections.get(Global.currentShipGegner.getId()).get(0).getShip().getShield());
+
+        if (Global.combatSections.get(Global.currentShipGegner.getId()).get(0).getShip().getShield() > 0)stage.getBatch().draw(shield, 1120, 150, 900, 1000);
+
 
         //explosion on enemy's engine
 
@@ -1265,7 +1269,7 @@ public class CombatScreen extends BaseScreen {
                 }
             }
 
-        }, 1000, 5000);
+        }, 1000, 3000);
     }
 
     // Called when the Application is resized.

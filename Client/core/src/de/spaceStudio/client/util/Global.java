@@ -201,7 +201,7 @@ public class Global {
     public static final int POWER_CURRENT = 2;
     public static final int POWER_REQUIRED = 1;
     public static final int HP = 1000;
-    public static final int SHIELD = 10000;
+    public static final int SHIELD = 1000;
     public static final int MAGAZIN_SIZE = 10;
     private static final int rocketWarmUp = 1;
     private static final int lasserWarmUp = 3;
