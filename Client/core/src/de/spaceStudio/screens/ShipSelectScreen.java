@@ -81,6 +81,7 @@ public class ShipSelectScreen extends BaseScreen {
     private final Viewport viewport;
     private final Sound spaceShipChange;
     private final Sound mouseClick;
+    //TODO Können die Variablen idgs und inputHandler gelöscht werden?
     private final InitialDataGameService idgs = new InitialDataGameService();
     private final InputHandler inputHandler;
     private final OrthographicCamera camera;
@@ -91,6 +92,7 @@ public class ShipSelectScreen extends BaseScreen {
     int shipNumber = 0;
     int openNumber = 0;
     Ship ship = new Ship();
+    //TODO kann universe1 gelöscht werden?
     Universe universe1 = Global.universe1;
     Universe universe2 = Global.universe2;
     String responseJson;
@@ -194,6 +196,7 @@ public class ShipSelectScreen extends BaseScreen {
         greenshipRoom = new Texture(Gdx.files.internal("Client/core/assets/data/ships/green_section.png"));
         topdownfighterRoom = new Texture(Gdx.files.internal("Client/core/assets/data/ships/topdownfighter_section.png"));
 
+        // resize texture at loading phase
         Pixmap pixmapOld = new Pixmap(Gdx.files.internal("Client/core/assets/data/ships/relevantSystems.png"));
         Pixmap pixmapNew = new Pixmap(600, 600, pixmapOld.getFormat());
         pixmapNew.drawPixmap(pixmapOld,
@@ -203,6 +206,7 @@ public class ShipSelectScreen extends BaseScreen {
         relevantSystems = new Texture(pixmapNew);
         pixmapOld.dispose();
         pixmapNew.dispose();
+
         shield = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
         drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
@@ -665,9 +669,7 @@ public class ShipSelectScreen extends BaseScreen {
                     }
                 }
                 //Sent Sections
-                System.out.println("Current Power Nr.1: " + Global.sectionsPlayerList.get(0).getPowerCurrent());
                 sendRequestAddSections(Global.sectionsPlayerList, Net.HttpMethods.POST);
-                System.out.println("Current Power Nr.2: " + Global.sectionsPlayerList.get(0).getPowerCurrent());
                 requestcounter = 2;
             }
 
