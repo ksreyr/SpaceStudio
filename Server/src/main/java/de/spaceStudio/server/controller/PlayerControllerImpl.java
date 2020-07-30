@@ -224,7 +224,11 @@ public class PlayerControllerImpl implements PlayerController {
     public String clean(Player player) {
         Player player1 = playerRepository.findByName(player.getName()).get();
 
-
+        if (player.getState() != null) {
+            player.setState(null);
+            playerRepository.save(player);
+            actorStateRepository.delete(player1.getState());
+        }
         for (GameRound g :
                 gameRoundRepository.findByActor(player)) {
             combatRoundRepository.deleteAll(g.getCombatRounds());
@@ -285,6 +289,11 @@ public class PlayerControllerImpl implements PlayerController {
                                 gameRoundRepository.findByActor(ai)) {
                             combatRoundRepository.deleteAll(g.getCombatRounds());
                             gameRoundRepository.delete(g);
+                        }
+                        if (ai.getState() != null) {
+                            ai.setState(null);
+                            aiRepository.save(ai);
+                            actorStateRepository.delete(ai.getState());
                         }
                         aiRepository.delete(ai);
 
