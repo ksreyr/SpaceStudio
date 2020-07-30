@@ -476,9 +476,8 @@ public class StationsMap extends BaseScreen {
                 LOG.info("Button CLicked");
                 click.play();
                 Gson gson = new Gson();
-                Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
-                Global.singlePlayerGame.setLastScreen("MAP");
-                Global.singlePlayerGame.setShipSection1(Global.section1);
+                // Prepare singlePlayer to upload to server
+                injectAllData();
                 String requestBody = gson.toJson(Global.singlePlayerGame);
                 final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
                 Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
@@ -586,6 +585,20 @@ public class StationsMap extends BaseScreen {
         skin.dispose();
         background.dispose();
         click.dispose();
+    }
+
+    /**
+     *
+     */
+    public static void injectAllData(){
+        Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
+        Global.singlePlayerGame.setLastScreen("MAP");
+        Global.singlePlayerGame.setShipSection1(Global.section1);
+        Global.singlePlayerGame.setShipSection2(Global.section2);
+        Global.singlePlayerGame.setShipSection3(Global.section3);
+        Global.singlePlayerGame.setShipSection4(Global.section4);
+        Global.singlePlayerGame.setShipSection5(Global.section5);
+        Global.singlePlayerGame.setShipSection6(Global.section6);
     }
 
 
