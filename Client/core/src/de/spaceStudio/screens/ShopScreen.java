@@ -525,7 +525,7 @@ public class ShopScreen extends ScreenAdapter {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section6).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     }
                 } else if (itemNumber == 4) {
-                    buyWeapons(List.of(Weapon.WeaponBuilder().damage(50).name("Lasser Gekauft").hitRate(5).warmUp(4).magazinSize(3).section(Global.section2).img("Lasser").build()), Net.HttpMethods.POST);
+                    buyWeapons(List.of(Weapon.WeaponBuilder().damage(50).name("Laser gekauft").hitRate(5).warmUp(4).magazinSize(3).section(Global.section4).img("Lasser").build()), Net.HttpMethods.POST);
                 }
                 setAllSectionCheckboxesFalse();
             }
