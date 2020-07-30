@@ -16,15 +16,18 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class ShipControllerImpl implements ShipController{
+public class ShipControllerImpl implements ShipController {
     @Autowired
     ShipRepository shipRepository;
     @Autowired
     PlayerRepository playerRepository;
     @Autowired
     ActorRepository actorRepository;
+    @Autowired
+    SectionRepository sectionRepository;
+
     @Override
-    @RequestMapping(value = "/ships",method = RequestMethod.GET)
+    @RequestMapping(value = "/ships", method = RequestMethod.GET)
     public List<Ship> getAllShips() {
         return shipRepository.findAll();
     }
@@ -33,26 +36,26 @@ public class ShipControllerImpl implements ShipController{
     @RequestMapping(value = "/ship/{id}", method = RequestMethod.GET)
     public Ship getShip(@PathVariable Integer id) {
         Optional<Ship> s = shipRepository.findById(id);
-         if (s.isEmpty()) {
-             return null;
-         } else {
-             return s.get();
-         }
+        if (s.isEmpty()) {
+            return null;
+        } else {
+            return s.get();
+        }
     }
 
     @Override
-    @RequestMapping(value = "/ship",method = RequestMethod.POST)
+    @RequestMapping(value = "/ship", method = RequestMethod.POST)
     public String addShip(@RequestBody Ship ship) {
         //Optional<Player> player= playerRepository.findByName( ship.getOwner().getName());
-        Optional<Actor> actor= actorRepository.findByName( ship.getOwner().getName());
-        Player player= new Player();
-        AI ai= new AI();
-        try{
-            player= (Player) actor.get();
+        Optional<Actor> actor = actorRepository.findByName(ship.getOwner().getName());
+        Player player = new Player();
+        AI ai = new AI();
+        try {
+            player = (Player) actor.get();
             ship.setOwner(player);
             Ship shipid = shipRepository.save(ship);
             return shipid.getId().toString();
-        }catch (Exception e) {
+        } catch (Exception e) {
             ai = (AI) actor.get();
             ship.setOwner(ai);
             Ship shipid = shipRepository.save(ship);
@@ -83,21 +86,20 @@ public class ShipControllerImpl implements ShipController{
             Ship shipid=shipRepository.findShipByNameAndAndOwner(ship.getName(),ai).get();
             return shipid.getId().toString();
         }*/
-        ArrayList<Ship> shipArrayList= new ArrayList<>();
+        ArrayList<Ship> shipArrayList = new ArrayList<>();
         for (Ship s :
                 ships) {
-            Ship ship=shipRepository.save(s);
+            Ship ship = shipRepository.save(s);
             shipArrayList.add(ship);
         }
-        Gson gson= new Gson();
+        Gson gson = new Gson();
         gson.toJson(shipArrayList);
         return gson.toJson(shipArrayList);
     }
+
     @Override
     public Ship updateShip(Ship ship) {
-
-        shipRepository.findById(ship.getId());
-        return null;
+        return shipRepository.save(ship);
     }
 
     @Override
@@ -135,9 +137,6 @@ public class ShipControllerImpl implements ShipController{
         return null;
     }
 
-    @Autowired
-    SectionRepository sectionRepository;
-
     @Override
     public boolean checkEnergy(Ship oldShip, Ship newShip) {
         int powerTotal = oldShip.getPower();
@@ -147,8 +146,8 @@ public class ShipControllerImpl implements ShipController{
 
     @Override
     public String shipNameValidation(Ship ship) {
-        Player player=playerRepository.findByName(ship.getOwner().getName()).get();
-        if(shipRepository.findShipByNameAndOwner(ship.getName(),player).isEmpty()){
+        Player player = playerRepository.findByName(ship.getOwner().getName()).get();
+        if (shipRepository.findShipByNameAndOwner(ship.getName(), player).isEmpty()) {
             return "Avaible";
         }
         return HttpStatus.BAD_REQUEST.toString();

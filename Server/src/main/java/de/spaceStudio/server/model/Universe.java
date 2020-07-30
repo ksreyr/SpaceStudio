@@ -1,10 +1,12 @@
 package de.spaceStudio.server.model;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-public class Universe  {
+public class Universe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,11 +15,15 @@ public class Universe  {
     private String name;
 
     public Universe(UniverseBuilder universeBuilder) {
-        this.id=universeBuilder.id;
-        this.name=universeBuilder.name;
+        this.id = universeBuilder.id;
+        this.name = universeBuilder.name;
     }
 
     public Universe() {
+    }
+
+    public static UniverseBuilder universeBuilder() {
+        return new UniverseBuilder();
     }
 
     public Integer getId() {
@@ -35,26 +41,22 @@ public class Universe  {
     public void setName(String name) {
         this.name = name;
     }
-    public static UniverseBuilder universeBuilder(){
-        return new UniverseBuilder();
-    }
 
-
-    public static class UniverseBuilder{
+    public static class UniverseBuilder {
         private Integer id;
         private String name;
 
-        public UniverseBuilder id(Integer id){
-            this.id=id;
+        public UniverseBuilder id(Integer id) {
+            this.id = id;
             return UniverseBuilder.this;
         }
 
-        public UniverseBuilder name(String name){
-            this.name=name;
+        public UniverseBuilder name(String name) {
+            this.name = name;
             return UniverseBuilder.this;
         }
 
-        public Universe build(){
+        public Universe build() {
             return new Universe(this);
         }
     }

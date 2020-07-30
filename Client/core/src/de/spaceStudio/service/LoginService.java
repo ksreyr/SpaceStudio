@@ -55,33 +55,33 @@ public class LoginService {
         });
     }
 
-    public static void multiplayerLogout(Object requestObject){
-        if(!IS_SINGLE_PLAYER) {
-        Gson gson = new Gson();
-        String url = SERVER_URL + MULTIPLAYER_LOGOUT;
-        String payLoad = gson.toJson(currentPlayer);
-        Net.HttpRequest request = setupRequest(url, payLoad, Net.HttpMethods.POST);
-        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+    public static void multiplayerLogout(Object requestObject) {
+        if (!IS_SINGLE_PLAYER) {
+            Gson gson = new Gson();
+            String url = SERVER_URL + MULTIPLAYER_LOGOUT;
+            String payLoad = gson.toJson(currentPlayer);
+            Net.HttpRequest request = setupRequest(url, payLoad, Net.HttpMethods.POST);
+            Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
 
-            @Override
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                int statusCode = httpResponse.getStatus().getStatusCode();
-                if (statusCode != HttpStatus.SC_OK) {
-                    LOG.info("Request Failed");
+                @Override
+                public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                    int statusCode = httpResponse.getStatus().getStatusCode();
+                    if (statusCode != HttpStatus.SC_OK) {
+                        LOG.info("Request Failed");
+                    }
+                    LOG.info("Multiplayer logout from sessions");
                 }
-                LOG.info("Multiplayer logout from sessions");
-            }
 
-            @Override
-            public void failed(Throwable t) {
+                @Override
+                public void failed(Throwable t) {
 
-            }
+                }
 
-            @Override
-            public void cancelled() {
+                @Override
+                public void cancelled() {
 
-            }
-        });
+                }
+            });
         }
     }
 
@@ -114,7 +114,7 @@ public class LoginService {
             }
 
             public void failed(Throwable t) {
-              LOG.info("Request Failed Completely");
+                LOG.info("Request Failed Completely");
             }
 
             @Override

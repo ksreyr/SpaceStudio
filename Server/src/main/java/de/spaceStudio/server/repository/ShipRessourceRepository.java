@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ShipRessourceRepository extends JpaRepository<ShipRessource, Integer>{
+public interface ShipRessourceRepository extends JpaRepository<ShipRessource, Integer> {
     Optional<List<ShipRessource>> findByShip(Ship ship);
 }
 

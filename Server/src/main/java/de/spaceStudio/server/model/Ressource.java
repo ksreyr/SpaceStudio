@@ -1,15 +1,22 @@
 package de.spaceStudio.server.model;
 
 import javax.persistence.*;
+
 /**
  * @author Miguel Caceres, Santiago Rey
- *         modified 06.08.2020
+ * modified 06.08.2020
  */
 @Entity
 @Inheritance(
         strategy = InheritanceType.TABLE_PER_CLASS
 )
 public class Ressource {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private RessourceName name;
+    private int amount;
 
     public Ressource(RessourceBluider ressourceBluider) {
         setId(ressourceBluider.id);
@@ -19,15 +26,10 @@ public class Ressource {
     public Ressource() {
 
     }
-    public static RessourceBluider builderRessource(){
+
+    public static RessourceBluider builderRessource() {
         return new RessourceBluider();
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    private RessourceName name;
-    private int amount;
 
     public Integer getId() {
         return id;
@@ -53,7 +55,7 @@ public class Ressource {
         this.amount = amount;
     }
 
-    public static class RessourceBluider{
+    public static class RessourceBluider {
 
         private Integer id;
         private RessourceName name;
@@ -68,20 +70,24 @@ public class Ressource {
             this.amount = amount;
         }
 
-        public RessourceBluider id(Integer id){
+        public RessourceBluider id(Integer id) {
             this.id = id;
             return RessourceBluider.this;
         }
-        public RessourceBluider name(RessourceName name){
+
+        public RessourceBluider name(RessourceName name) {
             this.name = name;
             return RessourceBluider.this;
         }
-        public RessourceBluider amount(int amount){
+
+        public RessourceBluider amount(int amount) {
             this.amount = amount;
             return RessourceBluider.this;
         }
-        public Ressource buildRessource(){
-            return  new Ressource(this);}
+
+        public Ressource buildRessource() {
+            return new Ressource(this);
+        }
     }
 
 }

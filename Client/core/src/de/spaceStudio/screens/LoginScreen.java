@@ -13,7 +13,10 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
@@ -108,8 +111,8 @@ public class LoginScreen extends BaseScreen {
 
         changeButton = new TextButton("Change", skin);
         register = new TextButton("Register", skin);
-        setTextButton(changeButton, TEXTBOX_WIDTH,70,
-                (int) ((BaseScreen.WIDTH/2f) - (serverUrlTextField.getWidth()/2f-220)), 680);
+        setTextButton(changeButton, TEXTBOX_WIDTH, 70,
+                (int) ((BaseScreen.WIDTH / 2f) - (serverUrlTextField.getWidth() / 2f - 220)), 680);
         changeButton.getLabel().setColor(Color.BLACK);
         setTextButton(register, TEXTBOX_WIDTH, 70, (int) BUTTON_REGISTER_X, 300);
         register.getLabel().setColor(Color.BLACK);
@@ -161,9 +164,9 @@ public class LoginScreen extends BaseScreen {
     private void serverUrlTextField() {
         serverUrlTextField = new TextField(Global.SERVER_URL, skin);
         serverUrlTextField.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
-        serverUrlTextField.setPosition(((BaseScreen.WIDTH/2f) - serverUrlTextField.getWidth()/2f), 700);
-        serverUrlTextField.setMaxLength(TEXTBOX_LENGTH+20); //max chars for username
-        serverUrlTextField.addListener(new ClickListener(){
+        serverUrlTextField.setPosition(((BaseScreen.WIDTH / 2f) - serverUrlTextField.getWidth() / 2f), 700);
+        serverUrlTextField.setMaxLength(TEXTBOX_LENGTH + 20); //max chars for username
+        serverUrlTextField.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -182,7 +185,7 @@ public class LoginScreen extends BaseScreen {
         userName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-               // keyboard.play();
+                // keyboard.play();
             }
         });
         userName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
@@ -206,7 +209,7 @@ public class LoginScreen extends BaseScreen {
         userPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-               // keyboard.play();
+                // keyboard.play();
             }
         });
 

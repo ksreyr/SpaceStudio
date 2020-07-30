@@ -63,16 +63,18 @@ public interface SectionController {
 
     /**
      * Find all Sections for one Ship
+     *
      * @param id the Ship
      * @return the Sections
      */
-    @RequestMapping(value =  "/ship/{id}/sections", method = RequestMethod.GET)
+    @RequestMapping(value = "/ship/{id}/sections", method = RequestMethod.GET)
     List<Section> sectionsByShip(@PathVariable Integer id);
 
 
     /**
      * Check if all the sections belong to the same ship. If the amount is under the max power of the Ship
      * then update the Database
+     *
      * @param sectionsToUpdate
      * @return
      */

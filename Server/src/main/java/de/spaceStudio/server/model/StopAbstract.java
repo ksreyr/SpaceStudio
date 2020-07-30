@@ -1,7 +1,6 @@
 package de.spaceStudio.server.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -24,15 +23,15 @@ public class StopAbstract {
     @Column
     private String img;
 
+    public StopAbstract() {
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public StopAbstract() {
     }
 
     public Integer getId() {
@@ -67,7 +66,7 @@ public class StopAbstract {
         this.img = img;
     }
 
-    public static class StopAbstractBuilder{
+    public static class StopAbstractBuilder {
 
-     }
+    }
 }

@@ -18,7 +18,7 @@ public class JSONFileTest {
     private static String filePath;
 
     @BeforeAll
-    public static void setup(){
+    public static void setup() {
         Game bugGame = new Game();
         bugGame.setGameID(0);
         List<Player> players = new ArrayList<>();
@@ -29,6 +29,12 @@ public class JSONFileTest {
         bugGame.setDate(currentTimestamp);
         filePath = JSONFile.exportJSON(bugGame);
         assertNotNull(filePath);
+    }
+
+    @AfterAll
+    public static void cleanUp() throws FileNotFoundException {
+        File file = new File(filePath);
+        file.deleteOnExit();
     }
 
     @Test
@@ -47,16 +53,10 @@ public class JSONFileTest {
     }
 
     @Test
-    public void testImportJSON(){
+    public void testImportJSON() {
         Game loadGame = JSONFile.importJSON(filePath);
         assertNotNull(loadGame);
         System.out.println(loadGame.getGameID());
-    }
-
-    @AfterAll
-    public static void cleanUp() throws FileNotFoundException {
-        File file = new File(filePath);
-        file.deleteOnExit();
     }
 
 

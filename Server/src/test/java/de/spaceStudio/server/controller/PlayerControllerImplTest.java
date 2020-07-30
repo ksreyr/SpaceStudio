@@ -4,12 +4,10 @@ import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.repository.PlayerRepository;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,18 +33,17 @@ public class PlayerControllerImplTest {
     }
 
     /**
-    @Test
-    public void testLoginUser() throws Exception {
-        playerControllerImpl.addPlayer(player);
-        when(playerControllerImpl.authUser(playerRepository.findByName(player.getName()), player)).thenReturn(true);
-        when(playerControllerImpl.authUser(playerRepository.findByName(player.getPassword()), player)).thenReturn(true);
-        when(playerControllerImpl.authUser(any(), any())).thenReturn(true);
-        when(playerRepository.findByName(any()).isPresent()).thenReturn(true);
-        when(playerRepository.findByName(anyString())).thenReturn(Optional.of(player));
-
-        String result = playerControllerImpl.loginUser(player);
-       // Assert.assertEquals("replaceMeWithExpectedResult", result);
-    }
+     * @Test public void testLoginUser() throws Exception {
+     * playerControllerImpl.addPlayer(player);
+     * when(playerControllerImpl.authUser(playerRepository.findByName(player.getName()), player)).thenReturn(true);
+     * when(playerControllerImpl.authUser(playerRepository.findByName(player.getPassword()), player)).thenReturn(true);
+     * when(playerControllerImpl.authUser(any(), any())).thenReturn(true);
+     * when(playerRepository.findByName(any()).isPresent()).thenReturn(true);
+     * when(playerRepository.findByName(anyString())).thenReturn(Optional.of(player));
+     * <p>
+     * String result = playerControllerImpl.loginUser(player);
+     * // Assert.assertEquals("replaceMeWithExpectedResult", result);
+     * }
      */
 
 

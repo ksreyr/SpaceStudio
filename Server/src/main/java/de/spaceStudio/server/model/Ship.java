@@ -32,9 +32,6 @@ public class Ship {
     @NonNull
     private int power;  // FIXME keep updated
 
-    @NonNull
-    private int money;
-
     public Ship() {
     }
 
@@ -46,6 +43,10 @@ public class Ship {
         setHp(builder.hp);
         setShield(builder.shield);
         setPower(builder.power);
+    }
+
+    public static ShipBluider shipBluider() {
+        return new ShipBluider();
     }
 
     @NonNull
@@ -105,18 +106,6 @@ public class Ship {
         this.power = power;
     }
 
-    public static ShipBluider shipBluider(){
-        return new ShipBluider();
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
-    }
-
     public static class ShipBluider {
 
         private Integer id;
@@ -132,20 +121,21 @@ public class Ship {
 
         public ShipBluider(Integer id, String name,
                            Actor owner, int hp,
-                           int shield, int power, ShipForm shipForm)
-        {
+                           int shield, int power, ShipForm shipForm) {
             this.id = id;
             this.name = name;
             this.owner = owner;
             this.hp = hp;
-            this.shipForm=shipForm;
+            this.shipForm = shipForm;
             this.shield = shield;
             this.power = power;
         }
-        public ShipBluider shipForm(ShipForm shipForm){
-            this.shipForm=shipForm;
+
+        public ShipBluider shipForm(ShipForm shipForm) {
+            this.shipForm = shipForm;
             return ShipBluider.this;
         }
+
         public ShipBluider id(int id) {
             this.id = id;
             return ShipBluider.this;
@@ -177,9 +167,7 @@ public class Ship {
         }
 
         public Ship buildShip() {
-            Ship ship = new Ship(this);
-            ship.setMoney(30);
-            return ship;
+            return new Ship(this);
         }
     }
 }

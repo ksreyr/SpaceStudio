@@ -5,7 +5,6 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.function.Supplier;
 //TODO: @MAPPING_SUPER_CLASS
 //or it is not created a table in the DB
 //Link to reference Sprint Documentation:
@@ -42,7 +41,7 @@ public class Section {
     private int powerRequired;
 
     // Negativ for Consumption, Positive for Generating
-    private  int powerCurrent;
+    private int powerCurrent;
 
     private boolean usable;
 
@@ -55,6 +54,7 @@ public class Section {
 
     public Section() {
     }
+
     public Section(SectionBuilder builder) {
         setId(builder.id);
         setImg(builder.img);
@@ -68,8 +68,10 @@ public class Section {
         setSectionTyp(builder.sectionTyp);
         setxPos(builder.xPos);
         setyPos(builder.yPos);
+    }
 
-
+    public static SectionBuilder sectionBuilder() {
+        return new SectionBuilder();
     }
 
     @NonNull
@@ -147,20 +149,12 @@ public class Section {
         return usable;
     }
 
-    public void setUsable(boolean usable) {
-        this.usable = usable;
-    }
-
     public String getImg() {
         return img;
     }
 
     public void setImg(String img) {
         this.img = img;
-    }
-
-    public static SectionBuilder sectionBuilder(){
-        return new SectionBuilder();
     }
 
     public float getyPos() {
@@ -191,9 +185,11 @@ public class Section {
         return usable;
     }
 
+    public void setUsable(boolean usable) {
+        this.usable = usable;
+    }
 
-
-    public static class SectionBuilder{
+    public static class SectionBuilder {
         private Integer id;
         private Ship ship;
         private Role role;
@@ -201,64 +197,76 @@ public class Section {
         private List<Section> connectingTo;
         private float oxygen;
         private int powerRequired;
-        private  int powerCurrent;
+        private int powerCurrent;
         private boolean usable;
         private SectionTyp sectionTyp;
         private float yPos;
         private float xPos;
         private int hulleIntegritat;
 
-        public SectionBuilder id(Integer id){
-            this.id=id;
+        public SectionBuilder id(Integer id) {
+            this.id = id;
             return SectionBuilder.this;
         }
-        public SectionBuilder sectionTyp(SectionTyp sectionTyp){
-            this.sectionTyp=sectionTyp;
+
+        public SectionBuilder sectionTyp(SectionTyp sectionTyp) {
+            this.sectionTyp = sectionTyp;
             return SectionBuilder.this;
         }
-        public SectionBuilder ship(Ship ship){
-            this.ship=ship;
+
+        public SectionBuilder ship(Ship ship) {
+            this.ship = ship;
             return SectionBuilder.this;
         }
-        public SectionBuilder role(Role role){
-            this.role=role;
+
+        public SectionBuilder role(Role role) {
+            this.role = role;
             return SectionBuilder.this;
         }
-        public SectionBuilder img(String img){
-            this.img=img;
+
+        public SectionBuilder img(String img) {
+            this.img = img;
             return SectionBuilder.this;
         }
-        public SectionBuilder connectingTo(List<Section> connectingTo){
-            this.connectingTo=connectingTo;
+
+        public SectionBuilder connectingTo(List<Section> connectingTo) {
+            this.connectingTo = connectingTo;
             return SectionBuilder.this;
         }
-        public SectionBuilder oxygen(float oxygen){
-            this.oxygen=oxygen;
+
+        public SectionBuilder oxygen(float oxygen) {
+            this.oxygen = oxygen;
             return SectionBuilder.this;
         }
         public SectionBuilder powerRequired(int powerRequired){
             this.powerRequired = powerRequired;
             return SectionBuilder.this;
         }
-        public SectionBuilder powerCurrent(int powerCurrent){
-            this.powerCurrent=powerCurrent;
+
+        public SectionBuilder powerCurrent(int powerCurrent) {
+            this.powerCurrent = powerCurrent;
             return SectionBuilder.this;
         }
-        public SectionBuilder usable(boolean usable){
-            this.usable=usable;
+
+        public SectionBuilder usable(boolean usable) {
+            this.usable = usable;
             return SectionBuilder.this;
         }
-        public SectionBuilder yPos(float yPos){
-            this.yPos=yPos;
+
+        public SectionBuilder yPos(float yPos) {
+            this.yPos = yPos;
             return SectionBuilder.this;
         }
-        public SectionBuilder xPos(float xPos){
-            this.xPos=xPos;
+
+        public SectionBuilder xPos(float xPos) {
+            this.xPos = xPos;
             return SectionBuilder.this;
         }
-        public Section buildSection(){
+
+        public Section buildSection() {
             return new Section(this);
         }
+
         public SectionBuilder pos(float x, float y) {
             this.yPos = y;
             this.xPos = x;

@@ -71,7 +71,8 @@ public interface StopAbstractController {
     /**
      * Is is possible to Land?
      * It is possible to Land when booth Players have select a new Station to Jump to
-     * @param  player which wants to land
+     *
+     * @param player which wants to land
      * @return if they can Land
      */
     @RequestMapping(value = "/canLand", method = RequestMethod.GET)
