@@ -780,10 +780,7 @@ public class Global {
     public static Station station2 = Station.stationBuilder().name("station2").energyPrice(1).buildStation();
     public static Station station3 = Station.stationBuilder().name("station3").energyPrice(0).buildStation();
     public static Station station4 = Station.stationBuilder().name("station4").energyPrice(1).buildStation();
-    public static List<Station> stationListU1 = new ArrayList<>() {{
-        add(station1);
-        add(station2);
-    }};
+
     public static List<Station> stationListU2 = new ArrayList<>() {{
         add(station1);
         add(station2);
@@ -1092,10 +1089,7 @@ public class Global {
         planet10 = planetListU2.get(9);
     }
 
-    public static void updateVariblesStationsU1() {
-        station1 = stationListU1.get(0);
-        station2 = stationListU1.get(1);
-    }
+
 
     public static void updateVariblesStationsU2() {
         station1 = stationListU2.get(0);
