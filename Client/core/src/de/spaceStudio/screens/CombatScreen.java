@@ -982,7 +982,6 @@ public class CombatScreen extends BaseScreen {
                 stage.getBatch().draw(redPinSectionSix.texture, XPlayerShip + Global.section6.getxPos(), YPlayerShip + Global.section6.getyPos());
             }
 
-
             // Spaawn Enemy Ship if (Global.currentShipGegner != null) {
             if (Global.currentStop == Global.planet2)
                 stage.getBatch().draw(enemyShip1, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
@@ -1047,17 +1046,11 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(shield, 1120, 150, 900, 1000);
         }
 
-
-        //explosion on enemy's engine
-
-
         //update bullets
         ArrayList<Bullet> bulletToRemove = new ArrayList<>();
         for (Bullet bullet : bullets) {
             bullet.update(delta);
             if (bullet.remove) {
-                System.out.println("Remove from Combat :::::::+ " + bullet.remove);
-
                 if (isTargetCockpit && bullet.remove) stage.getBatch().draw(explosion, 1540, 550, 100, 100);
                 bulletToRemove.add(bullet);
             }
@@ -1076,6 +1069,19 @@ public class CombatScreen extends BaseScreen {
             }
 
         }
+
+        if (Global.currentShipGegner != null && !Global.combatSections.isEmpty()) {
+            for (Section s :
+                    Global.combatSections.get(Global.currentShipGegner.getId())) {
+                if (!s.getUsable()) {
+                    System.out.println("::::::: Enemy ::::::::" + s.getUsable());
+                    stage.getBatch().begin();
+                    stage.getBatch().draw(explosion, 1300, 500, 50, 50);
+                    stage.getBatch().end();
+                }
+            }
+        }
+
 
 
         stage.getBatch().end();
