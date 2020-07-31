@@ -1,7 +1,5 @@
 package de.spaceStudio.server.model;
 
-import org.hibernate.annotations.Fetch;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,7 @@ public class GameRound {
     @ManyToOne
     private Actor actor;
 
-    @OneToMany(cascade=CascadeType.REMOVE)
+    @OneToMany
     private List<CombatRound> combatRounds = new ArrayList<>();
 
     @ManyToOne
