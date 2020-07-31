@@ -64,12 +64,7 @@ public class ShipSelectScreen extends BaseScreen {
     private final Texture weaponsSystem;
     private final Texture drive;
     private final Texture crewDisplay;
-    private final Texture crewMember;
-    private final Texture crewMember2;
-    private final Texture crewMember3;
-    private final Image imageCrewMemberSektion2;
-    private final Image imageCrewMemberSektion4;
-    private final Image imageCrewMemberSektion6;
+    private List<Image> listOfCrewMemberImages;
     private final TextField crew_1_name;
     private final TextField crew_2_name;
     private final TextField crew_3_name;
@@ -184,7 +179,7 @@ public class ShipSelectScreen extends BaseScreen {
         crew_3_name = new TextArea("Santiago", skinButton);
         crew_3_name.setPosition(120, 80);
 
-
+        listOfCrewMemberImages = new ArrayList<>();
         blueShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/blueships1.png"));
         redShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/redship.png"));
         greenship = new Texture(Gdx.files.internal("Client/core/assets/data/ships/greenship.png"));
@@ -211,20 +206,21 @@ public class ShipSelectScreen extends BaseScreen {
         drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         crewDisplay = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shipPanel.png"));
-        crewMember = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
-        crewMember2 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/male_human.png"));
-        crewMember3 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/male_human.png"));
 
-        imageCrewMemberSektion2 = new Image(crewMember);
-        imageCrewMemberSektion4 = new Image(crewMember2);
-        imageCrewMemberSektion6 = new Image(crewMember3);
-        imageCrewMemberSektion2.setBounds(30, 30, 30, 30);
-        imageCrewMemberSektion4.setBounds(30, 30, 30, 30);
-        imageCrewMemberSektion6.setBounds(30, 30, 30, 30);
+        for(int i = 0; i < Global.crewMemberList.size(); i++){
+            listOfCrewMemberImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" +
+                    Global.crewMemberList.get(i).getImg()))));
+        }
+        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
+            listOfCrewMemberImages.get(i).setBounds(30,30,30,30);
+        }
+        listOfCrewMemberImages.get(0).setPosition(X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());
+        listOfCrewMemberImages.get(1).setPosition(X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());
+        listOfCrewMemberImages.get(2).setPosition(X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
+        /*
         imageCrewMemberSektion2.setPosition(X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
-        imageCrewMemberSektion4.setPosition(X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());
-        imageCrewMemberSektion6.setPosition(X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());
-
+        imageCrewMemberSektion4.setPosition(X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());S
+        imageCrewMemberSektion6.setPosition(X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());*/
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
         previousButton();
@@ -1049,16 +1045,13 @@ public class ShipSelectScreen extends BaseScreen {
                     stage.getBatch().draw(drive, X_POSITION + 110, Y_POSITION + 80);
                     stage.getBatch().draw(weaponsSystem, X_POSITION + 295, Y_POSITION + 180);
 
-                    //Crewmember befindet sich in Sektion 2
-                    stage.addActor(imageCrewMemberSektion2);
-                    //Crewmember befindet sich in Sektion 4
-                    stage.addActor(imageCrewMemberSektion4);
-                    //Crewmember befindet sich in Sektion 6
-                    stage.addActor(imageCrewMemberSektion6);
+                    for (Image listOfCrewMemberImage : listOfCrewMemberImages) {
+                        stage.addActor(listOfCrewMemberImage);
+                    }
                 } else {
-                    imageCrewMemberSektion2.remove();
-                    imageCrewMemberSektion4.remove();
-                    imageCrewMemberSektion6.remove();
+                    for (Image listOfCrewMemberImage : listOfCrewMemberImages) {
+                        listOfCrewMemberImage.remove();
+                    }
                 }
                 break;
             case 1:
@@ -1149,9 +1142,6 @@ public class ShipSelectScreen extends BaseScreen {
         weaponsSystem.dispose();
         drive.dispose();
         crewDisplay.dispose();
-        crewMember.dispose();
-        crewMember2.dispose();
-        crewMember3.dispose();
         background.dispose();
     }
 

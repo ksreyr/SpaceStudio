@@ -543,12 +543,6 @@ public class CombatScreen extends BaseScreen {
             saveGameButton.setPosition(1000, 50);
             stage.addActor(saveGameButton);
         }
-        /*for (int i = 0; i < listOfCrewImages.size(); i++) {
-            listOfCrewImages.get(i).setName(myCrew.get(i).getName());
-        }
-        for (Image listOfCrewImage : listOfCrewImages) {
-            dragAndDrop(listOfCrewImage);
-        }*/
 
         lebengegnerShip.setPosition(100, 20);
         lebenplayerShip.setPosition(20, 20);
@@ -582,9 +576,6 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(driveIconForEnergyPanel);
         stage.addActor(shieldIconForEnergyPanel);
         stage.addActor(weaponLabel);
-        /*stage.addActor(imageCrewMemberOne);
-        stage.addActor(imageCrewMemberTwo);
-        stage.addActor(imageCrewMemberThree);*/
         for (Image listOfCrewImage : listOfCrewImages) {
             stage.addActor(listOfCrewImage);
         }
