@@ -19,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -96,7 +95,7 @@ public class CombatScreen extends BaseScreen {
     private float hourX1, hourY1;
 
     private Texture shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel;
-    private Texture energy, shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel, redPin;
+    private Texture energy, redPin; // shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel,
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
     //private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
@@ -1249,9 +1248,9 @@ public class CombatScreen extends BaseScreen {
         shieldSystem.dispose();
         weaponsSystem.dispose();
         driveSystem.dispose();
-        crewMemberOne.dispose();
-        crewMemberTwo.dispose();
-        crewMemberThree.dispose();
+        //crewMemberOne.dispose();
+        //crewMemberTwo.dispose();
+        //crewMemberThree.dispose();
         stage.dispose();
     }
 
