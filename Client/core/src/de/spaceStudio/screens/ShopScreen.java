@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
@@ -87,7 +87,7 @@ public class ShopScreen extends ScreenAdapter {
     private List<Image> listOfCrewMemberImages;
 
     public ShopScreen(MainClient mainClient) {
-        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
