@@ -111,7 +111,7 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
             if (sr.getName().toString().equals("GOLD")) {
                 sr.setAmount(sr.getAmount() - shopRessource.getPrice());
             }
-            if(sr.getName().toString().equals("ENERGIE")){
+            if(shopRessource.getName().toString().equals("ENERGIE")&&shopRessource.getAmount()>0){
                 ship.setPower(ship.getPower()+1);
                 shipRepository.save(ship);
             }
