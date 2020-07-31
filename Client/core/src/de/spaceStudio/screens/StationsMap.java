@@ -200,7 +200,7 @@ public class StationsMap extends BaseScreen {
         planet1ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                isPlanet = true;
+                Global.VISITED_PLANET_COUNTER++;
                 Global.currentStop = Global.planet1;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
@@ -230,7 +230,7 @@ public class StationsMap extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isPlanet = true;
-
+                Global.VISITED_PLANET_COUNTER++;
                 Global.currentStop = Global.planet2;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
@@ -266,11 +266,13 @@ public class StationsMap extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isPlanet = true;
+                Global.VISITED_PLANET_COUNTER++;
+                System.out.println(counter+"::::::::::::::..");
                 Global.currentStop = Global.planet3;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if (Objects.equals(obj.toString(), "true")) {
-                            counter++;
+
                             hoverListener(planet3ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 3;
                             jumpService(Global.planet3);
@@ -303,11 +305,11 @@ public class StationsMap extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isPlanet = true;
+                Global.VISITED_PLANET_COUNTER++;
                 Global.currentStop = Global.planet4;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if (Objects.equals(obj.toString(), "true")) {
-                            counter++;
                             hoverListener(planet4ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 4;
                             jumpService(Global.planet4);
@@ -345,7 +347,7 @@ public class StationsMap extends BaseScreen {
 
                     }
                 };
-                if (true) {
+                if (Global.VISITED_PLANET_COUNTER > 1) {
                     dialog.text("You are allow to travel last planet");
                     dialog.button("JUMP", true);
                     dialog.key(Input.Keys.ENTER, true);
