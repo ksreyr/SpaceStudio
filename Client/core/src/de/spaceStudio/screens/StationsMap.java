@@ -343,7 +343,7 @@ public class StationsMap extends BaseScreen {
 
                     }
                 };
-                if (counter > 3) {
+                if (true) {
                     dialog.text("You are allow to travel last planet");
                     dialog.button("JUMP", true);
                     dialog.key(Input.Keys.ENTER, true);

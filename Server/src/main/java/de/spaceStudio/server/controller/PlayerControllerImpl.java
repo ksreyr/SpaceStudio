@@ -231,8 +231,9 @@ public class PlayerControllerImpl implements PlayerController {
         }
         for (GameRound g :
                 gameRoundRepository.findByActor(player)) {
-            combatRoundRepository.deleteAll(g.getCombatRounds());
             gameRoundRepository.delete(g);
+            combatRoundRepository.deleteAll(g.getCombatRounds());
+
         }
 
         boolean fileClosed = JSONFile.cleanJSONSinglePlayerGame(player1.getSavedGame());
@@ -291,11 +292,13 @@ public class PlayerControllerImpl implements PlayerController {
                             gameRoundRepository.delete(g);
                         }
                         if (ai.getState() != null) {
+                            ActorState toDelete=ai.getState();
+                            aiRepository.delete(ai);
+                            actorStateRepository.delete(toDelete);
                             ai.setState(null);
-                            aiRepository.save(ai);
-                            actorStateRepository.delete(ai.getState());
+                        } else {
+                            aiRepository.delete(ai);
                         }
-                        aiRepository.delete(ai);
 
                     }
                     if (stopAbstractRepository.findById(sa.getId()).isPresent()) {

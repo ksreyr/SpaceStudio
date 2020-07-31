@@ -864,7 +864,18 @@ public class Global {
         add(weapon3Gegner3);
     }};
 
+    /*
+     * Weapons Gegner3
+     * */
+    public static Weapon weapon1Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(HIT_RATE).img("Enemy4").name("Rocket Left").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
+    public static Weapon weapon2Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(HIT_RATE).img("Enemy4").name("Rocket Right").warmUp(rocketWarmUp).magazinSize(MAGAZIN_SIZE).build();
+    public static Weapon weapon3Gegner4 = Weapon.WeaponBuilder().damage(10).hitRate(HIT_RATE).img("Enemy4").name("Laser").warmUp(lasserWarmUp).magazinSize(magazinSizeLaser).build();
 
+    public static List<Weapon> weaponListGegner4 = new ArrayList<>() {{
+        add(weapon1Gegner4);
+        add(weapon2Gegner4);
+        add(weapon3Gegner4);
+    }};
     public static List<Weapon> weaponListPlayer = new ArrayList<>() {{
         add(weapon1Player);
         add(weapon2Player);
@@ -878,6 +889,9 @@ public class Global {
         add(weapon2Gegner2);
         add(weapon1Gegner3);
         add(weapon2Gegner3);
+        add(weapon1Gegner4);
+        add(weapon2Gegner4);
+        add(weapon3Gegner4);
 
     }};
     public static List<Pair> ExplosionsToRender = new ArrayList<>();
@@ -984,7 +998,17 @@ public class Global {
             add(weapon2Gegner3);
         }};
     }
+    public static void updateweaponGegner4Variabel() {
+        weapon1Gegner4 = weaponListGegner4.get(0);
+        weapon2Gegner4 = weaponListGegner4.get(1);
+    }
 
+    public static void actualiziertweaponListGegner4() {
+        weaponListGegner4 = new ArrayList<>() {{
+            add(weapon1Gegner4);
+            add(weapon2Gegner4);
+        }};
+    }
 
     public static void updateweaponVariabelUniverse2() {
         weapon1Player = weaponListUniverse2.get(0);
@@ -995,6 +1019,9 @@ public class Global {
         weapon2Gegner2 = weaponListUniverse2.get(5);
         weapon1Gegner3 = weaponListUniverse2.get(6);
         weapon2Gegner3 = weaponListUniverse2.get(7);
+        weapon1Gegner4 = weaponListUniverse2.get(8);
+        weapon2Gegner4 = weaponListUniverse2.get(9);
+        weapon3Gegner4 = weaponListUniverse2.get(10);
 
     }
 
