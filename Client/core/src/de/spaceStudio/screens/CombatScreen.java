@@ -1301,7 +1301,7 @@ public class CombatScreen extends BaseScreen {
                 stage.addActor(listOfCrewImages.get(i));
                 breakCrewMember.remove();
 
-                if(i == 0) {
+                if(i == 0 ) {
                     //imageCrewMemberOne.remove();
                     setHourglass1(true);
                     setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
@@ -1327,9 +1327,18 @@ public class CombatScreen extends BaseScreen {
 
             if (myCrew.get(i).getRoundsToDestination() == 0) {
                 stage.addActor(listOfCrewImages.get(i));
-                if(i==0) setHourglass1(false);
-                if(i==1) setHourglass2(false);
-                if(i==2) setHourglass3(false);
+                if(i==0) {
+                    setHourglass1(false);
+                    //System.out.println("setHourglass1(false);");
+                }
+                if(i==1) {
+                    setHourglass2(false);
+                    //System.out.println("setHourglass2(false);");
+                }
+                if(i==2) {
+                    setHourglass3(false);
+                    //System.out.println("setHourglass3(false);");
+                }
             }
         }
     }
@@ -1342,7 +1351,6 @@ public class CombatScreen extends BaseScreen {
     public void setHourglass1(boolean hourglass1) {
         this.hourglass1 = hourglass1;
     }
-
 
     public void setHourglass2(boolean hourglass2) {
         this.hourglass2 = hourglass2;
