@@ -34,7 +34,7 @@ public class TravelScreen extends ScreenAdapter {
     private final MainClient game;
     private final OrthographicCamera camera;
     float timePassed = 0;
-    String travelText = "Traveling threw Space Time since " + (int) timePassed + " Seconds";
+    String travelText = "Traveling through Spacetime since " + (int) timePassed + " Seconds";
     String playerText = "Waiting for other Player ...";
     Label travelLabel;
     Label playerLabel;

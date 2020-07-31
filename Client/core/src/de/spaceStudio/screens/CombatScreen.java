@@ -769,37 +769,7 @@ public class CombatScreen extends BaseScreen {
         });
     }
 
-    public void updateShipEnergy(Object requestObject, String method) {
-        final Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
-        final String url = Global.SERVER_URL + Global.SHIP_UPDATE;
-        final Net.HttpRequest request = setupRequest(url, requestJson, method);
-        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                int statusCode = httpResponse.getStatus().getStatusCode();
-                if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed updateShipEnergy");
-                }
-                System.out.println("statusCode updateShipEnergy: " + statusCode);
-                String result = httpResponse.getResultAsString();
-                if (result == null) {
-                    System.out.println("Requested Ship is null");
-                }
-            }
 
-            public void failed(Throwable t) {
-                System.out.println("Request Failed Completely");
-            }
-
-            @Override
-            public void cancelled() {
-                System.out.println("request cancelled");
-            }
-        });
-    }
-
-    public void moveCrewMember(Object requestObject, Image imageCrewMember, String method) {
     /**
      * Receives an Crew Member, the image of the Crew Member and the HTTP-method
      *
@@ -873,8 +843,7 @@ public class CombatScreen extends BaseScreen {
                     LOG.info("You have Won the Fight");
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
                         public void result(Object obj) {
-                            if (Objects.equals(obj.toString(), "true")) {
-                            }
+                            obj.toString();
                         }
                     };
                     winMessageDialog(dialog, " You won this Fight.\n But the game is not over yet ");
@@ -1022,9 +991,6 @@ public class CombatScreen extends BaseScreen {
             Global.combatActors.remove(Global.currentGegner.getId());
             Global.combatCrew.remove(Global.currentShipGegner.getId());
             final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
-                public void result(Object obj) {
-                    obj.toString();
-                }
             };
             loseMessageDialog(dialog, " You have lost the game!");
         }
@@ -1132,8 +1098,7 @@ public class CombatScreen extends BaseScreen {
 //                Global.updateVariableSectionShipPlayer(); WTF FIXME is this is important
             Global.currentShipPlayer = sectionsPlayer.get(0).getShip();
             Global.actualizierungSectionInWeapons();
-            List<Section> sizeO = new ArrayList<>();
-            sectionsPlayer = sizeO;
+            sectionsPlayer = new ArrayList<>();
         }
 
 
@@ -1178,13 +1143,11 @@ public class CombatScreen extends BaseScreen {
         if (Global.currentShipGegner != null && !Global.combatSections.isEmpty()) {
             for (Section s :
                     Global.combatSections.get(Global.currentShipGegner.getId())) {
-                if (!s.getUsable() && s.getImg()=="Section1Gegner1")   stage.getBatch().draw(explosion, 1530, 635, 100, 70);
-                if (!s.getUsable() && s.getImg() == "Section3Gegner1") stage.getBatch().draw(explosion, 1410, 485, 100, 70);
-                if (!s.getUsable() && s.getImg() == "Section2Gegner1")  stage.getBatch().draw(explosion, 1530, 450, 100, 70);
-                if (!s.getUsable() && s.getImg() == "Section5Gegner3")  stage.getBatch().draw(explosion, 1610, 485, 100, 70);
-                if (!s.getUsable() && s.getImg() == "Section4Gegner2")  stage.getBatch().draw(explosion, 1530, 510, 100, 70);
-
-
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))   stage.getBatch().draw(explosion, 1530, 635, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section3Gegner1")) stage.getBatch().draw(explosion, 1410, 485, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section2Gegner1"))  stage.getBatch().draw(explosion, 1530, 450, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section5Gegner3"))  stage.getBatch().draw(explosion, 1610, 485, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section4Gegner2"))  stage.getBatch().draw(explosion, 1530, 510, 100, 70);
             }
         }
 
