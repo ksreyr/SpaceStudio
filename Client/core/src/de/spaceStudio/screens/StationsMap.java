@@ -26,7 +26,10 @@ import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.model.Pair;
+import de.spaceStudio.server.model.Planet;
+import de.spaceStudio.server.model.Ship;
+import de.spaceStudio.server.model.StopAbstract;
 import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
@@ -35,8 +38,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import static de.spaceStudio.client.util.Global.currentUniverse;
-import static de.spaceStudio.client.util.Global.stationListU2;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
@@ -396,7 +397,7 @@ public class StationsMap extends BaseScreen {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
                     LOG.info("Request Failed");
-
+                }
                 LOG.info("statusCode of the Jump: " + statusCode);
                 String shipsList = httpResponse.getResultAsString();
                 try {
@@ -405,7 +406,7 @@ public class StationsMap extends BaseScreen {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-                }
+
             }
 
             public void failed(Throwable t) {
@@ -598,7 +599,6 @@ public class StationsMap extends BaseScreen {
         Global.singlePlayerGame.setShipSection4(Global.section4);
         Global.singlePlayerGame.setShipSection5(Global.section5);
         Global.singlePlayerGame.setShipSection6(Global.section6);
-        Global.singlePlayerGame.setStationListU2(stationListU2);
     }
 
 
