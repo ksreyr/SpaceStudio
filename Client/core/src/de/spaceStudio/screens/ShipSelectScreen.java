@@ -155,6 +155,7 @@ public class ShipSelectScreen extends BaseScreen {
         crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
         crew3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew3.gif").read());
 
+        //TODO Was ist usernameLabel? Können wir das löschen?
         usernameLabel = new Label("Pruebe", skinButton);
         usernameLabel.setPosition(100, 350);
         stage.addActor(usernameLabel);
@@ -217,10 +218,7 @@ public class ShipSelectScreen extends BaseScreen {
         listOfCrewMemberImages.get(0).setPosition(X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());
         listOfCrewMemberImages.get(1).setPosition(X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());
         listOfCrewMemberImages.get(2).setPosition(X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
-        /*
-        imageCrewMemberSektion2.setPosition(X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
-        imageCrewMemberSektion4.setPosition(X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());S
-        imageCrewMemberSektion6.setPosition(X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());*/
+
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
         previousButton();
@@ -295,7 +293,7 @@ public class ShipSelectScreen extends BaseScreen {
 
     private void showHideRoom() {
         showHideRoom = new TextButton("show rooms", skinButton, "small");
-        showHideRoom.setPosition((BaseScreen.WIDTH / 2) - 50, 500);
+        showHideRoom.setPosition((BaseScreen.WIDTH / 2f) - 50, 500);
         showHideRoom.getLabel().setColor(Color.BLACK);
 
         showHideRoom.addListener(new ChangeListener() {

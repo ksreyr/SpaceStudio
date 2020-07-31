@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
+import static de.spaceStudio.screens.CombatScreen.*;
 
 
 public class ShopScreen extends ScreenAdapter {
@@ -59,6 +60,9 @@ public class ShopScreen extends ScreenAdapter {
     private final Texture oxygenTexture;
     private final Texture driveTexture;
     private final Skin skin;
+    private final Texture shieldSystem;
+    private final Texture driveSystem;
+    private final Texture weaponsSystem;
     public CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6, checkBoxAllSections;
     //
     List<ShipRessource> shipRessources = new ArrayList<>();
@@ -82,6 +86,7 @@ public class ShopScreen extends ScreenAdapter {
     //secure,drive
     private boolean secureIconS1, driveIconS1, secureIconS2, driveIconS2;
     //
+    private List<CrewMember> myCrew;
 
     public ShopScreen(MainClient mainClient) {
         viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
@@ -94,7 +99,7 @@ public class ShopScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal("Client/core/assets/skin/default.fnt"));
         spaceSkin = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         background = new Texture("ownAssets/sgx/backgrounds/galaxyBackground.png");
-        playerShip = new Texture("Client/core/assets/data/ships/blueships2.png");
+        playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
         rocket1 = new Texture("data/ships/rocketSmall.png");
         rocket2 = new Texture("data/ships/attack_small.png");
         crewMemberMTexture = new Texture("Client/core/assets/combatAssets/male_human.png");
@@ -106,6 +111,11 @@ public class ShopScreen extends ScreenAdapter {
         securityTextureGrey = new Texture("data/ships/securityGrey.png");
         driveTextureGrey = new Texture("data/ships/batterie.png");
 
+        shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
+        driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
+        weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
+
+        myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
         this.itemNumber = 0;
         batch = new SpriteBatch();
 
@@ -391,7 +401,8 @@ public class ShopScreen extends ScreenAdapter {
         stage.addActor(shipInformationArea);
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(playerShip, BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
+        stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip-150, WidthPlayerShip+200, HeightPlayerShip+200);
+        //stage.getBatch().draw(playerShip, BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
 
         float positionX = 1450;
         float positionY = 700;
