@@ -114,6 +114,8 @@ public final class RequestUtils {
                         List<Weapon> weaponsWhichHaveShot = objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>() {
                         });
                         Global.weaponsToProcess.addAll(weaponsWhichHaveShot);
+                        getActor(Global.currentPlayer);
+                        getShip(Global.currentShipPlayer);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -170,7 +172,6 @@ public final class RequestUtils {
     public static void setActor(Actor actor) {
         genericRequest(Global.SERVER_URL + Global.ACTOR_ENDPOINT, false, actor.getId(), Net.HttpMethods.PUT, actor);
     }
-
 
     public static void updateEnergie(List<Section> sectionsToUpdate) {
         genericRequest(Global.SERVER_URL + "/" + Global.SECTIONS + Global.ENERGY, false, Global.currentShipPlayer.getId(),

@@ -19,7 +19,9 @@ import java.util.stream.Collectors;
 
 @RestController
 public class SectionControllerImpl implements SectionController {
+    public static final float OXYGEN_BUFF = 35f;
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
+    public static final int WEAPON_BUFF = 1;
     @Autowired
     WeaponRepository weaponRepository;
     @Autowired
@@ -178,16 +180,16 @@ public class SectionControllerImpl implements SectionController {
                         case FIGHTER:
                             Optional<List<Weapon>> weapons = weaponRepository.findBySection(s);
                             if (weapons.isPresent()) { // More Power is Crew is in Sections
-                                int powerBuffFighter = s.getPowerCurrent() + 1;
-                                s.setPowerCurrent(powerBuffFighter);
                                 for (Weapon w :
                                         weapons.get()) {
-                                    int damage = w.getDamage() + (10 + crew.get().getSkillCounter());
+                                    int damage = w.getDamage() + (WEAPON_BUFF + crew.get().getSkillCounter());
                                     w.setDamage(damage);
                                 }
                             }
                         case TECHNICIAN:
-                            int powerBuffTechnician = s.getPowerCurrent() + (10 + crew.get().getSkillCounter());
+                            int powerBuffTechnician = s.getPowerCurrent() + 1;
+                            s.getShip().setPower(s.getShip().getPower() + 1);
+                            shipRepository.save(s.getShip());
                             s.setPowerCurrent(powerBuffTechnician);
                     }
                 } else {
@@ -197,7 +199,15 @@ public class SectionControllerImpl implements SectionController {
 
             }
             if (crew.isPresent()) {
-                s.setUsable(true); // Reapir if Broken
+                s.setUsable(true); // Repair if Broken
+                if (s.getOxygen() < 100) {
+                    float currentOxygen = s.getOxygen() + OXYGEN_BUFF;
+                    if (currentOxygen > 100) {
+                        s.setOxygen(100);
+                    } else {
+                        s.setOxygen(currentOxygen);
+                    }
+                }
             }
             if (crew.isPresent() && s.getOxygen() < 30) {
                 crewMemberRepository.delete(crew.get()); // Die if to little Oxygen

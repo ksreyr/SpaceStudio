@@ -123,9 +123,7 @@ public class TravelScreen extends ScreenAdapter {
         if (Global.isOnlineGame) {
             dot++;
             String dots = "";
-            StringBuilder sb = new StringBuilder();
-            sb.append(".".repeat(Math.max(0, dot % 5)));
-            dots = sb.toString();
+            dots = ".".repeat(Math.max(0, dot % 5));
             playerLabel.setText(playerText + dots);
         }
 

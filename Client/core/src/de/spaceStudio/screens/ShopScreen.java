@@ -97,7 +97,7 @@ public class ShopScreen extends ScreenAdapter {
         playerShip = new Texture("Client/core/assets/data/ships/blueships2.png");
         rocket1 = new Texture("data/ships/rocketSmall.png");
         rocket2 = new Texture("data/ships/attack_small.png");
-        crewMemberMTexture = new Texture("Client/core/assets/combatAssets/MaleHuman-3.png");
+        crewMemberMTexture = new Texture("Client/core/assets/combatAssets/male_human.png");
         crewMemberFTexture = new Texture("Client/core/assets/combatAssets/female_human.png");
         weaponTexture = new Texture("Client/core/assets/combatAssets/missille_out.png");
         oxygenTexture = new Texture("Client/core/assets/OxygenSymbol_large.png");
@@ -525,7 +525,7 @@ public class ShopScreen extends ScreenAdapter {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section6).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     }
                 } else if (itemNumber == 4) {
-                    buyWeapons(List.of(Weapon.WeaponBuilder().damage(50).name("Lasser Gekauft").hitRate(5).warmUp(4).magazinSize(3).section(Global.section2).img("Lasser").build()), Net.HttpMethods.POST);
+                    buyWeapons(List.of(Weapon.WeaponBuilder().damage(50).name("Laser gekauft").hitRate(5).warmUp(4).magazinSize(3).section(Global.section4).img("Lasser").build()), Net.HttpMethods.POST);
                 }
                 setAllSectionCheckboxesFalse();
             }

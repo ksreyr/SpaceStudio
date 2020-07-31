@@ -64,18 +64,7 @@ public class ShipSelectScreen extends BaseScreen {
     private final Texture weaponsSystem;
     private final Texture drive;
     private final Texture crewDisplay;
-    private final Texture crewMember;
-    private final Texture crewMember2;
-    private final Texture crewMember3;
-    private final RedPin redPin;
-    private final RedPin redPin2;
-    private final RedPin redPin3;
-    private final RedPin redPin4;
-    private final RedPin redPin5;
-    private final RedPin redPin6;
-    private final Image imageCrewMemberSektion2;
-    private final Image imageCrewMemberSektion4;
-    private final Image imageCrewMemberSektion6;
+    private List<Image> listOfCrewMemberImages;
     private final TextField crew_1_name;
     private final TextField crew_2_name;
     private final TextField crew_3_name;
@@ -87,6 +76,7 @@ public class ShipSelectScreen extends BaseScreen {
     private final Viewport viewport;
     private final Sound spaceShipChange;
     private final Sound mouseClick;
+    //TODO Können die Variablen idgs und inputHandler gelöscht werden?
     private final InitialDataGameService idgs = new InitialDataGameService();
     private final InputHandler inputHandler;
     private final OrthographicCamera camera;
@@ -97,6 +87,7 @@ public class ShipSelectScreen extends BaseScreen {
     int shipNumber = 0;
     int openNumber = 0;
     Ship ship = new Ship();
+    //TODO kann universe1 gelöscht werden?
     Universe universe1 = Global.universe1;
     Universe universe2 = Global.universe2;
     String responseJson;
@@ -135,7 +126,6 @@ public class ShipSelectScreen extends BaseScreen {
         playersOnline.clear();
         // download data
         fetchLoggedUsers();
-
         camera = new OrthographicCamera();
         viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT, camera);
         stage = new Stage(viewport);
@@ -189,7 +179,7 @@ public class ShipSelectScreen extends BaseScreen {
         crew_3_name = new TextArea("Santiago", skinButton);
         crew_3_name.setPosition(120, 80);
 
-
+        listOfCrewMemberImages = new ArrayList<>();
         blueShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/blueships1.png"));
         redShip = new Texture(Gdx.files.internal("Client/core/assets/data/ships/redship.png"));
         greenship = new Texture(Gdx.files.internal("Client/core/assets/data/ships/greenship.png"));
@@ -201,6 +191,7 @@ public class ShipSelectScreen extends BaseScreen {
         greenshipRoom = new Texture(Gdx.files.internal("Client/core/assets/data/ships/green_section.png"));
         topdownfighterRoom = new Texture(Gdx.files.internal("Client/core/assets/data/ships/topdownfighter_section.png"));
 
+        // resize texture at loading phase
         Pixmap pixmapOld = new Pixmap(Gdx.files.internal("Client/core/assets/data/ships/relevantSystems.png"));
         Pixmap pixmapNew = new Pixmap(600, 600, pixmapOld.getFormat());
         pixmapNew.drawPixmap(pixmapOld,
@@ -210,30 +201,26 @@ public class ShipSelectScreen extends BaseScreen {
         relevantSystems = new Texture(pixmapNew);
         pixmapOld.dispose();
         pixmapNew.dispose();
+
         shield = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
         drive = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         crewDisplay = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shipPanel.png"));
-        crewMember = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
-        crewMember2 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        crewMember3 = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        redPin = new RedPin();
-        redPin2 = new RedPin();
-        redPin3 = new RedPin();
-        redPin4 = new RedPin();
-        redPin5 = new RedPin();
-        redPin6 = new RedPin();
 
-        imageCrewMemberSektion2 = new Image(crewMember);
-        imageCrewMemberSektion4 = new Image(crewMember2);
-        imageCrewMemberSektion6 = new Image(crewMember3);
-        imageCrewMemberSektion2.setBounds(30, 30, 30, 30);
-        imageCrewMemberSektion4.setBounds(30, 30, 30, 30);
-        imageCrewMemberSektion6.setBounds(30, 30, 30, 30);
+        for(int i = 0; i < Global.crewMemberList.size(); i++){
+            listOfCrewMemberImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" +
+                    Global.crewMemberList.get(i).getImg()))));
+        }
+        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
+            listOfCrewMemberImages.get(i).setBounds(30,30,30,30);
+        }
+        listOfCrewMemberImages.get(0).setPosition(X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());
+        listOfCrewMemberImages.get(1).setPosition(X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());
+        listOfCrewMemberImages.get(2).setPosition(X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
+        /*
         imageCrewMemberSektion2.setPosition(X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
-        imageCrewMemberSektion4.setPosition(X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());
-        imageCrewMemberSektion6.setPosition(X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());
-
+        imageCrewMemberSektion4.setPosition(X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());S
+        imageCrewMemberSektion6.setPosition(X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());*/
         spaceShipChange = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/change.wav"));
         nextButton();
         previousButton();
@@ -708,15 +695,15 @@ public class ShipSelectScreen extends BaseScreen {
                         Global.crewMemberList) {
                     switch (counter) {
                         case 1:
-                            c.setCurrentSection(section2);
+                            c.setCurrentSection(section4);
                             c.setName(crew_1_name.getText());
                             break;
                         case 2:
-                            c.setCurrentSection(section4);
+                            c.setCurrentSection(section6);
                             c.setName(crew_2_name.getText());
                             break;
                         case 3:
-                            c.setCurrentSection(section6);
+                            c.setCurrentSection(section2);
                             c.setName(crew_3_name.getText());
                             break;
                         default:
@@ -964,7 +951,7 @@ public class ShipSelectScreen extends BaseScreen {
                 List<Weapon> weaponsUniver2 = new ArrayList<>();
                 for (Weapon w :
                         weaponListPlayer) {
-                    w.setSection(section2);
+                    w.setSection(section4);
                     weaponsUniver2.add(w);
                 }
                 for (Weapon w :
@@ -1058,29 +1045,13 @@ public class ShipSelectScreen extends BaseScreen {
                     stage.getBatch().draw(drive, X_POSITION + 110, Y_POSITION + 80);
                     stage.getBatch().draw(weaponsSystem, X_POSITION + 295, Y_POSITION + 180);
 
-                    //Sektion 1
-                    stage.getBatch().draw(redPin.texture, X_POSITION + section1.getxPos(), Y_POSITION + section1.getyPos());
-                    //Sektion 2
-                    stage.getBatch().draw(redPin2.texture, X_POSITION + section2.getxPos(), Y_POSITION + section2.getyPos());
-                    //Sektion 3
-                    stage.getBatch().draw(redPin3.texture, X_POSITION + section3.getxPos(), Y_POSITION + section3.getyPos());
-                    //Sektion 4
-                    stage.getBatch().draw(redPin4.texture, X_POSITION + section4.getxPos(), Y_POSITION + section4.getyPos());
-                    //Sektion 5
-                    stage.getBatch().draw(redPin5.texture, X_POSITION + section5.getxPos(), Y_POSITION + section5.getyPos());
-                    //Sektion 6
-                    stage.getBatch().draw(redPin6.texture, X_POSITION + section6.getxPos(), Y_POSITION + section6.getyPos());
-
-                    //Crewmember befindet sich in Sektion 2
-                    stage.addActor(imageCrewMemberSektion2);
-                    //Crewmember befindet sich in Sektion 4
-                    stage.addActor(imageCrewMemberSektion4);
-                    //Crewmember befindet sich in Sektion 6
-                    stage.addActor(imageCrewMemberSektion6);
+                    for (Image listOfCrewMemberImage : listOfCrewMemberImages) {
+                        stage.addActor(listOfCrewMemberImage);
+                    }
                 } else {
-                    imageCrewMemberSektion2.remove();
-                    imageCrewMemberSektion4.remove();
-                    imageCrewMemberSektion6.remove();
+                    for (Image listOfCrewMemberImage : listOfCrewMemberImages) {
+                        listOfCrewMemberImage.remove();
+                    }
                 }
                 break;
             case 1:
@@ -1171,9 +1142,6 @@ public class ShipSelectScreen extends BaseScreen {
         weaponsSystem.dispose();
         drive.dispose();
         crewDisplay.dispose();
-        crewMember.dispose();
-        crewMember2.dispose();
-        crewMember3.dispose();
         background.dispose();
     }
 

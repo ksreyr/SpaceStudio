@@ -148,7 +148,7 @@ public class Weapon {
         public int magazinSize;
         private Integer id;
         private String name;
-        private int hitRate;
+        private float hitRate;
         private int damage;
         private String img;
         private Section section;
@@ -159,7 +159,7 @@ public class Weapon {
 
         public WeaponBuilder(Integer id,
                              String name,
-                             int hitRate,
+                             float hitRate,
                              int damage,
                              String img,
                              Section section,
@@ -188,7 +188,7 @@ public class Weapon {
             return WeaponBuilder.this;
         }
 
-        public WeaponBuilder hitRate(int hitRate) {
+        public WeaponBuilder hitRate(float hitRate) {
             this.hitRate = hitRate;
             return WeaponBuilder.this;
         }

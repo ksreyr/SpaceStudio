@@ -36,6 +36,7 @@ public class JSONFile {
         String fullPath = FILE_NAME + uuid.toString() + ".json";
         try (FileWriter writer = new FileWriter(fullPath)) {
             gson.toJson(gameToExport, writer);
+            writer.flush();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -54,6 +55,7 @@ public class JSONFile {
         String fullPath = FILE_NAME + uuid.toString() + ".json";
         try (FileWriter writer = new FileWriter(fullPath)) {
             gson.toJson(gameToExport, writer);
+            writer.flush();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

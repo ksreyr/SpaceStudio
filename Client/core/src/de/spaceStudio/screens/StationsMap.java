@@ -39,7 +39,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
-
+import static de.spaceStudio.client.util.Global.stationListU2;
 
 public class StationsMap extends BaseScreen {
 
@@ -476,8 +476,8 @@ public class StationsMap extends BaseScreen {
                 LOG.info("Button CLicked");
                 click.play();
                 Gson gson = new Gson();
-                Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
-                Global.singlePlayerGame.setLastScreen("MAP");
+                // Prepare singlePlayer to upload to server
+                injectAllData();
                 String requestBody = gson.toJson(Global.singlePlayerGame);
                 final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
                 Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
@@ -585,6 +585,27 @@ public class StationsMap extends BaseScreen {
         skin.dispose();
         background.dispose();
         click.dispose();
+    }
+
+    /**
+     *
+     */
+    public static void injectAllData(){
+        Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
+        Global.singlePlayerGame.setLastScreen("MAP");
+        Global.singlePlayerGame.setShipSection1(Global.section1);
+        Global.singlePlayerGame.setShipSection2(Global.section2);
+        Global.singlePlayerGame.setShipSection3(Global.section3);
+        Global.singlePlayerGame.setShipSection4(Global.section4);
+        Global.singlePlayerGame.setShipSection5(Global.section5);
+        Global.singlePlayerGame.setShipSection6(Global.section6);
+        Global.singlePlayerGame.setStationListU2(stationListU2);
+        Global.singlePlayerGame.setPlanet1(Global.planet1);
+        Global.singlePlayerGame.setPlanet2(Global.planet2);
+        Global.singlePlayerGame.setPlanet3(Global.planet3);
+        Global.singlePlayerGame.setPlanet4(Global.planet4);
+        Global.singlePlayerGame.setPlanet5(Global.planet5);
+        Global.singlePlayerGame.setPlanet6(Global.planet6);
     }
 
 

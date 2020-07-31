@@ -99,9 +99,7 @@ public class ShipControllerImpl implements ShipController {
 
     @Override
     public Ship updateShip(Ship ship) {
-
-        shipRepository.findById(ship.getId());
-        return null;
+        return shipRepository.save(ship);
     }
 
     @Override

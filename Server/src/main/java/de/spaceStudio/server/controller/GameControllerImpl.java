@@ -7,6 +7,7 @@ import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
 import de.spaceStudio.server.utils.JSONFile;
+import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -629,7 +630,7 @@ public class GameControllerImpl implements GameController {
         Optional<AI> ai = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
         Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
 
-        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent() && weapon != null) {
+        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent()) {
             // Compute Changes for Player
             List<Section> sectionsOfPlayer = sectionController.sectionsByShip(playerShip.get().getId());
             List<Weapon> playerOfWeapons = new ArrayList<>();
@@ -638,8 +639,8 @@ public class GameControllerImpl implements GameController {
                 playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
             }
             lowerWarmUpTime(playerOfWeapons);
-            Optional<List<Section>> sectionsPlayer = sectionRepository.findAllByShip(playerShip.get());
-            sectionsPlayer.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
+//            Optional<List<Section>> sectionsPlayer = sectionRepository.findAllByShip(playerShip.get());
+//            sectionsPlayer.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
 
 
             // Now Compute for AI
@@ -663,6 +664,9 @@ public class GameControllerImpl implements GameController {
             lowerWarmUpTime(AIOfWeapons);
             Optional<List<Section>> sections = sectionRepository.findAllByShip(aiShip.get());
             sections.ifPresent(sectionList -> sectionController.makeChanges(sectionList));
+            player.get().getState().setFightState(FightState.PLAYING);
+            actorStateRepository.save(player.get().getState());
+            LOG.info(String.format("Ai %s has finished. It it is Player %s Turn", ai.get().getId(), player.get().getId()));
             return getLastCombatRoundUsedWeapons(ai.get());
         } else throw new IllegalArgumentException("The Weapon does not have the needed Paramters" + weapon);
     }

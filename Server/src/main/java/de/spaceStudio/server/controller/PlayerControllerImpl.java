@@ -51,6 +51,12 @@ public class PlayerControllerImpl implements PlayerController {
     @Autowired
     private AIRepository aiRepository;
 
+    @Autowired
+    GameRoundRepository gameRoundRepository;
+
+    @Autowired
+    CombatRoundRepository combatRoundRepository;
+
     /**
      * This function is temporal in use to test client to Server connection
      * Login user if exists
@@ -218,6 +224,17 @@ public class PlayerControllerImpl implements PlayerController {
     public String clean(Player player) {
         Player player1 = playerRepository.findByName(player.getName()).get();
 
+        if (player.getState() != null) {
+            player.setState(null);
+            playerRepository.save(player);
+            actorStateRepository.delete(player1.getState());
+        }
+        for (GameRound g :
+                gameRoundRepository.findByActor(player)) {
+            combatRoundRepository.deleteAll(g.getCombatRounds());
+            gameRoundRepository.delete(g);
+        }
+
         boolean fileClosed = JSONFile.cleanJSONSinglePlayerGame(player1.getSavedGame());
         if (fileClosed) {
             LOG.info("saved game success cleaned!");
@@ -268,7 +285,18 @@ public class PlayerControllerImpl implements PlayerController {
 
                     if (aiRepository.findByName(s.getOwner().getName()).isPresent()) {
                         AI ai = aiRepository.findByName(s.getOwner().getName()).get();
+                        for (GameRound g :
+                                gameRoundRepository.findByActor(ai)) {
+                            combatRoundRepository.deleteAll(g.getCombatRounds());
+                            gameRoundRepository.delete(g);
+                        }
+                        if (ai.getState() != null) {
+                            ai.setState(null);
+                            aiRepository.save(ai);
+                            actorStateRepository.delete(ai.getState());
+                        }
                         aiRepository.delete(ai);
+
                     }
                     if (stopAbstractRepository.findById(sa.getId()).isPresent()) {
                         if (stationRepository.existsById(sa.getId())) {
