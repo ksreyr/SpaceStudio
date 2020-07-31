@@ -782,18 +782,18 @@ public class Global {
         add(station4);
     }};
     //Sections Gegner  // FIXME was ist prive
-    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
-    public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
+    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(1).build();
+    public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(1).build();
     public static ShopRessource shopRessource3 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
 
     public static ShopRessource shopRessourcep1Gold = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
-    public static ShopRessource shopRessourcep1Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(100).build();
+    public static ShopRessource shopRessourcep1Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(1).build();
 
     public static ShopRessource shopRessourcep2Gold = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
-    public static ShopRessource shopRessourcep2Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(100).build();
+    public static ShopRessource shopRessourcep2Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(1).build();
 
     public static ShopRessource shopRessourcep3Gold = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
-    public static ShopRessource shopRessourcep3Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(100).build();
+    public static ShopRessource shopRessourcep3Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(1).build();
 
     public static List<ShopRessource> shopRessourceList = new ArrayList<>() {{
         add(shopRessource1);
