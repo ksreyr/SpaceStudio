@@ -65,7 +65,7 @@ public class AIControllerImpl implements AIController {
             ai.setState(aa);
         }
         GameRound gameRound = new GameRound();
-        List<GameRound> gameRounds = gameRoundRepository.findByActor(ai);
+        List<GameRound> gameRounds = gameRoundRepository.findAllByActor(ai);
         if (gameRounds.isEmpty()) {
             gameRound.setActor(ai);
             gameRoundRepository.save(gameRound);

@@ -425,7 +425,7 @@ public class GameControllerImpl implements GameController {
         Optional<Actor> actor = actorRepository.findById(pActor.getId());
 
         if (actor.isPresent()) {
-            List<GameRound> byActor = gameRoundRepository.findByActor(actor.get());
+            List<GameRound> byActor = gameRoundRepository.findAllByActor(actor.get());
             if (byActor.size() > 0) {
                 GameRound gameRound = byActor.get(byActor.size() - 1);
                 if (gameRound.getCombatRounds().isEmpty()) {
@@ -450,7 +450,7 @@ public class GameControllerImpl implements GameController {
                 actor.get().getState().setFightState(FightState.PLAYING);
 
                 CombatRound combatRound = new CombatRound();
-                List<GameRound> byActor = gameRoundRepository.findByActor(actor.get());
+                List<GameRound> byActor = gameRoundRepository.findAllByActor(actor.get());
                 GameRound gameRound = byActor.get(byActor.size() - 1);
                 combatRoundRepository.save(combatRound);
                 gameRound.getCombatRounds().add(combatRound); // New Combat Round
@@ -557,12 +557,12 @@ public class GameControllerImpl implements GameController {
 
             CombatRound combatRound = new CombatRound();
             combatRound = combatRoundRepository.save(combatRound);
-            List<GameRound> byActor = gameRoundRepository.findByActor(ai.get());
+            List<GameRound> byActor = gameRoundRepository.findAllByActor(ai.get());
             if (byActor.isEmpty()) {
                 GameRound gameRound = new GameRound();
                 gameRound.setActor(ai.get());
                 gameRoundRepository.save(gameRound);
-                byActor = gameRoundRepository.findByActor(ai.get());
+                byActor = gameRoundRepository.findAllByActor(ai.get());
             }
             GameRound gameRound = byActor.get(byActor.size() - 1);
             gameRound.getCombatRounds().add(combatRound);
@@ -647,7 +647,7 @@ public class GameControllerImpl implements GameController {
             actorFight(weapon);
             actorChangePower(aiShip.get());
 
-            List<GameRound> byActor = gameRoundRepository.findByActor(ai.get());
+            List<GameRound> byActor = gameRoundRepository.findAllByActor(ai.get());
             List<CombatRound> combatRounds = byActor.get(byActor.size() - 1).getCombatRounds();
 
             // Add the Crew Members of the Ship into the combat Round
@@ -672,7 +672,7 @@ public class GameControllerImpl implements GameController {
     }
 
     private List<Weapon> getLastCombatRoundUsedWeapons(Actor actor) {
-        List<GameRound> byActor = gameRoundRepository.findByActor(actor);
+        List<GameRound> byActor = gameRoundRepository.findAllByActor(actor);
         List<CombatRound> combatRounds = byActor.get(byActor.size() - 1).getCombatRounds();
         // Add the Crew Members of the Ship into the combat Round
         return combatRounds.get(combatRounds.size() - 1).getWeaponsWhichHaveAttacked();

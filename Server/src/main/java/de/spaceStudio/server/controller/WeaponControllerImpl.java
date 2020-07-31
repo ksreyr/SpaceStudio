@@ -163,7 +163,7 @@ public class WeaponControllerImpl implements WeaponController {
                 Optional<Actor> actor = actorRepository.findById(pWeapons.get(0).getSection().getShip().getOwner().getId());
                 if (hasHit && actor.isPresent()) {  // Dont change anything if no hit
                     // Find the last combat Round and add the weapon because it has attacked
-                    List<GameRound> gameRounds = gameRoundRepository.findByActor(actor.get());
+                    List<GameRound> gameRounds = gameRoundRepository.findAllByActor(actor.get());
                     GameRound curentGameRound = gameRounds.get(gameRounds.size() - 1);
 
                     if (curentGameRound.getCombatRounds().size() == 0) {

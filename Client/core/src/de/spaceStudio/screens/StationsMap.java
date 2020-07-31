@@ -26,10 +26,7 @@ import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.Pair;
-import de.spaceStudio.server.model.Planet;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.StopAbstract;
+import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
@@ -105,11 +102,33 @@ public class StationsMap extends BaseScreen {
         textAreaUN = new TextArea(unvisited, skin);
         textAreaVIS = new TextArea(visited, skin);
         textAreaShop = new TextArea(shopText, skin);
-        planet1(drawable_station_unvisited);
-        planet2(drawable_station_unvisited);
-        planet3(drawable_station_unvisited);
-        planet4(drawable_station_unvisited);
-        planet5(drawable_station_unvisited);
+
+        if (hasPlayerVisitedStation(Global.planet1)) {
+            planet1(drawable_station_visited, textAreaVIS);
+        } else {
+            planet1(drawable_station_unvisited, textAreaUN);
+        }
+        if (hasPlayerVisitedStation(Global.planet2)) {
+            planet2(drawable_station_visited, textAreaVIS);
+        } else {
+            planet2(drawable_station_unvisited, textAreaUN);
+        }
+        if (hasPlayerVisitedStation(Global.planet3)) {
+            planet3(drawable_station_visited, textAreaVIS);
+        } else {
+            planet3(drawable_station_unvisited, textAreaUN);
+        }
+        if (hasPlayerVisitedStation(Global.planet4)) {
+            planet4(drawable_station_visited, textAreaVIS);
+        } else {
+            planet4(drawable_station_unvisited, textAreaUN);
+        }
+        if (hasPlayerVisitedStation(Global.planet5)) {
+            planet5(drawable_station_visited, textAreaVIS);
+        } else {
+            planet5(drawable_station_unvisited, textAreaUN);
+        }
+
         shopStation(shopStationIcon);
         setStartPoint(drawable_station_unvisited);
 
@@ -191,11 +210,28 @@ public class StationsMap extends BaseScreen {
     }
 
 
-    private void planet1(Drawable drawable_station_unvisited) {
-        planet1ImgBTN = new ImageButton((drawable_station_unvisited));
+    public boolean hasPlayerVisitedStation(StopAbstract s) {
+        de.spaceStudio.server.model.Actor p = Global.combatActors.get(Global.currentPlayer.getId());
+        LOG.info("::::::::::::::: " + s.getName() );
+
+        for (GameRound g :
+                Global.playerRounds) {
+            System.out.println(g.getCurrentStop().getName());
+            if (g.getCurrentStop().getName().equals(s.getName())) {
+                System.out.println("true" + "****************************");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void planet1(Drawable drawable, TextArea textArea) {
+        planet1ImgBTN = new ImageButton((drawable));
         planet1ImgBTN.setPosition(coord.get(1).getLeft(), coord.get(1).getRight());
         planet1ImgBTN.setSize(PLANET_SIZEX, PLANET_SIZEY);
-        hoverListener(planet1ImgBTN, textAreaUN);
+
+
+        hoverListener(planet1ImgBTN, textArea);
         final Planet planet = Global.planet1;
         planet1ImgBTN.addListener(new ChangeListener() {
             @Override
@@ -220,11 +256,11 @@ public class StationsMap extends BaseScreen {
 
     }
 
-    private void planet2(Drawable drawable_station_unvisited) {
-        planet2ImgBTN = new ImageButton((drawable_station_unvisited));
+    private void planet2(Drawable drawable, TextArea textArea) {
+        planet2ImgBTN = new ImageButton((drawable));
         planet2ImgBTN.setPosition(coord.get(2).getLeft(), coord.get(2).getRight());
         planet2ImgBTN.setSize(PLANET_SIZEX, PLANET_SIZEX);
-        hoverListener(planet2ImgBTN, textAreaUN);
+        hoverListener(planet2ImgBTN, textArea);
         final Planet planet = Global.planet2;
         planet2ImgBTN.addListener(new ChangeListener() {
             @Override
@@ -257,11 +293,11 @@ public class StationsMap extends BaseScreen {
     }
 
 
-    private void planet3(Drawable drawable_station_unvisited) {
-        planet3ImgBTN = new ImageButton((drawable_station_unvisited));
+    private void planet3(Drawable drawable, TextArea textArea) {
+        planet3ImgBTN = new ImageButton((drawable));
         planet3ImgBTN.setPosition(coord.get(3).getLeft(), coord.get(3).getRight());  //hikeButton is an ImageButton
         planet3ImgBTN.setSize(PLANET_SIZEX, PLANET_SIZEY);
-        hoverListener(planet3ImgBTN, textAreaUN);
+        hoverListener(planet3ImgBTN, textArea);
         planet3ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -295,12 +331,12 @@ public class StationsMap extends BaseScreen {
     }
 
 
-    private void planet4(Drawable drawable_station_unvisited) {
+    private void planet4(Drawable drawable, TextArea textArea) {
         isPlanet = true;
-        planet4ImgBTN = new ImageButton((drawable_station_unvisited));
+        planet4ImgBTN = new ImageButton((drawable));
         planet4ImgBTN.setPosition(coord.get(4).getLeft(), coord.get(4).getRight());
         planet4ImgBTN.setSize(PLANET_SIZEX, PLANET_SIZEX);
-        hoverListener(planet4ImgBTN, textAreaUN);
+        hoverListener(planet4ImgBTN, textArea);
         planet4ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -328,12 +364,12 @@ public class StationsMap extends BaseScreen {
         });
     }
 
-    private void planet5(Drawable drawable_station_unvisited) {
+    private void planet5(Drawable drawable, TextArea textArea) {
         isPlanet = true;
-        planet5ImageBTN = new ImageButton((drawable_station_unvisited));
+        planet5ImageBTN = new ImageButton((drawable));
         planet5ImageBTN.setPosition(coord.get(5).getLeft(), coord.get(5).getRight());
         planet5ImageBTN.setSize(PLANET_SIZEX, PLANET_SIZEX);
-        hoverListener(planet5ImageBTN, textAreaUN);
+        hoverListener(planet5ImageBTN, textArea);
         planet5ImageBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -595,7 +631,7 @@ public class StationsMap extends BaseScreen {
     /**
      *
      */
-    public static void injectAllData(){
+    public static void injectAllData() {
         Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
         Global.singlePlayerGame.setLastScreen("MAP");
         Global.singlePlayerGame.setShipSection1(Global.section1);

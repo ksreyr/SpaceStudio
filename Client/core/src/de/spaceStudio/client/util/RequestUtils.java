@@ -86,8 +86,10 @@ public final class RequestUtils {
                     }
                 } else if (shipRequest) {
                     try {
-                        Global.currentShipPlayer = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {
-                        });
+                        if (!responseString[0].equals("")) {
+                            Global.currentShipPlayer = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {
+                            });
+                    }
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }

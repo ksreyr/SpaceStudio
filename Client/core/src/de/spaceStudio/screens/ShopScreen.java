@@ -56,10 +56,9 @@ public class ShopScreen extends ScreenAdapter {
     private final Texture weaponTexture;
     private final Texture oxygenTexture;
     private final Texture driveTexture;
+    private Texture shieldSystem, weaponsSystem, driveSystem, gold, energie;
+    private Label goldLabel;
     private final Skin skin;
-    private final Texture shieldSystem;
-    private final Texture driveSystem;
-    private final Texture weaponsSystem;
     public CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6, checkBoxAllSections;
     //
     List<ShipRessource> shipRessources = new ArrayList<>();
@@ -67,22 +66,10 @@ public class ShopScreen extends ScreenAdapter {
     private Stage stage;
     private TextButton next, buy, sell;
     private int itemNumber;
-    //Ressourcen
-    private int money;
-    private int secure;
-    private int drive;
-    private int oxygen;
-    //rocket1
-    private boolean rocket1s1, rocket1s2, rocket1s3, rocket1s4, rocket1s5, rocket1s6;
-    //rocket2
-    private boolean rocket2s1, rocket2s2, rocket2s3, rocket2s4, rocket2s5, rocket2s6;
-    //crewmemberF
-    private boolean crewMemberFs1, crewMemberFs2, crewMemberFs3, crewMemberFs4, crewMemberFs5, crewMemberFs6;
-    //crewmemberM
-    private boolean crewMemberMs1, crewMemberMs2, crewMemberMs3, crewMemberMs4, crewMemberMs5, crewMemberMs6;
-    //secure,drive
-    private boolean secureIconS1, driveIconS1, secureIconS2, driveIconS2;
-    //
+
+    //crewmember
+    private boolean crewMemberS1, crewMemberS2, crewMemberS3, crewMemberS4, crewMemberS5, crewMemberS6;
+
     private List<CrewMember> myCrew;
     private List<Image> listOfCrewMemberImages;
 
@@ -108,67 +95,26 @@ public class ShopScreen extends ScreenAdapter {
         //if secure or drive is too low
         securityTextureGrey = new Texture("data/ships/securityGrey.png");
         driveTextureGrey = new Texture("data/ships/batterie.png");
-
         shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
         driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
+        //gold = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
+        energie = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
+        this.goldLabel = new Label("Gold",skin);
 
-        listOfCrewMemberImages = new ArrayList<>();
-        myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
 
-        for(int i = 0; i < myCrew.size(); i++){
-            listOfCrewMemberImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" +
-                    myCrew.get(i).getImg()))));
-        }
-        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
-            listOfCrewMemberImages.get(i).setBounds(30,30,30,30);
-            listOfCrewMemberImages.get(i).setPosition(XPlayerShip + myCrew.get(i).getCurrentSection().getxPos(),
-                    YPlayerShip + myCrew.get(i).getCurrentSection().getyPos());
-        }
         this.itemNumber = 0;
         batch = new SpriteBatch();
 
-        this.money = 100;
-        this.secure = 100;
-        this.drive = 100;
-        this.oxygen = 100;
 
-        //rocket1
-        this.rocket1s1 = false;
-        this.rocket1s2 = false;
-        this.rocket1s3 = false;
-        this.rocket1s4 = false;
-        this.rocket1s5 = false;
-        this.rocket1s6 = false;
-        //rocket2
-        this.rocket2s1 = false;
-        this.rocket2s2 = false;
-        this.rocket2s3 = false;
-        this.rocket2s4 = false;
-        this.rocket2s5 = false;
-        this.rocket2s6 = false;
         //crewmemberF
-        this.crewMemberFs1 = false;
-        this.crewMemberFs2 = false;
-        this.crewMemberFs3 = false;
-        this.crewMemberFs4 = false;
-        this.crewMemberFs5 = false;
-        this.crewMemberFs6 = false;
-        //crewmemberM
-        this.crewMemberMs1 = false;
-        this.crewMemberMs2 = false;
-        this.crewMemberMs3 = false;
-        this.crewMemberMs4 = false;
-        this.crewMemberMs5 = false;
-        this.crewMemberMs6 = false;
+        this.crewMemberS1 = false;
+        this.crewMemberS2 = false;
+        this.crewMemberS3 = false;
+        this.crewMemberS4 = false;
+        this.crewMemberS5 = false;
+        this.crewMemberS6 = false;
 
-        //must haves
-        this.secureIconS1 = false;
-        this.driveIconS1 = false;
-        this.secureIconS2 = false;
-        this.driveIconS2 = false;
-
-        //
         getShipRessourcen(Global.currentShipPlayer, Net.HttpMethods.POST);
         getShopRessourcen(Global.currentStop, Net.HttpMethods.POST);
         //
@@ -224,9 +170,7 @@ public class ShopScreen extends ScreenAdapter {
         stage.addActor(checkBoxSection4);
         stage.addActor(checkBoxSection5);
         stage.addActor(checkBoxSection6);
-        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
-            stage.addActor(listOfCrewMemberImages.get(i));
-        }
+
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -406,43 +350,41 @@ public class ShopScreen extends ScreenAdapter {
             stage.addActor(textArea);
         }
 
-        TextArea shipInformationArea = new TextArea("Ship Options: \nSection1: Rocket1, Rocket2, CrewMember Female, CrewMember Male, Secure, Drive\nSection2: Rocket1, Rocket2, CrewMember Female, CrewMember Male, Secure, Drive\nSection3: Rocket1, Rocket2, CrewMember Female, CrewMember Male\nSection4: Rocket1, Rocket2, CrewMember Female, CrewMember Male\nSection5: Rocket1, Rocket2, CrewMember Female, CrewMember Male\nSection6: Rocket1, Rocket2, CrewMember Female, CrewMember Male", skin);
+        TextArea shipInformationArea = new TextArea("Ship Description: \nSection1: \nSection2: Secure \nSection3: \nSection4: Weapon \nSection5: \nSection6: Enegie", skin);
         shipInformationArea.setPosition(900, 50);
         shipInformationArea.setWidth(500);
         shipInformationArea.setHeight(270);
         stage.addActor(shipInformationArea);
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
-        stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
-        stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
-        stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
         //stage.getBatch().draw(playerShip, BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
 
         float positionX = 1450;
         float positionY = 700;
 
         switch (itemNumber) {
-            case 0:
-                stage.getBatch().draw(rocket1, positionX, positionY);
+            case 0: //Gold
+                //stage.getBatch().draw(gold, positionX, positionY);
+                stage.addActor(goldLabel);
+                goldLabel.setPosition(positionX, positionY);
                 break;
             case 1:
-                stage.getBatch().draw(rocket2, positionX, positionY);
+                goldLabel.remove();
+                stage.getBatch().draw(energie, positionX, positionY);
                 break;
-            case 2:
+            case 2://TODO Role
                 stage.getBatch().draw(crewMemberFTexture, positionX, positionY);
                 break;
+                /*
             case 3:
                 stage.getBatch().draw(crewMemberMTexture, positionX, positionY);
                 break;
-            case 4:
+                */
+            case 3:
                 stage.getBatch().draw(weaponTexture, positionX, positionY);
                 break;
-            case 5:
-                stage.getBatch().draw(oxygenTexture, positionX, positionY);
-                break;
-            case 6:
-                stage.getBatch().draw(driveTexture, positionX, positionY);
+            case 4:
+                stage.getBatch().draw(shieldSystem, positionX, positionY);
                 break;
         }
 
@@ -501,7 +443,7 @@ public class ShopScreen extends ScreenAdapter {
         next.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (itemNumber > 5)
+                if (itemNumber > 3)
                     itemNumber = 0;
                 else {
                     itemNumber++;
@@ -521,7 +463,9 @@ public class ShopScreen extends ScreenAdapter {
                 if (itemNumber == 0) {
                     buyItem(List.of(shopRessources.get(0)), Net.HttpMethods.POST);
                 } else if (itemNumber == 1) {
+                    //TODO buy Energie??
                     buyItem(List.of(shopRessources.get(1)), Net.HttpMethods.POST);
+
                 } else if (itemNumber == 2) {
                     if (checkBoxSection1.isChecked()) {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section1).health(100).buildCrewMember()), Net.HttpMethods.POST);
@@ -536,6 +480,7 @@ public class ShopScreen extends ScreenAdapter {
                     } else if (checkBoxSection6.isChecked()) {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section6).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     }
+                /*
                 } else if (itemNumber == 3) {
                     if (checkBoxSection1.isChecked()) {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section1).health(80).buildCrewMember()), Net.HttpMethods.POST);
@@ -550,9 +495,14 @@ public class ShopScreen extends ScreenAdapter {
                     } else if (checkBoxSection6.isChecked()) {
                         buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section6).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     }
-                } else if (itemNumber == 4) {
+                 */
+
+                } else if (itemNumber == 3) {
                     buyWeapons(List.of(Weapon.WeaponBuilder().damage(50).name("Laser gekauft").hitRate(5).warmUp(4).magazinSize(3).section(Global.section4).img("Lasser").build()), Net.HttpMethods.POST);
+                } else if (itemNumber == 4) {
+                    //TODO buy shield
                 }
+
                 setAllSectionCheckboxesFalse();
             }
         });
@@ -574,120 +524,28 @@ public class ShopScreen extends ScreenAdapter {
 
     public void changeItems(boolean b) {
 
-        if (itemNumber > 3) {
-            //setAllSectionCheckboxesFalse();
-            if (itemNumber == 4)
-                setSecure(getSecure() + 10);
-            if (itemNumber == 5)
-                setOxygen(getOxygen() + 10);
-            if (itemNumber == 6)
-                setDrive(getDrive() + 10);
-            if (b) {
-                setMoney(getMoney() - 10);
-            } else {
-                setMoney(getMoney() + 10);
+        if(itemNumber == 2) {
+            if (checkBoxSection1.isChecked()) {
+                    setCrewMemberS1(b);
             }
-        }
 
+            if (checkBoxSection2.isChecked()) {
+                    setCrewMemberS2(b);
+            }
 
-        if (checkBoxSection1.isChecked()) {
-            if (itemNumber == 0)
-                setRocket1s1(b);
-            if (itemNumber == 1)
-                setRocket2s1(b);
-            if (itemNumber == 2)
-                setCrewMemberFs1(b);
-            if (itemNumber == 3)
-                setCrewMemberMs1(b);
-            if (itemNumber == 4)
-                setSecureIconS1(b);
-            if (itemNumber == 6)
-                setDriveIconS1(b);
-            if (b) {
-                setMoney(getMoney() - 100);
-            } else {
-                setMoney(getMoney() + 100);
+            if (checkBoxSection3.isChecked()) {
+                    setCrewMemberS3(b);
             }
-        }
 
-        if (checkBoxSection2.isChecked()) {
-            if (itemNumber == 0)
-                setRocket1s2(b);
-            if (itemNumber == 1)
-                setRocket2s2(b);
-            if (itemNumber == 2)
-                setCrewMemberFs2(b);
-            if (itemNumber == 3)
-                setCrewMemberMs2(b);
-            if (itemNumber == 4)
-                setSecureIconS2(b);
-            if (itemNumber == 6)
-                setDriveIconS2(b);
-            if (b) {
-                setMoney(getMoney() - 100);
-            } else {
-                setMoney(getMoney() + 100);
+            if (checkBoxSection4.isChecked()) {
+                    setCrewMemberS4(b);
             }
-        }
-        if (checkBoxSection3.isChecked()) {
-            if (itemNumber == 0)
-                setRocket1s3(b);
-            if (itemNumber == 1)
-                setRocket2s3(b);
-            if (itemNumber == 2)
-                setCrewMemberFs3(b);
-            if (itemNumber == 3)
-                setCrewMemberMs3(b);
-            if (b) {
-                setMoney(getMoney() - 100);
-            } else {
-                setMoney(getMoney() + 100);
-            }
-        }
-        if (checkBoxSection4.isChecked()) {
-            if (itemNumber == 0)
-                setRocket1s4(b);
-            if (itemNumber == 1)
-                setRocket2s4(b);
-            if (itemNumber == 2)
-                setCrewMemberFs4(b);
-            if (itemNumber == 3)
-                setCrewMemberMs4(b);
-            if (b) {
-                setMoney(getMoney() - 100);
-            } else {
-                setMoney(getMoney() + 100);
-            }
-        }
 
-        if (checkBoxSection5.isChecked()) {
-            if (itemNumber == 0)
-                setRocket1s5(b);
-            if (itemNumber == 1)
-                setRocket2s5(b);
-            if (itemNumber == 2)
-                setCrewMemberFs5(b);
-            if (itemNumber == 3)
-                setCrewMemberMs5(b);
-            if (b) {
-                setMoney(getMoney() - 100);
-            } else {
-                setMoney(getMoney() + 100);
+            if (checkBoxSection5.isChecked()) {
+                    setCrewMemberS5(b);
             }
-        }
-        if (checkBoxSection6.isChecked()) {
-            if (itemNumber == 0)
-                setRocket1s6(b);
-            if (itemNumber == 1)
-                setRocket2s6(b);
-            if (itemNumber == 2)
-                setCrewMemberFs6(b);
-            if (itemNumber == 3)
-                setCrewMemberMs6(b);
-            if (b) {
-                setMoney(getMoney() - 100);
-            } else {
-                setMoney(getMoney() + 100);
+            if (checkBoxSection6.isChecked()) {
+                    setCrewMemberS6(b);
             }
         }
 
@@ -696,71 +554,57 @@ public class ShopScreen extends ScreenAdapter {
 
     public void showTextfield(int itemNumber) {
         if (!shopRessources.isEmpty()) {
-            if (itemNumber == 0) {
+            if (itemNumber == 0) { //Gold
 
-                TextArea textArea = new TextArea(shopRessources.get(0).getName() + " Amoung: " + shopRessources.get(0).getAmount() + " Price: " + shopRessources.get(0).getPrice(), skin);
+                TextArea textArea = new TextArea(shopRessources.get(0).getName() + " Amount: " + shopRessources.get(0).getAmount() + " Price: " + shopRessources.get(0).getPrice(), skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);
                 stage.addActor(textArea);
 
-            } else if (itemNumber == 1) {
+            } else if (itemNumber == 1) { //Energie
 
-                TextArea textArea = new TextArea(shopRessources.get(1).getName() + " Amoung: " + shopRessources.get(1).getAmount() + " Price: " + shopRessources.get(1).getPrice(), skin);
+                TextArea textArea = new TextArea(shopRessources.get(1).getName() + " Amount: " + shopRessources.get(1).getAmount() + " Price: " + shopRessources.get(1).getPrice(), skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);
                 stage.addActor(textArea);
 
-            } else if (itemNumber == 2) {
+            } else if (itemNumber == 2) { //CrewMember
 
-                TextArea textArea = new TextArea("Name: Name1\nRepairs: 50% per round\nCosts: 50 $", skin);
+                TextArea textArea = new TextArea("Name: Crew Member \nRole: \nCosts: 50 $ \n-> Choose sections to place CrewMember <-", skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);
                 stage.addActor(textArea);
 
-            } else if (itemNumber == 3) {
+             /*
+            } else if (itemNumber == 3) { //CrewMember
 
-                TextArea textArea = new TextArea("Name: Female CrewMember\nRepairs: 60% per round\nCosts: 100 $", skin);
+                TextArea textArea = new TextArea("Name: CrewMember\nRole: \nCosts: 100 $", skin);
+                textArea.setPosition(1400, 450);
+                textArea.setWidth(400);
+                textArea.setHeight(200);
+                stage.addActor(textArea); */
+
+            } else if (itemNumber == 3) { //Weapon
+
+                TextArea textArea = new TextArea("Name: WEAPON LASSER\nAmount: 50  \nCost:30 ", skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);
                 stage.addActor(textArea);
 
-            } else if (itemNumber == 4) {
+            } else if (itemNumber == 4) { //Secure
 
-                TextArea textArea = new TextArea("Name: WEAPONLASSER\nAmount: 50  \nCost:30 ", skin);
+                TextArea textArea = new TextArea("Name: Secure \nAmount: 50  \nCost:30 ", skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);
                 stage.addActor(textArea);
+
             }
         }
-        /*else if (itemNumber == 5) {
-
-            TextArea textArea = new TextArea("Name: Oxygen\nCosts: 10 $\nInfo: for the whole ship", skin);
-            textArea.setPosition(1400,450);
-            textArea.setWidth(400);
-            textArea.setHeight(200);
-            stage.addActor(textArea);
-
-        } else if (itemNumber == 6){
-
-            TextArea textArea = new TextArea("Name: Drive\nCosts: 10 $\nInfo: for the whole ship", skin);
-            textArea.setPosition(1400,450);
-            textArea.setWidth(400);
-            textArea.setHeight(200);
-            stage.addActor(textArea);
-
-        } else {
-            TextArea textArea = new TextArea("No item chosen", skin);
-            textArea.setPosition(1400,450);
-            textArea.setWidth(400);
-            textArea.setHeight(200);
-            stage.addActor(textArea);
-        }*/
-
     }
 
     public void setAllSectionCheckboxesFalse() {
@@ -779,238 +623,53 @@ public class ShopScreen extends ScreenAdapter {
         float position1 = playerShip.getHeight();
         float position2 = playerShip.getWidth();
 
-        //if(!secureIconS1){ stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 520); }
-        if (secureIconS1) {
-            stage.getBatch().draw(weaponTexture, playershipX + 150, playershipY + 520);
-        }
-        //if(!driveIconS1){ stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 520); }
-        if (driveIconS1) {
-            stage.getBatch().draw(driveTexture, playershipX + 190, playershipY + 520);
-        }
-        //if(!secureIconS2){ stage.getBatch().draw(securityTextureGrey,playershipX + 150,playershipY + 140); }
-        if (secureIconS2) {
-            stage.getBatch().draw(weaponTexture, playershipX + 150, playershipY + 140);
-        }
-        ///if(!driveIconS2){ stage.getBatch().draw(driveTextureGrey,playershipX + 190,playershipY + 140); }
-        if (driveIconS2) {
-            stage.getBatch().draw(driveTexture, playershipX + 190, playershipY + 140);
-        }
+        stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
+        stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
+        stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
+        stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
 
-        if (rocket1s1) {
-            stage.getBatch().draw(rocket1, 280, 620);
+
+        if (crewMemberS1) {
+            stage.getBatch().draw(crewMemberFTexture, XPlayerShip + 120, YPlayerShip + 400);
         }
-        if (rocket1s2) {
-            stage.getBatch().draw(rocket1, 280, 160);
+        if (crewMemberS2) {
+            stage.getBatch().draw(crewMemberFTexture, XPlayerShip + 200, YPlayerShip + 310);
         }
-        if (rocket1s3) {
-            stage.getBatch().draw(rocket1, 500, 490);
+        if (crewMemberS3) {
+            stage.getBatch().draw(crewMemberFTexture,XPlayerShip + 300, YPlayerShip + 300);
         }
-        if (rocket1s4) {
-            stage.getBatch().draw(rocket1, 500, 300);
+        if (crewMemberS4) {
+            stage.getBatch().draw(crewMemberFTexture, XPlayerShip + 300, YPlayerShip + 200);
         }
-        if (rocket1s5) {
-            stage.getBatch().draw(rocket1, 700, 490);
+        if (crewMemberS5) {
+            stage.getBatch().draw(crewMemberFTexture, XPlayerShip + 200, YPlayerShip + 200);
         }
-        if (rocket1s6) {
-            stage.getBatch().draw(rocket1, 700, 340);
-        }
-        if (rocket2s1) {
-            stage.getBatch().draw(rocket2, 330, 620);
-        }
-        if (rocket2s2) {
-            stage.getBatch().draw(rocket2, 330, 160);
-        }
-        if (rocket2s3) {
-            stage.getBatch().draw(rocket2, 550, 490);
-        }
-        if (rocket2s4) {
-            stage.getBatch().draw(rocket2, 550, 300);
-        }
-        if (rocket2s5) {
-            stage.getBatch().draw(rocket2, 750, 490);
-        }
-        if (rocket2s6) {
-            stage.getBatch().draw(rocket2, 750, 340);
-        }
-        if (crewMemberFs1) {
-            stage.getBatch().draw(crewMemberFTexture, 300, 690);
-        }
-        if (crewMemberFs2) {
-            stage.getBatch().draw(crewMemberFTexture, 300, 230);
-        }
-        if (crewMemberFs3) {
-            stage.getBatch().draw(crewMemberFTexture, 500, 560);
-        }
-        if (crewMemberFs4) {
-            stage.getBatch().draw(crewMemberFTexture, 500, 370);
-        }
-        if (crewMemberFs5) {
-            stage.getBatch().draw(crewMemberFTexture, 700, 560);
-        }
-        if (crewMemberFs6) {
-            stage.getBatch().draw(crewMemberFTexture, 700, 410);
-        }
-        if (crewMemberMs1) {
-            stage.getBatch().draw(crewMemberMTexture, 350, 690);
-        }
-        if (crewMemberMs2) {
-            stage.getBatch().draw(crewMemberMTexture, 350, 230);
-        }
-        if (crewMemberMs3) {
-            stage.getBatch().draw(crewMemberMTexture, 550, 560);
-        }
-        if (crewMemberMs4) {
-            stage.getBatch().draw(crewMemberMTexture, 550, 370);
-        }
-        if (crewMemberMs5) {
-            stage.getBatch().draw(crewMemberMTexture, 750, 560);
-        }
-        if (crewMemberMs6) {
-            stage.getBatch().draw(crewMemberMTexture, 750, 410);
+        if (crewMemberS6) {
+            stage.getBatch().draw(crewMemberFTexture, XPlayerShip + 120, YPlayerShip + 100);
         }
     }
 
-    public int getMoney() {
-        return money;
+    public void setCrewMemberS1(boolean crewMemberS1) {
+        this.crewMemberS1 = crewMemberS1;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
+    public void setCrewMemberS2(boolean crewMemberS2) {
+        this.crewMemberS2 = crewMemberS2;
     }
 
-    public int getSecure() {
-        return secure;
+    public void setCrewMemberS3(boolean crewMemberS3) {
+        this.crewMemberS3 = crewMemberS3;
     }
 
-    public void setSecure(int secure) {
-        this.secure = secure;
+    public void setCrewMemberS4(boolean crewMemberS4) {
+        this.crewMemberS4 = crewMemberS4;
     }
 
-    public int getDrive() {
-        return drive;
+    public void setCrewMemberS5(boolean crewMemberS5) {
+        this.crewMemberS5 = crewMemberS5;
     }
 
-    public void setDrive(int drive) {
-        this.drive = drive;
-    }
-
-    public int getOxygen() {
-        return oxygen;
-    }
-
-    public void setOxygen(int oxygen) {
-        this.oxygen = oxygen;
-    }
-
-    public void setRocket1s1(boolean rocket1s1) {
-        this.rocket1s1 = rocket1s1;
-    }
-
-    public void setRocket1s2(boolean rocket1s2) {
-        this.rocket1s2 = rocket1s2;
-    }
-
-    public void setRocket1s3(boolean rocket1s3) {
-        this.rocket1s3 = rocket1s3;
-    }
-
-    public void setRocket1s4(boolean rocket1s4) {
-        this.rocket1s4 = rocket1s4;
-    }
-
-    public void setRocket1s5(boolean rocket1s5) {
-        this.rocket1s5 = rocket1s5;
-    }
-
-    public void setRocket1s6(boolean rocket1s6) {
-        this.rocket1s6 = rocket1s6;
-    }
-
-    public void setRocket2s1(boolean rocket2s1) {
-        this.rocket2s1 = rocket2s1;
-    }
-
-    public void setRocket2s2(boolean rocket2s2) {
-        this.rocket2s2 = rocket2s2;
-    }
-
-    public void setRocket2s3(boolean rocket2s3) {
-        this.rocket2s3 = rocket2s3;
-    }
-
-    public void setRocket2s4(boolean rocket2s4) {
-        this.rocket2s4 = rocket2s4;
-    }
-
-    public void setRocket2s5(boolean rocket2s5) {
-        this.rocket2s5 = rocket2s5;
-    }
-
-    public void setRocket2s6(boolean rocket2s6) {
-        this.rocket2s6 = rocket2s6;
-    }
-
-    public void setCrewMemberFs1(boolean crewMemberFs1) {
-        this.crewMemberFs1 = crewMemberFs1;
-    }
-
-    public void setCrewMemberFs2(boolean crewMemberFs2) {
-        this.crewMemberFs2 = crewMemberFs2;
-    }
-
-    public void setCrewMemberFs3(boolean crewMemberFs3) {
-        this.crewMemberFs3 = crewMemberFs3;
-    }
-
-    public void setCrewMemberFs4(boolean crewMemberFs4) {
-        this.crewMemberFs4 = crewMemberFs4;
-    }
-
-    public void setCrewMemberFs5(boolean crewMemberFs5) {
-        this.crewMemberFs5 = crewMemberFs5;
-    }
-
-    public void setCrewMemberFs6(boolean crewMemberFs6) {
-        this.crewMemberFs6 = crewMemberFs6;
-    }
-
-    public void setCrewMemberMs1(boolean crewMemberMs1) {
-        this.crewMemberMs1 = crewMemberMs1;
-    }
-
-    public void setCrewMemberMs2(boolean crewMemberMs2) {
-        this.crewMemberMs2 = crewMemberMs2;
-    }
-
-    public void setCrewMemberMs3(boolean crewMemberMs3) {
-        this.crewMemberMs3 = crewMemberMs3;
-    }
-
-    public void setCrewMemberMs4(boolean crewMemberMs4) {
-        this.crewMemberMs4 = crewMemberMs4;
-    }
-
-    public void setCrewMemberMs5(boolean crewMemberMs5) {
-        this.crewMemberMs5 = crewMemberMs5;
-    }
-
-    public void setCrewMemberMs6(boolean crewMemberMs6) {
-        this.crewMemberMs6 = crewMemberMs6;
-    }
-
-    public void setSecureIconS1(boolean secureIconS1) {
-        this.secureIconS1 = secureIconS1;
-    }
-
-    public void setDriveIconS1(boolean driveIconS1) {
-        this.driveIconS1 = driveIconS1;
-    }
-
-    public void setSecureIconS2(boolean secureIconS2) {
-        this.secureIconS2 = secureIconS2;
-    }
-
-    public void setDriveIconS2(boolean driveIconS2) {
-        this.driveIconS2 = driveIconS2;
+    public void setCrewMemberS6(boolean crewMemberS6) {
+        this.crewMemberS6 = crewMemberS6;
     }
 }

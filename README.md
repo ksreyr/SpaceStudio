@@ -6,3 +6,14 @@
 <div align="center">
 <img src="docs/Architekturbeschreibung/pics/SpaceStudioLogo.png" width="400">
 </div>
+
+
+## Run Server
+```bash
+$ ./gradlew bootRun
+```
+
+## Run Client
+```bash
+ ./gradlew :Client:desktop:run
+```

@@ -4,17 +4,14 @@ sourceCompatibility = 11
 sourceSets.main.java.srcDirs = ["src/"]
 sourceSets.main.resources.srcDirs = ["../core/assets"]
 
-project.ext.mainClassName = "de.bremen.desktop.DesktopLauncher"
+project.ext.mainClassName = "de.spaceStudio.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../core/assets")
-project.ext {
-    visuiVersion = '1.4.2'
-}
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project.assetsDir
+    workingDir = project.rootDir
     ignoreExitValue = true
 }
 

@@ -99,7 +99,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                     actorStateRepository.save(state);
                     // Start a new Game Round for the Player
                     GameRound gameRound = new GameRound();
-                    gameRound.setCurrentStop(stopStart);
+                    gameRound.setCurrentStop(stopEnd);
                     gameRound.setActor(p.get());
                     gameRoundRepository.save(gameRound);
                     LOGGER.info(String.format("Player %s is ready", p.get().getId()));

@@ -99,7 +99,12 @@ public class CombatScreen extends BaseScreen {
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
     //private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
-    private List<CrewMember> myCrew;
+    private List<CrewMember> myCrew() {
+        if (!Global.combatCrew.containsKey(Global.currentShipPlayer.getId())) {
+            return new ArrayList<>();
+        }
+        return Global.combatCrew.get(Global.currentShipPlayer.getId());
+    }
     private Label breakCrewMember;
     private String breakinfo;
     private Boolean killTimer = false;
@@ -129,7 +134,7 @@ public class CombatScreen extends BaseScreen {
         assetManager = universeMap.getAssetManager();
         camera = new OrthographicCamera();
 
-        myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
+
 
         int row_height = Gdx.graphics.getWidth() / 12;
         int col_width = Gdx.graphics.getWidth() / 12;
@@ -247,14 +252,14 @@ public class CombatScreen extends BaseScreen {
         driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         redPin = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/pin.png"));
-        for (CrewMember crewMember : myCrew) {
+        for (CrewMember crewMember : myCrew()) {
             listOfCrewImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" + crewMember.getImg()))));
         }
         for(int i = 0; i < listOfCrewImages.size(); i++){
             listOfCrewImages.get(i).setBounds(30,30,30,30);
-            listOfCrewImages.get(i).setPosition(XPlayerShip + myCrew.get(i).getCurrentSection().getxPos(),
-                    YPlayerShip + myCrew.get(i).getCurrentSection().getyPos());
-            listOfCrewImages.get(i).setName(myCrew.get(i).getName());
+            listOfCrewImages.get(i).setPosition(XPlayerShip + myCrew().get(i).getCurrentSection().getxPos(),
+                    YPlayerShip + myCrew().get(i).getCurrentSection().getyPos());
+            listOfCrewImages.get(i).setName(myCrew().get(i).getName());
             dragAndDrop(listOfCrewImages.get(i));
         }
 
@@ -672,7 +677,7 @@ public class CombatScreen extends BaseScreen {
      * @return CrewMember object of image
      */
     private CrewMember getDraggedCrewMember(Image imageCrewMember) {
-        for (CrewMember crewMember : myCrew) {
+        for (CrewMember crewMember : myCrew()) {
             if (crewMember.getName().equals(imageCrewMember.getName())) {
                 return crewMember;
             }
@@ -770,7 +775,7 @@ public class CombatScreen extends BaseScreen {
                 } else {
                     Gson gson = new Gson();
                     CrewMember newCrewMember = gson.fromJson(result, CrewMember.class);
-                    Global.combatCrew.get(Global.currentShipPlayer.getId()).set(myCrew.indexOf(newCrewMember), newCrewMember);
+                    Global.combatCrew.get(Global.currentShipPlayer.getId()).set(myCrew().indexOf(newCrewMember), newCrewMember);
 
                     imageCrewMember.setPosition(XPlayerShip + newCrewMember.getCurrentSection().getxPos(),
                             YPlayerShip + newCrewMember.getCurrentSection().getyPos());
@@ -911,7 +916,7 @@ public class CombatScreen extends BaseScreen {
                 xs) {
             String crewName = "None";
             for (CrewMember c :
-                    myCrew) {
+                    myCrew()) {
                 if (c.getCurrentSection().equals(s)) {
                     crewName = c.getName();
                 }
@@ -981,7 +986,7 @@ public class CombatScreen extends BaseScreen {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            randomNumber = (int) ((Math.random() * (5)) + 0);
+
             //Set Target->Section of Player and gegner Weapons
             logicOfFirePlayer();
             //bullets.add(new Bullet(590, yWeaponPos));
@@ -1074,6 +1079,7 @@ public class CombatScreen extends BaseScreen {
             System.out.println(":::Defeat");
             validationGegner = "";
 
+            killTimer = true;
             mainClient.setScreen(new MenuScreen(game));
         }
 
@@ -1108,8 +1114,6 @@ public class CombatScreen extends BaseScreen {
                 if (isTargetCockpit && bullet.remove) stage.getBatch().draw(explosion, 1540, 550, 100, 100);
                 bulletToRemove.add(bullet);
             }
-
-
         }
 
         bullets.removeAll(bulletToRemove);
@@ -1254,6 +1258,7 @@ public class CombatScreen extends BaseScreen {
         dialog.button("See Map", true).addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                killTimer = true;
                 game.setScreen(new StationsMap(game));
             }
         });
@@ -1268,6 +1273,7 @@ public class CombatScreen extends BaseScreen {
         dialog.button("See Menu", true).addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                killTimer = true;
                 game.setScreen(new MenuScreen(game));
             }
         });
@@ -1279,50 +1285,52 @@ public class CombatScreen extends BaseScreen {
 
 
     public void proofCrewMembersAvailable() {
+        if (Global.combatCrew.containsKey(Global.currentShipPlayer.getId())) {
 
-        for (int i = 0; i < Global.combatCrew.get(Global.currentShipPlayer.getId()).size(); i++) {
+            for (int i = 0; i < Global.combatCrew.get(Global.currentShipPlayer.getId()).size(); i++) {
 
-            if (Global.combatCrew.get(Global.currentShipPlayer.getId()).get(i).getRoundsToDestination() == 1) {
-                stage.addActor(listOfCrewImages.get(i));
-                breakCrewMember.remove();
+                if (Global.combatCrew.get(Global.currentShipPlayer.getId()).get(i).getRoundsToDestination() == 1) {
+                    stage.addActor(listOfCrewImages.get(i));
+                    breakCrewMember.remove();
 
-                if(i == 0 ) {
-                    //imageCrewMemberOne.remove();
-                    setHourglass1(true);
-                    setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
-                    this.breakCrewMember = new Label(breakinfo, skin);
-                    stage.addActor(breakCrewMember);
+                    if (i == 0) {
+                        //imageCrewMemberOne.remove();
+                        setHourglass1(true);
+                        setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
+                        this.breakCrewMember = new Label(breakinfo, skin);
+                        stage.addActor(breakCrewMember);
+                    }
+                    if (i == 1) {
+                        //imageCrewMemberTwo.remove();
+                        setHourglass2(true);
+                        setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
+                        this.breakCrewMember = new Label(breakinfo, skin);
+                        stage.addActor(breakCrewMember);
+                    }
+                    if (i == 2) {
+                        //imageCrewMemberThree.remove();
+                        setHourglass3(true);
+                        setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
+                        this.breakCrewMember = new Label(breakinfo, skin);
+                        stage.addActor(breakCrewMember);
+                    }
+                    breakCrewMember.setPosition(200, 900);
                 }
-                if (i == 1) {
-                    //imageCrewMemberTwo.remove();
-                    setHourglass2(true);
-                    setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
-                    this.breakCrewMember = new Label(breakinfo, skin);
-                    stage.addActor(breakCrewMember);
-                }
-                if (i == 2) {
-                    //imageCrewMemberThree.remove();
-                    setHourglass3(true);
-                    setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
-                    this.breakCrewMember = new Label(breakinfo, skin);
-                    stage.addActor(breakCrewMember);
-                }
-                breakCrewMember.setPosition(200,900);
-            }
 
-            if (Global.combatCrew.get(Global.currentShipPlayer.getId()).get(i).getRoundsToDestination() == 0) {
-                stage.addActor(listOfCrewImages.get(i));
-                if(i==0) {
-                    setHourglass1(false);
-                    //System.out.println("setHourglass1(false);");
-                }
-                if(i==1) {
-                    setHourglass2(false);
-                    //System.out.println("setHourglass2(false);");
-                }
-                if(i==2) {
-                    setHourglass3(false);
-                    //System.out.println("setHourglass3(false);");
+                if (Global.combatCrew.get(Global.currentShipPlayer.getId()).get(i).getRoundsToDestination() == 0) {
+                    stage.addActor(listOfCrewImages.get(i));
+                    if (i == 0) {
+                        setHourglass1(false);
+                        //System.out.println("setHourglass1(false);");
+                    }
+                    if (i == 1) {
+                        setHourglass2(false);
+                        //System.out.println("setHourglass2(false);");
+                    }
+                    if (i == 2) {
+                        setHourglass3(false);
+                        //System.out.println("setHourglass3(false);");
+                    }
                 }
             }
         }
