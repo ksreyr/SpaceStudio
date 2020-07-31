@@ -328,6 +328,19 @@ public class Global {
         add(crewMember1gegner3);
         add(crewMember2gegner3);
     }};
+
+
+    public static CrewMember crewMember1gegner4 = CrewMember.crewMemberBuilder().health(100)
+            .img("Robot").role(Role.FIGHTER).buildCrewMember();
+    public static CrewMember crewMember2gegner4 = CrewMember.crewMemberBuilder().health(200).
+            img("Human").role(Role.TECHNICIAN).buildCrewMember();
+    public static List<CrewMember> crewMemberListGegner4 = new ArrayList<>() {{
+        add(crewMember1gegner4);
+        add(crewMember2gegner4);
+    }};
+
+
+
     public static boolean allReady = false;  // FIXME change to true when all Player will jump
     public static int currentStopNumber = 0;
 
@@ -445,15 +458,15 @@ public class Global {
             name("Shipgegner3").owner(ai3).
             buildShip();
     public static Ship shipGegner4 = Ship.shipBluider().hp(HP).
-            power(9).shield(10000).
+            power(9).shield(200).
             name("Shipgegner4").owner(ai4).
             buildShip();
     public static Ship shipGegner5 = Ship.shipBluider().hp(HP).
-            power(9).shield(1).
+            power(9).shield(200).
             name("Shipgegner5").owner(ai5).
             buildShip();
     public static Ship shipGegner6 = Ship.shipBluider().hp(HP).
-            power(9).shield(5).
+            power(9).shield(500).
             name("Shipgegner6").owner(ai6).
             buildShip();
     // Ship Universe 2

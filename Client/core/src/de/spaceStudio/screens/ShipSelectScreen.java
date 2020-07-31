@@ -1027,7 +1027,20 @@ public class ShipSelectScreen extends BaseScreen {
                             break;
                     }
                 }
-                sendRequestAddCrewMembers(List.of(crewMember1gegner1, crewMember2gegner1, crewMember1gegner2, crewMember2gegner2, crewMember1gegner3, crewMember2gegner3), Net.HttpMethods.POST);
+
+                for (Section section :
+                        sectionsgegner4) {
+                    switch (section.getImg()) {
+                        case "Section1Gegner4":
+                            crewMember1gegner4.setCurrentSection(section);
+                            break;
+                        case "Section2Gegner4":
+                            crewMember2gegner4.setCurrentSection(section);
+                            break;
+                    }
+                }
+
+                sendRequestAddCrewMembers(List.of(crewMember1gegner1, crewMember2gegner1, crewMember1gegner2, crewMember2gegner2, crewMember1gegner3, crewMember2gegner3,crewMember1gegner4,crewMember2gegner4), Net.HttpMethods.POST);
                 requestcounter = 23;
             }
             if (!crewMemberList.isEmpty() && requestcounter == 23) {
@@ -1037,6 +1050,9 @@ public class ShipSelectScreen extends BaseScreen {
                 Global.crewMember2gegner2 = crewMemberList.get(3);
                 Global.crewMember1gegner3 = crewMemberList.get(4);
                 Global.crewMember2gegner3 = crewMemberList.get(5);
+
+                Global.crewMember1gegner4 = crewMemberList.get(6);
+                Global.crewMember2gegner4 = crewMemberList.get(7);
                 mainClient.setScreen(new StationsMap(game));
                 requestcounter = 24;
             }
