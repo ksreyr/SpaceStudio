@@ -950,7 +950,7 @@ public class CombatScreen extends BaseScreen {
                 break;
             }
         }
-        return isNotBroken;
+        return !isNotBroken;
     }
 
 
@@ -983,16 +983,18 @@ public class CombatScreen extends BaseScreen {
 
         // TODO wenn alle Sektionen kaputt sind, wird auch verlore
         // If der Player lose
-        if (Global.currentShipPlayer.getHp() < 1 || Global.combatCrew.get(Global.currentShipPlayer.getId()).isEmpty()
-                || allSectionsBroken(Global.combatSections.get(Global.currentShipPlayer.getId()))) {
-            LOG.info("You have lost the Game");
-            Global.combatWeapons.remove(Global.currentShipGegner.getId());
-            Global.combatSections.remove(Global.currentShipGegner.getId());
-            Global.combatActors.remove(Global.currentGegner.getId());
-            Global.combatCrew.remove(Global.currentShipGegner.getId());
-            final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
-            };
-            loseMessageDialog(dialog, " You have lost the game!");
+        if (Global.combatCrew.size() == 2 && Global.combatSections.size() == 2) {
+            if (Global.currentShipPlayer.getHp() < 1 || Global.combatCrew.get(Global.currentShipPlayer.getId()).isEmpty()
+                    || allSectionsBroken(Global.combatSections.get(Global.currentShipPlayer.getId()))) {
+                LOG.info("You have lost the Game");
+                Global.combatWeapons.remove(Global.currentShipGegner.getId());
+                Global.combatSections.remove(Global.currentShipGegner.getId());
+                Global.combatActors.remove(Global.currentGegner.getId());
+                Global.combatCrew.remove(Global.currentShipGegner.getId());
+                final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
+                };
+                loseMessageDialog(dialog, " You have lost the game!");
+            }
         }
 
 
@@ -1140,7 +1142,7 @@ public class CombatScreen extends BaseScreen {
 
         }
 
-        if (Global.currentShipGegner != null && !Global.combatSections.isEmpty()) {
+        if (Global.currentShipGegner != null && Global.combatSections.size() == 2) {
             for (Section s :
                     Global.combatSections.get(Global.currentShipGegner.getId())) {
                 if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))   stage.getBatch().draw(explosion, 1530, 635, 100, 70);

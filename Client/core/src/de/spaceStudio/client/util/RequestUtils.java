@@ -101,6 +101,7 @@ public final class RequestUtils {
                                 Weapon w = Global.combatWeapons.get(Global.currentShipGegner.getId()).get(0);
                                 w.setObjectiv(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0));
                                 endTurnRequestSinglePlayer(w);
+                                crewMemeberByShip(Global.currentShipPlayer);
                             } else {
                                 LOG.warning("There apears to be a problem with the global Maps. Please check if you always use the correct id");
                             }
@@ -116,7 +117,6 @@ public final class RequestUtils {
                         Global.weaponsToProcess.addAll(weaponsWhichHaveShot);
                         getActor(Global.currentPlayer);
                         getShip(Global.currentShipPlayer);
-                        crewMemeberByShip(Global.currentShipPlayer);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -187,6 +187,7 @@ public final class RequestUtils {
     public static void upgradeWeapon(List<Weapon> weapons) {
         genericRequest(Global.SERVER_URL + Global.WEAPON_CREATION_ENDPOINT, false, Global.currentShipPlayer.getId(), Net.HttpMethods.PUT, weapons);
     }
+
     public static void updateShip(Ship ship) {
         genericRequest(Global.SERVER_URL + Global.SHIP_ENDPOINT, true, ship.getId(), Net.HttpMethods.PUT, ship);
     }
