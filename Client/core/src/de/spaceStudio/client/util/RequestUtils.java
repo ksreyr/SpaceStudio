@@ -80,7 +80,10 @@ public final class RequestUtils {
                     try {
                         Global.allReady = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
                         });
-                        isMultiplayerFight();
+                        if (Global.allReady) {
+                            // Multiplayer Step 3
+                            isMultiplayerFight();
+                        }
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -135,8 +138,10 @@ public final class RequestUtils {
                         Global.isOnlineFight = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
                         });
                         if (Global.isOnlineFight) {
+                            // Step Multiplayer a4 fight
                             getEnemyShipMultiplayer();
                         } else {
+                            // Step Multiplayer a4 no Fight
                             Global.loadingFightLocation = false;
                         }
                     } catch (JsonProcessingException e) {
@@ -144,9 +149,12 @@ public final class RequestUtils {
                     }
                 } else if (url.contains(Global.MULTIPLAYER + Global.ENEMYSHIP)) {
                     try {
+                        // Multiplayer Step 5
                         Global.currentShipGegner = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {
                         });
                         Global.currentGegner = Global.currentShipGegner.getOwner();
+
+                        // Multiplayer Step 6
                         Global.loadingFightLocation  = false;
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();

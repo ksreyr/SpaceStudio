@@ -733,28 +733,8 @@ public class Global {
     public static Planet planet7 = Planet.builder().name("p7").img("null").build();
     public static Planet planet8 = Planet.builder().name("p8").img("null").build();
     public static Planet planet9 = Planet.builder().name("p9").img("null").build();
-    /*
-    public static List<Ship> shipsgegneru1 =new ArrayList<Ship>(){{
-        add(shipGegner1);
-        add(shipGegner2);
-        add(shipGegner3);
-
-    }};
-    public static void updateShipsVariabelgegneru1(){
-        shipGegner1=shipsgegneru1.get(0);
-        shipGegner2=shipsgegneru1.get(1);
-        shipGegner3=shipsgegneru1.get(2);
-    }
-    public static void updateShipsListgegneru1(){
-        List<Ship> shipsgegneru1new =new ArrayList<Ship>(){{
-            add(shipGegner1);
-            add(shipGegner2);
-            add(shipGegner3);
-        }};
-        shipsgegneru1=shipsgegneru1new;
-    }*/
-    //**Weapons Universe **//
     public static Planet planet10 = Planet.builder().name("p10").img("null").build();
+
     public static List<Planet> planetListU2 = new ArrayList<>() {{
         add(planet1);
         add(planet2);

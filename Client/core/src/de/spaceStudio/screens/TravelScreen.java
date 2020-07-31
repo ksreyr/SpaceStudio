@@ -101,6 +101,7 @@ public class TravelScreen extends ScreenAdapter {
                     LOG.info("Fetching data from server...");
                     LOG.info(multiPlayerSessionID);
 
+                    // Multiplayer Step 2. Can I Land
                     RequestUtils.canLand(Global.currentPlayer);
 
                 }
@@ -132,7 +133,6 @@ public class TravelScreen extends ScreenAdapter {
         if (timePassed > 5 && jumpReady) {
 
             if (!requestSend) {
-//            Global.weaponListPlayer = RequestUtils.weaponsByShip(Global.currentShipPlayer); // Load all the Weapons  FIXME make async
                 RequestUtils.sectionsByShip(Global.currentShipPlayer);
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);
                 RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
@@ -144,12 +144,13 @@ public class TravelScreen extends ScreenAdapter {
                 requestSend = true;
             }
             killTimer = true;
-            if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0)
+            if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0) {
                 if (isOnlineFight) {
                     game.setScreen(new CombatScreen(game));
                 } else {
                     game.setScreen(new StopScreen(game));
                 }
+            }
         }
         stage.act();
         stage.draw();
