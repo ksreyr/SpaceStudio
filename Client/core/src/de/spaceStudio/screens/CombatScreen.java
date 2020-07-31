@@ -240,8 +240,8 @@ public class CombatScreen extends BaseScreen {
         driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         redPin = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/pin.png"));
-        for(int i = 0; i < myCrew.size(); i++){
-            listOfCrewImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" + myCrew.get(i).getImg()))));
+        for (CrewMember crewMember : myCrew) {
+            listOfCrewImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" + crewMember.getImg()))));
         }
         for(int i = 0; i < listOfCrewImages.size(); i++){
             listOfCrewImages.get(i).setBounds(30,30,30,30);
@@ -1182,7 +1182,7 @@ public class CombatScreen extends BaseScreen {
             }
             mainClient.getBatch().end();
 
-        proofCrewMemberisAvailable();
+        proofCrewMembersAvailable();
 
         stage.act();
         stage.draw();
@@ -1296,11 +1296,11 @@ public class CombatScreen extends BaseScreen {
     }
 
 
-    public void proofCrewMemberisAvailable() {
+    public void proofCrewMembersAvailable() {
 
-        for (int i = 0; i < myCrew.size(); i++) {
+        for (int i = 0; i < Global.combatCrew.get(Global.currentShipPlayer.getId()).size(); i++) {
 
-            if (myCrew.get(i).getRoundsToDestination() == 1) {
+            if (Global.combatCrew.get(Global.currentShipPlayer.getId()).get(i).getRoundsToDestination() == 1) {
                 stage.addActor(listOfCrewImages.get(i));
                 breakCrewMember.remove();
 
@@ -1328,7 +1328,7 @@ public class CombatScreen extends BaseScreen {
                 breakCrewMember.setPosition(200,900);
             }
 
-            if (myCrew.get(i).getRoundsToDestination() == 0) {
+            if (Global.combatCrew.get(Global.currentShipPlayer.getId()).get(i).getRoundsToDestination() == 0) {
                 stage.addActor(listOfCrewImages.get(i));
                 if(i==0) {
                     setHourglass1(false);

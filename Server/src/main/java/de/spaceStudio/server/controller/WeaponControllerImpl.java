@@ -36,8 +36,8 @@ public class WeaponControllerImpl implements WeaponController {
     @Autowired
     CombatRoundRepository combatRoundRepository;
 
-    private float removeOxygen = 20;
-    private int priceWeapon = 30;
+    private final float removeOxygen = 20;
+    private final int priceWeapon = 30;
 
     /**
      * Generate a random Number

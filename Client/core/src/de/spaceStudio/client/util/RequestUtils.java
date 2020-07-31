@@ -103,7 +103,7 @@ public final class RequestUtils {
                                 endTurnRequestSinglePlayer(w);
                                 crewMemeberByShip(Global.currentShipPlayer);
                             } else {
-                                LOG.warning("There apears to be a problem with the global Maps. Please check if you always use the correct id");
+                                LOG.warning("There appears to be a problem with the global Maps. Please check if you always use the correct id");
                             }
                         }
                         Global.combatActors.put(id, actor);

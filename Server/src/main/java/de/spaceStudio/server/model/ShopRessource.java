@@ -10,7 +10,7 @@ public class ShopRessource extends Ressource {
     private int price;
 
     @ManyToOne
-    private Station station;
+    private StopAbstract station;
 
     public ShopRessource() {
     }
@@ -35,7 +35,7 @@ public class ShopRessource extends Ressource {
         this.price = price;
     }
 
-    public Station getStation() {
+    public StopAbstract getStation() {
         return station;
     }
 
