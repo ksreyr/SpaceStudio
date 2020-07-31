@@ -11,11 +11,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
@@ -30,7 +33,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
-import static de.spaceStudio.screens.CombatScreen.*;
 
 
 public class ShopScreen extends ScreenAdapter {
@@ -57,9 +59,6 @@ public class ShopScreen extends ScreenAdapter {
     private final Texture oxygenTexture;
     private final Texture driveTexture;
     private final Skin skin;
-    private final Texture shieldSystem;
-    private final Texture driveSystem;
-    private final Texture weaponsSystem;
     public CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6, checkBoxAllSections;
     //
     List<ShipRessource> shipRessources = new ArrayList<>();
@@ -83,11 +82,9 @@ public class ShopScreen extends ScreenAdapter {
     //secure,drive
     private boolean secureIconS1, driveIconS1, secureIconS2, driveIconS2;
     //
-    private List<CrewMember> myCrew;
-    private List<Image> listOfCrewMemberImages;
 
     public ShopScreen(MainClient mainClient) {
-        viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
@@ -97,7 +94,7 @@ public class ShopScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal("Client/core/assets/skin/default.fnt"));
         spaceSkin = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         background = new Texture("ownAssets/sgx/backgrounds/galaxyBackground.png");
-        playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
+        playerShip = new Texture("Client/core/assets/data/ships/blueships2.png");
         rocket1 = new Texture("data/ships/rocketSmall.png");
         rocket2 = new Texture("data/ships/attack_small.png");
         crewMemberMTexture = new Texture("Client/core/assets/combatAssets/male_human.png");
@@ -109,22 +106,6 @@ public class ShopScreen extends ScreenAdapter {
         securityTextureGrey = new Texture("data/ships/securityGrey.png");
         driveTextureGrey = new Texture("data/ships/batterie.png");
 
-        shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
-        driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
-        weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
-
-        listOfCrewMemberImages = new ArrayList<>();
-        myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
-
-        for(int i = 0; i < myCrew.size(); i++){
-            listOfCrewMemberImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" +
-                    myCrew.get(i).getImg()))));
-        }
-        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
-            listOfCrewMemberImages.get(i).setBounds(30,30,30,30);
-            listOfCrewMemberImages.get(i).setPosition(XPlayerShip + myCrew.get(i).getCurrentSection().getxPos(),
-                    YPlayerShip + myCrew.get(i).getCurrentSection().getyPos());
-        }
         this.itemNumber = 0;
         batch = new SpriteBatch();
 
@@ -224,9 +205,6 @@ public class ShopScreen extends ScreenAdapter {
         stage.addActor(checkBoxSection4);
         stage.addActor(checkBoxSection5);
         stage.addActor(checkBoxSection6);
-        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
-            stage.addActor(listOfCrewMemberImages.get(i));
-        }
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -413,11 +391,7 @@ public class ShopScreen extends ScreenAdapter {
         stage.addActor(shipInformationArea);
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
-        stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
-        stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
-        stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
-        //stage.getBatch().draw(playerShip, BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
+        stage.getBatch().draw(playerShip, BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
 
         float positionX = 1450;
         float positionY = 700;
