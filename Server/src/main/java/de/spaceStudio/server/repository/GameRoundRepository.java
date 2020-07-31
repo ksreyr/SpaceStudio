@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface GameRoundRepository extends JpaRepository<GameRound, Integer> {
-    List<GameRound> findByActor(Actor actor);
+    List<GameRound> findAllByActor(Actor actor);
 }
 

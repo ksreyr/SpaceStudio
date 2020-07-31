@@ -231,7 +231,7 @@ public class PlayerControllerImpl implements PlayerController {
             actorStateRepository.delete(player1.getState());
         }
         for (GameRound g :
-                gameRoundRepository.findByActor(player)) {
+                gameRoundRepository.findAllByActor(player)) {
             List<CombatRound> combatRound=g.getCombatRounds();
             g.setCombatRounds(new ArrayList<>());
             gameRoundRepository.delete(g);
@@ -288,7 +288,7 @@ public class PlayerControllerImpl implements PlayerController {
                     if (aiRepository.findByName(s.getOwner().getName()).isPresent()) {
                         AI ai = aiRepository.findByName(s.getOwner().getName()).get();
                         for (GameRound g :
-                                gameRoundRepository.findByActor(ai)) {
+                                gameRoundRepository.findAllByActor(ai)) {
                             combatRoundRepository.deleteAll(g.getCombatRounds());
                             gameRoundRepository.delete(g);
                         }
@@ -356,7 +356,7 @@ public class PlayerControllerImpl implements PlayerController {
     public List<GameRound> getGameRoundsByPlayer(Integer id) {
         Optional<Actor> a = actorRepository.findById(id);
         if (a.isPresent()) {
-            return gameRoundRepository.findByActor(a.get());
+            return gameRoundRepository.findAllByActor(a.get());
         } else throw new IllegalArgumentException(String.format("Player %s does not exist", id));
     }
 }
