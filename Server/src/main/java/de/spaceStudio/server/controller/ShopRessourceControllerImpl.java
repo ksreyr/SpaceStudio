@@ -92,7 +92,13 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
 
         ShopRessource shopRessource = ressourceList.get(0);
         StopAbstract station = shopRessource.getStation();
-        Ship ship = station.getShips().get(0);
+        Ship ship =new Ship();
+        if(station.getShips().size()==1){
+            ship=station.getShips().get(0);
+        }{
+            ship=station.getShips().get(1);
+        }
+
         List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(ship).get();
         boolean control = false;
         for (ShipRessource sr :
