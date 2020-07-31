@@ -92,7 +92,7 @@ public class CombatScreen extends BaseScreen {
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
     private Texture energy, shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel, redPin;
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
-    private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
+    //private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
     private List<CrewMember> myCrew;
     private Boolean killTimer = false;
@@ -218,18 +218,20 @@ public class CombatScreen extends BaseScreen {
         shield = new Texture("Client/core/assets/combatAssets/shield_2.png");
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
+        laser = new Texture("Client/core/assets/combatAssets/laser.jpg");
         shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
         driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
-        crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
-        crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/male_human.png"));
-        crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/male_human.png"));
-        laser = new Texture("Client/core/assets/combatAssets/laser.jpg");
         redPin = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/pin.png"));
-        imageCrewMemberOne = new Image(crewMemberOne);
-        imageCrewMemberTwo = new Image(crewMemberTwo);
-        imageCrewMemberThree = new Image(crewMemberThree);
-        imageCrewMemberOne.setBounds(30, 30, 30, 30);
+        for(int i = 0; i < myCrew.size(); i++){
+            listOfCrewImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" + myCrew.get(i).getImg()))));
+        }
+        for(int i = 0; i < listOfCrewImages.size(); i++){
+            listOfCrewImages.get(i).setBounds(30,30,30,30);
+            listOfCrewImages.get(i).setPosition(XPlayerShip + myCrew.get(i).getCurrentSection().getxPos(),
+                    YPlayerShip + myCrew.get(i).getCurrentSection().getyPos());
+        }
+        /*imageCrewMemberOne.setBounds(30, 30, 30, 30);
         imageCrewMemberTwo.setBounds(30, 30, 30, 30);
         imageCrewMemberThree.setBounds(30, 30, 30, 30);
         imageCrewMemberOne.setPosition(XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
@@ -238,7 +240,7 @@ public class CombatScreen extends BaseScreen {
 
         listOfCrewImages.add(imageCrewMemberOne);
         listOfCrewImages.add(imageCrewMemberTwo);
-        listOfCrewImages.add(imageCrewMemberThree);
+        listOfCrewImages.add(imageCrewMemberThree);*/
 
         energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/energyWeaponsPanel.png"));
         energy = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
@@ -577,9 +579,12 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(driveIconForEnergyPanel);
         stage.addActor(shieldIconForEnergyPanel);
         stage.addActor(weaponLabel);
-        stage.addActor(imageCrewMemberOne);
+        /*stage.addActor(imageCrewMemberOne);
         stage.addActor(imageCrewMemberTwo);
-        stage.addActor(imageCrewMemberThree);
+        stage.addActor(imageCrewMemberThree);*/
+        for (Image listOfCrewImage : listOfCrewImages) {
+            stage.addActor(listOfCrewImage);
+        }
 
         Gdx.input.setInputProcessor(stage);
     }
