@@ -95,12 +95,13 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
         Ship ship =new Ship();
         if(station.getShips().size()==1){
             ship=station.getShips().get(0);
-        }{
+        }else{
             ship=station.getShips().get(1);
         }
 
         List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(ship).get();
         boolean control = false;
+
         for (ShipRessource sr :
                 shipRessources) {
             if (shopRessource.getName().equals(sr.getName())) {
@@ -109,6 +110,10 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
             }
             if (sr.getName().toString().equals("GOLD")) {
                 sr.setAmount(sr.getAmount() - shopRessource.getPrice());
+            }
+            if(sr.getName().toString().equals("ENERGIE")){
+                ship.setPower(ship.getPower()+1);
+                shipRepository.save(ship);
             }
         }
         if (!control) {
