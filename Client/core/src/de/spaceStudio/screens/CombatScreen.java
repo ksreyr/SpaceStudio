@@ -99,7 +99,7 @@ public class CombatScreen extends BaseScreen {
     //CrewMember break
     private Texture hourglass;
     private boolean hourglass1, hourglass2, hourglass3, hourglass4, hourglass5, hourglass6;
-    private float hourX1, hourY1, hourX2, hourY2, hourX3, hourX4;
+    private float hourX1, hourY1;
 
     private Texture shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel;
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
@@ -1126,8 +1126,8 @@ public class CombatScreen extends BaseScreen {
         stage.getBatch().begin();
 
             if(hourglass1){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
-            if(hourglass2){ stage.getBatch().draw(hourglass,getHourX2(),getHourY2()); }
-            if(hourglass3){ stage.getBatch().draw(hourglass,getHourX3(),getHourY3()); }
+            if(hourglass2){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
+            if(hourglass3){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
 
          stage.getBatch().end();
 
@@ -1428,35 +1428,22 @@ public class CombatScreen extends BaseScreen {
                 if(i==0) setHourglass1(false);
                 if(i==1) setHourglass2(false);
                 if(i==2) setHourglass3(false);
-
             }
         }
     }
-
 
 
     public void setBreakinfo(String breakinfo) {
         this.breakinfo = breakinfo;
     }
 
-    public boolean isHourglass1() {
-        return hourglass1;
-    }
-
     public void setHourglass1(boolean hourglass1) {
         this.hourglass1 = hourglass1;
     }
 
-    public boolean isHourglass2() {
-        return hourglass2;
-    }
 
     public void setHourglass2(boolean hourglass2) {
         this.hourglass2 = hourglass2;
-    }
-
-    public boolean isHourglass3() {
-        return hourglass3;
     }
 
     public void setHourglass3(boolean hourglass3) {
@@ -1479,35 +1466,4 @@ public class CombatScreen extends BaseScreen {
         this.hourY1 = hourY1;
     }
 
-    public float getHourX2() {
-        return hourX2;
-    }
-
-    public void setHourX2(float hourX2) {
-        this.hourX2 = hourX2;
-    }
-
-    public float getHourY2() {
-        return hourY2;
-    }
-
-    public void setHourY2(float hourY2) {
-        this.hourY2 = hourY2;
-    }
-
-    public float getHourX3() {
-        return hourX3;
-    }
-
-    public void setHourX3(float hourX3) {
-        this.hourX3 = hourX3;
-    }
-
-    public float getHourY3() {
-        return hourX4;
-    }
-
-    public void setHourX4(float hourX4) {
-        this.hourX4 = hourX4;
-    }
 }
