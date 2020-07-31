@@ -17,7 +17,7 @@ public class SinglePlayerGame implements Serializable {
     private Section shipSection4;
     private Section shipSection5;
     private Section shipSection6;
-    
+    private List<GameRound> gameRounds;
     private Weapon weapon;
     private ShipRessource shipRessource;
     private CrewMember crewMember;
@@ -30,6 +30,14 @@ public class SinglePlayerGame implements Serializable {
     private Planet planet4;
     private Planet planet5;
     private Planet planet6;
+
+    public List<GameRound> getGameRounds() {
+        return gameRounds;
+    }
+
+    public void setGameRounds(List<GameRound> gameRounds) {
+        this.gameRounds = gameRounds;
+    }
 
     public Planet getPlanet1() {
         return planet1;

@@ -195,7 +195,7 @@ public class Global {
     /**
      * Server logged player endpoint
      */
-    public static final String ROUNDS = "rounds";
+    public static final String ROUNDS = "/rounds";
     public static final String PLAYER_CLEAN_ENDPOINT = "/cleanuser";
     public static final String CAN_LAND = "/canLand";
     public static final String HAS_LANDED = "/hasLanded";

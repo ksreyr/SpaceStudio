@@ -406,6 +406,7 @@ public class StationsMap extends BaseScreen {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
+                RequestUtils.findGameRoundsByActor(Global.currentPlayer);
 
             }
 
@@ -606,6 +607,7 @@ public class StationsMap extends BaseScreen {
         Global.singlePlayerGame.setPlanet4(Global.planet4);
         Global.singlePlayerGame.setPlanet5(Global.planet5);
         Global.singlePlayerGame.setPlanet6(Global.planet6);
+        Global.singlePlayerGame.setGameRounds(Global.playerRounds);
     }
 
 
