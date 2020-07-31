@@ -35,7 +35,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import static de.spaceStudio.client.util.Global.*;
+import static de.spaceStudio.client.util.Global.currentUniverse;
+import static de.spaceStudio.client.util.Global.stationListU2;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 
 
@@ -598,13 +599,6 @@ public class StationsMap extends BaseScreen {
         Global.singlePlayerGame.setShipSection5(Global.section5);
         Global.singlePlayerGame.setShipSection6(Global.section6);
         Global.singlePlayerGame.setStationListU2(stationListU2);
-        Global.singlePlayerGame.setPlanet1(planet1);
-        Global.singlePlayerGame.setPlanet2(planet2);
-        Global.singlePlayerGame.setPlanet3(planet3);
-        Global.singlePlayerGame.setPlanet4(planet4);
-        Global.singlePlayerGame.setPlanet5(planet5);
-        Global.singlePlayerGame.setPlanet6(planet6);
-
     }
 
 
