@@ -61,7 +61,7 @@ public class StationsMap extends BaseScreen {
     Animation<TextureRegion> start_ship;
     boolean isLast, test;
     List<Pair> coord = new ArrayList<>();
-    private ImageButton planet1ImgBTN, planet2ImgBTN, planet3ImgBTN, planet4ImgBTN, planet5ImageBTN;
+    private ImageButton planet1ImgBTN, planet2ImgBTN, planet3ImgBTN, planet4ImgBTN, planet5ImageBTN, planet9ImageBTN;
     private ImageButton startPoint;
     private ImageButton shopImg;
     private boolean isPlanet;
@@ -97,6 +97,7 @@ public class StationsMap extends BaseScreen {
         coord.add(new Pair(600f, 800f));  // Planet 3
         coord.add(new Pair(900f, 550f));  // Planet 4
         coord.add(new Pair(1200f, 700f));  // Planet 5
+        coord.add(new Pair(1200f, 800f));
 
 
         textAreaUN = new TextArea(unvisited, skin);
@@ -128,6 +129,7 @@ public class StationsMap extends BaseScreen {
         } else {
             planet5(drawable_station_unvisited, textAreaUN);
         }
+        planet9(drawable_station_unvisited, textAreaUN);
 
         shopStation(shopStationIcon);
         setStartPoint(drawable_station_unvisited);
@@ -146,6 +148,9 @@ public class StationsMap extends BaseScreen {
         if (!Global.ISEASY) {
             stage.addActor(planet5ImageBTN);
             stage.addActor(planet4ImgBTN);
+        }
+        if (!Global.IS_SINGLE_PLAYER) {
+            stage.addActor(planet9ImageBTN);
         }
         stage.addActor(startPoint);
         stage.addActor(shopImg);
@@ -404,7 +409,46 @@ public class StationsMap extends BaseScreen {
         });
 
     }
+    private void planet9(Drawable drawable, TextArea textArea) {
+        isPlanet = true;
+        planet9ImageBTN = new ImageButton((drawable));
+        planet9ImageBTN.setPosition(coord.get(6).getLeft(), coord.get(6).getRight());
+        planet9ImageBTN.setSize(PLANET_SIZEX, PLANET_SIZEX);
+        hoverListener(planet9ImageBTN, textArea);
+        planet9ImageBTN.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Global.currentStop = Global.planet9;
+                final Dialog dialog = new Dialog("Information", skin, "dialog") {
+                    public void result(Object obj) {
 
+                        if (Objects.equals(obj.toString(), "true")) {
+                            isLast = true;
+                        }
+
+                    }
+                };
+                if (true) {
+                    dialog.text("You are allow to travel last planet");
+                    dialog.button("JUMP", true);
+                    dialog.key(Input.Keys.ENTER, true);
+                    hoverListener(planet9ImageBTN, textAreaVIS);
+                    Global.currentStopNumber = 6;
+                    jumpService(Global.planet9);
+
+                } else {
+                    dialog.text("Before you travel here, you have to visit other planets");
+                    dialog.button("BACK", false);
+                    dialog.key(Input.Keys.ESCAPE, false);
+                }
+
+                //actionDialog(dialog, "?");
+                dialog.show(stage);
+
+            }
+        });
+
+    }
     /**
      * Make the Player Jump to abstract Stop
      * It Places in as the only Ship in set Ships
@@ -447,6 +491,8 @@ public class StationsMap extends BaseScreen {
                     e.printStackTrace();
                 }
                 RequestUtils.findGameRoundsByActor(Global.currentPlayer);
+                // Multiplayer Step 1
+                Global.loadingFightLocation =  true;
 
             }
 

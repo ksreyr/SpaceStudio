@@ -147,6 +147,21 @@ public class GameControllerImpl implements GameController {
         return "false";
     }
 
+
+    @Override
+    public Boolean isOnlineFight(@PathVariable String gameSession) {
+        List<StopAbstract> stops = new ArrayList<>();
+        for (Actor p: Global.MultiPlayerGameSessions.get(gameSession).players) {
+          Optional<Ship> ship =  shipRepository.findByOwner(p);
+          if (ship.isPresent()) {
+              Optional<StopAbstract> stop = stopAbstractRepository.findByShips(ship.get());
+              stop.ifPresent(stops::add);
+          }
+        }
+        Optional<StopAbstract> endStop = stops.stream().filter(s -> s.getName().equals("p9")).findFirst();
+        return endStop.isPresent();
+    }
+
     /**
      * Show all active multiplayer game sessions
      *
@@ -669,6 +684,19 @@ public class GameControllerImpl implements GameController {
             LOG.info(String.format("Ai %s has finished. It it is Player %s Turn", ai.get().getId(), player.get().getId()));
             return getLastCombatRoundUsedWeapons(ai.get());
         } else throw new IllegalArgumentException("The Weapon does not have the needed Paramters" + weapon);
+    }
+
+    @Override
+    public Ship getEnemyShip(String session, Player player) {
+        List<Actor> players = Global.MultiPlayerGameSessions.get(session).players;
+        Optional<Ship> ship;
+        int n = players.indexOf(player);
+        if (n == 0) {
+            ship = shipRepository.findByOwner(players.get(1));
+        } else {
+            ship = shipRepository.findByOwner(players.get(0));
+        }
+        return ship.orElseThrow(IllegalArgumentException::new);
     }
 
     private List<Weapon> getLastCombatRoundUsedWeapons(Actor actor) {

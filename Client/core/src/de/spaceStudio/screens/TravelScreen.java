@@ -75,7 +75,7 @@ public class TravelScreen extends ScreenAdapter {
         travelLabel.setAlignment(Align.center);
         stage.addActor(travelLabel);
 
-        if (Global.isOnlineGame) {
+        if (!Global.IS_SINGLE_PLAYER) {
             scheduleLobby();
             playerLabel = new Label(playerText, label1Style);
             playerLabel.setSize(Gdx.graphics.getWidth(), row_height);
@@ -101,7 +101,8 @@ public class TravelScreen extends ScreenAdapter {
                     LOG.info("Fetching data from server...");
                     LOG.info(multiPlayerSessionID);
 
-                    RequestUtils.canJump(Global.currentPlayer);
+                    // Multiplayer Step 2. Can I Land
+                    RequestUtils.canLand(Global.currentPlayer);
 
                 }
             }
@@ -120,7 +121,7 @@ public class TravelScreen extends ScreenAdapter {
         travelText = "Traveling threw Space Time since " + (int) timePassed + " Seconds";
         timePassed += delta;
         travelLabel.setText(travelText);
-        if (Global.isOnlineGame) {
+        if (!Global.IS_SINGLE_PLAYER) {
             dot++;
             String dots = "";
             dots = ".".repeat(Math.max(0, dot % 5));
@@ -128,10 +129,10 @@ public class TravelScreen extends ScreenAdapter {
         }
 
         // Switch Screen after 10 Seconds or when all Players are ready
-        boolean jumpReady = !Global.isOnlineGame || Global.allReady;
+        boolean jumpReady = Global.IS_SINGLE_PLAYER || (Global.allReady && !loadingFightLocation);
         if (timePassed > 5 && jumpReady) {
+
             if (!requestSend) {
-//            Global.weaponListPlayer = RequestUtils.weaponsByShip(Global.currentShipPlayer); // Load all the Weapons  FIXME make async
                 RequestUtils.sectionsByShip(Global.currentShipPlayer);
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);
                 RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
@@ -143,8 +144,13 @@ public class TravelScreen extends ScreenAdapter {
                 requestSend = true;
             }
             killTimer = true;
-            if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0)
-                game.setScreen(new StopScreen(game));
+            if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0) {
+                if (isOnlineFight) {
+                    game.setScreen(new CombatScreen(game));
+                } else {
+                    game.setScreen(new StopScreen(game));
+                }
+            }
         }
         stage.act();
         stage.draw();

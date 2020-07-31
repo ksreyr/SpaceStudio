@@ -1,5 +1,5 @@
 % Intended LaTeX compiler: pdflatex
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -171,12 +171,6 @@ Hier wurden jeder Planet und jede Station getestet, die Schaltflächen sind und 
 \newpage
 \section{Geeingnissen}
 Nach dem Drücken eines Planeten wird ein PopUp-Menü angezeigt und die Sprungfunktion getestet.
-\begin{figure}[htp]
-\centering
-\includegraphics[scale=0.3]{TestProtocolBilder/jump.png}
-\caption{Jump Buton}
-\end{figure}
-\newpage
 Nach Auswahl der Sprungfunktion sieht der Benutzer auf dem Bildschirm eine Fahrzeit von 4 Sekunden.
 \begin{figure}[htp]
 \centering
@@ -184,6 +178,8 @@ Nach Auswahl der Sprungfunktion sieht der Benutzer auf dem Bildschirm eine Fahrz
 \caption{Traveling Screen}
 \end{figure}
 button flee test, dann man kann wieder an der Map Jump Springen.
+\newpage
+\subsection{flee}
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.3]{TestProtocolBilder/flee.png}
@@ -198,68 +194,61 @@ Es wurde getestet, dass nach dem Reisebildschirm der erste Teil der Ereignisse a
 \end{figure}
 Dieser Bildschirm war für die Einführung des Benutzers in die Ereignisse gedacht.
 \newpage
-
-
+Andere Arten von Ereignissen wurden getestet, insgesamt gibt es fünf verschiedene Arten von Ereignissen pro Universum.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.3]{TestProtocolBilder/otherEreignisse.png}
 \caption{andere Typ von Ereignisse}
 \end{figure}
-\subsubsection{Goes back to Station Map}
-\subsubsection{Goes back to Shop}
+Sobald Sie den Einkaufsteil des Spiels betreten, können Sie die in diesem Teil verfügbaren Dinge kaufen.
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.3]{TestProtocolBilder/shopPlanetJump.png}
+\caption{jump to shop planet }
+\end{figure}
+\newpage
+\section{Shop Screen}
+Wenn der Benutzer den Shop-Bildschirm betritt, kann er die zu kaufenden Knopf und die verfügbaren Ressourcen sehen.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.3]{TestProtocolBilder/shopScreen.png}
+\caption{shop Screen}
+\end{figure}
 
+\subsection{kaufen}
+Als nächstes wurde der Kauf jedes Objekts sowie das Ergebnis des verbleibenden Geldes des Spielers getestet.
 
-\subsubsection{Single Player (Ship Select Screen)}
+\subsubsection{gold kaufen}
+Dies ist das Ergebnis nach dem Kauf von Gold, was sich direkt auf das Geld des Benutzers auswirkt.
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.3]{TestProtocolBilder/goldgekauft.png}
+\caption{andere Typ von Ereignisse}
+\end{figure}
+\newpage
+\subsubsection{energie kaufen}
+Dies ist das Ergebnis nach dem Kauf von Energie. Dieser Kauf wirkt sich auf das Boot aus und es ist nur möglich, die Reduzierung von Gold auf dem Boot zu sehen.
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.3]{TestProtocolBilder/energie.png}
+\caption{andere Typ von Ereignisse}
+\end{figure}
+\newpage
+\subsubsection{Weapon kaufen}
+Der Kauf von Waffen wurde getestet, diese Aktion verringert das Gold des Spielers.    
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.3]{TestProtocolBilder/weaponkaufen.png}
+\caption{andere Typ von Ereignisse}
+\end{figure}
+\newpage
+\subsubsection{crewmember kaufen}
+Beim Kauf von Mitgliedern wurde getestet, dass zuerst ein Abschnitt ausgewählt werden muss, in dem dieses Mitglied positioniert werden muss. dann, wenn der Kauf getätigt werden kann.
+\begin{figure}[htp]
+\centering
+\includegraphics[scale=0.3]{TestProtocolBilder/crewmemberkaufen.png}
+\caption{andere Typ von Ereignisse}
+\end{figure}
 
-\subsubsection{Are the Stats Updated for the Ship?}
-\subsubsection{Can I spawn into the Map?}
-\subsubsection{Are there Any Exceptions?}
-
-
-
-\section{Station Screen}
-\label{sec:orga891bce}
-
-\subsection{StationMap}
-
-\subsubsection{Select Planet}
-
-\subsubsection{Can I select every Planet?}
-\subsubsection{Does the Dialog Appear?}
-\subsubsection{ Jump}
-\subsubsection{Jump can I jump to every Planet?}
-\subsubsection{Do I see if I have visited the Planet?}
-\subsubsection{ Does the Back Button work?}
-
-
-\section{Stop Abstract}
-\label{sec:org3bde3ec}
-
-\subsection{StopScreen}
-
-\subsubsection{Leave}
-
-\subsubsection{Leave}
-\subsubsection{View Map -> Station Map}
-
-\subsection{Explore}
-\subsubsection{Flee -> Station Screen}
-\subsubsection{Fight -> CombatScreen}
-\subsubsection{Shop -> Station Mao}
-\subsubsection{Back to Map -> Station Map}
-
-
-\section{Combat Screen}
-\label{sec:org9c941a6}
-\subsection{Options}
-
-
-
-\section{Strangenes}
-\label{sec:org4b85c14}
-\subsection{Rainbow Line}
-\subsection{Pruebe Kopf in ShipSelectScreen}
-\subsection{Bug Ship is not add at Stop}
-\subsection{Jump to same Planet}
 
 \end{document}

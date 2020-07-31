@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import com.google.gson.internal.$Gson$Preconditions;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,9 @@ public interface GameController {
     @RequestMapping(value = "/game/multiplayer/synchronize/{gameSession}", method = RequestMethod.GET)
     @ResponseBody
     String synchroMultiPlayer(@PathVariable("gameSession") String gameSession);
+
+    @GetMapping(value = "/game/multiplayer/fight/{gameSession")
+    Boolean isOnlineFight(@PathVariable String gameSession);
 
     @RequestMapping(value = "/game/sessions/multiplayer", method = RequestMethod.GET)
     @ResponseBody
@@ -103,6 +107,9 @@ public interface GameController {
 
     @PostMapping(value = "/game/endSingleRound")
     List<Weapon> endSingleRound(@RequestBody Weapon weapon);
+
+    @GetMapping(value = "game/multiplayer/enemyShip/{session}")
+    Ship getEnemyShip(@PathVariable String session, @RequestBody Player player);
 
 
 }
