@@ -102,22 +102,7 @@ public class ShopScreen extends ScreenAdapter {
         energie = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
         this.goldLabel = new Label("Gold",skin);
 
-        shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
-        driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
-        weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
 
-        listOfCrewMemberImages = new ArrayList<>();
-        myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
-
-        for(int i = 0; i < myCrew.size(); i++){
-            listOfCrewMemberImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" +
-                    myCrew.get(i).getImg()))));
-        }
-        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
-            listOfCrewMemberImages.get(i).setBounds(30,30,30,30);
-            listOfCrewMemberImages.get(i).setPosition(XPlayerShip + myCrew.get(i).getCurrentSection().getxPos(),
-                    YPlayerShip + myCrew.get(i).getCurrentSection().getyPos());
-        }
         this.itemNumber = 0;
         batch = new SpriteBatch();
 
@@ -185,9 +170,7 @@ public class ShopScreen extends ScreenAdapter {
         stage.addActor(checkBoxSection4);
         stage.addActor(checkBoxSection5);
         stage.addActor(checkBoxSection6);
-        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
-            stage.addActor(listOfCrewMemberImages.get(i));
-        }
+
 
         Gdx.input.setInputProcessor(stage);
     }
