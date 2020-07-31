@@ -524,52 +524,6 @@ public class CombatScreen extends BaseScreen {
         });
 
         Gdx.input.setInputProcessor(stage);
-
-
-        if (Global.IS_SINGLE_PLAYER) {
-            TextButton saveGameButton = new TextButton(" Save Game ", sgxSkin2, StyleNames.EMPHASISTEXTBUTTON);
-            saveGameButton.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    Global.IS_SINGLE_PLAYER = false;
-                    killTimer = true;
-                    LOG.info("Button CLicked");
-                    click.play();
-                    Gson gson = new Gson();
-                    Global.singlePlayerGame.setLastScreen("COMBAT");
-                    Global.singlePlayerGame.setPlayerShip(Global.currentShipPlayer);
-                    Global.singlePlayerGame.setShipGegner(Global.currentShipGegner);
-                    String requestBody = gson.toJson(Global.singlePlayerGame);
-                    final String url = Global.SERVER_URL + Global.PLAYER_SAVE_GAME + Global.currentPlayer.getName();
-                    Net.HttpRequest request = setupRequest(url, requestBody, Net.HttpMethods.POST);
-                    Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-                        public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                            final Dialog dialog = new Dialog("Save game", skin, "dialog");
-                            int statusCode = httpResponse.getStatus().getStatusCode();
-                            String responseJson = httpResponse.getResultAsString();
-                            if (responseJson.equals("202 ACCEPTED")) {
-                                LOG.info("Success save game " + statusCode);
-                                saveMessageDialog(dialog, " Saving Game was Successful ");
-                            } else {
-                                LOG.info("Error saving game");
-                                saveMessageDialog(dialog, " Saving Game was not Successful ");
-                            }
-                        }
-
-                        public void failed(Throwable t) {
-
-                        }
-
-                        @Override
-                        public void cancelled() {
-                        }
-                    });
-                }
-            });
-            saveGameButton.setPosition(1000, 50);
-            stage.addActor(saveGameButton);
-        }
-
         lebengegnerShip.setPosition(100, 20);
         lebenplayerShip.setPosition(20, 20);
 
@@ -842,6 +796,8 @@ public class CombatScreen extends BaseScreen {
                     Global.combatActors.remove(Global.currentGegner.getId());
                     Global.combatCrew.remove(Global.currentShipGegner.getId());
                     LOG.info("You have Won the Fight");
+                    // Update data to store
+                    RequestUtils.findGameRoundsByActor(Global.currentPlayer);
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
                         public void result(Object obj) {
                             obj.toString();
@@ -988,6 +944,8 @@ public class CombatScreen extends BaseScreen {
             if (Global.currentShipPlayer.getHp() < 1 || Global.combatCrew.get(Global.currentShipPlayer.getId()).isEmpty()
                     || allSectionsBroken(Global.combatSections.get(Global.currentShipPlayer.getId()))) {
                 LOG.info("You have lost the Game");
+                // Data update to store
+                RequestUtils.findGameRoundsByActor(Global.currentPlayer);
                 Global.combatWeapons.remove(Global.currentShipGegner.getId());
                 Global.combatSections.remove(Global.currentShipGegner.getId());
                 Global.combatActors.remove(Global.currentGegner.getId());
