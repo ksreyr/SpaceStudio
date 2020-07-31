@@ -11,10 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -60,6 +57,7 @@ public class ShopScreen extends ScreenAdapter {
     private final Texture oxygenTexture;
     private final Texture driveTexture;
     private Texture shieldSystem, weaponsSystem, driveSystem, gold, energie;
+    private Label goldLabel;
     private final Skin skin;
     public CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6, checkBoxAllSections;
     //
@@ -99,8 +97,9 @@ public class ShopScreen extends ScreenAdapter {
         shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
         driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
-        gold = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/gold.png"));
+        //gold = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         energie = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
+        this.goldLabel = new Label("Gold",skin);
 
         this.itemNumber = 0;
         batch = new SpriteBatch();
@@ -370,9 +369,12 @@ public class ShopScreen extends ScreenAdapter {
 
         switch (itemNumber) {
             case 0: //Gold
-                stage.getBatch().draw(gold, positionX, positionY);
+                //stage.getBatch().draw(gold, positionX, positionY);
+                stage.addActor(goldLabel);
+                goldLabel.setPosition(positionX, positionY);
                 break;
             case 1:
+                goldLabel.remove();
                 stage.getBatch().draw(energie, positionX, positionY);
                 break;
             case 2://TODO Role
@@ -444,7 +446,7 @@ public class ShopScreen extends ScreenAdapter {
         next.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (itemNumber > 5)
+                if (itemNumber > 4)
                     itemNumber = 0;
                 else {
                     itemNumber++;
