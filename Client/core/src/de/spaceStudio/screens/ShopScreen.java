@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
@@ -71,9 +71,14 @@ public class ShopScreen extends ScreenAdapter {
     private boolean crewMemberFs1, crewMemberFs2, crewMemberFs3, crewMemberFs4, crewMemberFs5, crewMemberFs6;
     //crewmemberM
     private boolean crewMemberMs1, crewMemberMs2, crewMemberMs3, crewMemberMs4, crewMemberMs5, crewMemberMs6;
+    //secure,drive
+    private boolean secureIconS1, driveIconS1, secureIconS2, driveIconS2;
+    //
+    private List<CrewMember> myCrew;
+    private List<Image> listOfCrewMemberImages;
 
     public ShopScreen(MainClient mainClient) {
-        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
@@ -83,7 +88,7 @@ public class ShopScreen extends ScreenAdapter {
         font = new BitmapFont(Gdx.files.internal("Client/core/assets/skin/default.fnt"));
         spaceSkin = new Skin(Gdx.files.internal("Client/core/assets/ownAssets/sgx/skin/sgx-ui.json"));
         background = new Texture("ownAssets/sgx/backgrounds/galaxyBackground.png");
-        playerShip = new Texture("Client/core/assets/data/ships/blueships2.png");
+        playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
         rocket1 = new Texture("data/ships/rocketSmall.png");
         rocket2 = new Texture("data/ships/attack_small.png");
         crewMemberMTexture = new Texture("Client/core/assets/combatAssets/male_human.png");
@@ -101,6 +106,22 @@ public class ShopScreen extends ScreenAdapter {
         energie = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
         this.goldLabel = new Label("Gold",skin);
 
+        shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
+        driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
+        weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
+
+        listOfCrewMemberImages = new ArrayList<>();
+        myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
+
+        for(int i = 0; i < myCrew.size(); i++){
+            listOfCrewMemberImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" +
+                    myCrew.get(i).getImg()))));
+        }
+        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
+            listOfCrewMemberImages.get(i).setBounds(30,30,30,30);
+            listOfCrewMemberImages.get(i).setPosition(XPlayerShip + myCrew.get(i).getCurrentSection().getxPos(),
+                    YPlayerShip + myCrew.get(i).getCurrentSection().getyPos());
+        }
         this.itemNumber = 0;
         batch = new SpriteBatch();
 
@@ -176,6 +197,9 @@ public class ShopScreen extends ScreenAdapter {
         stage.addActor(checkBoxSection4);
         stage.addActor(checkBoxSection5);
         stage.addActor(checkBoxSection6);
+        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
+            stage.addActor(listOfCrewMemberImages.get(i));
+        }
 
         Gdx.input.setInputProcessor(stage);
     }

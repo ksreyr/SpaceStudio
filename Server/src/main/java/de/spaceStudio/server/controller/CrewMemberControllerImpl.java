@@ -104,6 +104,26 @@ public class CrewMemberControllerImpl implements CrewMemberController {
     public String buyCrewMembers(@RequestBody List<CrewMember> crewMembers) {
         Gson gson = new Gson();
         Section section = new Section();
+        List<CrewMember> allCrewMember= new ArrayList<>();
+        if(!crewMembers.isEmpty()){
+            Ship ship= crewMembers.get(0).getCurrentSection().getShip();
+            Optional<List<Section>> sectionList=sectionRepository.findAllByShip(ship);
+            if(sectionList.isPresent()){
+
+                for (Section s :
+                        sectionList.get()) {
+                    Optional<ArrayList<CrewMember>> crewMember= crewMemberRepository.findAllByCurrentSection(s);
+                    if(crewMember.isPresent()){
+                        for (CrewMember c: crewMember.get()){
+                            allCrewMember.add(c);
+                        }
+                    }
+                }
+            }
+        }
+        if(allCrewMember.size()>5){
+            return gson.toJson(shipRessourceRepository.findByShip(section.getShip()).get());
+        }
         for (CrewMember crewMember :
                 crewMembers) {
             section = sectionRepository.findById(crewMember.getCurrentSection().getId()).get();
@@ -125,7 +145,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
                 List<Section> sectionList = sectionRepository.findAllByShip(section.getShip()).get();
                 for (Section s :
                         sectionList) {
-                    if (crewMemberRepository.findAllByCurrentSection(section).isPresent()) {
+                    if (crewMemberRepository.findAllByCurrentSection(s).isPresent()) {
 
                     } else {
                         crewMember.setCurrentSection(section);
