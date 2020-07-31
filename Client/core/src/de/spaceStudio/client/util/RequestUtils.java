@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -77,10 +76,11 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                } else if (url.contains("canLand")) {
+                } else if (url.contains(Global.CAN_LAND)) {
                     try {
                         Global.allReady = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
                         });
+                        isMultiplayerFight();
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -130,6 +130,27 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
+                } else if (url.contains(Global.MULTIPLAYER + Global.FIGHT)) {
+                    try {
+                        Global.isOnlineFight = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
+                        });
+                        if (Global.isOnlineFight) {
+                            getEnemyShipMultiplayer();
+                        } else {
+                            Global.loadingFightLocation = false;
+                        }
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                } else if (url.contains(Global.MULTIPLAYER + Global.ENEMYSHIP)) {
+                    try {
+                        Global.currentShipGegner = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {
+                        });
+                        Global.currentGegner = Global.currentShipGegner.getOwner();
+                        Global.loadingFightLocation  = false;
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -166,7 +187,7 @@ public final class RequestUtils {
                 false, 0, Net.HttpMethods.POST, player);
     }
 
-    public static void canJump(Player player) {
+    public static void canLand(Player player) {
         genericRequest(Global.SERVER_URL + Global.CAN_LAND,
                 false, 0, Net.HttpMethods.GET, player);
     }
@@ -177,25 +198,30 @@ public final class RequestUtils {
     }
 
     public static void getActor(Actor actor) {
-        genericRequest(Global.SERVER_URL + Global.ACTOR_ENDPOINT + "/" + actor.getId(), false, actor.getId(), Net.HttpMethods.GET, "");
+        genericRequest(Global.SERVER_URL + Global.ACTOR_ENDPOINT + "/" + actor.getId(), false,
+                actor.getId(), Net.HttpMethods.GET, "");
     }
 
     public static void setActor(Actor actor) {
-        genericRequest(Global.SERVER_URL + Global.ACTOR_ENDPOINT, false, actor.getId(), Net.HttpMethods.PUT, actor);
+        genericRequest(Global.SERVER_URL + Global.ACTOR_ENDPOINT, false, actor.getId(),
+                Net.HttpMethods.PUT, actor);
     }
 
     public static void updateEnergie(List<Section> sectionsToUpdate) {
-        genericRequest(Global.SERVER_URL + "/" + Global.SECTIONS + Global.ENERGY, false, Global.currentShipPlayer.getId(),
+        genericRequest(Global.SERVER_URL + "/" + Global.SECTIONS + Global.ENERGY, false,
+                Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, sectionsToUpdate);
     }
 
     public static void endTurnRequestSinglePlayer(Weapon w) {
-        genericRequest(Global.SERVER_URL + Global.GAME + Global.END_ROUND_SINGLE, false, Global.currentShipPlayer.getId(),
+        genericRequest(Global.SERVER_URL + Global.GAME + Global.END_ROUND_SINGLE, false,
+                Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, w);
     }
 
     public static void upgradeWeapon(List<Weapon> weapons) {
-        genericRequest(Global.SERVER_URL + Global.WEAPON_CREATION_ENDPOINT, false, Global.currentShipPlayer.getId(), Net.HttpMethods.PUT, weapons);
+        genericRequest(Global.SERVER_URL + Global.WEAPON_CREATION_ENDPOINT, false,
+                Global.currentShipPlayer.getId(), Net.HttpMethods.PUT, weapons);
     }
 
     public static void updateShip(Ship ship) {
@@ -204,6 +230,16 @@ public final class RequestUtils {
 
     public static void findGameRoundsByActor(Actor actor) {
         genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT + "/" + actor.getId() + Global.ROUNDS, false, actor.getId(), Net.HttpMethods.GET, "");
+    }
+
+    public static void isMultiplayerFight() {
+        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.FIGHT + "/" + Global.multiPlayerSessionID,
+                false, 0, Net.HttpMethods.GET, "")
+        ;
+    }
+    public static void getEnemyShipMultiplayer() {
+        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.ENEMYSHIP + "/" + Global.multiPlayerSessionID,
+                false ,0, Net.HttpMethods.GET, Global.currentPlayer );
     }
 
 }

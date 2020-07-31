@@ -209,6 +209,9 @@ public class Global {
     public static final int SHIELD = 1000;
     public static final int DAMAGE = 10;
     public static final int MAGAZIN_SIZE = 10;
+    public static final String MULTIPLAYER = "/multiplayer" ;
+    public static final String FIGHT = "/fight" ;
+    public static final String ENEMYSHIP = "/enemyShip";
     private static final int rocketWarmUp = 1;
     private static final int lasserWarmUp = 3;
     private static final int droneWarmUp = 1;
@@ -264,10 +267,6 @@ public class Global {
      * Gets all Users
      */
     public static List<String> playersOnline = new ArrayList<>();
-    /**
-     * Default is onlineGame false
-     */
-    public static boolean isOnlineGame = false;
 
     public static boolean killMultiPlayerTimeoutTimer = false;
 
@@ -277,6 +276,7 @@ public class Global {
 
     public static boolean multiPlayerGameStarted = false;
 
+    public static boolean loadingFightLocation = false;
 
     // FIXME Power ist doppelt
     public static Ship ship0 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP1).name("ship0").power(9).shield(SHIELD).buildShip();
@@ -900,6 +900,7 @@ public class Global {
     public static Map<Integer, Actor> combatActors = new HashMap<>();
     public static List<Weapon> weaponsToProcess = new LinkedList<>();
     public static List<GameRound> playerRounds = new ArrayList<>();
+    public static Boolean isOnlineFight;
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);

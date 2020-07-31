@@ -443,6 +443,7 @@ public class StationsMap extends BaseScreen {
                     e.printStackTrace();
                 }
                 RequestUtils.findGameRoundsByActor(Global.currentPlayer);
+                Global.loadingFightLocation =  true;
 
             }
 

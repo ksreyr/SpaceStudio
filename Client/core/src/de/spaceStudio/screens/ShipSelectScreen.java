@@ -135,7 +135,7 @@ public class ShipSelectScreen extends BaseScreen {
         skinButton = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-        if (Global.isOnlineGame) {
+        if (!Global.IS_SINGLE_PLAYER) {
             fetchLoggedUsers();
             playersOnlineLabel = new Label(null, skin);
             playersOnlineLabel.setPosition(20, 950);
@@ -1089,10 +1089,9 @@ public class ShipSelectScreen extends BaseScreen {
         stage.draw();
 
         // top left position
-        if (Global.isOnlineGame) {
+        if (!Global.IS_SINGLE_PLAYER) {
             drawLobby();
         }
-        if (!Global.IS_SINGLE_PLAYER) drawLobby();
 
 
     }
@@ -1125,7 +1124,7 @@ public class ShipSelectScreen extends BaseScreen {
     public void hide() {
         super.hide();
         LOG.info("HIDE CALLED");
-        isOnlineGame = false;
+        Global.IS_SINGLE_PLAYER = false;
     }
 
     @Override
