@@ -232,9 +232,9 @@ public class PlayerControllerImpl implements PlayerController {
         }
         for (GameRound g :
                 gameRoundRepository.findByActor(player)) {
+            List<CombatRound> combatRound=g.getCombatRounds();
+            g.setCombatRounds(new ArrayList<>());
             gameRoundRepository.delete(g);
-            combatRoundRepository.deleteAll(g.getCombatRounds());
-
         }
 
         boolean fileClosed = JSONFile.cleanJSONSinglePlayerGame(player1.getSavedGame());
