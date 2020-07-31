@@ -104,6 +104,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
     public String buyCrewMembers(@RequestBody List<CrewMember> crewMembers) {
         Gson gson = new Gson();
         Section section = new Section();
+
         for (CrewMember crewMember :
                 crewMembers) {
             section = sectionRepository.findById(crewMember.getCurrentSection().getId()).get();
@@ -125,7 +126,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
                 List<Section> sectionList = sectionRepository.findAllByShip(section.getShip()).get();
                 for (Section s :
                         sectionList) {
-                    if (crewMemberRepository.findAllByCurrentSection(section).isPresent()) {
+                    if (crewMemberRepository.findAllByCurrentSection(s).isPresent()) {
 
                     } else {
                         crewMember.setCurrentSection(section);
