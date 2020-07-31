@@ -402,6 +402,8 @@ public class ShopScreen extends ScreenAdapter {
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
         stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip-150, WidthPlayerShip+200, HeightPlayerShip+200);
+        stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 140);
+        stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip - 70);
         //stage.getBatch().draw(playerShip, BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
 
         float positionX = 1450;
