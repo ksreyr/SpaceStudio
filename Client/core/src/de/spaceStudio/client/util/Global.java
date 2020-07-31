@@ -754,7 +754,13 @@ public class Global {
     }*/
     //**Weapons Universe **//
     public static Planet planet10 = Planet.builder().name("p10").img("null").build();
-
+    public static List<Planet> planetListU1 = new ArrayList<>() {{
+        add(planet1);
+        add(planet2);
+        add(planet3);
+        add(planet4);
+        add(planet5);
+    }};
     public static List<Planet> planetListU2 = new ArrayList<>() {{
         add(planet1);
         add(planet2);
@@ -1060,6 +1066,14 @@ public class Global {
         section1Gegner6 = sectionsgegner6.get(0);
         section2Gegner6 = sectionsgegner6.get(1);
         section3Gegner6 = sectionsgegner6.get(2);
+    }
+
+    public static void updateVariblesPlanetsU1() {
+        planet1 = planetListU1.get(0);
+        planet2 = planetListU1.get(1);
+        planet3 = planetListU1.get(2);
+        planet4 = planetListU1.get(3);
+        planet5 = planetListU1.get(4);
     }
 
     public static void updateVariblesPlanetsU2() {
