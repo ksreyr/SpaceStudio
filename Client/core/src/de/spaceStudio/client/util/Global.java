@@ -761,10 +761,10 @@ public class Global {
         add(station3);
         add(station4);
     }};
-    //Sections Gegner  // FIXME was ist prive
-    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(1).build();
+    //Sections Gegner
+    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(10).amount(1).build();
     public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(1).build();
-    public static ShopRessource shopRessource3 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
+    public static ShopRessource shopRessource3 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(0).amount(100).build();
 
     public static ShopRessource shopRessourcep1Gold = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
     public static ShopRessource shopRessourcep1Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(1).build();
