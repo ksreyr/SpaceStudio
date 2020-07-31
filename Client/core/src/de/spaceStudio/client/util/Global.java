@@ -205,7 +205,7 @@ public class Global {
     public static final int OXYGEN = 100;
     public static final int POWER_CURRENT = 1;
     public static final int POWER_REQUIRED = 1;
-    public static final int HP = 1000;
+    public static final int HP = 1800;
     public static final int SHIELD = 1000;
     public static final int DAMAGE = 10;
     public static final int MAGAZIN_SIZE = 10;
@@ -443,7 +443,7 @@ public class Global {
             name("Shipgegner3").owner(ai3).
             buildShip();
     public static Ship shipGegner4 = Ship.shipBluider().hp(HP).
-            power(9).shield(1).
+            power(9).shield(10000).
             name("Shipgegner4").owner(ai4).
             buildShip();
     public static Ship shipGegner5 = Ship.shipBluider().hp(HP).

@@ -392,7 +392,10 @@ public class CombatScreen extends BaseScreen {
                         selectedTarget = Global.section3Gegner3;
                         findSectionByNameAndShip("Section4Gegner3", Global.currentShipGegner.getId(), true);
                         break;
-
+                    case "gegner4":
+                        selectedTarget = Global.section3Gegner4;
+                        findSectionByNameAndShip("Section4Gegner4", Global.currentShipGegner.getId(), true);
+                        break;
                     default:
                         break;
 
@@ -439,6 +442,9 @@ public class CombatScreen extends BaseScreen {
                     case "gegner3":
                         findSectionByNameAndShip("Section2Gegner3", Global.currentShipGegner.getId(), true);
                         break;
+                    case "gegner4":
+                        findSectionByNameAndShip("Section2Gegner4", Global.currentShipGegner.getId(), true);
+                        break;
 
                     default:
                         break;
@@ -478,7 +484,10 @@ public class CombatScreen extends BaseScreen {
                         selectedTarget = Global.section3Gegner3;
                         findSectionByNameAndShip("Section3Gegner3", Global.currentShipGegner.getId(), true);
                         break;
-
+                    case "gegner4":
+                        selectedTarget = Global.section3Gegner3;
+                        findSectionByNameAndShip("Section3Gegner4", Global.currentShipGegner.getId(), true);
+                        break;
                     default:
                         break;
 
@@ -514,6 +523,10 @@ public class CombatScreen extends BaseScreen {
                     case "gegner3":
 
                         findSectionByNameAndShip("Section1Gegner3", Global.currentShipGegner.getId(), true);
+                        break;
+                    case "gegner4":
+
+                        findSectionByNameAndShip("Section1Gegner4", Global.currentShipGegner.getId(), true);
                         break;
                     default:
                         break;
