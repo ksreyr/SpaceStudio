@@ -91,7 +91,7 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
     public String buyItem(List<ShopRessource> ressourceList) {
 
         ShopRessource shopRessource = ressourceList.get(0);
-        Station station = shopRessource.getStation();
+        StopAbstract station = shopRessource.getStation();
         Ship ship = station.getShips().get(0);
         List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(ship).get();
         Boolean control = false;

@@ -173,9 +173,9 @@ public class SectionControllerImpl implements SectionController {
         for (Section s :
                 sections) {
             Optional<CrewMember> crew = crewMemberRepository.findByCurrentSection(s);
-            if (crew.isPresent() && crew.get().getRole().equals(s.getRole())) {
+            if (crew.isPresent()) {
                 crew.get().setSkillCounter(crew.get().getSkillCounter() + 1);
-                if (crew.get().getRoundsToDestination() <= 0) { // is not Traveling
+                if (crew.get().getRoundsToDestination() <= 0 && crew.get().getRole().equals(s.getRole())) { // is not Traveling
                     switch (crew.get().getRole()) {
                         case FIGHTER:
                             Optional<List<Weapon>> weapons = weaponRepository.findBySection(s);
@@ -192,7 +192,7 @@ public class SectionControllerImpl implements SectionController {
                             shipRepository.save(s.getShip());
                             s.setPowerCurrent(powerBuffTechnician);
                     }
-                } else {
+                } else if (crew.get().getRoundsToDestination() > 0) {
                     crew.get().setRoundsToDestination(crew.get().getRoundsToDestination() - 1);
                 }
                 crewMemberRepository.save(crew.get());
