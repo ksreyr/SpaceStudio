@@ -929,6 +929,12 @@ public class ShipSelectScreen extends BaseScreen {
                 Global.shopRessourceList.get(0).setStation(station1);
                 Global.shopRessourceList.get(1).setStation(station2);
                 Global.shopRessourceList.get(2).setStation(station1);
+                Global.shopRessourceList.get(3).setStation(planet2);
+                Global.shopRessourceList.get(4).setStation(planet2);
+                Global.shopRessourceList.get(5).setStation(planet3);
+                Global.shopRessourceList.get(6).setStation(planet3);
+                Global.shopRessourceList.get(7).setStation(planet4);
+                Global.shopRessourceList.get(8).setStation(planet4);
                 sendRequestAddShopRessources(Global.shopRessourceList, Net.HttpMethods.POST);
                 requestcounter = 17;
             }

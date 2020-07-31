@@ -39,14 +39,14 @@ public class ShopRessource extends Ressource {
         return station;
     }
 
-    public void setStation(Station station) {
+    public void setStation(StopAbstract station) {
         this.station = station;
     }
 
     public static class ShopRessourceBuilder {
 
         private int price;
-        private Station station;
+        private StopAbstract station;
         private Integer id;
         private RessourceName name;
         private int amount;
@@ -71,7 +71,7 @@ public class ShopRessource extends Ressource {
             return ShopRessourceBuilder.this;
         }
 
-        public ShopRessourceBuilder station(Station station) {
+        public ShopRessourceBuilder station(StopAbstract station) {
             this.station = station;
             return ShopRessourceBuilder.this;
         }

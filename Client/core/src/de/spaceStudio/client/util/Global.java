@@ -784,10 +784,29 @@ public class Global {
     public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
     public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(100).build();
     public static ShopRessource shopRessource3 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
+
+    public static ShopRessource shopRessourcep1Gold = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
+    public static ShopRessource shopRessourcep1Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(100).build();
+
+    public static ShopRessource shopRessourcep2Gold = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
+    public static ShopRessource shopRessourcep2Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(100).build();
+
+    public static ShopRessource shopRessourcep3Gold = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(0).amount(100).build();
+    public static ShopRessource shopRessourcep3Energie = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(100).build();
+
     public static List<ShopRessource> shopRessourceList = new ArrayList<>() {{
         add(shopRessource1);
         add(shopRessource2);
         add(shopRessource3);
+
+        add(shopRessourcep1Gold);
+        add(shopRessourcep1Energie);
+
+        add(shopRessourcep2Gold);
+        add(shopRessourcep2Energie);
+
+        add(shopRessourcep3Gold);
+        add(shopRessourcep3Energie);
     }};
     public static ShipRessource shipRessource = ShipRessource.builderShipRessource().amount(100).name(RessourceName.GOLD).build();
     /*
@@ -1088,6 +1107,12 @@ public class Global {
         shopRessource1 = shopRessourceList.get(0);
         shopRessource2 = shopRessourceList.get(1);
         shopRessource3 = shopRessourceList.get(2);
+        shopRessourcep1Gold =shopRessourceList.get(3);
+        shopRessourcep1Energie=shopRessourceList.get(4);
+        shopRessourcep2Gold =shopRessourceList.get(5);
+        shopRessourcep2Energie=shopRessourceList.get(6);
+        shopRessourcep3Gold =shopRessourceList.get(7);
+        shopRessourcep3Energie=shopRessourceList.get(8);
     }
 
 

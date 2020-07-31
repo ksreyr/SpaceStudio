@@ -81,7 +81,7 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
 
     @Override
     public String getShopRessourceByStop(@RequestBody StopAbstract stopAbstract) {
-        Station station = stationRepository.findById(stopAbstract.getId()).get();
+        StopAbstract station = stopAbstractRepository.findById(stopAbstract.getId()).get();
         List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station).get();
         Gson gson = new Gson();
         return gson.toJson(shopRessources);
