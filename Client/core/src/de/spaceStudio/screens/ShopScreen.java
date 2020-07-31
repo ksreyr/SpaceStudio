@@ -11,11 +11,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.net.HttpStatus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.Gson;
 import de.spaceStudio.MainClient;
@@ -30,7 +33,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
-import static de.spaceStudio.screens.CombatScreen.*;
 
 
 public class ShopScreen extends ScreenAdapter {
@@ -57,9 +59,6 @@ public class ShopScreen extends ScreenAdapter {
     private final Texture oxygenTexture;
     private final Texture driveTexture;
     private final Skin skin;
-    private final Texture shieldSystem;
-    private final Texture driveSystem;
-    private final Texture weaponsSystem;
     public CheckBox checkBoxSection1, checkBoxSection2, checkBoxSection3, checkBoxSection4, checkBoxSection5, checkBoxSection6, checkBoxAllSections;
     //
     List<ShipRessource> shipRessources = new ArrayList<>();
@@ -83,11 +82,9 @@ public class ShopScreen extends ScreenAdapter {
     //secure,drive
     private boolean secureIconS1, driveIconS1, secureIconS2, driveIconS2;
     //
-    private List<CrewMember> myCrew;
-    private List<Image> listOfCrewMemberImages;
-
+    List<CrewMember> crewMemberList;
     public ShopScreen(MainClient mainClient) {
-        viewport = new StretchViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        viewport = new FitViewport(BaseScreen.WIDTH, BaseScreen.HEIGHT);
         this.universeMap = mainClient;
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
@@ -109,22 +106,6 @@ public class ShopScreen extends ScreenAdapter {
         securityTextureGrey = new Texture("data/ships/securityGrey.png");
         driveTextureGrey = new Texture("data/ships/batterie.png");
 
-        shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
-        driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
-        weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
-
-        listOfCrewMemberImages = new ArrayList<>();
-        myCrew = Global.combatCrew.get(Global.currentShipPlayer.getId());
-
-        for(int i = 0; i < myCrew.size(); i++){
-            listOfCrewMemberImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" +
-                    myCrew.get(i).getImg()))));
-        }
-        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
-            listOfCrewMemberImages.get(i).setBounds(30,30,30,30);
-            listOfCrewMemberImages.get(i).setPosition(XPlayerShip + myCrew.get(i).getCurrentSection().getxPos(),
-                    YPlayerShip + myCrew.get(i).getCurrentSection().getyPos());
-        }
         this.itemNumber = 0;
         batch = new SpriteBatch();
 
@@ -224,9 +205,6 @@ public class ShopScreen extends ScreenAdapter {
         stage.addActor(checkBoxSection4);
         stage.addActor(checkBoxSection5);
         stage.addActor(checkBoxSection6);
-        for(int i = 0; i < listOfCrewMemberImages.size(); i++){
-            stage.addActor(listOfCrewMemberImages.get(i));
-        }
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -345,6 +323,7 @@ public class ShopScreen extends ScreenAdapter {
                 Gson gson = new Gson();
                 ShipRessource[] shipRessourceList = gson.fromJson(shipRessource, ShipRessource[].class);
                 shipRessources = Arrays.asList(shipRessourceList);
+                RequestUtils.crewMemeberByShip(Global.currentShipPlayer);
                 getShopRessourcen(Global.currentStop, Net.HttpMethods.POST);
                 System.out.println("statusCode buyCrewMember: " + statusCode);
             }
@@ -413,11 +392,7 @@ public class ShopScreen extends ScreenAdapter {
         stage.addActor(shipInformationArea);
 
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
-        stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
-        stage.getBatch().draw(shieldSystem, XPlayerShip + 210, YPlayerShip + 290);
-        stage.getBatch().draw(driveSystem, XPlayerShip + 110, YPlayerShip + 80);
-        stage.getBatch().draw(weaponsSystem, XPlayerShip + 295, YPlayerShip + 180);
-        //stage.getBatch().draw(playerShip, BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
+        stage.getBatch().draw(playerShip, BaseScreen.WIDTH / 8, BaseScreen.HEIGHT / 8);
 
         float positionX = 1450;
         float positionY = 700;
@@ -524,31 +499,31 @@ public class ShopScreen extends ScreenAdapter {
                     buyItem(List.of(shopRessources.get(1)), Net.HttpMethods.POST);
                 } else if (itemNumber == 2) {
                     if (checkBoxSection1.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section1).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section1).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection2.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section2).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section2).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection3.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section3).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section3).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection4.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section4).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section4).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection5.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section5).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section5).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection6.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section6).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section6).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     }
                 } else if (itemNumber == 3) {
                     if (checkBoxSection1.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section1).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").img("male_human.png").role(Role.FIGHTER).currentSection(Global.section1).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection2.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section2).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").img("male_human.png").role(Role.FIGHTER).currentSection(Global.section2).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection3.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section3).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").img("male_human.png").role(Role.FIGHTER).currentSection(Global.section3).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection4.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section4).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").img("male_human.png").role(Role.FIGHTER).currentSection(Global.section4).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection5.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section5).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").img("male_human.png").role(Role.FIGHTER).currentSection(Global.section5).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection6.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").role(Role.FIGHTER).currentSection(Global.section6).health(80).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Male").img("male_human.png").role(Role.FIGHTER).currentSection(Global.section6).health(80).buildCrewMember()), Net.HttpMethods.POST);
                     }
                 } else if (itemNumber == 4) {
                     buyWeapons(List.of(Weapon.WeaponBuilder().damage(50).name("Laser gekauft").hitRate(5).warmUp(4).magazinSize(3).section(Global.section4).img("Lasser").build()), Net.HttpMethods.POST);
