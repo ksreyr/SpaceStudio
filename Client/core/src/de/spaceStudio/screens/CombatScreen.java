@@ -199,6 +199,9 @@ public class CombatScreen extends BaseScreen {
     private void findSectionByNameAndShip(String name, int id, Boolean currentTarget) {
         Optional<Section> result = Optional.empty();
 
+        if (!Global.combatSections.containsKey(id)) {
+            System.out.println("Stop no id");
+        }
         for (Section s :
                 Global.combatSections.get(id)) {
             if (s.getImg().equals(name)) {
