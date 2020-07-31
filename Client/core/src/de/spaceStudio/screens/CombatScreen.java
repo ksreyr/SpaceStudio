@@ -208,9 +208,13 @@ public class CombatScreen extends BaseScreen {
                 result = Optional.of(s);
                 if (currentTarget) {
                     selectedTarget = s;
+                    break;
                 }
             }
 
+        }
+        if (result.isEmpty() ) {
+            System.out.println("Stop no Result");
         }
     }
 
@@ -433,7 +437,6 @@ public class CombatScreen extends BaseScreen {
                         break;
 
                     case "gegner3":
-                        selectedTarget = Global.section3Gegner3;
                         findSectionByNameAndShip("Section2Gegner3", Global.currentShipGegner.getId(), true);
                         break;
 

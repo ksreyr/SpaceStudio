@@ -122,6 +122,8 @@ public class StationsMap extends BaseScreen {
         stage.addActor(planet1ImgBTN);
         stage.addActor(planet2ImgBTN);
         stage.addActor(planet3ImgBTN);
+        stage.addActor(planet5ImageBTN);
+
         if (!Global.ISEASY) {
             stage.addActor(planet5ImageBTN);
             stage.addActor(planet4ImgBTN);
