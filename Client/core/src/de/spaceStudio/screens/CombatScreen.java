@@ -89,11 +89,19 @@ public class CombatScreen extends BaseScreen {
     private Texture enemyShip1, enemyShip2, enemyShip3;
     private Texture background, laser;
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
-    private Texture energy, shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel, redPin;
+    //CrewMember break
+    private Texture hourglass;
+    private boolean hourglass1, hourglass2, hourglass3, hourglass4, hourglass5, hourglass6;
+    private float hourX1, hourY1;
+
+    private Texture shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel;
+    private Texture energy, redPin; // shieldSystem, weaponsSystem, driveSystem, energyWeaponsPanel,
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
     //private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
     private List<CrewMember> myCrew;
+    private Label breakCrewMember;
+    private String breakinfo;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
     private Texture explosion, missille, weaponSystem;
@@ -138,6 +146,13 @@ public class CombatScreen extends BaseScreen {
         labelsection5 = new Label("Section5", label1Style);
         labelsection6 = new Label("Section6", label1Style);
 
+        hourglass1 = false;
+        hourglass2 = false;
+        hourglass3 = false;
+        hourglass4 = false;
+        hourglass5 = false;
+        hourglass6 = false;
+
         weaponLabel = new Label(weaponText[0], label1Style);
         weaponLabel.setSize(Gdx.graphics.getWidth(), 20);
         weaponLabel.setPosition(0, BaseScreen.HEIGHT-250);
@@ -146,6 +161,8 @@ public class CombatScreen extends BaseScreen {
         sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
         sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
         sectionLabel.setPosition(BaseScreen.WIDTH-800, 100);
+        this.breakinfo = "All crewMember in action";
+
     }
 
     private void liamButtonFuntion() {
@@ -218,12 +235,13 @@ public class CombatScreen extends BaseScreen {
         explosion = new Texture("Client/core/assets/combatAssets/explosion1_0024.png");
         bullet = new Texture("Client/core/assets/combatAssets/bullet.png");
         laser = new Texture("Client/core/assets/combatAssets/laser.jpg");
+        this.hourglass = new Texture("Client/core/assets/combatAssets/hourglass.png");
         shieldSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/shield.png"));
         driveSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/drive.png"));
         weaponsSystem = new Texture(Gdx.files.internal("Client/core/assets/data/ships/weapons.png"));
         redPin = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/pin.png"));
-        for(int i = 0; i < myCrew.size(); i++){
-            listOfCrewImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" + myCrew.get(i).getImg()))));
+        for (CrewMember crewMember : myCrew) {
+            listOfCrewImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" + crewMember.getImg()))));
         }
         for(int i = 0; i < listOfCrewImages.size(); i++){
             listOfCrewImages.get(i).setBounds(30,30,30,30);
@@ -234,6 +252,14 @@ public class CombatScreen extends BaseScreen {
         }
 
         /*imageCrewMemberOne.setBounds(30, 30, 30, 30);
+        crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
+        crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
+        laser= new Texture("Client/core/assets/combatAssets/laser.jpg");
+        imageCrewMemberOne = new Image(crewMemberOne);
+        imageCrewMemberTwo = new Image(crewMemberTwo);
+        imageCrewMemberThree = new Image(crewMemberThree);
+        imageCrewMemberOne.setBounds(30, 30, 30, 30);
         imageCrewMemberTwo.setBounds(30, 30, 30, 30);
         imageCrewMemberThree.setBounds(30, 30, 30, 30);
         imageCrewMemberOne.setPosition(XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
@@ -279,12 +305,13 @@ public class CombatScreen extends BaseScreen {
         shieldIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/2.png"));
         driveIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/1.png"));
         weaponsIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/3.png"));
-        
+        shieldIconForEnergyPanel.setPosition(185, 12);
         shieldIconForEnergyPanel.setPosition(185,12);
         shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.LEFT) {
             @Override
-            public void clicked(InputEvent event, float x, float y){
-                if(Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())) > 0){
+            public void clicked(InputEvent event, float x, float y) {
+                //hier
+                if (Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())) > 0) {
                     Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).incrementPowerCurrent();
                     RequestUtils.updateEnergie(Global.combatSections.get(Global.currentShipPlayer.getId()));
                 }
@@ -293,47 +320,47 @@ public class CombatScreen extends BaseScreen {
         shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT) {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getPowerCurrent() > 0){
+                if (Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getPowerCurrent() > 0) {
                     Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).decrementPowerCurrent();
                     RequestUtils.updateEnergie(Global.combatSections.get(Global.currentShipPlayer.getId()));
                 }
             }
         });
 
-        weaponsIconForEnergyPanel.setPosition(495,16);
+        weaponsIconForEnergyPanel.setPosition(495, 16);
         weaponsIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.LEFT) {
             @Override
-            public void clicked(InputEvent event, float x, float y){
-                if(Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())) > 0){
+            public void clicked(InputEvent event, float x, float y) {
+                if (Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())) > 0) {
                     Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).incrementPowerCurrent();
                     RequestUtils.updateEnergie(Global.combatSections.get(Global.currentShipPlayer.getId()));
                 }
             }
         });
-        weaponsIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
+        weaponsIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT) {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() > 0){
+                if (Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() > 0) {
                     Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).decrementPowerCurrent();
                     RequestUtils.updateEnergie(Global.combatSections.get(Global.currentShipPlayer.getId()));
                 }
             }
         });
 
-        driveIconForEnergyPanel.setPosition(345,12);
+        driveIconForEnergyPanel.setPosition(345, 12);
         driveIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.LEFT) {
             @Override
-            public void clicked(InputEvent event, float x, float y){
-                if(Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())) > 0){
+            public void clicked(InputEvent event, float x, float y) {
+                if (Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())) > 0) {
                     Global.combatSections.get(Global.currentShipPlayer.getId()).get(5).incrementPowerCurrent();
                     RequestUtils.updateEnergie(Global.combatSections.get(Global.currentShipPlayer.getId()));
                 }
             }
         });
-        driveIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT){
+        driveIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.RIGHT) {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(5).getPowerCurrent() > 0){
+                if (Global.combatSections.get(Global.currentShipPlayer.getId()).get(5).getPowerCurrent() > 0) {
                     Global.combatSections.get(Global.currentShipPlayer.getId()).get(5).decrementPowerCurrent();
                     RequestUtils.updateEnergie(Global.combatSections.get(Global.currentShipPlayer.getId()));
                 }
@@ -579,6 +606,10 @@ public class CombatScreen extends BaseScreen {
             stage.addActor(listOfCrewImage);
         }
 
+        breakCrewMember = new Label(breakinfo, skin);
+        breakCrewMember.setPosition(200,900);
+        stage.addActor(breakCrewMember);
+
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -619,22 +650,40 @@ public class CombatScreen extends BaseScreen {
                     System.out.println("draggedCrewMember is null");
                 } else if (sectionOne.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(0));
-                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionTwo.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(1));
-                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionThree.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(2));
-                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionFour.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(3));
-                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionFive.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(4));
-                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else if (sectionSix.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(5));
-                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    setHourX1(tmp.x);
+                    setHourY1(tmp.y);
+
                 } else {
                     imageCrewMember.setPosition(crewX, crewY);
                 }
@@ -689,6 +738,37 @@ public class CombatScreen extends BaseScreen {
     ////Quien es el gegner
     ////sectiones del gegner
     ////set de
+
+    public void updateSectionEnergy(Object requestObject, String method) {
+        final Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        final String requestJson = json.toJson(requestObject);
+        final String url = Global.SERVER_URL + "/" + Global.SECTIONS + Global.ENERGY;
+        final Net.HttpRequest request = setupRequest(url, requestJson, method);
+        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+            public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                int statusCode = httpResponse.getStatus().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    System.out.println("Request Failed updateSectionEnergy");
+                }
+                System.out.println("statusCode updateSectionEnergy: " + statusCode);
+                String result = httpResponse.getResultAsString();
+                if (result == null) {
+                    System.out.println("Requested List of Sections is null");
+                }
+            }
+
+            public void failed(Throwable t) {
+                System.out.println("Request Failed Completely");
+            }
+
+            @Override
+            public void cancelled() {
+                System.out.println("request cancelled");
+            }
+        });
+    }
+
 
     /**
      * Receives an Crew Member, the image of the Crew Member and the HTTP-method
@@ -753,8 +833,9 @@ public class CombatScreen extends BaseScreen {
                 sectionsGegner = Arrays.asList(aiArray);
 
                 if (sectionsGegner.size() > 0)
-                Global.currentShipGegner= sectionsGegner.get(0).getShip();
-                if (Global.currentShipGegner.getHp() <= 0) {
+                    Global.currentShipGegner = sectionsGegner.get(0).getShip();
+                if (Global.currentShipGegner.getHp() <= 0 || Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1
+                        || allSectionsBroken(Global.combatSections.get(Global.currentShipGegner.getId()))) {
                     Global.combatWeapons.remove(Global.currentShipGegner.getId());
                     Global.combatSections.remove(Global.currentShipGegner.getId());
                     Global.combatActors.remove(Global.currentGegner.getId());
@@ -762,34 +843,10 @@ public class CombatScreen extends BaseScreen {
                     LOG.info("You have Won the Fight");
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
                         public void result(Object obj) {
-                            if (Objects.equals(obj.toString(), "true")) {
-                            }
+                            obj.toString();
                         }
                     };
-                    winMessageDialog(dialog, " You won the game ");
-                }
-
-                if (Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1) {
-                    LOG.info("You have killed the enemy crew");
-                    // TODO Mehmet loose
-                }
-
-
-                // TODO wenn alle Sektionen kaputt sind, wird auch verlore
-                // If der Player lose
-                if (Global.currentShipPlayer.getHp() < 1) {
-                    LOG.info("You have lost the Game");
-                    Global.combatWeapons.remove(Global.currentShipGegner.getId());
-                    Global.combatSections.remove(Global.currentShipGegner.getId());
-                    Global.combatActors.remove(Global.currentGegner.getId());
-                    Global.combatCrew.remove(Global.currentShipGegner.getId());
-                    final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
-                        public void result(Object obj) {
-                            if (Objects.equals(obj.toString(), "true")) {
-                            }
-                        }
-                    };
-                    loseMessageDialog(dialog, " You have lost the game!");
+                    winMessageDialog(dialog, " You won this Fight.\n But the game is not over yet ");
                 }
 
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);
@@ -878,16 +935,30 @@ public class CombatScreen extends BaseScreen {
                 if (c.getCurrentSection().equals(s)) {
                     crewName = c.getName();
                 }
-                }
+            }
             stringBuilder.append(String.format("%s, usable: %s, oxygen: %s, Role: %s, Crew: %s%n", s.getImg(), s.isUsable(), s.getOxygen(), s.getSectionTyp(), crewName));
         }
         return stringBuilder.toString();
+    }
+
+    public boolean allSectionsBroken(List<Section> sections) {
+        boolean isNotBroken = false;
+        for (Section s :
+                sections) {
+            if (s.getUsable()) {
+                isNotBroken = true;
+                break;
+            }
+        }
+        return !isNotBroken;
     }
 
 
     // Called when the screen should render itself.
     @Override
     public void render(float delta) {
+
+        stage.getBatch().begin();
 
         GdxUtils.clearScreen();
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -908,6 +979,22 @@ public class CombatScreen extends BaseScreen {
         if (Global.combatActors.containsKey(Global.currentPlayer.getId())) {
             ActorState state = Global.combatActors.get(Global.currentPlayer.getId()).getState();
             liamButton.setText(state.getFightState().getState());
+        }
+
+        // TODO wenn alle Sektionen kaputt sind, wird auch verlore
+        // If der Player lose
+        if (Global.combatCrew.size() == 2 && Global.combatSections.size() == 2) {
+            if (Global.currentShipPlayer.getHp() < 1 || Global.combatCrew.get(Global.currentShipPlayer.getId()).isEmpty()
+                    || allSectionsBroken(Global.combatSections.get(Global.currentShipPlayer.getId()))) {
+                LOG.info("You have lost the Game");
+                Global.combatWeapons.remove(Global.currentShipGegner.getId());
+                Global.combatSections.remove(Global.currentShipGegner.getId());
+                Global.combatActors.remove(Global.currentGegner.getId());
+                Global.combatCrew.remove(Global.currentShipGegner.getId());
+                final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
+                };
+                loseMessageDialog(dialog, " You have lost the game!");
+            }
         }
 
 
@@ -936,7 +1023,7 @@ public class CombatScreen extends BaseScreen {
                     weaponLabel.setText(weaponText[1] + selectedWeapons.get(0).getName());
                 }
             }
-            stage.getBatch().begin();
+
             stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
             // Render the Ship of the current Player
             stage.getBatch().draw(playerShip, XPlayerShip, YPlayerShip, WidthPlayerShip, HeightPlayerShip);
@@ -947,13 +1034,13 @@ public class CombatScreen extends BaseScreen {
 
             //insgesamt Energy
             drawAvailableEnergy(Global.currentShipPlayer.getPower() -
-                    Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())),25);
+                    Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())), 25);
             //shield Energy
-            drawAvailableEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getPowerCurrent(),165);
+            drawAvailableEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getPowerCurrent(), 165);
             //weapons Energy
-            drawAvailableEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent(),467);
+            drawAvailableEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent(), 467);
             //drive Energy
-            drawAvailableEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()).get(5).getPowerCurrent(),320);
+            drawAvailableEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()).get(5).getPowerCurrent(), 320);
 
             if (dragged) {
                 for(int i = 0; i < Global.sectionsPlayerList.size(); i++){
@@ -1013,8 +1100,7 @@ public class CombatScreen extends BaseScreen {
 //                Global.updateVariableSectionShipPlayer(); WTF FIXME is this is important
             Global.currentShipPlayer = sectionsPlayer.get(0).getShip();
             Global.actualizierungSectionInWeapons();
-            List<Section> sizeO = new ArrayList<>();
-            sectionsPlayer = sizeO;
+            sectionsPlayer = new ArrayList<>();
         }
 
 
@@ -1056,32 +1142,47 @@ public class CombatScreen extends BaseScreen {
 
         }
 
-        if (Global.currentShipGegner != null && !Global.combatSections.isEmpty()) {
+        if (Global.currentShipGegner != null && Global.combatSections.size() == 2) {
             for (Section s :
                     Global.combatSections.get(Global.currentShipGegner.getId())) {
-                if (!s.getUsable() && s.getImg()=="Section1Gegner1")   stage.getBatch().draw(explosion, 1530, 635, 100, 70);
-                if (!s.getUsable() && s.getImg() == "Section3Gegner1") stage.getBatch().draw(explosion, 1410, 485, 100, 70);
-                if (!s.getUsable() && s.getImg() == "Section2Gegner1")  stage.getBatch().draw(explosion, 1530, 450, 100, 70);
-                if (!s.getUsable() && s.getImg() == "Section5Gegner3")  stage.getBatch().draw(explosion, 1610, 485, 100, 70);
-                if (!s.getUsable() && s.getImg() == "Section4Gegner2")  stage.getBatch().draw(explosion, 1530, 510, 100, 70);
-
-
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))   stage.getBatch().draw(explosion, 1530, 635, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section3Gegner1")) stage.getBatch().draw(explosion, 1410, 485, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section2Gegner1"))  stage.getBatch().draw(explosion, 1530, 450, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section5Gegner3"))  stage.getBatch().draw(explosion, 1610, 485, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section4Gegner2"))  stage.getBatch().draw(explosion, 1530, 510, 100, 70);
             }
         }
 
         stage.getBatch().end();
+
         mainClient.getBatch().begin();
         for (Bullet bullet : bullets) {
             bullet.render(mainClient.getBatch());
         }
+        mainClient.getBatch().end();
 
-        stage.getBatch().end();
+
         mainClient.getBatch().begin();
         for (Bullet bullet : bulletsEnemy) {
             bullet.render(mainClient.getBatch());
         }
         mainClient.getBatch().end();
 
+        stage.getBatch().begin();
+
+            if(hourglass1){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
+            if(hourglass2){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
+            if(hourglass3){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
+
+         stage.getBatch().end();
+
+            mainClient.getBatch().begin();
+            for (Bullet bullet : bulletsEnemy) {
+                bullet.render(mainClient.getBatch());
+            }
+            mainClient.getBatch().end();
+
+        proofCrewMembersAvailable();
 
         stage.act();
         stage.draw();
@@ -1093,37 +1194,6 @@ public class CombatScreen extends BaseScreen {
             stage.getBatch().draw(energy, xPosition, energyYPosition, 80, 110);
             energyYPosition += 22;
         }
-    }
-
-    public void makeAShotGegner(Object requestObject, String method) {
-        final Json json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        final String requestJson = json.toJson(requestObject);
-        final String url = Global.SERVER_URL + Global.MAKE_SHOT_VALIDATION;
-        final Net.HttpRequest request = setupRequest(url, requestJson, method);
-        Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                int statusCode = httpResponse.getStatus().getStatusCode();
-                if (statusCode != HttpStatus.SC_OK) {
-                    System.out.println("Request Failed GegnermakeShot");
-                }
-                System.out.println("statusCode GegnermakeShot: " + statusCode);
-                String SectionsGegner = httpResponse.getResultAsString();
-                Gson gson = new Gson();
-                Section[] sectiongegnerArray = gson.fromJson(SectionsGegner, Section[].class);
-                sectionsPlayer = Arrays.asList(sectiongegnerArray);
-                System.out.println("statusCode makeAShot: " + statusCode);
-            }
-
-            public void failed(Throwable t) {
-                System.out.println("Request Failed Completely");
-            }
-
-            @Override
-            public void cancelled() {
-                System.out.println("request cancelled");
-            }
-        });
     }
 
     private void scheduleLobby() {
@@ -1181,9 +1251,9 @@ public class CombatScreen extends BaseScreen {
         shieldSystem.dispose();
         weaponsSystem.dispose();
         driveSystem.dispose();
-        crewMemberOne.dispose();
-        crewMemberTwo.dispose();
-        crewMemberThree.dispose();
+        //crewMemberOne.dispose();
+        //crewMemberTwo.dispose();
+        //crewMemberThree.dispose();
         stage.dispose();
     }
 
@@ -1223,6 +1293,90 @@ public class CombatScreen extends BaseScreen {
         dialog.key(Input.Keys.ESCAPE, false);
         click.play();
         dialog.show(stage);
+    }
+
+
+    public void proofCrewMembersAvailable() {
+
+        for (int i = 0; i < Global.combatCrew.get(Global.currentShipPlayer.getId()).size(); i++) {
+
+            if (Global.combatCrew.get(Global.currentShipPlayer.getId()).get(i).getRoundsToDestination() == 1) {
+                stage.addActor(listOfCrewImages.get(i));
+                breakCrewMember.remove();
+
+                if(i == 0 ) {
+                    //imageCrewMemberOne.remove();
+                    setHourglass1(true);
+                    setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
+                    this.breakCrewMember = new Label(breakinfo, skin);
+                    stage.addActor(breakCrewMember);
+                }
+                if (i == 1) {
+                    //imageCrewMemberTwo.remove();
+                    setHourglass2(true);
+                    setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
+                    this.breakCrewMember = new Label(breakinfo, skin);
+                    stage.addActor(breakCrewMember);
+                }
+                if (i == 2) {
+                    //imageCrewMemberThree.remove();
+                    setHourglass3(true);
+                    setBreakinfo("CrewMember " + (i + 1) + " needs time to change the section");
+                    this.breakCrewMember = new Label(breakinfo, skin);
+                    stage.addActor(breakCrewMember);
+                }
+                breakCrewMember.setPosition(200,900);
+            }
+
+            if (Global.combatCrew.get(Global.currentShipPlayer.getId()).get(i).getRoundsToDestination() == 0) {
+                stage.addActor(listOfCrewImages.get(i));
+                if(i==0) {
+                    setHourglass1(false);
+                    //System.out.println("setHourglass1(false);");
+                }
+                if(i==1) {
+                    setHourglass2(false);
+                    //System.out.println("setHourglass2(false);");
+                }
+                if(i==2) {
+                    setHourglass3(false);
+                    //System.out.println("setHourglass3(false);");
+                }
+            }
+        }
+    }
+
+
+    public void setBreakinfo(String breakinfo) {
+        this.breakinfo = breakinfo;
+    }
+
+    public void setHourglass1(boolean hourglass1) {
+        this.hourglass1 = hourglass1;
+    }
+
+    public void setHourglass2(boolean hourglass2) {
+        this.hourglass2 = hourglass2;
+    }
+
+    public void setHourglass3(boolean hourglass3) {
+        this.hourglass3 = hourglass3;
+    }
+
+    public float getHourX1() {
+        return hourX1;
+    }
+
+    public void setHourX1(float hourX1) {
+        this.hourX1 = hourX1;
+    }
+
+    public float getHourY1() {
+        return hourY1;
+    }
+
+    public void setHourY1(float hourY1) {
+        this.hourY1 = hourY1;
     }
 
 }

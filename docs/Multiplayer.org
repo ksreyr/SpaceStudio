@@ -1,5 +1,6 @@
 #+TITLE: Multiplayer
 
+While Exploring the Universe. The Player will be guided through many screens
 #+BEGIN_SRC dot :file multi1.png
  digraph finite_state_machine {
 

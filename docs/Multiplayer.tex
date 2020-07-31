@@ -1,4 +1,4 @@
-% Created 2020-07-25 Sa 17:41
+% Created 2020-07-31 Fr 11:51
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -29,6 +29,7 @@
 \maketitle
 \tableofcontents
 
+While Exploring the Universe. The Player will be guided through many screens
 \begin{center}
 \includegraphics[width=.9\linewidth]{multi1.png}
 \end{center}
@@ -49,5 +50,68 @@
 
 \begin{center}
 \includegraphics[width=.9\linewidth]{jumping.png}
+\end{center}
+
+
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{kampf.png}
+\end{center}
+
+
+
+
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{fightMechanik.png}
+\end{center}
+
+
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{kampfRunde.png}
+\end{center}
+
+
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{actorFight.png}
+\end{center}
+
+
+
+\begin{verbatim}
+trait FullTummy
+trait Bird
+trait Catch
+trait Cat
+def catch(hunter: Cat, prey: Bird): Cat with Catch
+def eat(consumer: Cat with Catch): Cat with FullTummy
+val story = (catch _) andThen (eat _)
+story(new Cat, new Bird)
+\end{verbatim}
+
+
+
+\begin{verbatim}
+case class Player(name: String, score: Int)
+def declareWinner(p: Player): Unit =
+  println(p.name + “ is the winner!”)
+def winner(p1: Player, p2: Player): Unit =
+  if (p1.score > p2.score) declareWinner(p1) else declareWinner(p2)
+\end{verbatim}
+
+Seite 27, 40
+
+
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{kommunikation.png}
+\end{center}
+
+
+
+\begin{center}
+\includegraphics[width=.9\linewidth]{combatSequence.png}
 \end{center}
 \end{document}

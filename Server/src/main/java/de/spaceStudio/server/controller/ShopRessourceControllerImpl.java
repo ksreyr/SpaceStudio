@@ -81,7 +81,7 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
 
     @Override
     public String getShopRessourceByStop(@RequestBody StopAbstract stopAbstract) {
-        Station station = stationRepository.findById(stopAbstract.getId()).get();
+        StopAbstract station = stopAbstractRepository.findById(stopAbstract.getId()).get();
         List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station).get();
         Gson gson = new Gson();
         return gson.toJson(shopRessources);
@@ -91,7 +91,7 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
     public String buyItem(List<ShopRessource> ressourceList) {
 
         ShopRessource shopRessource = ressourceList.get(0);
-        Station station = shopRessource.getStation();
+        StopAbstract station = shopRessource.getStation();
         Ship ship = station.getShips().get(0);
         List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(ship).get();
         Boolean control = false;

@@ -36,8 +36,8 @@ public class WeaponControllerImpl implements WeaponController {
     @Autowired
     CombatRoundRepository combatRoundRepository;
 
-    private float removeOxygen = 20;
-    private int priceWeapon = 30;
+    private final float removeOxygen = 20;
+    private final int priceWeapon = 30;
 
     /**
      * Generate a random Number
@@ -220,10 +220,12 @@ public class WeaponControllerImpl implements WeaponController {
 
     @Override
     public boolean canShoot(Weapon w) {
-        Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-        if (w.getObjectiv() != null && ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0
-                && w.getSection().getPowerCurrent() >= w.getSection().getPowerRequired()) {
-            return w.getSection().getUsable();
+        if (w.getObjectiv() != null && w.getObjectiv().getShip() != null && w.getObjectiv().getShip().getId() != null) {
+            Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
+            if (w.getObjectiv() != null && ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0
+                    && w.getSection().getPowerCurrent() >= w.getSection().getPowerRequired()) {
+                return w.getSection().getUsable();
+            }
         }
         return false;
     }
