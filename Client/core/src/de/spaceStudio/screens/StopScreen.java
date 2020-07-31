@@ -14,9 +14,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import de.spaceStudio.MainClient;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.model.CrewMember;
 import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.model.ShipRessource;
 import de.spaceStudio.server.model.Weapon;
 
 import java.util.List;
@@ -131,7 +129,7 @@ public class StopScreen extends ScreenAdapter {
     }
 
 
-    String stop_descripton(int event) {
+    String stop_description(int event) {
         String result;
         switch (event) {
             case 0:
@@ -139,7 +137,7 @@ public class StopScreen extends ScreenAdapter {
                 break;
 
             case 1:
-                result = "Before you lies a Blue Laggon, It looks like an oasis";
+                result = "Before you lies a Blue Lagoon, It looks like an oasis";
                 break;
 
             case 2:
@@ -199,9 +197,8 @@ public class StopScreen extends ScreenAdapter {
 
 
         new Dialog("You have a arrived at a new Stop", skin) {
-
             {
-                text(stop_descripton(number));
+                text(stop_description(number));
                 button("Leave", "false").getButtonTable().row();
                 button("Explore", "true");
             }
