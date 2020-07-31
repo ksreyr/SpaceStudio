@@ -386,6 +386,12 @@ public class CombatScreen extends BaseScreen {
                         findSectionByNameAndShip("Section4Gegner3", Global.currentShipGegner.getId(), true);
                         break;
 
+                    case "gegner4":
+                        selectedTarget = Global.section3Gegner4;
+                        findSectionByNameAndShip("Section4Gegner3", Global.currentShipGegner.getId(), true);
+                        break;
+
+
                     default:
                         break;
 
@@ -427,13 +433,18 @@ public class CombatScreen extends BaseScreen {
 
                     case "gegner2":
                         findSectionByNameAndShip("Section2Gegner2", Global.currentShipGegner.getId(), true);
+                        selectedTarget = Global.section3Gegner4;
+
                         break;
 
                     case "gegner3":
                         selectedTarget = Global.section3Gegner3;
                         findSectionByNameAndShip("Section2Gegner3", Global.currentShipGegner.getId(), true);
                         break;
-
+                    case "gegner4":
+                        selectedTarget = Global.section3Gegner4;
+                        findSectionByNameAndShip("Section3Gegner4", Global.currentShipGegner.getId(), true);
+                        break;
                     default:
                         break;
 
@@ -462,6 +473,7 @@ public class CombatScreen extends BaseScreen {
 
                     case "gegner1":
                         findSectionByNameAndShip("Section3Gegner1", Global.currentShipGegner.getId(), true);
+                        selectedTarget = Global.section3Gegner4;
                         break;
 
                     case "gegner2":
@@ -471,6 +483,11 @@ public class CombatScreen extends BaseScreen {
                     case "gegner3":
                         selectedTarget = Global.section3Gegner3;
                         findSectionByNameAndShip("Section3Gegner3", Global.currentShipGegner.getId(), true);
+                        break;
+
+                    case "gegner4":
+                        selectedTarget = Global.section3Gegner4;
+                        findSectionByNameAndShip("Section3Gegner4", Global.currentShipGegner.getId(), true);
                         break;
 
                     default:
@@ -500,17 +517,29 @@ public class CombatScreen extends BaseScreen {
                     case "gegner1":
 
                         findSectionByNameAndShip("Section1Gegner1", Global.currentShipGegner.getId(), true);
+                        selectedTarget = Global.section1Gegner2;
                         break;
                     case "gegner2":
 
                         findSectionByNameAndShip("Section1Gegner2", Global.currentShipGegner.getId(), true);
+                        selectedTarget = Global.section1Gegner2;
+
                         break;
                     case "gegner3":
 
                         findSectionByNameAndShip("Section1Gegner3", Global.currentShipGegner.getId(), true);
+                        selectedTarget = Global.section1Gegner2;
+
                         break;
-                    default:
+                    case "gegner4":
+
+                        findSectionByNameAndShip("Section1Gegner4", Global.currentShipGegner.getId(), true);
+                        selectedTarget = Global.section1Gegner2;
+
                         break;
+
+
+                        default:
                 }
                 isTargetSelected = true;
                 cockpit.getStyle().imageUp = cockpit_red;
@@ -796,14 +825,16 @@ public class CombatScreen extends BaseScreen {
                     Global.combatActors.remove(Global.currentGegner.getId());
                     Global.combatCrew.remove(Global.currentShipGegner.getId());
                     LOG.info("You have Won the Fight");
-                    // Update data to store
-                    RequestUtils.findGameRoundsByActor(Global.currentPlayer);
                     final Dialog dialog = new Dialog("Congratulations!!!", skin, "dialog") {
                         public void result(Object obj) {
                             obj.toString();
                         }
                     };
-                    winMessageDialog(dialog, " You won this Fight.\n But the game is not over yet ");
+                   // if()
+                    if (Global.currentStop ==Global.planet5){
+                        winMessageDialog(dialog, " You won the Game.\n Holly shit, You are great!!! \n The Game is over!!!  ");
+                    }else winMessageDialog(dialog, " You won this Fight.\n But the game is not over yet ");
+
                 }
 
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);

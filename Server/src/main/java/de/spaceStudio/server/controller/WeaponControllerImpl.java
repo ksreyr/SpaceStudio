@@ -1,8 +1,11 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
+import de.spaceStudio.server.ServerCore;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +38,8 @@ public class WeaponControllerImpl implements WeaponController {
 
     @Autowired
     CombatRoundRepository combatRoundRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeaponControllerImpl.class);
 
     private final float removeOxygen = 20;
     private final int priceWeapon = 30;
@@ -227,6 +232,7 @@ public class WeaponControllerImpl implements WeaponController {
                 return w.getSection().getUsable();
             }
         }
+        LOGGER.warn(("No Objectiv selected for Weapon " + w.getId()));
         return false;
     }
 
