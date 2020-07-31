@@ -39,7 +39,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
-
+import static de.spaceStudio.client.util.Global.stationListU2;
 
 public class StationsMap extends BaseScreen {
 
@@ -599,6 +599,13 @@ public class StationsMap extends BaseScreen {
         Global.singlePlayerGame.setShipSection4(Global.section4);
         Global.singlePlayerGame.setShipSection5(Global.section5);
         Global.singlePlayerGame.setShipSection6(Global.section6);
+        Global.singlePlayerGame.setStationListU2(stationListU2);
+        Global.singlePlayerGame.setPlanet1(Global.planet1);
+        Global.singlePlayerGame.setPlanet2(Global.planet2);
+        Global.singlePlayerGame.setPlanet3(Global.planet3);
+        Global.singlePlayerGame.setPlanet4(Global.planet4);
+        Global.singlePlayerGame.setPlanet5(Global.planet5);
+        Global.singlePlayerGame.setPlanet6(Global.planet6);
     }
 
 
