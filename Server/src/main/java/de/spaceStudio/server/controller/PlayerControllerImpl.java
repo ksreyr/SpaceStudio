@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import ch.qos.logback.core.joran.action.IADataForComplexProperty;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -349,5 +350,13 @@ public class PlayerControllerImpl implements PlayerController {
 
         }
         return "DONE";
+    }
+
+    @Override
+    public List<GameRound> getGameRoundsByPlayer(Integer id) {
+        Optional<Actor> a = actorRepository.findById(id);
+        if (a.isPresent()) {
+            return gameRoundRepository.findByActor(a.get());
+        } else throw new IllegalArgumentException(String.format("Player %s does not exist", id));
     }
 }

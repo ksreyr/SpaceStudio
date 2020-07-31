@@ -797,7 +797,8 @@ public class CombatScreen extends BaseScreen {
                 } else {
                     Gson gson = new Gson();
                     CrewMember newCrewMember = gson.fromJson(result, CrewMember.class);
-                    myCrew.set(myCrew.indexOf(newCrewMember), newCrewMember);
+                    Global.combatCrew.get(Global.currentShipPlayer.getId()).set(myCrew.indexOf(newCrewMember), newCrewMember);
+
                     imageCrewMember.setPosition(XPlayerShip + newCrewMember.getCurrentSection().getxPos(),
                             YPlayerShip + newCrewMember.getCurrentSection().getyPos());
                 }

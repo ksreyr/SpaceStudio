@@ -1,10 +1,8 @@
 package de.spaceStudio.server.controller;
 
+import de.spaceStudio.server.model.GameRound;
 import de.spaceStudio.server.model.Player;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -104,5 +102,9 @@ public interface PlayerController {
      */
     @RequestMapping(value = "/cleanuser", method = RequestMethod.POST)
     String clean(@RequestBody Player player);
+
+
+    @GetMapping(value = "/player/{id}/rounds")
+    List<GameRound> getGameRoundsByPlayer(@PathVariable Integer id);
 
 }

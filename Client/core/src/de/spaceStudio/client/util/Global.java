@@ -195,6 +195,7 @@ public class Global {
     /**
      * Server logged player endpoint
      */
+    public static final String ROUNDS = "rounds";
     public static final String PLAYER_CLEAN_ENDPOINT = "/cleanuser";
     public static final String CAN_LAND = "/canLand";
     public static final String HAS_LANDED = "/hasLanded";
@@ -898,6 +899,7 @@ public class Global {
     // Id is the Player
     public static Map<Integer, Actor> combatActors = new HashMap<>();
     public static List<Weapon> weaponsToProcess = new LinkedList<>();
+    public static List<GameRound> playerRounds = new ArrayList<>();
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);

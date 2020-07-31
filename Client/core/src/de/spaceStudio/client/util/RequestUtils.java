@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -120,6 +121,13 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
+                } else if (url.contains(Global.ROUNDS)) {
+                    try {
+                        Global.playerRounds = objectMapper.readValue(responseString[0], new TypeReference<List<GameRound>>() {
+                        });
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -190,6 +198,10 @@ public final class RequestUtils {
 
     public static void updateShip(Ship ship) {
         genericRequest(Global.SERVER_URL + Global.SHIP_ENDPOINT, true, ship.getId(), Net.HttpMethods.PUT, ship);
+    }
+
+    public static void findGameRoundsByActor(Actor actor) {
+        genericRequest(Global.SERVER_URL + Global.PLAYER_ENDPOINT + "/" + actor.getId() + Global.ROUNDS, false, actor.getId(), Net.HttpMethods.GET, "");
     }
 
 }
