@@ -230,7 +230,10 @@ public class CombatScreen extends BaseScreen {
             listOfCrewImages.get(i).setBounds(30,30,30,30);
             listOfCrewImages.get(i).setPosition(XPlayerShip + myCrew.get(i).getCurrentSection().getxPos(),
                     YPlayerShip + myCrew.get(i).getCurrentSection().getyPos());
+            listOfCrewImages.get(i).setName(myCrew.get(i).getName());
+            dragAndDrop(listOfCrewImages.get(i));
         }
+
         /*imageCrewMemberOne.setBounds(30, 30, 30, 30);
         imageCrewMemberTwo.setBounds(30, 30, 30, 30);
         imageCrewMemberThree.setBounds(30, 30, 30, 30);
@@ -540,12 +543,12 @@ public class CombatScreen extends BaseScreen {
             saveGameButton.setPosition(1000, 50);
             stage.addActor(saveGameButton);
         }
-        for (int i = 0; i < listOfCrewImages.size(); i++) {
+        /*for (int i = 0; i < listOfCrewImages.size(); i++) {
             listOfCrewImages.get(i).setName(myCrew.get(i).getName());
         }
         for (Image listOfCrewImage : listOfCrewImages) {
             dragAndDrop(listOfCrewImage);
-        }
+        }*/
 
         lebengegnerShip.setPosition(100, 20);
         lebenplayerShip.setPosition(20, 20);
