@@ -129,6 +129,7 @@ public class StationsMap extends BaseScreen {
         } else {
             planet5(drawable_station_unvisited, textAreaUN);
         }
+        planet9(drawable_station_unvisited, textAreaUN);
 
         shopStation(shopStationIcon);
         setStartPoint(drawable_station_unvisited);

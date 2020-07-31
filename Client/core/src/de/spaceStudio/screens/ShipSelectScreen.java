@@ -147,7 +147,7 @@ public class ShipSelectScreen extends BaseScreen {
             stage.addActor(displayOnlinePlayerName);
 
             // top left position
-            drawLobby();
+          //  drawLobby();
         }
 
 
