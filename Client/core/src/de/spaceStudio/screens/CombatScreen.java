@@ -822,7 +822,11 @@ public class CombatScreen extends BaseScreen {
                             obj.toString();
                         }
                     };
-                    winMessageDialog(dialog, " You won this Fight.\n But the game is not over yet ");
+
+                    if(Global.currentStop.equals(Global.planet5)){
+                        winMessageDialog(dialog, " You won the Game .\n Holly shit You are GEIL Karsten!!!! ");
+                    }else winMessageDialog(dialog, " You won this Fight.\n But the game is not over yet ");
+
                 }
 
                 RequestUtils.weaponsByShip(Global.currentShipPlayer);
