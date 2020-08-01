@@ -75,8 +75,8 @@ public interface StopAbstractController {
      * @param player which wants to land
      * @return if they can Land
      */
-    @RequestMapping(value = "/canLand", method = RequestMethod.GET)
-    Boolean canLand(@RequestBody Player player);
+    @RequestMapping(value = "/canLand/{id}", method = RequestMethod.GET)
+    Boolean canLand(@PathVariable Integer id);
 
 //
 //    @PostMapping(value="/hasLanded" )

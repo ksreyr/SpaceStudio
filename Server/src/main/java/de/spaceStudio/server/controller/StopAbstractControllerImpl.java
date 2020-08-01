@@ -153,19 +153,21 @@ public class StopAbstractControllerImpl implements StopAbstractController {
 
 
     @Override
-    public Boolean canLand(Player player) {
+    public Boolean canLand(Integer id) {
         boolean canLand = false;  // Assume no one is jumping
+        Optional<Player> player = playerRepository.findById(id) ;
         for (MultiPlayerGame multiPlayerGame :
                 Global.MultiPlayerGameSessions.values()) {
 
             // Suche nach dem aktuellen Spieler
             List<Actor> playerSet = multiPlayerGame.players;
 
+            if (player.isPresent()) {
             // Gucke für jeden Spieler aus dem Spiel
             for (int i = 0; i < multiPlayerGame.players.size(); i++) {
                 Actor p = playerSet.get(i);
 
-                if (p.equals(player)) {  // Dies ist das Spiel des Spielers
+                if (p.equals(player.get())) {  // Dies ist das Spiel des Spielers
 
                     boolean needsToWait = false;
                     for (Actor p1 :
@@ -185,10 +187,10 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                             multiPlayerGame.players) {
                         actor.getState().setStopState(StopState.EXPLORING);
                         actorStateRepository.save(actor.getState());
-                        LOGGER.info(String.format("Player %s can now Land", player.getId()));
+                        LOGGER.info(String.format("Player %s can now Land", player.get().getId()));
                     }
                 }
-
+            }
             }
         }
         return canLand; // If there are Still Players who are Jumping

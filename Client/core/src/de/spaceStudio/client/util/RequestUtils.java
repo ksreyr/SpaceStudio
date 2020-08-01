@@ -196,8 +196,8 @@ public final class RequestUtils {
     }
 
     public static void canLand(Player player) {
-        genericRequest(Global.SERVER_URL + Global.CAN_LAND,
-                false, 0, Net.HttpMethods.GET, player);
+        genericRequest(Global.SERVER_URL + Global.CAN_LAND + "/" + player.getId() ,
+                false, 0, Net.HttpMethods.GET, "");
     }
 
     public static void getShip(Ship ship) {
