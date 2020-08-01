@@ -11,6 +11,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SpringWebConfig {
+
+    /*
     @Autowired
     StopAbstractRepository stopAbstractRepository;
 
@@ -20,4 +22,5 @@ public class SpringWebConfig {
         stop.setName("p9");
         stopAbstractRepository.save(stop);
     }
+     */
 }

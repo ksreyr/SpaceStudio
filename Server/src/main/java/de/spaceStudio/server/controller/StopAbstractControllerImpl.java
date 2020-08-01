@@ -151,6 +151,11 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     }
     @Override
     public StopAbstract getOnlinePlanet() {
+
+        Optional<StopAbstract> p9 = stopAbstractRepository.findByName("p9");
+        if(p9.isPresent()){
+            System.out.println("FOUD");
+        }
         return stopAbstractRepository.findByName("p9").orElseThrow(IllegalStateException::new);
     }
 

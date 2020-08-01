@@ -1,6 +1,7 @@
 package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.Planet;
+import de.spaceStudio.server.model.StopAbstract;
 import de.spaceStudio.server.model.Universe;
 import de.spaceStudio.server.repository.PlanetRepository;
 import de.spaceStudio.server.repository.StopAbstractRepository;
@@ -36,7 +37,7 @@ public class UniverseControllerImpl implements UniverseController {
     public String addUniverse(@RequestBody Universe universe) {
         Universe updateUniverse = universeRepository.save(universe);
 
-        Optional<Planet> p9 = stopAbstractRepository.findByName("p9");
+        Optional<StopAbstract> p9 = stopAbstractRepository.findByName("p9");
         if (p9.isPresent()) {
             p9.get().setUniverse(updateUniverse);
             stopAbstractRepository.save(p9.get());

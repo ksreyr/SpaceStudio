@@ -16,7 +16,7 @@ public interface StopAbstractRepository extends JpaRepository<StopAbstract, Inte
 
     Optional<List<StopAbstract>> findByUniverse(Universe universe);
 
-    Optional<Planet> findByName(String name);
+    Optional<StopAbstract> findByName(String name);
 
     void deleteAllByUniverse(Universe universe);
 }
