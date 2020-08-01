@@ -30,8 +30,8 @@ public class Global {
     /**
      * Hardcoded server URL
      */
-    public static String SERVER_URL = "http://192.168.43.110:8080";
-//    public static String SERVER_URL = "http://localhost:8080";
+//    public static String SERVER_URL = "http://192.168.43.110:8080";
+    public static String SERVER_URL = "http://localhost:8080";
     /**
      * Server logged player endpoint
      */
