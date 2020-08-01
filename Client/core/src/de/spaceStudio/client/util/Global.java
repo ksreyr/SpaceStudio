@@ -405,6 +405,7 @@ public class Global {
             .connectingTo(null)
             .powerRequired(POWER_REQUIRED)
             .pos(320, 210)
+            .role(Role.FIGHTER)
             .buildSection();
     public static Section section5 = Section
             .sectionBuilder()
