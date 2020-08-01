@@ -185,7 +185,7 @@ public class LoginScreen extends BaseScreen {
         userName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                // keyboard.play();
+                 keyboard.play();
             }
         });
         userName.setSize(TEXTBOX_WIDTH, TEXTBOX_HEIGHT);
@@ -209,7 +209,7 @@ public class LoginScreen extends BaseScreen {
         userPassword.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                // keyboard.play();
+                 keyboard.play();
             }
         });
 
@@ -249,7 +249,7 @@ public class LoginScreen extends BaseScreen {
         newUserName.setTextFieldListener(new TextField.TextFieldListener() {
             @Override
             public void keyTyped(TextField textField, char c) {
-                //keyboard.play();
+                keyboard.play();
             }
         });
     }
