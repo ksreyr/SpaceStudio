@@ -241,7 +241,7 @@ public final class RequestUtils {
     }
 
     public static void isMultiplayerFight() {
-        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.FIGHT + "/" + Global.multiPlayerSessionID,
+        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.FIGHT + "/" + Global.multiPlayerSessionID + "/" + Global.currentPlayer.getId(),
                 false, 0, Net.HttpMethods.GET, "")
         ;
     }

@@ -244,9 +244,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
         List<CrewMember> crewMembers = new ArrayList<>();
         for (Section s : sections) {
             Optional<ArrayList<CrewMember>> crews = crewMemberRepository.findAllByCurrentSection(s);
-            if (crews.isPresent()) {
-                crewMembers.addAll(crews.get());
-            }
+            crews.ifPresent(crewMembers::addAll);
         }
         return crewMembers;
     }

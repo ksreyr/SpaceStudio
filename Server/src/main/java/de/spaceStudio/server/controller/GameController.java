@@ -92,6 +92,9 @@ public interface GameController {
     @PutMapping(value = "/game/fightState")
     FightState setFightState(@RequestBody Actor pActor);
 
+    @GetMapping(value = "/multiplayer/fight/{session}/{id}")
+    boolean multiplayerFight(@PathVariable String session, @PathVariable Integer id);
+
     int sumCurrentPower(Ship s);
 
     int sumRequiredPower(Ship s);

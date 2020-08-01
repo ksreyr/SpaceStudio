@@ -415,14 +415,14 @@ public class GameControllerImpl implements GameController {
     @Override
     @GetMapping(value = "/game/canFight/{session}")
     public FightState canFight(@RequestBody Actor pActor, @PathVariable String session) {
-        boolean canFight = isCanFight(pActor, session);
+        boolean canFight = multiplayerFight(session, pActor.getId());
 
         return (canFight ? FightState.PLAYING : FightState.WAITING_FOR_TURN);
     }
 
     @Override
     public String startFight(Actor pActor, String session) {
-        boolean canFight = isCanFight(pActor, session);
+        boolean canFight = multiplayerFight(session, pActor.getId());
         Optional<Actor> actor = actorRepository.findById(pActor.getId());
 
         if (canFight && actor.isPresent()) {
@@ -500,12 +500,13 @@ public class GameControllerImpl implements GameController {
     /**
      * Can the Actor Fight
      *
-     * @param pActor  who wants to fight
-     * @param session of pActor
+     * @param id of the actor  who wants to fight
+     * @param session of  the Actor
      * @return if the actor can Fight
      */
-    private boolean isCanFight(Actor pActor, String session) {
-        Optional<Actor> actor = actorRepository.findById(pActor.getId());
+    @Override
+    public boolean multiplayerFight(String session, Integer id) {
+        Optional<Actor> actor = actorRepository.findById(id);
         MultiPlayerGame game = Global.MultiPlayerGameSessions.get(session);
 
         boolean canFight = false;
