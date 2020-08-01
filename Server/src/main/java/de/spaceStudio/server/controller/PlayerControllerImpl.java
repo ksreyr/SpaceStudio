@@ -1,6 +1,5 @@
 package de.spaceStudio.server.controller;
 
-import ch.qos.logback.core.joran.action.IADataForComplexProperty;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -256,6 +255,7 @@ public class PlayerControllerImpl implements PlayerController {
                 //sucht all the ship in the station
                 for (Ship s :
                         shipList) {
+
                     if (sectionRepository.findAllByShip(s).isPresent()) {
                         List<Section> sections = sectionRepository.findAllByShip(s).get();
                         for (Section section :
@@ -265,7 +265,17 @@ public class PlayerControllerImpl implements PlayerController {
                                         .findAllByCurrentSection(section).get();
                                 for (CrewMember c :
                                         crewMemberList) {
+                                    if (combatRoundRepository.findByCrewMembers(c).isPresent()) {
+                                        List<CombatRound> combatRound = combatRoundRepository.findByCrewMembers(c).get();
+                                        for (CombatRound cr :
+                                                combatRound) {
+                                            cr.setCrewMembers(new ArrayList<>());
+                                            combatRoundRepository.save(cr);
+                                        }
+
+                                    }
                                     crewMemberRepository.delete(c);
+
                                 }
                             } else {
                                 System.out.println("not CrewMember to erase");
@@ -274,10 +284,35 @@ public class PlayerControllerImpl implements PlayerController {
                                 List<Weapon> weapons = weaponRepository.findBySection(section).get();
                                 for (Weapon w :
                                         weapons) {
+                                    if(combatRoundRepository.findByWeaponsWhichHaveAttacked(w).isPresent()){
+                                        List<CombatRound> combatRoundList = combatRoundRepository.findByWeaponsWhichHaveAttacked(w).get();
+                                        for (CombatRound cr:
+                                                combatRoundList) {
+                                            if(gameRoundRepository.findAllByCombatRounds(cr).isPresent()){
+                                                List<GameRound> gameRoundList=gameRoundRepository.findAllByCombatRounds(cr).get();
+                                                for (GameRound gr:
+                                                        gameRoundList) {
+                                                    gameRoundRepository.delete(gr);
+                                                }
+                                            }
+                                            cr.setWeaponsWhichHaveAttacked(new ArrayList<>());
+                                            combatRoundRepository.save(cr);
+                                            combatRoundRepository.delete(cr);
+                                        }
+                                    }
                                     weaponRepository.delete(w);
                                 }
                             } else {
                                 System.out.println("not Weapon to erase");
+                            }
+                            if (weaponRepository.findAllByObjectiv(section).isPresent()) {
+                                List<Weapon> weaponsObjetiv = weaponRepository.findAllByObjectiv(section).get();
+                                for (Weapon w :
+                                        weaponsObjetiv) {
+                                    w.setObjectiv(null);
+
+                                    weaponRepository.save(w);
+                                }
                             }
                             sectionRepository.delete(section);
                         }
@@ -289,6 +324,22 @@ public class PlayerControllerImpl implements PlayerController {
                         AI ai = aiRepository.findByName(s.getOwner().getName()).get();
                         for (GameRound g :
                                 gameRoundRepository.findAllByActor(ai)) {
+                            for (CombatRound cr :
+                                    g.getCombatRounds()) {
+                                if (combatRoundRepository.findById(cr.getId()).isPresent()) {
+                                    if (gameRoundRepository.findAllByCombatRounds(combatRoundRepository.findById(cr.getId()).get()).isPresent())
+                                    {
+                                        List<GameRound> gameRoundList=gameRoundRepository.findAllByCombatRounds(combatRoundRepository.findById(cr.getId()).get()).get();
+                                        for (GameRound gr:
+                                                gameRoundList) {
+                                            combatRoundRepository.deleteAll(gr.getCombatRounds());
+                                            gr.setCombatRounds(new ArrayList<>());
+                                            gameRoundRepository.save(gr);
+                                        }
+                                    }
+                                }
+                            }
+
                             combatRoundRepository.deleteAll(g.getCombatRounds());
                             gameRoundRepository.delete(g);
                         }
@@ -300,7 +351,6 @@ public class PlayerControllerImpl implements PlayerController {
                         } else {
                             aiRepository.delete(ai);
                         }
-
                     }
                     if (stopAbstractRepository.findById(sa.getId()).isPresent()) {
                         if (stationRepository.existsById(sa.getId())) {

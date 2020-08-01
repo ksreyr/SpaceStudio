@@ -18,7 +18,7 @@ public class GameRound {
     @ManyToOne
     private Actor actor;
 
-    @OneToMany(cascade=CascadeType.REMOVE)
+    @OneToMany(cascade=CascadeType.ALL)
     private List<CombatRound> combatRounds = new ArrayList<>();
 
     @ManyToOne

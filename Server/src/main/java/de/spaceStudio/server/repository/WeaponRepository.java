@@ -12,4 +12,5 @@ import java.util.Optional;
 @Repository
 public interface WeaponRepository extends JpaRepository<Weapon, Integer> {
     Optional<List<Weapon>> findBySection(Section section);
+    Optional<List<Weapon>> findAllByObjectiv(Section section);
 }

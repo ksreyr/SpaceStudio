@@ -16,7 +16,7 @@ public class CombatRound {
     @ManyToMany
     private List<Weapon> weaponsWhichHaveAttacked = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<CrewMember> crewMembers = new ArrayList<>();
 
 
