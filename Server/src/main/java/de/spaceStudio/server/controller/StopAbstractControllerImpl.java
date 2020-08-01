@@ -193,21 +193,12 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     }
 
     @Override
-    public String hasLanded(Player player) {
+    public String hasLanded(Player pPlayer) {
         try {
+            Optional<Player> player = playerRepository.findById(pPlayer.getId());
+            player.ifPresent(value -> value.getState().setStopState(StopState.EXPLORING));
+            player.ifPresent(value -> playerRepository.save(value));
 
-            for (MultiPlayerGame xs :
-                    Global.MultiPlayerGameSessions.values()) {
-                if (xs.getPlayers().contains(player)) {
-                    Optional<Player> p = playerRepository.findById(player.getId());
-                    if (p.isPresent()) {
-                        xs.getPlayers().remove(p.get());
-                        ActorState state = p.get().getState();
-                        state.setStopState(StopState.EXPLORING);
-                        xs.getPlayers().add(player);
-                    }
-                }
-            }
         } catch (Exception e) {
             LOGGER.error("Player has not been Found");
             return HttpStatus.INTERNAL_SERVER_ERROR.toString();
