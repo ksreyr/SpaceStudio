@@ -1,7 +1,6 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
-import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -55,8 +54,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     @Override
     @RequestMapping(value = "/stopAbstract", method = RequestMethod.PUT)
     public StopAbstract updateStopAbstract(@RequestBody StopAbstract stopAbstract) {
-        StopAbstract stopAbstractToUpdate = stopAbstractRepository.save(stopAbstract);
-        return stopAbstractToUpdate;
+        return stopAbstractRepository.save(stopAbstract);
     }
 
     @Override
@@ -153,69 +151,39 @@ public class StopAbstractControllerImpl implements StopAbstractController {
 
 
     @Override
-    public Boolean canLand(Integer id) {
+    public Boolean canLand(Integer id, String session) {
         boolean canLand = false;  // Assume no one is jumping
-        Optional<Player> player = playerRepository.findById(id) ;
-        for (MultiPlayerGame multiPlayerGame :
-                Global.MultiPlayerGameSessions.values()) {
+        Optional<Player> player = playerRepository.findById(id);
 
-            // Suche nach dem aktuellen Spieler
-            List<Actor> playerSet = multiPlayerGame.players;
+        // Suche nach dem aktuellen Spieler
+        List<Actor> playerSet = Global.MultiPlayerGameSessions.get(session).players;
 
-            if (player.isPresent()) {
-            // Gucke für jeden Spieler aus dem Spiel
-            for (int i = 0; i < multiPlayerGame.players.size(); i++) {
-                Actor p = playerSet.get(i);
+        if (player.isPresent()) {
 
-                if (p.equals(player.get())) {  // Dies ist das Spiel des Spielers
-
-                    boolean needsToWait = false;
-                    for (Actor p1 :
-                        // Gucke für jeden Boolean Wert aus dem Game
-                            multiPlayerGame.players) {
-                        if (!p1.getState().getStopState().equals(StopState.JUMPING)) {  // Falls jemand am Springen ist
-                            needsToWait = true;
-                            break;
-                        }
-                    }
-                    canLand = !needsToWait;
-                }
-
-                List<Actor> landing = multiPlayerGame.players.stream().filter(u -> u.getState().getStopState().equals(StopState.JUMPING)).collect(Collectors.toList());
-                if (canLand && landing.size() == 2) {
-                    for (Actor actor :
-                            multiPlayerGame.players) {
-                        actor.getState().setStopState(StopState.EXPLORING);
-                        actorStateRepository.save(actor.getState());
-                        LOGGER.info(String.format("Player %s can now Land", player.get().getId()));
-                    }
+            // Gucke für jeden Spieler aus der Spiel Session ob er am Springe ist
+            // Wenn nicht, dann muss der andere Warten
+            boolean needsToWait = false;
+            for (Actor p1 :
+                // Gucke für jeden Boolean Wert aus dem Game
+                    playerSet) {
+                if (!p1.getState().getStopState().equals(StopState.JUMPING)) {  // Falls jemand am Springen ist
+                    needsToWait = true;
+                    break;
                 }
             }
+            canLand = !needsToWait;
+
+            List<Actor> landing = playerSet.stream().filter(u -> u.getState().getStopState().equals(StopState.JUMPING)).collect(Collectors.toList());
+            if (canLand && landing.size() == 2) {
+                for (Actor actor :
+                        playerSet) {
+                    actor.getState().setStopState(StopState.EXPLORING);
+                    actorStateRepository.save(actor.getState());
+                    LOGGER.info(String.format("Player %s can now Land", player.get().getId()));
+                }
             }
         }
         return canLand; // If there are Still Players who are Jumping
     }
 
-//    @Override
-//    public String hasLanded(Player player) {
-//        try {
-//
-//            for (MultiPlayerGame xs :
-//                    Global.MultiPlayerGameSessions.values()) {
-//                if (xs.players.contains(player)) {
-//                    Optional<Player> p = playerRepository.findById(player.getId());
-//                    if (p.isPresent()) {
-//                        xs.players.remove(p.get());
-//                        ActorState state = p.get().getState();
-//                        state.setStopState(StopState.EXPLORING);
-//                        xs.players.add(player);
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            LOGGER.error("Player has not been Found");
-//            return HttpStatus.INTERNAL_SERVER_ERROR.toString();
-//        }
-//        return HttpStatus.ACCEPTED.toString();
-//    }
 }

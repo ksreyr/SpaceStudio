@@ -248,7 +248,6 @@ digraph automaton {
 #+END_SRC
 
 #+RESULTS:
-[[file:actorFight.png]]
 
 
 
@@ -313,7 +312,7 @@ WeaponController -> CombatScreen: List<boolean> succesfullShots
 #+END_SRC
 
 #+RESULTS:
-[[file:kommunikation.png]]
+k[[file:kommunikation.png]]
 
 
 
@@ -342,3 +341,21 @@ GEGNER_ANTWORT:  "<List> Weapons, String Event"
 
 #+RESULTS:
 [[file:combatSequence.png]]
+
+
+
+
+
+#+BEGIN_SRC dot :file 2playerGame.png
+digraph automaton {
+        Start -> makeJump -> {playerOneJumping, playerTwoJumping} -> waitForOther -> waitForOther;
+        waitForOther -> boothReady -> {playerFight, noPlayerFight}
+        noPlayerFight -> stopScreen -> makeJump
+
+        playerFight -> spawnOtherPlayerInFightScreen -> {p1Wins, p2Wins} -> endGame
+
+        }
+#+END_SRC
+
+#+RESULTS:
+[[file:2playerGame.png]]
