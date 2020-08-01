@@ -245,6 +245,7 @@ public class PlayerControllerImpl implements PlayerController {
 
         if (shipRepository.findByOwner(player1).isPresent()) {
             Ship ship = shipRepository.findByOwner(player1).get();
+            
             StopAbstract stopAbstract = stopAbstractRepository.findByShips(ship).get();
             Universe universe = universeRepository.findByName(stopAbstract.getUniverse().getName()).get();
             List<StopAbstract> stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
@@ -271,6 +272,7 @@ public class PlayerControllerImpl implements PlayerController {
                                                 combatRound) {
                                             cr.setCrewMembers(new ArrayList<>());
                                             combatRoundRepository.save(cr);
+                                            combatRoundRepository.delete(cr);
                                         }
 
                                     }
@@ -379,6 +381,8 @@ public class PlayerControllerImpl implements PlayerController {
                 }
             }
             stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
+
+
 
             for (StopAbstract s :
                     stopAbstracts) {
