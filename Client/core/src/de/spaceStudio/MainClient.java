@@ -22,7 +22,6 @@ public class MainClient extends Game {
 
     private StopScreen stopScreen;
     private CombatScreen combatScreen;
-    private WinScreen winScreen;
 
 
     @Override
