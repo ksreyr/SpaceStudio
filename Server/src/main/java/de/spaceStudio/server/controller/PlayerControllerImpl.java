@@ -312,7 +312,6 @@ public class PlayerControllerImpl implements PlayerController {
                                 for (Weapon w :
                                         weaponsObjetiv) {
                                     w.setObjectiv(null);
-
                                     weaponRepository.save(w);
                                 }
                             }
