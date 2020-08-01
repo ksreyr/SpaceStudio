@@ -1140,7 +1140,7 @@ public class ShipSelectScreen extends BaseScreen {
     public void hide() {
         super.hide();
         LOG.info("HIDE CALLED");
-        Global.IS_SINGLE_PLAYER = false;
+//        Global.IS_SINGLE_PLAYER = false;
     }
 
     @Override
