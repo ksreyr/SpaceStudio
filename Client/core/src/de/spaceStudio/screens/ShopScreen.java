@@ -468,17 +468,17 @@ public class ShopScreen extends ScreenAdapter {
 
                 } else if (itemNumber == 2) {
                     if (checkBoxSection1.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section1).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section1).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection2.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section2).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section2).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection3.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section3).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section3).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection4.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section4).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section4).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection5.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section5).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section5).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     } else if (checkBoxSection6.isChecked()) {
-                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").role(Role.FIGHTER).currentSection(Global.section6).health(100).buildCrewMember()), Net.HttpMethods.POST);
+                        buyCrewMember(List.of(CrewMember.crewMemberBuilder().name("Female").img("female_human.png").role(Role.FIGHTER).currentSection(Global.section6).health(100).buildCrewMember()), Net.HttpMethods.POST);
                     }
                 /*
                 } else if (itemNumber == 3) {
