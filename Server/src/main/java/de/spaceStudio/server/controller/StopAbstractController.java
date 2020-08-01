@@ -78,8 +78,8 @@ public interface StopAbstractController {
     @RequestMapping(value = "/canLand/{session}/{id}", method = RequestMethod.GET)
     Boolean canLand(@PathVariable Integer id, @PathVariable String session);
 
-//
-//    @PostMapping(value="/hasLanded" )
-//    String hasLanded(@RequestBody Player player);
+
+    @PostMapping(value="/hasLanded" )
+    String hasLanded(@RequestBody Player player);
 
 }

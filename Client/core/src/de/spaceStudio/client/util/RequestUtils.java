@@ -191,7 +191,7 @@ public final class RequestUtils {
     }
 
     public static void hasLanded(Player player) {
-        genericRequest(Global.SERVER_URL + Global.HAS_LANDED,
+        genericRequest(Global.SERVER_URL + Global.HAS_LANDED + "/",
                 false, 0, Net.HttpMethods.POST, player);
     }
 

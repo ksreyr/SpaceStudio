@@ -171,7 +171,11 @@ public class CrewMemberControllerImpl implements CrewMemberController {
      */
     @Override
     public CrewMember updateCrewMember(CrewMember crewMember) {
-        return crewMemberRepository.save(crewMember);
+        Optional<CrewMember> crewMemberOptional = crewMemberRepository.findById(crewMember.getId());
+        if (crewMemberOptional.isPresent()) {
+            crewMember.setRoundsToDestination(1);
+            return crewMemberRepository.save(crewMember);
+        } else throw new IllegalArgumentException("Crew Member does not have Rounds to Destination 0");
     }
 
     /**

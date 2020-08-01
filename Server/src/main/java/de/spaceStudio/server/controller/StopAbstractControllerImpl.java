@@ -192,4 +192,26 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         return canLand; // If there are Still Players who are Jumping
     }
 
+    @Override
+    public String hasLanded(Player player) {
+        try {
+
+            for (MultiPlayerGame xs :
+                    Global.MultiPlayerGameSessions.values()) {
+                if (xs.getPlayers().contains(player)) {
+                    Optional<Player> p = playerRepository.findById(player.getId());
+                    if (p.isPresent()) {
+                        xs.getPlayers().remove(p.get());
+                        ActorState state = p.get().getState();
+                        state.setStopState(StopState.EXPLORING);
+                        xs.getPlayers().add(player);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("Player has not been Found");
+            return HttpStatus.INTERNAL_SERVER_ERROR.toString();
+        }
+        return HttpStatus.ACCEPTED.toString();
+    }
 }
