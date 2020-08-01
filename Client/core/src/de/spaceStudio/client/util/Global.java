@@ -35,10 +35,9 @@ public class Global {
     public static String SERVER_URL = "http://localhost:8080";
     /**
      * Server logged player endpoint
-
-    public static final String PLAYER_LOGGED_ENDPOINT = "/player/logged-players";
-    /**
-     *
+     * <p>
+     * public static final String PLAYER_LOGGED_ENDPOINT = "/player/logged-players";
+     * /**
      */
     public static final String MULTIPLAYER_INIT = "/game/start/multiplayer";
     public static final String MULTIPLAYER_GET_PLAYERS = "/player/multiplayer-list";
@@ -188,7 +187,7 @@ public class Global {
      * Player save game endpoint
      */
     public static final String BUY_WEAPONS = "/buyweapon";
-    public static final String BUY = "/buy" ;
+    public static final String BUY = "/buy";
 
     public static int VISITED_PLANET_COUNTER = 0;
 
@@ -217,8 +216,8 @@ public class Global {
     public static final int SHIELD = 1000;
     public static final int DAMAGE = 10;
     public static final int MAGAZIN_SIZE = 10;
-    public static final String MULTIPLAYER = "/multiplayer" ;
-    public static final String FIGHT = "/fight" ;
+    public static final String MULTIPLAYER = "/multiplayer";
+    public static final String FIGHT = "/fight";
     public static final String ENEMYSHIP = "/enemyShip";
     private static final int rocketWarmUp = 1;
     private static final int lasserWarmUp = 3;
@@ -272,6 +271,16 @@ public class Global {
      * Gets all Users
      */
     public static List<String> playersOnline = new ArrayList<>();
+
+    public static String getOtherPlayerName() {
+        for (String s :
+                playersOnline) {
+            if (!s.equals(Global.currentPlayer.getName())) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException("The name of the other Player could not be found");
+    }
 
     public static boolean killMultiPlayerTimeoutTimer = false;
 
@@ -341,7 +350,6 @@ public class Global {
         add(crewMember1gegner4);
         add(crewMember2gegner4);
     }};
-
 
 
     public static boolean allReady = false;  // FIXME change to true when all Player will jump
@@ -890,7 +898,7 @@ public class Global {
     public static List<Weapon> weaponsToProcess = new LinkedList<>();
     public static List<GameRound> playerRounds = new ArrayList<>();
     public static Boolean isOnlineFight = false;
-    public static Planet planet9;
+    public static StopAbstract planet9;
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);
@@ -991,6 +999,7 @@ public class Global {
             add(weapon2Gegner3);
         }};
     }
+
     public static void updateweaponGegner4Variabel() {
         weapon1Gegner4 = weaponListGegner4.get(0);
         weapon2Gegner4 = weaponListGegner4.get(1);
@@ -1111,7 +1120,6 @@ public class Global {
     }
 
 
-
     public static void updateVariblesStationsU2() {
         station1 = stationListU2.get(0);
         station2 = stationListU2.get(1);
@@ -1123,12 +1131,12 @@ public class Global {
         shopRessource1 = shopRessourceList.get(0);
         shopRessource2 = shopRessourceList.get(1);
         shopRessource3 = shopRessourceList.get(2);
-        shopRessourcep1Gold =shopRessourceList.get(3);
-        shopRessourcep1Energie=shopRessourceList.get(4);
-        shopRessourcep2Gold =shopRessourceList.get(5);
-        shopRessourcep2Energie=shopRessourceList.get(6);
-        shopRessourcep3Gold =shopRessourceList.get(7);
-        shopRessourcep3Energie=shopRessourceList.get(8);
+        shopRessourcep1Gold = shopRessourceList.get(3);
+        shopRessourcep1Energie = shopRessourceList.get(4);
+        shopRessourcep2Gold = shopRessourceList.get(5);
+        shopRessourcep2Energie = shopRessourceList.get(6);
+        shopRessourcep3Gold = shopRessourceList.get(7);
+        shopRessourcep3Energie = shopRessourceList.get(8);
     }
 
 

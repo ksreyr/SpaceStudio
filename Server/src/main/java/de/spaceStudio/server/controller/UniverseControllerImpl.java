@@ -48,8 +48,7 @@ public class UniverseControllerImpl implements UniverseController {
     @Override
     @RequestMapping(value = "/universe", method = RequestMethod.PUT)
     public Universe updateUniverse(@RequestBody Universe universe) {
-        Universe updateUniverse = universeRepository.save(universe);
-        return updateUniverse;
+        return universeRepository.save(universe);
     }
 
     @Override

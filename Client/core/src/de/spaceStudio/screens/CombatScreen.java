@@ -49,7 +49,7 @@ public class CombatScreen extends BaseScreen {
     public static final int WidthPlayerShip = 500;
     public static final int HeightPlayerShip = 500;
     private final static Logger LOG = Logger.getLogger(CombatScreen.class.getName());
-    private final Label weaponLabel, currentWeaponLabel,  sectionLabel;
+    private final Label weaponLabel, currentWeaponLabel, sectionLabel;
     private final String[] weaponText = {"All Weapons", "You have selected Weapon: "};
     private final AssetManager assetManager;
     private final MainClient universeMap;
@@ -78,11 +78,11 @@ public class CombatScreen extends BaseScreen {
     private Skin sgxSkin, sgxSkin2, skin;
     private Sound click;
     private SpriteBatch batch;
-    private Texture playerShip;
+    private Texture playerShip, onlineShip;
     private Texture enemyShip1, enemyShip2, enemyShip3;
     private Texture background, laser;
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
-    //CrewMember break
+    //CrewMember break/
     private Texture hourglass;
     private boolean hourglass1, hourglass2, hourglass3, hourglass4, hourglass5, hourglass6;
     private float hourX1, hourY1;
@@ -92,12 +92,14 @@ public class CombatScreen extends BaseScreen {
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
     //private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
+
     private List<CrewMember> myCrew() {
         if (!Global.combatCrew.containsKey(Global.currentShipPlayer.getId())) {
             return new ArrayList<>();
         }
         return Global.combatCrew.get(Global.currentShipPlayer.getId());
     }
+
     private Label breakCrewMember;
     private String breakinfo;
     private Boolean killTimer = false;
@@ -119,6 +121,7 @@ public class CombatScreen extends BaseScreen {
     private int yWeaponPos = 700;
     private TextButton liamButton;
     private boolean isRound;
+    private String onlinePlayerName = "";
 
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
@@ -126,7 +129,6 @@ public class CombatScreen extends BaseScreen {
         this.mainClient = mainClient;
         assetManager = universeMap.getAssetManager();
         camera = new OrthographicCamera();
-
 
 
         int row_height = Gdx.graphics.getWidth() / 12;
@@ -147,15 +149,15 @@ public class CombatScreen extends BaseScreen {
 
         weaponLabel = new Label(weaponText[0], label1Style);
         weaponLabel.setSize(Gdx.graphics.getWidth(), 20);
-        weaponLabel.setPosition(0, BaseScreen.HEIGHT-500);
+        weaponLabel.setPosition(0, BaseScreen.HEIGHT - 500);
 
         currentWeaponLabel = new Label(weaponText[0], label1Style);
         currentWeaponLabel.setSize(Gdx.graphics.getWidth(), 20);
-        currentWeaponLabel.setPosition(0, BaseScreen.HEIGHT-100);
+        currentWeaponLabel.setPosition(0, BaseScreen.HEIGHT - 100);
 
         sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
         sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
-        sectionLabel.setPosition(BaseScreen.WIDTH-800, 100);
+        sectionLabel.setPosition(BaseScreen.WIDTH - 800, 100);
         this.breakinfo = "All crewMember in action";
 
     }
@@ -208,7 +210,7 @@ public class CombatScreen extends BaseScreen {
             }
 
         }
-        if (result.isEmpty() ) {
+        if (result.isEmpty()) {
             System.out.println("Stop no Result");
         }
     }
@@ -229,6 +231,7 @@ public class CombatScreen extends BaseScreen {
 
         background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
         playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
+        onlineShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
         enemyShip1 = new Texture("Client/core/assets/combatAssets/enemy1.png");
         enemyShip2 = new Texture("Client/core/assets/combatAssets/enemy_2.png");
         enemyShip3 = new Texture("Client/core/assets/combatAssets/enemy_3.png");
@@ -245,8 +248,8 @@ public class CombatScreen extends BaseScreen {
         for (CrewMember crewMember : myCrew()) {
             listOfCrewImages.add(new Image(new Texture(Gdx.files.internal("Client/core/assets/combatAssets/" + crewMember.getImg()))));
         }
-        for(int i = 0; i < listOfCrewImages.size(); i++){
-            listOfCrewImages.get(i).setBounds(30,30,30,30);
+        for (int i = 0; i < listOfCrewImages.size(); i++) {
+            listOfCrewImages.get(i).setBounds(30, 30, 30, 30);
             listOfCrewImages.get(i).setPosition(XPlayerShip + myCrew().get(i).getCurrentSection().getxPos(),
                     YPlayerShip + myCrew().get(i).getCurrentSection().getyPos());
             listOfCrewImages.get(i).setName(myCrew().get(i).getName());
@@ -278,12 +281,15 @@ public class CombatScreen extends BaseScreen {
 
         bullets = new ArrayList<>();
         bulletsEnemy = new ArrayList<>();
+        if (Global.isOnlineFight) {
+            onlinePlayerName = Global.getOtherPlayerName();
+        }
 
         shieldIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/2.png"));
         driveIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/1.png"));
         weaponsIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/3.png"));
         shieldIconForEnergyPanel.setPosition(185, 12);
-        shieldIconForEnergyPanel.setPosition(185,12);
+        shieldIconForEnergyPanel.setPosition(185, 12);
         shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.LEFT) {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -367,6 +373,9 @@ public class CombatScreen extends BaseScreen {
                         findSectionByNameAndShip("Section4Gegner4", Global.currentShipGegner.getId(), true);
                         break;
                     default:
+                        if (onlinePlayerName.equals(Global.currentGegner.getName())) {
+                            findSectionByNameAndShip("S-2", Global.currentShipGegner.getId(), true);
+                        }
                         break;
 
                 }
@@ -390,7 +399,6 @@ public class CombatScreen extends BaseScreen {
                 cockpit.getStyle().imageUp = cockpit_nat;
                 o2.getStyle().imageUp = oxygen_sym;
 
-
             }
         });
 
@@ -401,9 +409,11 @@ public class CombatScreen extends BaseScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 switch (Global.currentGegner.getName()) {
 
+
                     case "gegner1":
                         findSectionByNameAndShip("Section2Gegner1", Global.currentShipGegner.getId(), true);
                         break;
+
 
                     case "gegner2":
                         findSectionByNameAndShip("Section2Gegner2", Global.currentShipGegner.getId(), true);
@@ -417,6 +427,9 @@ public class CombatScreen extends BaseScreen {
                         break;
 
                     default:
+                        if (onlinePlayerName.equals(Global.currentGegner.getName())) {
+                            findSectionByNameAndShip("S-6", Global.currentShipGegner.getId(), true);
+                        }
                         break;
 
                 }
@@ -459,6 +472,10 @@ public class CombatScreen extends BaseScreen {
                         findSectionByNameAndShip("Section3Gegner4", Global.currentShipGegner.getId(), true);
                         break;
                     default:
+
+                        if (onlinePlayerName.equals(Global.currentGegner.getName())) {
+                            findSectionByNameAndShip("S-4", Global.currentShipGegner.getId(), true);
+                        }
                         break;
 
                 }
@@ -551,7 +568,7 @@ public class CombatScreen extends BaseScreen {
         }
 
         breakCrewMember = new Label(breakinfo, skin);
-        breakCrewMember.setPosition(200,900);
+        breakCrewMember.setPosition(200, 900);
         stage.addActor(breakCrewMember);
 
         Gdx.input.setInputProcessor(stage);
@@ -590,41 +607,41 @@ public class CombatScreen extends BaseScreen {
                 CrewMember draggedCrewMember = getDraggedCrewMember(imageCrewMember);
                 List<Section> sections = Global.combatSections.get(Global.currentShipPlayer.getId());
 
-                if(draggedCrewMember == null){
+                if (draggedCrewMember == null) {
                     System.out.println("draggedCrewMember is null");
                 } else if (sectionOne.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(0));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionTwo.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(1));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionThree.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(2));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionFour.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(3));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionFive.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(4));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionSix.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(5));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
@@ -717,11 +734,11 @@ public class CombatScreen extends BaseScreen {
     /**
      * Receives an Crew Member, the image of the Crew Member and the HTTP-method
      *
-     * @param requestObject Crew Member object
+     * @param requestObject   Crew Member object
      * @param imageCrewMember Image of Crew Member which CrewMember object to find
-     * @param method HTTP-method to send to server
+     * @param method          HTTP-method to send to server
      */
-    public void moveCrewMember(Object requestObject,Image imageCrewMember, String method) {
+    public void moveCrewMember(Object requestObject, Image imageCrewMember, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
@@ -779,7 +796,7 @@ public class CombatScreen extends BaseScreen {
 
                 if (sectionsGegner.size() > 0)
                     Global.currentShipGegner = sectionsGegner.get(0).getShip();
-                 if (Global.currentShipGegner.getHp() <= 0 || Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1
+                if (Global.currentShipGegner.getHp() <= 0 || Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1
                         || allSectionsBroken(Global.combatSections.get(Global.currentShipGegner.getId()))) {
                     Global.combatWeapons.remove(Global.currentShipGegner.getId());
                     Global.combatSections.remove(Global.currentShipGegner.getId());
@@ -794,9 +811,9 @@ public class CombatScreen extends BaseScreen {
                         }
                     };
 
-                    if(Global.currentStop.equals(Global.planet5)){
+                    if (Global.currentStop.equals(Global.planet5)) {
                         winMessageDialog(dialog, " You won the Game .\n Holly shit You are GEIL Karsten!!!! ");
-                    }else winMessageDialog(dialog, " You won this Fight.\n But the game is not over yet ");
+                    } else winMessageDialog(dialog, " You won this Fight.\n But the game is not over yet ");
 
                 }
 
@@ -992,7 +1009,7 @@ public class CombatScreen extends BaseScreen {
             drawAvailableEnergy(Global.combatSections.get(Global.currentShipPlayer.getId()).get(5).getPowerCurrent(), 320);
 
             if (dragged) {
-                for(int i = 0; i < Global.sectionsPlayerList.size(); i++){
+                for (int i = 0; i < Global.sectionsPlayerList.size(); i++) {
                     stage.getBatch().draw(redPin, XPlayerShip + Global.sectionsPlayerList.get(i).getxPos(),
                             YPlayerShip + Global.sectionsPlayerList.get(i).getyPos());
                 }
@@ -1009,8 +1026,9 @@ public class CombatScreen extends BaseScreen {
                 stage.getBatch().draw(enemyShip1, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
             else if (Global.currentStop == Global.planet3)
                 stage.getBatch().draw(enemyShip2, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
-            else stage.getBatch().draw(enemyShip3, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
-            // FIXME Brutal Online
+            else if (Global.isOnlineFight) {
+                stage.getBatch().draw(onlineShip, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
+            } else stage.getBatch().draw(enemyShip3, XEnemyShip, YEnemyPos, WIDTHGegner, HEIGHTGegner);
 
         }
 
@@ -1093,11 +1111,16 @@ public class CombatScreen extends BaseScreen {
         if (Global.currentShipGegner != null && Global.combatSections.size() == 2) {
             for (Section s :
                     Global.combatSections.get(Global.currentShipGegner.getId())) {
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))   stage.getBatch().draw(explosion, 1530, 635, 100, 70);
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section3Gegner1")) stage.getBatch().draw(explosion, 1410, 485, 100, 70);
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section2Gegner1"))  stage.getBatch().draw(explosion, 1530, 450, 100, 70);
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section5Gegner3"))  stage.getBatch().draw(explosion, 1610, 485, 100, 70);
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section4Gegner2"))  stage.getBatch().draw(explosion, 1530, 510, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))
+                    stage.getBatch().draw(explosion, 1530, 635, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section3Gegner1"))
+                    stage.getBatch().draw(explosion, 1410, 485, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section2Gegner1"))
+                    stage.getBatch().draw(explosion, 1530, 450, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section5Gegner3"))
+                    stage.getBatch().draw(explosion, 1610, 485, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section4Gegner2"))
+                    stage.getBatch().draw(explosion, 1530, 510, 100, 70);
             }
         }
 
@@ -1118,17 +1141,23 @@ public class CombatScreen extends BaseScreen {
 
         stage.getBatch().begin();
 
-            if(hourglass1){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
-            if(hourglass2){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
-            if(hourglass3){ stage.getBatch().draw(hourglass,getHourX1(),getHourY1()); }
+        if (hourglass1) {
+            stage.getBatch().draw(hourglass, getHourX1(), getHourY1());
+        }
+        if (hourglass2) {
+            stage.getBatch().draw(hourglass, getHourX1(), getHourY1());
+        }
+        if (hourglass3) {
+            stage.getBatch().draw(hourglass, getHourX1(), getHourY1());
+        }
 
-         stage.getBatch().end();
+        stage.getBatch().end();
 
-            mainClient.getBatch().begin();
-            for (Bullet bullet : bulletsEnemy) {
-                bullet.render(mainClient.getBatch());
-            }
-            mainClient.getBatch().end();
+        mainClient.getBatch().begin();
+        for (Bullet bullet : bulletsEnemy) {
+            bullet.render(mainClient.getBatch());
+        }
+        mainClient.getBatch().end();
 
         proofCrewMembersAvailable();
 
