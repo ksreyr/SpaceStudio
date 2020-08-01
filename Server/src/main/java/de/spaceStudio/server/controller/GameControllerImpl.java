@@ -157,18 +157,35 @@ public class GameControllerImpl implements GameController {
         multiPlayerGame.setPlayers(actorRepository.findAllById(List.of(multiPlayerGame.getPlayerOne().getId(),
                 multiPlayerGame.getPlayerTwo().getId())));
 
-        if(multiPlayerGame.getPlayers().size() > 1){
-
-
-        for (Actor p: Global.MultiPlayerGameSessions.get(session).getPlayers()) {
-          Optional<Ship> ship =  shipRepository.findByOwner(p);
-          if (ship.isPresent()) {
-              Optional<StopAbstract> stop = stopAbstractRepository.findByShips(ship.get());
-              stop.ifPresent(stops::add);
-          }
-        }
+        if (multiPlayerGame.getPlayers().size() > 1) {
+            for (Actor p : Global.MultiPlayerGameSessions.get(session).getPlayers()) {
+                Optional<Ship> ship = shipRepository.findByOwner(p);
+                if (ship.isPresent()) {
+                    Optional<StopAbstract> stop = stopAbstractRepository.findByShips(ship.get());
+                    stop.ifPresent(stops::add);
+                }
+            }
         }
         Optional<StopAbstract> endStop = stops.stream().filter(s -> s.getName().equals("p9")).findFirst();
+
+        if (endStop.isPresent()) {
+            for (Actor a :
+                    multiPlayerGame.getPlayers()) {
+                shipRepository.findByOwner(a);
+                Optional<Ship> s = shipRepository.findByOwner(a);
+                if (s.isPresent()) {
+                    Optional<StopAbstract> stopAbstract = stopAbstractRepository.findByShips(s.get());
+                    if (stopAbstract.isPresent()) {
+                        stopAbstract.get().getShips().remove(s.get());
+                        stopAbstractRepository.save(stopAbstract.get());
+                        if (!endStop.get().getShips().contains(s.get())) {
+                            endStop.get().getShips().add(s.get());
+                            stopAbstractRepository.save(endStop.get());
+                        }
+                    }
+                }
+            }
+        }
         return endStop.isPresent();
     }
 
@@ -511,7 +528,7 @@ public class GameControllerImpl implements GameController {
     /**
      * Can the Actor Fight
      *
-     * @param id of the actor  who wants to fight
+     * @param id      of the actor  who wants to fight
      * @param session of  the Actor
      * @return if the actor can Fight
      */
@@ -714,7 +731,7 @@ public class GameControllerImpl implements GameController {
                 }
             }
         }
-            throw new IllegalArgumentException("Could not find Ship of the Other Player");
+        throw new IllegalArgumentException("Could not find Ship of the Other Player");
     }
 
     private List<Weapon> getLastCombatRoundUsedWeapons(Actor actor) {

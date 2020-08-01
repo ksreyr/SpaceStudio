@@ -274,18 +274,8 @@ public class PlayerControllerImpl implements PlayerController {
                                         .findAllByCurrentSection(section).get();
                                 for (CrewMember c :
                                         crewMemberList) {
-//                                    if (combatRoundRepository.findByCrewMembers(c).isPresent()) {
-//                                        List<CombatRound> combatRound = combatRoundRepository.findByCrewMembers(c).get();
-//                                        for (CombatRound cr :
-//                                                combatRound) {
-//                                            cr.setCrewMembers(new ArrayList<>());
-//                                            combatRoundRepository.save(cr);
-//                                            combatRoundRepository.delete(cr);
-//                                        }
 //
-//                                    }
                                     crewMemberRepository.delete(c);
-
                                 }
                             } else {
                                 System.out.println("not CrewMember to erase");
