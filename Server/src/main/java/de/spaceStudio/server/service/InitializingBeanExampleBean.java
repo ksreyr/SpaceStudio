@@ -18,7 +18,7 @@ public class InitializingBeanExampleBean implements InitializingBean {
     PlanetRepository planetRepository;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         planetRepository.save(Planet.builder().name("p9").img("null").build());
     }
 }
