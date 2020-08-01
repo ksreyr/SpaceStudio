@@ -148,14 +148,25 @@ public class GameControllerImpl implements GameController {
 
 
     @Override
-    public Boolean isOnlineFight(@PathVariable String gameSession) {
+    @GetMapping(value = "/game/multiplayer/fight/{session}")
+    public Boolean isOnlineFight(@PathVariable String session) throws Exception {
         List<StopAbstract> stops = new ArrayList<>();
-        for (Actor p: Global.MultiPlayerGameSessions.get(gameSession).getPlayers()) {
+        System.out.println("isOnlinefIght!!!     " + session);
+        MultiPlayerGame multiPlayerGame = Global.MultiPlayerGameSessions.get(session);
+
+        multiPlayerGame.setPlayers(actorRepository.findAllById(List.of(multiPlayerGame.getPlayerOne().getId(),
+                multiPlayerGame.getPlayerTwo().getId())));
+
+        if(multiPlayerGame.getPlayers().size() > 1){
+
+
+        for (Actor p: Global.MultiPlayerGameSessions.get(session).getPlayers()) {
           Optional<Ship> ship =  shipRepository.findByOwner(p);
           if (ship.isPresent()) {
               Optional<StopAbstract> stop = stopAbstractRepository.findByShips(ship.get());
               stop.ifPresent(stops::add);
           }
+        }
         }
         Optional<StopAbstract> endStop = stops.stream().filter(s -> s.getName().equals("p9")).findFirst();
         return endStop.isPresent();

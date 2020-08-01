@@ -29,8 +29,8 @@ public interface GameController {
     @ResponseBody
     String synchroMultiPlayer(@PathVariable("gameSession") String gameSession);
 
-    @GetMapping(value = "/game/multiplayer/fight/{gameSession}")
-    Boolean isOnlineFight(@PathVariable String gameSession);
+    @GetMapping(value = "/game/multiplayer/fight/{session}")
+    Boolean isOnlineFight(@PathVariable String session) throws Exception;
 
     @RequestMapping(value = "/game/sessions/multiplayer", method = RequestMethod.GET)
     @ResponseBody

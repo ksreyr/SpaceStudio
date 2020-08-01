@@ -33,9 +33,6 @@ public class MultiPlayerGame implements Serializable {
 
     public void setPlayerOne(Player playerOne) {
         this.playerOne = playerOne;
-        if (playerTwo != null) {
-            this.players.add(playerOne);
-        }
     }
 
     public Player getPlayerTwo() {
@@ -44,9 +41,6 @@ public class MultiPlayerGame implements Serializable {
 
     public void setPlayerTwo(Player playerTwo) {
         this.playerTwo = playerTwo;
-        if (playerTwo != null) {
-            this.players.add(playerTwo);
-        }
     }
 
     public Ship getShipPlayerOne() {
