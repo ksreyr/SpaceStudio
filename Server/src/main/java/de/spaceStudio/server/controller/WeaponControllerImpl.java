@@ -36,7 +36,7 @@ public class WeaponControllerImpl implements WeaponController {
     @Autowired
     CombatRoundRepository combatRoundRepository;
 
-    private final float removeOxygen = 20;
+    private final float removeOxygen = 15;
     private final int priceWeapon = 30;
 
     /**
