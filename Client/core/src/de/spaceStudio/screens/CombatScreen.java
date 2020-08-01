@@ -63,7 +63,6 @@ public class CombatScreen extends BaseScreen {
     boolean isFired = false;
     boolean canFire = false;
     boolean canFireGegner = false;
-    int fuzeOffsetright, fuzeOffsetLeft;
     Texture bullet, shield;
     float x = 0;
     Sound rocketLaunch;
@@ -274,14 +273,8 @@ public class CombatScreen extends BaseScreen {
         final Drawable medical_sym_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/medical_red.png"));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
-        fuzeOffsetright = 570;
-        fuzeOffsetLeft = 570;
-
 
         liamButtonFuntion();
-
-        fuzeOffsetright = 570;
-        fuzeOffsetLeft = 570;
 
         bullets = new ArrayList<>();
         bulletsEnemy = new ArrayList<>();
@@ -786,7 +779,7 @@ public class CombatScreen extends BaseScreen {
 
                 if (sectionsGegner.size() > 0)
                     Global.currentShipGegner = sectionsGegner.get(0).getShip();
-                if (Global.currentShipGegner.getHp() <= 0 || Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1
+                 if (Global.currentShipGegner.getHp() <= 0 || Global.combatCrew.get(Global.currentShipGegner.getId()).size() < 1
                         || allSectionsBroken(Global.combatSections.get(Global.currentShipGegner.getId()))) {
                     Global.combatWeapons.remove(Global.currentShipGegner.getId());
                     Global.combatSections.remove(Global.currentShipGegner.getId());
