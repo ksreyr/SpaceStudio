@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MultiPlayerGame implements Serializable {
 
-    public List<Actor> players = new ArrayList<>();  // Is the Player jumping??
+    private List<Actor> players;  // Is the Player jumping??
     private String universe;
     private Player playerOne;
     private Player playerTwo;
@@ -63,5 +63,13 @@ public class MultiPlayerGame implements Serializable {
 
     public void setShipPlayerTwo(Ship shipPlayerTwo) {
         this.shipPlayerTwo = shipPlayerTwo;
+    }
+
+    public List<Actor> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Actor> players) {
+        this.players = players;
     }
 }

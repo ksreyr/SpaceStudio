@@ -1,6 +1,7 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
+import de.spaceStudio.server.handler.MultiPlayerGame;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
@@ -155,10 +156,15 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         boolean canLand = false;  // Assume no one is jumping
         Optional<Player> player = playerRepository.findById(id);
 
-        // Suche nach dem aktuellen Spieler
-        List<Actor> playerSet = Global.MultiPlayerGameSessions.get(session).players;
+        MultiPlayerGame multiPlayerGame = Global.MultiPlayerGameSessions.get(session);
 
-        if (player.isPresent()) {
+        multiPlayerGame.setPlayers(actorRepository.findAllById(List.of(multiPlayerGame.getPlayerOne().getId(),
+                multiPlayerGame.getPlayerTwo().getId())));
+
+        // Suche nach dem aktuellen Spieler
+        List<Actor> playerSet = Global.MultiPlayerGameSessions.get(session).getPlayers();
+
+        if (player.isPresent() && !playerSet.isEmpty()) {
 
             // Gucke für jeden Spieler aus der Spiel Session ob er am Springe ist
             // Wenn nicht, dann muss der andere Warten
