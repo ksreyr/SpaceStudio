@@ -644,7 +644,7 @@ public class ShipSelectScreen extends BaseScreen {
         stage.getBatch().draw(crew2.getKeyFrame(state), 45, 150, 70, 70);
         stage.getBatch().draw(crew3.getKeyFrame(state), 45, 80, 70, 70);
 
-        if (deployMultiplayer) {
+        if (deployMultiplayer && !killTimer) {
             killTimer = true;
             LOG.info("Added");
             //mainClient.setScreen(new StationsMap(game));
@@ -717,8 +717,7 @@ public class ShipSelectScreen extends BaseScreen {
             if (!crewMemberList.isEmpty() && requestcounter == 4) {
                 Global.crewMemberList = crewMemberList;
                 Global.updateVariableCrewMembersPlayer();
-                List<CrewMember> sizeO = new ArrayList<>();
-                crewMemberList = sizeO;
+                crewMemberList = new ArrayList<>();
                 requestcounter = 5;
             }
             //Add Universe
@@ -813,8 +812,7 @@ public class ShipSelectScreen extends BaseScreen {
                 sendRequestAddSections(sectionsforU2, Net.HttpMethods.POST);
                 //man kann nicht das method clear an der list nutzen. deswegen sizeO
                 //i need clean sectionList because the data hat de User Section and i do not need it
-                List<Section> sizeO = new ArrayList<>();
-                sectionList = sizeO;
+                sectionList = new ArrayList<>();
                 requestcounter = 11;
             }
             if (requestcounter == 11 && !sectionList.isEmpty()) {
@@ -904,8 +902,7 @@ public class ShipSelectScreen extends BaseScreen {
             if (!planets.isEmpty() && requestcounter == 13) {
                 Global.planetListU2 = planets;
                 Global.updateVariblesPlanetsU2();
-                List<Planet> size0 = new ArrayList<>();
-                planets = size0;
+                planets = new ArrayList<>();
                 requestcounter = 14;
             }
             if (requestcounter == 14) {
@@ -919,8 +916,7 @@ public class ShipSelectScreen extends BaseScreen {
             if (requestcounter == 15 && !stations.isEmpty()) {
                 stationListU2 = stations;
                 Global.updateVariblesStationsU2();
-                List<Station> sizeO = new ArrayList<>();
-                stations = sizeO;
+                stations = new ArrayList<>();
                 requestcounter = 16;
             }
             if (requestcounter == 16) {
@@ -1057,8 +1053,6 @@ public class ShipSelectScreen extends BaseScreen {
                 requestcounter = 24;
             }
             //}
-        } else {
-            // TODO Online game
         }
         /////
         switch (shipNumber) {
