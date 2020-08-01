@@ -245,8 +245,8 @@ public final class RequestUtils {
         ;
     }
     public static void getEnemyShipMultiplayer() {
-        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.ENEMYSHIP + "/" + Global.multiPlayerSessionID,
-                false ,0, Net.HttpMethods.GET, Global.currentPlayer );
+        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.ENEMYSHIP + "/" + Global.multiPlayerSessionID + "/" + Global.currentShipPlayer.getId(),
+                false ,0, Net.HttpMethods.GET, "" );
     }
 
     public static void spendMoney(int amount) {

@@ -698,14 +698,17 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public Ship getEnemyShip(String session, Player player) {
-        List<Actor> players = Global.MultiPlayerGameSessions.get(session).getPlayers();
-        Optional<Ship> ship;
-        int n = players.indexOf(player);
-        if (n == 0) {
-            ship = shipRepository.findByOwner(players.get(1));
-        } else {
-            ship = shipRepository.findByOwner(players.get(0));
+    public Ship getEnemyShip(String session, Integer id) {
+        Optional<Player> player = playerRepository.findById(id);
+        Optional<Ship> ship = Optional.empty();
+        if (player.isPresent()) {
+            List<Actor> players = Global.MultiPlayerGameSessions.get(session).getPlayers();
+            int n = players.indexOf(player.get());
+            if (n == 0) {
+                ship = shipRepository.findByOwner(players.get(1));
+            } else {
+                ship = shipRepository.findByOwner(players.get(0));
+            }
         }
         return ship.orElseThrow(IllegalArgumentException::new);
     }
