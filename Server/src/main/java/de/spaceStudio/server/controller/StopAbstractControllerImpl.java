@@ -149,16 +149,38 @@ public class StopAbstractControllerImpl implements StopAbstractController {
 
         return gson.toJson(new ArrayList<Ship>());
     }
+
     @Override
     public StopAbstract getOnlinePlanet() {
 
         Optional<StopAbstract> p9 = stopAbstractRepository.findByName("p9");
-        if(p9.isPresent()){
+        if (p9.isPresent()) {
             System.out.println("FOUD");
         }
         return stopAbstractRepository.findByName("p9").orElseThrow(IllegalStateException::new);
     }
 
+    @Override
+    public Boolean startFight(String session) {
+        if (Global.MultiPlayerGameSessions.containsKey(session)) {
+            MultiPlayerGame mg = Global.MultiPlayerGameSessions.get(session);
+            mg.setFight(true);
+            for (Actor a :
+                    mg.getPlayers()) {
+                a.getState().setStopState(StopState.JUMPING);
+                actorStateRepository.save(a.getState());
+            }
+            return true;
+        } else return false;
+    }
+
+    @Override
+    public Boolean hasFightStarted(String session) {
+        if (Global.MultiPlayerGameSessions.containsKey(session)) {
+            MultiPlayerGame mg = Global.MultiPlayerGameSessions.get(session);
+            return mg.getFight();
+         } else return false;
+    }
 
 
     @Override

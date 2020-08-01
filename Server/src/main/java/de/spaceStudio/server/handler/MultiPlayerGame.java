@@ -18,6 +18,9 @@ public class MultiPlayerGame implements Serializable {
     private Ship shipPlayerTwo;
 
 
+    private Boolean fight = false;
+
+
     public String getUniverse() {
         return universe;
     }
@@ -65,5 +68,13 @@ public class MultiPlayerGame implements Serializable {
 
     public void setPlayers(List<Actor> players) {
         this.players = players;
+    }
+
+    public Boolean getFight() {
+        return fight;
+    }
+
+    public void setFight(Boolean fight) {
+        this.fight = fight;
     }
 }

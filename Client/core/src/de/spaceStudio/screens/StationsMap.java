@@ -30,11 +30,11 @@ import de.spaceStudio.server.model.*;
 import de.spaceStudio.service.Jumpservices;
 import thirdParties.GifDecoder;
 
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 
+import static de.spaceStudio.client.util.Global.multiPlayerSessionID;
 import static de.spaceStudio.client.util.RequestUtils.setupRequest;
 import static de.spaceStudio.client.util.Global.stationListU2;
 
@@ -75,6 +75,7 @@ public class StationsMap extends BaseScreen {
     private Sound click;
     private float xShip = 240;
     private float yShip = 150;
+    private boolean killTimer = false;
 
 
     public StationsMap(final MainClient game) {
@@ -419,28 +420,13 @@ public class StationsMap extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Global.currentStop = Global.planet9;
-                final Dialog dialog = new Dialog("Information", skin, "dialog") {
-                    public void result(Object obj) {
-
-                        if (Objects.equals(obj.toString(), "true")) {
-                            isLast = true;
-                        }
-
-                    }
-                };
-                if (true) {
-                    dialog.text("You are allow to travel last planet");
-                    dialog.button("JUMP", true);
+                final Dialog dialog = new Dialog("Information", skin, "dialog") {};
+                    dialog.text("You have now challenged the other Player");
+                    dialog.button("Start Fight", true);
                     dialog.key(Input.Keys.ENTER, true);
                     hoverListener(planet9ImageBTN, textAreaVIS);
-                    Global.currentStopNumber = 6;
-                    jumpService(Global.planet9);
-
-                } else {
-                    dialog.text("Before you travel here, you have to visit other planets");
-                    dialog.button("BACK", false);
-                    dialog.key(Input.Keys.ESCAPE, false);
-                }
+                    Global.loadingFightLocation = true;
+                    RequestUtils.startFightOnline();
 
                 //actionDialog(dialog, "?");
                 dialog.show(stage);
@@ -615,6 +601,10 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
 
+        if (Global.isOnlineFight) {
+            killTimer = true;
+            game.setScreen(new TravelScreen(game));
+        }
 
         xShip = coord.get(Global.currentStopNumber).getLeft();
         yShip = coord.get(Global.currentStopNumber).getRight();
@@ -623,7 +613,7 @@ public class StationsMap extends BaseScreen {
         stage.getBatch().end();
         stage.act();
         stage.draw();
-        if (!shipList.isEmpty() && control == false) {
+        if (!shipList.isEmpty() && !control) {
             try {
                 Global.currentShipPlayer = shipList.get(1);
                 Global.currentShipGegner = shipList.get(0);
@@ -641,8 +631,33 @@ public class StationsMap extends BaseScreen {
             }
         }
 
+
     }
 
+
+    /**
+     * Ask server every 5 seconds
+     */
+    private void scheduleLobby() {
+        Timer schedule = new Timer();
+        schedule.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (killTimer) {
+                    schedule.cancel();
+                    schedule.purge();
+                    LOG.info("Timer killed");
+                } else {
+                    LOG.info("Fetching data from server...");
+                    LOG.info(multiPlayerSessionID);
+
+                    // Multiplayer Step 2. Can I Land
+                    RequestUtils.hasFightStarted();
+
+                }
+            }
+        }, 1000, 5000);
+    }
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);

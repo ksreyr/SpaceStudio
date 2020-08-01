@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.spaceStudio.server.model.*;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -166,6 +167,13 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
+                } else if (url.contains(Global.SERVER_URL + Global.MULTIPLAYER + Global.HAS_FIGHT_STARTED)) {
+                    try {
+                        Global.isOnlineFight = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
+                        });
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -264,4 +272,11 @@ public final class RequestUtils {
         genericRequest(Global.SERVER_URL + Global.PLANET9,false , 0, Net.HttpMethods.GET, "");
     }
 
+    public static void startFightOnline() {
+        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.START_FIGHT + "/" + Global.multiPlayerSessionID,false , 0, Net.HttpMethods.GET, "");
+    }
+
+    public static void hasFightStarted() {
+        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.HAS_FIGHT_STARTED + "/" + Global.multiPlayerSessionID,false , 0, Net.HttpMethods.GET, "");
+    }
 }

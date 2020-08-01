@@ -28,11 +28,13 @@ public class Global {
      */
     public static final String PLAYER_ENDPOINT = "/player";
     public static final String PLANET9 = "/planet/online";
+    public static final String START_FIGHT =  "/startFight";
+    public static final String HAS_FIGHT_STARTED = "/hasFightStarted";
     /**
      * Hardcoded server URL
      */
-//    public static String SERVER_URL = "http://192.168.43.110:8080";
-    public static String SERVER_URL = "http://localhost:8080";
+    public static String SERVER_URL = "http://192.168.43.110:8080";
+//    public static String SERVER_URL = "http://localhost:8080";
     /**
      * Server logged player endpoint
      * <p>

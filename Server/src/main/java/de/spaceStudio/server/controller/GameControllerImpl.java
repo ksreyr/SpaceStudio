@@ -544,23 +544,7 @@ public class GameControllerImpl implements GameController {
     public boolean multiplayerFight(String session, Integer id) {
         Optional<Actor> actor = actorRepository.findById(id);
         MultiPlayerGame game = Global.MultiPlayerGameSessions.get(session);
-
-        boolean canFight = false;
-        boolean someOneFighting = false;
-
-        if (actor.isPresent()) {
-
-            // Break  and return false if a actor from the game is Playing
-            for (Actor a :
-                    game.getPlayers()) {
-                if (a.getState().getFightState().equals(FightState.PLAYING)) {
-                    someOneFighting = true;
-                    break;
-                }
-            }
-        }
-        canFight = !someOneFighting;
-        return canFight;
+        return game.getFight();
     }
 
 
