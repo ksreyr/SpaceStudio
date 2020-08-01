@@ -1,6 +1,7 @@
 package de.spaceStudio.server.service;
 
 import de.spaceStudio.server.model.Planet;
+import de.spaceStudio.server.model.StopAbstract;
 import de.spaceStudio.server.repository.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ public class InitializingBeanExampleBean implements InitializingBean {
 
 
     @Autowired
-    PlanetRepository planetRepository;
+    StopAbstractRepository stopAbstractRepository;
 
     @Override
     public void afterPropertiesSet() {
-        planetRepository.save(Planet.builder().name("p9").img("null").build());
+        StopAbstract stop = new StopAbstract();
+        stop.setName("p9");
+        stopAbstractRepository.save(stop);
     }
 }
