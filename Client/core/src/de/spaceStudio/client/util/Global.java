@@ -27,6 +27,7 @@ public class Global {
      * Server player endpoint
      */
     public static final String PLAYER_ENDPOINT = "/player";
+    public static final String PLANET9 = "/planet/online";
     /**
      * Hardcoded server URL
      */
@@ -34,7 +35,7 @@ public class Global {
     public static String SERVER_URL = "http://localhost:8080";
     /**
      * Server logged player endpoint
-     */
+
     public static final String PLAYER_LOGGED_ENDPOINT = "/player/logged-players";
     /**
      *
@@ -746,11 +747,6 @@ public class Global {
     public static Planet planet5 = Planet.builder().name("p5").img("null").build();
     public static Planet planet6 = Planet.builder().name("p6").img("null").build();
 
-    /*Weapon Universe2*/
-    public static Planet planet7 = Planet.builder().name("p7").img("null").build();
-    public static Planet planet8 = Planet.builder().name("p8").img("null").build();
-    public static Planet planet9 = Planet.builder().name("p9").img("null").build();
-    public static Planet planet10 = Planet.builder().name("p10").img("null").build();
 
     public static List<Planet> planetListU2 = new ArrayList<>() {{
         add(planet1);
@@ -759,10 +755,6 @@ public class Global {
         add(planet4);
         add(planet5);
         add(planet6);
-        add(planet7);
-        add(planet8);
-        add(planet9);
-        add(planet10);
     }};
     /**
      * Station
@@ -898,6 +890,7 @@ public class Global {
     public static List<Weapon> weaponsToProcess = new LinkedList<>();
     public static List<GameRound> playerRounds = new ArrayList<>();
     public static Boolean isOnlineFight = false;
+    public static Planet planet9;
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);
@@ -1115,10 +1108,6 @@ public class Global {
         planet4 = planetListU2.get(3);
         planet5 = planetListU2.get(4);
         planet6 = planetListU2.get(5);
-        planet7 = planetListU2.get(6);
-        planet8 = planetListU2.get(7);
-        planet9 = planetListU2.get(8);
-        planet10 = planetListU2.get(9);
     }
 
 
