@@ -1,0 +1,8 @@
+#+TITLE: Bugs
+
+18:56:21.615 [http-nio-8080-exec-9] INFO  d.s.s.c.StopAbstractControllerImpl - Player 2 is ready
+18:56:21.620 [http-nio-8080-exec-9] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.dao.IncorrectResultSizeDataAccessException: query did not return a unique result: 2; nested exception is javax.persistence.NonUniqueResultException: query did not return a unique result: 2] with root cause
+javax.persistence.NonUniqueResultException: query did not return a unique result: 2
+        at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:128)
+        at org.hibernate.query.internal.AbstractProducedQuery.getSingleResult(AbstractProducedQuery.java:1588)
+        at org.hibernate.query.criteria.internal.compile.CriteriaQueryTypeQueryAdapter.getSingleResult(CriteriaQueryTypeQueryAdapter.java:111)

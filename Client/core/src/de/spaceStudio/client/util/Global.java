@@ -27,7 +27,11 @@ public class Global {
      * Server player endpoint
      */
     public static final String PLAYER_ENDPOINT = "/player";
-    //public static String SERVER_URL = "http://192.168.178.106:8080";
+    /**
+     * Hardcoded server URL
+     */
+    public static String SERVER_URL = "http://192.168.43.110:8080";
+//    public static String SERVER_URL = "http://localhost:8080";
     /**
      * Server logged player endpoint
      */
@@ -221,10 +225,7 @@ public class Global {
     private static final int magazinSizeLaser = 2;
     private static final float HIT_RATE = 0.8f;
     private static final float HIT_RATE_LASER = 0.97f;
-    /**
-     * Hardcoded server URL
-     */
-    public static String SERVER_URL = "http://localhost:8080";
+
     /**
      * boolean value for single player disable lobby
      */
