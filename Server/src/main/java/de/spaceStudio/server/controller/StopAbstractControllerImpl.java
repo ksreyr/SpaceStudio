@@ -149,6 +149,11 @@ public class StopAbstractControllerImpl implements StopAbstractController {
 
         return gson.toJson(new ArrayList<Ship>());
     }
+    @Override
+    public StopAbstract getOnlinePlanet() {
+        return stopAbstractRepository.findByName("p9").orElseThrow(IllegalStateException::new);
+    }
+
 
 
     @Override

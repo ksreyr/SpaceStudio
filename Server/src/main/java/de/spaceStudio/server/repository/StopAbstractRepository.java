@@ -1,5 +1,6 @@
 package de.spaceStudio.server.repository;
 
+import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Ship;
 import de.spaceStudio.server.model.StopAbstract;
 import de.spaceStudio.server.model.Universe;
@@ -14,6 +15,8 @@ public interface StopAbstractRepository extends JpaRepository<StopAbstract, Inte
     Optional<StopAbstract> findByShips(Ship ship);
 
     Optional<List<StopAbstract>> findByUniverse(Universe universe);
+
+    Optional<Planet> findByName(String name);
 
     void deleteAllByUniverse(Universe universe);
 }

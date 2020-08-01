@@ -39,10 +39,6 @@ public class PlanetControllerImpl implements PlanetController {
         return planetRepository.getOne(id);
     }
 
-    @Override
-    public Planet getOnlinePlanet() {
-        return planetRepository.findByName("p9").orElseThrow(IllegalStateException::new);
-    }
 
     @Override
     public String addPlanet(@RequestBody Planet planet) {

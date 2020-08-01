@@ -41,7 +41,9 @@ public class ActorControllerImpl implements ActorController {
         Optional<Actor> actor = actorRepository.findById(id);
         if (actor.isPresent()) {
             return actor.get();
-        } else throw new IllegalStateException(String.format("Actor %s does not exist", id));
+        } else{
+            throw new IllegalStateException(String.format("Actor %s does not exist", id));
+        }
     }
 
     @Override

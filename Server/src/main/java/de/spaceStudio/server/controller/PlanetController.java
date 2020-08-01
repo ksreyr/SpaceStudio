@@ -24,9 +24,6 @@ public interface PlanetController {
     @RequestMapping(value = "/planet/{id}", method = RequestMethod.GET)
     Planet getPlanet(@PathVariable Integer id);
 
-    @GetMapping(value = "/planet/online")
-    Planet getOnlinePlanet();
-
     /**
      * Creates a new planet from JSON planet object
      *

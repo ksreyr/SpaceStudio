@@ -1,5 +1,6 @@
 package de.spaceStudio.server.controller;
 
+import de.spaceStudio.server.model.Planet;
 import de.spaceStudio.server.model.Player;
 import de.spaceStudio.server.model.StopAbstract;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +68,10 @@ public interface StopAbstractController {
 
     @RequestMapping(value = "/makejump", method = RequestMethod.POST)
     String makeJump(@RequestBody List<StopAbstract> stops);
+
+    @GetMapping(value = "/planet/online")
+    StopAbstract getOnlinePlanet();
+
 
     /**
      * Is is possible to Land?
