@@ -101,6 +101,7 @@ public class CombatScreen extends BaseScreen {
         return Global.combatCrew.get(Global.currentShipPlayer.getId());
     }
     private Label breakCrewMember;
+    private Label shieldPlayer;
     private String breakinfo;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
@@ -155,8 +156,10 @@ public class CombatScreen extends BaseScreen {
         currentWeaponLabel = new Label(weaponText[0], label1Style);
         currentWeaponLabel.setSize(Gdx.graphics.getWidth(), 20);
         currentWeaponLabel.setPosition(0, BaseScreen.HEIGHT-100);
-
+        shieldPlayer.setPosition(30,350);
+        stage.addActor(shieldPlayer);
         sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
+        shieldPlayer=  new Label(String.valueOf(Global.currentShipPlayer.getHp()), label1Style);
         sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
         sectionLabel.setPosition(BaseScreen.WIDTH-800, 100);
         this.breakinfo = "All crewMember in action";
@@ -313,8 +316,10 @@ public class CombatScreen extends BaseScreen {
         shieldIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/2.png"));
         driveIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/1.png"));
         weaponsIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/3.png"));
+
         shieldIconForEnergyPanel.setPosition(185, 12);
         shieldIconForEnergyPanel.setPosition(185,12);
+
         shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.LEFT) {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -970,6 +975,7 @@ public class CombatScreen extends BaseScreen {
             ActorState state = Global.combatActors.get(Global.currentPlayer.getId()).getState();
             liamButton.setText(state.getFightState().getState());
         }
+        shieldPlayer.setText("Shield: Player"+Global.currentShipPlayer.getShield());
 
         // TODO wenn alle Sektionen kaputt sind, wird auch verlore
         // If der Player lose

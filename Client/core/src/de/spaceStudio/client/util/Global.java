@@ -779,7 +779,7 @@ public class Global {
         add(station4);
     }};
     //Sections Gegner
-    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(10).amount(300).build();
+    public static ShopRessource shopRessource1 = ShopRessource.shopRessourceBuilder().name(RessourceName.GOLD).prive(10).amount(50).build();
     public static ShopRessource shopRessource2 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(10).amount(1).build();
     public static ShopRessource shopRessource3 = ShopRessource.shopRessourceBuilder().name(RessourceName.ENERGIE).prive(20).amount(1).build();
 
