@@ -14,14 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class InitializingBeanExampleBean implements InitializingBean {
 
-
-    @Autowired
-    StopAbstractRepository stopAbstractRepository;
-
     @Override
     public void afterPropertiesSet() {
-        StopAbstract stop = new StopAbstract();
-        stop.setName("p9");
-        stopAbstractRepository.save(stop);
+
     }
 }
