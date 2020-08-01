@@ -144,7 +144,8 @@ public class TravelScreen extends ScreenAdapter {
                 requestSend = true;
             }
             killTimer = true;
-            if (combatCrew.size() > 0 && combatSections.size() > 0 && combatWeapons.size() > 0) {
+            if ((combatCrew.size() > 1 && combatSections.size() > 1 && combatWeapons.size() > 1)
+                    || (Global.currentGegner == null && currentShipGegner == null)) {
                 if (isOnlineFight) {
                     game.setScreen(new CombatScreen(game));
                 } else {

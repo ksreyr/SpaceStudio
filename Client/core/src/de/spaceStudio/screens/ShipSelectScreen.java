@@ -891,6 +891,7 @@ public class ShipSelectScreen extends BaseScreen {
                         case "p6":
                             p.setShips(Global.shipsP6);
                             break;
+
                         default:
                             break;
                     }
