@@ -47,7 +47,7 @@ public final class RequestUtils {
 
         final String[] responseString = {null};
 
-        LOG.info("Sending get Request to: " + url);
+        LOG.info("Sending get Request to: " + url + id);
         Gdx.net.sendHttpRequest(r, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
@@ -109,7 +109,7 @@ public final class RequestUtils {
                                 endTurnRequestSinglePlayer(w);
                                 crewMemeberByShip(Global.currentShipPlayer);
                             } else {
-                                LOG.warning("There appears to be a problem with the global Maps. Please check if you always use the correct id");
+                                LOG.severe("There appears to be a problem with the global Maps. Please check if you always use the correct id");
                             }
                         }
                         Global.combatActors.put(id, actor);
@@ -248,6 +248,10 @@ public final class RequestUtils {
     public static void getEnemyShipMultiplayer() {
         genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.ENEMYSHIP + "/" + Global.multiPlayerSessionID,
                 false ,0, Net.HttpMethods.GET, Global.currentPlayer );
+    }
+
+    public static void spendMoney(int amount) {
+        genericRequest(Global.SERVER_URL + Global.BUY + "/" + Global.currentShipPlayer.getId() + "/" + amount, false, 0, Net.HttpMethods.GET, "");
     }
 
 }

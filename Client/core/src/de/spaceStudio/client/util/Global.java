@@ -183,6 +183,7 @@ public class Global {
      * Player save game endpoint
      */
     public static final String BUY_WEAPONS = "/buyweapon";
+    public static final String BUY = "/buy" ;
 
     public static int VISITED_PLANET_COUNTER = 0;
 

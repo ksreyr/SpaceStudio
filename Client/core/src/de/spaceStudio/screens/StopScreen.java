@@ -194,7 +194,11 @@ public class StopScreen extends ScreenAdapter {
 
 
         final int number = getRandomNumberInRange(0, 3);
-
+        int price_damage = Global.weaponListPlayer.size() * dammagePrice;
+        int price_accuracy = Global.weaponListPlayer.size() * accuracyPrice;
+        int price_coolDown = Global.weaponListPlayer.size() * coolDownPrice;
+        int price_life = 20;
+        int price_shield = 15;
 
         new Dialog("You have a arrived at a new Stop", skin) {
             {
@@ -291,23 +295,18 @@ public class StopScreen extends ScreenAdapter {
                                 new Dialog("What do you want to Upgrade?", skin) {
 
                                     {
-                                        int price_dammage = Global.weaponListPlayer.size() * dammagePrice;
-                                        int price_accuracy = Global.weaponListPlayer.size() * accuracyPrice;
-                                        int price_coolDown = Global.weaponListPlayer.size() * coolDownPrice;
-                                        int price_life = 20;
-                                        int price_shield = 15;
 
                                         text("You can Upgrade all Weapons or one at a time");
                                         text("You have " + Global.shipRessource.getAmount() + "Money");
 
-                                        if (Global.shipRessource.getAmount() >= price_dammage) {
-                                            button("+10% Damage for  all (" + price_dammage + ")", 1L).getButtonTable().row();
+                                        if (Global.shipRessource.getAmount() >= price_damage) {
+                                            button("+10% Damage for  all (" + price_damage + ")", 1L).getButtonTable().row();
                                         }
                                         if (Global.shipRessource.getAmount() >= price_coolDown) {
-                                            button("+10% Accuracy for  all (" + price_accuracy + ")", 2L).getButtonTable().row();
+                                            button("+10% Accuracy for  all (" +price_coolDown + ")", 2L).getButtonTable().row();
                                         }
                                         if (Global.shipRessource.getAmount() >= price_accuracy) {
-                                            button("-10% Warmup for  all (" + price_coolDown + ")", 2L).getButtonTable().row();
+                                            button("-10% Warmup for  all (" + price_accuracy + ")", 3L).getButtonTable().row();
                                         }
                                         if (Global.shipRessource.getAmount() >= price_life) {
                                             button("+10% Life (" + price_life + ")", 4L).getButtonTable().row();
@@ -340,24 +339,31 @@ public class StopScreen extends ScreenAdapter {
                                                 w.setDamage((int) (w.getDamage() + w.getDamage() * 0.1)); // FIXME if dammage is below 10 this will fail
                                             }
                                             RequestUtils.upgradeWeapon(Global.combatWeapons.get(Global.currentShipPlayer.getId()));
+                                            RequestUtils.spendMoney(price_damage);
                                         } else if (object.equals(2L)) {
                                             for (Weapon w :
                                                     Global.combatWeapons.get(Global.currentShipPlayer.getId())) {
-                                                w.setWarmUp((int) (w.getWarmUp() + w.getWarmUp() * 0.1)); // FIXME if dammage is below 10 this will fail
+                                                if (w.getWarmUp() > 0) {
+                                                    w.setWarmUp( (w.getWarmUp() - 1)); // FIXME if dammage is below 10 this will fail
+                                                }
+                                                RequestUtils.upgradeWeapon(Global.combatWeapons.get(Global.currentShipPlayer.getId()));
+                                                RequestUtils.spendMoney(price_coolDown);
                                             }
-                                            RequestUtils.upgradeWeapon(Global.combatWeapons.get(Global.currentShipPlayer.getId()));
                                         } else if (object.equals(3L)) {
                                             for (Weapon w :
                                                     Global.combatWeapons.get(Global.currentShipPlayer.getId())) {
-                                                w.setWarmUp((int) (w.getWarmUp() + w.getWarmUp() * 0.1)); // FIXME if dammage is below 10 this will fail
+                                                w.setHitRate((int) (w.getHitRate()+ w.getHitRate() * 0.1)); // FIXME if dammage is below 10 this will fail
                                             }
+                                            RequestUtils.spendMoney(price_accuracy);
                                             RequestUtils.upgradeWeapon(Global.combatWeapons.get(Global.currentShipPlayer.getId()));
                                         } else if (object.equals(4L)) {
                                             Global.currentShipPlayer.setHp(Global.currentShipPlayer.getHp() + (int) (Global.currentShipPlayer.getHp() * 0.1f));
                                             RequestUtils.updateShip(Global.currentShipPlayer);
+                                            RequestUtils.spendMoney(price_life);
                                         } else if (object.equals(5L)) {
                                             Global.currentShipPlayer.setShield(Global.currentShipPlayer.getShield() + 10);
                                             RequestUtils.updateShip(Global.currentShipPlayer);
+                                            RequestUtils.spendMoney(price_shield);
                                         }
 
                                         // Where does this go
