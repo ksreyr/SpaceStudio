@@ -47,7 +47,7 @@ public final class RequestUtils {
 
         final String[] responseString = {null};
 
-        LOG.info("Sending get Request to: " + url + id);
+        LOG.info("Sending get Request to: " + url + " id:" + id);
         Gdx.net.sendHttpRequest(r, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
