@@ -172,7 +172,6 @@ public final class RequestUtils {
                 LOG.severe("Request Canceled");
             }
         });
-
     }
 
     public static void weaponsByShip(Ship ship) {

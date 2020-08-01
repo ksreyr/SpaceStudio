@@ -111,8 +111,7 @@ public interface GameController {
     @PostMapping(value = "/game/endSingleRound")
     List<Weapon> endSingleRound(@RequestBody Weapon weapon);
 
-    @GetMapping(value = "game/multiplayer/enemyShip/{session}")
+    @GetMapping(value = "/multiplayer/enemyShip/{session}")
     Ship getEnemyShip(@PathVariable String session, @RequestBody Player player);
-
 
 }
