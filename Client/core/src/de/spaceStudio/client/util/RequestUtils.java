@@ -133,7 +133,7 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                } else if (url.contains(Global.MULTIPLAYER + Global.FIGHT)) {
+                } else if (url.contains(Global.GAME + Global.MULTIPLAYER + Global.FIGHT)) {
                     try {
                         Global.isOnlineFight = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
                         });
