@@ -1,10 +1,7 @@
 package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.Planet;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +23,9 @@ public interface PlanetController {
      */
     @RequestMapping(value = "/planet/{id}", method = RequestMethod.GET)
     Planet getPlanet(@PathVariable Integer id);
+
+    @GetMapping(value = "/planet/online")
+    Planet getOnlinePlanet();
 
     /**
      * Creates a new planet from JSON planet object

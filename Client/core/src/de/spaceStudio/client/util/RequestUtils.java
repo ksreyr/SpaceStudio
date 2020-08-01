@@ -159,6 +159,13 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
+                } else if (url.contains(Global.PLANET9)) {
+                    try {
+                        Global.planet9 = objectMapper.readValue(responseString[0], new TypeReference<Planet>() {
+                        });
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -251,6 +258,10 @@ public final class RequestUtils {
 
     public static void spendMoney(int amount) {
         genericRequest(Global.SERVER_URL + Global.BUY + "/" + Global.currentShipPlayer.getId() + "/" + amount, false, 0, Net.HttpMethods.GET, "");
+    }
+
+    public static void getPlanet9() {
+        genericRequest(Global.SERVER_URL + Global.PLANET9,false , 0, Net.HttpMethods.GET, "");
     }
 
 }

@@ -768,6 +768,7 @@ public class ShipSelectScreen extends BaseScreen {
                     }
                 }
                 sendRequestAddShips(shipsgegneru2, Net.HttpMethods.POST);
+                RequestUtils.getPlanet9();
                 requestcounter = 9;
             }
 

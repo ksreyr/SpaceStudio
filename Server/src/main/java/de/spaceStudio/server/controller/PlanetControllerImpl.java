@@ -40,6 +40,11 @@ public class PlanetControllerImpl implements PlanetController {
     }
 
     @Override
+    public Planet getOnlinePlanet() {
+        return planetRepository.findByName("p9").orElseThrow(IllegalStateException::new);
+    }
+
+    @Override
     public String addPlanet(@RequestBody Planet planet) {
         Universe universe = universeRepository.findByName(planet.getUniverse().getName()).get();
         Player p1 = new Player();
