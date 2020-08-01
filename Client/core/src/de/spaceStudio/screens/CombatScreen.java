@@ -156,7 +156,7 @@ public class CombatScreen extends BaseScreen {
         currentWeaponLabel = new Label(weaponText[0], label1Style);
         currentWeaponLabel.setSize(Gdx.graphics.getWidth(), 20);
         currentWeaponLabel.setPosition(0, BaseScreen.HEIGHT-100);
-        shieldPlayer.setPosition(30,350);
+        shieldPlayer.setPosition(15,350);
         stage.addActor(shieldPlayer);
         sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
         shieldPlayer=  new Label(String.valueOf(Global.currentShipPlayer.getHp()), label1Style);
