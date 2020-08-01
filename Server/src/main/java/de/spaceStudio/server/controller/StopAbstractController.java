@@ -73,11 +73,11 @@ public interface StopAbstractController {
     StopAbstract getOnlinePlanet();
 
     @GetMapping(value = "/multiplayer/startFight/{session}")
-    Boolean startFight(String session);
+    Boolean startFight(@PathVariable  String session);
 
 
     @GetMapping(value = "/multiplayer/hasFightStarted/{session}")
-    Boolean hasFightStarted(String session);
+    Boolean hasFightStarted(@PathVariable String session);
 
     /**
      * Is is possible to Land?
