@@ -179,7 +179,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
             }
             canLand = !needsToWait;
 
-            List<Actor> landing = playerSet.stream().filter(u -> u.getState().getStopState().equals(StopState.JUMPING)).collect(Collectors.toList());
+            List<Actor> landing = playerSet.stream().filter(u -> !u.getState().getStopState().equals(StopState.JUMPING)).collect(Collectors.toList());
             if (canLand && landing.size() == 2) {
                 for (Actor actor :
                         playerSet) {
