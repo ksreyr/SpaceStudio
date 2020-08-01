@@ -43,6 +43,9 @@ public class GameControllerImpl implements GameController {
     CrewMemberController crewMemberController;
     @Autowired
     private WeaponController weaponController;
+
+    @Autowired
+    private PlanetRepository planetRepository;
     /**
      * PlayerRepository Data
      */
@@ -175,13 +178,18 @@ public class GameControllerImpl implements GameController {
                 Optional<Ship> s = shipRepository.findByOwner(a);
                 if (s.isPresent()) {
                     Optional<StopAbstract> stopAbstract = stopAbstractRepository.findByShips(s.get());
+                    Optional<Planet> planet = planetRepository.findByShips(s.get());
                     if (stopAbstract.isPresent()) {
                         stopAbstract.get().getShips().remove(s.get());
                         stopAbstractRepository.save(stopAbstract.get());
-                        if (!endStop.get().getShips().contains(s.get())) {
-                            endStop.get().getShips().add(s.get());
-                            stopAbstractRepository.save(endStop.get());
-                        }
+                    }
+                    if (planet.isPresent()) {
+                        planet.get().getShips().remove(s.get());
+                        planetRepository.save(planet.get());
+                    }
+                    if (!endStop.get().getShips().contains(s.get())) {
+                        endStop.get().getShips().add(s.get());
+                        stopAbstractRepository.save(endStop.get());
                     }
                 }
             }
