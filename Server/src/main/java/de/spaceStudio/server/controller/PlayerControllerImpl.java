@@ -52,6 +52,9 @@ public class PlayerControllerImpl implements PlayerController {
     private AIRepository aiRepository;
 
     @Autowired
+    ActorController actorController;
+
+    @Autowired
     GameRoundRepository gameRoundRepository;
 
     @Autowired
@@ -229,12 +232,8 @@ public class PlayerControllerImpl implements PlayerController {
             playerRepository.save(player);
             actorStateRepository.delete(player1.getState());
         }
-        for (GameRound g :
-                gameRoundRepository.findAllByActor(player)) {
-            List<CombatRound> combatRound=g.getCombatRounds();
-            g.setCombatRounds(new ArrayList<>());
-            gameRoundRepository.delete(g);
-        }
+
+
 
         boolean fileClosed = JSONFile.cleanJSONSinglePlayerGame(player1.getSavedGame());
         if (fileClosed) {
@@ -248,6 +247,15 @@ public class PlayerControllerImpl implements PlayerController {
             
             StopAbstract stopAbstract = stopAbstractRepository.findByShips(ship).get();
             Universe universe = universeRepository.findByName(stopAbstract.getUniverse().getName()).get();
+
+            for (Actor a: actorController.findAllByUniverse(universe)) {
+                for (GameRound g :
+                        gameRoundRepository.findAllByActor(a)) {
+                    gameRoundRepository.delete(g);
+                }
+            }
+
+
             List<StopAbstract> stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
             //sucht all the stations
             for (StopAbstract sa :
@@ -266,16 +274,16 @@ public class PlayerControllerImpl implements PlayerController {
                                         .findAllByCurrentSection(section).get();
                                 for (CrewMember c :
                                         crewMemberList) {
-                                    if (combatRoundRepository.findByCrewMembers(c).isPresent()) {
-                                        List<CombatRound> combatRound = combatRoundRepository.findByCrewMembers(c).get();
-                                        for (CombatRound cr :
-                                                combatRound) {
-                                            cr.setCrewMembers(new ArrayList<>());
-                                            combatRoundRepository.save(cr);
-                                            combatRoundRepository.delete(cr);
-                                        }
-
-                                    }
+//                                    if (combatRoundRepository.findByCrewMembers(c).isPresent()) {
+//                                        List<CombatRound> combatRound = combatRoundRepository.findByCrewMembers(c).get();
+//                                        for (CombatRound cr :
+//                                                combatRound) {
+//                                            cr.setCrewMembers(new ArrayList<>());
+//                                            combatRoundRepository.save(cr);
+//                                            combatRoundRepository.delete(cr);
+//                                        }
+//
+//                                    }
                                     crewMemberRepository.delete(c);
 
                                 }

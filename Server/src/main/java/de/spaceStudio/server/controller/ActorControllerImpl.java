@@ -1,16 +1,11 @@
 package de.spaceStudio.server.controller;
 
-import de.spaceStudio.server.model.Actor;
-import de.spaceStudio.server.model.FightState;
-import de.spaceStudio.server.model.Section;
-import de.spaceStudio.server.model.Ship;
-import de.spaceStudio.server.repository.ActorRepository;
-import de.spaceStudio.server.repository.ActorStateRepository;
-import de.spaceStudio.server.repository.SectionRepository;
-import de.spaceStudio.server.repository.ShipRepository;
+import de.spaceStudio.server.model.*;
+import de.spaceStudio.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +30,9 @@ public class ActorControllerImpl implements ActorController {
 
     @Autowired
     GameController gameController;
+
+    @Autowired
+    StopAbstractRepository stopAbstractRepository;
 
     @Override
     public Actor getActor(Integer id) {
@@ -63,5 +61,25 @@ public class ActorControllerImpl implements ActorController {
 
             return actorRepository.findById(fetchActor.get().getId()).get();
         } else throw new IllegalStateException(String.format("The Actor %s to update does not exist", actor.getName()));
+    }
+
+    @Override
+    public List<Actor> findAllByUniverse(Universe universe) {
+        Optional<List<StopAbstract>> stops = stopAbstractRepository.findByUniverse(universe);
+        List<Actor> actors = new ArrayList<>();
+        List<Ship> ships = new ArrayList<>();
+
+        if (stops.isPresent()) {
+            for (StopAbstract a :
+                    stops.get()) {
+                ships.addAll(a.getShips());
+            }
+            for (Ship s :
+                    ships) {
+                actors.add(s.getOwner());
+            }
+        }
+
+        return actors;
     }
 }

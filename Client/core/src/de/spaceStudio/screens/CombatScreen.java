@@ -1117,16 +1117,14 @@ public class CombatScreen extends BaseScreen {
         }
 
         //update bullets
-        ArrayList<Bullet> bulletToRemove = new ArrayList<>();
         for (Bullet bullet : bullets) {
             bullet.update(delta);
             if (bullet.remove) {
-                if (isTargetCockpit && bullet.remove) stage.getBatch().draw(explosion, 1540, 550, 100, 100);
-                bulletToRemove.add(bullet);
+                if (isTargetCockpit) stage.getBatch().draw(explosion, 1540, 550, 100, 100);
             }
         }
+        bullets.removeIf(b -> b.remove);
 
-        bullets.removeAll(bulletToRemove);
 
         ArrayList<Bullet> bulletGegnerToRemove = new ArrayList<>();
         for (Bullet bullet : bulletsEnemy) {

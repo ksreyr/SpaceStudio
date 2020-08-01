@@ -85,7 +85,6 @@ public class AIControllerImpl implements AIController {
                 actorStateRepository.save(aa);
                 ai.setState(aa);
             }
-            ai.setState(aa);
             AI aisaved = aiRepository.save(ai);
             aisSaved.add(aisaved);
         }

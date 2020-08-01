@@ -1,10 +1,13 @@
 package de.spaceStudio.server.controller;
 
 import de.spaceStudio.server.model.Actor;
+import de.spaceStudio.server.model.Universe;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
 
 public interface ActorController {
 
@@ -27,5 +30,8 @@ public interface ActorController {
      */
     @RequestMapping(value = "/actor", method = RequestMethod.PUT)
     Actor updateActor(@RequestBody Actor Actor);
+
+
+    List<Actor> findAllByUniverse(Universe universe);
 
 }
