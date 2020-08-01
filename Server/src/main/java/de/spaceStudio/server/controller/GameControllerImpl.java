@@ -7,7 +7,6 @@ import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
 import de.spaceStudio.server.utils.Global;
 import de.spaceStudio.server.utils.JSONFile;
-import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,7 +150,7 @@ public class GameControllerImpl implements GameController {
     @Override
     public Boolean isOnlineFight(@PathVariable String gameSession) {
         List<StopAbstract> stops = new ArrayList<>();
-        for (Actor p: Global.MultiPlayerGameSessions.get(gameSession).players) {
+        for (Actor p: Global.MultiPlayerGameSessions.get(gameSession).getPlayers()) {
           Optional<Ship> ship =  shipRepository.findByOwner(p);
           if (ship.isPresent()) {
               Optional<StopAbstract> stop = stopAbstractRepository.findByShips(ship.get());
@@ -516,7 +515,7 @@ public class GameControllerImpl implements GameController {
 
             // Break  and return false if a actor from the game is Playing
             for (Actor a :
-                    game.players) {
+                    game.getPlayers()) {
                 if (a.getState().getFightState().equals(FightState.PLAYING)) {
                     someOneFighting = true;
                     break;
@@ -688,7 +687,7 @@ public class GameControllerImpl implements GameController {
 
     @Override
     public Ship getEnemyShip(String session, Player player) {
-        List<Actor> players = Global.MultiPlayerGameSessions.get(session).players;
+        List<Actor> players = Global.MultiPlayerGameSessions.get(session).getPlayers();
         Optional<Ship> ship;
         int n = players.indexOf(player);
         if (n == 0) {
