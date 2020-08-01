@@ -196,7 +196,7 @@ public final class RequestUtils {
     }
 
     public static void canLand(Player player) {
-        genericRequest(Global.SERVER_URL + Global.GAME + Global.CAN_LAND,
+        genericRequest(Global.SERVER_URL + Global.CAN_LAND,
                 false, 0, Net.HttpMethods.GET, player);
     }
 
