@@ -895,7 +895,7 @@ public class Global {
     public static Map<Integer, Actor> combatActors = new HashMap<>();
     public static List<Weapon> weaponsToProcess = new LinkedList<>();
     public static List<GameRound> playerRounds = new ArrayList<>();
-    public static Boolean isOnlineFight;
+    public static Boolean isOnlineFight = false;
 
     public static void updateVariableCrewMembersPlayer() {
         crewMember0 = crewMemberList.get(0);

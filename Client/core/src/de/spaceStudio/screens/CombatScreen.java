@@ -49,17 +49,11 @@ public class CombatScreen extends BaseScreen {
     public static final int WidthPlayerShip = 500;
     public static final int HeightPlayerShip = 500;
     private final static Logger LOG = Logger.getLogger(CombatScreen.class.getName());
-    private final Label weaponLabel, sectionLabel;
+    private final Label weaponLabel, currentWeaponLabel,  sectionLabel;
     private final String[] weaponText = {"All Weapons", "You have selected Weapon: "};
     private final AssetManager assetManager;
     private final MainClient universeMap;
     private final MainClient mainClient;
-    private final Label labelsection1;
-    private final Label labelsection2;
-    private final Label labelsection3;
-    private final Label labelsection4;
-    private final Label labelsection5;
-    private final Label labelsection6;
     private final int counterEngine = 0;
     private final int counterWeapon = 0;
     private final OrthographicCamera camera;
@@ -144,12 +138,6 @@ public class CombatScreen extends BaseScreen {
         label1Style.font = myFont;
         label1Style.fontColor = Color.RED;
 
-        labelsection1 = new Label("Section1", label1Style);
-        labelsection2 = new Label("Section2", label1Style);
-        labelsection3 = new Label("Section3", label1Style);
-        labelsection4 = new Label("Section4", label1Style);
-        labelsection5 = new Label("Section5", label1Style);
-        labelsection6 = new Label("Section6", label1Style);
 
         hourglass1 = false;
         hourglass2 = false;
@@ -160,8 +148,11 @@ public class CombatScreen extends BaseScreen {
 
         weaponLabel = new Label(weaponText[0], label1Style);
         weaponLabel.setSize(Gdx.graphics.getWidth(), 20);
-        weaponLabel.setPosition(0, BaseScreen.HEIGHT-250);
+        weaponLabel.setPosition(0, BaseScreen.HEIGHT-500);
 
+        currentWeaponLabel = new Label(weaponText[0], label1Style);
+        currentWeaponLabel.setSize(Gdx.graphics.getWidth(), 20);
+        currentWeaponLabel.setPosition(0, BaseScreen.HEIGHT-100);
 
         sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
         sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
@@ -262,25 +253,6 @@ public class CombatScreen extends BaseScreen {
             listOfCrewImages.get(i).setName(myCrew().get(i).getName());
             dragAndDrop(listOfCrewImages.get(i));
         }
-
-        /*imageCrewMemberOne.setBounds(30, 30, 30, 30);
-        crewMemberOne = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/female_human.png"));
-        crewMemberTwo = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        crewMemberThree = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/MaleHuman-3.png"));
-        laser= new Texture("Client/core/assets/combatAssets/laser.jpg");
-        imageCrewMemberOne = new Image(crewMemberOne);
-        imageCrewMemberTwo = new Image(crewMemberTwo);
-        imageCrewMemberThree = new Image(crewMemberThree);
-        imageCrewMemberOne.setBounds(30, 30, 30, 30);
-        imageCrewMemberTwo.setBounds(30, 30, 30, 30);
-        imageCrewMemberThree.setBounds(30, 30, 30, 30);
-        imageCrewMemberOne.setPosition(XPlayerShip + Global.section2.getxPos(), YPlayerShip + Global.section2.getyPos());
-        imageCrewMemberTwo.setPosition(XPlayerShip + Global.section4.getxPos(), YPlayerShip + Global.section4.getyPos());
-        imageCrewMemberThree.setPosition(XPlayerShip + Global.section6.getxPos(), YPlayerShip + Global.section6.getyPos());
-
-        listOfCrewImages.add(imageCrewMemberOne);
-        listOfCrewImages.add(imageCrewMemberTwo);
-        listOfCrewImages.add(imageCrewMemberThree);*/
 
         energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/energyWeaponsPanel.png"));
         energy = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
@@ -580,6 +552,7 @@ public class CombatScreen extends BaseScreen {
         stage.addActor(driveIconForEnergyPanel);
         stage.addActor(shieldIconForEnergyPanel);
         stage.addActor(weaponLabel);
+        stage.addActor(currentWeaponLabel);
         for (Image listOfCrewImage : listOfCrewImages) {
             stage.addActor(listOfCrewImage);
         }
@@ -917,8 +890,9 @@ public class CombatScreen extends BaseScreen {
             String crewName = "None";
             for (CrewMember c :
                     myCrew()) {
-                if (c.getCurrentSection().equals(s)) {
+                if (c.getCurrentSection().getId().equals(s.getId())) {
                     crewName = c.getName();
+                    break;
                 }
             }
             stringBuilder.append(String.format("%s, usable: %s, oxygen: %s, Role: %s, Crew: %s%n", s.getImg(), s.isUsable(), s.getOxygen(), s.getSectionTyp(), crewName));
@@ -949,11 +923,6 @@ public class CombatScreen extends BaseScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
-        if (!Global.combatSections.get(Global.currentShipPlayer.getId()).isEmpty()) {
-            labelsection1.setText("\n Usable: " + Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getUsable() + "\n Oxigen: " + Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getOxygen());
-            labelsection1.setPosition(Global.combatSections.get(Global.currentShipPlayer.getId()).get(1).getxPos(), Global.combatSections.get(Global.currentShipPlayer.getId()).get(0).getyPos());
-            stage.addActor(labelsection1);
-        }
 
 
         if (!Global.weaponsToProcess.isEmpty()) {
@@ -1004,10 +973,10 @@ public class CombatScreen extends BaseScreen {
                 aktiveWeapon = aktiveWeapon % (Global.combatWeapons.get(Global.currentShipPlayer.getId()).size() + 1);  // Add one more because index is +1
                 if (aktiveWeapon == 0) {
                     selectedWeapons = Global.combatWeapons.get(Global.currentShipPlayer.getId());
-                    weaponLabel.setText(weaponText[0]);
+                    currentWeaponLabel.setText(weaponText[0]);
                 } else {
                     selectedWeapons = List.of(Global.combatWeapons.get(Global.currentShipPlayer.getId()).get(aktiveWeapon - 1)); // Weapons start at 0. Index at 1
-                    weaponLabel.setText(weaponText[1] + selectedWeapons.get(0).getName());
+                    currentWeaponLabel.setText(weaponText[1] + selectedWeapons.get(0).getName());
                 }
             }
 
