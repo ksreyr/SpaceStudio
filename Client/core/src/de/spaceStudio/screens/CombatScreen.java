@@ -262,6 +262,7 @@ public class CombatScreen extends BaseScreen {
 
         background = new Texture("Client/core/assets/combatAssets/CombatBG.jpg");
         playerShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
+        onlineShip = new Texture("Client/core/assets/data/ships/blueships1_section.png");
         enemyShip1 = new Texture("Client/core/assets/combatAssets/enemy1.png");
         enemyShip2 = new Texture("Client/core/assets/combatAssets/enemy_2.png");
         enemyShip3 = new Texture("Client/core/assets/combatAssets/enemy_3.png");
