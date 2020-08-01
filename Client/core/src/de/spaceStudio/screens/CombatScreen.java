@@ -85,6 +85,7 @@ public class CombatScreen extends BaseScreen {
     private Texture crewMemberOne, crewMemberTwo, crewMemberThree;
     //CrewMember break/
     private Texture hourglass;
+    private Boolean isEnergyMissed;
     private boolean hourglass1, hourglass2, hourglass3, hourglass4, hourglass5, hourglass6;
     private float hourX1, hourY1;
 
@@ -161,6 +162,20 @@ public class CombatScreen extends BaseScreen {
         this.breakinfo = "All crewMember in action";
 
     }
+
+    public void warningForEnergy(){
+
+        final Dialog dialog = new Dialog("Remember!!!", skin, "dialog") {
+            public void result(Object obj) {
+                obj.toString();
+            }
+        };
+        warningEnergyMessageDialog(dialog, " Please Charge Energy to Weaponsystem!");
+
+    }
+
+
+
     public void warning(){
 
         final Dialog dialog = new Dialog("Remember!!!", skin, "dialog") {
@@ -342,6 +357,7 @@ public class CombatScreen extends BaseScreen {
 
         driveIconForEnergyPanel.setPosition(345, 12);
         driveIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.LEFT) {
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (Global.currentShipPlayer.getPower() - Global.sumCurrentPower(Global.combatSections.get(Global.currentShipPlayer.getId())) > 0) {
@@ -977,6 +993,9 @@ public class CombatScreen extends BaseScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 
             if(!isTargetSelected) warning();
+            if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() < 1) warningForEnergy();
+
+
             //Set Target->Section of Player and gegner Weapons
             logicOfFirePlayer();
             //bullets.add(new Bullet(590, yWeaponPos));
@@ -1249,12 +1268,16 @@ public class CombatScreen extends BaseScreen {
         dialog.show(stage);
     }
 
+    private void warningEnergyMessageDialog(Dialog dialog, String action) {
 
+        dialog.text(action);
+        dialog.button("OK", true);
+        click.play();
+        dialog.show(stage);
+    }
     private void warningMessageDialog(Dialog dialog, String action) {
         dialog.text(action);
         dialog.button("OK", true);
-        //dialog.key(Input.Keys.ENTER, true);
-        //dialog.key(Input.Keys.ESCAPE, false);
         click.play();
         dialog.show(stage);
     }
