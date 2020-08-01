@@ -588,6 +588,8 @@ public class StationsMap extends BaseScreen {
         super.show();
         if (Global.IS_SINGLE_PLAYER) {
             renderSaveGameButton();
+        } else {
+        scheduleLobby();
         }
 
     }
