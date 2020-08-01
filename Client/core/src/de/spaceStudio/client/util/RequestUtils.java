@@ -196,7 +196,7 @@ public final class RequestUtils {
     }
 
     public static void canLand(Player player) {
-        genericRequest(Global.SERVER_URL + Global.CAN_LAND + "/" + player.getId() ,
+        genericRequest(Global.SERVER_URL + Global.CAN_LAND + "/" + Global.multiPlayerSessionID + "/" + player.getId() ,
                 false, 0, Net.HttpMethods.GET, "");
     }
 
