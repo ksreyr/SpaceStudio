@@ -156,8 +156,10 @@ public class CombatScreen extends BaseScreen {
         currentWeaponLabel = new Label(weaponText[0], label1Style);
         currentWeaponLabel.setSize(Gdx.graphics.getWidth(), 20);
         currentWeaponLabel.setPosition(0, BaseScreen.HEIGHT-100);
-        shieldPlayer.setPosition(15,350);
-        stage.addActor(shieldPlayer);
+
+
+        shieldPlayer= new Label("Schield Player:",label1Style);
+
         sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
         shieldPlayer=  new Label(String.valueOf(Global.currentShipPlayer.getHp()), label1Style);
         sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
@@ -975,8 +977,11 @@ public class CombatScreen extends BaseScreen {
             ActorState state = Global.combatActors.get(Global.currentPlayer.getId()).getState();
             liamButton.setText(state.getFightState().getState());
         }
-        shieldPlayer.setText("Shield: Player"+Global.currentShipPlayer.getShield());
 
+        shieldPlayer.setPosition(15,350);
+
+        shieldPlayer.setText("Shield: Player"+Global.currentShipPlayer.getShield());
+        stage.addActor(shieldPlayer);
         // TODO wenn alle Sektionen kaputt sind, wird auch verlore
         // If der Player lose
         if (Global.combatCrew.size() == 2 && Global.combatSections.size() == 2) {
