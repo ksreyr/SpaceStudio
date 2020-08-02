@@ -106,7 +106,6 @@ public class CombatScreen extends BaseScreen {
 
     private Label breakCrewMember;
     private Label shieldPlayer;
-    private Label damageCalcul;
     private String breakinfo;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
