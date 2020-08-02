@@ -72,9 +72,8 @@ public interface StopAbstractController {
     @GetMapping(value = "/planet/online")
     StopAbstract getOnlinePlanet();
 
-    @GetMapping(value = "/multiplayer/startFight/{session}")
-    Boolean startFight(@PathVariable  String session);
-
+    @GetMapping(value = "/multiplayer/startFight/{session}/{id}")
+    Boolean startFight(@PathVariable  String session, @PathVariable Integer id);
 
     @GetMapping(value = "/multiplayer/hasFightStarted/{session}")
     Boolean hasFightStarted(@PathVariable String session);

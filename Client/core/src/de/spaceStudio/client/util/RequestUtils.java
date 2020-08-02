@@ -286,7 +286,7 @@ public final class RequestUtils {
     }
 
     public static void startFightOnline() {
-        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.START_FIGHT + "/" + Global.multiPlayerSessionID,false , 0, Net.HttpMethods.GET, "");
+        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.START_FIGHT + "/" + Global.multiPlayerSessionID + "/" + Global.currentPlayer.getId(),false , 0, Net.HttpMethods.GET, "");
     }
 
     public static void hasFightStarted() {
