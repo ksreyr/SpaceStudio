@@ -65,13 +65,13 @@ public class ActorControllerImpl implements ActorController {
 
     @Override
     public List<Actor> findAllByUniverse(Universe universe) {
-        Optional<List<StopAbstract>> stops = stopAbstractRepository.findByUniverse(universe);
+        List<StopAbstract> stops = stopAbstractRepository.findByUniverse(universe);
         List<Actor> actors = new ArrayList<>();
         List<Ship> ships = new ArrayList<>();
 
-        if (stops.isPresent()) {
+        if (!stops.isEmpty()) {
             for (StopAbstract a :
-                    stops.get()) {
+                    stops) {
                 ships.addAll(a.getShips());
             }
             for (Ship s :

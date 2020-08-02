@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface StopAbstractRepository extends JpaRepository<StopAbstract, Integer> {
     Optional<StopAbstract> findByShips(Ship ship);
 
-    Optional<List<StopAbstract>> findByUniverse(Universe universe);
+    List<StopAbstract> findByUniverse(Universe universe);
 
     Optional<StopAbstract> findByName(String name);
 

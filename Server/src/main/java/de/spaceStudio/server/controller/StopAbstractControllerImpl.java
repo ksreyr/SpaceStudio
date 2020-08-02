@@ -112,7 +112,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                 stopStart = stopAbstractRepository.findByShips(ship.get()).get();
 
                 List<StopAbstract> stopAbstracts = new ArrayList<>();
-                stopAbstracts = stopAbstractRepository.findByUniverse(stopStart.getUniverse()).get();
+                stopAbstracts = stopAbstractRepository.findByUniverse(stopStart.getUniverse());
                 for (StopAbstract s :
                         stopAbstracts) {
                     if (s.getName().equals(stopEnd.getName())) {

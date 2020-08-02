@@ -234,7 +234,6 @@ public class PlayerControllerImpl implements PlayerController {
         }
 
 
-
         boolean fileClosed = JSONFile.cleanJSONSinglePlayerGame(player1.getSavedGame());
         if (fileClosed) {
             LOG.info("saved game success cleaned!");
@@ -242,163 +241,207 @@ public class PlayerControllerImpl implements PlayerController {
             playerRepository.save(player1);
         }
 
-        if (shipRepository.findByOwner(player1).isPresent()) {
-            Ship ship = shipRepository.findByOwner(player1).get();
-            
-            StopAbstract stopAbstract = stopAbstractRepository.findByShips(ship).get();
-            Universe universe = universeRepository.findByName(stopAbstract.getUniverse().getName()).get();
-
-            for (Actor a: actorController.findAllByUniverse(universe)) {
-                for (GameRound g :
-                        gameRoundRepository.findAllByActor(a)) {
-                    gameRoundRepository.delete(g);
-                }
+        List<Ship> ships = shipRepository.findAllByOwner(player1);
+        Set<Section> sections = new HashSet<>();
+        List<Weapon> weapons = new ArrayList<>();
+        List<CrewMember> crewMembers = new ArrayList<>();
+        List<StopAbstract> stopAbstracts = new ArrayList<>();
+        for (Ship s :
+                ships) {
+            Optional<List<Section>> secsFound = sectionRepository.findAllByShip(s);
+            secsFound.ifPresent(sections::addAll);
+            for (Section sec :
+                    sections) {
+                Optional<List<Weapon>> bySection = weaponRepository.findBySection(sec);
+                bySection.ifPresent(weapons::addAll);
+                Optional<List<CrewMember>> crewMembers1 = crewMemberRepository.findAllByCurrentSection(sec);
+                crewMembers1.ifPresent(crewMembers::addAll);
             }
+            crewMemberRepository.deleteAll(crewMembers);
+            weaponRepository.deleteAll(weapons);
+            sectionRepository.deleteAll(sections);
+            Optional<List<ShipRessource>> shipRessourcesList = shipRessourceRepository.findByShip(s);
+            shipRessourcesList.ifPresent(shipRessources -> shipRessourceRepository.deleteAll(shipRessources));
+            Optional<StopAbstract> stopAbstracts1 = stopAbstractRepository.findByShips(s);
+            stopAbstracts1.ifPresent(stopAbstracts::add);
+        }
+        stopAbstractRepository.deleteAll(stopAbstracts);
+        shipRepository.deleteAll(ships);
 
 
-            List<StopAbstract> stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
-            //sucht all the stations
-            for (StopAbstract sa :
-                    stopAbstracts) {
-                List<Ship> shipList = sa.getShips();
-                //sucht all the ship in the station
-                for (Ship s :
-                        shipList) {
+        Optional<Ship> byOwner = shipRepository.findByOwner(player1);
+        if (byOwner.isPresent()) {
+            Ship ship = shipRepository.findByOwner(player1).get();
 
-                    if (sectionRepository.findAllByShip(s).isPresent()) {
-                        List<Section> sections = sectionRepository.findAllByShip(s).get();
-                        for (Section section :
-                                sections) {
-                            if (crewMemberRepository.findAllByCurrentSection(section).isPresent()) {
-                                ArrayList<CrewMember> crewMemberList = crewMemberRepository
-                                        .findAllByCurrentSection(section).get();
-                                for (CrewMember c :
-                                        crewMemberList) {
-//
-                                    crewMemberRepository.delete(c);
+            Optional<StopAbstract> stopAbstract = stopAbstractRepository.findByShips(ship);
+
+            if (stopAbstract.isPresent() && stopAbstract.get().getUniverse() != null) {
+                Optional<Universe> universe = universeRepository.findByName(stopAbstract.get().getUniverse().getName());
+
+                if (universe.isPresent()) {
+                    List<Actor> allByUniverse = actorController.findAllByUniverse(universe.get());
+                    if (!allByUniverse.isEmpty()) {
+                        for (Actor a : allByUniverse) {
+                            List<GameRound> allByActor = gameRoundRepository.findAllByActor(a);
+                            if (!allByActor.isEmpty()) {
+                                for (GameRound g :
+                                        allByActor) {
+                                    gameRoundRepository.delete(g);
                                 }
-                            } else {
-                                System.out.println("not CrewMember to erase");
                             }
-                            if (weaponRepository.findBySection(section).isPresent()) {
-                                List<Weapon> weapons = weaponRepository.findBySection(section).get();
-                                for (Weapon w :
-                                        weapons) {
-                                    if(combatRoundRepository.findByWeaponsWhichHaveAttacked(w).isPresent()){
-                                        List<CombatRound> combatRoundList = combatRoundRepository.findByWeaponsWhichHaveAttacked(w).get();
-                                        for (CombatRound cr:
-                                                combatRoundList) {
-                                            if(gameRoundRepository.findAllByCombatRounds(cr).isPresent()){
-                                                List<GameRound> gameRoundList=gameRoundRepository.findAllByCombatRounds(cr).get();
-                                                for (GameRound gr:
-                                                        gameRoundList) {
-                                                    gameRoundRepository.delete(gr);
+
+                        }
+                }
+
+
+                    stopAbstracts = stopAbstractRepository.findByUniverse(universe.get());
+                    //sucht all the stations
+                    for (StopAbstract sa :
+                            stopAbstracts) {
+                        List<Ship> shipList = sa.getShips();
+                        //sucht all the ship in the station
+                        for (Ship s :
+                                shipList) {
+
+                            if (sectionRepository.findAllByShip(s).isPresent()) {
+                                List<Section> sections1 = sectionRepository.findAllByShip(s).get();
+                                for (Section section :
+                                        sections1) {
+                                    if (crewMemberRepository.findAllByCurrentSection(section).isPresent()) {
+                                        List<CrewMember> crewMemberList = crewMemberRepository
+                                                .findAllByCurrentSection(section).get();
+                                        for (CrewMember c :
+                                                crewMemberList) {
+//
+                                            crewMemberRepository.delete(c);
+                                        }
+                                    } else {
+                                        System.out.println("not CrewMember to erase");
+                                    }
+                                    if (weaponRepository.findBySection(section).isPresent()) {
+                                        List<Weapon> weapons1 = weaponRepository.findBySection(section).get();
+                                        for (Weapon w :
+                                                weapons1) {
+                                            if (combatRoundRepository.findByWeaponsWhichHaveAttacked(w).isPresent()) {
+                                                List<CombatRound> combatRoundList = combatRoundRepository.findByWeaponsWhichHaveAttacked(w).get();
+                                                for (CombatRound cr :
+                                                        combatRoundList) {
+                                                    if (gameRoundRepository.findAllByCombatRounds(cr).isPresent()) {
+                                                        List<GameRound> gameRoundList = gameRoundRepository.findAllByCombatRounds(cr).get();
+                                                        for (GameRound gr :
+                                                                gameRoundList) {
+                                                            gameRoundRepository.delete(gr);
+                                                        }
+                                                    }
+                                                    cr.setWeaponsWhichHaveAttacked(new ArrayList<>());
+                                                    combatRoundRepository.save(cr);
+                                                    combatRoundRepository.delete(cr);
                                                 }
                                             }
-                                            cr.setWeaponsWhichHaveAttacked(new ArrayList<>());
-                                            combatRoundRepository.save(cr);
-                                            combatRoundRepository.delete(cr);
+                                            weaponRepository.delete(w);
+                                        }
+                                    } else {
+                                        System.out.println("not Weapon to erase");
+                                    }
+                                    if (weaponRepository.findAllByObjectiv(section).isPresent()) {
+                                        List<Weapon> weaponsObjetiv = weaponRepository.findAllByObjectiv(section).get();
+                                        for (Weapon w :
+                                                weaponsObjetiv) {
+                                            w.setObjectiv(null);
+                                            weaponRepository.save(w);
                                         }
                                     }
-                                    weaponRepository.delete(w);
+                                    sectionRepository.delete(section);
                                 }
                             } else {
-                                System.out.println("not Weapon to erase");
+                                System.out.println("not Sections to erase");
                             }
-                            if (weaponRepository.findAllByObjectiv(section).isPresent()) {
-                                List<Weapon> weaponsObjetiv = weaponRepository.findAllByObjectiv(section).get();
-                                for (Weapon w :
-                                        weaponsObjetiv) {
-                                    w.setObjectiv(null);
-                                    weaponRepository.save(w);
+
+                            if (aiRepository.findByName(s.getOwner().getName()).isPresent()) {
+                                AI ai = aiRepository.findByName(s.getOwner().getName()).get();
+                                for (GameRound g :
+                                        gameRoundRepository.findAllByActor(ai)) {
+                                    for (CombatRound cr :
+                                            g.getCombatRounds()) {
+                                        if (combatRoundRepository.findById(cr.getId()).isPresent()) {
+                                            if (gameRoundRepository.findAllByCombatRounds(combatRoundRepository.findById(cr.getId()).get()).isPresent()) {
+                                                List<GameRound> gameRoundList = gameRoundRepository.findAllByCombatRounds(combatRoundRepository.findById(cr.getId()).get()).get();
+                                                for (GameRound gr :
+                                                        gameRoundList) {
+                                                    combatRoundRepository.deleteAll(gr.getCombatRounds());
+                                                    gr.setCombatRounds(new ArrayList<>());
+                                                    gameRoundRepository.save(gr);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    combatRoundRepository.deleteAll(g.getCombatRounds());
+                                    gameRoundRepository.delete(g);
+                                }
+                                if (ai.getState() != null) {
+                                    ActorState toDelete = ai.getState();
+                                    aiRepository.delete(ai);
+                                    actorStateRepository.delete(toDelete);
+                                    ai.setState(null);
+                                } else {
+                                    aiRepository.delete(ai);
                                 }
                             }
-                            sectionRepository.delete(section);
-                        }
-                    } else {
-                        System.out.println("not Sections to erase");
-                    }
-
-                    if (aiRepository.findByName(s.getOwner().getName()).isPresent()) {
-                        AI ai = aiRepository.findByName(s.getOwner().getName()).get();
-                        for (GameRound g :
-                                gameRoundRepository.findAllByActor(ai)) {
-                            for (CombatRound cr :
-                                    g.getCombatRounds()) {
-                                if (combatRoundRepository.findById(cr.getId()).isPresent()) {
-                                    if (gameRoundRepository.findAllByCombatRounds(combatRoundRepository.findById(cr.getId()).get()).isPresent())
-                                    {
-                                        List<GameRound> gameRoundList=gameRoundRepository.findAllByCombatRounds(combatRoundRepository.findById(cr.getId()).get()).get();
-                                        for (GameRound gr:
-                                                gameRoundList) {
-                                            combatRoundRepository.deleteAll(gr.getCombatRounds());
-                                            gr.setCombatRounds(new ArrayList<>());
-                                            gameRoundRepository.save(gr);
+                            if (stopAbstractRepository.findById(sa.getId()).isPresent()) {
+                                if (stationRepository.existsById(sa.getId())) {
+                                    Optional<Station> station = stationRepository.findById(sa.getId());
+                                    if (station.isPresent()) {
+                                        if (shopRessourceRepository.findByStation(station.get()).isPresent()) {
+                                            List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station.get()).get();
+                                            for (ShopRessource sr :
+                                                    shopRessources) {
+                                                shopRessourceRepository.delete(sr);
+                                            }
                                         }
                                     }
                                 }
-                            }
+                                stopAbstractRepository.delete(sa);
 
-                            combatRoundRepository.deleteAll(g.getCombatRounds());
-                            gameRoundRepository.delete(g);
-                        }
-                        if (ai.getState() != null) {
-                            ActorState toDelete=ai.getState();
-                            aiRepository.delete(ai);
-                            actorStateRepository.delete(toDelete);
-                            ai.setState(null);
-                        } else {
-                            aiRepository.delete(ai);
-                        }
-                    }
-                    if (stopAbstractRepository.findById(sa.getId()).isPresent()) {
-                        if (stationRepository.existsById(sa.getId())) {
-                            Station station = stationRepository.findById(sa.getId()).get();
-                            if (shopRessourceRepository.findByStation(station).isPresent()) {
-                                List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station).get();
-                                for (ShopRessource sr :
-                                        shopRessources) {
-                                    shopRessourceRepository.delete(sr);
+                            }
+                            if (shipRessourceRepository.findByShip(s).isPresent()) {
+                                List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(s).get();
+                                for (ShipRessource sr :
+                                        shipRessources) {
+                                    shipRessourceRepository.delete(sr);
                                 }
                             }
-                            stopAbstractRepository.delete(sa);
-                        } else {
-                            stopAbstractRepository.delete(sa);
+                            shipRepository.delete(s);
                         }
+                    }
+                    stopAbstracts = stopAbstractRepository.findByUniverse(universe.get());
 
-                    }
-                    if (shipRessourceRepository.findByShip(s).isPresent()) {
-                        List<ShipRessource> shipRessources = shipRessourceRepository.findByShip(s).get();
-                        for (ShipRessource sr :
-                                shipRessources) {
-                            shipRessourceRepository.delete(sr);
+                    if (!stopAbstracts.isEmpty()) {
+                        for (StopAbstract s :
+                                stopAbstracts) {
+
+                            try {
+
+                                if (shopRessourceRepository.findByStation(s).isPresent()) {
+                                    Optional<List<ShopRessource>> shopRessources = shopRessourceRepository.findByStation(s);
+                                    if (shopRessources.isPresent()) {
+                                        for (ShopRessource sr :
+                                                shopRessources.get()) {
+                                            shopRessourceRepository.delete(sr);
+                                        }
+                                    }
+                                }
+                            } catch (Exception e) {
+                                LOG.error("Cleaning has crashed" + e.getLocalizedMessage());
+                            }
+                            stopAbstractRepository.delete(s);
                         }
                     }
-                    shipRepository.delete(s);
+                universeRepository.delete(universe.get());
                 }
+
+
             }
-            stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
-
-
-
-            for (StopAbstract s :
-                    stopAbstracts) {
-
-                try {
-
-                    if (shopRessourceRepository.findByStation((Station) s).isPresent()) {
-                        List<ShopRessource> shopRessources = shopRessourceRepository.findByStation((Station) s).get();
-                        for (ShopRessource sr :
-                                shopRessources) {
-                            shopRessourceRepository.delete(sr);
-                        }
-                    }
-                } catch (Exception e) {
-                }
-                stopAbstractRepository.delete(s);
-            }
-            universeRepository.delete(universe);
-
         }
         return "DONE";
     }

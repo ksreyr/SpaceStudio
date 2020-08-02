@@ -14,7 +14,7 @@ public class Weapon {
 
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     private Section objectiv;
 
     private float hitRate;
@@ -30,7 +30,7 @@ public class Weapon {
 
     private String img;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     private Section section;
 
 
