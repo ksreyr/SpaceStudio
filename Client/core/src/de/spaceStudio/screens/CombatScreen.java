@@ -93,6 +93,7 @@ public class CombatScreen extends BaseScreen {
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
     //private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
+    private boolean notify = true;
 
     private List<CrewMember> myCrew() {
         if (!Global.combatCrew.containsKey(Global.currentShipPlayer.getId())) {
@@ -216,6 +217,7 @@ public class CombatScreen extends BaseScreen {
                         isRound = false;
                     }
                     RequestUtils.setActor(actor1);
+                    notify = true;
                 }
 
             }
@@ -989,6 +991,10 @@ public class CombatScreen extends BaseScreen {
         if (Global.combatActors.containsKey(Global.currentPlayer.getId())) {
             ActorState state = Global.combatActors.get(Global.currentPlayer.getId()).getState();
             liamButton.setText(state.getFightState().getState());
+            if (state.getFightState().equals(FightState.PLAYING) && notify) {
+                // TODO Play sound
+                notify = false;
+            }
         }
 
         shieldPlayer.setPosition(15, 350);
