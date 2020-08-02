@@ -74,9 +74,12 @@ public class MainClient extends Game {
         super.dispose();
         assetManager.dispose();
         batch.dispose();
-        // TODO when user close game screen => destroy Single Player session() and if multiplayer destroy session
+
         if (Global.currentPlayer != null) {
-            LoginService.multiplayerLogout(Global.currentPlayer);
+            if(!IS_SINGLE_PLAYER){
+                LoginService.multiplayerLogout();
+                LoginService.unjoinMultiplayer();
+            }
             LoginService.logout(Global.currentPlayer);
         }
     }

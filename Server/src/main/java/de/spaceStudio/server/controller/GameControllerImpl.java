@@ -370,9 +370,22 @@ public class GameControllerImpl implements GameController {
      * @return
      */
     @Override
-    @RequestMapping(value = "/game/multiplayer/unjoin", method = RequestMethod.POST)
-    public void unjoinMultiPlayerUser(@RequestBody Player player) {
-        Global.usersMultiPlayer.remove(player.getName());
+    public void unjoinMultiPlayerUser(@PathVariable("gameSession") String gameSession, @RequestBody Player player) {
+        MultiPlayerGame multi = Global.MultiPlayerGameSessions.get(gameSession);
+        MultiPlayerGame multiToUpdate = new MultiPlayerGame();
+
+        if (multi.getPlayerOne().getName().equals(player.getName())) {
+            multiToUpdate.setPlayerOne(multi.getPlayerTwo());
+        } else if (multi.getPlayerTwo().getName().equals(player.getName())) {
+            multiToUpdate.setPlayerTwo(multi.getPlayerTwo());
+        }
+        if (multiToUpdate.getPlayerOne() == null && multiToUpdate.getPlayerTwo() == null) {
+            Global.MultiPlayerGameSessions.clear();
+            LOG.info("MultiPlayerGame Session destroyed");
+        } else {
+            Global.MultiPlayerGameSessions.put(gameSession, multiToUpdate);
+        }
+        LOG.info("Player: " + player.getName() + " leaves the game");
     }
 
     /**

@@ -55,7 +55,7 @@ public class LoginService {
         });
     }
 
-    public static void multiplayerLogout(Object requestObject) {
+    public static void multiplayerLogout() {
         if (!IS_SINGLE_PLAYER) {
             Gson gson = new Gson();
             String url = SERVER_URL + MULTIPLAYER_LOGOUT;
@@ -85,6 +85,36 @@ public class LoginService {
         }
     }
 
+    public static void unjoinMultiplayer(){
+
+        if (!IS_SINGLE_PLAYER) {
+            Gson gson = new Gson();
+            String url = SERVER_URL + MULTIPLAYER_UNJOIN + multiPlayerSessionID;
+            String payLoad = gson.toJson(currentPlayer);
+            Net.HttpRequest request = setupRequest(url, payLoad, Net.HttpMethods.POST);
+            Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {
+
+                @Override
+                public void handleHttpResponse(Net.HttpResponse httpResponse) {
+                    int statusCode = httpResponse.getStatus().getStatusCode();
+                    if (statusCode != HttpStatus.SC_OK) {
+                        LOG.info("Request Failed");
+                    }
+                    LOG.info("Multiplayer leaves session");
+                }
+
+                @Override
+                public void failed(Throwable t) {
+
+                }
+
+                @Override
+                public void cancelled() {
+
+                }
+            });
+        }
+    }
     public static void fetchLoggedUsers() {
         Net.HttpRequest request = RequestUtils.setupRequest(Global.SERVER_URL + Global.MULTIPLAYER_GET_PLAYERS, "", Net.HttpMethods.GET);
         Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener() {

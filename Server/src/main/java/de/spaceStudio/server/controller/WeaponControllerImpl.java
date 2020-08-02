@@ -1,8 +1,11 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
+import de.spaceStudio.server.ServerCore;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +35,14 @@ public class WeaponControllerImpl implements WeaponController {
     @Autowired
     GameRoundRepository gameRoundRepository;
 
+    @Autowired
+    ActorStateRepository actorStateRepository;
+
 
     @Autowired
     CombatRoundRepository combatRoundRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
 
     private final float removeOxygen = 15;
     private final int priceWeapon = 30;
@@ -158,7 +166,8 @@ public class WeaponControllerImpl implements WeaponController {
             //Search the objective
             Optional<Ship> ship = shipRepository.findById(weapon.getObjectiv().getShip().getId());
             if (ship.isPresent()) {
-                boolean hasHit = ((float)  random.nextDouble() + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
+                float hit = (float) random.nextDouble() + weapon.getHitRate();
+                boolean hasHit = hit >= 1;  // Treffer
                 weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
                 Optional<Actor> actor = actorRepository.findById(pWeapons.get(0).getSection().getShip().getOwner().getId());
                 if (hasHit && actor.isPresent()) {  // Dont change anything if no hit
@@ -176,10 +185,27 @@ public class WeaponControllerImpl implements WeaponController {
                     CombatRound currentCombatRound = curentGameRound.getCombatRounds().get(curentGameRound.getCombatRounds().size() - 1);
                     currentCombatRound.getWeaponsWhichHaveAttacked().add(weapon);
                     combatRoundRepository.save(currentCombatRound);
-                    if (ship.get().getShield() > 0) {
+                    Optional<List<Section>> xs = sectionRepository.findAllByShip(weapon.getObjectiv().getShip());
+                    Optional<Section> energySection = Optional.empty();
+                    if (xs.isPresent() && !xs.get().isEmpty()) {
+                        for (Section section:
+                             xs.get()) {
+                            if (section.getSectionTyp().equals(SectionTyp.HEALTH)) { // Engine is required to
+                                energySection = Optional.of(section);
+                                break;
+                            }
+                        }
+                    }
+                    if (energySection.isPresent() && energySection.get().getPowerCurrent() < energySection.get().getPowerRequired()) {
+                        LOGGER.info("Not enough  energy to use Shield");
+                    } else if (energySection.isEmpty()) {
+                        LOGGER.warn("Energy Section could not be found");
+                    }
+                    if (ship.get().getShield() > 0 &&  energySection.isPresent() &&
+                            energySection.get().getPowerCurrent() >= energySection.get().getPowerRequired()) {
                         ship.get().setShield(ship.get().getShield() - weapon.getDamage());
                         if (weapon.getObjectiv().getPowerCurrent() > 0) {
-                            weapon.getObjectiv().setPowerCurrent(weapon.getObjectiv().getPowerCurrent() - 1);
+                            weapon.getObjectiv().setPowerCurrent(weapon.getObjectiv().getPowerCurrent() - 1); // Remove Energy of the Ship
                         }
                     } else {
                         //Without_Schield
@@ -189,6 +215,9 @@ public class WeaponControllerImpl implements WeaponController {
                             weapon.getObjectiv().setOxygen(weapon.getObjectiv().getOxygen() - removeOxygen);
                         }
                     }
+                } else if (!hasHit) {
+                    // TODO add weapons which have missed
+                       LOGGER.info(String.format("Weapon %s has missed %s", weapon.getId(), weapon.getObjectiv().getImg()));
                 }
                 sectionRepository.save(weapon.getObjectiv());
                 shipRepository.save(ship.get());
@@ -221,10 +250,14 @@ public class WeaponControllerImpl implements WeaponController {
     @Override
     public boolean canShoot(Weapon w) {
         if (w.getObjectiv() != null && w.getObjectiv().getShip() != null && w.getObjectiv().getShip().getId() != null) {
-            Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-            if (w.getObjectiv() != null && ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0
-                    && w.getSection().getPowerCurrent() >= w.getSection().getPowerRequired()) {
-                return w.getSection().getUsable();
+            Optional<Ship> ship = shipRepository.findById(w.getObjectiv().getShip().getId());
+            Optional<Actor> a = actorRepository.findById(w.getSection().getShip().getOwner().getId());
+            if (ship.isPresent() && a.isPresent()) {
+                if (w.getObjectiv() != null && ship.get().getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0
+                        && w.getSection().getPowerCurrent() >= w.getSection().getPowerRequired() &&
+                        a.get().getState().getFightState().equals(FightState.PLAYING)) { // Muss am Spielen sein
+                    return w.getSection().getUsable();
+                }
             }
         }
         return false;

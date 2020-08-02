@@ -50,7 +50,7 @@ public class Global {
     /**
      *
      */
-    public static final String MULTIPLAYER_UNJOIN = "/game/multiplayer/unjoin";
+    public static final String MULTIPLAYER_UNJOIN = "/game/multiplayer/unjoin/";
     /**
      * Server logged player endpoint
      */
@@ -495,7 +495,7 @@ public class Global {
     }};
     public static Section section1Gegner = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.COCKPIT)
+            .sectionTyp(SectionTyp.HEALTH)
             .img("Section1Gegner1")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
@@ -532,7 +532,7 @@ public class Global {
     }};
     public static Section section1Gegner2 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.COCKPIT)
+            .sectionTyp(SectionTyp.HEALTH)
             .img("Section1Gegner2")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
@@ -580,7 +580,7 @@ public class Global {
     }};
     public static Section section1Gegner3 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.COCKPIT)
+            .sectionTyp(SectionTyp.HEALTH)
             .img("Section1Gegner3")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
@@ -639,7 +639,7 @@ public class Global {
     }};
     public static Section section1Gegner4 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.NORMAL)
+            .sectionTyp(SectionTyp.HEALTH)
             .img("Section1Gegner4")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
@@ -676,7 +676,7 @@ public class Global {
     }};
     public static Section section1Gegner5 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.NORMAL)
+            .sectionTyp(SectionTyp.HEALTH)
             .img("Section1Gegner5")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)
@@ -713,7 +713,7 @@ public class Global {
     }};
     public static Section section1Gegner6 = Section
             .sectionBuilder()
-            .sectionTyp(SectionTyp.NORMAL)
+            .sectionTyp(SectionTyp.HEALTH)
             .img("Section1Gegner6")
             .oxygen(OXYGEN)
             .powerCurrent(POWER_CURRENT)

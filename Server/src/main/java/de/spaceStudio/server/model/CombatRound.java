@@ -16,6 +16,9 @@ public class CombatRound {
     @ManyToMany
     private List<Weapon> weaponsWhichHaveAttacked = new ArrayList<>();
 
+    @ManyToMany
+    private List<Weapon> weaponsWhichHaveMissed = new ArrayList<>();
+
     @ManyToMany(cascade = CascadeType.ALL)
     private List<CrewMember> crewMembers = new ArrayList<>();
 
@@ -42,5 +45,13 @@ public class CombatRound {
 
     public void setCrewMembers(List<CrewMember> crewMembers) {
         this.crewMembers = crewMembers;
+    }
+
+    public List<Weapon> getWeaponsWhichHaveMissed() {
+        return weaponsWhichHaveMissed;
+    }
+
+    public void setWeaponsWhichHaveMissed(List<Weapon> weaponsWhichHaveMissed) {
+        this.weaponsWhichHaveMissed = weaponsWhichHaveMissed;
     }
 }
