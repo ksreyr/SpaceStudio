@@ -5,6 +5,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 //TODO: @MAPPING_SUPER_CLASS
 //or it is not created a table in the DB
 //Link to reference Sprint Documentation:
@@ -187,6 +188,20 @@ public class Section {
 
     public void setUsable(boolean usable) {
         this.usable = usable;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Section section = (Section) o;
+        return Objects.equals(id, section.id) &&
+                img.equals(section.img);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, img);
     }
 
     public static class SectionBuilder {

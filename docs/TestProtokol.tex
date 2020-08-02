@@ -15,10 +15,10 @@
 \usepackage{hyperref}
 \author{Liam Hurwitz}
 \date{\today}
-\title{Test Protokol}
+\title{Testprotokoll}
 \hypersetup{
  pdfauthor={Liam Hurwitz},
- pdftitle={Test Protokol},
+ pdftitle={Test Protokoll},
  pdfkeywords={},
  pdfsubject={},
  pdfcreator={Emacs 26.3 (Org mode 9.4)}, 
@@ -31,13 +31,12 @@
 
 \newpage
 \section{Anleitung}
-Diese Test Protocoll basiert sich an der C4 test Abdekung, dann versuchen wir jedes Varientes an unsere Software zu testen.
+Dieses Testprotokoll basiert auf der C4 Testabdeckung, dann versuchen wir jede Variante unserer Software zu testen.
 
 \section{Login Screen}
-
 \label{sec:orgc5dc561}
 \subsection{Registrierung}
-Auf diesem Bildschirm kann sich der Benutzer anmelden, dazu ist es notwendig, dass der User eine Passwort und Name gibt.\\
+Auf diesem Bildschirm kann sich der Benutzer anmelden, dazu ist es notwendig, dass der User einen Namen und ein Passwort eingibt.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/startScreen.jpg}
@@ -45,23 +44,23 @@ Auf diesem Bildschirm kann sich der Benutzer anmelden, dazu ist es notwendig, da
 \end{figure}
 
 \newpage
-\subsubsection{falsche/erfolgreiche  Registrierung}
-Wenn der Benutzer die Felder korrekt eingegeben hat, erhält er eine grüne Nachricht, in der sich die Bestätigungsnachricht des Servers für die Erstellung seiner Instanz befindet.\\
+\subsubsection{Erfolgreiche/Fehlerhafte  Registrierung}
+Wenn der Benutzer die Felder korrekt eingegeben hat, erhält er eine grüne Rückmeldung, in der sich die Bestätigungsnachricht des Servers für die Erstellung seiner Instanz befindet.\\
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/erfolgAnmelden.jpg}
 \caption{Erfolg Anmelden}
 \end{figure}
 
-Wenn der Benutzer fehlerhafte, wiederholte oder unvollständige Daten in den Registrierungsteil schreibt, erhält er eine negative Bestätigungsmeldung, in der das Problem erläutert wird, auf das der Server beim Speichern der Daten gestoßen ist.\\
+Wenn der Benutzer fehlerhafte, bereits vorhandene oder unvollständige Daten in die Registrierungsfelder schreibt, erhält er eine negative Rückmeldung, in der das Problem dargestellt wird, auf das der Server beim Speichern der Daten gestoßen ist.\\
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/doesnotMatchPassword.jpg}
-\caption{ungultiges Password order Name}
+\caption{Ungültiger Name oder Passwort}
 \end{figure}
 \newpage
-\subsubsection{erfolgreiche  Registrierung}
-Wenn sich der Benutzer mit dem richtigen Namen und Passwort registriert hat, überprüft der Server die Daten und der Benutzer wird zum Menübildschirm gesendet.\\
+\subsubsection{Erfolgreiche Registrierung}
+Wenn sich der Benutzer mit dem richtigen Namen und Passwort registriert hat, überprüft der Server die Daten und speichert diese in der Datenbank.\\
 
 \begin{figure}[h]
 \centering
@@ -70,19 +69,20 @@ Wenn sich der Benutzer mit dem richtigen Namen und Passwort registriert hat, üb
 \end{figure}
 \newpage
 \subsection{Anmeldung}
-\subsubsection{ falsche Anmeldung}
-Wenn sich der Benutzer mit falschen Daten angemeldet hat, kann der Server den Benutzer nicht validieren, sodass er nicht zum nächsten Bildschirm gesendet werden kann.
+\subsubsection{Fehlerhafte Anmeldung}
+Wenn sich der Benutzer mit falschen Daten angemeldet hat, kann der Server den Benutzer nicht validieren, sodass er nicht zum nächsten Bildschirm weitergeleitet werden kann.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/invalidCredentials.jpg}
-\caption{ungültiges Zugangsdaten}
+\caption{Ungültige Zugangsdaten}
 \end{figure}
 \newpage
-Wenn sich der Benutzer mit den richtigen Anmeldeinformationen anmeldet, wird der Benutzer zum Menübildschirm weitergeleitet.\\
+Wenn sich der Benutzer mit den richtigen Anmeldeinformationen anmeldet hat, wird der Benutzer zum Menübildschirm weitergeleitet.\\
 
-\section{Menu Screen}
+\section{Menü Screen}
 Auf dem Menübildschirm sind die Optionen:
 \begin{itemize}
+\item Continue: Falls ein Spielstand für den Benutzer in der Datenbank gespeichert wurde, wird auch die Option Continue angezeigt. Mit der kann der Benutzer in seinen vorhandenen Spielstand wechseln.
 \item New Game: Mit dieser Option kann der Benutzer ein neues Spiel starten
 \item About: In dieser Option können Informationen zu den Entwicklern gefunden werden.
 \item Exit: Mit dieser Option kann der Benutzer das Spiel beenden.
@@ -93,54 +93,54 @@ Auf dem Menübildschirm sind die Optionen:
 \caption{Menu Spiel}
 \end{figure}
 \newpage
-\section{Game options}
+\section{Spieloptionen}
 Im zweiten Menübildschirm können Sie die Optionen sehen, die der Benutzer spielen muss.
 \begin{itemize}
-\item Single Player: Mit dieser Option kann der Benutzer individuell im Universum spielen.
+\item Single Player: Mit dieser Option kann der Benutzer als Einzelspieler im Universum spielen.
 \item Multiplayer: Diese Option ermöglicht es dem Benutzer, mit einem anderen Spieler im Universum zu spielen und gegeneinander zu kämpfen.
 \item Back to Menu: Diese Option ermöglicht es Ihnen, zum vorherigen Bildschirm zurückzukehren.
 \end{itemize}
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/menuScreenTwo.jpg}
-\caption{Optionen zur Spielen}
+\caption{Spieloptionen}
 \end{figure}
 \newpage
 \section{Testfall Single Player}
-Auf diesem Bildschirm wurde jede Schaltfläche getestet, beginnend mit der Taste Single Palyer.\\
+Auf diesem Bildschirm wurde jede Schaltfläche getestet, beginnend mit der Taste Single Player.\\
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/selecShipScreen.jpg}
 \caption{Select Ship screen}
 \end{figure}
 \newpage
-\subsection{rooms test}
+\subsection{Sektionen anzeigen Test}
 
-Mit dieser Taste wurde getestet, ob die Abschnitte des Bootes sichtbar sind. Wenn Sie erneut drücken, verschwinden die Abschnitte\\
+Mit dem Button "show rooms" wurde getestet, ob die Sektionen des Raumschiffes sichtbar sind. Wenn Sie erneut drücken, verschwinden die Abschnitte\\
 \begin{figure}
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/shipRooms.jpg}
-\caption{romms of the ship}
+\caption{Sektionen des Raumschiffs}
 \end{figure}
 
 \newpage
 
-\subsection{andere Ships}
-Mit der nächsten Schaltfläche kann der Benutzer die möglichen Schiffe für das Spiel sehen
+\subsection{Andere Raumschiffe}
+Mit der nächsten Schaltfläche kann der Benutzer die möglichen Schiffe für das Spiel sehen.
 \begin{figure}
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/next.jpg}
-\caption{posible other ships}
+\caption{Andere mögliche Raumschiffe}
 \end{figure}
 
 \newpage
-\subsection{Universe Schwierigkeit}
+\subsection{Universum Schwierigkeit}
 
-Diese Testschaltfläche ermöglicht die Schaffung eines größeren Universums, in dem es mehr Planeten mit unterschiedlichen Eigenschaften gibt\\
+Diese Testschaltfläche ermöglicht die Schaffung eines größeren Universums, in dem es mehr Planeten mit unterschiedlichen Eigenschaften gibt.\\
 \begin{figure}
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/universeButon.jpg}
-\caption{easy and normal mode}
+\caption{Leichte und normale Schwierigkeit}
 \end{figure}
 
 \newpage
@@ -149,7 +149,7 @@ Das Universum mit einer komplexeren Schwierigkeit wird korrekt erstellt.\\
 \begin{figure}[t]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/universeHard.jpg}
-\caption{universe normal mode}
+\caption{Universum normal Schwierigkeit}
 \end{figure}
 
 Die Schaltfläche, die das Beenden des Universums erleichtert, wurde ebenfalls getestet.\\
@@ -157,41 +157,40 @@ Die Schaltfläche, die das Beenden des Universums erleichtert, wurde ebenfalls g
 \begin{figure}[t]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/universeEase.jpg}
-\caption{universe in ease mode}
+\caption{Universum im leichten Schwierigkeitsmodus}
 \end{figure}
 
 \newpage
-\subsection{Map}
+\subsection{Karte}
 
-Hier wurden jeder Planet und jede Station getestet, die Schaltflächen sind und den Zugang zum Geeignise-Bildschirm ermöglichen.\\
+Hier wurde jeder Planet und jede Station getestet, die Schaltflächen sind der Zugang zum Ereignis-Bildschirm.\\
 \begin{figure}
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/map.jpg}
 \caption{Game Map}
 \end{figure}
 \newpage
-\section{Geeingnissen}
-Nach dem Drücken eines Planeten wird ein PopUp-Menü angezeigt und die Sprungfunktion getestet.
-Nach Auswahl der Sprungfunktion sieht der Benutzer auf dem Bildschirm eine Fahrzeit von 4 Sekunden.
+\section{Ereignisse}
+Nach dem Drücken eines Planeten wird ein Popup-Menü angezeigt und die Springfunktion getestet. Nach Auswahl der Springfunktion sieht der Benutzer auf dem Bildschirm eine Fahrzeit von 4 Sekunden.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/traveling.jpg}
-\caption{Traveling Screen}
+\caption{Reise Screen}
 \end{figure}
-button flee test, dann man kann wieder an der Map Jump Springen.
+Der Button flee, dann man kann wieder auf die Map Screen springen.
 \newpage
-\subsection{flee}
+\subsection{Fliehen}
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/flee.jpg}
-\caption{Flee Screen button}
+\caption{Fliehen Screen Button}
 \end{figure}
 \newpage
 Es wurde getestet, dass nach dem Reisebildschirm der erste Teil der Ereignisse angezeigt wird.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/InitialGeeinisse.jpg}
-\caption{First Ereignisse}
+\caption{Erste Ereignisse}
 \end{figure}
 Dieser Bildschirm war für die Einführung des Benutzers in die Ereignisse gedacht.
 \newpage
@@ -199,17 +198,17 @@ Andere Arten von Ereignissen wurden getestet, insgesamt gibt es fünf verschiede
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/otherEreignisse.jpg}
-\caption{andere Typ von Ereignisse}
+\caption{Anderer Typ von Ereignissen}
 \end{figure}
 Sobald Sie den Einkaufsteil des Spiels betreten, können Sie die in diesem Teil verfügbaren Dinge kaufen.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/shopPlanetJump.jpg}
-\caption{jump to shop planet }
+\caption{Springen zur Shop-Station}
 \end{figure}
 \newpage
 \section{Shop Screen}
-Wenn der Benutzer den Shop-Bildschirm betritt, kann er die zu kaufenden Knopf und die verfügbaren Ressourcen sehen.
+Wenn der Benutzer den Shop-Bildschirm betritt, kann er den Kaufen-Button und die verfügbaren Ressourcen sehen.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/shopScreen.jpg}
@@ -219,71 +218,71 @@ Wenn der Benutzer den Shop-Bildschirm betritt, kann er die zu kaufenden Knopf un
 \subsection{kaufen}
 Als nächstes wurde der Kauf jedes Objekts sowie das Ergebnis des verbleibenden Geldes des Spielers getestet.
 
-\subsubsection{gold kaufen}
+\subsubsection{Gold kaufen}
 Dies ist das Ergebnis nach dem Kauf von Gold, was sich direkt auf das Geld des Benutzers auswirkt.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/goldgekauft.jpg}
-\caption{andere Typ von Ereignisse}
+\caption{Anderer Typ von Ereignissen}
 \end{figure}
 \newpage
-\subsubsection{energie kaufen}
-Dies ist das Ergebnis nach dem Kauf von Energie. Dieser Kauf wirkt sich auf das Boot aus und es ist nur möglich, die Reduzierung von Gold auf dem Boot zu sehen.
+\subsubsection{Energie kaufen}
+Dies ist das Ergebnis nach dem Kauf von Energie. Dieser Kauf wirkt sich auf das Raumschiff aus und es ist nur möglich, die Reduzierung von Gold auf dem Boot zu sehen.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/energie.jpg}
 \caption{andere Typ von Ereignisse}
 \end{figure}
 \newpage
-\subsubsection{Weapon kaufen}
+\subsubsection{Waffen kaufen}
 Der Kauf von Waffen wurde getestet, diese Aktion verringert das Gold des Spielers.    
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/weaponkaufen.jpg}
-\caption{andere Typ von Ereignisse}
+\caption{Anderer Typ von Ereignissen}
 \end{figure}
 \newpage
-\subsubsection{crewmember kaufen}
-Beim Kauf von Mitgliedern wurde getestet, dass zuerst ein Abschnitt ausgewählt werden muss, in dem dieses Mitglied positioniert werden muss. dann, wenn der Kauf getätigt werden kann.
+\subsubsection{Crewmember kaufen}
+Beim Kauf von Mitgliedern wurde getestet, dass zuerst ein Abschnitt ausgewählt werden muss, in dem dieses Mitglied positioniert werden muss, wenn der Kauf getätigt werden kann.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/crewmemberkaufen.jpg}
-\caption{andere Typ von Ereignisse}
+\caption{Anderer Typ von Ereignissen}
 \end{figure}
 
 
 \newpage
 \section{Combat Screen}
-Auf diesem Bildschirm wird jede Knopf getestet und die Logik für einen Kampf ermittelt.
+Auf diesem Bildschirm wird jeder Knopf getestet und die Logik für einen Kampf ermittelt.
 
 \subsection{Inital combat Screen}
-Die Hauptschaltfläche auf dem Bildschirm ist die unterste Knopf, mit der Sie eine Runde starten oder beenden können. Dieser Botton verringert das Aufwärmen und lässt Waffen schießen.
+Die Hauptschaltfläche auf dem Bildschirm ist der unterste Knopf, mit der Sie eine Runde starten oder beenden können. Dieser Button verringert das Aufwärmen und lässt Waffen schießen.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{TestProtocolBilder/OptimizedinitialBattelScreen.png}
-\caption{andere Typ von Ereignisse}
+\caption{Anderer Typ von Ereignissen}
 \end{figure}
 
 \newpage
-\subsection{Energie Verteilung}
-Die Beschriftungen unten rechts ermöglichen es, den Zustand der Player zu kennen. Diese ändern sich dynamisch vierzehn nach den Anweisungen des Spielers.
+\subsection{Energieverteilung}
+Die Beschriftungen unten rechts ermöglichen es, den Zustand der Player zu kennen. Diese ändern sich dynamisch nach den Anweisungen des Spielers.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{TestProtocolBilder/OptimizedEnergieAlleSysteme.png}
-\caption{andere Typ von Ereignisse}
+\caption{Anderer Typ von Ereignissen}
 \end{figure}
 
 \newpage
-\subsection{nicht Energie in  Waffen System}
+\subsection{Keine Energie im Waffen System}
 Jeder Knopf wurde getestet, um die Energie zu teilen, und es wurde getestet, dass das Waffensystem, wenn es keine Energie hat, nicht feuern kann.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{TestProtocolBilder/OptimizedEnergieVerteilung.png}
-\caption{andere Typ von Ereignisse}
+\caption{Anderer Typ von Ereignissen}
 \end{figure}
 
 \newpage
-\subsection{der Gegner schießt}
+\subsection{Gegner schießt}
 Es wurde getestet, dass der Gegner, wenn er an der Reihe ist, schießen kann und die Kugeln in der grafischen Oberfläche gerendert werden.
 \begin{figure}[htp]
 \centering
@@ -293,21 +292,21 @@ Es wurde getestet, dass der Gegner, wenn er an der Reihe ist, schießen kann und
 
 
 \newpage
-\subsection{der Player schießt}
-Es wurde auch getestet, dass der Benutzer feuern kann, sobald ein feindlicher Abschnitt ausgewählt wurde, dass das Aufwärmen Null ist und dass der Waffenabschnitt verwendbar ist. auch, dass die Kugeln gerendert werden.
+\subsection{Player schießt}
+Es wurde auch getestet, dass der Benutzer feuern kann, sobald ein feindlicher Abschnitt ausgewählt wurde, dass das Aufwärmen Null ist und dass der Waffenabschnitt verwendbar ist. Auch, dass die Kugeln gerendert werden.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{TestProtocolBilder/OptimizedweaponsShot.png}
-\caption{Waffen können wieder feuern, wenn das System eingeschaltet wird.}
+\caption{Waffen können wieder feuern, wenn das System eingeschaltet wurde.}
 \end{figure}
 
 \newpage
-\subsection{Gewinnt Bildschirm}
+\subsection{Win Screen}
 Es wurde getestet, dass der Benutzer beim Schießen des Spielers eine Verkürzung des Lebens des Gegners feststellen kann. Wenn dieses Leben Null erreicht, wird der Benutzer gewarnt, dass er weiterhin Planeten erforschen kann.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=1.2]{TestProtocolBilder/wonScreen.jpg}
-\caption{Siegesbildschirm, als der Feind besiegt wurde }
+\caption{Win Screen, als der Feind besiegt wurde }
 \end{figure}
 \newpage
 \subsection{Bewegung der Mitglieder}
@@ -315,23 +314,23 @@ Wenn ein Teammitglied aus dem Bereich verschoben wird, sehen Sie Symbole, wo die
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.6]{TestProtocolBilder/crewmemberpull@0,25x.jpg}
-\caption{Crewmember auf andere Section zu pullen}
+\caption{Crewmember auf andere Sektionen bewegen}
 \end{figure}
 \newpage
-\subsection{Warte Zeit}
+\subsection{Wartezeit}
 Es ist notwendig, einige Zeit zu warten, bis die Mitglieder, die geändert wurden, den Abschnitt erreichen. Deshalb ist das Sanduhrsymbol aufgesetzt. Diese Implementierung wurde erfolgreich getestet.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.6]{TestProtocolBilder/timewaiting@0,25x.jpg}
-\caption{warte zeit für Crewmember Bewegungen }
+\caption{Wartezeit für Crewmember Bewegungen}
 \end{figure}
 \newpage
-\subsection{dunkle Planeten besucht}
-Es wurde getestet, dass wenn der Benutzer vom Planeten springt, der besuchte Planet dunkel angezeigt wird, so dass der Benutzer weiß, welche er besucht hat.
+\subsection{Dunkle Planeten}
+Es wurde getestet, dass wenn der Benutzer vom Planeten springt, der besuchte Planet dunkel angezeigt wird, so dass der Benutzer weiß, welche Planeten er schon besucht hat.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.6]{TestProtocolBilder/besuchtePlanet.jpg}
-\caption{besuchte planete planet dunkel  }
+\caption{Dunkle Planeten}
 \end{figure}
 \newpage
 \subsection{Upgrade}
@@ -339,14 +338,14 @@ Wenn Sie auf die Schaltfläche Upgrade klicken, sehen Sie die möglichen Optione
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.6]{TestProtocolBilder/nachupgrade@0,25x.jpg}
-\caption{upgrade Optionen}
+\caption{Upgrade Optionen}
 \end{figure}
 
-Wenn ich weiß, dass ein Upgrade ausgewählt wurde, können Sie mit dem Kampfbildschirm fortfahren.
+Wenn ein Upgrade ausgewählt wurde, können Sie mit dem Kampfbildschirm fortfahren.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.6]{TestProtocolBilder/upgrade@0,25x.jpg}
-\caption{Nach upgrade zu combat screen }
+\caption{Nach Upgrade zum Combat Screen}
 \end{figure}
 \end{document}
 
