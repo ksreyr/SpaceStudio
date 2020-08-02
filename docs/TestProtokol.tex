@@ -295,7 +295,9 @@ Tested succesfully by Santiago Rey on 02.08\\\\
 Auf diesem Bildschirm wird jeder Knopf getestet und die Logik für einen Kampf ermittelt.
 
 \subsection{Initial Combat Screen}
-Die Hauptschaltfläche auf dem Bildschirm ist der unterste Knopf, mit der Sie eine Runde starten oder beenden können. Dieser Button verringert das Aufwärmen und lässt Waffen schießen.
+Die Hauptschaltfläche auf dem Bildschirm ist der unterste Knopf, mit der Sie eine Runde starten oder beenden können. Dieser Button verringert das Aufwärmen und lässt Waffen schießen.\\
+Eingabe: Der Spieler drückt den Knopf Waiting/Playing.\\
+Ergebnis: Die Runde wird gestartet oder beendet. Entweder schießt der Spieler oder sein Gegner.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{TestProtocolBilder/OptimizedinitialBattelScreen.png}
@@ -304,7 +306,9 @@ Die Hauptschaltfläche auf dem Bildschirm ist der unterste Knopf, mit der Sie ei
 
 \newpage
 \subsection{Energieverteilung}
-Die Beschriftungen unten rechts ermöglichen es, den Zustand der Player zu kennen. Diese ändern sich dynamisch nach den Anweisungen des Spielers.
+Die Beschriftungen unten rechts ermöglichen es, den Zustand der Player zu kennen. Diese ändern sich dynamisch nach den Anweisungen des Spielers.\\
+Ereignis: Der Spieler verteilt eine Energie an das System Waffen.\\
+Ergebnis: Die Gesamtanzahl der Energie verringert sich um eins und die Anzahl der Energie, die das Waffensystem hat, wird um eins erhöht.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{TestProtocolBilder/OptimizedEnergieAlleSysteme.png}
@@ -313,7 +317,9 @@ Die Beschriftungen unten rechts ermöglichen es, den Zustand der Player zu kenne
 
 \newpage
 \subsection{Keine Energie im Waffen System}
-Jeder Knopf wurde getestet, um die Energie zu teilen, und es wurde getestet, dass das Waffensystem, wenn es keine Energie hat, nicht feuern kann.
+Jeder Knopf wurde getestet, um die Energie zu teilen, und es wurde getestet, dass das Waffensystem, wenn es keine Energie hat, nicht feuern kann.\\
+Eingabe: Der Spieler reduziert die Energie vom Waffensystem auf null.\\
+Ereignis: Der Spieler kann nicht mehr schießen, da das Waffensystem mindestens ein Energie haben muss um schießen zu können.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{TestProtocolBilder/OptimizedEnergieVerteilung.png}
@@ -322,7 +328,9 @@ Jeder Knopf wurde getestet, um die Energie zu teilen, und es wurde getestet, das
 
 \newpage
 \subsection{Gegner schießt}
-Es wurde getestet, dass der Gegner, wenn er an der Reihe ist, schießen kann und die Kugeln in der grafischen Oberfläche gerendert werden.
+Es wurde getestet, dass der Gegner, wenn er an der Reihe ist, schießen kann und die Kugeln in der grafischen Oberfläche gerendert werden.\\
+Eingabe: Der Spieler beendet seine Runde und der Gegner ist dran.\\
+Ergebnis: Der Gegner schießt auf eine beliebige Sektion. Das Schutzschild wird beschädigt.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{TestProtocolBilder/OptimizedgegnerShots.png}
@@ -332,7 +340,9 @@ Es wurde getestet, dass der Gegner, wenn er an der Reihe ist, schießen kann und
 
 \newpage
 \subsection{Player schießt}
-Es wurde auch getestet, dass der Benutzer feuern kann, sobald ein feindlicher Abschnitt ausgewählt wurde, dass das Aufwärmen Null ist und dass der Waffenabschnitt verwendbar ist. Auch, dass die Kugeln gerendert werden.
+Es wurde auch getestet, dass der Benutzer feuern kann, sobald ein feindlicher Abschnitt ausgewählt wurde, dass das Aufwärmen Null ist und dass der Waffenabschnitt verwendbar ist. Auch, dass die Kugeln gerendert werden.\\
+Eingabe: Der Spieler wählt ein System des Gegners aus und schießt auf diese mit der Leertaste.\\
+Ergebnis: Das Schutzschild des Gegners wird beschädigt.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.7]{TestProtocolBilder/OptimizedweaponsShot.png}
@@ -341,7 +351,9 @@ Es wurde auch getestet, dass der Benutzer feuern kann, sobald ein feindlicher Ab
 
 \newpage
 \subsection{Win Screen}
-Es wurde getestet, dass der Benutzer beim Schießen des Spielers eine Verkürzung des Lebens des Gegners feststellen kann. Wenn dieses Leben Null erreicht, wird der Benutzer gewarnt, dass er weiterhin Planeten erforschen kann.
+Es wurde getestet, dass der Benutzer beim Schießen des Spielers eine Verkürzung des Lebens des Gegners feststellen kann. Wenn das Leben des Gegners Null erreicht, wird der Benutzer gewarnt, dass er weiterhin Planeten erforschen kann.\\
+Eingabe: Der Spieler greift den Gegner an und das gegnerische Raumschiff wird zerstört.\\
+Ergebnis: Ein Dialog erscheint und der Spieler hat den Kampf gewonnen und kann zur Kartenansicht zurückkehren.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=1.2]{TestProtocolBilder/wonScreen.jpg}
@@ -349,7 +361,9 @@ Es wurde getestet, dass der Benutzer beim Schießen des Spielers eine Verkürzun
 \end{figure}
 \newpage
 \subsection{Bewegung der Mitglieder}
-Wenn ein Teammitglied aus dem Bereich verschoben wird, sehen Sie Symbole, wo dieses Teammitglied platziert werden kann.
+Wenn ein Teammitglied aus dem Bereich verschoben wird, sehen Sie Symbole, wo dieses Teammitglied platziert werden kann.\\
+Eingabe: Der Spieler bewegt ein Crewmitglied in eine andere Sektion.\\
+Ergebnis: Es dauert eine Runde Zeit bis das Crewmitglied in die ausgewählte Sektion gelangt. Eine Sanduhr erscheint.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.6]{TestProtocolBilder/crewmemberpull@0,25x.jpg}
@@ -365,7 +379,9 @@ Es ist notwendig, einige Zeit zu warten, bis die Mitglieder, die geändert wurde
 \end{figure}
 \newpage
 \subsection{Crewmember sterben}
-Crewmember können, wenn zu wenig Oxygen in der Sektion enthalten ist, auch sterben.
+Crewmember können, wenn zu wenig Oxygen in der Sektion enthalten ist, auch sterben.\\
+Eingabe: Der Gegner beschädigt eine vom Crewmember besetzte Sektion und das Oxygen in dieser Sektion sinkt.\\
+Ergebnis: Der Crewmember in dieser Sektion stirbt. Dazu wird ein Dialog angezeigt mit dem Hinweis das der Crewmember gestorben ist.\\
 \begin{figure}[htp]
 	\centering
 	\includegraphics[scale=1.5]{TestProtocolBilder/crewMemberDead@0,25x.jpg}
@@ -373,7 +389,9 @@ Crewmember können, wenn zu wenig Oxygen in der Sektion enthalten ist, auch ster
 \end{figure}
 \newpage
 \subsection{Dunkle Planeten}
-Es wurde getestet, dass wenn der Benutzer vom Planeten springt, der besuchte Planet dunkel angezeigt wird, so dass der Benutzer weiß, welche Planeten er schon besucht hat.
+Es wurde getestet, dass wenn der Benutzer vom Planeten springt, der besuchte Planet dunkel angezeigt wird, so dass der Benutzer weiß, welche Planeten er schon besucht hat.\\
+Eingabe: Der Spieler besucht ein Planet und fliegt dann einen anderen Planeten.\\
+Ergebnis: Der vorherige Planet wird dann als ein dunkler Planet angezeigt.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.6]{TestProtocolBilder/besuchtePlanet.jpg}
@@ -381,7 +399,9 @@ Es wurde getestet, dass wenn der Benutzer vom Planeten springt, der besuchte Pla
 \end{figure}
 \newpage
 \subsection{Upgrade}
-Wenn Sie auf die Schaltfläche Upgrade klicken, sehen Sie die möglichen Optionen zur Verbesserung des Schiffs des Spielers.
+Wenn Sie auf die Schaltfläche Upgrade klicken, sehen Sie die möglichen Optionen zur Verbesserung des Schiffs des Spielers.\\
+Eingabe: Nachdem ein Planet angeflogen wurde und drückt der Spieler auf Upgrade.\\
+Ergebnis: Dem Spieler werden mehrere Upgrademöglichkeiten angezeigt.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.6]{TestProtocolBilder/nachupgrade@0,25x.jpg}
@@ -397,7 +417,9 @@ Wenn ein Upgrade ausgewählt wurde, können Sie mit dem Kampfbildschirm fortfahr
 
 \newpage
 \section{Spiel speichern und fortsetzen}
-Während des Spiels kann der Spieler das Spiel speichern um zu einem späteren Zeitpunkt das Spiel wieder aufzunehmen und fortzusetzen.
+Während des Spiels kann der Spieler das Spiel speichern um zu einem späteren Zeitpunkt das Spiel wieder aufzunehmen und fortzusetzen.\\
+Eingabe: Der Spieler speichert seinen Spielstand ab.\\
+Ergebnis: Der Spielstand wird in der Datenbank gespeichert.\\
 \begin{figure}[htp]
 	\centering
 	\includegraphics[scale=0.6]{TestProtocolBilder/continue1@0,25x.jpg}
@@ -411,7 +433,9 @@ Mit dem "Save game" Button kann der Spieler das Spiel speichern.\\
 	\caption{Spiel speichern Button}
 \end{figure}
 \clearpage
-Der Spieler kann das Spiel zu einem späteren Zeitpunkt wieder aufnehmen und fortsetzen. Dafür muss der Spieler im Menü Screen den Button "Continue" drücken. Dann gelangt der Spieler zu seinem alten Spielstand zurück.
+Der Spieler kann das Spiel zu einem späteren Zeitpunkt wieder aufnehmen und fortsetzen. Dafür muss der Spieler im Menü Screen den Button "Continue" drücken. Dann gelangt der Spieler zu seinem alten Spielstand zurück.\\
+Eingabe: Der Spieler drückt auf den Button Continue.\\
+Ergebnis: Der Spieler gelangt wieder zu seinem alten Spielstand und kann weiterspielen.\\
 \begin{figure}[htp]
 	\centering
 	\includegraphics[scale=0.6]{TestProtocolBilder/continuebutton@0,25x.jpg}
@@ -426,7 +450,7 @@ Wenn der Spieler dann auf Continue drückt kommt er wieder auf den alten Spielst
 \end{figure}
 
 \newpage
-\section{multiplayer}
+\section{Multiplayer}
 \begin{figure}[htp]
 	\centering
 	\includegraphics[scale=0.4]{TestProtocolBilder/Multiplayer/1.jpg}
