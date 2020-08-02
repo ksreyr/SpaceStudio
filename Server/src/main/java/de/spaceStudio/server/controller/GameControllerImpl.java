@@ -373,19 +373,23 @@ public class GameControllerImpl implements GameController {
     public void unjoinMultiPlayerUser(@PathVariable("gameSession") String gameSession, @RequestBody Player player) {
         MultiPlayerGame multi = Global.MultiPlayerGameSessions.get(gameSession);
         MultiPlayerGame multiToUpdate = new MultiPlayerGame();
-
-        if (multi.getPlayerOne().getName().equals(player.getName())) {
-            multiToUpdate.setPlayerOne(multi.getPlayerTwo());
-        } else if (multi.getPlayerTwo().getName().equals(player.getName())) {
-            multiToUpdate.setPlayerTwo(multi.getPlayerTwo());
+        multiToUpdate.setPlayers(multi.getPlayers());
+        try {
+            if (multi.getPlayerOne() != null && multi.getPlayerOne().getName().equals(player.getName())) {
+                multiToUpdate.setPlayerOne(multi.getPlayerOne());
+            } else if (multi.getPlayerTwo() != null && multi.getPlayerTwo().getName().equals(player.getName())) {
+                multiToUpdate.setPlayerOne(multi.getPlayerTwo());
+            }
+            if (multiToUpdate.getPlayerOne() == null && multiToUpdate.getPlayerTwo() == null) {
+                Global.MultiPlayerGameSessions.clear();
+                LOG.info("MultiPlayerGame Session destroyed");
+            } else {
+                Global.MultiPlayerGameSessions.put(gameSession, multiToUpdate);
+            }
+            LOG.info("Player: " + player.getName() + " leaves the game");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (multiToUpdate.getPlayerOne() == null && multiToUpdate.getPlayerTwo() == null) {
-            Global.MultiPlayerGameSessions.clear();
-            LOG.info("MultiPlayerGame Session destroyed");
-        } else {
-            Global.MultiPlayerGameSessions.put(gameSession, multiToUpdate);
-        }
-        LOG.info("Player: " + player.getName() + " leaves the game");
     }
 
     /**
@@ -515,7 +519,7 @@ public class GameControllerImpl implements GameController {
 
                 List<GameRound> byActor = gameRoundRepository.findAllByActor(actor.get());
                 CombatRound combatRound = new CombatRound();
-                if(byActor.isEmpty()){
+                if (byActor.isEmpty()) {
                     GameRound gameRound1 = new GameRound();
                     gameRound1.setActor(actor.get());
                     gameRoundRepository.save(gameRound1);
@@ -735,7 +739,7 @@ public class GameControllerImpl implements GameController {
         Optional<Player> otherplayer = playerRepository.findById(weapon.getSection().getShip().getOwner().getId());
         Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
 
-        if (player.isPresent() && playerShip.isPresent() && otherplayer.isPresent() &&  otherPlayerShip.isPresent()) {
+        if (player.isPresent() && playerShip.isPresent() && otherplayer.isPresent() && otherPlayerShip.isPresent()) {
             // Compute Changes for Player
             List<Section> sectionsOfPlayer = sectionController.sectionsByShip(playerShip.get().getId());
             List<Weapon> playerOfWeapons = new ArrayList<>();
