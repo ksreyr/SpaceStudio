@@ -53,15 +53,20 @@ In diesem Abschnitt wird beschieben, wie das Programm installiert wird und entsp
 3. Gradle 5.2 oder höher \\
 4. Spring Boot 2.0.3.RELEASE \\
 5.  Spring Framework 5.0.7.RELEASE or höher. \\
-6. 1920X1080 Auflösung
+6. 1920X1080 Auflösung (optimal)
  
 
 \subsection{Installationsschritte}
 Folgende  Schritte werden für die Installation benötigt. \\
-1. Nach dem Sie alle benötigten tools, die in Systemvoraussetzungen aufgelistet wurden, installiert haben \\
-2. Starten Sie der Server und warten Sie bis der Server hochfährt (ca 1 Minute)\\
-3. Wenn der Server erfolreich gestartet wurde, starten Sie den Client.
+ Nach dem Sie alle benötigten tools, die in Systemvoraussetzungen aufgelistet wurden, installiert haben \\
+1. Starten Sie den Server mit folgendem Command: ./gradlew bootRun\\
+2- Starten Sie den Client mit folgendem Command:  ./gradlew :Client:desktop:run \\
 
+\subsection{Troubleshooting}
+** Known Issues\\
+Failure in Server initialisation. If the Server does not let you create users after start up. You need to restart the Server.\\
+If you experience memory leaks, while starting runs "pkill java" on unix system to resolve these Issues.\\
+The Bugs are in Spring Boot and in Java\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
