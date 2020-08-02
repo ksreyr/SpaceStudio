@@ -63,8 +63,8 @@ public interface GameController {
     @ResponseBody
     SinglePlayerGame getSinglePlayerGame(@PathVariable("playerName") String playerName);
 
-    @RequestMapping(value = "/game/multiplayer/unjoin", method = RequestMethod.POST)
-    void unjoinMultiPlayerUser(@RequestBody Player player);
+    @RequestMapping(value = "/game/multiplayer/unjoin/{gameSession}", method = RequestMethod.POST)
+    void unjoinMultiPlayerUser(@PathVariable("gameSession") String gameSession, @RequestBody Player player);
 
     @GetMapping(value = "/game/endRound/{session}")
     Ship endFightRound(@RequestBody Player pPlayer, @PathVariable String session);

@@ -50,7 +50,7 @@ public class Global {
     /**
      *
      */
-    public static final String MULTIPLAYER_UNJOIN = "/game/multiplayer/unjoin";
+    public static final String MULTIPLAYER_UNJOIN = "/game/multiplayer/unjoin/";
     /**
      * Server logged player endpoint
      */

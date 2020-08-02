@@ -17,11 +17,13 @@ public class InitialData implements ApplicationRunner {
         this.stopAbstractRepository = stopAbstractRepository;
     }
 
+    /**
+     * Create data for Planet9
+     */
     @Override
     public void run(ApplicationArguments args) throws Exception {
         StopAbstract stop = new StopAbstract();
         stop.setName("p9");
-        System.out.println("INJECTING DATA.....................");
         stopAbstractRepository.save(stop);
     }
 }
