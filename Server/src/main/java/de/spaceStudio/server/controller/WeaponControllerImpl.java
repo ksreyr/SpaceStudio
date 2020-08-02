@@ -216,7 +216,6 @@ public class WeaponControllerImpl implements WeaponController {
                         }
                     }
                 } else if (!hasHit) {
-                    // TODO add weapons which have missed
                        LOGGER.info(String.format("Weapon %s has missed %s", weapon.getId(), weapon.getObjectiv().getImg()));
                 }
                 sectionRepository.save(weapon.getObjectiv());

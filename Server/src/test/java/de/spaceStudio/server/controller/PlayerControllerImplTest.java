@@ -61,7 +61,7 @@ public class PlayerControllerImplTest {
     /*
     @Test
     public void testAddPlayer() throws Exception {
-        String result = playerControllerImpl.addPlayer(player);  // TODO KEVIN Add mockito for ActorStateRepositroy
+        String result = playerControllerImpl.addPlayer(player);  //
         Assert.assertEquals(HttpStatus.CREATED.toString(), result);
     }
 */

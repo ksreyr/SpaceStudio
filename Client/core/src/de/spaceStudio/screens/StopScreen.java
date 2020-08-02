@@ -243,8 +243,7 @@ public class StopScreen extends ScreenAdapter {
                                 }.show(stage);
 
                             } else if (object.equals(2L)) {
-                                // TODO Set FightScreen
-                                if (!enemyNearBy) { // FIXME no enemy
+                                if (!enemyNearBy) {
                                     // IF there is an enemy
                                     new Dialog("Fighting the void of Darkness. \nYNo enemy found", skin) {
 
@@ -336,7 +335,7 @@ public class StopScreen extends ScreenAdapter {
                                         } else if (object.equals(1L)) {
                                             for (Weapon w :
                                                     Global.combatWeapons.get(Global.currentShipPlayer.getId())) {
-                                                w.setDamage((int) (w.getDamage() + w.getDamage() * 0.1)); // FIXME if dammage is below 10 this will fail
+                                                w.setDamage((int) (w.getDamage() + w.getDamage() * 0.1));
                                             }
                                             RequestUtils.upgradeWeapon(Global.combatWeapons.get(Global.currentShipPlayer.getId()));
                                             RequestUtils.spendMoney(price_damage);
@@ -344,7 +343,7 @@ public class StopScreen extends ScreenAdapter {
                                             for (Weapon w :
                                                     Global.combatWeapons.get(Global.currentShipPlayer.getId())) {
                                                 if (w.getWarmUp() > 0) {
-                                                    w.setWarmUp( (w.getWarmUp() - 1)); // FIXME if dammage is below 10 this will fail
+                                                    w.setWarmUp( (w.getWarmUp() - 1));
                                                 }
                                                 RequestUtils.upgradeWeapon(Global.combatWeapons.get(Global.currentShipPlayer.getId()));
                                                 RequestUtils.spendMoney(price_coolDown);
@@ -352,7 +351,7 @@ public class StopScreen extends ScreenAdapter {
                                         } else if (object.equals(3L)) {
                                             for (Weapon w :
                                                     Global.combatWeapons.get(Global.currentShipPlayer.getId())) {
-                                                w.setHitRate((int) (w.getHitRate()+ w.getHitRate() * 0.1)); // FIXME if dammage is below 10 this will fail
+                                                w.setHitRate((int) (w.getHitRate()+ w.getHitRate() * 0.1));
                                             }
                                             RequestUtils.spendMoney(price_accuracy);
                                             RequestUtils.upgradeWeapon(Global.combatWeapons.get(Global.currentShipPlayer.getId()));

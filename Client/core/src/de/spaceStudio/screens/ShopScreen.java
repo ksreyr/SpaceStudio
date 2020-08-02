@@ -372,7 +372,7 @@ public class ShopScreen extends ScreenAdapter {
                 goldLabel.remove();
                 stage.getBatch().draw(energie, positionX, positionY);
                 break;
-            case 2://TODO Role
+            case 2:
                 stage.getBatch().draw(crewMemberFTexture, positionX, positionY);
                 break;
                 /*
@@ -463,7 +463,6 @@ public class ShopScreen extends ScreenAdapter {
                 if (itemNumber == 0) {
                     buyItem(List.of(shopRessources.get(0)), Net.HttpMethods.POST);
                 } else if (itemNumber == 1) {
-                    //TODO buy Energie??
                     buyItem(List.of(shopRessources.get(1)), Net.HttpMethods.POST);
 
                 } else if (itemNumber == 2) {
@@ -500,7 +499,6 @@ public class ShopScreen extends ScreenAdapter {
                 } else if (itemNumber == 3) {
                     buyWeapons(List.of(Weapon.WeaponBuilder().damage(50).name("Laser gekauft").hitRate(5).warmUp(4).magazinSize(3).section(Global.section4).img("Lasser").build()), Net.HttpMethods.POST);
                 } else if (itemNumber == 4) {
-                    //TODO buy shield
                 }
 
                 setAllSectionCheckboxesFalse();

@@ -294,7 +294,6 @@ public class Global {
 
     public static boolean loadingFightLocation = false;
 
-    // FIXME Power ist doppelt
     public static Ship ship0 = Ship.shipBluider().hp(3 * HP).shipForm(ShipForm.SHIP1).name("ship0").power(9).shield(SHIELD).buildShip();
     public static Ship ship1 = Ship.shipBluider().hp(HP).shipForm(ShipForm.SHIP2).name("ship1").power(9).shield(SHIELD).buildShip();
     public static Ship ship2 = Ship.shipBluider().hp(2 * HP).shipForm(ShipForm.SHIP3).name("ship2").power(9).shield(2 * SHIELD).buildShip();
@@ -354,7 +353,7 @@ public class Global {
     }};
 
 
-    public static boolean allReady = false;  // FIXME change to true when all Player will jump
+    public static boolean allReady = false;
     public static int currentStopNumber = 0;
 
     // These Maps use the Ship id

@@ -76,7 +76,6 @@ public class ShipSelectScreen extends BaseScreen {
     private final Viewport viewport;
     private final Sound spaceShipChange;
     private final Sound mouseClick;
-    //TODO Können die Variablen idgs und inputHandler gelöscht werden?
     private final InitialDataGameService idgs = new InitialDataGameService();
     private final InputHandler inputHandler;
     private final OrthographicCamera camera;
@@ -87,7 +86,6 @@ public class ShipSelectScreen extends BaseScreen {
     int shipNumber = 0;
     int openNumber = 0;
     Ship ship = new Ship();
-    //TODO kann universe1 gelöscht werden?
     Universe universe1 = Global.universe1;
     Universe universe2 = Global.universe2;
     String responseJson;
@@ -155,7 +153,6 @@ public class ShipSelectScreen extends BaseScreen {
         crew2 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew2.gif").read());
         crew3 = GifDecoder.loadGIFAnimation(Animation.PlayMode.LOOP, Gdx.files.internal("Client/core/assets/data/gifs/crew3.gif").read());
 
-        //TODO Was ist usernameLabel? Können wir das löschen?
         usernameLabel = new Label("Pruebe", skinButton);
         usernameLabel.setPosition(100, 350);
         stage.addActor(usernameLabel);

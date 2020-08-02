@@ -397,7 +397,6 @@ public class GameControllerImpl implements GameController {
     @Override
     public Ship endFightRound(Player pPlayer, String session) {
 
-        // TODO add Online
         Optional<Player> player = playerRepository.findById(pPlayer.getId());
         if (player.isPresent() && player.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
 
@@ -522,7 +521,6 @@ public class GameControllerImpl implements GameController {
             } else {
                 actor.get().getState().setFightState(FightState.WAITING_FOR_TURN);
             }
-            // FIXME set the other to to the oppsite State
             actorStateRepository.save(actor.get().getState());
             return actor.get().getState().getFightState();
         } else

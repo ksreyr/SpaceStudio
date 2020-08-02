@@ -1056,7 +1056,6 @@ public class CombatScreen extends BaseScreen {
             ActorState state = Global.combatActors.get(Global.currentPlayer.getId()).getState();
             liamButton.setText(state.getFightState().getState());
             if (state.getFightState().equals(FightState.PLAYING) && notify) {
-                // TODO Play sound
                 notify = false;
             }
         }
@@ -1065,7 +1064,6 @@ public class CombatScreen extends BaseScreen {
 
         shieldPlayer.setText("Shield: Player " + Global.currentShipPlayer.getShield());
         stage.addActor(shieldPlayer);
-        // TODO wenn alle Sektionen kaputt sind, wird auch verlore
         // If der Player lose
         if (Global.combatCrew.size() == 2 && Global.combatSections.size() == 2) {
             if (Global.currentShipPlayer.getHp() < 1 || Global.combatCrew.get(Global.currentShipPlayer.getId()).isEmpty()
@@ -1196,7 +1194,7 @@ public class CombatScreen extends BaseScreen {
 
         if (!sectionsPlayer.isEmpty()) {
             Global.sectionsPlayerList = sectionsPlayer;
-//                Global.updateVariableSectionShipPlayer(); WTF FIXME is this is important
+//                Global.updateVariableSectionShipPlayer();
             Global.currentShipPlayer = sectionsPlayer.get(0).getShip();
             Global.actualizierungSectionInWeapons();
             sectionsPlayer = new ArrayList<>();

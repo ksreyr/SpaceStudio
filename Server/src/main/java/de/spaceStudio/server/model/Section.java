@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
-//TODO: @MAPPING_SUPER_CLASS
+
 //or it is not created a table in the DB
 //Link to reference Sprint Documentation:
 // https://www.baeldung.com/hibernate-inheritance

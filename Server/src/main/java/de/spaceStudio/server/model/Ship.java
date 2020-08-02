@@ -34,7 +34,7 @@ public class Ship {
     private int maxShield;
 
     @NonNull
-    private int power;  // FIXME keep updated
+    private int power;
 
     public Ship() {
     }
