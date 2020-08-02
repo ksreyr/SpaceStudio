@@ -169,6 +169,9 @@ public class StopAbstractControllerImpl implements StopAbstractController {
                     mg.getPlayers()) {
                 a.getState().setStopState(StopState.JUMPING);
                 actorStateRepository.save(a.getState());
+                GameRound gameRound = new GameRound();
+                gameRound.setActor(a);
+                gameRoundRepository.save(gameRound);
             }
             return true;
         } else return false;
