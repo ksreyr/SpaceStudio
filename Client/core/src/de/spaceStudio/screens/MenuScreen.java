@@ -26,6 +26,8 @@ import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.config.GameConfig;
 import de.spaceStudio.server.handler.SinglePlayerGame;
+import de.spaceStudio.server.model.GameRound;
+import de.spaceStudio.server.model.StopAbstract;
 import de.spaceStudio.service.PlayerDataService;
 import de.spaceStudio.util.GdxUtils;
 
@@ -78,6 +80,9 @@ public class MenuScreen extends ScreenAdapter {
         planet4 = singlePlayerGame.getPlanet4();
         planet5 = singlePlayerGame.getPlanet5();
         planet6 = singlePlayerGame.getPlanet6();
+
+        playerRounds = singlePlayerGame.getGameRounds();
+
     }
 
     //Called when this screen becomes the current screen for a Game.
