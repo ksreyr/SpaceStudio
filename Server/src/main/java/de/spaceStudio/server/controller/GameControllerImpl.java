@@ -512,10 +512,19 @@ public class GameControllerImpl implements GameController {
             if (actor.get().getState().getFightState().equals(FightState.WAITING_FOR_TURN)) {
                 actor.get().getState().setFightState(FightState.PLAYING);
 
-                CombatRound combatRound = new CombatRound();
+
                 List<GameRound> byActor = gameRoundRepository.findAllByActor(actor.get());
+                CombatRound combatRound = new CombatRound();
+                if(byActor.isEmpty()){
+                    GameRound gameRound1 = new GameRound();
+                    gameRound1.setActor(actor.get());
+                    gameRoundRepository.save(gameRound1);
+                    byActor.add(gameRound1);
+                }
+
                 GameRound gameRound = byActor.get(byActor.size() - 1);
                 combatRoundRepository.save(combatRound);
+
                 gameRound.getCombatRounds().add(combatRound); // New Combat Round
                 gameRoundRepository.save(gameRound);
 
