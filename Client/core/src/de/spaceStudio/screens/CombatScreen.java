@@ -219,6 +219,7 @@ public class CombatScreen extends BaseScreen {
                     liamButton.setText("Connecting. Try Again");
                 } else {
                     de.spaceStudio.server.model.Actor actor1 = Global.combatActors.get(Global.currentPlayer.getId());
+                    //TODO NullPointer
                     if ((actor1.getState().getFightState().equals(FightState.PLAYING))) {
                         actor1.getState().setFightState(FightState.WAITING_FOR_TURN);  // Player wants to end Turn
                         if (Global.IS_SINGLE_PLAYER) {

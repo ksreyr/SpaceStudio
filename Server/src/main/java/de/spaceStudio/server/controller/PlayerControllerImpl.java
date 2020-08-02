@@ -246,7 +246,7 @@ public class PlayerControllerImpl implements PlayerController {
         List<Weapon> weapons = new ArrayList<>();
         List<CrewMember> crewMembers = new ArrayList<>();
         List<StopAbstract> stopAbstracts = new ArrayList<>();
-        for (Ship s :
+       /* for (Ship s :
                 ships) {
             Optional<List<Section>> secsFound = sectionRepository.findAllByShip(s);
             secsFound.ifPresent(sections::addAll);
@@ -259,6 +259,18 @@ public class PlayerControllerImpl implements PlayerController {
             }
             crewMemberRepository.deleteAll(crewMembers);
             weaponRepository.deleteAll(weapons);
+
+            List<Weapon> weaponList = new ArrayList<>();
+            for (Section sectionWhereObjectiv:
+                    sections) {
+                if(weaponRepository.findAllByObjectiv(sectionWhereObjectiv).isPresent()){
+                    for (Weapon w :
+                            weaponRepository.findAllByObjectiv(sectionWhereObjectiv).get()) {
+                        w.setObjectiv(null);
+                        weaponRepository.save(w);
+                    }
+                }
+            }
             sectionRepository.deleteAll(sections);
             Optional<List<ShipRessource>> shipRessourcesList = shipRessourceRepository.findByShip(s);
             shipRessourcesList.ifPresent(shipRessources -> shipRessourceRepository.deleteAll(shipRessources));
@@ -266,13 +278,21 @@ public class PlayerControllerImpl implements PlayerController {
             stopAbstracts1.ifPresent(stopAbstracts::add);
         }
         stopAbstractRepository.deleteAll(stopAbstracts);
-        shipRepository.deleteAll(ships);
+        if(ships.size()>1){
+            shipRepository.delete(ships.get(0));
+        }*/
 
 
         Optional<Ship> byOwner = shipRepository.findByOwner(player1);
         if (byOwner.isPresent()) {
-            Ship ship = shipRepository.findByOwner(player1).get();
-
+            Ship ship= new Ship();
+           try {
+               ship = shipRepository.findByOwner(player1).get();
+           }catch (Exception e){
+               List<Ship> shipList = shipRepository.findAllByOwner(player1);
+               shipRepository.delete(shipList.get(0));
+               ship=shipList.get(0);
+           }
             Optional<StopAbstract> stopAbstract = stopAbstractRepository.findByShips(ship);
 
             if (stopAbstract.isPresent() && stopAbstract.get().getUniverse() != null) {
@@ -411,7 +431,13 @@ public class PlayerControllerImpl implements PlayerController {
                                     shipRessourceRepository.delete(sr);
                                 }
                             }
+                            try{
                             shipRepository.delete(s);
+                            }catch (Exception e){
+                                s.setOwner(null);
+                                shipRepository.save(s);
+                                shipRepository.delete(s);
+                            }
                         }
                     }
                     stopAbstracts = stopAbstractRepository.findByUniverse(universe.get());
