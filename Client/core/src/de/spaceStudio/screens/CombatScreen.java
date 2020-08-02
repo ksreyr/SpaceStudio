@@ -1410,6 +1410,8 @@ public class CombatScreen extends BaseScreen {
 
         dialog.text(action);
         dialog.button("OK", true);
+        dialog.key(Input.Keys.ESCAPE,true);
+        dialog.key(Input.Keys.ENTER,true);
         click.play();
         dialog.show(stage);
     }
@@ -1417,6 +1419,8 @@ public class CombatScreen extends BaseScreen {
     private void warningMessageDialog(Dialog dialog, String action) {
         dialog.text(action);
         dialog.button("OK", true);
+        dialog.key(Input.Keys.ESCAPE,true);
+        dialog.key(Input.Keys.ENTER,true);
         click.play();
         dialog.show(stage);
     }
@@ -1446,7 +1450,7 @@ public class CombatScreen extends BaseScreen {
             }
         });
         dialog.key(Input.Keys.ENTER, true);
-        dialog.key(Input.Keys.ESCAPE, false);
+        dialog.key(Input.Keys.ESCAPE, true);
         click.play();
         dialog.show(stage);
     }
