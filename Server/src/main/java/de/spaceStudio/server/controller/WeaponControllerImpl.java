@@ -32,6 +32,9 @@ public class WeaponControllerImpl implements WeaponController {
     @Autowired
     GameRoundRepository gameRoundRepository;
 
+    @Autowired
+    ActorStateRepository actorStateRepository;
+
 
     @Autowired
     CombatRoundRepository combatRoundRepository;
@@ -176,10 +179,22 @@ public class WeaponControllerImpl implements WeaponController {
                     CombatRound currentCombatRound = curentGameRound.getCombatRounds().get(curentGameRound.getCombatRounds().size() - 1);
                     currentCombatRound.getWeaponsWhichHaveAttacked().add(weapon);
                     combatRoundRepository.save(currentCombatRound);
-                    if (ship.get().getShield() > 0) {
+                    Optional<List<Section>> xs = sectionRepository.findAllByShip(weapon.getSection().getShip());
+                    Optional<Section> energySection = Optional.empty();
+                    if (xs.isPresent() && !xs.get().isEmpty()) {
+                        for (Section section:
+                             xs.get()) {
+                            if (section.getSectionTyp().equals(SectionTyp.ENGINE)) { // Engine is required to
+                                energySection = Optional.of(section);
+                                break;
+                            }
+                        }
+                    }
+                    if (ship.get().getShield() > 0 &&  energySection.isPresent() &&
+                            energySection.get().getPowerCurrent() >= energySection.get().getPowerRequired()) {
                         ship.get().setShield(ship.get().getShield() - weapon.getDamage());
                         if (weapon.getObjectiv().getPowerCurrent() > 0) {
-                            weapon.getObjectiv().setPowerCurrent(weapon.getObjectiv().getPowerCurrent() - 1);
+                            weapon.getObjectiv().setPowerCurrent(weapon.getObjectiv().getPowerCurrent() - 1); // Remove Energy of the Ship
                         }
                     } else {
                         //Without_Schield
@@ -221,10 +236,14 @@ public class WeaponControllerImpl implements WeaponController {
     @Override
     public boolean canShoot(Weapon w) {
         if (w.getObjectiv() != null && w.getObjectiv().getShip() != null && w.getObjectiv().getShip().getId() != null) {
-            Ship ship = shipRepository.findById(w.getObjectiv().getShip().getId()).get();
-            if (w.getObjectiv() != null && ship.getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0
-                    && w.getSection().getPowerCurrent() >= w.getSection().getPowerRequired()) {
-                return w.getSection().getUsable();
+            Optional<Ship> ship = shipRepository.findById(w.getObjectiv().getShip().getId());
+            Optional<Actor> a = actorRepository.findById(w.getSection().getShip().getOwner().getId());
+            if (ship.isPresent() && a.isPresent()) {
+                if (w.getObjectiv() != null && ship.get().getHp() > 0 && w.getWarmUp() == 0 && w.getCurrentBullets() > 0
+                        && w.getSection().getPowerCurrent() >= w.getSection().getPowerRequired() &&
+                        a.get().getState().getFightState().equals(FightState.PLAYING)) { // Muss am Spielen sein
+                    return w.getSection().getUsable();
+                }
             }
         }
         return false;
