@@ -220,7 +220,7 @@ public class CombatScreen extends BaseScreen {
                 } else {
                     de.spaceStudio.server.model.Actor actor1 = Global.combatActors.get(Global.currentPlayer.getId());
                     if ((actor1.getState().getFightState().equals(FightState.PLAYING))) {
-                        actor1.getState().setFightState(FightState.WAITING_FOR_TURN);
+                        actor1.getState().setFightState(FightState.WAITING_FOR_TURN);  // Player wants to end Turn
                         if (Global.IS_SINGLE_PLAYER) {
                             liamButton.setText("Waiting for AI");
                             turn_sound.play();
@@ -1090,6 +1090,9 @@ public class CombatScreen extends BaseScreen {
             if (Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() < 1)
                 warningForEnergy();
 
+            if(!isTargetSelected) warning();
+            if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() < 1) warningForEnergy();
+            if(isTargetSelected && Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() >1 && isRound) rocketLaunch.play();
 
             //Set Target->Section of Player and gegner Weapons
             logicOfFirePlayer();
@@ -1246,7 +1249,8 @@ public class CombatScreen extends BaseScreen {
 
         }
 
-        if (Global.currentShipGegner != null && Global.combatSections.size() == 2) {
+        if (Global.currentShipGegner != null && Global.combatSections.size() == 2 && Global.currentGegner.getId() != null &&
+            Global.combatSections.containsKey(Global.currentGegner.getId())) {
             for (Section s :
                     Global.combatSections.get(Global.currentShipGegner.getId())) {
                 if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))

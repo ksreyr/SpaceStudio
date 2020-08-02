@@ -90,6 +90,7 @@ public class StationsMap extends BaseScreen {
         final Drawable drawable_station_unvisited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/unvisited-removebg-preview.png")));
         final Drawable drawable_station_visited = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/visited-removebg-preview.png")));
         final Drawable shopStationIcon = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/shopping.png")));
+        final Drawable planet_9 = new TextureRegionDrawable(new Texture(Gdx.files.internal("Client/core/assets/data/stations/planet9.png")));
 
 
         coord.add(new Pair(160f, 200f));  // Start Point
@@ -99,7 +100,7 @@ public class StationsMap extends BaseScreen {
         coord.add(new Pair(900f, 550f));  // Planet 4
         coord.add(new Pair(1200f, 700f));  // Planet 5
         coord.add(new Pair(1200f, 800f));
-
+        coord.add(new Pair(1050f,470f)); // planet 9
 
         textAreaUN = new TextArea(unvisited, skin);
         textAreaVIS = new TextArea(visited, skin);
@@ -130,7 +131,7 @@ public class StationsMap extends BaseScreen {
         } else {
             planet5(drawable_station_unvisited, textAreaUN);
         }
-        planet9(drawable_station_unvisited, textAreaUN);
+        planet9(planet_9, textAreaUN);
 
         shopStation(shopStationIcon);
         setStartPoint(drawable_station_unvisited);
@@ -411,7 +412,7 @@ public class StationsMap extends BaseScreen {
     private void planet9(Drawable drawable, TextArea textArea) {
         isPlanet = true;
         planet9ImageBTN = new ImageButton((drawable));
-        planet9ImageBTN.setPosition(coord.get(6).getLeft(), coord.get(6).getRight());
+        planet9ImageBTN.setPosition(coord.get(7).getLeft(), coord.get(7).getRight());
         planet9ImageBTN.setSize(PLANET_SIZEX, PLANET_SIZEX);
         hoverListener(planet9ImageBTN, textArea);
         planet9ImageBTN.addListener(new ChangeListener() {

@@ -161,14 +161,24 @@ public class StopAbstractControllerImpl implements StopAbstractController {
     }
 
     @Override
-    public Boolean startFight(String session) {
+    public Boolean startFight(String session, Integer id) {
         if (Global.MultiPlayerGameSessions.containsKey(session)) {
             MultiPlayerGame mg = Global.MultiPlayerGameSessions.get(session);
             mg.setFight(true);
+            if (mg.getPlayers().isEmpty()) {
+                mg.getPlayers().add(mg.getPlayerOne());
+                mg.getPlayers().add(mg.getPlayerTwo());
+            }
             for (Actor a :
                     mg.getPlayers()) {
                 a.getState().setStopState(StopState.JUMPING);
+                if (a.getId().equals(id)) {
+                    a.getState().setFightState(FightState.PLAYING);
+                }
                 actorStateRepository.save(a.getState());
+                GameRound gameRound = new GameRound();
+                gameRound.setActor(a);
+                gameRoundRepository.save(gameRound);
             }
             return true;
         } else return false;
@@ -179,7 +189,7 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         if (Global.MultiPlayerGameSessions.containsKey(session)) {
             MultiPlayerGame mg = Global.MultiPlayerGameSessions.get(session);
             return mg.getFight();
-         } else return false;
+        } else return false;
     }
 
 
