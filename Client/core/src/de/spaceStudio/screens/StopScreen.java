@@ -246,7 +246,7 @@ public class StopScreen extends ScreenAdapter {
                                 // TODO Set FightScreen
                                 if (!enemyNearBy) { // FIXME no enemy
                                     // IF there is an enemy
-                                    new Dialog("On the Way Back you Stop...", skin) {
+                                    new Dialog("Fighting the void of Darkness. \nYNo enemy found", skin) {
 
                                         {
                                             text("It has been a long Day You are Tired");

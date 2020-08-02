@@ -846,6 +846,8 @@ public class CombatScreen extends BaseScreen {
                     };
 
                     if (Global.currentStop.equals(Global.planet5)) {
+                        Global.currentGegner = null;
+                        Global.currentShipGegner = null;
                         winMessageDialog(dialog, " You won the Game .\n Holly shit You are GEIL Karsten!!!! ");
                     } else winMessageDialog(dialog, " You won this Fight.\n But the game is not over yet ");
 
@@ -968,6 +970,17 @@ public class CombatScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
 
+        Map<Section, Integer> dammagePerSection = new HashMap<>();
+
+        Global.combatSections.get(Global.currentShipPlayer.getId()).forEach(s -> dammagePerSection.put( s, 0));
+        // Sum Dammage here
+        for (Weapon w :
+                Global.weaponsToProcess) {
+            dammagePerSection.replace(w.getObjectiv(), dammagePerSection.get(w.getObjectiv()) + w.getDamage());
+        }
+
+        dammageString(dammagePerSection);
+        // Todo add Label
 
         if (!Global.weaponsToProcess.isEmpty()) {
             bulletsEnemy.add(new Bullet(1500, 500));
@@ -981,7 +994,7 @@ public class CombatScreen extends BaseScreen {
 
         shieldPlayer.setPosition(15,350);
 
-        shieldPlayer.setText("Shield: Player"+Global.currentShipPlayer.getShield());
+        shieldPlayer.setText("Shield: Player "+Global.currentShipPlayer.getShield());
         stage.addActor(shieldPlayer);
         // TODO wenn alle Sektionen kaputt sind, wird auch verlore
         // If der Player lose
@@ -1198,6 +1211,17 @@ public class CombatScreen extends BaseScreen {
 
         stage.act();
         stage.draw();
+    }
+
+    private String dammageString(Map<Section, Integer> dammagePerSection) {
+        StringBuilder sb = new StringBuilder();
+
+       Set<Section> keys = dammagePerSection.keySet();
+        for (Section s :
+                keys) {
+            sb.append(String.format("Section: %s has suffered %s dammage%n", s.getImg(), dammagePerSection.get(s)));
+        }
+        return sb.toString();
     }
 
     public void drawAvailableEnergy(int energyCounter, int xPosition) {

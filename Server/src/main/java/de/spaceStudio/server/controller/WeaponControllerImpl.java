@@ -1,8 +1,11 @@
 package de.spaceStudio.server.controller;
 
 import com.google.gson.Gson;
+import de.spaceStudio.server.ServerCore;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.server.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +41,8 @@ public class WeaponControllerImpl implements WeaponController {
 
     @Autowired
     CombatRoundRepository combatRoundRepository;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
 
     private final float removeOxygen = 15;
     private final int priceWeapon = 30;
@@ -179,16 +184,21 @@ public class WeaponControllerImpl implements WeaponController {
                     CombatRound currentCombatRound = curentGameRound.getCombatRounds().get(curentGameRound.getCombatRounds().size() - 1);
                     currentCombatRound.getWeaponsWhichHaveAttacked().add(weapon);
                     combatRoundRepository.save(currentCombatRound);
-                    Optional<List<Section>> xs = sectionRepository.findAllByShip(weapon.getSection().getShip());
+                    Optional<List<Section>> xs = sectionRepository.findAllByShip(weapon.getObjectiv().getShip());
                     Optional<Section> energySection = Optional.empty();
                     if (xs.isPresent() && !xs.get().isEmpty()) {
                         for (Section section:
                              xs.get()) {
-                            if (section.getSectionTyp().equals(SectionTyp.ENGINE)) { // Engine is required to
+                            if (section.getSectionTyp().equals(SectionTyp.HEALTH)) { // Engine is required to
                                 energySection = Optional.of(section);
                                 break;
                             }
                         }
+                    }
+                    if (energySection.isPresent() && energySection.get().getPowerCurrent() < energySection.get().getPowerRequired()) {
+                        LOGGER.info("Not enough  energy to use Shield");
+                    } else if (energySection.isEmpty()) {
+                        LOGGER.warn("Energy Section could not be found");
                     }
                     if (ship.get().getShield() > 0 &&  energySection.isPresent() &&
                             energySection.get().getPowerCurrent() >= energySection.get().getPowerRequired()) {
@@ -204,6 +214,9 @@ public class WeaponControllerImpl implements WeaponController {
                             weapon.getObjectiv().setOxygen(weapon.getObjectiv().getOxygen() - removeOxygen);
                         }
                     }
+                } else if (!hasHit) {
+                    // TODO add weapons which have missed
+                    LOGGER.info(String.format("Weapon %s has missed %s", weapon.getId(), weapon.getObjectiv().getImg()));
                 }
                 sectionRepository.save(weapon.getObjectiv());
                 shipRepository.save(ship.get());
