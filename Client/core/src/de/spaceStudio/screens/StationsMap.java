@@ -242,21 +242,20 @@ public class StationsMap extends BaseScreen {
         planet1ImgBTN.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Global.VISITED_PLANET_COUNTER++;
                 Global.currentStop = Global.planet1;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if (Objects.equals(obj.toString(), "true")) {
-                            counter++;
                             hoverListener(planet1ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 1;
+                            Global.VISITED_PLANET_COUNTER++;
                             jumpService(planet);
                         }
                     }
                 };
-                actionDialog(dialog, " Planet 1 --> You Jump to into sector of the nebula beset by a plasma storm. An automated Rebel scout stationed at he beacon" +
-                        "moves in to attact\n" +
-                        "Are you sure you want to jump there?");
+                actionDialog(dialog, "On this planet live very dangerous Dragons\n"  +
+                        "Let's figure out, whether they are at home?\n"+
+                        "Wanna  feel your heartbeat?,then keep on travelling...");
             }
         });
 
@@ -272,7 +271,6 @@ public class StationsMap extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isPlanet = true;
-                Global.VISITED_PLANET_COUNTER++;
                 Global.currentStop = Global.planet2;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
@@ -281,16 +279,18 @@ public class StationsMap extends BaseScreen {
                             counter++;
                             hoverListener(planet2ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 2;
+                            Global.VISITED_PLANET_COUNTER++;
+
                             jumpService(planet);
                         }
                     }
                 };
 
-                actionDialog(dialog, "Planet 2 -->Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n"
-                        + " Lorem Ipsum has been the industry's standard dummy\n" +
-                        " text ever since the 1500s, when an unknown printer took a galley of\n" +
-                        " type and scrambled it to make a type specimen book.\n" +
-                        "moves in to attact\n" + "Are you sure you want to jump there");
+                actionDialog(dialog, "This planet belongs to Clara.\n"
+                        + " She is a very dangerous Queen\n" +
+                        " The Queen will destroy every single visitor\n" +
+                        " Be careful!!!\n" +
+                        "Or proof your encourage\n" + "Are you sure you want to jump there?");
 
             }
         });
@@ -308,7 +308,6 @@ public class StationsMap extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isPlanet = true;
-                Global.VISITED_PLANET_COUNTER++;
                 System.out.println(counter+"::::::::::::::..");
                 Global.currentStop = Global.planet3;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
@@ -317,18 +316,18 @@ public class StationsMap extends BaseScreen {
 
                             hoverListener(planet3ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 3;
+                            Global.VISITED_PLANET_COUNTER++;
+
                             jumpService(Global.planet3);
 
                         }
 
                     }
                 };
-                actionDialog(dialog, "Planet 3 --> Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
-                        " Lorem Ipsum has been the industry's standard dummy\n" +
-                        " text ever since the 1500s, when an unknown printer \n" +
-                        "took a galley of type and scrambled it to make a type specimen book." +
-                        "moves in to attact\n" +
-                        "Are you sure you want to jump there?");
+                actionDialog(dialog, "This planet is so foggy, you never know what will occur\n" +
+                        " Are you ready to take a risk?\n" +
+                        "move to unknown adventure\n" +
+                        "Keep going?");
 
             }
         });
@@ -347,24 +346,23 @@ public class StationsMap extends BaseScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 isPlanet = true;
-                Global.VISITED_PLANET_COUNTER++;
                 Global.currentStop = Global.planet4;
                 final Dialog dialog = new Dialog("Information", skin, "dialog") {
                     public void result(Object obj) {
                         if (Objects.equals(obj.toString(), "true")) {
                             hoverListener(planet4ImgBTN, textAreaVIS);
                             Global.currentStopNumber = 4;
+                            Global.VISITED_PLANET_COUNTER++;
+
                             jumpService(Global.planet4);
 
                         }
                     }
                 };
-                actionDialog(dialog, "Planet 4 --> Lorem Ipsum is simply dummy text of the printing and typesetting industry.\n" +
-                        " Lorem Ipsum has been the industry's standard dummy\n" +
-                        " text ever since the 1500s, when an unknown printer took a galley of type\n" +
-                        "and scrambled it to make a type specimen book.\n" +
-                        "moves in to attact\n" +
-                        "Are you sure you want to jump there?");
+                actionDialog(dialog, "This planet is fucking GEIL.\n" +
+                        " It perfect to do a sightseeing tour \n" +
+                        " Don't give a shit on unexpected events\n" +
+                        "\nAgree?");
 
             }
         });
@@ -389,7 +387,7 @@ public class StationsMap extends BaseScreen {
 
                     }
                 };
-                if (Global.VISITED_PLANET_COUNTER >= 0) {
+                if (Global.VISITED_PLANET_COUNTER >= 2) {
                     dialog.text("You are allow to travel last planet");
                     dialog.button("JUMP", true);
                     dialog.key(Input.Keys.ENTER, true);
@@ -398,7 +396,7 @@ public class StationsMap extends BaseScreen {
                     jumpService(Global.planet5);
 
                 } else {
-                    dialog.text("Before you travel here, you have to visit other planets");
+                    dialog.text("Before you travel the HELL, you have to visit other planets. Muhahahahaha");
                     dialog.button("BACK", false);
                     dialog.key(Input.Keys.ESCAPE, false);
                 }
