@@ -1090,6 +1090,9 @@ public class CombatScreen extends BaseScreen {
             if (Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() < 1)
                 warningForEnergy();
 
+            if(!isTargetSelected) warning();
+            if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() < 1) warningForEnergy();
+            if(isTargetSelected && Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() >1 && isRound) rocketLaunch.play();
 
             //Set Target->Section of Player and gegner Weapons
             logicOfFirePlayer();
