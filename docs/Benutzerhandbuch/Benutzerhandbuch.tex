@@ -122,7 +122,7 @@ Hier ergeben sich die Möglichkeiten ein Single Player Spiel oder ein Multiplaye
 	\centering
 	\includegraphics[width=1.00\linewidth]{pics/gamemodescreen.png}
 	\caption{Spielmodus}
-	\label{fig1}
+	%\label{fig1}
 \end{figure}
 
 \subsection{Single Player}
@@ -136,7 +136,7 @@ und Besatzung.
 	\centering
 	\includegraphics[width=1.00\linewidth]{pics/SinglePlayer01.png}
 	\caption{Single Player}
-	\label{fig1}
+	%\label{fig1}
 \end{figure}
 
 Die Anzeige am unteren Bildschirmrand zeigt die zugehörigen Crew Member und dessen Namen, sowie über welche Systeme das Raumschiff verfügt.\\
@@ -151,13 +151,13 @@ Im Single Player Modus werden die Gegner, auf die der Spiele im laufe des Spiels
 
 Hier sehen Sie den Screen, der erscheint, wenn Sie  Multiplayer im New Game Screen gewählt haben:\\
 Dieser Screen unterscheidet sich in sofern vom Singlaplayer Screen, dass eine zusätzliche Anzeige erscheint, der Sie entnehmen können, wie viele weitere Spieler online sind.\\
-Damit weiter Spieler erscheinen müssen diese im Login Screen die selber Netzwerkadresse angegeben haben/ auf dem gleichen Server angemeldet sein und ebenfalls den Multiplayer Modus augewählt haben.\\
+Damit weiter Spieler erscheinen müssen diese im Login Screen die selber Netzwerkadresse angegeben haben/auf dem gleichen Server angemeldet sein und ebenfalls den Multiplayer Modus augewählt haben.\\
 Außerdem entfällt die Wahl der Spielstufe, da der Gegner nun nicht mehr durch den Computer ersetzt werden muss.
 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=1.00\linewidth]{pics/MultiPlayer01.png}
-	\caption{Single Player}
+	\caption{Multiplayer}
 	\label{fig1}
 \end{figure}
 
@@ -166,21 +166,129 @@ oder sich über Play with AI doch zu einem Spiel im Single Player Modus umzuents
  
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Spielstufen Easy und Normal}
+\section{Univesum}
 
+Nach klicken des Start Buttons des vorherigen Screens, gelangen Sie zur Map des Universums.\\
+In diesem Beispiel sehen Sie die Map des Easy Universum. Das Raumschiff befindet sich auf dem Start Planeten unten links. Zu sehen sind vier weitere Planeten sowie eine Shoppingmall.\\
+All diese Stationen können angeflogen werden. Wird die Shoppingmall angeflogen, gelangt man zum Shop Screen, dazu mehr im Kapitel Shopping.\\
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/universeEasyP1.png}
+	\caption{Map des Universums}
+	\label{fig1}
+\end{figure}
 
-Beschreibung der Spielmodus.
+Wird eines der weiteren vier Planeten angeflogen (der Startplanet birgt kein Ereignis), dann erscheint ein
+Pop up Fenster mit einer Information zu diesem Planeten. Die Optionen sind, per jump diesen anzufliegen und zu landen oder über back zurück zur Map zu gelangen. Der Planet der am weitesten rechts liegt, kann jedoch nur als letztes angeflogen werden, wenn der Spiele die Ereignisse der vorherigen Planeten gemeistert hat, denn auf diesem wartet der Endgegner auf einen und nur wenn auch dieser besiegt wurde, ist das Spiel endgültig gewonnen. Zu den Stationen mehr im Kapitel Kampf.\\
+Wird die Shopping Mall angeflogen, gelangt das Raumschiff zum Shop Screen, in dem er die Möglichkeit hat Ressourcen für sein Raumschiff einzukaufen, dazu mehr im Kapitel Shopping.\\
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/infoPlanet2.png} %Bild austauschen
+	\caption{Info zu Planet}
+	\label{fig1}
+\end{figure}
+
+Ein Planet, der bereits besucht wurde verfärbt sich dunkel:
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=0.30\linewidth]{pics/visitedPlanet.png}
+	\caption{visited Planet}
+	\label{fig1}
+\end{figure}
+
+Oben rechts im Fenster ist der Button Save game zu sehen, dieser ermöglicht das Speichern des Spiels, zu jenem Zeipunkt, wenn sich das Raumschiff wieder auf der Map befindet.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Map}
-Beschreibung der Spielmodus.
+\section{Einen Planeten anfliegen}
+Haben Sie sich dazu entschieden per Jump, einen Planeten azufliegen, gelangen Sie zum Travelscreen.
+%Bild Travelscreen einfügen
+Ein Infofenster erscheint und beschreibt den Planeten, daraufhin muss sich der Spieler je nach dem, wie er die Lage einschätzt, zwischen Explore und Leave entscheiden. Leave führt zurück zur Map und Explore führt die Reise fort.\\
+Nach einer kurzen Weile tritt ein zufälliges Ereignis ein, dass sich positiv ode Negativ auf den Spieler auswirken kann. In diesem Fall wurde das Leben/HP hochgesetzt und verändert die Anzeige unten links.\\
+Je nach Ereignis, könen Sie immernoch taktisch entscheiden, ob Sie fliehen, kämpfen, shoppen oder upgraden möchten.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/randomEreignis.png}
+	\caption{Zufälliges Ereignis}
+	\label{fig1}
+\end{figure}
+
+Über Flee gelangen Sie zurück zur Map. Über Fight treten sie unwiederruflich dem Kampf bei, über Shop wird wieder die Möglichkeit geboten zu shoppen, und über Upgrade bieten sich eine Menge Möglichkeiten, Systeme für den kommenden Kampf zu upgraden, siehe Bild.\\
+Nach einem Upgrade, besteht immernoch die Möglichketi per Button wieder zurück zur Map zu gelangen.
+
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/upgrade.png}
+	\caption{Upgrade der Systeme}
+	\label{fig1}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Eigentliches Spiel}
+\section{Shopping}
+
+Im Shop Screen sind drei Anzeigen zu sehen. Jene oben rechts zeigt an, wie viel Gold/Geld zur verfügung steht. Die am unteren Fensterrand beschreibt das Schiff, in diesem Fall welche Sektion für welche Systeme verantwortlich ist. Die rechte Anzeige beschreibt das Item das darüber angezeigt wird: worum es sich handelt, eigenschaften und dessen Kosten.\\
+Über den next Button lässt sich durch das Angebot gucken, die Anzeige darunter, passt sich dementsprechend an.\\
+Das Angebot umfasst: Gold, Energie, Crew Member und ein Weapon Lasser. Die Kosten werden entsprechend von dem Gold abgezogen. Secure lässt sich in der vorher upgrade Option kaufen und nicht über den Shop. Möchten Sie einen Crew Member kaufen, so muss die Checkbox der entsprechende Sektion, in die der Crew Member plaziert werden soll, ausgewählt werden, bevor der Kauf über den Buy Button bestätigt werden kann. Möchten Sie den Shop verlassen, dann klicken Sie auf den Back to Map Button in der oberen rechten Ecke. 
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/shopScreen.png} %Bild muss noch angepasst werden ohne Sell button
+	\caption{Shop}
+	\label{fig1}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Der Kampf}
+
+\subsection{Beschreibung der Oberfläche}
+Im Kampf stehen sich das Raumschiff des Spielers und das des Gegners gegenüber.
+Zu Beginn sind die Raumschiffe jeweils von ihrem Schutzschild umgeben.
+Die Schrift auf der linken Seite des Fensters beschreibt die Waffen des eigenen Raumschiffs.
+In diesem Fall verfügt das Raumschiff des Spielers über die Waffen Rocket Left und Lasse Right.
+Diese wiederum haben die Attribute Damage, Bullets und Warmup. Damage gibt an, wie viel Schaden die Waffe dem Gegner bei einem Treffer zufügt. Die Anzahl der Bullets sind
+die Anzahl der Schüsse einer Waffe und Warmup gibt die Dauer in Runden an, bis die Waffe wieder einsatzbereit ist.\\
+
+Unten links ist die Energie und dessen Verteilung zu sehen. In dem weißen Balken von links nach rechts: der Betrag des Schutzshcildes, das Leben des Gegners, Secure, Drive und Weapon.
+Die grünen Balken stellen die Energie dar, die verteilt werden kann.\\
+
+Die eigenen Sektionen und dessen Eigenschaften sind in roter Schrift unterhalb des gegnerischen Raumschiffs beschrieben: ist die Sektion benutzbar, wie viel Oxygen ist in der Sektion verfügbar, welche Rolle hat die Sektion, dh. für welches System ist sie verantwortlich, ob Health, Weapon oder Engine und welcher Crew Member ist in welcher Sektion.\\
+
+In dem gegnerischen Raumschiff sind drei weiße Symbole zu sehen. Diese repräsentieren die Systeme, die angegriffen werden müssen. In diesem Fall hat das Raumschiff
+ein Cockpit, ein Drive System und ein Weapon System.\\
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/combatScreenRot01.png}
+	\caption{der Kampf}
+	\label{fig1}
+\end{figure}
+
+\subsection{Spielverlauf}
+
+[...roh..]
+Start waiting klicken 2mal , warm up muss runter gehen, bei 0 schießen.
+Shießen sektion auswählen, wenn nicht dann pop up mit hinweis Please select a target. tehn you can shoot.
+section wählen und mit leertaste schießen. (waffe schießt) wenn kein schuss mehr übrig runden beenden. playing drücken, der gegner reagiert, danach nochmal button um warm zu starten.
+dann kann weiter geschossen werden.
+Energie muss clever verteielt werden, sonst kann weapon system nicht benutz werden (pop up mit hinweis: Please charge energy to weapon system)
+(wird noch geklärt wann eine sektion des gegners kaputt ist). Crew Member können bewegt werden. wenn system kaputt wird automatisch repariert wenn
+crew member in sektion, deshalb taktisch hinbewegen.kann an usable erkannt werden wird wieder true gesetzt wenn crew member seinen job gemcht hat.
+ energie wir dpro runden neu hinzugefügt. Wechsel der crew member benötigt zeit. erkennt man auch an sanduhr.
+reparatur rollenabhängig.Schild: solange da schiff kann nicht beschädigt werden.
+
+Endgegner Befor you travel here you have to visit other planets
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Spielstufen}
 Beschreibung der Kamfscreen.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Spiel Verlauf}
-Beschreibung der Spielmodus.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsection{Spiel Unterbrechung}
 Beschreibung der Unterbrechung des Spiels und fortsetzen.
