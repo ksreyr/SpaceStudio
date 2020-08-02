@@ -165,11 +165,11 @@ public class ShopScreen extends ScreenAdapter {
         checkBoxSection5.setChecked(false);
         checkBoxSection6.setChecked(false);
         stage.addActor(checkBoxSection1);
-        stage.addActor(checkBoxSection2);
-        stage.addActor(checkBoxSection3);
-        stage.addActor(checkBoxSection4);
-        stage.addActor(checkBoxSection5);
-        stage.addActor(checkBoxSection6);
+        //stage.addActor(checkBoxSection2);
+        //stage.addActor(checkBoxSection3);
+        //stage.addActor(checkBoxSection4);
+        //stage.addActor(checkBoxSection5);
+        //stage.addActor(checkBoxSection6);
 
 
         Gdx.input.setInputProcessor(stage);
@@ -383,9 +383,9 @@ public class ShopScreen extends ScreenAdapter {
             case 3:
                 stage.getBatch().draw(weaponTexture, positionX, positionY);
                 break;
-            case 4:
-                stage.getBatch().draw(shieldSystem, positionX, positionY);
-                break;
+            //case 4:
+            //    stage.getBatch().draw(shieldSystem, positionX, positionY);
+             //   break;
         }
 
 
@@ -443,7 +443,7 @@ public class ShopScreen extends ScreenAdapter {
         next.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (itemNumber > 3)
+                if (itemNumber > 2)
                     itemNumber = 0;
                 else {
                     itemNumber++;
