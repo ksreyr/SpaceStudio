@@ -166,7 +166,8 @@ public class WeaponControllerImpl implements WeaponController {
             //Search the objective
             Optional<Ship> ship = shipRepository.findById(weapon.getObjectiv().getShip().getId());
             if (ship.isPresent()) {
-                boolean hasHit = ((float)  random.nextDouble() + weapon.getHitRate()) >= 1;  // Treffer falls ueber 50%
+                float hit = (float) random.nextDouble() + weapon.getHitRate();
+                boolean hasHit = hit >= 1;  // Treffer
                 weapon.setCurrentBullets(weapon.getCurrentBullets() - 1);
                 Optional<Actor> actor = actorRepository.findById(pWeapons.get(0).getSection().getShip().getOwner().getId());
                 if (hasHit && actor.isPresent()) {  // Dont change anything if no hit
@@ -216,7 +217,7 @@ public class WeaponControllerImpl implements WeaponController {
                     }
                 } else if (!hasHit) {
                     // TODO add weapons which have missed
-                    LOGGER.info(String.format("Weapon %s has missed %s", weapon.getId(), weapon.getObjectiv().getImg()));
+                       LOGGER.info(String.format("Weapon %s has missed %s", weapon.getId(), weapon.getObjectiv().getImg()));
                 }
                 sectionRepository.save(weapon.getObjectiv());
                 shipRepository.save(ship.get());

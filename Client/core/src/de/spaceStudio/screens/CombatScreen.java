@@ -28,7 +28,6 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
-import de.spaceStudio.server.controller.SectionControllerImpl;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
 
@@ -94,12 +93,14 @@ public class CombatScreen extends BaseScreen {
     private Image shieldIconForEnergyPanel, weaponsIconForEnergyPanel, driveIconForEnergyPanel;
     //private Image imageCrewMemberOne, imageCrewMemberTwo, imageCrewMemberThree;
     private List<Image> listOfCrewImages;
+
     private List<CrewMember> myCrew() {
         if (!Global.combatCrew.containsKey(Global.currentShipPlayer.getId())) {
             return new ArrayList<>();
         }
         return Global.combatCrew.get(Global.currentShipPlayer.getId());
     }
+
     private Label breakCrewMember;
     private Label shieldPlayer;
     private String breakinfo;
@@ -132,7 +133,6 @@ public class CombatScreen extends BaseScreen {
         camera = new OrthographicCamera();
 
 
-
         int row_height = Gdx.graphics.getWidth() / 12;
         int col_width = Gdx.graphics.getWidth() / 12;
         Label.LabelStyle label1Style = new Label.LabelStyle();
@@ -151,24 +151,24 @@ public class CombatScreen extends BaseScreen {
 
         weaponLabel = new Label(weaponText[0], label1Style);
         weaponLabel.setSize(Gdx.graphics.getWidth(), 20);
-        weaponLabel.setPosition(0, BaseScreen.HEIGHT-500);
+        weaponLabel.setPosition(0, BaseScreen.HEIGHT - 500);
 
         currentWeaponLabel = new Label(weaponText[0], label1Style);
         currentWeaponLabel.setSize(Gdx.graphics.getWidth(), 20);
-        currentWeaponLabel.setPosition(0, BaseScreen.HEIGHT-100);
+        currentWeaponLabel.setPosition(0, BaseScreen.HEIGHT - 100);
 
 
-        shieldPlayer= new Label("Schield Player:",label1Style);
+        shieldPlayer = new Label("Schield Player:", label1Style);
 
         sectionLabel = new Label(getSectionStats(Global.combatSections.get(Global.currentShipPlayer.getId())), label1Style);
-        shieldPlayer=  new Label(String.valueOf(Global.currentShipPlayer.getHp()), label1Style);
+        shieldPlayer = new Label(String.valueOf(Global.currentShipPlayer.getHp()), label1Style);
         sectionLabel.setSize(Gdx.graphics.getWidth(), row_height);
-        sectionLabel.setPosition(BaseScreen.WIDTH-800, 100);
+        sectionLabel.setPosition(BaseScreen.WIDTH - 800, 100);
         this.breakinfo = "All crewMember in action";
 
     }
 
-    public void warningForEnergy(){
+    public void warningForEnergy() {
 
         final Dialog dialog = new Dialog("Remember!!!", skin, "dialog") {
             public void result(Object obj) {
@@ -180,15 +180,14 @@ public class CombatScreen extends BaseScreen {
     }
 
 
-
-    public void warning(){
+    public void warning() {
 
         final Dialog dialog = new Dialog("Remember!!!", skin, "dialog") {
             public void result(Object obj) {
                 obj.toString();
             }
         };
-            warningMessageDialog(dialog, " Please select a Target!, Then you can shoot!");
+        warningMessageDialog(dialog, " Please select a Target!, Then you can shoot!");
 
     }
 
@@ -235,13 +234,13 @@ public class CombatScreen extends BaseScreen {
                 result = Optional.of(s);
                 if (currentTarget) {
                     selectedTarget = s;
-                    isTargetSelected=true;
+                    isTargetSelected = true;
                     break;
                 }
             }
 
         }
-        if (result.isEmpty() ) {
+        if (result.isEmpty()) {
             System.out.println("Stop no Result");
         }
     }
@@ -321,7 +320,7 @@ public class CombatScreen extends BaseScreen {
         weaponsIconForEnergyPanel = new Image(new Texture("Client/core/assets/combatAssets/3.png"));
 
         shieldIconForEnergyPanel.setPosition(185, 12);
-        shieldIconForEnergyPanel.setPosition(185,12);
+        shieldIconForEnergyPanel.setPosition(185, 12);
 
         shieldIconForEnergyPanel.addListener(new ClickListener(Input.Buttons.LEFT) {
             @Override
@@ -641,41 +640,41 @@ public class CombatScreen extends BaseScreen {
                 CrewMember draggedCrewMember = getDraggedCrewMember(imageCrewMember);
                 List<Section> sections = Global.combatSections.get(Global.currentShipPlayer.getId());
 
-                if(draggedCrewMember == null){
+                if (draggedCrewMember == null) {
                     System.out.println("draggedCrewMember is null");
                 } else if (sectionOne.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(0));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionTwo.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(1));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionThree.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(2));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionFour.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(3));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionFive.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(4));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
                 } else if (sectionSix.contains(tmp.x, tmp.y)) {
                     draggedCrewMember.setCurrentSection(sections.get(5));
-                    moveCrewMember(draggedCrewMember,imageCrewMember,Net.HttpMethods.PUT);
+                    moveCrewMember(draggedCrewMember, imageCrewMember, Net.HttpMethods.PUT);
                     setHourX1(tmp.x);
                     setHourY1(tmp.y);
 
@@ -768,11 +767,11 @@ public class CombatScreen extends BaseScreen {
     /**
      * Receives an Crew Member, the image of the Crew Member and the HTTP-method
      *
-     * @param requestObject Crew Member object
+     * @param requestObject   Crew Member object
      * @param imageCrewMember Image of Crew Member which CrewMember object to find
-     * @param method HTTP-method to send to server
+     * @param method          HTTP-method to send to server
      */
-    public void moveCrewMember(Object requestObject,Image imageCrewMember, String method) {
+    public void moveCrewMember(Object requestObject, Image imageCrewMember, String method) {
         final Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         final String requestJson = json.toJson(requestObject);
@@ -972,7 +971,7 @@ public class CombatScreen extends BaseScreen {
 
         Map<Section, Integer> dammagePerSection = new HashMap<>();
 
-        Global.combatSections.get(Global.currentShipPlayer.getId()).forEach(s -> dammagePerSection.put( s, 0));
+        Global.combatSections.get(Global.currentShipPlayer.getId()).forEach(s -> dammagePerSection.put(s, 0));
         // Sum Dammage here
         for (Weapon w :
                 Global.weaponsToProcess) {
@@ -992,9 +991,9 @@ public class CombatScreen extends BaseScreen {
             liamButton.setText(state.getFightState().getState());
         }
 
-        shieldPlayer.setPosition(15,350);
+        shieldPlayer.setPosition(15, 350);
 
-        shieldPlayer.setText("Shield: Player "+Global.currentShipPlayer.getShield());
+        shieldPlayer.setText("Shield: Player " + Global.currentShipPlayer.getShield());
         stage.addActor(shieldPlayer);
         // TODO wenn alle Sektionen kaputt sind, wird auch verlore
         // If der Player lose
@@ -1017,8 +1016,9 @@ public class CombatScreen extends BaseScreen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 
-            if(!isTargetSelected) warning();
-            if(Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() < 1) warningForEnergy();
+            if (!isTargetSelected) warning();
+            if (Global.combatSections.get(Global.currentShipPlayer.getId()).get(3).getPowerCurrent() < 1)
+                warningForEnergy();
 
 
             //Set Target->Section of Player and gegner Weapons
@@ -1132,8 +1132,20 @@ public class CombatScreen extends BaseScreen {
         //A
         //Logic
         // for player
-        if (Global.currentShipPlayer.getShield() > 0) {
-            stage.getBatch().draw(shield, 70, 150, 1100, 1000);
+        Optional<Section> shieldSection = Optional.empty();
+        for (Section s :
+                Global.combatSections.get(Global.currentShipPlayer.getId())) {
+            if (s.getSectionTyp().equals(SectionTyp.HEALTH)) {
+                shieldSection = Optional.of(s);
+                break;
+            }
+        }
+        if (shieldSection.isPresent()) {
+            if (Global.currentShipPlayer.getShield() > 0 && shieldSection.get().getPowerCurrent() >= shieldSection.get().getPowerRequired()) {
+                stage.getBatch().draw(shield, 70, 150, 1100, 1000);
+            }
+        } else {
+            LOG.warning("No Shield System in Ship present");
         }
         //shield for enemy
 
@@ -1164,11 +1176,16 @@ public class CombatScreen extends BaseScreen {
         if (Global.currentShipGegner != null && Global.combatSections.size() == 2) {
             for (Section s :
                     Global.combatSections.get(Global.currentShipGegner.getId())) {
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))   stage.getBatch().draw(explosion, 1530, 635, 100, 70);
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section3Gegner1")) stage.getBatch().draw(explosion, 1410, 485, 100, 70);
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section2Gegner1"))  stage.getBatch().draw(explosion, 1530, 450, 100, 70);
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section5Gegner3"))  stage.getBatch().draw(explosion, 1610, 485, 100, 70);
-                if (!s.getUsable() && Objects.equals(s.getImg(), "Section4Gegner2"))  stage.getBatch().draw(explosion, 1530, 510, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))
+                    stage.getBatch().draw(explosion, 1530, 635, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section3Gegner1"))
+                    stage.getBatch().draw(explosion, 1410, 485, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section2Gegner1"))
+                    stage.getBatch().draw(explosion, 1530, 450, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section5Gegner3"))
+                    stage.getBatch().draw(explosion, 1610, 485, 100, 70);
+                if (!s.getUsable() && Objects.equals(s.getImg(), "Section4Gegner2"))
+                    stage.getBatch().draw(explosion, 1530, 510, 100, 70);
             }
         }
 
@@ -1216,7 +1233,7 @@ public class CombatScreen extends BaseScreen {
     private String dammageString(Map<Section, Integer> dammagePerSection) {
         StringBuilder sb = new StringBuilder();
 
-       Set<Section> keys = dammagePerSection.keySet();
+        Set<Section> keys = dammagePerSection.keySet();
         for (Section s :
                 keys) {
             sb.append(String.format("Section: %s has suffered %s dammage%n", s.getImg(), dammagePerSection.get(s)));
@@ -1309,12 +1326,14 @@ public class CombatScreen extends BaseScreen {
         click.play();
         dialog.show(stage);
     }
+
     private void warningMessageDialog(Dialog dialog, String action) {
         dialog.text(action);
         dialog.button("OK", true);
         click.play();
         dialog.show(stage);
     }
+
     private void winMessageDialog(Dialog dialog, String action) {
         dialog.text(action);
         dialog.button("See Map", true).addListener(new ChangeListener() {

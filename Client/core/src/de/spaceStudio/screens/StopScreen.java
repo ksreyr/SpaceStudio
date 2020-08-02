@@ -372,13 +372,13 @@ public class StopScreen extends ScreenAdapter {
                                             {
                                                 text("You the eager Mechnanic has finished");
                                                 button("View Map", 1L).getButtonTable().row();
-                                                button("Fight", 2L);
+                                                button("Search Enemy", 2L);
 
                                             }
 
                                             @Override
                                             protected void result(Object object) {
-                                                if (object.equals(1L)) {
+                                                if (object.equals(1L) || !enemyNearBy) {
                                                     game.setScreen(new StationsMap(game));
                                                 } else if (object.equals(2L)) {
                                                     game.setScreen(new CombatScreen(game));
