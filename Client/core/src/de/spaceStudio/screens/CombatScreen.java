@@ -1438,8 +1438,6 @@ public class CombatScreen extends BaseScreen {
                 game.setScreen(new StationsMap(game));
             }
         });
-        dialog.key(Input.Keys.ENTER, true);
-        dialog.key(Input.Keys.ESCAPE, false);
         click.play();
         dialog.show(stage);
     }
@@ -1453,8 +1451,6 @@ public class CombatScreen extends BaseScreen {
                 game.setScreen(new MenuScreen(game));
             }
         });
-        dialog.key(Input.Keys.ENTER, true);
-        dialog.key(Input.Keys.ESCAPE, true);
         click.play();
         dialog.show(stage);
     }
