@@ -707,6 +707,31 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
+    public FightState endOnlineRound(Weapon weapon) {
+        Optional<Ship> playerShip = shipRepository.findById(weapon.getObjectiv().getShip().getId());
+        Optional<Ship> aiShip = shipRepository.findById(weapon.getSection().getShip().getId());
+        Optional<AI> ai = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
+        Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
+
+        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent()) {
+            // Compute Changes for Player
+            List<Section> sectionsOfPlayer = sectionController.sectionsByShip(playerShip.get().getId());
+            List<Weapon> playerOfWeapons = new ArrayList<>();
+            for (Section s :
+                    sectionsOfPlayer) {
+                playerOfWeapons.addAll(weaponRepository.findBySection(s).orElse(new ArrayList<>()));
+            }
+            lowerWarmUpTime(playerOfWeapons);
+        }
+
+        if (player.isPresent()) {
+            return player.get().getState().getFightState();
+        } else {
+            throw new IllegalArgumentException("Missing Parameters in Weapon");
+        }
+    }
+
+    @Override
     public Ship getEnemyShip(String session, Integer id) {
         Optional<Player> player = playerRepository.findById(id);
         Optional<Ship> ship = shipRepository.findById(id);
