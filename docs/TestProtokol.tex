@@ -38,7 +38,8 @@ Dieses Testprotokoll basiert auf der C4 Testabdeckung, dann versuchen wir jede V
 \subsection{Registrierung}
 Tested succesfully by Santiago on 02.08\\\\
 Auf diesem Bildschirm kann sich der Benutzer anmelden, dazu ist es notwendig, dass der User einen Namen und ein Passwort eingibt.\\
-Eingabe: Karsten als Username und Hoelscher als Passwort. Damit kann dieser Benutzer sich anmelden.
+Eingabe: Karsten als Username und Hoelscher als Passwort.\\
+Ergebnis: Registrierung ist erfolgreich. Der Spieler kann sich nun einloggen.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/startScreen.jpg}
@@ -91,11 +92,11 @@ Tested succesfully by Santiago Rey on 02.08\\\\
 Auf dem Menübildschirm sind die Optionen:
 \begin{itemize}
 \item Continue: Falls ein Spielstand für den Benutzer in der Datenbank gespeichert wurde, wird auch die Option Continue angezeigt. Mit der kann der Benutzer in seinen vorhandenen Spielstand wechseln.\\
-Eingabe: Der Spieler drückt auf Continue
-Ergebnis: Der Spieler kann seinen alten Spielstand fortsetzen.
-\item New Game: Mit dieser Option kann der Benutzer ein neues Spiel starten
-Eingabe: Der Spieler drückt auf New Game.
-Ergebnis: Der Spieler kommt in den zweiten Menü Screen.
+Eingabe: Der Spieler drückt auf Continue\\
+Ergebnis: Der Spieler kann seinen alten Spielstand fortsetzen.\\
+\item New Game: Mit dieser Option kann der Benutzer ein neues Spiel starten.\\
+Eingabe: Der Spieler drückt auf New Game.\\
+Ergebnis: Der Spieler kommt in den zweiten Menü Screen.\\
 \item About: In dieser Option können Informationen zu den Entwicklern gefunden werden.
 \item Exit: Mit dieser Option kann der Benutzer das Spiel beenden.
 \end{itemize}
@@ -110,11 +111,11 @@ Tested succesfully by Santiago Rey on 02.08\\\\
 Im zweiten Menübildschirm können Sie die Optionen sehen, die der Benutzer spielen muss.
 \begin{itemize}
 \item Single Player: Mit dieser Option kann der Benutzer als Einzelspieler im Universum spielen.\\
-Eingabe: Der Spieler drückt auf die Option Single Player.
-Ergebnis: Der Spieler gelangt in den Ship-Select-Screen.
+Eingabe: Der Spieler drückt auf die Option Single Player.\\
+Ergebnis: Der Spieler gelangt in den Ship-Select-Screen.\\
 \item Multiplayer: Diese Option ermöglicht es dem Benutzer, mit einem anderen Spieler im Universum zu spielen und gegeneinander zu kämpfen.\\
-Eingabe: Der Spieler drückt auf die Option Multiplayer.
-Ergebnis: Der Spieler kommt auch in den Ship-Select-Screen
+Eingabe: Der Spieler drückt auf die Option Multiplayer.\\
+Ergebnis: Der Spieler kommt auch in den Ship-Select-Screen\\
 \item Back to Menu: Diese Option ermöglicht es Ihnen, zum vorherigen Bildschirm zurückzukehren.
 \end{itemize}
 \begin{figure}[h]
@@ -203,6 +204,7 @@ Ergebnis: Der Spieler gelangt zu dem ausgewählten Planeten und kann hat mehrere
 \includegraphics[scale=0.4]{TestProtocolBilder/traveling.jpg}
 \caption{Reise Screen}
 \end{figure}
+\clearpage
 Der Button flee, dann man kann wieder auf die Map Screen springen.\\
 Eingabe: Der Spieler drückt auf den Button flee.\\
 Ergebnis: Der Spieler bleibt auf der Kartenansicht und kann auf eine andere Station/Planet fliegen.\\
@@ -220,8 +222,8 @@ Es wurde getestet, dass nach dem Reisebildschirm der erste Teil der Ereignisse a
 \includegraphics[scale=0.4]{TestProtocolBilder/InitialGeeinisse.jpg}
 \caption{Erste Ereignisse}
 \end{figure}
-Dieser Bildschirm war für die Einführung des Benutzers in die Ereignisse gedacht.
-\newpage
+\clearpage
+Dieser Bildschirm war für die Einführung des Benutzers in die Ereignisse gedacht.\\
 Andere Arten von Ereignissen wurden getestet, insgesamt gibt es fünf verschiedene Arten von Ereignissen pro Universum.
 \begin{figure}[htp]
 \centering
@@ -246,7 +248,7 @@ Wenn der Benutzer den Shop-Bildschirm betritt, kann er den Kaufen-Button und die
 \caption{shop Screen}
 \end{figure}
 
-\subsection{kaufen}
+\subsection{Kaufen}
 Als nächstes wurde der Kauf jedes Objekts sowie das Ergebnis des verbleibenden Geldes des Spielers getestet.\\
 Eingabe: Der Spieler kauft ein Objekt.
 Ergebnis: Das Gold wird reduziert und der Spieler bekommt das Objekt.
@@ -259,9 +261,9 @@ Dies ist das Ergebnis nach dem Kauf von Gold, was sich direkt auf das Geld des B
 \end{figure}
 \newpage
 \subsubsection{Energie kaufen}
-Dies ist das Ergebnis nach dem Kauf von Energie. Dieser Kauf wirkt sich auf das Raumschiff aus und es ist nur möglich, die Reduzierung von Gold auf dem Raumschiff zu sehen.//
-Eingabe: Der Spieler kauft Energie.//
-Ergebnis: Der Spieler bekommt Energie und kann diese den vorhandenen Systemen zuteilen.//
+Dies ist das Ergebnis nach dem Kauf von Energie. Dieser Kauf wirkt sich auf das Raumschiff aus und es ist nur möglich, die Reduzierung von Gold auf dem Raumschiff zu sehen.\\
+Eingabe: Der Spieler kauft Energie.\\
+Ergebnis: Der Spieler bekommt Energie und kann diese den vorhandenen Systemen zuteilen.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/energie.jpg}
@@ -280,8 +282,8 @@ Ergebnis: Das Raumschiff bekommt die gekaufte Waffe und kann diese im Combat-Scr
 \newpage
 \subsubsection{Crewmember kaufen}
 Beim Kauf von Mitgliedern wurde getestet, dass zuerst ein Abschnitt ausgewählt werden muss, in dem dieses Mitglied positioniert werden muss, wenn der Kauf getätigt werden kann.\\
-Eingabe: Der Spieler kauft einen Crewmember und wählt die Sektion in der der Crewmember aufgestellt werden soll.//
-Ergebnis: Der Crewmember wird dem Raumschiff in die ausgewählte Sektion hingestellt. 
+Eingabe: Der Spieler kauft einen Crewmember und wählt die Sektion in der der Crewmember aufgestellt werden soll.\\
+Ergebnis: Der Crewmember wird dem Raumschiff in die ausgewählte Sektion hingestellt.\\
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/crewmemberkaufen.jpg}
@@ -451,25 +453,32 @@ Wenn der Spieler dann auf Continue drückt kommt er wieder auf den alten Spielst
 
 \newpage
 \section{Multiplayer}
+Man kann auch gegen einen echten Spieler spielen. Dafür müssen die beide Spieler in den Multiplayer Modus gehen.\\
+Eingabe: Beide Spieler drücken auf den Multiplayer Button\\
+Ergebnis: Beide Spieler gelangen in den Ship-Select-Screen.\\
 \begin{figure}[htp]
 	\centering
 	\includegraphics[scale=0.4]{TestProtocolBilder/Multiplayer/1.jpg}
-	\caption{multiplayer Anmeldung}
+	\caption{Multiplayer Menü Screen}
 \end{figure}
+\clearpage
+Im Ship-Select-Screen wählen beide das Raumschiff aus und müssen den Ready-Up Button drücken um anfangen können.\\
+Eingabe: Beide Spieler drücken auf Ready Up.\\
+Ergebnis: Das Spiel beginnt und beide Spieler gelangen in die Kartenansicht.\\
 \begin{figure}[htp]
 	\centering
 	\includegraphics[scale=0.4]{TestProtocolBilder/Multiplayer/2.jpg}
-	\caption{multiplayer Syncronizierung}
+	\caption{Multiplayer Synchronisierung}
 \end{figure}
 \begin{figure}[htp]
 	\centering
 	\includegraphics[scale=0.48]{TestProtocolBilder/Multiplayer/3.jpg}
-	\caption{wartung zu Server Antwort}
+	\caption{Wartet auf die Antwort des Servers}
 \end{figure}
 \begin{figure}[htp]
 	\centering
 	\includegraphics[scale=0.4]{TestProtocolBilder/Multiplayer/4.jpg}
-	\caption{sincronisyerung multiplayer erfolgreich}
+	\caption{Multiplayer Synchronisierung erfolgreich}
 \end{figure}
 \end{document}
 
