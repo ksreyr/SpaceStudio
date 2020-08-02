@@ -228,7 +228,9 @@ Andere Arten von Ereignissen wurden getestet, insgesamt gibt es fünf verschiede
 \includegraphics[scale=0.4]{TestProtocolBilder/otherEreignisse.jpg}
 \caption{Anderer Typ von Ereignissen}
 \end{figure}
-Sobald Sie den Einkaufsteil des Spiels betreten, können Sie die in diesem Teil verfügbaren Dinge kaufen.
+Sobald Sie den Einkaufsteil des Spiels betreten, können Sie die in diesem Teil verfügbaren Dinge kaufen.\\
+Eingabe: Der Spieler drückt auf die Station Shop.\\
+Ergebnis: Der Spieler gelangt in den Shop-Screen und gelangt in den Shop und kann dort Waffen, Crewmember, Energie und vieles mehr kaufen.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/shopPlanetJump.jpg}
@@ -245,8 +247,9 @@ Wenn der Benutzer den Shop-Bildschirm betritt, kann er den Kaufen-Button und die
 \end{figure}
 
 \subsection{kaufen}
-Als nächstes wurde der Kauf jedes Objekts sowie das Ergebnis des verbleibenden Geldes des Spielers getestet.
-
+Als nächstes wurde der Kauf jedes Objekts sowie das Ergebnis des verbleibenden Geldes des Spielers getestet.\\
+Eingabe: Der Spieler kauft ein Objekt.
+Ergebnis: Das Gold wird reduziert und der Spieler bekommt das Objekt.
 \subsubsection{Gold kaufen}
 Dies ist das Ergebnis nach dem Kauf von Gold, was sich direkt auf das Geld des Benutzers auswirkt.
 \begin{figure}[htp]
@@ -256,7 +259,9 @@ Dies ist das Ergebnis nach dem Kauf von Gold, was sich direkt auf das Geld des B
 \end{figure}
 \newpage
 \subsubsection{Energie kaufen}
-Dies ist das Ergebnis nach dem Kauf von Energie. Dieser Kauf wirkt sich auf das Raumschiff aus und es ist nur möglich, die Reduzierung von Gold auf dem Boot zu sehen.
+Dies ist das Ergebnis nach dem Kauf von Energie. Dieser Kauf wirkt sich auf das Raumschiff aus und es ist nur möglich, die Reduzierung von Gold auf dem Raumschiff zu sehen.//
+Eingabe: Der Spieler kauft Energie.//
+Ergebnis: Der Spieler bekommt Energie und kann diese den vorhandenen Systemen zuteilen.//
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/energie.jpg}
@@ -264,7 +269,9 @@ Dies ist das Ergebnis nach dem Kauf von Energie. Dieser Kauf wirkt sich auf das 
 \end{figure}
 \newpage
 \subsubsection{Waffen kaufen}
-Der Kauf von Waffen wurde getestet, diese Aktion verringert das Gold des Spielers.    
+Der Kauf von Waffen wurde getestet, diese Aktion verringert das Gold des Spielers.\\
+Eingabe: Der Spieler kauft Waffen.\\
+Ergebnis: Das Raumschiff bekommt die gekaufte Waffe und kann diese im Combat-Screen verwenden.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/weaponkaufen.jpg}
@@ -272,7 +279,9 @@ Der Kauf von Waffen wurde getestet, diese Aktion verringert das Gold des Spieler
 \end{figure}
 \newpage
 \subsubsection{Crewmember kaufen}
-Beim Kauf von Mitgliedern wurde getestet, dass zuerst ein Abschnitt ausgewählt werden muss, in dem dieses Mitglied positioniert werden muss, wenn der Kauf getätigt werden kann.
+Beim Kauf von Mitgliedern wurde getestet, dass zuerst ein Abschnitt ausgewählt werden muss, in dem dieses Mitglied positioniert werden muss, wenn der Kauf getätigt werden kann.\\
+Eingabe: Der Spieler kauft einen Crewmember und wählt die Sektion in der der Crewmember aufgestellt werden soll.//
+Ergebnis: Der Crewmember wird dem Raumschiff in die ausgewählte Sektion hingestellt. 
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/crewmemberkaufen.jpg}
@@ -285,7 +294,7 @@ Beim Kauf von Mitgliedern wurde getestet, dass zuerst ein Abschnitt ausgewählt 
 Tested succesfully by Santiago Rey on 02.08\\\\
 Auf diesem Bildschirm wird jeder Knopf getestet und die Logik für einen Kampf ermittelt.
 
-\subsection{Inital combat Screen}
+\subsection{Initial Combat Screen}
 Die Hauptschaltfläche auf dem Bildschirm ist der unterste Knopf, mit der Sie eine Runde starten oder beenden können. Dieser Button verringert das Aufwärmen und lässt Waffen schießen.
 \begin{figure}[htp]
 \centering
