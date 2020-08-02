@@ -142,6 +142,11 @@ Auf diesem Bildschirm wurde jede Schaltfläche getestet, beginnend mit der Taste
 \end{figure}
 \newpage
 \subsection{Sektionen anzeigen Test}
+Minimal Anforderung:
+\begin{itemize}
+\item in verschiedene Sektionen unterteilt
+\item pro Sektion gibt es relevante Systeme(Antrieb, Waffen, Schutzschild)
+\end{itemize}
 Tested succesfully by Santiago Rey on 02.08\\\\
 Mit dem Button "show rooms" wurde getestet, ob die Sektionen des Raumschiffes sichtbar sind. Wenn Sie erneut drücken, verschwinden die Abschnitte\\
 \begin{figure}
@@ -203,6 +208,18 @@ Hier wurde jeder Planet und jede Station getestet, die Schaltflächen sind der Z
 \end{figure}
 \newpage
 \section{Ereignisse}
+Minimal Anforderung : 
+\begin{itemize}
+\item hat verschiedene Eigenschaften(Waffen, mehrere Waffen pro Raumschiff möglich, Waffensysteme können gekauft, Schutzschilde, Energie, n)
+\item Waffen pro Raumschiff möglich
+\item pro Station/Planet kann ein Ereignis eintreten
+\item es gibt mindestens 5 verschiedenartige Ereignisse
+\item Ereignisse haben generell negative oder positive Auswirkungen
+\item Ressourcen stehen pro Spielrunde zur Verfügung.
+\item Ressourcen sind veränderlich.
+\end{itemize}
+
+
 Tested succesfully by Santiago Rey on 02.08\\\\
 Nach dem Drücken eines Planeten wird ein Popup-Menü angezeigt und die Springfunktion getestet. Nach Auswahl der Springfunktion sieht der Benutzer auf dem Bildschirm eine Fahrzeit von 4 Sekunden.\\
 Eingabe: Der Spieler drückt auf einen Planeten.\\
@@ -261,6 +278,7 @@ Als nächstes wurde der Kauf jedes Objekts sowie das Ergebnis des verbleibenden 
 Eingabe: Der Spieler kauft ein Objekt.
 Ergebnis: Das Gold wird reduziert und der Spieler bekommt das Objekt.
 \subsubsection{Gold kaufen}
+hat verschiedene spielrelevante Ressourcen: Geld
 Dies ist das Ergebnis nach dem Kauf von Gold, was sich direkt auf das Geld des Benutzers auswirkt.
 \begin{figure}[htp]
 \centering
@@ -269,6 +287,9 @@ Dies ist das Ergebnis nach dem Kauf von Gold, was sich direkt auf das Geld des B
 \end{figure}
 \newpage
 \subsubsection{Energie kaufen}
+\begin{itemize}
+\item Eigenschaften können durch Geld verbessert werden
+\end{itemize} 
 Dies ist das Ergebnis nach dem Kauf von Energie. Dieser Kauf wirkt sich auf das Raumschiff aus und es ist nur möglich, die Reduzierung von Gold auf dem Raumschiff zu sehen.\\
 Eingabe: Der Spieler kauft Energie.\\
 Ergebnis: Der Spieler bekommt Energie und kann diese den vorhandenen Systemen zuteilen.\\
@@ -279,6 +300,12 @@ Ergebnis: Der Spieler bekommt Energie und kann diese den vorhandenen Systemen zu
 \end{figure}
 \newpage
 \subsubsection{Waffen kaufen}
+Minimal Anforderung: 
+\begin{itemize}
+\item Waffensysteme können gekauft
+\item Waffen pro Raumschiff möglich
+\item Eigenschaften können durch Geld verbessert werden
+\end{itemize} 
 Der Kauf von Waffen wurde getestet, diese Aktion verringert das Gold des Spielers.\\
 Eingabe: Der Spieler kauft Waffen.\\
 Ergebnis: Das Raumschiff bekommt die gekaufte Waffe und kann diese im Combat-Screen verwenden.
@@ -289,6 +316,9 @@ Ergebnis: Das Raumschiff bekommt die gekaufte Waffe und kann diese im Combat-Scr
 \end{figure}
 \newpage
 \subsubsection{Crewmember kaufen}
+\begin{itemize}
+\item Besatzungsmitglied kann sich in Sektionen auf halten
+\end{itemize}
 Beim Kauf von Mitgliedern wurde getestet, dass zuerst ein Abschnitt ausgewählt werden muss, in dem dieses Mitglied positioniert werden muss, wenn der Kauf getätigt werden kann.\\
 Eingabe: Der Spieler kauft einen Crewmember und wählt die Sektion in der der Crewmember aufgestellt werden soll.\\
 Ergebnis: Der Crewmember wird dem Raumschiff in die ausgewählte Sektion hingestellt.\\
@@ -305,6 +335,19 @@ Tested succesfully by Santiago Rey on 02.08\\\\
 Auf diesem Bildschirm wird jeder Knopf getestet und die Logik für einen Kampf ermittelt.
 
 \subsection{Initial Combat Screen}
+Minimal Anforderung:
+\begin{itemize}
+\item  Besatzungsmitglied kann sterben
+\item Besatzungsmitglied kann Systeme/Sektionen reparieren
+\item Besatzungsmitglied hat Fähigkeiten
+\item Fähigkeiten wirken sich auf Systeme aus, falls sich Besatzungsmitglied in entsprechender Sektion befindet
+\item Die Entscheidungen im Kamp mit einem gegnerischen Raumschiff werden
+rundenbasiert getroffen und sind taktischer Natur
+\item Aufladungsdauer (d.h. Anzahl Kampfrunden bis die Waffe gefeuert
+werden kann)
+\item Trefferwahrscheinlichkeit, Schadenshöhe im Trefferfall
+\item Fähigkeiten können verbessert werden (z.B. durch Anwenden einer Fähigkeit)
+\end{itemize}
 Die Hauptschaltfläche auf dem Bildschirm ist der unterste Knopf, mit der Sie eine Runde starten oder beenden können. Dieser Button verringert das Aufwärmen und lässt Waffen schießen.\\
 Eingabe: Der Spieler drückt den Knopf Waiting/Playing.\\
 Ergebnis: Die Runde wird gestartet oder beendet. Entweder schießt der Spieler oder sein Gegner.\\
@@ -316,6 +359,7 @@ Ergebnis: Die Runde wird gestartet oder beendet. Entweder schießt der Spieler o
 
 \newpage
 \subsection{Energieverteilung}
+Minimal Anforderung : hat verschiedene spielrelevante Ressourcen: Integrität der Außenhülle (Lebensenergie), Energie
 Die Beschriftungen unten rechts ermöglichen es, den Zustand der Player zu kennen. Diese ändern sich dynamisch nach den Anweisungen des Spielers.\\
 Ereignis: Der Spieler verteilt eine Energie an das System Waffen.\\
 Ergebnis: Die Gesamtanzahl der Energie verringert sich um eins und die Anzahl der Energie, die das Waffensystem hat, wird um eins erhöht.\\
@@ -338,6 +382,7 @@ Ereignis: Der Spieler kann nicht mehr schießen, da das Waffensystem mindestens 
 
 \newpage
 \subsection{Gegner schießt}
+Minialanforderung: Sektionen können im Kampf beschädigtm, werden die enthaltenen Systeme werden dadurch ebenfalls beschädigt
 Es wurde getestet, dass der Gegner, wenn er an der Reihe ist, schießen kann und die Kugeln in der grafischen Oberfläche gerendert werden.\\
 Eingabe: Der Spieler beendet seine Runde und der Gegner ist dran.\\
 Ergebnis: Der Gegner schießt auf eine beliebige Sektion. Das Schutzschild wird beschädigt.\\
@@ -371,6 +416,8 @@ Ergebnis: Ein Dialog erscheint und der Spieler hat den Kampf gewonnen und kann z
 \end{figure}
 \newpage
 \subsection{Bewegung der Mitglieder}
+Minimal Anforderung
+
 Wenn ein Teammitglied aus dem Bereich verschoben wird, sehen Sie Symbole, wo dieses Teammitglied platziert werden kann.\\
 Eingabe: Der Spieler bewegt ein Crewmitglied in eine andere Sektion.\\
 Ergebnis: Es dauert eine Runde Zeit bis das Crewmitglied in die ausgewählte Sektion gelangt. Eine Sanduhr erscheint.\\
@@ -427,6 +474,12 @@ Wenn ein Upgrade ausgewählt wurde, können Sie mit dem Kampfbildschirm fortfahr
 
 \newpage
 \section{Spiel speichern und fortsetzen}
+Minimmal Anformderung:
+\begin{itemize}
+\item  ermöglicht Unterbrechung und Wiederaufnahme des Spiels
+\item Shot returns section with new Values of the Section TODO hp
+\item Shop, Upgrades, Hire
+\end{itemize}
 Während des Spiels kann der Spieler das Spiel speichern um zu einem späteren Zeitpunkt das Spiel wieder aufzunehmen und fortzusetzen.\\
 Eingabe: Der Spieler speichert seinen Spielstand ab.\\
 Ergebnis: Der Spielstand wird in der Datenbank gespeichert.\\
@@ -461,6 +514,11 @@ Wenn der Spieler dann auf Continue drückt kommt er wieder auf den alten Spielst
 
 \newpage
 \section{Multiplayer}
+Minimal Anforderung:
+\begin{itemize}
+\item kann von mindestens zwei Spieler*innen genutzt werden
+\item steht keine 2. Spielerin zur Verfügung, simuliert der Spielserver über einen aktiven Computerspieler eine Gegnerin
+\end{itemize}
 Man kann auch gegen einen echten Spieler spielen. Dafür müssen die beide Spieler in den Multiplayer Modus gehen.\\
 Eingabe: Beide Spieler drücken auf den Multiplayer Button\\
 Ergebnis: Beide Spieler gelangen in den Ship-Select-Screen.\\
