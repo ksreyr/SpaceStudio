@@ -72,7 +72,7 @@ Windows Installation \\
 1. Starten Sie den Server mit folgendem Command: gradlew.bat bootRun\\
 2. Starten Sie den Client mit folgendem Command:  gradlew.bat :Client:desktop:run \\
 
-Hinweis zu 1.: Wird der Server nicht aus der Konsole heraus gestartet, können Probleme beim Speichern
+Hinweis zu 1.: Wird der Server nicht aus der Konsole heraus gestartet, können Probleme beim Speichern 
 des Spiels entstehen.
 
 Der User muss eine Umgebungsvariable für Java setzen
@@ -186,6 +186,8 @@ Außerdem entfällt die Wahl der Spielstufe, da der Gegner nun nicht mehr durch 
 
 Für den Fall, dass keine weiteren Spieler gefunden werden, erscheint ein Pop up Fenster das die Möglichkeiten bietet, über Try again erneut nach anderen Spielern zu suchen
 oder sich über Play with AI doch zu einem Spiel im Single Player Modus umzuentscheiden.\\
+
+Wenn beide Nutzer*Innen schon auf READY UP geklickt haben und der Try Again Dialog erscheint muss beachtet werden, dass Mensch nicht sofort wieder auf den Try Again Knopf drucken soll. In den meisten fällen werden troztdem beide Player in der Stationmap spawnen. Erst nach ca 5 bis 10 Sekunden bitte auf den Try Again Knopf drucken.
  
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -266,7 +268,7 @@ Im Shop Screen sind drei Anzeigen zu sehen. Jene oben rechts zeigt an, wie viel 
 Das Angebot umfasst: Gold, Energie, Crew Member und ein Weapon Lasser. Die Kosten werden entsprechend von dem Gold abgezogen. Secure lässt sich in der vorher beschriebenen upgrade Option kaufen und nicht über den Shop.\\
 Möchten Sie einen Crew Member kaufen, so muss die Checkbox der entsprechende Sektion, in die der Crew Member plaziert werden soll, ausgewählt werden, bevor der Kauf über den Buy Button bestätigt werden kann. \\
 Hinweis: Stanardmäßig sind bereits Crew Member in den Sektionen 2,4 und 6. Wir empfehlen daher nur welche für die Sektionen 1,3 und 5 zu kaufen, um kein Geld auf den Mond zu schmeißen.
-Möchten Sie den Shop verlassen, dann klicken Sie auf den Back to Map Button in der oberen rechten Ecke.
+Möchten Sie den Shop verlassen, dann klicken Sie auf den Back to Map Button in der oberen rechten Ecke. 
 
 \begin{figure}[htp]
 	\centering
@@ -312,12 +314,12 @@ Um den Kampf zu starten, klicken Sie bitte auf den waiting Button und anschließ
 auf Playing.\\
 
 Wie schon erwähnt, sind beide Raumschiffe von ihren Schutzschildern umgeben, diese halten einige 
-Schüsse ab, bis sie verschwinden. Erst dann wenn dieser Schutz aufgehoben ist, sind die Raumschiffe und somit auch dessen Sektionen und Systeme verletzlich.\\
+Schüsse ab, bis sie verschwinden. Erst dann wenn dieser Schutz aufgehoben ist, sind die Raumschiffe und somit auch dessen Sektionen und Systeme verletzlich. Wenn das Schildsystem keine Energie hat, hat das Schild keine schutz wirkung\\
 
 Wählen Sie ein System des Geners aus, z.B das Cockpit, um auf dieses zu schießen. Die Auwahl kann nach jedem Schuss verändert werden. Haben Sie diesen
 Schritt vergessen, erscheint ein Pop up: Please select a target. Then you can shoot.\\
 
-Nun können Sie über die Leertaste die Schüsse der Waffe abfeuern. Über die Taste W, kann zwischen den Waffen gewechselt werden.
+Nun können Sie über die Leertaste die Schüsse der Waffe abfeuern. Über die Taste W, kann zwischen den Waffen gewechselt werden. 
 Bullets zeigt dynamisch die verbleibenden Schüsse an. Die Waffe ist nur dann einsatzbereit, wenn Warmup auf 0 ist. Warmup zählt, pro Spielzug, die des Gegners zählen mit, runter. Sind keine Schüsse mehr übrig, ist die Runde beendet.
 In einer Runde wird automatisch nur die Waffe verwendet, dessen Warup auf 0 ist.
 Trifft der Gegner eine Sektoin des Spielers, kann einem Pop Up entnimmen werden, welcher Sektion ein Schaden zugefügt wurde.\\
@@ -327,7 +329,7 @@ verteilen kann.\\
 
 Hat das Weapon System keine Energie, kann nicht geschossen werden, ein Pop Up mit dem Hinweis:
 Please charge energy to the weaponsystem, erscheint.
-Durch das verteilen der Energie auf das Sercure System, kann es länger aufrecht erhalten werden. Ist es jedoch einmal zerstört worden und verschwunden, kann es durch weitere Energie nicht wieder hergestellt werden. --was wenn drive keine energie hat?--\\
+Durch das verteilen der Energie auf das Secure System (Schutzschild) , kann es länger aufrecht erhalten werden. Ist es jedoch einmal zerstört worden und verschwunden, kann es durch weitere Energie nicht wieder hergestellt werden.\\
 
 Der Spieler hat nicht nur die Möglichkeit zu schießen, sonder auch die Crew Member zu bewegen.
 Die Anwesenheit eines Crew Members wirkt sich auf die Systeme in der jeweiligen Sektion aus.
@@ -335,7 +337,7 @@ Ist usable: false für eine Sektion, dann wird sie automatisch durch den anwesen
  Ein Crew Member lässt sich ganz einfach per Drag and Drop von Sektion zu Sektion bewegen.
 Hat sich dieser bewegt, erscheint eine Sanduhr neben seinem Kopf, welche signalisiert, dass der Crew Member noch Zeit für den Sektionswechsel benötigt. Die Sanduhr verschwindet, sobald diese abgelaufen ist
  und erst dann kann sich dessen Anwesenheit wieder auf die Systeme der entsprechenden Sektion auswirken. Ist das Oxygen einer Sektion unter 30\%, dann sterben die Crew Member, die sich in dieser aufgehalten haben. Ein Pop Up mit dem Hinweis: You have lost a Crew Member, erscheint. Crew wird in der Anzeige auf None gesetzt.
-Der Rest passiert Backend, das Image und der Geist bleiben erhalten, die Funktionalität jedoch ist aufgehoben. --reparatur rollenabhängig?--\\
+Der Alles wird im Backend validiert, das Image und der Geist bleiben erhalten, die Funktionalität jedoch ist aufgehoben. Jeder Crewmember kann kapute Sektionen reparieren.\\
 
 Wann und ob ein System des Geners erfolgreich zerstört wurde, ist nicht ersichtlich.
 Dies bezüglich, muss die Crew auf ihre Erfahrung zurückgreifen und den Sachverhalt intuitiv abschätzen.\\
@@ -404,8 +406,8 @@ fliegt den lila farbenden Planeten an, wird auch der zweite Spieler automatisch 
 \end{figure}
 
 Sind beide Spieler durch den Travelscreen geflogen, so erscheint beiden der Kampf Screen.
-Dieser Spielverlauf unterscheidet nicht von dem im Single Player Modus. Hat ein Spieler seine Runde
-beendet, dann klickt er den Playing Button. Der Gegenspieler ist dran und betätigt nach seinen Zügen
+Dieser Spielverlauf unterscheidet nicht von dem im Single Player Modus. Hat ein Spieler seine Runde 
+beendet, dann klickt er den Playing Button. Der Gegenspieler ist dran und betätigt nach seinen Zügen 
 ebenfalls diesen Button.
 Am Ende des Kampfes wird ein Gewinner gekürt.
 
