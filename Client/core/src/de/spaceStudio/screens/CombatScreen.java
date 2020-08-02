@@ -125,6 +125,8 @@ public class CombatScreen extends BaseScreen {
     //    private final List<Weapon> weaponsToFire = new ArrayList<>();
     //private final int shotDelta = 400;
     private int yWeaponPos = 700;
+    int countCrewMember=0;
+    List<CrewMember>crewMemberlist;
     private TextButton liamButton;
     private boolean isRound;
     private String onlinePlayerName = "";
@@ -180,6 +182,17 @@ public class CombatScreen extends BaseScreen {
             }
         };
         warningEnergyMessageDialog(dialog, " Please Charge Energy to Weaponsystem!");
+
+    }
+
+    public void warningForDead(){
+
+        final Dialog dialog = new Dialog("Crew Member Dead", skin, "dialog") {
+            public void result(Object obj) {
+                obj.toString();
+            }
+        };
+        warningCrewMemberDeadessageDialog(dialog, " You have lost a Crew Member!");
 
     }
 
@@ -291,6 +304,7 @@ public class CombatScreen extends BaseScreen {
             dragAndDrop(listOfCrewImages.get(i));
         }
 
+        countCrewMember=listOfCrewImages.size();
         energyWeaponsPanel = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/energyWeaponsPanel.png"));
         energy = new Texture(Gdx.files.internal("Client/core/assets/combatAssets/Energy.png"));
         lebengegnerShip = new Label(String.valueOf(Global.currentShipGegner.getHp()), skin);
@@ -922,8 +936,19 @@ public class CombatScreen extends BaseScreen {
         });
     }
 
+    private boolean getCountCrewMember(){
+
+        if(myCrew().size() < countCrewMember) {
+            countCrewMember--;
+            return true;
+
+        }
+        return false;
+
+    }
     private String getWeaponsStats(List<Weapon> ws) {
         StringBuilder sb = new StringBuilder();
+
 
         for (Weapon w :
                 ws) {
@@ -934,6 +959,7 @@ public class CombatScreen extends BaseScreen {
 
     private String getSectionStats(List<Section> xs) {
         StringBuilder stringBuilder = new StringBuilder();
+
 
         for (Section s :
                 xs) {
@@ -1084,6 +1110,9 @@ public class CombatScreen extends BaseScreen {
                     currentWeaponLabel.setText(weaponText[1] + selectedWeapons.get(0).getName());
                 }
             }
+
+
+            if(getCountCrewMember()) warningForDead();
 
             stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
             // Render the Ship of the current Player
@@ -1360,6 +1389,15 @@ public class CombatScreen extends BaseScreen {
         dialog.key(Input.Keys.ENTER, true);
         dialog.key(Input.Keys.ESCAPE, false);
         click.play();
+        dialog.show(stage);
+    }
+
+    private void warningCrewMemberDeadessageDialog(Dialog dialog, String action) {
+
+        dialog.text(action);
+        dialog.button("OK", true);
+        dialog.key(Input.Keys.ESCAPE,true);
+        dialog.key(Input.Keys.ENTER,true);
         dialog.show(stage);
     }
 
