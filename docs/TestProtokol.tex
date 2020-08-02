@@ -112,7 +112,9 @@ Im zweiten Menübildschirm können Sie die Optionen sehen, die der Benutzer spie
 \item Single Player: Mit dieser Option kann der Benutzer als Einzelspieler im Universum spielen.\\
 Eingabe: Der Spieler drückt auf die Option Single Player.
 Ergebnis: Der Spieler gelangt in den Ship-Select-Screen.
-\item Multiplayer: Diese Option ermöglicht es dem Benutzer, mit einem anderen Spieler im Universum zu spielen und gegeneinander zu kämpfen.
+\item Multiplayer: Diese Option ermöglicht es dem Benutzer, mit einem anderen Spieler im Universum zu spielen und gegeneinander zu kämpfen.\\
+Eingabe: Der Spieler drückt auf die Option Multiplayer.
+Ergebnis: Der Spieler kommt auch in den Ship-Select-Screen
 \item Back to Menu: Diese Option ermöglicht es Ihnen, zum vorherigen Bildschirm zurückzukehren.
 \end{itemize}
 \begin{figure}[h]
@@ -143,7 +145,9 @@ Mit dem Button "show rooms" wurde getestet, ob die Sektionen des Raumschiffes si
 
 \subsection{Andere Raumschiffe}
 Tested succesfully by Santiago Rey on 02.08\\\\
-Mit der nächsten Schaltfläche kann der Benutzer die möglichen Schiffe für das Spiel sehen.
+Mit der nächsten Schaltfläche kann der Benutzer die möglichen Schiffe für das Spiel sehen.\\
+Eingabe: Spieler drückt auf next und previous.\\
+Ergebnis: Spieler sieht alle anderen verfügbaren Raumschiffe.
 \begin{figure}
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/next.jpg}
@@ -154,6 +158,8 @@ Mit der nächsten Schaltfläche kann der Benutzer die möglichen Schiffe für da
 \subsection{Universum Schwierigkeit}
 Tested succesfully by Santiago Rey on 02.08\\\\
 Diese Testschaltfläche ermöglicht die Schaffung eines größeren Universums, in dem es mehr Planeten mit unterschiedlichen Eigenschaften gibt.\\
+Eingabe: Der Spieler sucht einen der Schwierigkeiten und startet das Spiel.\\
+Ergebnis: Das Spiel startet in der ausgewählten Schwierigkeit.
 \begin{figure}
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/universeButon.jpg}
@@ -189,13 +195,17 @@ Hier wurde jeder Planet und jede Station getestet, die Schaltflächen sind der Z
 \newpage
 \section{Ereignisse}
 Tested succesfully by Santiago Rey on 02.08\\\\
-Nach dem Drücken eines Planeten wird ein Popup-Menü angezeigt und die Springfunktion getestet. Nach Auswahl der Springfunktion sieht der Benutzer auf dem Bildschirm eine Fahrzeit von 4 Sekunden.
+Nach dem Drücken eines Planeten wird ein Popup-Menü angezeigt und die Springfunktion getestet. Nach Auswahl der Springfunktion sieht der Benutzer auf dem Bildschirm eine Fahrzeit von 4 Sekunden.\\
+Eingabe: Der Spieler drückt auf einen Planeten.\\
+Ergebnis: Der Spieler gelangt zu dem ausgewählten Planeten und kann hat mehrere Optionen wie z.B. Fight.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/traveling.jpg}
 \caption{Reise Screen}
 \end{figure}
-Der Button flee, dann man kann wieder auf die Map Screen springen.
+Der Button flee, dann man kann wieder auf die Map Screen springen.\\
+Eingabe: Der Spieler drückt auf den Button flee.\\
+Ergebnis: Der Spieler bleibt auf der Kartenansicht und kann auf eine andere Station/Planet fliegen.\\
 \newpage
 \subsection{Fliehen}
 \begin{figure}[htp]
