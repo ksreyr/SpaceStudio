@@ -30,14 +30,15 @@
 \tableofcontents
 
 \newpage
-\section{Anleitung}
-Dieses Testprotokoll basiert auf der C4 Testabdeckung, dann versuchen wir jede Variante unserer Software zu testen.
+\section{Einleitung}
+Dieses Testprotokoll basiert auf der C4 Testabdeckung, dann versuchen wir jede Variante unserer Software zu testen. Falls nicht anders aufgeschrieben, ist anzunehmen, dass die Tests die erwarteten Ergebnisse hatten. 
 
 \section{Login Screen}
 \label{sec:orgc5dc561}
 \subsection{Registrierung}
 Tested succesfully by Santiago on 02.08\\\\
 Auf diesem Bildschirm kann sich der Benutzer anmelden, dazu ist es notwendig, dass der User einen Namen und ein Passwort eingibt.\\
+Eingabe: Karsten als Username und Hoelscher als Passwort. Damit kann dieser Benutzer sich anmelden.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/startScreen.jpg}
@@ -47,7 +48,7 @@ Auf diesem Bildschirm kann sich der Benutzer anmelden, dazu ist es notwendig, da
 \newpage
 \subsubsection{Erfolgreiche/Fehlerhafte  Registrierung}
 Tested succesfully by Santiago on 02.08\\\\
-Wenn der Benutzer die Felder korrekt eingegeben hat, erhält er eine grüne Rückmeldung, in der sich die Bestätigungsnachricht des Servers für die Erstellung seiner Instanz befindet.\\
+Wenn der Benutzer die Felder korrekt eingegeben hat, erhält er eine grüne Rückmeldung, in der sich die Bestätigungsnachricht des Servers für die Erstellung seiner Instanz befindet. Korrekt bedeutet es gibt das Username noch nicht und das Passwort ist in beiden Passwort-Feldern identisch.\\
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/erfolgAnmelden.jpg}
@@ -63,7 +64,7 @@ Wenn der Benutzer fehlerhafte, bereits vorhandene oder unvollständige Daten in 
 \newpage
 \subsubsection{Erfolgreiche Registrierung}
 Tested succesfully by Santiago Rey on 02.08\\\\
-Wenn sich der Benutzer mit dem richtigen Namen und Passwort registriert hat, überprüft der Server die Daten und speichert diese in der Datenbank.\\
+Wenn sich der Benutzer mit gültigem Namen und Passwort registriert hat, überprüft der Server die Daten und speichert diese in der Datenbank.\\
 
 \begin{figure}[h]
 \centering
@@ -74,21 +75,27 @@ Wenn sich der Benutzer mit dem richtigen Namen und Passwort registriert hat, üb
 \subsection{Anmeldung}
 \subsubsection{Fehlerhafte Anmeldung}
 Tested succesfully by Santiago Rey on 02.08\\\\
-Wenn sich der Benutzer mit falschen Daten angemeldet hat, kann der Server den Benutzer nicht validieren, sodass er nicht zum nächsten Bildschirm weitergeleitet werden kann.
+Wenn sich der Benutzer mit ungültigen Daten versucht anzumelden, kann der Server den Benutzer nicht validieren, sodass er nicht zum nächsten Bildschirm weitergeleitet werden kann.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/invalidCredentials.jpg}
 \caption{Ungültige Zugangsdaten}
 \end{figure}
 \newpage
-Wenn sich der Benutzer mit den richtigen Anmeldeinformationen anmeldet hat, wird der Benutzer zum Menübildschirm weitergeleitet.\\
+Wenn sich der Benutzer mit gültigen Anmeldeinformationen anmeldet hat, wird der Benutzer zum Menübildschirm weitergeleitet. Falls aber nicht gültige Anmeldedaten verwendet worden sind gibt es eine Fehlermeldung und das Spiel bleibt im Login Screen\\
+Eingabe: asdf als Username und fdsa als Passwort.
+Diese Anmeldeinformationen gibt es noch nicht, daher gibt es eine Fehlermeldung und es findet keine Weiterleitung statt.\\
 
 \section{Menü Screen}
 Tested succesfully by Santiago Rey on 02.08\\\\
 Auf dem Menübildschirm sind die Optionen:
 \begin{itemize}
-\item Continue: Falls ein Spielstand für den Benutzer in der Datenbank gespeichert wurde, wird auch die Option Continue angezeigt. Mit der kann der Benutzer in seinen vorhandenen Spielstand wechseln.
+\item Continue: Falls ein Spielstand für den Benutzer in der Datenbank gespeichert wurde, wird auch die Option Continue angezeigt. Mit der kann der Benutzer in seinen vorhandenen Spielstand wechseln.\\
+Eingabe: Der Spieler drückt auf Continue
+Ergebnis: Der Spieler kann seinen alten Spielstand fortsetzen.
 \item New Game: Mit dieser Option kann der Benutzer ein neues Spiel starten
+Eingabe: Der Spieler drückt auf New Game.
+Ergebnis: Der Spieler kommt in den zweiten Menü Screen.
 \item About: In dieser Option können Informationen zu den Entwicklern gefunden werden.
 \item Exit: Mit dieser Option kann der Benutzer das Spiel beenden.
 \end{itemize}
@@ -102,8 +109,12 @@ Auf dem Menübildschirm sind die Optionen:
 Tested succesfully by Santiago Rey on 02.08\\\\
 Im zweiten Menübildschirm können Sie die Optionen sehen, die der Benutzer spielen muss.
 \begin{itemize}
-\item Single Player: Mit dieser Option kann der Benutzer als Einzelspieler im Universum spielen.
-\item Multiplayer: Diese Option ermöglicht es dem Benutzer, mit einem anderen Spieler im Universum zu spielen und gegeneinander zu kämpfen.
+\item Single Player: Mit dieser Option kann der Benutzer als Einzelspieler im Universum spielen.\\
+Eingabe: Der Spieler drückt auf die Option Single Player.
+Ergebnis: Der Spieler gelangt in den Ship-Select-Screen.
+\item Multiplayer: Diese Option ermöglicht es dem Benutzer, mit einem anderen Spieler im Universum zu spielen und gegeneinander zu kämpfen.\\
+Eingabe: Der Spieler drückt auf die Option Multiplayer.
+Ergebnis: Der Spieler kommt auch in den Ship-Select-Screen
 \item Back to Menu: Diese Option ermöglicht es Ihnen, zum vorherigen Bildschirm zurückzukehren.
 \end{itemize}
 \begin{figure}[h]
@@ -134,7 +145,9 @@ Mit dem Button "show rooms" wurde getestet, ob die Sektionen des Raumschiffes si
 
 \subsection{Andere Raumschiffe}
 Tested succesfully by Santiago Rey on 02.08\\\\
-Mit der nächsten Schaltfläche kann der Benutzer die möglichen Schiffe für das Spiel sehen.
+Mit der nächsten Schaltfläche kann der Benutzer die möglichen Schiffe für das Spiel sehen.\\
+Eingabe: Spieler drückt auf next und previous.\\
+Ergebnis: Spieler sieht alle anderen verfügbaren Raumschiffe.
 \begin{figure}
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/next.jpg}
@@ -145,6 +158,8 @@ Mit der nächsten Schaltfläche kann der Benutzer die möglichen Schiffe für da
 \subsection{Universum Schwierigkeit}
 Tested succesfully by Santiago Rey on 02.08\\\\
 Diese Testschaltfläche ermöglicht die Schaffung eines größeren Universums, in dem es mehr Planeten mit unterschiedlichen Eigenschaften gibt.\\
+Eingabe: Der Spieler sucht einen der Schwierigkeiten und startet das Spiel.\\
+Ergebnis: Das Spiel startet in der ausgewählten Schwierigkeit.
 \begin{figure}
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/universeButon.jpg}
@@ -180,13 +195,17 @@ Hier wurde jeder Planet und jede Station getestet, die Schaltflächen sind der Z
 \newpage
 \section{Ereignisse}
 Tested succesfully by Santiago Rey on 02.08\\\\
-Nach dem Drücken eines Planeten wird ein Popup-Menü angezeigt und die Springfunktion getestet. Nach Auswahl der Springfunktion sieht der Benutzer auf dem Bildschirm eine Fahrzeit von 4 Sekunden.
+Nach dem Drücken eines Planeten wird ein Popup-Menü angezeigt und die Springfunktion getestet. Nach Auswahl der Springfunktion sieht der Benutzer auf dem Bildschirm eine Fahrzeit von 4 Sekunden.\\
+Eingabe: Der Spieler drückt auf einen Planeten.\\
+Ergebnis: Der Spieler gelangt zu dem ausgewählten Planeten und kann hat mehrere Optionen wie z.B. Fight.
 \begin{figure}[htp]
 \centering
 \includegraphics[scale=0.4]{TestProtocolBilder/traveling.jpg}
 \caption{Reise Screen}
 \end{figure}
-Der Button flee, dann man kann wieder auf die Map Screen springen.
+Der Button flee, dann man kann wieder auf die Map Screen springen.\\
+Eingabe: Der Spieler drückt auf den Button flee.\\
+Ergebnis: Der Spieler bleibt auf der Kartenansicht und kann auf eine andere Station/Planet fliegen.\\
 \newpage
 \subsection{Fliehen}
 \begin{figure}[htp]
