@@ -144,15 +144,16 @@ public class TravelScreen extends ScreenAdapter {
                 requestSend = true;
             }
             killTimer = true;
-            if ((combatCrew.size() > 1 && combatSections.size() > 1 && combatWeapons.size() > 1)
+            if ( Global.IS_SINGLE_PLAYER && (combatCrew.size() > 1 && combatSections.size() > 1 && combatWeapons.size() > 1)
                     || (Global.currentGegner == null && currentShipGegner == null)) {
-                if (isOnlineFight) {
-                    game.setScreen(new CombatScreen(game));
-                } else {
                     game.setScreen(new StopScreen(game));
-                }
             }
         }
+            if (!IS_SINGLE_PLAYER &&  isOnlineFight) {
+                if (combatCrew.size() > 2 && combatSections.size() > 2 && combatWeapons.size() > 2) {
+                    game.setScreen(new CombatScreen(game));
+                }
+            }
         stage.act();
         stage.draw();
     }
