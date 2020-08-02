@@ -1,11 +1,10 @@
 package de.spaceStudio.server.controller;
 
-import com.google.gson.internal.$Gson$Preconditions;
 import de.spaceStudio.server.handler.SinglePlayerGame;
 import de.spaceStudio.server.model.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.WatchEvent;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,7 +113,7 @@ public interface GameController {
 
 
     @PostMapping(value = "/game/endOnlineRound")
-    FightState endOnlineRound(@RequestBody Weapon weapon);
+    HttpStatus endOnlineRound(@RequestBody Weapon weapon);
 
     @GetMapping(value = "/multiplayer/enemyShip/{session}/{id}" )
     Ship getEnemyShip(@PathVariable String session, @PathVariable Integer id);

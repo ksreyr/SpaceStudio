@@ -97,7 +97,7 @@ public final class RequestUtils {
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
-                } else if (url.contains("actor")) {
+                } else if (url.contains(Global.ACTOR_ENDPOINT)) {
                     try {
                         Actor actor = objectMapper.readValue(responseString[0], new TypeReference<Player>() {
                         });
@@ -107,7 +107,11 @@ public final class RequestUtils {
                                     && Global.combatSections.get(Global.currentShipPlayer.getId()).size() > 0) { // Es muss gegner mit Waffne geben
                                 Weapon w = Global.combatWeapons.get(Global.currentShipGegner.getId()).get(0);
                                 w.setObjectiv(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0));
-                                endTurnRequestSinglePlayer(w);
+                                if (Global.IS_SINGLE_PLAYER) {
+                                    endTurnRequestSinglePlayer(w);
+                                } else {
+                                    endMultiPlayerTurn(w);
+                                }
                                 crewMemeberByShip(Global.currentShipPlayer);
                             } else {
                                 LOG.severe("There appears to be a problem with the global Maps. Please check if you always use the correct id");
@@ -237,6 +241,12 @@ public final class RequestUtils {
 
     public static void endTurnRequestSinglePlayer(Weapon w) {
         genericRequest(Global.SERVER_URL + Global.GAME + Global.END_ROUND_SINGLE, false,
+                Global.currentShipPlayer.getId(),
+                Net.HttpMethods.POST, w);
+    }
+
+    public static void endMultiPlayerTurn(Weapon w) {
+        genericRequest(Global.SERVER_URL + Global.GAME + Global.END_ONLINE_ROUND, false,
                 Global.currentShipPlayer.getId(),
                 Net.HttpMethods.POST, w);
     }

@@ -720,13 +720,13 @@ public class GameControllerImpl implements GameController {
     }
 
     @Override
-    public FightState endOnlineRound(Weapon weapon) {
+    public HttpStatus endOnlineRound(Weapon weapon) {
         Optional<Ship> playerShip = shipRepository.findById(weapon.getObjectiv().getShip().getId());
-        Optional<Ship> aiShip = shipRepository.findById(weapon.getSection().getShip().getId());
-        Optional<AI> ai = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
+        Optional<Ship> otherPlayerShip = shipRepository.findById(weapon.getSection().getShip().getId());
+        Optional<AI> otherplayer = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
         Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
 
-        if (player.isPresent() && playerShip.isPresent() && ai.isPresent() && aiShip.isPresent()) {
+        if (player.isPresent() && playerShip.isPresent() && otherplayer.isPresent() &&  otherPlayerShip.isPresent()) {
             // Compute Changes for Player
             List<Section> sectionsOfPlayer = sectionController.sectionsByShip(playerShip.get().getId());
             List<Weapon> playerOfWeapons = new ArrayList<>();
@@ -737,8 +737,10 @@ public class GameControllerImpl implements GameController {
             lowerWarmUpTime(playerOfWeapons);
         }
 
-        if (player.isPresent()) {
-            return player.get().getState().getFightState();
+        if (otherplayer.isPresent()) {
+            otherplayer.get().getState().setFightState(FightState.PLAYING);
+            actorStateRepository.save(otherplayer.get().getState());
+            return HttpStatus.ACCEPTED;
         } else {
             throw new IllegalArgumentException("Missing Parameters in Weapon");
         }
