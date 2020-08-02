@@ -29,6 +29,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Einführung}
+Autor: Mehmet\\
 
 Willkommen beim Spacestudio Game!\\
 Dieses Benutzerhandbuch beschreibt, wie die Software bzw. das Spiel gespielt wird und dient somit als Anleitung für das Programm.
@@ -38,6 +39,7 @@ Dieses Spiel ist nach dem Vorbild des bekannten Spiels Faster Than Light entwick
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Zweck}
+Autor: Mehmet\\
 
 Dieses Benutzerhandbuch ist im Rahmen von ReSWP 2 SoSe2020  der Gruppe SpaceStudio geschrieben.
 Der Zweck dieses Handbuches besteht darin, eine Anleitung zu dem entwickleten Spiel bereit zu stellen, damit sowohl das Spiel selbst, als auch unsere Gedanken und Ideen bezüglich der vielen einzelnen Elemente nachvollzogen werden können.
@@ -48,25 +50,46 @@ Der Zweck dieses Handbuches besteht darin, eine Anleitung zu dem entwickleten Sp
 In diesem Abschnitt wird beschieben, wie das Programm installiert wird und entsprechende Systemvoraussetzungen aufgelistet.
 
 \subsection{Systemvoraussetzungen}
-1. Java 11 oder höher \\
+Autor: Mehmet\\
+
+1. Java 11 Oracle oder höher \\
 2. Windows 10, macOS, Linux \\
 3. Gradle 5.2 oder höher \\
-4. Spring Boot 2.0.3.RELEASE \\
-5.  Spring Framework 5.0.7.RELEASE or höher. \\
-6. 1920X1080 Auflösung
+4. 1920X1080 Auflösung (optimal)
  
 
 \subsection{Installationsschritte}
-Folgende  Schritte werden für die Installation benötigt. \\
-1. Nach dem Sie alle benötigten tools, die in Systemvoraussetzungen aufgelistet wurden, installiert haben \\
-2. Starten Sie der Server und warten Sie bis der Server hochfährt (ca 1 Minute)\\
-3. Wenn der Server erfolreich gestartet wurde, starten Sie den Client.
+Autor: Miguel, Mehmet\\
 
+Folgende  Schritte werden für die Installation benötigt. \\
+ Nach dem Sie alle benötigten tools, die in Systemvoraussetzungen aufgelistet wurden, installiert haben \\
+Linux installation
+1. Starten Sie den Server mit folgendem Command: ./gradlew bootRun\\
+2. Starten Sie den Client mit folgendem Command:  ./gradlew :Client:desktop:run \\
+
+Windows Installation \\
+
+1. Starten Sie den Server mit folgendem Command: gradlew.bat bootRun\\
+2. Starten Sie den Client mit folgendem Command:  gradlew.bat :Client:desktop:run \\
+
+Hinweis zu 1.: Wird der Server nicht aus der Konsole heraus gestartet, können Probleme beim Speichern
+des Spiels entstehen.
+
+Der User muss eine Umgebungsvariable für Java setzen
+
+\subsection{Troubleshooting}
+Autor: Miguel\\
+
+** Known Issues\\
+Failure in Server initialisation. If the Server does not let you create users after start up. You need to restart the Server.\\
+If you experience memory leaks, while starting runs "pkill java" on unix system to resolve these Issues.\\
+The Bugs are in Spring Boot and in Java\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Start}
+Autor: Clara\\
 
 Startet der Client, dann zeigt sich sich der Registrierungs und Login Screen.
 Registrieren Sie sich über die Eingabefelder auf der rechten Seite. Dazu wählen Sie einen Benutzernamen und Passwort, welches zwei Mal wiederholt eingegeben werden muss, um fehlerhafte Eingaben zu vermeiden.
@@ -81,7 +104,7 @@ Hinweis: Gib es Probleme mit der Registrierung, empfehlen wir den Server erneut 
 \centering
 	\includegraphics[width=1.00\linewidth]{pics/StartScreen01.png}
 	\caption{Anmeldung: Registrierung und Login}
-	\label{fig1}
+	%\label{fig1}
 \end{figure}
 
 Der Start Screen erzeugt ein Profil, mit welchem sich der Benutzer jeder Zeit wieder einloggen kann, um auf die gespeicherten Spieldaten zurückgreifen zu können. \\
@@ -110,7 +133,7 @@ Continue ermöglicht es, ein zuvor begonnenes Spiel weiter zu Spielen, da jeder 
 Options ist derzeit nicht verfügbar und kann für persönliche Anpassungen implementiert werden. \\
 Exit beendet das Programm umgehend, ohne zur Startseite zurück zu gelangen.\\
 
-\newpage
+%\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{New Game}
 
@@ -144,13 +167,14 @@ Links neben dem Start Button kann eine weitere Auswahl zwischen Easy und Normal 
 Der Button Back oben links in der Ecke des Fensters, leitet zurück zum New Game Screen.\\
 Im Single Player Modus werden die Gegner, auf die der Spiele im laufe des Spiels trifft durch eine KI realisiert.
 
-\newpage
+%\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Multiplayer Ship Select Screen}
 
 Hier sehen Sie den Screen, der erscheint, wenn Sie  Multiplayer im New Game Screen gewählt haben:\\
 Dieser Screen unterscheidet sich in sofern vom Singlaplayer Screen, dass eine zusätzliche Anzeige erscheint, der Sie entnehmen können, wie viele weitere Spieler online sind.\\
 Damit weiter Spieler erscheinen, müssen diese im Login Screen die selber Netzwerkadresse angegeben haben/auf dem gleichen Server angemeldet sein und ebenfalls den Multiplayer Modus augewählt haben.\\
+Hinweis: Ein Port muss mit https/http angegeben werden, also z.B. der Form: http://localhost:8080
 Außerdem entfällt die Wahl der Spielstufe, da der Gegner nun nicht mehr durch den Computer ersetzt werden muss.
 
 \begin{figure}[htp]
@@ -166,6 +190,7 @@ oder sich über Play with AI doch zu einem Spiel im Single Player Modus umzuents
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Univesum}
+Autor: Clara\\
 
 Nach klicken des Start Buttons des vorherigen Screens, gelangen Sie zur Map des Universums.\\
 In diesem Beispiel sehen Sie die Map des Easy Universum. Das Raumschiff befindet sich auf dem Start Planeten unten links. Zu sehen sind vier weitere Planeten sowie eine Shoppingmall.\\
@@ -184,7 +209,7 @@ Wird die Shopping Mall angeflogen, gelangt das Raumschiff zum Shop Screen, in de
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=1.00\linewidth]{pics/infoPlanet2.png} %Bild austauschen
-	\caption{Info zu Planet}
+	\caption{Info zum Planeten}
 	\label{fig1}
 \end{figure}
 
@@ -201,6 +226,7 @@ Oben rechts im Fenster ist der Button Save game zu sehen, dieser ermöglicht das
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Einen Planeten anfliegen}
+
 Die Planeten können in beliebiger Reihenfolge angeflogen werden, ausgenommen jener, der am weitesten östlich gelegen ist, auf diesem befindet sich der Endgegner und diesem darf sich erst dann gestellt werden, wenn alle anderen Planeten schon besucht wurden.\\
 Wurde sich dann dazu entschieden per Jump einen Planeten anzufliegen, erscheint der Travelscreen.
 \begin{figure}[htp]
@@ -233,11 +259,14 @@ Nach einem Upgrade, besteht immernoch die Möglichketi per Button wieder zurück
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Shopping}
+Autor: Clara\\
 
 Im Shop Screen sind drei Anzeigen zu sehen. Jene oben rechts zeigt an, wie viel Gold/Geld zur verfügung steht. Die am unteren Fensterrand beschreibt das Schiff, in diesem Fall welche Sektion für welche Systeme verantwortlich ist. Die rechte Anzeige beschreibt das Item, das darüber angezeigt wird: worum es sich handelt, Eigenschaften und dessen Kosten.\\
 Über den next Button lässt sich durch das Angebot gucken, die Anzeige darunter passt sich dementsprechend an.\\
 Das Angebot umfasst: Gold, Energie, Crew Member und ein Weapon Lasser. Die Kosten werden entsprechend von dem Gold abgezogen. Secure lässt sich in der vorher beschriebenen upgrade Option kaufen und nicht über den Shop.\\
-Möchten Sie einen Crew Member kaufen, so muss die Checkbox der entsprechende Sektion, in die der Crew Member plaziert werden soll, ausgewählt werden, bevor der Kauf über den Buy Button bestätigt werden kann. Möchten Sie den Shop verlassen, dann klicken Sie auf den Back to Map Button in der oberen rechten Ecke. 
+Möchten Sie einen Crew Member kaufen, so muss die Checkbox der entsprechende Sektion, in die der Crew Member plaziert werden soll, ausgewählt werden, bevor der Kauf über den Buy Button bestätigt werden kann. \\
+Hinweis: Stanardmäßig sind bereits Crew Member in den Sektionen 2,4 und 6. Wir empfehlen daher nur welche für die Sektionen 1,3 und 5 zu kaufen, um kein Geld auf den Mond zu schmeißen.
+Möchten Sie den Shop verlassen, dann klicken Sie auf den Back to Map Button in der oberen rechten Ecke.
 
 \begin{figure}[htp]
 	\centering
@@ -248,6 +277,8 @@ Möchten Sie einen Crew Member kaufen, so muss die Checkbox der entsprechende Se
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Der Kampf}
+Autor: Clara\\
+
 
 \subsection{Beschreibung der Oberfläche}
 Im Kampf stehen sich das Raumschiff des Spielers und das des Gegners gegenüber.
@@ -286,7 +317,7 @@ Schüsse ab, bis sie verschwinden. Erst dann wenn dieser Schutz aufgehoben ist, 
 Wählen Sie ein System des Geners aus, z.B das Cockpit, um auf dieses zu schießen. Die Auwahl kann nach jedem Schuss verändert werden. Haben Sie diesen
 Schritt vergessen, erscheint ein Pop up: Please select a target. Then you can shoot.\\
 
-Nun können Sie über die Leertaste die Schüsse der Waffe abfeuern. 
+Nun können Sie über die Leertaste die Schüsse der Waffe abfeuern. Über die Taste W, kann zwischen den Waffen gewechselt werden.
 Bullets zeigt dynamisch die verbleibenden Schüsse an. Die Waffe ist nur dann einsatzbereit, wenn Warmup auf 0 ist. Warmup zählt, pro Spielzug, die des Gegners zählen mit, runter. Sind keine Schüsse mehr übrig, ist die Runde beendet.
 In einer Runde wird automatisch nur die Waffe verwendet, dessen Warup auf 0 ist.
 Trifft der Gegner eine Sektoin des Spielers, kann einem Pop Up entnimmen werden, welcher Sektion ein Schaden zugefügt wurde.\\
@@ -321,10 +352,73 @@ zurück geleitet.\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Spielverlauf beim Multiplayer Modus}
-Beschreibung der Kamfscreen.
+Autoren: Miguel, Clara\\
+
+Um ein Multiplayer Spiel zu spielen, haben beide Spieler die gleiche Host Adresse in Login und Register Screen eingegeben.
+Im New Game Screen klicken die Spieler auf Multiplayer.\\
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/1.PNG}
+	\caption{New Multiplayer Game}
+	%\label{fig1}
+\end{figure}
+
+Die Spieler gelangen jeweils zu dem Ship Select Screen. Sind beide startklar, so klicken sie auf den
+Ready Up Button oben rechts in der Ecke.
+In den beiden Abbildungen aus dem Ship Select Screen ist zu sehen, dass sich dieser Button grün gefärbt.
+Erst dann, wenn beide Spieler ready sind, gelangen sie zur Universe Map.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/2.PNG}
+	\caption{Multiplayer im Ship Select Screen}
+	%\label{fig1}
+\end{figure}
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/4.PNG}
+	\caption{Multiplayer haben sind ready}
+	%\label{fig1}
+\end{figure}
+
+In den Multiplayer Universen ist ein zusätzlicher lila farbender Planet aufgetaucht.
+Dieser Planet bieten beiden Spielern die Möglichkeit, gegeneinander anzutreten.
+Die gelben Planeten verhalten sich genau so, wie im Single Player Modus beschrieben.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/5.PNG}
+	\caption{Multiplayer Universum}
+	%\label{fig1}
+\end{figure}
+
+Forausgesetzt beide Spieler befinden sich auf der Universe Map und einer der Spieler
+fliegt den lila farbenden Planeten an, wird auch der zweite Spieler automatisch in den Travelscreen gezogen.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/6.PNG}
+	\caption{Multiplayer Traveling}
+	%\label{fig1}
+\end{figure}
+
+Sind beide Spieler durch den Travelscreen geflogen, so erscheint beiden der Kampf Screen.
+Dieser Spielverlauf unterscheidet nicht von dem im Single Player Modus. Hat ein Spieler seine Runde
+beendet, dann klickt er den Playing Button. Der Gegenspieler ist dran und betätigt nach seinen Zügen
+ebenfalls diesen Button.
+Am Ende des Kampfes wird ein Gewinner gekürt.
+
+\begin{figure}[htp]
+	\centering
+	\includegraphics[width=1.00\linewidth]{pics/7.PNG}
+	\caption{x}
+	%\label{fig1}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Spielstufen}
+Autor: Clara\\
 
 Das Universum Easy ist im Kapitel Universum abgebildet. In dieser Abbildung ist das Universum Normal zusehen. Die Map untercheidet sich optisch nur in der Anzahl der Planeten.
 Der unterschied der Spielstufen besteht darin, dass im Normal Modus mehr Gegner besiegt werden müssen, 
@@ -336,20 +430,20 @@ um das gesammte Spiel zu gewinnen, als im Easy Modus.
 	\caption{Universum Normal}
 	\label{fig1}
 \end{figure}
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Save Game \& Continue}
+Autor: Clara, Liam\\
 
 Das Spiel lässt sich nach jeder Runde speichern. Eine Runde bedeutet der Besuch eines Planeten.
 Ist der Spieler also zurück zur Map gelangt, kann der Save Game Button benutz werden.
 Bei einer erneuten Anmeldung über die Login Felder im Login- und Registrierungs Screen mit dem selben
 Benutzernamen und Passwort, hat der Spieler im New Game Screen zusätzlich die Möglichkeit, den Continue
-Button zu benutzen. In diesem Fall muss das Spiel nicht neu begonnen werden, der Besuch jedes einzelnen Planeten und der Zustand des Raumschiffes mit all seinen Attributen wurde gespeichert.
+Button zu benutzen. In diesem Fall muss das Spiel nicht neu begonnen werden, der Besuch jedes einzelnen Planeten und der Zustand des Raumschiffes mit all seinen Attributen wurde gespeichert.\\
 
-\section{Anhang}
-\subsection{Autoren}
+Hinweis/Bug: Wurde das Spiel gespeichert, nachdem bereits zwei Planeten besucht wurden und zu einem späteren Zeitpunkt über Continue fortgesetzt, so muss das Raumschiff, bevor es gegen den Endgegner antreten kann, noch einmal die vorherigen Travelscreens durchfliegen, um die die Validierung zu gewährleisten. Dann kann er auch auf dem letzten Planeten landen.
 
 \end{document}
 
