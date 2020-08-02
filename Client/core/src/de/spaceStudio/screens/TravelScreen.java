@@ -150,7 +150,7 @@ public class TravelScreen extends ScreenAdapter {
             }
         }
             if (!IS_SINGLE_PLAYER &&  isOnlineFight) {
-                if (combatCrew.size() > 2 && combatSections.size() > 2 && combatWeapons.size() > 2) {
+                if (combatCrew.size() == 2 && combatSections.size() == 2 && combatWeapons.size() == 2) {
                     game.setScreen(new CombatScreen(game));
                 }
             }
