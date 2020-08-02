@@ -194,7 +194,7 @@ public class GameControllerImpl implements GameController {
                 }
             }
         }
-        return endStop.isPresent();
+        return multiPlayerGame.getFight();
     }
 
     /**
