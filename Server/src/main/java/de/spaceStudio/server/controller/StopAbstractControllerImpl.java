@@ -185,10 +185,14 @@ public class StopAbstractControllerImpl implements StopAbstractController {
 
     @Override
     public Boolean canLand(Integer id, String session) {
+
         boolean canLand = false;  // Assume no one is jumping
         Optional<Player> player = playerRepository.findById(id);
 
         MultiPlayerGame multiPlayerGame = Global.MultiPlayerGameSessions.get(session);
+        if (multiPlayerGame.getFight()) {
+            return true;
+        }
 
         multiPlayerGame.setPlayers(actorRepository.findAllById(List.of(multiPlayerGame.getPlayerOne().getId(),
                 multiPlayerGame.getPlayerTwo().getId())));
