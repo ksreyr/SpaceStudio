@@ -1173,7 +1173,8 @@ public class CombatScreen extends BaseScreen {
 
         }
 
-        if (Global.currentShipGegner != null && Global.combatSections.size() == 2) {
+        if (Global.currentShipGegner != null && Global.combatSections.size() == 2 && Global.currentGegner.getId() != null &&
+            Global.combatSections.containsKey(Global.currentGegner.getId())) {
             for (Section s :
                     Global.combatSections.get(Global.currentShipGegner.getId())) {
                 if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))

@@ -179,6 +179,8 @@ public final class RequestUtils {
                             e.printStackTrace();
                         }
                     }
+                } else  {
+                    LOG.severe("Request Faild in Server:" + responseString[0]);
                 }
             }
 
