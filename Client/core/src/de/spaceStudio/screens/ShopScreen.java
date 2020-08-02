@@ -131,7 +131,7 @@ public class ShopScreen extends ScreenAdapter {
         stage = new Stage(viewport, universeMap.getBatch());
         stage.addActor(next);
         stage.addActor(buy);
-        stage.addActor(sell);
+        //stage.addActor(sell);
 
         //Back to Map Button
         TextButton backToMap = new TextButton(" Back to Map ", spaceSkin, StyleNames.EMPHASISTEXTBUTTON);
