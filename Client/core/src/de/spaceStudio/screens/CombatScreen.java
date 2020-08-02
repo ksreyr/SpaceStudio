@@ -67,7 +67,7 @@ public class CombatScreen extends BaseScreen {
     boolean canFireGegner = false;
     Texture bullet, shield;
     float x = 0;
-    Sound rocketLaunch;
+    Sound rocketLaunch, turn_sound;
     ArrayList<Bullet> bullets;
     ArrayList<Bullet> bulletsEnemy;
     String validationGegner = "";
@@ -223,9 +223,11 @@ public class CombatScreen extends BaseScreen {
                         actor1.getState().setFightState(FightState.WAITING_FOR_TURN);
                         if (Global.IS_SINGLE_PLAYER) {
                             liamButton.setText("Waiting for AI");
+                            turn_sound.play();
                             isRound = true;
                         } else {
                             liamButton.setText("Waiting for other Player");
+                            turn_sound.play();
                         }
                     } else {
                         actor1.getState().setFightState(FightState.PLAYING);
@@ -325,6 +327,8 @@ public class CombatScreen extends BaseScreen {
         final Drawable medical_sym_red = new TextureRegionDrawable(new Texture("Client/core/assets/combatAssets/medical_red.png"));
 
         rocketLaunch = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/shoot.wav"));
+        turn_sound = Gdx.audio.newSound(Gdx.files.internal("Client/core/assets/data/music/turn_sound.wav"));
+
 
         liamButtonFuntion();
 
@@ -1373,6 +1377,7 @@ public class CombatScreen extends BaseScreen {
     public void dispose() {
         super.dispose();
         skin.dispose();
+        turn_sound.dispose();
         rocketLaunch.dispose();
         shieldSystem.dispose();
         weaponsSystem.dispose();
