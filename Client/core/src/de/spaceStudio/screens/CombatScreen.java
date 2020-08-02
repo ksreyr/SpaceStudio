@@ -916,7 +916,7 @@ public class CombatScreen extends BaseScreen {
 
                 if (!weaponsToFire.isEmpty()) {
                     makeAShot(weaponsToFire, Net.HttpMethods.POST);
-
+                    rocketLaunch.play();
                     int y = 42;
                     for (Weapon w :
                             weaponsToFire) {
@@ -1182,7 +1182,7 @@ public class CombatScreen extends BaseScreen {
         canFireGegner = true;
         if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
             System.out.println("::Gegner Shot now");
-            rocketLaunch.play();
+
         } else if (!validationGegner.isEmpty() && validationGegner.equals("Section unusable")) {
             System.out.println(":::::Section unusable Gegner");
             validationGegner = "";

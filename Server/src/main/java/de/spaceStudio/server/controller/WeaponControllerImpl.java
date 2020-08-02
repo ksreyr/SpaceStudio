@@ -211,7 +211,7 @@ public class WeaponControllerImpl implements WeaponController {
                         //Without_Schield
                         ship.get().setHp(ship.get().getHp() - weapon.getDamage());
                         weapon.getObjectiv().setUsable(false);
-                        if (weapon.getObjectiv().getOxygen() > 0) {
+                        if (weapon.getObjectiv().getOxygen() > 30) {
                             weapon.getObjectiv().setOxygen(weapon.getObjectiv().getOxygen() - removeOxygen);
                         }
                     }

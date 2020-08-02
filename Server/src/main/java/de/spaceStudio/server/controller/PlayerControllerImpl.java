@@ -227,6 +227,28 @@ public class PlayerControllerImpl implements PlayerController {
     public String clean(Player player) {
         Player player1 = playerRepository.findByName(player.getName()).get();
 
+        List<Ship> ohnePlanet=shipRepository.findAll();
+        for (Ship sipohne:
+             ohnePlanet) {
+            if(stopAbstractRepository.findByShips(sipohne).isEmpty()){
+                if(sectionRepository.findAllByShip(sipohne).isPresent()){
+                    for (Section s :
+                            sectionRepository.findAllByShip(sipohne).get()) {
+                        if(weaponRepository.findBySection(s).isPresent()){
+                            for (Weapon w :
+                                    weaponRepository.findBySection(s).get()) {
+                                weaponRepository.delete(w);
+                            }
+                        }
+                        if(crewMemberRepository.findByCurrentSection(s).isPresent()){
+                            crewMemberRepository.delete(crewMemberRepository.findByCurrentSection(s).get());
+                        }
+                        sectionRepository.delete(s);
+                    }
+                    shipRepository.delete(sipohne);
+                }
+            }
+        }
         if (player.getState() != null) {
             player.setState(null);
             playerRepository.save(player);
@@ -283,16 +305,57 @@ public class PlayerControllerImpl implements PlayerController {
         }*/
 
 
-        Optional<Ship> byOwner = shipRepository.findByOwner(player1);
+        Optional<Ship> byOwner = Optional.empty();
+        try {
+            byOwner = shipRepository.findByOwner(player1);
+        } catch (Exception e) {
+            List<Ship> shipsDouble = shipRepository.findAllByOwner(player1);
+            int id = Integer.MAX_VALUE;
+            for (Ship s :
+                    shipsDouble) {
+                if (s.getId() < id) {
+                    id = s.getId();
+                }
+            }
+            Optional<List<Section>> sections1= sectionRepository.findAllByShip(shipRepository.findById(id).get());
+            if (sections1.isPresent()) {
+                for (Section s :
+                        sections1.get()) {
+                    s.setShip(null);
+                    sectionRepository.save(s);
+                    if(weaponRepository.findBySection(s).isPresent()){
+                    for (Weapon w:
+                            weaponRepository.findBySection(s).get()) {
+                        try {
+                            weaponRepository.delete(w);
+                        }catch (Exception we){
+
+                        }
+
+                    }
+                    }
+                    if(crewMemberRepository.findByCurrentSection(s).isPresent()){
+                            try {
+                                crewMemberRepository.delete(crewMemberRepository.findByCurrentSection(s).get());
+                            }catch (Exception cr){
+
+                            }
+
+                    }
+                    sectionRepository.delete(s);
+                }
+            }
+            shipRepository.deleteById(id);
+        }
         if (byOwner.isPresent()) {
-            Ship ship= new Ship();
-           try {
-               ship = shipRepository.findByOwner(player1).get();
-           }catch (Exception e){
-               List<Ship> shipList = shipRepository.findAllByOwner(player1);
-               shipRepository.delete(shipList.get(0));
-               ship=shipList.get(0);
-           }
+            Ship ship = new Ship();
+            try {
+                ship = shipRepository.findByOwner(player1).get();
+            } catch (Exception e) {
+                List<Ship> shipList = shipRepository.findAllByOwner(player1);
+                shipRepository.delete(shipList.get(0));
+                ship = shipList.get(0);
+            }
             Optional<StopAbstract> stopAbstract = stopAbstractRepository.findByShips(ship);
 
             if (stopAbstract.isPresent() && stopAbstract.get().getUniverse() != null) {
@@ -311,10 +374,16 @@ public class PlayerControllerImpl implements PlayerController {
                             }
 
                         }
-                }
+                    }
 
 
                     stopAbstracts = stopAbstractRepository.findByUniverse(universe.get());
+                    Optional<StopAbstract> p9 = stopAbstracts.stream().filter(p -> p.getName().equals("p9")).findFirst();
+                    if (p9.isPresent()) {
+                        p9.get().setUniverse(null);
+                        stopAbstractRepository.save(p9.get());
+                    }
+                    stopAbstracts.removeIf(s -> s.getName().equals("p9"));
                     //sucht all the stations
                     for (StopAbstract sa :
                             stopAbstracts) {
@@ -431,9 +500,9 @@ public class PlayerControllerImpl implements PlayerController {
                                     shipRessourceRepository.delete(sr);
                                 }
                             }
-                            try{
-                            shipRepository.delete(s);
-                            }catch (Exception e){
+                            try {
+                                shipRepository.delete(s);
+                            } catch (Exception e) {
                                 s.setOwner(null);
                                 shipRepository.save(s);
                                 shipRepository.delete(s);
@@ -441,7 +510,12 @@ public class PlayerControllerImpl implements PlayerController {
                         }
                     }
                     stopAbstracts = stopAbstractRepository.findByUniverse(universe.get());
-
+                    p9 = stopAbstracts.stream().filter(p -> p.getName().equals("p9")).findFirst();
+                    if (p9.isPresent()) {
+                        p9.get().setUniverse(null);
+                        stopAbstractRepository.save(p9.get());
+                    }
+                    stopAbstracts.removeIf(s -> s.getName().equals("p9"));
                     if (!stopAbstracts.isEmpty()) {
                         for (StopAbstract s :
                                 stopAbstracts) {
@@ -463,10 +537,8 @@ public class PlayerControllerImpl implements PlayerController {
                             stopAbstractRepository.delete(s);
                         }
                     }
-                universeRepository.delete(universe.get());
+                    universeRepository.delete(universe.get());
                 }
-
-
             }
         }
         return "DONE";
