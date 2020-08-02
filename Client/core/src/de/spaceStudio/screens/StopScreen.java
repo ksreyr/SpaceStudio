@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -31,6 +32,7 @@ public class StopScreen extends ScreenAdapter {
     private Stage stage;
     private Skin skin;
     private Label statsLabel;
+    private Texture background;
 
     public StopScreen(MainClient game) {
         super();
@@ -177,7 +179,7 @@ public class StopScreen extends ScreenAdapter {
     public void show() {
         Gdx.input.setInputProcessor(stage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())));
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-
+        background= new Texture(Gdx.files.internal("Client/core/assets/backgroundStop.jpg"));
 
         int row_height = Gdx.graphics.getWidth() / 12;
         int col_width = Gdx.graphics.getWidth() / 12;
@@ -411,22 +413,6 @@ public class StopScreen extends ScreenAdapter {
         }.show(stage);
         stage.addActor(statsLabel);
     }
-
-
-    @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0f, 0.23f, 0.34f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        statsLabel.setText(getStats(Global.currentShipPlayer));
-        stage.act(delta);
-        stage.draw();
-    }
-
     @Override
     public void hide() {
         super.hide();
@@ -438,4 +424,26 @@ public class StopScreen extends ScreenAdapter {
         skin.dispose();
         stage.dispose();
     }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void render(float delta) {
+
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        statsLabel.setText(getStats(Global.currentShipPlayer));
+        stage.getBatch().begin();
+        stage.getBatch().draw(background, 0, 0, BaseScreen.WIDTH, BaseScreen.HEIGHT);
+        stage.act();
+        stage.getBatch().end();
+        stage.draw();
+    }
+
+
 }

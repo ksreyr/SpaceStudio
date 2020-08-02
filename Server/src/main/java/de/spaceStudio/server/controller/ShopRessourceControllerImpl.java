@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ShopRessourceControllerImpl implements ShopRessourceController {
@@ -40,12 +41,14 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
 
     @Override
     public String addShopRessource(ShopRessource shopRessource) {
-        Universe universe = universeRepository.findByName(shopRessource.getStation().getUniverse().getName()).get();
-        List<StopAbstract> stopAbstracts = stopAbstractRepository.findByUniverse(universe).get();
-        for (StopAbstract s :
-                stopAbstracts) {
-            if (s.getName().equals(shopRessource.getStation().getName())) {
-                shopRessource.setStation((Station) s);
+        Optional<Universe> universe = universeRepository.findByName(shopRessource.getStation().getUniverse().getName());
+        if (universe.isPresent()) {
+            List<StopAbstract> stopAbstracts = stopAbstractRepository.findByUniverse(universe.get());
+            for (StopAbstract s :
+                    stopAbstracts) {
+                if (s.getName().equals(shopRessource.getStation().getName())) {
+                    shopRessource.setStation((Station) s);
+                }
             }
         }
         shopRessourceRepository.save(shopRessource);
@@ -81,8 +84,8 @@ public class ShopRessourceControllerImpl implements ShopRessourceController {
 
     @Override
     public String getShopRessourceByStop(@RequestBody StopAbstract stopAbstract) {
-        StopAbstract station = stopAbstractRepository.findById(stopAbstract.getId()).get();
-        List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station).get();
+        Optional<StopAbstract> station = stopAbstractRepository.findById(stopAbstract.getId());
+        List<ShopRessource> shopRessources = shopRessourceRepository.findByStation(station.get()).get();
         Gson gson = new Gson();
         return gson.toJson(shopRessources);
     }

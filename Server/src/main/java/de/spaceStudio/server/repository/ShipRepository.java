@@ -5,6 +5,7 @@ import de.spaceStudio.server.model.Ship;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +15,5 @@ public interface ShipRepository extends JpaRepository<Ship, Integer> {
     Optional<Ship> findShipByNameAndOwner(String name, Actor actor);
 
     Optional<Ship> findByOwner(Actor player);
+    List<Ship> findAllByOwner(Actor player);
 }

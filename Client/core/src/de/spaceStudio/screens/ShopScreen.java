@@ -570,7 +570,7 @@ public class ShopScreen extends ScreenAdapter {
 
             } else if (itemNumber == 2) { //CrewMember
 
-                TextArea textArea = new TextArea("Name: Crew Member \nRole: \nCosts: 50 $ \n-> Choose sections to place CrewMember <-", skin);
+                TextArea textArea = new TextArea("Name: Crew Member \nRole: \nCosts: 50 $ \n!!Choose sections!! \nto place CrewMember", skin);
                 textArea.setPosition(1400, 450);
                 textArea.setWidth(400);
                 textArea.setHeight(200);

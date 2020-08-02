@@ -30,6 +30,7 @@ public class Global {
     public static final String PLANET9 = "/planet/online";
     public static final String START_FIGHT =  "/startFight";
     public static final String HAS_FIGHT_STARTED = "/hasFightStarted";
+    public static final String END_ONLINE_ROUND ="/endOnlineRound";
     /**
      * Hardcoded server URL
      */

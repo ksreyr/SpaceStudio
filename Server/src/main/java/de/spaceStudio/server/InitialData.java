@@ -22,8 +22,10 @@ public class InitialData implements ApplicationRunner {
      */
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        StopAbstract stop = new StopAbstract();
-        stop.setName("p9");
-        stopAbstractRepository.save(stop);
+        if (stopAbstractRepository.findByName("p9").isEmpty()) {
+            StopAbstract stop = new StopAbstract();
+            stop.setName("p9");
+            stopAbstractRepository.save(stop);
+        }
     }
 }

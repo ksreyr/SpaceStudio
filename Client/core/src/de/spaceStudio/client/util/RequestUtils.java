@@ -48,132 +48,139 @@ public final class RequestUtils {
 
         final String[] responseString = {null};
 
-        LOG.info("Sending get Request to: " + url + " id:" + id);
+        LOG.info("Sending get Request to: " + url + " id:" + id + "Method: " + method );
         Gdx.net.sendHttpRequest(r, new Net.HttpResponseListener() {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 int statusCode = httpResponse.getStatus().getStatusCode();
                 LOG.info("statusCode: " + statusCode);
                 responseString[0] = httpResponse.getResultAsString();
-
-                if (url.contains("sections")) {
-                    try {
-                        Global.combatSections.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Section>>() {
-                        }));
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains("weapon")) {
-                    try {
-                        Global.combatWeapons.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>() {
-                        }));
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains("crewMembers")) {
-                    try {
-                        List<CrewMember> crewMembers = objectMapper.readValue(responseString[0], new TypeReference<List<CrewMember>>() {
-                        });
-                        Global.combatCrew.put(id, crewMembers);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains(Global.CAN_LAND)) {
-                    try {
-                        Global.allReady = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
-                        });
-                        if (Global.allReady) {
-                            // Multiplayer Step 3
-                            isMultiplayerFight();
+                if (statusCode >= 200 && statusCode < 300 ) {
+                    if (url.contains("sections")) {
+                        try {
+                            Global.combatSections.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Section>>() {
+                            }));
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (shipRequest) {
-                    try {
-                        if (!responseString[0].equals("")) {
-                            Global.currentShipPlayer = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {
+                    } else if (url.contains("weapon")) {
+                        try {
+                            Global.combatWeapons.put(id, objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>() {
+                            }));
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (url.contains("crewMembers")) {
+                        try {
+                            List<CrewMember> crewMembers = objectMapper.readValue(responseString[0], new TypeReference<List<CrewMember>>() {
                             });
-                    }
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains("actor")) {
-                    try {
-                        Actor actor = objectMapper.readValue(responseString[0], new TypeReference<Player>() {
-                        });
-                        if (actor.getState().getFightState().equals(FightState.WAITING_FOR_TURN) && method.equals("PUT")) {
-                            if (Global.combatWeapons.size() == 2 && Global.combatSections.size() == 2 &&
-                                    Global.combatWeapons.get(Global.currentShipGegner.getId()).size() > 0
-                                    && Global.combatSections.get(Global.currentShipPlayer.getId()).size() > 0) { // Es muss gegner mit Waffne geben
-                                Weapon w = Global.combatWeapons.get(Global.currentShipGegner.getId()).get(0);
-                                w.setObjectiv(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0));
-                                endTurnRequestSinglePlayer(w);
-                                crewMemeberByShip(Global.currentShipPlayer);
-                            } else {
-                                LOG.severe("There appears to be a problem with the global Maps. Please check if you always use the correct id");
+                            Global.combatCrew.put(id, crewMembers);
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (url.contains(Global.CAN_LAND)) {
+                        try {
+                            Global.allReady = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
+                            });
+                            if (Global.allReady) {
+                                // Multiplayer Step 3
+                                isMultiplayerFight();
                             }
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
                         }
-                        Global.combatActors.put(id, actor);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains(Global.END_ROUND_SINGLE)) {
-                    try {
-                        List<Weapon> weaponsWhichHaveShot = objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>() {
-                        });
-                        Global.weaponsToProcess.addAll(weaponsWhichHaveShot);
-                        getActor(Global.currentPlayer);
-                        getShip(Global.currentShipPlayer);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains(Global.ROUNDS)) {
-                    try {
-                        Global.playerRounds = objectMapper.readValue(responseString[0], new TypeReference<List<GameRound>>() {
-                        });
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains(Global.GAME + Global.MULTIPLAYER + Global.FIGHT)) {
-                    try {
-                        Global.isOnlineFight = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
-                        });
-                        if (Global.isOnlineFight) {
-                            // Step Multiplayer a4 fight
-                            getEnemyShipMultiplayer();
-                        } else {
-                            // Step Multiplayer a4 no Fight
-                            Global.loadingFightLocation = false;
+                    } else if (shipRequest) {
+                        try {
+                            if (!responseString[0].equals("")) {
+                                Global.currentShipPlayer = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {
+                                });
+                            }
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains(Global.MULTIPLAYER + Global.ENEMYSHIP)) {
-                    try {
-                        // Multiplayer Step 5
-                        Global.currentShipGegner = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {
-                        });
-                        Global.currentGegner = Global.currentShipGegner.getOwner();
+                    } else if (url.contains(Global.ACTOR_ENDPOINT)) {
+                        try {
+                            Actor actor = objectMapper.readValue(responseString[0], new TypeReference<Player>() {
+                            });
+                            if (actor.getState().getFightState().equals(FightState.WAITING_FOR_TURN) && method.equals("PUT")) {
+                                if (Global.combatWeapons.size() == 2 && Global.combatSections.size() == 2 &&
+                                        Global.combatWeapons.get(Global.currentShipGegner.getId()).size() > 0
+                                        && Global.combatSections.get(Global.currentShipPlayer.getId()).size() > 0) { // Es muss gegner mit Waffne geben
+                                    Weapon w = Global.combatWeapons.get(Global.currentShipGegner.getId()).get(0);
+                                    w.setObjectiv(Global.combatSections.get(Global.currentShipPlayer.getId()).get(0));
+                                    if (Global.IS_SINGLE_PLAYER) {
+                                        endTurnRequestSinglePlayer(w);
+                                    } else {
+                                        endMultiPlayerTurn(w);
+                                    }
+                                    crewMemeberByShip(Global.currentShipPlayer);
+                                } else {
+                                    LOG.severe("There appears to be a problem with the global Maps. Please check if you always use the correct id");
+                                }
+                            }
+                            Global.combatActors.put(id, actor);
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (url.contains(Global.END_ROUND_SINGLE)) {
+                        try {
+                            List<Weapon> weaponsWhichHaveShot = objectMapper.readValue(responseString[0], new TypeReference<List<Weapon>>() {
+                            });
+                            Global.weaponsToProcess.addAll(weaponsWhichHaveShot);
+                            getActor(Global.currentPlayer);
+                            getShip(Global.currentShipPlayer);
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (url.contains(Global.ROUNDS)) {
+                        try {
+                            Global.playerRounds = objectMapper.readValue(responseString[0], new TypeReference<List<GameRound>>() {
+                            });
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (url.contains(Global.GAME + Global.MULTIPLAYER + Global.FIGHT)) {
+                        try {
+                            Global.isOnlineFight = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
+                            });
+                            if (Global.isOnlineFight) {
+                                // Step Multiplayer a4 fight
+                                getEnemyShipMultiplayer();
+                            } else {
+                                // Step Multiplayer a4 no Fight
+                                Global.loadingFightLocation = false;
+                            }
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (url.contains(Global.MULTIPLAYER + Global.ENEMYSHIP)) {
+                        try {
+                            // Multiplayer Step 5
+                            Global.currentShipGegner = objectMapper.readValue(responseString[0], new TypeReference<Ship>() {
+                            });
+                            Global.currentGegner = Global.currentShipGegner.getOwner();
 
-                        // Multiplayer Step 6
-                        Global.loadingFightLocation  = false;
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
+                            // Multiplayer Step 6
+                            Global.loadingFightLocation = false;
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (url.contains(Global.PLANET9)) {
+                        try {
+                            Global.planet9 = objectMapper.readValue(responseString[0], new TypeReference<Planet>() {
+                            });
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
+                    } else if (url.contains(Global.SERVER_URL + Global.MULTIPLAYER + Global.HAS_FIGHT_STARTED)) {
+                        try {
+                            Global.isOnlineFight = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
+                            });
+                        } catch (JsonProcessingException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } else if (url.contains(Global.PLANET9)) {
-                    try {
-                        Global.planet9 = objectMapper.readValue(responseString[0], new TypeReference<Planet>() {
-                        });
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else if (url.contains(Global.SERVER_URL + Global.MULTIPLAYER + Global.HAS_FIGHT_STARTED)) {
-                    try {
-                        Global.isOnlineFight = objectMapper.readValue(responseString[0], new TypeReference<Boolean>() {
-                        });
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
+                } else  {
+                    LOG.severe("Request Faild in Server:" + responseString[0]);
                 }
             }
 
@@ -241,6 +248,12 @@ public final class RequestUtils {
                 Net.HttpMethods.POST, w);
     }
 
+    public static void endMultiPlayerTurn(Weapon w) {
+        genericRequest(Global.SERVER_URL + Global.GAME + Global.END_ONLINE_ROUND, false,
+                Global.currentShipPlayer.getId(),
+                Net.HttpMethods.POST, w);
+    }
+
     public static void upgradeWeapon(List<Weapon> weapons) {
         genericRequest(Global.SERVER_URL + Global.WEAPON_CREATION_ENDPOINT, false,
                 Global.currentShipPlayer.getId(), Net.HttpMethods.PUT, weapons);
@@ -273,7 +286,7 @@ public final class RequestUtils {
     }
 
     public static void startFightOnline() {
-        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.START_FIGHT + "/" + Global.multiPlayerSessionID,false , 0, Net.HttpMethods.GET, "");
+        genericRequest(Global.SERVER_URL + Global.MULTIPLAYER + Global.START_FIGHT + "/" + Global.multiPlayerSessionID + "/" + Global.currentPlayer.getId(),false , 0, Net.HttpMethods.GET, "");
     }
 
     public static void hasFightStarted() {

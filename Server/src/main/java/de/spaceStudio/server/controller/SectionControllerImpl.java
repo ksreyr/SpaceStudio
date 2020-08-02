@@ -200,8 +200,9 @@ public class SectionControllerImpl implements SectionController {
             }
             if (crew.isPresent() && s.getOxygen() < 30) {
                 crewMemberRepository.delete(crew.get()); // Die if to little Oxygen
+            } else if (s.getOxygen() < 25) {
+               s.setOxygen(s.getOxygen() - 10);
             }
-            sectionRepository.save(s);
             if (crew.isPresent()) {
                 s.setUsable(true); // Repair if Broken
                 if (s.getOxygen() < 100) {
@@ -213,6 +214,7 @@ public class SectionControllerImpl implements SectionController {
                     }
                 }
             }
+            sectionRepository.save(s);
         }
 
         return sections;

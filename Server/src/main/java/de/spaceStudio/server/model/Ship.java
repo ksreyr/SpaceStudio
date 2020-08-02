@@ -20,7 +20,7 @@ public class Ship {
     @JsonIgnore
     private ShipForm shipForm;
 
-    @ManyToOne(cascade=CascadeType.REMOVE)
+    @ManyToOne//(cascade=CascadeType.REMOVE)
     //@JsonManagedReference
     private Actor owner;
 

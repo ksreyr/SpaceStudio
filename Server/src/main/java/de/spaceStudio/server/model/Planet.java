@@ -2,6 +2,7 @@ package de.spaceStudio.server.model;
 
 import javax.persistence.Entity;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class Planet extends StopAbstract {

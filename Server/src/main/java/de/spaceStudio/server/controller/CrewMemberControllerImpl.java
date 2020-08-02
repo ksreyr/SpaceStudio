@@ -112,7 +112,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
 
                 for (Section s :
                         sectionList.get()) {
-                    Optional<ArrayList<CrewMember>> crewMember= crewMemberRepository.findAllByCurrentSection(s);
+                    Optional<List<CrewMember>> crewMember= crewMemberRepository.findAllByCurrentSection(s);
                     if(crewMember.isPresent()){
                         for (CrewMember c: crewMember.get()){
                             allCrewMember.add(c);
@@ -243,7 +243,7 @@ public class CrewMemberControllerImpl implements CrewMemberController {
         List<Section> sections = sectionRepository.findAllByShip(ship.get()).get();
         List<CrewMember> crewMembers = new ArrayList<>();
         for (Section s : sections) {
-            Optional<ArrayList<CrewMember>> crews = crewMemberRepository.findAllByCurrentSection(s);
+            Optional<List<CrewMember>> crews = crewMemberRepository.findAllByCurrentSection(s);
             crews.ifPresent(crewMembers::addAll);
         }
         return crewMembers;

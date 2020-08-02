@@ -106,7 +106,6 @@ public class CombatScreen extends BaseScreen {
 
     private Label breakCrewMember;
     private Label shieldPlayer;
-    private Label damageCalcul;
     private String breakinfo;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
@@ -219,8 +218,9 @@ public class CombatScreen extends BaseScreen {
                     liamButton.setText("Connecting. Try Again");
                 } else {
                     de.spaceStudio.server.model.Actor actor1 = Global.combatActors.get(Global.currentPlayer.getId());
+                    //TODO NullPointer
                     if ((actor1.getState().getFightState().equals(FightState.PLAYING))) {
-                        actor1.getState().setFightState(FightState.WAITING_FOR_TURN);
+                        actor1.getState().setFightState(FightState.WAITING_FOR_TURN);  // Player wants to end Turn
                         if (Global.IS_SINGLE_PLAYER) {
                             liamButton.setText("Waiting for AI");
                             turn_sound.play();
@@ -916,7 +916,7 @@ public class CombatScreen extends BaseScreen {
 
                 if (!weaponsToFire.isEmpty()) {
                     makeAShot(weaponsToFire, Net.HttpMethods.POST);
-
+                    rocketLaunch.play();
                     int y = 42;
                     for (Weapon w :
                             weaponsToFire) {
@@ -1180,7 +1180,7 @@ public class CombatScreen extends BaseScreen {
         canFireGegner = true;
         if (!validationGegner.isEmpty() && validationGegner.equals("Fire Accepted")) {
             System.out.println("::Gegner Shot now");
-            rocketLaunch.play();
+
         } else if (!validationGegner.isEmpty() && validationGegner.equals("Section unusable")) {
             System.out.println(":::::Section unusable Gegner");
             validationGegner = "";
@@ -1247,7 +1247,8 @@ public class CombatScreen extends BaseScreen {
 
         }
 
-        if (Global.currentShipGegner != null && Global.combatSections.size() == 2) {
+        if (Global.currentShipGegner != null && Global.combatSections.size() == 2 && Global.currentGegner.getId() != null &&
+            Global.combatSections.containsKey(Global.currentGegner.getId())) {
             for (Section s :
                     Global.combatSections.get(Global.currentShipGegner.getId())) {
                 if (!s.getUsable() && Objects.equals(s.getImg(), "Section1Gegner1"))
@@ -1411,6 +1412,8 @@ public class CombatScreen extends BaseScreen {
 
         dialog.text(action);
         dialog.button("OK", true);
+        dialog.key(Input.Keys.ESCAPE,true);
+        dialog.key(Input.Keys.ENTER,true);
         click.play();
         dialog.show(stage);
     }
@@ -1418,6 +1421,8 @@ public class CombatScreen extends BaseScreen {
     private void warningMessageDialog(Dialog dialog, String action) {
         dialog.text(action);
         dialog.button("OK", true);
+        dialog.key(Input.Keys.ESCAPE,true);
+        dialog.key(Input.Keys.ENTER,true);
         click.play();
         dialog.show(stage);
     }
@@ -1431,8 +1436,6 @@ public class CombatScreen extends BaseScreen {
                 game.setScreen(new StationsMap(game));
             }
         });
-        dialog.key(Input.Keys.ENTER, true);
-        dialog.key(Input.Keys.ESCAPE, false);
         click.play();
         dialog.show(stage);
     }
@@ -1446,8 +1449,6 @@ public class CombatScreen extends BaseScreen {
                 game.setScreen(new MenuScreen(game));
             }
         });
-        dialog.key(Input.Keys.ENTER, true);
-        dialog.key(Input.Keys.ESCAPE, false);
         click.play();
         dialog.show(stage);
     }

@@ -2,6 +2,7 @@ package de.spaceStudio.server.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Inheritance(
@@ -13,7 +14,7 @@ public class StopAbstract {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.DETACH)
     private List<Ship> ships;
 
     @ManyToOne
@@ -67,6 +68,5 @@ public class StopAbstract {
     }
 
     public static class StopAbstractBuilder {
-
     }
 }
