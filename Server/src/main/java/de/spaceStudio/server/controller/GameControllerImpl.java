@@ -732,7 +732,7 @@ public class GameControllerImpl implements GameController {
     public HttpStatus endOnlineRound(Weapon weapon) {
         Optional<Ship> playerShip = shipRepository.findById(weapon.getObjectiv().getShip().getId());
         Optional<Ship> otherPlayerShip = shipRepository.findById(weapon.getSection().getShip().getId());
-        Optional<AI> otherplayer = aiRepository.findById(weapon.getSection().getShip().getOwner().getId());
+        Optional<Player> otherplayer = playerRepository.findById(weapon.getSection().getShip().getOwner().getId());
         Optional<Player> player = playerRepository.findById(weapon.getObjectiv().getShip().getOwner().getId());
 
         if (player.isPresent() && playerShip.isPresent() && otherplayer.isPresent() &&  otherPlayerShip.isPresent()) {

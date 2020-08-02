@@ -165,6 +165,10 @@ public class StopAbstractControllerImpl implements StopAbstractController {
         if (Global.MultiPlayerGameSessions.containsKey(session)) {
             MultiPlayerGame mg = Global.MultiPlayerGameSessions.get(session);
             mg.setFight(true);
+            if (mg.getPlayers().isEmpty()) {
+                mg.getPlayers().add(mg.getPlayerOne());
+                mg.getPlayers().add(mg.getPlayerTwo());
+            }
             for (Actor a :
                     mg.getPlayers()) {
                 a.getState().setStopState(StopState.JUMPING);
