@@ -175,7 +175,7 @@ public class SectionControllerImpl implements SectionController {
             Optional<CrewMember> crew = crewMemberRepository.findByCurrentSection(s);
             if (crew.isPresent()) {
                 crew.get().setSkillCounter(crew.get().getSkillCounter() + 1);
-                if (crew.get().getRoundsToDestination() <= 0 && crew.get().getRole().equals(s.getRole())) { // is not Traveling
+                    if (crew.get().getRoundsToDestination() <= 0 && crew.get().getRole().equals(s.getRole())) { // is not Traveling
                     switch (crew.get().getRole()) {
                         case FIGHTER:
                             Optional<List<Weapon>> weapons = weaponRepository.findBySection(s);

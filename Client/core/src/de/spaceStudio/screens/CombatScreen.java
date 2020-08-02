@@ -28,6 +28,7 @@ import de.spaceStudio.MainClient;
 import de.spaceStudio.assets.StyleNames;
 import de.spaceStudio.client.util.Global;
 import de.spaceStudio.client.util.RequestUtils;
+import de.spaceStudio.server.controller.SectionControllerImpl;
 import de.spaceStudio.server.model.*;
 import de.spaceStudio.util.GdxUtils;
 
@@ -61,6 +62,7 @@ public class CombatScreen extends BaseScreen {
     private final int shotDelta = 400;
     boolean isNewExpo, isNewExpo2, isNewExpo3;
     boolean isFired = false;
+    Map<Section, Integer> dammagePerSection = new HashMap<>();
     boolean canFire = false;
     boolean canFireGegner = false;
     Texture bullet, shield;
@@ -104,6 +106,7 @@ public class CombatScreen extends BaseScreen {
 
     private Label breakCrewMember;
     private Label shieldPlayer;
+    private Label damageCalcul;
     private String breakinfo;
     private Boolean killTimer = false;
     private TextButton enableShield, enableEnemyShield;
@@ -125,7 +128,7 @@ public class CombatScreen extends BaseScreen {
     private TextButton liamButton;
     private boolean isRound;
     private String onlinePlayerName = "";
-
+    int zahler=0;
     public CombatScreen(MainClient mainClient) {
         super(mainClient);
         this.universeMap = mainClient;
@@ -959,6 +962,25 @@ public class CombatScreen extends BaseScreen {
         return !isNotBroken;
     }
 
+    public void warningDamageSection() {
+
+        final Dialog dialog = new Dialog("Player Damages", skin, "dialog") {
+            public void result(Object obj) {
+                obj.toString();
+            }
+        };
+        supportMessageDialog(dialog, dammageString(dammagePerSection));
+
+    }
+
+    private void supportMessageDialog(Dialog dialog, String action) {
+        dialog.text(action);
+        dialog.button("Ok", true);
+        dialog.key(Input.Keys.ESCAPE,true);
+        dialog.key(Input.Keys.ENTER,true);
+        dialog.show(stage);
+
+    }
 
     // Called when the screen should render itself.
     @Override
@@ -971,17 +993,29 @@ public class CombatScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.input.setInputProcessor(stage);
 
-        Map<Section, Integer> dammagePerSection = new HashMap<>();
+        if (!Global.weaponsToProcess.isEmpty()) {
 
-        Global.combatSections.get(Global.currentShipPlayer.getId()).forEach(s -> dammagePerSection.put(s, 0));
-        // Sum Dammage here
-        for (Weapon w :
-                Global.weaponsToProcess) {
-            dammagePerSection.replace(w.getObjectiv(), dammagePerSection.get(w.getObjectiv()) + w.getDamage());
+
+            Global.combatSections.get(Global.currentShipPlayer.getId()).forEach(s -> dammagePerSection.put(s, 0));
+            // Sum Dammage here
+            for (Weapon w :
+                    Global.weaponsToProcess) {
+                if (w.getObjectiv() != null && dammagePerSection.containsKey(w.getObjectiv())) {
+                    dammagePerSection.replace(w.getObjectiv(), dammagePerSection.get(w.getObjectiv()) + w.getDamage());
+                } else {
+                    LOG.warning("Could not caluclate Dammage for Weapon: " + w.getName());
+                }
+            }
+
+            if(Global.weaponsToProcess.size()<=1){
+                warningDamageSection();
+               // zahler=0;
+            }else {
+                //zahler++;
+            }
+
         }
 
-        dammageString(dammagePerSection);
-        // Todo add Label
 
         if (!Global.weaponsToProcess.isEmpty()) {
             bulletsEnemy.add(new Bullet(1500, 500));
@@ -997,7 +1031,7 @@ public class CombatScreen extends BaseScreen {
             }
         }
 
-        shieldPlayer.setPosition(15, 350);
+        shieldPlayer.setPosition(15, 380);
 
         shieldPlayer.setText("Shield: Player " + Global.currentShipPlayer.getShield());
         stage.addActor(shieldPlayer);
@@ -1242,7 +1276,11 @@ public class CombatScreen extends BaseScreen {
         Set<Section> keys = dammagePerSection.keySet();
         for (Section s :
                 keys) {
-            sb.append(String.format("Section: %s has suffered %s dammage%n", s.getImg(), dammagePerSection.get(s)));
+            if(dammagePerSection.get(s)!=0){
+                //sb.append(String.format("Section: %s has suffered %s dammage%n", s.getImg(), dammagePerSection.get(s)));
+                sb.append(String.format("Section: %s has suffered dammage%n", s.getImg()));
+            }
+
         }
         return sb.toString();
     }

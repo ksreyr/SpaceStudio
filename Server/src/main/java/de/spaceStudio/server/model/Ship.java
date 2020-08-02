@@ -1,6 +1,7 @@
 package de.spaceStudio.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Ship {
     @JsonIgnore
     private ShipForm shipForm;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.REMOVE)
     //@JsonManagedReference
     private Actor owner;
 
